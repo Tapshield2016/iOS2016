@@ -7,12 +7,40 @@
 //
 
 #import "TSAppDelegate.h"
+#import "MSDynamicsDrawerViewController.h"
+#import "MSDynamicsDrawerStyler.h"
+#import "TSMenuViewController.h"
+
+@interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
+
+@property (nonatomic, strong) UIImageView *windowBackground;
+
+@end
 
 @implementation TSAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
+    self.dynamicsDrawerViewController.delegate = self;
+
+    // Add some styles for the drawer
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+
+    TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
+    menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
+    [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
+
+    // Transition to the first view controller
+    [menuViewController transitionToViewController:@"TSHomeViewController"];
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = self.dynamicsDrawerViewController;
+    [self.window makeKeyAndVisible];
+    [self.window addSubview:self.windowBackground];
+    [self.window sendSubviewToBack:self.windowBackground];
+
     return YES;
 }
 							

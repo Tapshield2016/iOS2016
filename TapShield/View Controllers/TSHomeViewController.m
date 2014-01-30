@@ -37,6 +37,11 @@
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [_locationManager startUpdatingLocation];
+
     CLLocationCoordinate2D boundaries[5] = {
         CLLocationCoordinate2DMake(28.539046,-81.370381),
         CLLocationCoordinate2DMake(28.539328,-81.366432),
@@ -47,10 +52,6 @@
 
     MKPolygon *overflowPoly1 = [MKPolygon polygonWithCoordinates:boundaries count:5];
     [_mapView addOverlay:overflowPoly1];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [_locationManager startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,8 +66,8 @@
     CLLocation *lastReportedLocation = locations[locations.count - 1];
     if (!_userLocationAnnotation) {
         _userLocationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:lastReportedLocation.coordinate
-                                                                                       placeName:@"Your Location"
-                                                                                     description:@"Heyyyy"];
+                                                                                       placeName:[NSString stringWithFormat:@"%f, %f", lastReportedLocation.coordinate.latitude, lastReportedLocation.coordinate.longitude]
+                                                                                     description:[NSString stringWithFormat:@"Accuracy: %f", lastReportedLocation.horizontalAccuracy]];
         [_mapView addAnnotation:_userLocationAnnotation];
     }
     else {
@@ -100,13 +101,13 @@
     }
 }
 
--(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id )overlay{
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if([overlay isKindOfClass:[MKPolygon class]]){
-        MKPolygonView *view = [[MKPolygonView alloc] initWithOverlay:overlay];
-        view.lineWidth = 1;
-        view.strokeColor = [UIColor blueColor];
-        view.fillColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
-        return view;
+        MKPolygonRenderer *renderer = [[MKPolygonRenderer alloc] initWithPolygon:(MKPolygon *)overlay];
+        renderer.lineWidth = 2.0;
+        renderer.strokeColor = [UIColor colorWithRed:49.0f/255.0f green:59.0f/255.0f blue:92.0f/255.0f alpha:0.75f];
+        renderer.fillColor = [UIColor colorWithRed:49.0f/255.0f green:59.0f/255.0f blue:92.0f/255.0f alpha:0.35f];
+        return renderer;
     }
     return nil;
 }

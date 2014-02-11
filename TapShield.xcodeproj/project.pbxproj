@@ -29,6 +29,8 @@
 		B53BBD2F1898195F006A27E0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD2E1898195F006A27E0 /* MapKit.framework */; };
 		B53BBD3118983409006A27E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD3018983408006A27E0 /* CoreLocation.framework */; };
 		B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */; };
+		B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
+		B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		B53BBD3018983408006A27E0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCustomMapAnnotationUserLocation.h; path = Views/TSCustomMapAnnotationUserLocation.h; sourceTree = "<group>"; };
 		B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCustomMapAnnotationUserLocation.m; path = Views/TSCustomMapAnnotationUserLocation.m; sourceTree = "<group>"; };
+		B5EE898418A025EF00BB3B81 /* TSLoginOrSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLoginOrSignUpViewController.h; path = "View Controllers/TSLoginOrSignUpViewController.h"; sourceTree = "<group>"; };
+		B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginOrSignUpViewController.m; path = "View Controllers/TSLoginOrSignUpViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +190,8 @@
 				B53BBD26189814F7006A27E0 /* TSHomeViewController.m */,
 				B53BBD2A1898158A006A27E0 /* TSMenuViewController.h */,
 				B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */,
+				B5EE898418A025EF00BB3B81 /* TSLoginOrSignUpViewController.h */,
+				B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
+				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD0718980FDA006A27E0 /* TSViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,

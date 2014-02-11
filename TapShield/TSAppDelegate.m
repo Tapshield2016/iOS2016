@@ -33,8 +33,8 @@
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
 
     // Transition to the first view controller
-    [menuViewController transitionToViewController:@"TSHomeViewController"];
-
+    //[menuViewController transitionToViewController:@"TSHomeViewController"];
+    [menuViewController transitionToViewController:@"TSLoginOrSignUpViewController"];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.dynamicsDrawerViewController;
     [self.window makeKeyAndVisible];

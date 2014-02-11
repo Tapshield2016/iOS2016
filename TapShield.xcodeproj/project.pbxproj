@@ -38,6 +38,8 @@
 		B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */; };
 		B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */; };
 		B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */; };
+		B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F09318AABC05004C2B26 /* TSBaseViewController.m */; };
+		B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F09318AABC05004C2B26 /* TSBaseViewController.m */; };
 		C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C118A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.m */; };
@@ -137,6 +139,8 @@
 		B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMassNotificationsViewController.m; path = "View Controllers/TSMassNotificationsViewController.m"; sourceTree = "<group>"; };
 		B543F08E18AAB4B6004C2B26 /* TSHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSHelpViewController.h; path = "View Controllers/TSHelpViewController.h"; sourceTree = "<group>"; };
 		B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSHelpViewController.m; path = "View Controllers/TSHelpViewController.m"; sourceTree = "<group>"; };
+		B543F09218AABC05004C2B26 /* TSBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseViewController.h; path = "View Controllers/TSBaseViewController.h"; sourceTree = "<group>"; };
+		B543F09318AABC05004C2B26 /* TSBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseViewController.m; path = "View Controllers/TSBaseViewController.m"; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
 		C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIAuthenticationManager.m; sourceTree = "<group>"; };
 		C520C8C018A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationResult.h; sourceTree = "<group>"; };
@@ -313,6 +317,8 @@
 				B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */,
 				B543F08E18AAB4B6004C2B26 /* TSHelpViewController.h */,
 				B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */,
+				B543F09218AABC05004C2B26 /* TSBaseViewController.h */,
+				B543F09318AABC05004C2B26 /* TSBaseViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -596,6 +602,7 @@
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
+				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
@@ -644,6 +651,7 @@
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
+				B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

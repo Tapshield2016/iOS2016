@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *currentPanelStoryBoardIdentifier;
 @property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
 @property (nonatomic, strong) NSMutableArray *viewControllerTitles;
+@property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 
 @end
 
@@ -66,12 +67,26 @@
         return;
     }
     
+    if (!_leftBarButtonItem) {
+        _leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu"
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    }
+
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
 
+    paneViewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
+
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;
+}
+
+- (void)dynamicsDrawerRevealLeftBarButtonItemTapped:(id)sender
+{
+    [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
 }
 
 #pragma mark - Table view delegate

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSBaseViewController.h"
 
-@interface TSFeedbackViewController : UIViewController
+@interface TSFeedbackViewController : TSBaseViewController
 
 @end

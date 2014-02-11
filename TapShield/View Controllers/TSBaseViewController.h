@@ -1,5 +1,5 @@
 //
-//  TSMassNotificationsViewController.h
+//  TSBaseViewController.h
 //  TapShield
 //
 //  Created by Ben Boyd on 2/11/14.
@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSBaseViewController.h"
 
-@interface TSMassNotificationsViewController : TSBaseViewController
+@interface TSBaseViewController : UIViewController
 
 @end

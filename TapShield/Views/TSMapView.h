@@ -17,6 +17,8 @@
 @property (nonatomic, retain) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 
+@property (nonatomic) BOOL isAnimatingToRegion;
+
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay;
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay;
 

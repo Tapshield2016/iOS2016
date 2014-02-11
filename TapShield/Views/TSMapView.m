@@ -45,21 +45,15 @@
         }
         
         MKPolygon *geofencePolygon = [MKPolygon polygonWithCoordinates:boundaries count:coordinateArray.count];
-        [self addOverlay:geofencePolygon];
+        [self addOverlay:geofencePolygon level:MKOverlayLevelAboveRoads];
     }
 }
 
 - (void)setInitialLocation:(CLLocation *)initialLocation {
     _initialLocation = initialLocation;
-    
     [self setRegionAtAppearance];
 }
 
-- (void)setUserLocationAnnotation:(TSCustomMapAnnotationUserLocation *)userLocationAnnotation {
-    _userLocationAnnotation = userLocationAnnotation;
-    
-    [self setCenterCoordinate:userLocationAnnotation.coordinate animated:YES];
-}
 
 - (void)setRegionAtAppearance {
     //will not work if view has not appeared
@@ -84,8 +78,8 @@
     
     MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     circleRenderer.lineWidth = 1.0;
-    circleRenderer.strokeColor = [UIColor colorWithRed:20.0f/255.0f green:100.0f/255.0f blue:230.0f/255.0f alpha:0.35f];
-    circleRenderer.fillColor = [UIColor colorWithRed:20.0f/255.0f green:100.0f/255.0f blue:230.0f/255.0f alpha:0.35f];
+    circleRenderer.strokeColor = [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f];
+    circleRenderer.fillColor = [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f];
     
     return circleRenderer;
 }
@@ -93,8 +87,8 @@
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location {
     
     MKCircle *previousCircle = _accuracyCircle;
-    _accuracyCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:100];    //location.horizontalAccuracy];
-    [self addOverlay:_accuracyCircle];
+    _accuracyCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
+    [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];
     
     [self removeOverlay:previousCircle];
 }

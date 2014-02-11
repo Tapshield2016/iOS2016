@@ -42,15 +42,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    [_locationManager startUpdatingLocation];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    [_mapView setRegionAtAppearance];
+    [_locationManager startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,9 +68,6 @@
         _mapView.initialLocation = lastReportedLocation;
         [_mapView updateAccuracyCircleWithLocation:lastReportedLocation];
     }
-    
-    
-    
     
     if (!_mapView.userLocationAnnotation) {
         _mapView.userLocationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:lastReportedLocation.coordinate
@@ -99,7 +94,9 @@
         }
     }];
     
-    [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
+    if (!_mapView.isAnimatingToRegion) {
+        [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
+    }
 }
 
 
@@ -135,6 +132,27 @@
     return nil;
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    
+    // use your custom annotation
+    if ([annotation isKindOfClass:[TSCustomMapAnnotationUserLocation class]]) {
+        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
+        annotationView.image = [UIImage imageNamed:@"logo"];
+        
+        return annotationView;
+    }
+    
+    // use default annotation
+    return nil;
+    
+}
 
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+    _mapView.isAnimatingToRegion = YES;
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    _mapView.isAnimatingToRegion = NO;
+}
 
 @end

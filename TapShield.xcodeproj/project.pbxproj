@@ -77,6 +77,11 @@
 		C520C91E18A98EC600D1D2E9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C520C91D18A98EC600D1D2E9 /* libPods.a */; };
 		C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
 		C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
+		C520C92B18AACB9700D1D2E9 /* TSCustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92A18AACB9700D1D2E9 /* TSCustomAnnotationView.m */; };
+		C520C92C18AACB9700D1D2E9 /* TSCustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92A18AACB9700D1D2E9 /* TSCustomAnnotationView.m */; };
+		C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705718AAD76B00EEFBD6 /* logo.png */; };
+		C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
+		C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,9 +165,13 @@
 		C520C8EC18A974C100D1D2E9 /* TSLocationGeofenceTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLocationGeofenceTestView.h; sourceTree = "<group>"; };
 		C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocationGeofenceTestView.m; sourceTree = "<group>"; };
 		C520C91618A98E4400D1D2E9 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
-		C520C91D18A98EC600D1D2E9 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		C520C91D18A98EC600D1D2E9 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapView.h; path = Views/TSMapView.h; sourceTree = "<group>"; };
 		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapView.m; path = Views/TSMapView.m; sourceTree = "<group>"; };
+		C520C92918AACB9700D1D2E9 /* TSCustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCustomAnnotationView.h; path = Views/TSCustomAnnotationView.h; sourceTree = "<group>"; };
+		C520C92A18AACB9700D1D2E9 /* TSCustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCustomAnnotationView.m; path = Views/TSCustomAnnotationView.m; sourceTree = "<group>"; };
+		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
+		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +247,7 @@
 		B53BBCF618980FDA006A27E0 /* TapShield */ = {
 			isa = PBXGroup;
 			children = (
+				C5C1705A18AAE39600EEFBD6 /* Images */,
 				B53BBD29189814FC006A27E0 /* View Controllers */,
 				B53BBD351898364C006A27E0 /* Views */,
 				B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */,
@@ -294,6 +304,8 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C520C92918AACB9700D1D2E9 /* TSCustomAnnotationView.h */,
+				C520C92A18AACB9700D1D2E9 /* TSCustomAnnotationView.m */,
 				B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */,
 				B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */,
 				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
@@ -421,6 +433,14 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		C5C1705A18AAE39600EEFBD6 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C5C1705B18AAE5DE00EEFBD6 /* logo.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -500,6 +520,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */,
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
 				B53BBCFB18980FDA006A27E0 /* InfoPlist.strings in Resources */,
 				B53BBD0418980FDA006A27E0 /* Main.storyboard in Resources */,
@@ -510,7 +531,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */,
 				B53BBD1A18980FDA006A27E0 /* InfoPlist.strings in Resources */,
+				C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +584,7 @@
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C520C8FC18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
+				C520C92B18AACB9700D1D2E9 /* TSCustomAnnotationView.m in Sources */,
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B53BBCFD18980FDA006A27E0 /* main.m in Sources */,
@@ -605,6 +629,7 @@
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
+				C520C92C18AACB9700D1D2E9 /* TSCustomAnnotationView.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,

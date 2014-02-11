@@ -12,6 +12,8 @@
 @interface TSMenuViewController ()
 
 @property (nonatomic, strong) NSString *currentPanelStoryBoardIdentifier;
+@property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
+@property (nonatomic, strong) NSMutableArray *viewControllerTitles;
 
 @end
 
@@ -35,6 +37,20 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Home",
+                                                                    @"Mass Notifications",
+                                                                    @"Settings",
+                                                                    @"About",
+                                                                    @"Feedback",
+                                                                    @"Help", nil];
+
+    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects:@"TSHomeViewController",
+                                                                           @"TSMassNotificationsViewController",
+                                                                           @"TSSettingsViewController",
+                                                                           @"TSAboutViewController",
+                                                                           @"TSFeedbackViewController",
+                                                                           @"TSHelpViewController", nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,18 +74,24 @@
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;
 }
 
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self transitionToViewController:_viewControllerStoryboardIDs[indexPath.row]];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 5;
+    return [_viewControllerStoryboardIDs count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,7 +99,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    cell.textLabel.text = _viewControllerTitles[indexPath.row];
     
     return cell;
 }

@@ -28,6 +28,16 @@
 		B53BBD2F1898195F006A27E0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD2E1898195F006A27E0 /* MapKit.framework */; };
 		B53BBD3118983409006A27E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD3018983408006A27E0 /* CoreLocation.framework */; };
 		B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */; };
+		B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */; };
+		B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */; };
+		B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08318AAB3FA004C2B26 /* TSSettingsViewController.m */; };
+		B543F08518AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08318AAB3FA004C2B26 /* TSSettingsViewController.m */; };
+		B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */; };
+		B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */; };
+		B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */; };
+		B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */; };
+		B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */; };
+		B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */; };
 		C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C118A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.m */; };
@@ -117,6 +127,16 @@
 		B53BBD3018983408006A27E0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCustomMapAnnotationUserLocation.h; path = Views/TSCustomMapAnnotationUserLocation.h; sourceTree = "<group>"; };
 		B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCustomMapAnnotationUserLocation.m; path = Views/TSCustomMapAnnotationUserLocation.m; sourceTree = "<group>"; };
+		B543F07E18AAB3E9004C2B26 /* TSAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAboutViewController.h; path = "View Controllers/TSAboutViewController.h"; sourceTree = "<group>"; };
+		B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAboutViewController.m; path = "View Controllers/TSAboutViewController.m"; sourceTree = "<group>"; };
+		B543F08218AAB3FA004C2B26 /* TSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSettingsViewController.h; path = "View Controllers/TSSettingsViewController.h"; sourceTree = "<group>"; };
+		B543F08318AAB3FA004C2B26 /* TSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSettingsViewController.m; path = "View Controllers/TSSettingsViewController.m"; sourceTree = "<group>"; };
+		B543F08618AAB40E004C2B26 /* TSFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSFeedbackViewController.h; path = "View Controllers/TSFeedbackViewController.h"; sourceTree = "<group>"; };
+		B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSFeedbackViewController.m; path = "View Controllers/TSFeedbackViewController.m"; sourceTree = "<group>"; };
+		B543F08A18AAB41E004C2B26 /* TSMassNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMassNotificationsViewController.h; path = "View Controllers/TSMassNotificationsViewController.h"; sourceTree = "<group>"; };
+		B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMassNotificationsViewController.m; path = "View Controllers/TSMassNotificationsViewController.m"; sourceTree = "<group>"; };
+		B543F08E18AAB4B6004C2B26 /* TSHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSHelpViewController.h; path = "View Controllers/TSHelpViewController.h"; sourceTree = "<group>"; };
+		B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSHelpViewController.m; path = "View Controllers/TSHelpViewController.m"; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
 		C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIAuthenticationManager.m; sourceTree = "<group>"; };
 		C520C8C018A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationResult.h; sourceTree = "<group>"; };
@@ -283,6 +303,16 @@
 				B53BBD26189814F7006A27E0 /* TSHomeViewController.m */,
 				B53BBD2A1898158A006A27E0 /* TSMenuViewController.h */,
 				B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */,
+				B543F07E18AAB3E9004C2B26 /* TSAboutViewController.h */,
+				B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */,
+				B543F08218AAB3FA004C2B26 /* TSSettingsViewController.h */,
+				B543F08318AAB3FA004C2B26 /* TSSettingsViewController.m */,
+				B543F08618AAB40E004C2B26 /* TSFeedbackViewController.h */,
+				B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */,
+				B543F08A18AAB41E004C2B26 /* TSMassNotificationsViewController.h */,
+				B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */,
+				B543F08E18AAB4B6004C2B26 /* TSHelpViewController.h */,
+				B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -552,9 +582,11 @@
 				C520C90E18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
+				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C520C8FC18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
+				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B53BBCFD18980FDA006A27E0 /* main.m in Sources */,
@@ -563,11 +595,14 @@
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
+				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
+				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
+				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
@@ -585,19 +620,24 @@
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
+				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
+				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
+				B543F08518AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C520C90D18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
+				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C520C90718A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
+				B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,

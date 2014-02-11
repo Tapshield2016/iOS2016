@@ -75,6 +75,8 @@
 		C520C91B18A98E8D00D1D2E9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD0F18980FDA006A27E0 /* XCTest.framework */; };
 		C520C91C18A98EB400D1D2E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF218980FDA006A27E0 /* CoreGraphics.framework */; };
 		C520C91E18A98EC600D1D2E9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C520C91D18A98EC600D1D2E9 /* libPods.a */; };
+		C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
+		C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +161,8 @@
 		C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocationGeofenceTestView.m; sourceTree = "<group>"; };
 		C520C91618A98E4400D1D2E9 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		C520C91D18A98EC600D1D2E9 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapView.h; path = Views/TSMapView.h; sourceTree = "<group>"; };
+		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapView.m; path = Views/TSMapView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +296,8 @@
 			children = (
 				B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */,
 				B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */,
+				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
+				C520C92218AA8C0F00D1D2E9 /* TSMapView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -558,6 +564,7 @@
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B53BBCFD18980FDA006A27E0 /* main.m in Sources */,
+				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
@@ -603,6 +610,7 @@
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
+				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

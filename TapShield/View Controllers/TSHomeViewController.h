@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
+#import "TSBaseViewController.h"
 
 @interface TSHomeViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
-
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLGeocoder *geocoder;

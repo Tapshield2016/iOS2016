@@ -12,6 +12,9 @@
 @interface TSMenuViewController ()
 
 @property (nonatomic, strong) NSString *currentPanelStoryBoardIdentifier;
+@property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
+@property (nonatomic, strong) NSMutableArray *viewControllerTitles;
+@property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 
 @end
 
@@ -35,6 +38,20 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Home",
+                                                                    @"Mass Notifications",
+                                                                    @"Settings",
+                                                                    @"About",
+                                                                    @"Feedback",
+                                                                    @"Help", nil];
+
+    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects:@"TSHomeViewController",
+                                                                           @"TSMassNotificationsViewController",
+                                                                           @"TSSettingsViewController",
+                                                                           @"TSAboutViewController",
+                                                                           @"TSFeedbackViewController",
+                                                                           @"TSHelpViewController", nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,12 +67,32 @@
         return;
     }
     
+    if (!_leftBarButtonItem) {
+        _leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu"
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    }
+
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
 
+    paneViewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
+
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;
+}
+
+- (void)dynamicsDrawerRevealLeftBarButtonItemTapped:(id)sender
+{
+    [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self transitionToViewController:_viewControllerStoryboardIDs[indexPath.row]];
 }
 
 #pragma mark - Table view data source
@@ -63,13 +100,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 5;
+    return [_viewControllerStoryboardIDs count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,7 +114,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    cell.textLabel.text = _viewControllerTitles[indexPath.row];
     
     return cell;
 }

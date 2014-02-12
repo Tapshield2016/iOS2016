@@ -7,7 +7,6 @@
 //
 
 #import "TSHomeViewController.h"
-#import "TSCustomMapAnnotationUserLocation.h"
 
 @interface TSHomeViewController ()
 
@@ -36,7 +35,6 @@
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,11 +60,12 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *lastReportedLocation = [locations lastObject];
     
+    NSLog(@"%f", lastReportedLocation.horizontalAccuracy);
     
+    _mapView.currentLocation = lastReportedLocation;
     
     if (!_mapView.initialLocation) {
         _mapView.initialLocation = lastReportedLocation;
-        [_mapView updateAccuracyCircleWithLocation:lastReportedLocation];
     }
     
     if (!_mapView.userLocationAnnotation) {
@@ -78,21 +77,15 @@
     }
     else {
         
+        [_mapView removeOverlay:_mapView.accuracyCircle];
+        
         [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
-                         } completion:^(BOOL finished) {
-                             [_mapView updateAccuracyCircleWithLocation:lastReportedLocation];
-                         }];
+                         } completion:nil];
     }
     
-    [_geocoder reverseGeocodeLocation:_locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks) {
-            CLPlacemark *placemark = [placemarks firstObject];
-            _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%@ %@", placemark.subThoroughfare, placemark.thoroughfare];
-            _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"%@, %@ %@", placemark.locality, placemark.administrativeArea, placemark.postalCode];
-        }
-    }];
+    
     
     if (!_mapView.isAnimatingToRegion) {
         [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
@@ -132,12 +125,14 @@
     return nil;
 }
 
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
     // use your custom annotation
     if ([annotation isKindOfClass:[TSCustomMapAnnotationUserLocation class]]) {
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
         annotationView.image = [UIImage imageNamed:@"logo"];
+        [annotationView setCanShowCallout:YES];
         
         return annotationView;
     }
@@ -149,10 +144,30 @@
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
+    
+    [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
+    [_mapView removeAnimatedOverlay];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
+    
+    for(TSCustomMapAnnotationUserLocation *n in _mapView.annotations){
+        [_mapView addAnimatedOverlayToAnnotation:n];
+    }
+    
+    [_mapView removeOverlay:_mapView.accuracyCircle];
+}
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    
+    [_geocoder reverseGeocodeLocation:_locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (placemarks) {
+            CLPlacemark *placemark = [placemarks firstObject];
+            _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%@ %@", placemark.subThoroughfare, placemark.thoroughfare];
+            _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"%@, %@ %@", placemark.locality, placemark.administrativeArea, placemark.postalCode];
+        }
+    }];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <MapKit/MapKit.h>
 #import "TSCustomMapAnnotationUserLocation.h"
+#import "TSMapOverlayCircle.h"
 
 @interface TSMapView : MKMapView
 
@@ -24,5 +25,9 @@
 
 - (void)setRegionAtAppearance;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
+
+//animated radius
+- (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;
+- (void)removeAnimatedOverlay;
 
 @end

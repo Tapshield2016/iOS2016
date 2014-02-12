@@ -83,6 +83,26 @@
                                     <outlet property="delegate" destination="qEG-az-7FP" id="h1g-HC-KY6"/>
                                 </connections>
                             </mapView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="heR-sY-41m">
+                                <rect key="frame" x="0.0" y="513" width="320" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Spt-6X-zlK" customClass="TSUserLocationButton">
+                                        <rect key="frame" x="9" y="8" width="40" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="tintColor" red="0.25490197539999998" green="0.76862746479999999" blue="0.94901961089999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <state key="normal" backgroundImage="location1.png">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="userLocationTUI:" destination="qEG-az-7FP" eventType="touchUpInside" id="C37-Vt-bUm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -95,6 +115,7 @@
                     <navigationItem key="navigationItem" title="TapShield" id="vhe-9L-QPp"/>
                     <connections>
                         <outlet property="mapView" destination="w2T-Hb-1QL" id="OHY-6j-bgU"/>
+                        <outlet property="showUserLocationButton" destination="Spt-6X-zlK" id="wFR-EG-OUQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ia-8D-Yax" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -102,6 +123,9 @@
             <point key="canvasLocation" x="966" y="44"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="location1.png" width="63" height="63"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

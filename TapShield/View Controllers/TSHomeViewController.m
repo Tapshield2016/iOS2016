@@ -30,6 +30,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
+    [panRecognizer setDelegate:self];
+    [self.mapView addGestureRecognizer:panRecognizer];
+    
     _geocoder = [[CLGeocoder alloc] init];
     
     _locationManager = [[CLLocationManager alloc] init];
@@ -54,6 +58,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)userLocationTUI:(id)sender {
+    _showUserLocationButton.selected = !_showUserLocationButton.selected;
+    
+    if (_showUserLocationButton.selected) {
+        if (_mapView.region.span.latitudeDelta > 0.1f) {
+            [_mapView setRegionAtAppearance];
+        }
+        else {
+            [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
+        }
+    }
+}
+
 
 #pragma mark - CLLocationManagerDelegate methods
 
@@ -87,7 +105,7 @@
     
     
     
-    if (!_mapView.isAnimatingToRegion) {
+    if (!_mapView.isAnimatingToRegion && _showUserLocationButton.selected) {
         [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
     }
 }
@@ -166,5 +184,18 @@
         }
     }];
 }
+
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+        NSLog(@"drag ended");
+        _showUserLocationButton.selected = NO;
+    }
+}
+
 
 @end

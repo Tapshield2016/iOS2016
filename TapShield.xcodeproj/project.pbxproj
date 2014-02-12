@@ -86,6 +86,12 @@
 		C5C1706418AAF47E00EEFBD6 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706218AAF47E00EEFBD6 /* circle.png */; };
 		C5C1706718ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */; };
 		C5C1706818ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */; };
+		C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
+		C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
+		C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706A18ABEFFC00EEFBD6 /* location2.png */; };
+		C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706A18ABEFFC00EEFBD6 /* location2.png */; };
+		C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
+		C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +185,10 @@
 		C5C1706218AAF47E00EEFBD6 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = Images/circle.png; sourceTree = "<group>"; };
 		C5C1706518ABDD0B00EEFBD6 /* TSColorPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSColorPalette.h; sourceTree = "<group>"; };
 		C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSColorPalette.m; sourceTree = "<group>"; };
+		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
+		C5C1706A18ABEFFC00EEFBD6 /* location2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location2.png; path = Images/location2.png; sourceTree = "<group>"; };
+		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
+		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Views/Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +323,7 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5C1706F18AC085100EEFBD6 /* Buttons */,
 				B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */,
 				B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */,
 				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
@@ -445,10 +456,21 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5C1706918ABEFFC00EEFBD6 /* location1.png */,
+				C5C1706A18ABEFFC00EEFBD6 /* location2.png */,
 				C5C1706218AAF47E00EEFBD6 /* circle.png */,
 				C5C1705B18AAE5DE00EEFBD6 /* logo.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		C5C1706F18AC085100EEFBD6 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */,
+				C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */,
+			);
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -530,10 +552,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */,
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
 				C5C1706318AAF47E00EEFBD6 /* circle.png in Resources */,
 				B53BBCFB18980FDA006A27E0 /* InfoPlist.strings in Resources */,
+				C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */,
 				B53BBD0418980FDA006A27E0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,9 +567,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */,
+				C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				B53BBD1A18980FDA006A27E0 /* InfoPlist.strings in Resources */,
 				C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */,
 				C5C1706418AAF47E00EEFBD6 /* circle.png in Resources */,
+				C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +633,7 @@
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */,
+				C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
@@ -628,6 +655,7 @@
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
+				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,

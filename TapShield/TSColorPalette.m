@@ -84,5 +84,9 @@
 	return returnColor;
 }
 
++ (UIColor *)tapshieldBlue {
+    return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
+}
+
 
 @end

@@ -12,5 +12,6 @@
 
 + (UIColor *)randomColor;
 + (UIColor *)colorByAdjustingColor:(UIColor *)color Alpha:(CGFloat)newAlpha;
++ (UIColor *)tapshieldBlue;
 
 @end

@@ -128,7 +128,6 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
-    // use your custom annotation
     if ([annotation isKindOfClass:[TSCustomMapAnnotationUserLocation class]]) {
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
         annotationView.image = [UIImage imageNamed:@"logo"];
@@ -137,9 +136,7 @@
         return annotationView;
     }
     
-    // use default annotation
     return nil;
-    
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {

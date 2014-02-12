@@ -19,6 +19,7 @@
 #import <AFNetworkReachabilityManager.h>
 #import <MapKit/MapKit.h>
 #include <AmazonSQSClient.h>
+#import <AmazonEndpoints.h>
 
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentAccessKey = @"AKIAJSDRUWW6PPF2FWWA";
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentSecretKey = @"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";

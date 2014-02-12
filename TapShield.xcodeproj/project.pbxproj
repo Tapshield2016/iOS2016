@@ -84,6 +84,8 @@
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706318AAF47E00EEFBD6 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706218AAF47E00EEFBD6 /* circle.png */; };
 		C5C1706418AAF47E00EEFBD6 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706218AAF47E00EEFBD6 /* circle.png */; };
+		C5C1706718ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */; };
+		C5C1706818ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +177,8 @@
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706218AAF47E00EEFBD6 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = Images/circle.png; sourceTree = "<group>"; };
+		C5C1706518ABDD0B00EEFBD6 /* TSColorPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSColorPalette.h; sourceTree = "<group>"; };
+		C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSColorPalette.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +264,8 @@
 				B53BBD0618980FDA006A27E0 /* TSViewController.m */,
 				B53BBD0818980FDA006A27E0 /* Images.xcassets */,
 				B53BBCF718980FDA006A27E0 /* Supporting Files */,
+				C5C1706518ABDD0B00EEFBD6 /* TSColorPalette.h */,
+				C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */,
 			);
 			path = TapShield;
 			sourceTree = "<group>";
@@ -583,6 +589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5C1706718ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */,
 				C520C91418A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90E18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
@@ -642,6 +649,7 @@
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
+				C5C1706818ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,6 +773,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEV=1",
+				);
 				INFOPLIST_FILE = "TapShield/TapShield-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -780,6 +792,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEV=1",
+				);
 				INFOPLIST_FILE = "TapShield/TapShield-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

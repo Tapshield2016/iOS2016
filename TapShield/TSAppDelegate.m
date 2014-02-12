@@ -7,9 +7,14 @@
 //
 
 #import "TSAppDelegate.h"
+#import "TSJavelinAPIClient.h"
 #import "MSDynamicsDrawerViewController.h"
 #import "MSDynamicsDrawerStyler.h"
 #import "TSMenuViewController.h"
+
+static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
+static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
+static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.com/api/v1/";
 
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
@@ -21,6 +26,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+#ifdef DEV
+    //[TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+    [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDevelopmentBaseURL];
+    NSString *remoteHostName = @"dev.tapshield.com";
+    
+#elif DEMO
+    //[TestFlight takeOff:@"20b29a44-3d54-4f22-af1e-41bec7b9746c"];
+    
+    //walgreens
+    [TestFlight takeOff:@"6297569e-1e3e-4cf0-b050-3cda4da5b378"];
+    
+    [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
+    NSString *remoteHostName = @"demo.tapshield.com";
+    _isFirstMainViewLoad = YES;
+    _isDemoVersion = YES;
+    
+#elif APP_STORE
+    [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIProductionBaseURL];
+    NSString *remoteHostName = @"api.tapshield.com";
+#endif
+    
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;

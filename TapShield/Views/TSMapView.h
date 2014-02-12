@@ -7,8 +7,10 @@
 //
 
 #import <MapKit/MapKit.h>
+#import "TSJavelinAPIClient.h"
 #import "TSCustomMapAnnotationUserLocation.h"
 #import "TSMapOverlayCircle.h"
+#import "TSColorPalette.h"
 
 @interface TSMapView : MKMapView
 

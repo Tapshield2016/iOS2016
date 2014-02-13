@@ -7,7 +7,6 @@
 //
 
 #import "TSUserLocationButton.h"
-#import "TSColorPalette.h"
 
 @implementation TSUserLocationButton
 

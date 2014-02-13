@@ -52,6 +52,8 @@
                                                                            @"TSAboutViewController",
                                                                            @"TSFeedbackViewController",
                                                                            @"TSHelpViewController", nil];
+    self.tableView.separatorColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [TSColorPalette charcoalColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,8 +93,10 @@
 
 #pragma mark - Table view delegate
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self transitionToViewController:_viewControllerStoryboardIDs[indexPath.row]];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -114,7 +118,18 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    
+    
     cell.textLabel.text = _viewControllerTitles[indexPath.row];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.alpha = 0.9f;
+    cell.textLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:20];
+    cell.backgroundColor = [TSColorPalette charcoalColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
+        cell.textLabel.textColor = [TSColorPalette tapshieldBlue];
+    }
     
     return cell;
 }

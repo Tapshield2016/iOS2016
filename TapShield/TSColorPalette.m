@@ -92,6 +92,11 @@
     return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
 }
 
++ (UIColor *)charcoalColor {
+    return UIColorFromRGB(0x404040);
+}
+
+
 
 
 @end

@@ -13,5 +13,7 @@
 + (UIColor *)randomColor;
 + (UIColor *)colorByAdjustingColor:(UIColor *)color Alpha:(CGFloat)newAlpha;
 + (UIColor *)tapshieldBlue;
++ (UIColor *)tapshieldDarkBlue;
++ (UIColor *)charcoalColor;
 
 @end

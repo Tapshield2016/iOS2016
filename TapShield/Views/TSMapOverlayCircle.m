@@ -8,7 +8,7 @@
 
 #import "TSMapOverlayCircle.h"
 
-#define MAX_RATIO 1.4
+#define MAX_RATIO 1.2
 #define MIN_RATIO 0.01
 
 #define ANIMATION_DURATION 3

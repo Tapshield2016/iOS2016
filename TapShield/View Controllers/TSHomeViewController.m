@@ -30,6 +30,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    CALayer *TopBorder = [CALayer layer];
+    TopBorder.frame = CGRectMake(0.0f, 0.0f, _bottomButtonContainerView.frame.size.width, 0.5f);
+    TopBorder.backgroundColor = [TSColorPalette colorByAdjustingColor:[UIColor blackColor] Alpha:0.3f].CGColor;
+    [_bottomButtonContainerView.layer addSublayer:TopBorder];
+    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [self.mapView addGestureRecognizer:panRecognizer];

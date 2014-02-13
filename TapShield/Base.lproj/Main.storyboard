@@ -56,6 +56,7 @@
                 <navigationController definesPresentationContext="YES" id="ehp-KZ-hTZ" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nuv-Px-TU3">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.32156862749999998" green="0.71764705880000002" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="kKr-PL-4rL" kind="relationship" relationship="rootViewController" id="68R-NM-Vp4"/>
@@ -71,6 +72,7 @@
                 <navigationController definesPresentationContext="YES" id="rYj-Ve-3hO" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rSj-fE-KdK">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.32156862749999998" green="0.71764705880000002" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="08m-rY-8KB" kind="relationship" relationship="rootViewController" id="Ea9-cZ-opy"/>
@@ -105,6 +107,7 @@
                 <navigationController definesPresentationContext="YES" id="PtN-qc-JIf" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IkS-hS-fpc">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.32156862749999998" green="0.71764705880000002" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Me5-cN-nf1" kind="relationship" relationship="rootViewController" id="hII-V5-Hjh"/>
@@ -120,6 +123,7 @@
                 <navigationController definesPresentationContext="YES" id="6Oe-cQ-GYG" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JEI-2n-hOM">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.32156862749999998" green="0.71764705880000002" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="ot1-fQ-f0B" kind="relationship" relationship="rootViewController" id="iUv-e1-G1e"/>
@@ -225,7 +229,9 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="6UE-fr-J67" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0vf-rm-qqM">
+                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.32156862745098036" green="0.71764705882352942" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="qEG-az-7FP" kind="relationship" relationship="rootViewController" id="Wdc-W4-KT5"/>
@@ -292,6 +298,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="TapShield" id="vhe-9L-QPp"/>
                     <connections>
+                        <outlet property="bottomButtonContainerView" destination="heR-sY-41m" id="ny5-8T-qiO"/>
                         <outlet property="mapView" destination="w2T-Hb-1QL" id="OHY-6j-bgU"/>
                         <outlet property="showUserLocationButton" destination="Spt-6X-zlK" id="wFR-EG-OUQ"/>
                     </connections>
@@ -304,6 +311,7 @@
     <resources>
         <image name="location1.png" width="63" height="63"/>
     </resources>
+    <color key="tintColor" red="0.070588235294117646" green="0.47843137254901957" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

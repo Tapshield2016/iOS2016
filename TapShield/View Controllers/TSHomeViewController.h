@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
+@property (weak, nonatomic) IBOutlet UIView *bottomButtonContainerView;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLGeocoder *geocoder;

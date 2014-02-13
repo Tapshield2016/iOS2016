@@ -53,7 +53,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     self.dynamicsDrawerViewController.delegate = self;
 
     // Add some styles for the drawer
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;

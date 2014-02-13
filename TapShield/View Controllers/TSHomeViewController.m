@@ -59,6 +59,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
+    if (appDelegate.currentLocation) {
+        [_mapView setRegionAtAppearanceAnimated:NO];
+        _mapView.initialLocation = appDelegate.currentLocation;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -79,7 +85,7 @@
     
     if (_showUserLocationButton.selected) {
         if (_mapView.region.span.latitudeDelta > 0.1f) {
-            [_mapView setRegionAtAppearance];
+            [_mapView setRegionAtAppearanceAnimated:YES];
         }
         else {
             [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
@@ -91,7 +97,9 @@
 #pragma mark - CLLocationManagerDelegate methods
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     CLLocation *lastReportedLocation = [locations lastObject];
+    appDelegate.currentLocation = lastReportedLocation;
     
     NSLog(@"%f", lastReportedLocation.horizontalAccuracy);
     
@@ -99,6 +107,7 @@
     
     if (!_mapView.initialLocation) {
         _mapView.initialLocation = lastReportedLocation;
+        [_mapView setRegionAtAppearanceAnimated:YES];
     }
     
     if (!_mapView.userLocationAnnotation) {

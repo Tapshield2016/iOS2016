@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class MSDynamicsDrawerViewController;
 
@@ -14,5 +15,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
+@property (nonatomic, strong) CLLocation *currentLocation;
 
 @end

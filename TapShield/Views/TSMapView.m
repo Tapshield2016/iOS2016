@@ -39,20 +39,18 @@
 - (void)setInitialLocation:(CLLocation *)initialLocation {
     _initialLocation = initialLocation;
     [self getAllGeofenceBoundaries];
-    [self setRegionAtAppearance];
 }
 
 
-- (void)setRegionAtAppearance {
+- (void)setRegionAtAppearanceAnimated:(BOOL)animated {
     //will not work if view has not appeared
+    TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     MKCoordinateRegion region;
-    region.center = _initialLocation.coordinate;
+    region.center = appDelegate.currentLocation.coordinate;
     region.span = MKCoordinateSpanMake(0.006, 0.006);
     region = [self regionThatFits:region];
-    [self setRegion:region animated:YES];
+    [self setRegion:region animated:animated];
 }
-
-
 
 
 #pragma mark - Overlays

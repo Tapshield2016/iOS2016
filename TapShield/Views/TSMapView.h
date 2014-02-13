@@ -14,11 +14,11 @@
 @interface TSMapView : MKMapView
 
 @property (nonatomic, strong) NSArray *geofenceArray;
-@property (nonatomic, retain) CLLocation *initialLocation;
-@property (nonatomic, retain) CLLocation *previousLocation;
-@property (nonatomic, retain) CLLocation *currentLocation;
-@property (nonatomic, retain) CLLocation *lastReverseGeocodeLocation;
-@property (nonatomic, retain) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
+@property (nonatomic, strong) CLLocation *initialLocation;
+@property (nonatomic, strong) CLLocation *previousLocation;
+@property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
+@property (nonatomic, strong) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
@@ -27,7 +27,7 @@
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay;
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay;
 
-- (void)setRegionAtAppearance;
+- (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 
 //animated radius

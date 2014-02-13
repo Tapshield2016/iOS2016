@@ -16,11 +16,14 @@
 
 @property (nonatomic, strong) NSArray *geofenceArray;
 @property (nonatomic, retain) CLLocation *initialLocation;
+@property (nonatomic, retain) CLLocation *previousLocation;
 @property (nonatomic, retain) CLLocation *currentLocation;
+@property (nonatomic, retain) CLLocation *lastReverseGeocodeLocation;
 @property (nonatomic, retain) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
+@property (nonatomic) BOOL shouldUpdateCallOut;
 
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay;
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay;

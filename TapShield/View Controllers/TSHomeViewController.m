@@ -39,6 +39,7 @@
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    _locationManager.distanceFilter = 5.0f;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -95,12 +96,17 @@
     }
     else {
         
-        [_mapView removeOverlay:_mapView.accuracyCircle];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
+        });
+        _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
         
-        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseIn
-                         animations:^{
-                             _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
-                         } completion:nil];
+//        [_mapView removeOverlay:_mapView.accuracyCircle];
+//        
+//        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseIn
+//                         animations:^{
+//                             _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
+//                         } completion:nil];
     }
     
     
@@ -108,6 +114,49 @@
     if (!_mapView.isAnimatingToRegion && _showUserLocationButton.selected) {
         [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
     }
+    
+    if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:lastReportedLocation] > 15 && _mapView.shouldUpdateCallOut) {
+        [self geocoderUpdateUserLocationAnnotationCallOutForLocation:lastReportedLocation];
+    }
+    
+    _mapView.previousLocation = lastReportedLocation;
+}
+
+- (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
+    
+    _mapView.lastReverseGeocodeLocation = location;
+    
+    [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (placemarks) {
+            CLPlacemark *placemark = [placemarks firstObject];
+            NSString *title = @"";
+            NSString *subtitle = @"";
+            if (placemark.subThoroughfare) {
+                title = placemark.subThoroughfare;
+            }
+            if (placemark.thoroughfare) {
+                title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
+            }
+            if (placemark.locality) {
+                subtitle = placemark.locality;
+            }
+            if (placemark.administrativeArea) {
+                if (placemark.locality) {
+                    subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
+                }
+                else {
+                    subtitle = placemark.administrativeArea;
+                }
+            }
+            if (placemark.postalCode) {
+                subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
+            }
+            
+            
+            _mapView.userLocationAnnotation.title = title;
+            _mapView.userLocationAnnotation.subtitle = subtitle;
+        }
+    }];
 }
 
 
@@ -160,7 +209,7 @@
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
-    [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
+    
     [_mapView removeAnimatedOverlay];
 }
 
@@ -171,20 +220,19 @@
         [_mapView addAnimatedOverlayToAnnotation:n];
     }
     
-    [_mapView removeOverlay:_mapView.accuracyCircle];
+    //[_mapView removeOverlay:_mapView.accuracyCircle];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    [_geocoder reverseGeocodeLocation:_locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks) {
-            CLPlacemark *placemark = [placemarks firstObject];
-            _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%@ %@", placemark.subThoroughfare, placemark.thoroughfare];
-            _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"%@, %@ %@", placemark.locality, placemark.administrativeArea, placemark.postalCode];
-        }
-    }];
+    _mapView.shouldUpdateCallOut = YES;
+    
+    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:_locationManager.location];
 }
 
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    _mapView.shouldUpdateCallOut = NO;
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;

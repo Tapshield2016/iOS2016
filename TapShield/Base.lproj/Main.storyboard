@@ -254,7 +254,7 @@
                                     <outlet property="delegate" destination="qEG-az-7FP" id="h1g-HC-KY6"/>
                                 </connections>
                             </mapView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="heR-sY-41m">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="heR-sY-41m">
                                 <rect key="frame" x="0.0" y="513" width="320" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -272,14 +272,21 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="backgroundColor" white="1" alpha="0.75" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="tiX-zD-lcs"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="w2T-Hb-1QL" secondAttribute="bottom" id="3jx-Ep-z9P"/>
+                            <constraint firstItem="heR-sY-41m" firstAttribute="top" relation="lessThanOrEqual" secondItem="aDF-CZ-qdy" secondAttribute="bottom" priority="1" constant="449" id="PEG-Ik-ktk"/>
+                            <constraint firstItem="heR-sY-41m" firstAttribute="leading" secondItem="w2T-Hb-1QL" secondAttribute="leading" id="PLb-uV-Dva"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" id="Pmt-wL-QsS"/>
+                            <constraint firstItem="heR-sY-41m" firstAttribute="bottom" secondItem="w2T-Hb-1QL" secondAttribute="bottom" id="VhH-gh-Uuo"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" id="d16-M7-QsV"/>
+                            <constraint firstItem="heR-sY-41m" firstAttribute="trailing" secondItem="w2T-Hb-1QL" secondAttribute="trailing" id="kTd-t7-Qxp"/>
                             <constraint firstAttribute="trailing" secondItem="w2T-Hb-1QL" secondAttribute="trailing" id="pEV-XX-T34"/>
                         </constraints>
                     </view>

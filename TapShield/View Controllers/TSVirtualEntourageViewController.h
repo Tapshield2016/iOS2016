@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSVirtualEntourageViewController : UIViewController
+@interface TSVirtualEntourageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 - (IBAction)dismiss:(id)sender;
 

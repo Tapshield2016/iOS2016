@@ -61,7 +61,6 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 
     // Transition to the first view controller
     [menuViewController transitionToViewController:@"TSHomeViewController"];
-
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.dynamicsDrawerViewController;
     [self.window makeKeyAndVisible];

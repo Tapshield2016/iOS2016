@@ -11,7 +11,7 @@
 #import "TSUserLocationButton.h"
 #import "TSBaseViewController.h"
 
-@interface TSHomeViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate>
+@interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;

@@ -106,6 +106,8 @@
 		C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706A18ABEFFC00EEFBD6 /* location2.png */; };
 		C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
 		C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
+		B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
+		B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +219,8 @@
 		C5C1706A18ABEFFC00EEFBD6 /* location2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location2.png; path = Images/location2.png; sourceTree = "<group>"; };
 		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
 		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Views/Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
+		B5EE898418A025EF00BB3B81 /* TSLoginOrSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLoginOrSignUpViewController.h; path = "View Controllers/TSLoginOrSignUpViewController.h"; sourceTree = "<group>"; };
+		B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginOrSignUpViewController.m; path = "View Controllers/TSLoginOrSignUpViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +360,8 @@
 				B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */,
 				B543F09218AABC05004C2B26 /* TSBaseViewController.h */,
 				B543F09318AABC05004C2B26 /* TSBaseViewController.m */,
+				B5EE898418A025EF00BB3B81 /* TSLoginOrSignUpViewController.h */,
+				B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -692,6 +698,7 @@
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD0718980FDA006A27E0 /* TSViewController.m in Sources */,
 				C520C8F818A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 			);
@@ -713,6 +720,7 @@
 				B543F08518AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C520C90D18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,

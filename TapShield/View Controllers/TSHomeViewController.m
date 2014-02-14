@@ -54,6 +54,8 @@
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     _locationManager.distanceFilter = 5.0f;
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -233,7 +235,7 @@
         
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"agency"];
         }
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/5)];

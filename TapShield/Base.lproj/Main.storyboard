@@ -48,7 +48,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hes-mS-bXK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87" y="775"/>
+            <point key="canvasLocation" x="104" y="761"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Qgu-mr-4ab">
@@ -305,7 +305,318 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ia-8D-Yax" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1074" y="39"/>
+            <point key="canvasLocation" x="970" y="61"/>
+        </scene>
+        <!--View Controller - Log In-->
+        <scene sceneID="21d-tb-3F1">
+            <objects>
+                <viewController title="Log In" id="dof-Su-aKb" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tlU-mc-8eb"/>
+                        <viewControllerLayoutGuide type="bottom" id="by8-hq-41L"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hLq-5K-yhQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Log In" id="tsQ-3G-h3Z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1hU-Bq-3K4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1415" y="-973"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ybW-LZ-gng">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="W1Z-eb-41X" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="O2F-1n-CSv">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="mdm-uj-E86" kind="relationship" relationship="rootViewController" id="zsM-kF-kRt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f62-gc-CVG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528" y="-650"/>
+        </scene>
+        <!--Login Or Sign Up View Controller - TapShield-->
+        <scene sceneID="UDG-nM-ZIw">
+            <objects>
+                <viewController storyboardIdentifier="TSLoginOrSignUpViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mdm-uj-E86" customClass="TSLoginOrSignUpViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sZ1-qv-Oqx"/>
+                        <viewControllerLayoutGuide type="bottom" id="d60-iD-B1w"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2xI-3h-LWC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2d7-Z1-SHM">
+                                <rect key="frame" x="123" y="261" width="75" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Log In">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="dof-Su-aKb" kind="push" id="3rC-WE-Y6i"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAg-lf-QNu">
+                                <rect key="frame" x="112" y="399" width="96" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="sE7-At-GIb" kind="push" id="fYt-ub-tpN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="TapShield" id="Wjb-ZY-ViK"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ANd-WR-asN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="970" y="-650"/>
+        </scene>
+        <!--View Controller - Sign Up-->
+        <scene sceneID="ZYf-Vb-ZBE">
+            <objects>
+                <viewController id="jUA-Jf-8RT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cGA-CU-LiR"/>
+                        <viewControllerLayoutGuide type="bottom" id="tjx-Ip-lZJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0ih-lX-uAY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W27-35-aqx">
+                                <rect key="frame" x="99" y="92" width="123" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Facebook">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MU-a7-Lb8">
+                                <rect key="frame" x="99" y="146" width="123" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Twitter">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B2O-s9-AeL">
+                                <rect key="frame" x="99" y="200" width="123" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Google">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Or, sign up using email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jeu-KN-jZc">
+                                <rect key="frame" x="20" y="273" width="180" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="j7A-ve-TSU">
+                                <rect key="frame" x="20" y="302" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8Ap-AK-wo0">
+                                <rect key="frame" x="20" y="340" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKR-50-Ply">
+                                <rect key="frame" x="111" y="378" width="99" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="mjo-E3-Aqu" kind="push" id="QsJ-bl-QFY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Sign Up" id="zjp-H0-eVn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wrD-Ks-vQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1825" y="-274"/>
+        </scene>
+        <!--View Controller - Agreement-->
+        <scene sceneID="KvJ-x1-woK">
+            <objects>
+                <viewController id="sE7-At-GIb" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hWI-Vp-n2e"/>
+                        <viewControllerLayoutGuide type="bottom" id="SPU-BJ-wrK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="r3R-IU-BrE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWF-fk-VEe">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="495"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed turpis quam, placerat quis ornare a, dignissim ac sapien. Ut mollis sollicitudin vehicula. Pellentesque vitae sollicitudin tortor. Phasellus neque nulla, consectetur ac lorem ac, euismod mattis odio. Nullam placerat dui id purus porttitor tincidunt. Vestibulum quis mauris sit amet est cursus pharetra vel sit amet velit. Nulla eu lorem id lorem fringilla consequat. Cras ligula odio, rhoncus quis sem at, porta interdum ligula. Phasellus quis urna pulvinar, tincidunt dolor quis, auctor diam. Curabitur viverra commodo elementum. Donec rutrum tellus non porta consequat. Fusce aliquam turpis id tortor dictum blandit. Nulla magna tellus, porta ut tincidunt venenatis, ornare at dui. Curabitur suscipit metus eget iaculis sollicitudin. Integer volutpat velit nulla, vitae venenatis nunc accumsan ac. Sed viverra condimentum venenatis.
+
+Aenean vitae consequat enim. Morbi lectus eros, elementum tempor purus in, sollicitudin luctus est. Ut tortor tortor, aliquet ut fermentum ac, laoreet rutrum felis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam lobortis quam ut ligula lacinia, sed pulvinar leo ullamcorper. Donec imperdiet leo vitae orci sagittis, sed ornare nibh tempor. Aliquam non leo eleifend, lobortis mi non, ultricies ipsum. Vestibulum eu neque ut massa fermentum semper. Sed auctor porttitor nibh, eu posuere enim malesuada non.
+
+Integer ullamcorper eros in sem iaculis tempus. Nunc rutrum cursus pellentesque. Duis commodo aliquam arcu ut ultrices. Aliquam a ligula at sapien aliquet vulputate in eget purus. Ut congue est augue, sed tincidunt eros porta vitae. Duis elementum, mauris quis laoreet fermentum, massa quam pulvinar eros, nec feugiat tellus eros nec arcu. Mauris auctor rhoncus enim, quis gravida augue vulputate non. Curabitur ultrices tristique lorem a ullamcorper. Curabitur turpis ligula, luctus eget massa vel, imperdiet bibendum purus. Vivamus eu elit commodo, commodo mi eget, eleifend quam. Sed vitae quam id massa suscipit consectetur. Curabitur fermentum dictum dolor eget hendrerit. Proin mattis dui eu quam ullamcorper auctor. Mauris ac sollicitudin dolor, eget feugiat odio. Etiam aliquam sed magna non euismod.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque adipiscing eget dolor eu luctus. Phasellus bibendum ullamcorper mi, ut porta dui vestibulum rhoncus. Sed imperdiet nunc id porttitor vulputate. Aenean ut cursus enim, ut lacinia mauris. Mauris ac elementum mauris, eget condimentum urna. Aliquam sit amet lobortis lorem, sed posuere erat. Duis convallis lorem adipiscing, fermentum odio vitae, vehicula leo. Phasellus mollis mauris tellus, non hendrerit erat rutrum ac. Etiam ut commodo erat. Sed facilisis laoreet nisi, nec tempus leo varius vitae. Mauris ac mi risus. Morbi turpis ligula, suscipit nec sem in, luctus egestas dolor. Curabitur dapibus ultricies velit, id bibendum nisi vulputate et.
+
+Pellentesque consectetur diam tellus, vitae porta libero mollis at. Etiam lorem ligula, luctus euismod aliquam ut, imperdiet id sem. Nunc eleifend, quam vel consectetur posuere, enim nunc tincidunt arcu, a semper elit nisi in nibh. Fusce commodo ultricies dui quis venenatis. Ut fermentum nisl vel nisl posuere, quis semper eros lacinia. Aenean congue, turpis eu elementum gravida, sem dui tincidunt erat, sed eleifend dolor neque vestibulum lorem. Nam eu nibh tincidunt, gravida sem vel, suscipit massa. Vestibulum erat ante, venenatis vel ornare sed, laoreet a neque. Sed eu luctus massa. Etiam lobortis, ligula ut venenatis posuere, sem metus placerat sem, ut feugiat purus nisl sed lorem. Duis vitae magna orci. Mauris lorem est, adipiscing vel varius eu, gravida id elit. Praesent hendrerit, turpis vel mollis bibendum, lorem nisl lacinia eros, vitae aliquet elit lectus at magna. Vivamus luctus placerat mattis.
+
+Aliquam tincidunt ligula non tortor tempus tristique. Aenean vel adipiscing risus. Curabitur egestas ipsum in orci ultrices, aliquam commodo velit egestas. Praesent arcu enim, fringilla at mi et, sodales tempus augue. In diam enim, euismod in ante in, commodo pellentesque turpis. Sed lacinia faucibus purus, at blandit nulla ultrices non. Nunc luctus ipsum dapibus, vulputate lorem in, porttitor nulla. Ut vehicula massa ac porta adipiscing. Morbi id sem arcu. Proin at pulvinar purus, nec dictum leo. Aenean quis odio ornare nisi fermentum scelerisque sed sit amet augue.
+
+In hac habitasse platea dictumst. Aliquam vel vulputate eros, sed condimentum neque. Duis euismod euismod mi aliquam scelerisque. Nullam sem mauris, vestibulum ut bibendum tempus, volutpat et purus. Nullam non nulla sit amet felis pellentesque tincidunt. Cras ac velit sem. Nulla in justo purus. Phasellus vitae ante mollis, tincidunt tellus ac, porta mauris. Nunc gravida augue non faucibus pellentesque. Pellentesque elementum fermentum pellentesque. Sed dapibus ut orci ac luctus.
+
+Phasellus enim nisl, commodo eu odio nec, bibendum hendrerit libero. Nam quam augue, tincidunt sit amet ornare at, accumsan ut ligula. Aliquam volutpat in enim id scelerisque. Nulla mattis fringilla augue, in tincidunt nisl imperdiet id. Vivamus posuere fringilla luctus. Morbi nec elit sed libero sagittis vehicula quis eu metus. Phasellus sed turpis magna. Sed vehicula odio diam, non accumsan odio laoreet ac. Cras blandit leo vel nisi tempor pulvinar. Suspendisse pharetra luctus nisi eu sollicitudin. Etiam sollicitudin dolor sit amet felis consequat faucibus. Sed eget tortor interdum, malesuada nisl vel, pharetra elit. Mauris eu dapibus libero. Sed blandit accumsan erat in tincidunt.
+
+Nullam semper ipsum augue, sit amet convallis turpis imperdiet in. Nunc pharetra orci ut arcu volutpat euismod. Proin non dolor semper, volutpat risus a, aliquam odio. Cras et eros at mi cursus dictum sit amet id nulla. Nunc quam quam, ultrices ac egestas gravida, bibendum at felis. Cras vitae tempor felis, ornare posuere urna. In enim nisl, eleifend ut semper sed, pulvinar et leo. Maecenas rutrum iaculis sagittis. Morbi dignissim nulla metus. Pellentesque fermentum neque nisi, mollis fringilla augue rutrum sed. Etiam eu vehicula lectus, quis ornare mi. Vivamus faucibus, mi gravida pretium egestas, nunc turpis pulvinar lectus, non gravida massa risus sit amet tellus.
+
+Curabitur accumsan augue turpis, pharetra faucibus elit consequat iaculis. Maecenas rutrum vehicula felis in euismod. Sed euismod dolor a felis hendrerit porta. Nullam ullamcorper purus ac aliquam sodales. Duis facilisis, nulla at sollicitudin placerat, justo lorem commodo justo, quis tincidunt magna ante vitae augue. Quisque hendrerit libero eget sapien ullamcorper, at ornare odio feugiat. Fusce massa felis, consectetur quis felis ut, dictum eleifend tortor. Mauris accumsan gravida neque, at ornare nisi lacinia sit amet. Fusce quis feugiat nunc, tincidunt feugiat leo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin gravida mi sed velit aliquam, sed gravida orci feugiat. Cras rutrum hendrerit feugiat. Donec diam risus, fringilla eu pharetra ut, dignissim ut orci. Curabitur augue tellus, aliquet et porta vestibulum, egestas vel turpis.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dwn-Cy-8RN">
+                                <rect key="frame" x="118" y="503" width="84" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="I Agree">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="jUA-Jf-8RT" kind="push" id="9wR-Qg-LtZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Agreement" id="Olc-d3-bxT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8GS-tt-F92" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1415" y="-274"/>
+        </scene>
+        <!--View Controller - Required Information-->
+        <scene sceneID="ttN-4X-faa">
+            <objects>
+                <viewController id="3Ml-FN-RnH" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oyY-O6-C7a"/>
+                        <viewControllerLayoutGuide type="bottom" id="NjR-rd-M8u"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vy5-XR-B6F">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Disarm Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3w-7x-gUt">
+                                <rect key="frame" x="20" y="93" width="101" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Confirm Disarm Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AcT-aw-8PL">
+                                <rect key="frame" x="20" y="144" width="166" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fVL-lb-PuM">
+                                <rect key="frame" x="129" y="89" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vfv-Go-vop">
+                                <rect key="frame" x="194" y="140" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iQv-sk-X5A">
+                                <rect key="frame" x="114" y="518" width="126" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Complete Sign Up">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="6UE-fr-J67" kind="modal" modalTransitionStyle="flipHorizontal" id="iOP-KZ-5mS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Required Information" id="0cK-yH-gfX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hds-N3-zRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2672" y="-274"/>
+        </scene>
+        <!--View Controller - Confirm Email Address-->
+        <scene sceneID="qtd-ze-SDF">
+            <objects>
+                <viewController id="mjo-E3-Aqu" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ed7-Xd-ckq"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hfr-74-tHt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eGN-rF-tgN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="IrG-9z-KQj">
+                                <rect key="frame" x="20" y="93" width="280" height="111"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <string key="text">Please check your email for an activation link. After you have clicked the link to confirm your account, please return here to complete the sign up process.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVD-Kj-BCL">
+                                <rect key="frame" x="87" y="269" width="147" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Complete Verification">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="3Ml-FN-RnH" kind="push" id="hEg-aC-H5T"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpf-6A-a3M">
+                                <rect key="frame" x="70" y="307" width="180" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Re-send Verification Email">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Confirm Email Address" id="DVY-Kj-xCM"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ONg-Ul-62S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2251" y="-274"/>
         </scene>
     </scenes>
     <resources>

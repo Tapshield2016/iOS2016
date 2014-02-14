@@ -62,8 +62,9 @@
     static NSString *CellIdentifier = @"VirtualEntourageSearchResultCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
-    cell.textLabel.text = ((MKMapItem *)_searchResults[indexPath.row]).name;
-    cell.detailTextLabel.text = ((MKMapItem *)_searchResults[indexPath.row]).placemark.thoroughfare;
+    MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
+    cell.textLabel.text = mapItem.name;
+    cell.detailTextLabel.text = mapItem.placemark.thoroughfare;
     
     return cell;
 }

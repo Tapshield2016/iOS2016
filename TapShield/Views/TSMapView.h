@@ -30,6 +30,7 @@
 
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
+- (void)adjustAnnotationAlphaForPan;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

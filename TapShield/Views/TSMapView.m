@@ -34,7 +34,7 @@
 }
 
 
-#pragma mark = Region
+#pragma mark - Region
 
 - (void)setInitialLocation:(CLLocation *)initialLocation {
     _initialLocation = initialLocation;
@@ -50,6 +50,44 @@
     region.span = MKCoordinateSpanMake(0.006, 0.006);
     region = [self regionThatFits:region];
     [self setRegion:region animated:animated];
+}
+
+#pragma mark - Annotation
+
+- (void)adjustAnnotationAlphaForPan {
+    
+    float fullAlpha = 0.4f;
+    float newAlpha = 0.0f;
+    
+    if (self.region.span.latitudeDelta <= 0.04f) {
+        newAlpha = roundf((0.0f + self.region.span.latitudeDelta * 10) * 100)/100;
+    }
+    else {
+        newAlpha = fullAlpha;
+        if (self.region.span.latitudeDelta >= 0.05f) {
+            newAlpha = roundf((fullAlpha - self.region.span.latitudeDelta * 2) * 100)/100;
+        }
+    }
+    
+    if (newAlpha < 0) {
+        newAlpha = 0.0f;
+    }
+    
+    TSAgencyAnnotation *annotation;
+    if ([[self.annotations lastObject] isKindOfClass:[TSAgencyAnnotation class]]) {
+        annotation = [self.annotations lastObject];
+    }
+    else {
+        annotation = [self.annotations firstObject];
+    }
+    
+    if ([self viewForAnnotation:annotation].alpha != newAlpha) {
+        for (TSAgencyAnnotation *agency in self.annotations) {
+            if ([agency isKindOfClass:[TSAgencyAnnotation class]]) {
+                [self viewForAnnotation:agency].alpha = newAlpha;
+            }
+        }
+    }
 }
 
 

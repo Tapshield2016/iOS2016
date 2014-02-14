@@ -231,9 +231,9 @@
     
     if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
         
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"agency"];
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"agency"];
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
         }
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/5)];
@@ -243,11 +243,10 @@
         label.numberOfLines = 0;
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor blackColor];
+        label.textColor = [UIColor darkGrayColor];
         [annotationView addSubview:label];
         annotationView.frame = label.frame;
-        
-        annotationView.alpha = 0.4f;
+        annotationView.alpha = 0.0f;
         
         return annotationView;
     }
@@ -259,18 +258,7 @@
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
-    float newAlpha = roundf((0.4f - mapView.region.span.latitudeDelta * 10) * 100)/100;
-    
-    if (mapView.region.span.latitudeDelta <= 0.1f) {
-        if ([_mapView viewForAnnotation:[_mapView.annotations lastObject]].alpha != newAlpha) {
-            
-            for (TSAgencyAnnotation *agency in _mapView.annotations) {
-                if ([agency isKindOfClass:[TSAgencyAnnotation class]]) {
-                    [_mapView viewForAnnotation:agency].alpha = newAlpha;
-                }
-            }
-        }
-    }
+    [_mapView adjustAnnotationAlphaForPan];
     
     [_mapView removeAnimatedOverlay];
 }

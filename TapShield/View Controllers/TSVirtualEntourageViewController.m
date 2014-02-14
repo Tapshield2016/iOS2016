@@ -7,8 +7,11 @@
 //
 
 #import "TSVirtualEntourageViewController.h"
+#include <MapKit/MapKit.h>
 
 @interface TSVirtualEntourageViewController ()
+
+@property (nonatomic, strong) NSArray *searchResults;
 
 @end
 
@@ -39,23 +42,46 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)searchForLocation:(NSString *)searchString {
+    MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
+    request.naturalLanguageQuery = searchString;
+    request.region = _mapView.region;
+    MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
+    [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+        if ([response.mapItems count] > 0) {
+            _searchResults = response.mapItems;
+            [_tableView reloadData];
+            
+        }
+    }];
+}
+
 #pragma mark UITableViewDataSource methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"VirtualEntourageSearchResultCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
-    cell.textLabel.text = @"Hey";
-
+    cell.textLabel.text = ((MKMapItem *)_searchResults[indexPath.row]).name;
+    cell.detailTextLabel.text = ((MKMapItem *)_searchResults[indexPath.row]).placemark.thoroughfare;
+    
     return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return _searchResults.count;
+}
+
+#pragma mark UISearchBarDelegate methods
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if (searchBar.text && [searchBar.text length] > 0) {
+        [self searchForLocation:searchBar.text];
+    }
 }
 
 @end

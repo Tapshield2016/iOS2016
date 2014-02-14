@@ -291,7 +291,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="axy-eE-NYg" kind="modal" id="f3q-gR-yr9"/>
+                                            <action selector="displayVirtualEntourage:" destination="qEG-az-7FP" eventType="touchUpInside" id="vN2-P6-G2h"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -333,7 +333,7 @@
         <!--Navigation Controller-->
         <scene sceneID="n3w-up-VxM">
             <objects>
-                <navigationController definesPresentationContext="YES" id="axy-eE-NYg" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="TSVirtualEntourageNavigationController" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="axy-eE-NYg" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="MoU-wj-Tm0">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -348,7 +348,7 @@
         <!--Virtual Entourage View Controller - Virtual Entourage-->
         <scene sceneID="BsE-JY-VCu">
             <objects>
-                <viewController storyboardIdentifier="tualEntourageViewController" title="Virtual Entourage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSVirtualEntourageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSVirtualEntourageViewController" title="Virtual Entourage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSVirtualEntourageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="z0p-0p-Ljz"/>
                         <viewControllerLayoutGuide type="bottom" id="YcF-kv-V2o"/>
@@ -357,22 +357,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Find destination..." translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
-                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                            <searchBar contentMode="redraw" placeholder="Destination" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
+                                <rect key="frame" x="0.0" y="65" width="320" height="88"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <scopeButtonTitles>
+                                    <string>Nearby</string>
+                                    <string>Contacts</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="vuB-WZ-keb" id="W0A-d8-j58"/>
+                                </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
-                                <rect key="frame" x="0.0" y="109" width="320" height="459"/>
+                                <rect key="frame" x="0.0" y="153" width="320" height="415"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="VirtualEntourageSearchResultCell" id="Vqj-Hd-Zab">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="VirtualEntourageSearchResultCell" textLabel="ltQ-CU-v42" detailTextLabel="LaV-yz-KkZ" style="IBUITableViewCellStyleSubtitle" id="Vqj-Hd-Zab">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vqj-Hd-Zab" id="Mum-Pf-KwP">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ltQ-CU-v42">
+                                                    <rect key="frame" x="15" y="3" width="34" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LaV-yz-KkZ">
+                                                    <rect key="frame" x="15" y="25" width="43" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -418,6 +441,9 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ky-at-Ly8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

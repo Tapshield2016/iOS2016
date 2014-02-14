@@ -7,6 +7,7 @@
 //
 
 #import "TSHomeViewController.h"
+#import "TSVirtualEntourageViewController.h"
 
 @interface TSHomeViewController ()
 
@@ -91,6 +92,14 @@
             [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
         }
     }
+}
+
+- (IBAction)displayVirtualEntourage:(id)sender {
+    UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"TSVirtualEntourageNavigationController"];
+    ((TSVirtualEntourageViewController *)navController.viewControllers[0]).mapView = _mapView;
+    [self presentViewController:navController animated:YES completion:^{
+        NSLog(@"Hey...");
+    }];
 }
 
 

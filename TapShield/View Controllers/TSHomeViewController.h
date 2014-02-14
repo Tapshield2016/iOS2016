@@ -20,4 +20,6 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLGeocoder *geocoder;
 
+- (IBAction)displayVirtualEntourage:(id)sender;
+
 @end

@@ -307,10 +307,10 @@
             </objects>
             <point key="canvasLocation" x="970" y="61"/>
         </scene>
-        <!--View Controller - Log In-->
+        <!--Login View Controller - Log In-->
         <scene sceneID="21d-tb-3F1">
             <objects>
-                <viewController title="Log In" id="dof-Su-aKb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSLoginViewController" title="Log In" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dof-Su-aKb" customClass="TSLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tlU-mc-8eb"/>
                         <viewControllerLayoutGuide type="bottom" id="by8-hq-41L"/>
@@ -318,9 +318,53 @@
                     <view key="view" contentMode="scaleToFill" id="hLq-5K-yhQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="OyF-89-nmb">
+                                <rect key="frame" x="20" y="111" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dof-Su-aKb" id="2nO-Z0-2IC"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5C6-YA-1ze">
+                                <rect key="frame" x="20" y="149" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <textInputTraits key="textInputTraits" keyboardType="alphabet" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dof-Su-aKb" id="Cz7-J7-2RN"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAk-v2-ZLC">
+                                <rect key="frame" x="123" y="215" width="75" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Log In">
+                                    <color key="titleColor" red="0.070588235289999995" green="0.47843137250000001" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginUser:" destination="dof-Su-aKb" eventType="touchUpInside" id="B4E-CR-2dk"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="271" translatesAutoresizingMaskIntoConstraints="NO" id="tyL-JO-qqZ">
+                                <rect key="frame" x="29" y="187" width="271" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Log In" id="tsQ-3G-h3Z"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="OyF-89-nmb" id="2Vy-ai-bdd"/>
+                        <outlet property="errorLabel" destination="tyL-JO-qqZ" id="UQ0-zh-rQt"/>
+                        <outlet property="loginButton" destination="SAk-v2-ZLC" id="8Td-uZ-XZR"/>
+                        <outlet property="passwordTextField" destination="5C6-YA-1ze" id="6lR-z5-HZv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1hU-Bq-3K4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -379,6 +423,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="TapShield" id="Wjb-ZY-ViK"/>
+                    <connections>
+                        <outlet property="loginButton" destination="2d7-Z1-SHM" id="jAY-zb-yya"/>
+                        <outlet property="signUpButton" destination="NAg-lf-QNu" id="cet-ay-4lg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ANd-WR-asN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

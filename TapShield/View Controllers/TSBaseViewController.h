@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSJavelinAPIClient.h"
+#import "TSColorPalette.h"
 
 @interface TSBaseViewController : UIViewController
 

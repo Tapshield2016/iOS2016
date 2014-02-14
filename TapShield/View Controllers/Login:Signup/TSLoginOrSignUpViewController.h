@@ -11,4 +11,7 @@
 
 @interface TSLoginOrSignUpViewController : TSBaseViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+
 @end

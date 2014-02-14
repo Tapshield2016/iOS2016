@@ -9,6 +9,7 @@
 #import <MapKit/MapKit.h>
 #import "TSJavelinAPIClient.h"
 #import "TSCustomMapAnnotationUserLocation.h"
+#import "TSAgencyAnnotation.h"
 #import "TSMapOverlayCircle.h"
 
 @interface TSMapView : MKMapView

@@ -94,6 +94,11 @@
         for (TSJavelinAPIAgency *agency in agencies) {
             if (agency.agencyBoundaries) {
                 [mutableGeofenceArray addObject:agency.agencyBoundaries];
+                
+                TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:agency.agencyCenter
+                                                                                             placeName:agency.name
+                                                                                           description:[NSString stringWithFormat:@"%i", agency.identifier]];
+                [self addAnnotation:agencyAnnotation];
             }
         }
         self.geofenceArray = mutableGeofenceArray;

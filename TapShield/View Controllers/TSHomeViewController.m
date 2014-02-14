@@ -219,9 +219,35 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
     if ([annotation isKindOfClass:[TSCustomMapAnnotationUserLocation class]]) {
-        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"user"];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
+        }
         annotationView.image = [UIImage imageNamed:@"logo"];
         [annotationView setCanShowCallout:YES];
+        
+        return annotationView;
+    }
+    
+    if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
+        
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"agency"];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"agency"];
+        }
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/5)];
+        label.text = ((TSAgencyAnnotation *)annotation).title;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.numberOfLines = 0;
+        label.lineBreakMode = NSLineBreakByWordWrapping;
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [UIColor blackColor];
+        [annotationView addSubview:label];
+        annotationView.frame = label.frame;
+        
+        annotationView.alpha = 0.4f;
         
         return annotationView;
     }
@@ -229,9 +255,22 @@
     return nil;
 }
 
+
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
+    float newAlpha = roundf((0.4f - mapView.region.span.latitudeDelta * 10) * 100)/100;
+    
+    if (mapView.region.span.latitudeDelta <= 0.1f) {
+        if ([_mapView viewForAnnotation:[_mapView.annotations lastObject]].alpha != newAlpha) {
+            
+            for (TSAgencyAnnotation *agency in _mapView.annotations) {
+                if ([agency isKindOfClass:[TSAgencyAnnotation class]]) {
+                    [_mapView viewForAnnotation:agency].alpha = newAlpha;
+                }
+            }
+        }
+    }
     
     [_mapView removeAnimatedOverlay];
 }

@@ -329,7 +329,7 @@
         <!--Navigation Controller-->
         <scene sceneID="ybW-LZ-gng">
             <objects>
-                <navigationController definesPresentationContext="YES" id="W1Z-eb-41X" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="TSLoginOrSignUpNavigationController" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="W1Z-eb-41X" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="O2F-1n-CSv">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

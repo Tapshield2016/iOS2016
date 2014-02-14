@@ -55,7 +55,10 @@
     _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     _locationManager.distanceFilter = 5.0f;
     
-    
+    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
+        UINavigationController *navigationController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSLoginOrSignUpNavigationController"];
+        [self presentViewController:navigationController animated:NO completion:nil];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

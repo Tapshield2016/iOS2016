@@ -13,7 +13,7 @@
 
 @interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) IBOutlet TSMapView *mapView;
+@property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet UIView *bottomButtonContainerView;
 

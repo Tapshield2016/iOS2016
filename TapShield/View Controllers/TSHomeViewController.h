@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "TSBaseViewController.h"
 
-@interface TSHomeViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;

@@ -96,6 +96,8 @@
 		C5372D9C18AEA93900D22682 /* TSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9A18AEA93900D22682 /* TSConstants.m */; };
 		C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA318AEC99900D22682 /* TSLoginViewController.m */; };
 		C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA318AEC99900D22682 /* TSLoginViewController.m */; };
+		C5372DA818AEE14000D22682 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA718AEE14000D22682 /* UIImage+Color.m */; };
+		C5372DA918AEE14000D22682 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA718AEE14000D22682 /* UIImage+Color.m */; };
 		C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705718AAD76B00EEFBD6 /* logo.png */; };
 		C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
 		C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
@@ -215,6 +217,8 @@
 		C5372D9A18AEA93900D22682 /* TSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSConstants.m; path = Utilities/TSConstants.m; sourceTree = "<group>"; };
 		C5372DA218AEC99900D22682 /* TSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLoginViewController.h; path = "View Controllers/Login:Signup/TSLoginViewController.h"; sourceTree = "<group>"; };
 		C5372DA318AEC99900D22682 /* TSLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginViewController.m; path = "View Controllers/Login:Signup/TSLoginViewController.m"; sourceTree = "<group>"; };
+		C5372DA618AEE14000D22682 /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Color.h"; path = "Utilities/UIImage+Color.h"; sourceTree = "<group>"; };
+		C5372DA718AEE14000D22682 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Color.m"; path = "Utilities/UIImage+Color.m"; sourceTree = "<group>"; };
 		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
 		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/TSMapOverlayCircle.h; sourceTree = "<group>"; };
@@ -494,6 +498,8 @@
 				C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */,
 				C5372D9918AEA93900D22682 /* TSConstants.h */,
 				C5372D9A18AEA93900D22682 /* TSConstants.m */,
+				C5372DA618AEE14000D22682 /* UIImage+Color.h */,
+				C5372DA718AEE14000D22682 /* UIImage+Color.m */,
 			);
 			name = Utilities;
 			path = TapShield;
@@ -724,6 +730,7 @@
 				C5C1706718ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */,
 				C520C91418A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90E18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
+				C5372DA818AEE14000D22682 /* UIImage+Color.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5372D9B18AEA93900D22682 /* TSConstants.m in Sources */,
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
@@ -788,6 +795,7 @@
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C520C90718A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */,
+				C5372DA918AEE14000D22682 /* UIImage+Color.m in Sources */,
 				C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,

@@ -28,6 +28,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = self;
+    
+    [_loginButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
+    [_loginButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

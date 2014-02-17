@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSAppDelegate.h"
 #import "TSJavelinAPIClient.h"
 #import "TSColorPalette.h"
 #import "UIImage+Color.h"

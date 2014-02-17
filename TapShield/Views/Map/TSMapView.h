@@ -7,9 +7,11 @@
 //
 
 #import <MapKit/MapKit.h>
-#import "TSJavelinAPIClient.h"
-#import "TSCustomMapAnnotationUserLocation.h"
 #import "TSAgencyAnnotation.h"
+#import "TSAppDelegate.h"
+#import "TSColorPalette.h"
+#import "TSCustomMapAnnotationUserLocation.h"
+#import "TSJavelinAPIClient.h"
 #import "TSMapOverlayCircle.h"
 
 @interface TSMapView : MKMapView
@@ -21,6 +23,7 @@
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
 @property (nonatomic, strong) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
+@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;

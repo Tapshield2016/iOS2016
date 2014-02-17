@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSColorPalette.h"
 
 @class MSDynamicsDrawerViewController;
 

@@ -69,6 +69,12 @@
     if (appDelegate.currentLocation) {
         [_mapView setRegionAtAppearanceAnimated:NO];
         _mapView.initialLocation = appDelegate.currentLocation;
+        
+        _mapView.userLocationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:appDelegate.currentLocation.coordinate
+                                                                                               placeName:[NSString stringWithFormat:@"%f, %f", appDelegate.currentLocation.coordinate.latitude, appDelegate.currentLocation.coordinate.longitude]
+                                                                                             description:[NSString stringWithFormat:@"Accuracy: %f", appDelegate.currentLocation.horizontalAccuracy]];
+        [_mapView addAnnotation:_mapView.userLocationAnnotation];
+        [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
     }
 }
 
@@ -271,8 +277,16 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
     
-    for(TSCustomMapAnnotationUserLocation *n in _mapView.annotations){
-        [_mapView addAnimatedOverlayToAnnotation:n];
+    [_mapView addAnimatedOverlayToAnnotation:_mapView.userLocationAnnotation];
+    
+    NSLog(@"%f && %f", fabs(_mapView.region.center.latitude - _locationManager.location.coordinate.latitude), fabs(_mapView.region.center.longitude - _locationManager.location.coordinate.longitude));
+    
+    if (_showUserLocationButton.selected) {
+        //avoid loop from negligible differences in region change during zoom
+        if (fabs(_mapView.region.center.latitude - _locationManager.location.coordinate.latitude) >= .0000001 ||
+            fabs(_mapView.region.center.longitude - _locationManager.location.coordinate.longitude) >= .0000001) {
+            [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
+        }
     }
     
     //[_mapView removeOverlay:_mapView.accuracyCircle];
@@ -295,7 +309,6 @@
 
 - (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-        NSLog(@"drag ended");
         _showUserLocationButton.selected = NO;
     }
 }

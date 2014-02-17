@@ -75,6 +75,7 @@
 
 
 - (IBAction)showEmailTextfield:(id)sender {
+    
     [_emailTextField becomeFirstResponder];
     
     [UIView animateWithDuration:0.1f animations:^{
@@ -160,7 +161,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    
+    [self mailIconSelected:YES];
     [self checkEmailTextfieldForValidEmail];
 }
 
@@ -175,6 +176,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [UIView animateWithDuration:0.2f animations:^{
+        [self mailIconSelected:NO];
         _buttonContainerView.alpha = 0.0f;
         _registerEmailButton.alpha = 1.0f;
     }];
@@ -195,6 +197,28 @@
             _buttonContainerView.alpha = 1.0f;
         }];
     }
+}
+
+
+- (void)mailIconSelected:(BOOL)editing {
+    UIImage *selectedImage = _emailIcon.image;
+    
+    if (!editing) {
+        _emailIcon.image = [UIImage imageNamed:@"mailIcon"];
+        return;
+    }
+    
+    //image color change
+    CGRect rect = CGRectMake(0, 0, _emailIcon.frame.size.width, _emailIcon.frame.size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextClipToMask(context, rect, selectedImage.CGImage);
+    CGContextSetFillColorWithColor(context, [[TSColorPalette darkGrayColor] CGColor]);
+    CGContextFillRect(context, rect);
+    selectedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    _emailIcon.image = [UIImage imageWithCGImage:selectedImage.CGImage scale:1.0f orientation: UIImageOrientationDownMirrored];
 }
 
 

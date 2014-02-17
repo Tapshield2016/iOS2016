@@ -106,6 +106,26 @@
 		C5372DB518B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DB318B27C3600D22682 /* TSOrganizationSearchViewController.m */; };
 		C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DB718B2AB7400D22682 /* TSRegisterViewController.m */; };
 		C5372DB918B2AB7400D22682 /* TSRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DB718B2AB7400D22682 /* TSRegisterViewController.m */; };
+		C5372DC018B2C85E00D22682 /* CheckBox_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBA18B2C85E00D22682 /* CheckBox_Selected.png */; };
+		C5372DC118B2C85E00D22682 /* CheckBox_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBA18B2C85E00D22682 /* CheckBox_Selected.png */; };
+		C5372DC218B2C85E00D22682 /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBB18B2C85E00D22682 /* CheckBox_Selected@2x.png */; };
+		C5372DC318B2C85E00D22682 /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBB18B2C85E00D22682 /* CheckBox_Selected@2x.png */; };
+		C5372DC418B2C85E00D22682 /* CheckBox_Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBC18B2C85E00D22682 /* CheckBox_Unselected.png */; };
+		C5372DC518B2C85E00D22682 /* CheckBox_Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBC18B2C85E00D22682 /* CheckBox_Unselected.png */; };
+		C5372DC618B2C85E00D22682 /* CheckBox_Unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBD18B2C85E00D22682 /* CheckBox_Unselected@2x.png */; };
+		C5372DC718B2C85E00D22682 /* CheckBox_Unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBD18B2C85E00D22682 /* CheckBox_Unselected@2x.png */; };
+		C5372DC818B2C85E00D22682 /* CheckBox_UnselectedDown.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBE18B2C85E00D22682 /* CheckBox_UnselectedDown.png */; };
+		C5372DC918B2C85E00D22682 /* CheckBox_UnselectedDown.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBE18B2C85E00D22682 /* CheckBox_UnselectedDown.png */; };
+		C5372DCA18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBF18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png */; };
+		C5372DCB18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DBF18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png */; };
+		C5372DCF18B2CD8A00D22682 /* facebookIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCC18B2CD8A00D22682 /* facebookIcon.png */; };
+		C5372DD018B2CD8A00D22682 /* facebookIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCC18B2CD8A00D22682 /* facebookIcon.png */; };
+		C5372DD118B2CD8A00D22682 /* googlePlus.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCD18B2CD8A00D22682 /* googlePlus.png */; };
+		C5372DD218B2CD8A00D22682 /* googlePlus.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCD18B2CD8A00D22682 /* googlePlus.png */; };
+		C5372DD318B2CD8A00D22682 /* twitterIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCE18B2CD8A00D22682 /* twitterIcon.png */; };
+		C5372DD418B2CD8A00D22682 /* twitterIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCE18B2CD8A00D22682 /* twitterIcon.png */; };
+		C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DD518B2CEBB00D22682 /* mailicon.png */; };
+		C5372DD718B2CEBB00D22682 /* mailicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DD518B2CEBB00D22682 /* mailicon.png */; };
 		C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705718AAD76B00EEFBD6 /* logo.png */; };
 		C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
 		C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
@@ -235,6 +255,16 @@
 		C5372DB318B27C3600D22682 /* TSOrganizationSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSOrganizationSearchViewController.m; sourceTree = "<group>"; };
 		C5372DB618B2AB7400D22682 /* TSRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegisterViewController.h; path = "View Controllers/Login:Signup/TSRegisterViewController.h"; sourceTree = "<group>"; };
 		C5372DB718B2AB7400D22682 /* TSRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegisterViewController.m; path = "View Controllers/Login:Signup/TSRegisterViewController.m"; sourceTree = "<group>"; };
+		C5372DBA18B2C85E00D22682 /* CheckBox_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckBox_Selected.png; path = Images/CheckBox_Selected.png; sourceTree = "<group>"; };
+		C5372DBB18B2C85E00D22682 /* CheckBox_Selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_Selected@2x.png"; path = "Images/CheckBox_Selected@2x.png"; sourceTree = "<group>"; };
+		C5372DBC18B2C85E00D22682 /* CheckBox_Unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckBox_Unselected.png; path = Images/CheckBox_Unselected.png; sourceTree = "<group>"; };
+		C5372DBD18B2C85E00D22682 /* CheckBox_Unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_Unselected@2x.png"; path = "Images/CheckBox_Unselected@2x.png"; sourceTree = "<group>"; };
+		C5372DBE18B2C85E00D22682 /* CheckBox_UnselectedDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckBox_UnselectedDown.png; path = Images/CheckBox_UnselectedDown.png; sourceTree = "<group>"; };
+		C5372DBF18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_UnselectedDown@2x.png"; path = "Images/CheckBox_UnselectedDown@2x.png"; sourceTree = "<group>"; };
+		C5372DCC18B2CD8A00D22682 /* facebookIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebookIcon.png; path = Images/facebookIcon.png; sourceTree = "<group>"; };
+		C5372DCD18B2CD8A00D22682 /* googlePlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = googlePlus.png; path = Images/googlePlus.png; sourceTree = "<group>"; };
+		C5372DCE18B2CD8A00D22682 /* twitterIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitterIcon.png; path = Images/twitterIcon.png; sourceTree = "<group>"; };
+		C5372DD518B2CEBB00D22682 /* mailicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mailicon.png; path = Images/mailicon.png; sourceTree = "<group>"; };
 		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
 		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/TSMapOverlayCircle.h; sourceTree = "<group>"; };
@@ -590,7 +620,17 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5372DD518B2CEBB00D22682 /* mailicon.png */,
+				C5372DCC18B2CD8A00D22682 /* facebookIcon.png */,
+				C5372DCD18B2CD8A00D22682 /* googlePlus.png */,
+				C5372DCE18B2CD8A00D22682 /* twitterIcon.png */,
 				C5C1706918ABEFFC00EEFBD6 /* location1.png */,
+				C5372DBA18B2C85E00D22682 /* CheckBox_Selected.png */,
+				C5372DBB18B2C85E00D22682 /* CheckBox_Selected@2x.png */,
+				C5372DBC18B2C85E00D22682 /* CheckBox_Unselected.png */,
+				C5372DBD18B2C85E00D22682 /* CheckBox_Unselected@2x.png */,
+				C5372DBE18B2C85E00D22682 /* CheckBox_UnselectedDown.png */,
+				C5372DBF18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png */,
 				C5C1706A18ABEFFC00EEFBD6 /* location2.png */,
 				C5C1706218AAF47E00EEFBD6 /* circle.png */,
 				C5C1705B18AAE5DE00EEFBD6 /* logo.png */,
@@ -688,13 +728,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5372DCA18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png in Resources */,
 				C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */,
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
+				C5372DCF18B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C5C1706318AAF47E00EEFBD6 /* circle.png in Resources */,
+				C5372DC818B2C85E00D22682 /* CheckBox_UnselectedDown.png in Resources */,
+				C5372DD118B2CD8A00D22682 /* googlePlus.png in Resources */,
 				B53BBCFB18980FDA006A27E0 /* InfoPlist.strings in Resources */,
+				C5372DC618B2C85E00D22682 /* CheckBox_Unselected@2x.png in Resources */,
 				C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */,
 				B53BBD0418980FDA006A27E0 /* Main.storyboard in Resources */,
+				C5372DC018B2C85E00D22682 /* CheckBox_Selected.png in Resources */,
+				C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */,
+				C5372DC418B2C85E00D22682 /* CheckBox_Unselected.png in Resources */,
+				C5372DD318B2CD8A00D22682 /* twitterIcon.png in Resources */,
+				C5372DC218B2C85E00D22682 /* CheckBox_Selected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,12 +752,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5372DD018B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */,
+				C5372DD218B2CD8A00D22682 /* googlePlus.png in Resources */,
+				C5372DCB18B2C85E00D22682 /* CheckBox_UnselectedDown@2x.png in Resources */,
 				C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				B53BBD1A18980FDA006A27E0 /* InfoPlist.strings in Resources */,
 				C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */,
+				C5372DC518B2C85E00D22682 /* CheckBox_Unselected.png in Resources */,
+				C5372DD418B2CD8A00D22682 /* twitterIcon.png in Resources */,
+				C5372DC318B2C85E00D22682 /* CheckBox_Selected@2x.png in Resources */,
 				C5C1706418AAF47E00EEFBD6 /* circle.png in Resources */,
+				C5372DD718B2CEBB00D22682 /* mailicon.png in Resources */,
+				C5372DC718B2C85E00D22682 /* CheckBox_Unselected@2x.png in Resources */,
 				C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */,
+				C5372DC918B2C85E00D22682 /* CheckBox_UnselectedDown.png in Resources */,
+				C5372DC118B2C85E00D22682 /* CheckBox_Selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

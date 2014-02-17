@@ -8,10 +8,12 @@
 
 #import "TSHomeViewController.h"
 #import "TSVirtualEntourageViewController.h"
+#include <MapKit/MapKit.h>
 
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) NSArray *routes;
+@property (nonatomic, strong) MKRoute *selectedRoute;
 
 @end
 
@@ -47,7 +49,7 @@
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
-    [self.mapView addGestureRecognizer:panRecognizer];
+    [_mapView addGestureRecognizer:panRecognizer];
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -68,7 +70,7 @@
 
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:self.mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-
+            NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
             for (id overlay in _mapView.overlays) {
                 if ([overlay isKindOfClass:[MKPolyline class]]) {
                     MKPolyline *poly = (MKPolyline *) overlay;
@@ -84,14 +86,40 @@
                         if (mapCoordinateIsInPolygon) {
                             for (MKRoute *route in _routes) {
                                 if (route.polyline == poly) {
-                                    NSLog(@"Hit for %@", route.name);
+                                    [struckRoutes addObject:route];
                                 }
                             }
                         }
                     }
                 }
             }
+
+            [self setSelectedRouteFromStruckRoutes:struckRoutes];
         }
+    }
+}
+
+- (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
+    if ([struckRoutes count] > 0) {
+        if ([struckRoutes count] == 1) {
+            _selectedRoute = struckRoutes[0];
+        }
+        else {
+            BOOL previouslySelectedRouteWasStruck = NO;
+            for (MKRoute *route in struckRoutes) {
+                if (_selectedRoute == route) {
+                    int selectedIndex = [struckRoutes indexOfObject:route];
+                    _selectedRoute = struckRoutes[(selectedIndex + 1) % struckRoutes.count];
+                    previouslySelectedRouteWasStruck = YES;
+                    break;
+                }
+            }
+            if (!previouslySelectedRouteWasStruck) {
+                _selectedRoute = struckRoutes[0];
+            }
+        }
+        NSLog(@"%@ selected", _selectedRoute.name);
+        [self refreshOverlays];
     }
 }
 
@@ -116,16 +144,42 @@
         MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
         [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
             if (!error) {
+                [self removeRouteOverlays];
                 _routes = [response routes];
-                for (MKRoute *route in _routes) {
-                    [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
-                    // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
-                    NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
-                    NSLog(@"%.02f miles", route.distance * 0.000621371);
-                }
+                [self addRouteOverlaysToMapView];
             }
         }];
     }
+}
+
+- (void)removeRouteOverlays {
+    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
+    for (MKRoute *route in _routes) {
+        [overlays addObject:route.polyline];
+    }
+
+    [_mapView removeOverlays:overlays];
+}
+
+- (void)addRouteOverlaysToMapView {
+    for (MKRoute *route in _routes) {
+        if (route == _selectedRoute) {
+            continue; // skip selected route so we can add it last, on top of others
+        }
+        [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
+        // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
+        //NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
+        //NSLog(@"%.02f miles", route.distance * 0.000621371);
+    }
+
+    if (_selectedRoute) {
+        [_mapView addOverlay:[_selectedRoute polyline] level:MKOverlayLevelAboveRoads];
+    }
+}
+
+- (void)refreshOverlays {
+    [self removeRouteOverlays];
+    [self addRouteOverlaysToMapView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -158,7 +212,7 @@
     UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"TSVirtualEntourageNavigationController"];
     ((TSVirtualEntourageViewController *)navController.viewControllers[0]).mapView = _mapView;
     [self presentViewController:navController animated:YES completion:^{
-        NSLog(@"Hey...");
+
     }];
 }
 
@@ -192,17 +246,8 @@
             [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
         });
         _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
-        
-//        [_mapView removeOverlay:_mapView.accuracyCircle];
-//        
-//        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseIn
-//                         animations:^{
-//                             _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
-//                         } completion:nil];
     }
-    
-    
-    
+
     if (!_mapView.isAnimatingToRegion && _showUserLocationButton.selected) {
         [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
     }
@@ -264,8 +309,24 @@
     }
     else if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-        [renderer setStrokeColor:[UIColor lightGrayColor]];
         [renderer setLineWidth:4.0];
+        [renderer setStrokeColor:[UIColor lightGrayColor]];
+
+        if (_selectedRoute) {
+            for (MKRoute *route in _routes) {
+                if (route == _selectedRoute) {
+                    if (route.polyline == overlay) {
+                        NSLog(@"%@ highlighted", route.name);
+                        [renderer setStrokeColor:[UIColor blueColor]];
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            NSLog(@"No selected route right now");
+        }
+
         return renderer;
     }
     

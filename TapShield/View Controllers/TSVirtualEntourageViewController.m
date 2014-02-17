@@ -93,4 +93,51 @@
     }
 }
 
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    picker.displayedProperties = @[@(kABPersonAddressProperty)];
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+#pragma mark - ABPeoplePickerNavigationControllerDelegate methods
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+
+    return YES;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
+
+    NSMutableDictionary *contactDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
+    ABMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
+    NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
+    if (ABMultiValueGetCount(addressRef) > 0) {
+        contactDictionary[@"street"] = [addressDict objectForKey:(NSString *)kABPersonAddressStreetKey];
+        contactDictionary[@"zip"] = [addressDict objectForKey:(NSString *)kABPersonAddressZIPKey];
+        contactDictionary[@"city"] = [addressDict objectForKey:(NSString *)kABPersonAddressCityKey];
+        contactDictionary[@"state"] = [addressDict objectForKey:(NSString *)kABPersonAddressStateKey];
+    }
+
+    CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder geocodeAddressDictionary:addressDict completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"%@", placemarks);
+        if ([placemarks count] > 0) {
+            MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:placemarks[0]];
+            MKMapItem *contactMapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+            [_mapView userSelectedDestination:contactMapItem];
+        }
+        [self dismissViewControllerAnimated:NO completion:^{
+            [self dismiss:nil];
+        }];
+    }];
+
+    return NO;
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

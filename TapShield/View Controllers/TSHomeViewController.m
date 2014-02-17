@@ -74,7 +74,7 @@
     }
 
     // Display user location and selected destination if present
-    if (_mapView.destinationAnnotation) {
+    if (_mapView.destinationMapItem) {
         [self requestAndDisplayRoutesForSelectedDestination];
     }
 }

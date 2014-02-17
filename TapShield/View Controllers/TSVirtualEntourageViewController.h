@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TSMapView.h"
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface TSVirtualEntourageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface TSVirtualEntourageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) TSMapView *mapView;

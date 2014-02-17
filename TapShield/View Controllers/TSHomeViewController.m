@@ -11,7 +11,7 @@
 
 @interface TSHomeViewController ()
 
-
+@property (nonatomic, strong) NSArray *routes;
 
 @end
 
@@ -48,13 +48,51 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [self.mapView addGestureRecognizer:panRecognizer];
-    
+
+    // Tap recognizer for selecting routes and other items
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [_mapView addGestureRecognizer:recognizer];
+
     _geocoder = [[CLGeocoder alloc] init];
     
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     _locationManager.distanceFilter = 5.0f;
+}
+
+- (void)handleTap:(UIGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        for (int i = 0; i < recognizer.numberOfTouches; i++) {
+            CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
+
+            CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:self.mapView];
+            MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
+
+            for (id overlay in _mapView.overlays) {
+                if ([overlay isKindOfClass:[MKPolyline class]]) {
+                    MKPolyline *poly = (MKPolyline *) overlay;
+                    id view = [_mapView rendererForOverlay:poly];
+
+                    if ([view isKindOfClass:[MKPolylineRenderer class]]) {
+                        MKPolylineRenderer *polyView = (MKPolylineRenderer*) view;
+                        [polyView invalidatePath];
+
+                        CGPoint polygonViewPoint = [polyView pointForMapPoint:mapPoint];
+                        BOOL mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
+
+                        if (mapCoordinateIsInPolygon) {
+                            for (MKRoute *route in _routes) {
+                                if (route.polyline == poly) {
+                                    NSLog(@"Hit for %@", route.name);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,6 +108,23 @@
     // Display user location and selected destination if present
     if (_mapView.destinationAnnotation) {
         [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
+        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+        [request setSource:[MKMapItem mapItemForCurrentLocation]];
+        [request setDestination:_mapView.destinationMapItem];
+        [request setTransportType:MKDirectionsTransportTypeAny]; // This can be limited to automobile and walking directions.
+        [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+            if (!error) {
+                _routes = [response routes];
+                for (MKRoute *route in _routes) {
+                    [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
+                    // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
+                    NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
+                    NSLog(@"%.02f miles", route.distance * 0.000621371);
+                }
+            }
+        }];
     }
 }
 
@@ -199,36 +254,23 @@
 
 #pragma mark - MKMapViewDelegate methods
 
-//Enable show user location
-//
-//- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-//    if (!_mapView.initialLocation) {
-//        _mapView.initialLocation = userLocation.location;
-//    }
-//    
-//    [_geocoder reverseGeocodeLocation:_locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-//        if (placemarks) {
-//            CLPlacemark *placemark = [placemarks firstObject];
-//            _mapView.userLocation.title = [NSString stringWithFormat:@"%@ %@", placemark.subThoroughfare, placemark.thoroughfare];
-//            _mapView.userLocation.subtitle = [NSString stringWithFormat:@"%@, %@ %@", placemark.locality, placemark.administrativeArea, placemark.postalCode];
-//        }
-//    }];
-//    
-//    [_mapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
-//}
-
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if([overlay isKindOfClass:[MKPolygon class]]){
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
-    if ([overlay isKindOfClass:[MKCircle class]]) {
+    else if ([overlay isKindOfClass:[MKCircle class]]) {
         
         return [TSMapView mapViewCircleOverlay:overlay];
+    }
+    else if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+        [renderer setStrokeColor:[UIColor lightGrayColor]];
+        [renderer setLineWidth:4.0];
+        return renderer;
     }
     
     return nil;
 }
-
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
@@ -267,7 +309,6 @@
     
     return nil;
 }
-
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;

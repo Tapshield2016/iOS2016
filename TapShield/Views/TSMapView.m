@@ -40,15 +40,15 @@
     return self;
 }
 
-- (void)userSelectedDestinationLocation:(CLLocation *)location {
-    _destinationLocation = location;
+- (void)userSelectedDestination:(MKMapItem *)mapItem {
+    _destinationMapItem = mapItem;
     if (_destinationAnnotation) {
         [self removeAnnotation:_destinationAnnotation];
     }
     
     // We'll want to swap for another annotation...
-    _destinationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:_destinationLocation.coordinate
-                                                                                  placeName:[NSString stringWithFormat:@"%f, %f", _destinationLocation.coordinate.latitude, _destinationLocation.coordinate.longitude]
+    _destinationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
+                                                                                  placeName:[NSString stringWithFormat:@"%f, %f", _destinationMapItem.placemark.location.coordinate.latitude, _destinationMapItem.placemark.location.coordinate.longitude]
                                                                                 description:nil];
     [self addAnnotation:_destinationAnnotation];
 }

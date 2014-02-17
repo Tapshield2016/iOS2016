@@ -80,7 +80,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
-    [_mapView userSelectedDestinationLocation:mapItem.placemark.location];
+    [_mapView userSelectedDestination:mapItem];
     [self dismiss:nil];
 }
 
@@ -89,6 +89,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text && [searchBar.text length] > 0) {
         [self searchForLocation:searchBar.text];
+        [searchBar resignFirstResponder];
     }
 }
 

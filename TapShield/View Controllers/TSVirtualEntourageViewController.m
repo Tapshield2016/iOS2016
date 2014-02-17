@@ -51,12 +51,11 @@
         if ([response.mapItems count] > 0) {
             _searchResults = response.mapItems;
             [_tableView reloadData];
-            
         }
     }];
 }
 
-#pragma mark UITableViewDataSource methods
+#pragma mark - UITableViewDataSource methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"VirtualEntourageSearchResultCell";
@@ -64,7 +63,7 @@
 
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
     cell.textLabel.text = mapItem.name;
-    cell.detailTextLabel.text = mapItem.placemark.thoroughfare;
+    cell.detailTextLabel.text = mapItem.placemark.addressDictionary[@"Street"];
     
     return cell;
 }
@@ -77,7 +76,15 @@
     return _searchResults.count;
 }
 
-#pragma mark UISearchBarDelegate methods
+#pragma mark - UITableViewDelegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
+    [_mapView userSelectedDestinationLocation:mapItem.placemark.location];
+    [self dismiss:nil];
+}
+
+#pragma mark - UISearchBarDelegate methods
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text && [searchBar.text length] > 0) {

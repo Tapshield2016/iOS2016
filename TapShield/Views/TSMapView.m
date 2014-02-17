@@ -7,6 +7,13 @@
 //
 
 #import "TSMapView.h"
+#import "TSCustomMapAnnotationUserLocation.h"
+
+@interface TSMapView ()
+
+@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
+
+@end
 
 @implementation TSMapView
 
@@ -33,6 +40,18 @@
     return self;
 }
 
+- (void)userSelectedDestinationLocation:(CLLocation *)location {
+    _destinationLocation = location;
+    if (_destinationAnnotation) {
+        [self removeAnnotation:_destinationAnnotation];
+    }
+    
+    // We'll want to swap for another annotation...
+    _destinationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:_destinationLocation.coordinate
+                                                                                  placeName:[NSString stringWithFormat:@"%f, %f", _destinationLocation.coordinate.latitude, _destinationLocation.coordinate.longitude]
+                                                                                description:nil];
+    [self addAnnotation:_destinationAnnotation];
+}
 
 #pragma mark - Region
 
@@ -162,31 +181,28 @@
 
 #pragma mark Animated Overlay
 
-//animated overlay to be passed around... static instance
-static TSMapOverlayCircle *animatedOverlay;
-
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation {
     //get a frame around the annotation
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, _currentLocation.horizontalAccuracy*2, _currentLocation.horizontalAccuracy*2);
     CGRect rect = [self  convertRegion:region toRectToView:self];
     //set up the animated overlay
-    if(!animatedOverlay){
-        animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
+    if(!_animatedOverlay){
+        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
     }
     else{
-        [animatedOverlay setFrame:rect];
+        [_animatedOverlay setFrame:rect];
     }
     //add to the map and start the animation
-    [self addSubview:animatedOverlay];
-    [animatedOverlay startAnimatingWithColor:[UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f]
+    [self addSubview:_animatedOverlay];
+    [_animatedOverlay startAnimatingWithColor:[UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f]
                                     andFrame:rect];
-    [animatedOverlay setUserInteractionEnabled:NO];
+    [_animatedOverlay setUserInteractionEnabled:NO];
 }
 
 - (void)removeAnimatedOverlay {
-    if(animatedOverlay){
-        [animatedOverlay stopAnimating];
-        [animatedOverlay removeFromSuperview];
+    if(_animatedOverlay){
+        [_animatedOverlay stopAnimating];
+        [_animatedOverlay removeFromSuperview];
     }
 }
 
@@ -196,11 +212,11 @@ static TSMapOverlayCircle *animatedOverlay;
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(_userLocationAnnotation.coordinate, _currentLocation.horizontalAccuracy*2, _currentLocation.horizontalAccuracy*2);
     CGRect rect = [self  convertRegion:region toRectToView:self];
     //set up the animated overlay
-    if(animatedOverlay){
-        [animatedOverlay setFrame:rect];
+    if(_animatedOverlay){
+        [_animatedOverlay setFrame:rect];
     }
-    [animatedOverlay stopAnimating];
-    [animatedOverlay startAnimatingWithColor:[UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f]
+    [_animatedOverlay stopAnimating];
+    [_animatedOverlay startAnimatingWithColor:[UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f]
                                     andFrame:rect];
 }
 

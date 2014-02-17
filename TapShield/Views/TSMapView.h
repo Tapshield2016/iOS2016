@@ -22,6 +22,10 @@
 @property (nonatomic, strong) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 
+// Virtual Entourage selected destination
+@property (nonatomic, strong) CLLocation *destinationLocation;
+@property (nonatomic, strong) TSCustomMapAnnotationUserLocation *destinationAnnotation;
+
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;
 
@@ -31,6 +35,7 @@
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)adjustAnnotationAlphaForPan;
+- (void)userSelectedDestinationLocation:(CLLocation *)location;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

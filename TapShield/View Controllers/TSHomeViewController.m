@@ -66,6 +66,11 @@
         [_mapView setRegionAtAppearanceAnimated:NO];
         _mapView.initialLocation = appDelegate.currentLocation;
     }
+    
+    // Display user location and selected destination if present
+    if (_mapView.destinationAnnotation) {
+        [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

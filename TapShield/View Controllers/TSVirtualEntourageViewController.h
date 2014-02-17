@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#include <MapKit/MapKit.h>
+#import "TSMapView.h"
 
 @interface TSVirtualEntourageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) MKMapView *mapView;
+@property (nonatomic, strong) TSMapView *mapView;
 
 - (IBAction)dismiss:(id)sender;
 

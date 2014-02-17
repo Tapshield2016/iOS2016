@@ -63,44 +63,6 @@
     _locationManager.distanceFilter = 5.0f;
 }
 
-- (void)handleTap:(UIGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateEnded) {
-        for (int i = 0; i < recognizer.numberOfTouches; i++) {
-            CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
-
-            CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
-            MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-
-            // Capture multiple routes in case of overlap
-            NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
-            for (id overlay in _mapView.overlays) {
-                if ([overlay isKindOfClass:[MKPolyline class]]) {
-                    MKPolyline *poly = (MKPolyline *) overlay;
-                    id view = [_mapView rendererForOverlay:poly];
-
-                    if ([view isKindOfClass:[MKPolylineRenderer class]]) {
-                        MKPolylineRenderer *polyView = (MKPolylineRenderer*) view;
-                        [polyView invalidatePath];
-
-                        CGPoint polygonViewPoint = [polyView pointForMapPoint:mapPoint];
-                        BOOL mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
-
-                        if (mapCoordinateIsInPolygon) {
-                            for (MKRoute *route in _routes) {
-                                if (route.polyline == poly) {
-                                    [struckRoutes addObject:route];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            [self setSelectedRouteFromStruckRoutes:struckRoutes];
-        }
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
@@ -139,6 +101,59 @@
         }
         else {
             [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
+        }
+    }
+}
+
+#pragma mark - UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+#pragma mark - Gesture handlers
+
+- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+        NSLog(@"drag ended");
+        _showUserLocationButton.selected = NO;
+    }
+}
+
+- (void)handleTap:(UIGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        for (int i = 0; i < recognizer.numberOfTouches; i++) {
+            CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
+
+            CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
+            MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
+
+            // Capture multiple routes in case of overlap
+            NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
+            for (id overlay in _mapView.overlays) {
+                if ([overlay isKindOfClass:[MKPolyline class]]) {
+                    MKPolyline *poly = (MKPolyline *) overlay;
+                    id view = [_mapView rendererForOverlay:poly];
+
+                    if ([view isKindOfClass:[MKPolylineRenderer class]]) {
+                        MKPolylineRenderer *polyView = (MKPolylineRenderer*) view;
+                        [polyView invalidatePath];
+
+                        CGPoint polygonViewPoint = [polyView pointForMapPoint:mapPoint];
+                        BOOL mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
+
+                        if (mapCoordinateIsInPolygon) {
+                            for (MKRoute *route in _routes) {
+                                if (route.polyline == poly) {
+                                    [struckRoutes addObject:route];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            [self setSelectedRouteFromStruckRoutes:struckRoutes];
         }
     }
 }
@@ -415,17 +430,6 @@
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
     _mapView.shouldUpdateCallOut = NO;
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
-
-- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-        NSLog(@"drag ended");
-        _showUserLocationButton.selected = NO;
-    }
 }
 
 

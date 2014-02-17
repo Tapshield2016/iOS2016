@@ -27,6 +27,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [_loginButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
+    [_loginButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
+    [_signUpButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateNormal];
+    [_signUpButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateHighlighted];
 }
 
 - (void)didReceiveMemoryWarning

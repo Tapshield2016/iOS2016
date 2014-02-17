@@ -68,8 +68,10 @@
         for (int i = 0; i < recognizer.numberOfTouches; i++) {
             CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
 
-            CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:self.mapView];
+            CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
+
+            // Capture multiple routes in case of overlap
             NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
             for (id overlay in _mapView.overlays) {
                 if ([overlay isKindOfClass:[MKPolyline class]]) {
@@ -99,93 +101,26 @@
     }
 }
 
-- (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
-    if ([struckRoutes count] > 0) {
-        if ([struckRoutes count] == 1) {
-            _selectedRoute = struckRoutes[0];
-        }
-        else {
-            BOOL previouslySelectedRouteWasStruck = NO;
-            for (MKRoute *route in struckRoutes) {
-                if (_selectedRoute == route) {
-                    int selectedIndex = [struckRoutes indexOfObject:route];
-                    _selectedRoute = struckRoutes[(selectedIndex + 1) % struckRoutes.count];
-                    previouslySelectedRouteWasStruck = YES;
-                    break;
-                }
-            }
-            if (!previouslySelectedRouteWasStruck) {
-                _selectedRoute = struckRoutes[0];
-            }
-        }
-        NSLog(@"%@ selected", _selectedRoute.name);
-        [self refreshOverlays];
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
-    
+
     TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     if (appDelegate.currentLocation) {
         [_mapView setRegionAtAppearanceAnimated:NO];
         _mapView.initialLocation = appDelegate.currentLocation;
     }
-    
+
     // Display user location and selected destination if present
     if (_mapView.destinationAnnotation) {
-        [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
-        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-        [request setSource:[MKMapItem mapItemForCurrentLocation]];
-        [request setDestination:_mapView.destinationMapItem];
-        [request setTransportType:MKDirectionsTransportTypeAny]; // This can be limited to automobile and walking directions.
-        [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
-        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-            if (!error) {
-                [self removeRouteOverlays];
-                _routes = [response routes];
-                [self addRouteOverlaysToMapView];
-            }
-        }];
+        [self requestAndDisplayRoutesForSelectedDestination];
     }
-}
-
-- (void)removeRouteOverlays {
-    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
-    for (MKRoute *route in _routes) {
-        [overlays addObject:route.polyline];
-    }
-
-    [_mapView removeOverlays:overlays];
-}
-
-- (void)addRouteOverlaysToMapView {
-    for (MKRoute *route in _routes) {
-        if (route == _selectedRoute) {
-            continue; // skip selected route so we can add it last, on top of others
-        }
-        [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
-        // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
-        //NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
-        //NSLog(@"%.02f miles", route.distance * 0.000621371);
-    }
-
-    if (_selectedRoute) {
-        [_mapView addOverlay:[_selectedRoute polyline] level:MKOverlayLevelAboveRoads];
-    }
-}
-
-- (void)refreshOverlays {
-    [self removeRouteOverlays];
-    [self addRouteOverlaysToMapView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+
     [super viewDidAppear:animated];
-    
+
     [_locationManager startUpdatingLocation];
 }
 
@@ -208,6 +143,8 @@
     }
 }
 
+#pragma mark - Virtual Entourage methods
+
 - (IBAction)displayVirtualEntourage:(id)sender {
     UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"TSVirtualEntourageNavigationController"];
     ((TSVirtualEntourageViewController *)navController.viewControllers[0]).mapView = _mapView;
@@ -216,6 +153,107 @@
     }];
 }
 
+#pragma mark - Route management and display methods
+
+- (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
+    if ([struckRoutes count] > 0) {
+        // If only one route, just take that one
+        if ([struckRoutes count] == 1) {
+            _selectedRoute = struckRoutes[0];
+        }
+        else {
+            // If multiple overlapping routes, alternate if one is already selected
+            BOOL previouslySelectedRouteWasStruck = NO;
+            for (MKRoute *route in struckRoutes) {
+                if (_selectedRoute == route) {
+                    int selectedIndex = [struckRoutes indexOfObject:route];
+                    _selectedRoute = struckRoutes[(selectedIndex + 1) % struckRoutes.count];
+                    previouslySelectedRouteWasStruck = YES;
+                    break;
+                }
+            }
+            // Otherwise, just take the first one
+            if (!previouslySelectedRouteWasStruck) {
+                _selectedRoute = struckRoutes[0];
+            }
+        }
+        NSLog(@"%@ selected", _selectedRoute.name);
+        [self refreshOverlays];
+    }
+}
+
+- (void)requestAndDisplayRoutesForSelectedDestination {
+    [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_mapView.destinationMapItem];
+    [request setTransportType:MKDirectionsTransportTypeAny]; // This can be limited to automobile and walking directions.
+    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        if (!error) {
+            [self removeRouteOverlays];
+            _routes = [response routes];
+            [self addRouteOverlaysToMapView];
+        }
+    }];
+}
+
+- (void)removeRouteOverlays {
+    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
+    for (MKRoute *route in _routes) {
+        [overlays addObject:route.polyline];
+    }
+
+    [_mapView removeOverlays:overlays];
+}
+
+- (void)addRouteOverlaysToMapView {
+    for (MKRoute *route in _routes) {
+        if (route == _selectedRoute) {
+            // skip selected route so we can add it last, on top of others
+            // this handles when two routes overlap
+            continue;
+        }
+        [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
+        // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
+        //NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
+        //NSLog(@"%.02f miles", route.distance * 0.000621371);
+    }
+
+    if (_selectedRoute) {
+        // Add last to counter possible overlap preventing display
+        [_mapView addOverlay:[_selectedRoute polyline] level:MKOverlayLevelAboveRoads];
+    }
+}
+
+- (void)refreshOverlays {
+    [self removeRouteOverlays];
+    [self addRouteOverlaysToMapView];
+}
+
+- (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
+    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+    [renderer setLineWidth:4.0];
+    [renderer setStrokeColor:[UIColor lightGrayColor]];
+    
+    if (_selectedRoute) {
+        for (MKRoute *route in _routes) {
+            if (route == _selectedRoute) {
+                if (route.polyline == overlay) {
+                    NSLog(@"%@ highlighted", route.name);
+                    [renderer setStrokeColor:[UIColor blueColor]];
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        NSLog(@"No selected route right now");
+    }
+    
+    return renderer;
+}
 
 #pragma mark - CLLocationManagerDelegate methods
 
@@ -289,13 +327,11 @@
                 subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
             }
             
-            
             _mapView.userLocationAnnotation.title = title;
             _mapView.userLocationAnnotation.subtitle = subtitle;
         }
     }];
 }
-
 
 #pragma mark - MKMapViewDelegate methods
 
@@ -308,26 +344,7 @@
         return [TSMapView mapViewCircleOverlay:overlay];
     }
     else if ([overlay isKindOfClass:[MKPolyline class]]) {
-        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-        [renderer setLineWidth:4.0];
-        [renderer setStrokeColor:[UIColor lightGrayColor]];
-
-        if (_selectedRoute) {
-            for (MKRoute *route in _routes) {
-                if (route == _selectedRoute) {
-                    if (route.polyline == overlay) {
-                        NSLog(@"%@ highlighted", route.name);
-                        [renderer setStrokeColor:[UIColor blueColor]];
-                        break;
-                    }
-                }
-            }
-        }
-        else {
-            NSLog(@"No selected route right now");
-        }
-
-        return renderer;
+        return [self rendererForRoutePolyline:overlay];
     }
     
     return nil;

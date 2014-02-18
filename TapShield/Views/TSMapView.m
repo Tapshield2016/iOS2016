@@ -53,6 +53,10 @@
     [self addAnnotation:_destinationAnnotation];
 }
 
+- (void)centerMapOnSelectedDestination {
+    [self showAnnotations:@[_destinationAnnotation] animated:NO];
+}
+
 #pragma mark - Region
 
 - (void)setInitialLocation:(CLLocation *)initialLocation {

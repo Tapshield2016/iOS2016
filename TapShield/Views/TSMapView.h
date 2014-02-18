@@ -36,6 +36,7 @@
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)adjustAnnotationAlphaForPan;
 - (void)userSelectedDestination:(MKMapItem *)mapItem;
+- (void)centerMapOnSelectedDestination;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

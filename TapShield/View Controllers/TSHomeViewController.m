@@ -75,7 +75,8 @@
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
-        [self requestAndDisplayRoutesForSelectedDestination];
+        _showUserLocationButton.selected = NO;
+        [_mapView centerMapOnSelectedDestination];
     }
 }
 
@@ -278,8 +279,6 @@
     TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     CLLocation *lastReportedLocation = [locations lastObject];
     appDelegate.currentLocation = lastReportedLocation;
-    
-    NSLog(@"%f", lastReportedLocation.horizontalAccuracy);
     
     _mapView.currentLocation = lastReportedLocation;
     

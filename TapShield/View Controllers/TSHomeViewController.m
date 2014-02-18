@@ -77,7 +77,8 @@
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
-        _showUserLocationButton.selected = NO; // Need to find a better way of doing this
+#warning Need to find a better way of turning on/off keeping the user in the center
+        _showUserLocationButton.selected = NO;
         [_mapView centerMapOnSelectedDestination];
         [_mapView selectDestinationAnnotation];
     }
@@ -201,12 +202,37 @@
     }
 }
 
+- (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion {
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_mapView.destinationMapItem];
+    [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+    [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+        if (!error) {
+            NSLog(@"%@", response);
+            completion(response.expectedTravelTime);
+        }
+        else {
+            NSLog(@"%@", error);
+            // May have gotten an error due to attempting walking directions over too far
+            // a distance, retry with 'Any'.
+            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _mapView.destinationTransportType == MKDirectionsTransportTypeWalking) {
+                NSLog(@"Error with walking directions, trying again with 'Any'");
+                _mapView.destinationTransportType = MKDirectionsTransportTypeAny;
+                [self calculateETAForSelectedDestination:completion];
+            }
+        }
+    }];
+}
+
 - (void)requestAndDisplayRoutesForSelectedDestination {
     [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
     [request setDestination:_mapView.destinationMapItem];
-    [request setTransportType:MKDirectionsTransportTypeAny]; // This can be limited to automobile and walking directions.
+    [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
     [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
     [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
@@ -412,18 +438,12 @@
         }
         annotationView.annotation = annotation;
         annotationView.image = [UIImage imageNamed:@"logo"];
+        ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = @"";
         [annotationView setCanShowCallout:YES];
 
-        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-        [request setSource:[MKMapItem mapItemForCurrentLocation]];
-        [request setDestination:_mapView.destinationMapItem];
-        [request setTransportType:MKDirectionsTransportTypeAny]; // This can be limited to automobile and walking directions.
-        [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
-        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-        [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
-            if (!error) {
-                NSLog(@"%@", response);
-                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:response.expectedTravelTime];
+        [self calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
+            if (expectedTravelTime) {
+                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:expectedTravelTime];
             }
         }];
 

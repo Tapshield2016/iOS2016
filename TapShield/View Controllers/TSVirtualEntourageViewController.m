@@ -13,6 +13,7 @@
 @interface TSVirtualEntourageViewController ()
 
 @property (nonatomic, strong) NSArray *searchResults;
+@property (nonatomic, assign) MKDirectionsTransportType directionsTransportType;
 
 @end
 
@@ -30,7 +31,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
+    // Default to driving AND walking directions
+    _directionsTransportType = MKDirectionsTransportTypeAny;
+    [_directionsTypeSegmentedControl addTarget:self
+                                        action:@selector(transportTypeSegmentedControlValueChanged:)
+                              forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,6 +47,28 @@
 
 - (IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UISegmentedControl event handlers
+
+- (void)transportTypeSegmentedControlValueChanged:(id)sender {
+    switch ([_directionsTypeSegmentedControl selectedSegmentIndex]) {
+        case 0:
+            _directionsTransportType = MKDirectionsTransportTypeAny;
+            break;
+
+        case 1:
+            _directionsTransportType = MKDirectionsTransportTypeAutomobile;
+            break;
+
+        case 2:
+            _directionsTransportType = MKDirectionsTransportTypeWalking;
+            break;
+
+        default:
+            _directionsTransportType = MKDirectionsTransportTypeAny;
+            break;
+    }
 }
 
 #pragma mark - MKLocalSearch methods
@@ -83,7 +111,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
-    [_mapView userSelectedDestination:mapItem];
+    [_mapView userSelectedDestination:mapItem forTransportType:_directionsTransportType];
     [self dismiss:nil];
 }
 
@@ -119,11 +147,12 @@
 
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder geocodeAddressDictionary:addressDict completionHandler:^(NSArray *placemarks, NSError *error) {
+#warning Need to handle error here
         if ([placemarks count] > 0) {
             MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:placemarks[0]];
             MKMapItem *contactMapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
             contactMapItem.name = placeName;
-            [_mapView userSelectedDestination:contactMapItem];
+            [_mapView userSelectedDestination:contactMapItem forTransportType:_directionsTransportType];
         }
         [self dismissViewControllerAnimated:NO completion:^{
             [self dismiss:nil];

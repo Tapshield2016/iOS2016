@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) TSMapView *mapView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *directionsTypeSegmentedControl;
 
 - (IBAction)dismiss:(id)sender;
 

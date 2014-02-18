@@ -24,8 +24,10 @@
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 
 // Virtual Entourage selected destination
+// Probably need to find another place to stuff these things, feels a little sloppy
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
 @property (nonatomic, strong) TSSelectedDestinationAnnotation *destinationAnnotation;
+@property (nonatomic, assign) MKDirectionsTransportType destinationTransportType;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;
@@ -36,7 +38,7 @@
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)adjustAnnotationAlphaForPan;
-- (void)userSelectedDestination:(MKMapItem *)mapItem;
+- (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType;
 - (void)centerMapOnSelectedDestination;
 - (void)selectDestinationAnnotation;
 

@@ -43,8 +43,9 @@
 
 #pragma mark - Destination methods
 
-- (void)userSelectedDestination:(MKMapItem *)mapItem {
+- (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType {
     _destinationMapItem = mapItem;
+    _destinationTransportType = transportType;
     if (_destinationAnnotation) {
         [self removeAnnotation:_destinationAnnotation];
     }

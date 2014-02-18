@@ -416,7 +416,8 @@
                             <constraint firstItem="MMA-RX-ciz" firstAttribute="trailing" secondItem="R8m-ie-HlH" secondAttribute="trailing" id="zsz-Zv-oMm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Directions" id="4Uw-Ce-DMj">
+                    <navigationItem key="navigationItem" id="4Uw-Ce-DMj">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" style="plain" id="Nqj-m2-DoR">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D4e-L9-dub">
                                 <rect key="frame" x="16" y="5" width="71" height="33"/>
@@ -430,8 +431,18 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="6rD-7p-BY4">
+                            <rect key="frame" x="93" y="7" width="134" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Any"/>
+                                <segment title="Car"/>
+                                <segment title="Walk"/>
+                            </segments>
+                        </segmentedControl>
                     </navigationItem>
                     <connections>
+                        <outlet property="directionsTypeSegmentedControl" destination="6rD-7p-BY4" id="FOb-9e-Ncp"/>
                         <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
                     </connections>
                 </viewController>

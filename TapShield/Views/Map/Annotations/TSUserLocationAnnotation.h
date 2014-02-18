@@ -7,14 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
+#import "TSBaseMapAnnotation.h"
 
-@interface TSUserLocationAnnotation : NSObject <MKAnnotation>
-
-@property (nonatomic) CLLocationCoordinate2D coordinate;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *subtitle;
-
-- (id)initWithCoordinates:(CLLocationCoordinate2D)location placeName:(NSString *)placeName description:(NSString *)description;
+@interface TSUserLocationAnnotation : TSBaseMapAnnotation
 
 @end

@@ -148,8 +148,8 @@
 		B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMenuViewController.m; path = "View Controllers/TSMenuViewController.m"; sourceTree = "<group>"; };
 		B53BBD2E1898195F006A27E0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B53BBD3018983408006A27E0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCustomMapAnnotationUserLocation.h; path = Views/TSCustomMapAnnotationUserLocation.h; sourceTree = "<group>"; };
-		B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCustomMapAnnotationUserLocation.m; path = Views/TSCustomMapAnnotationUserLocation.m; sourceTree = "<group>"; };
+		B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCustomMapAnnotationUserLocation.h; sourceTree = "<group>"; };
+		B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCustomMapAnnotationUserLocation.m; sourceTree = "<group>"; };
 		B543F07E18AAB3E9004C2B26 /* TSAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAboutViewController.h; path = "View Controllers/TSAboutViewController.h"; sourceTree = "<group>"; };
 		B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAboutViewController.m; path = "View Controllers/TSAboutViewController.m"; sourceTree = "<group>"; };
 		B543F08218AAB3FA004C2B26 /* TSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSettingsViewController.h; path = "View Controllers/TSSettingsViewController.h"; sourceTree = "<group>"; };
@@ -206,21 +206,21 @@
 		C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocationGeofenceTestView.m; sourceTree = "<group>"; };
 		C520C91618A98E4400D1D2E9 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		C520C91D18A98EC600D1D2E9 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapView.h; path = Views/TSMapView.h; sourceTree = "<group>"; };
-		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapView.m; path = Views/TSMapView.m; sourceTree = "<group>"; };
-		C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAgencyAnnotation.h; path = Views/TSAgencyAnnotation.h; sourceTree = "<group>"; };
-		C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAgencyAnnotation.m; path = Views/TSAgencyAnnotation.m; sourceTree = "<group>"; };
+		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMapView.h; sourceTree = "<group>"; };
+		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMapView.m; sourceTree = "<group>"; };
+		C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAgencyAnnotation.h; sourceTree = "<group>"; };
+		C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAgencyAnnotation.m; sourceTree = "<group>"; };
 		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
 		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
-		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/TSMapOverlayCircle.h; sourceTree = "<group>"; };
-		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/TSMapOverlayCircle.m; sourceTree = "<group>"; };
+		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMapOverlayCircle.h; sourceTree = "<group>"; };
+		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706218AAF47E00EEFBD6 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = Images/circle.png; sourceTree = "<group>"; };
 		C5C1706518ABDD0B00EEFBD6 /* TSColorPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSColorPalette.h; sourceTree = "<group>"; };
 		C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSColorPalette.m; sourceTree = "<group>"; };
 		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
 		C5C1706A18ABEFFC00EEFBD6 /* location2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location2.png; path = Images/location2.png; sourceTree = "<group>"; };
-		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
-		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Views/Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
+		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
+		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,17 +369,34 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C5C1706F18AC085100EEFBD6 /* Buttons */,
+				B5F2DCD418B3ADA8009A7CA4 /* Map */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		B5F2DCD318B3ADA2009A7CA4 /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
 				B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */,
 				B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */,
+				C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */,
+				C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */,
+			);
+			path = Annotations;
+			sourceTree = "<group>";
+		};
+		B5F2DCD418B3ADA8009A7CA4 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				B5F2DCD318B3ADA2009A7CA4 /* Annotations */,
+				C5C1706F18AC085100EEFBD6 /* Buttons */,
 				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
 				C520C92218AA8C0F00D1D2E9 /* TSMapView.m */,
 				C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */,
 				C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */,
-				C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */,
-				C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */,
 			);
-			name = Views;
+			name = Map;
+			path = Views/Map;
 			sourceTree = "<group>";
 		};
 		C520C8BC18A974C000D1D2E9 /* API Client */ = {

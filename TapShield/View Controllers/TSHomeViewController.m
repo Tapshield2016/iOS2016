@@ -75,7 +75,7 @@
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
-        _showUserLocationButton.selected = NO;
+        _showUserLocationButton.selected = NO; // Need to find a better way of doing this
         [_mapView centerMapOnSelectedDestination];
     }
 }

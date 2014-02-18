@@ -52,7 +52,7 @@
                                                                                 placeName:_destinationMapItem.name
                                                                               description:_destinationMapItem.placemark.addressDictionary[@"street"]];
     _destinationAnnotation.title = _destinationMapItem.name;
-    if (!_destinationAnnotation.title) {
+    if (!_destinationAnnotation.title || [_destinationAnnotation.title isEqualToString:@""]) {
         _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
     }
     else {

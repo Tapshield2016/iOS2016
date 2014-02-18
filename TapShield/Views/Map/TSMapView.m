@@ -49,8 +49,15 @@
     
     // We'll want to swap for another annotation...
     _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
-                                                                                placeName:[NSString stringWithFormat:@"%f, %f", _destinationMapItem.placemark.location.coordinate.latitude, _destinationMapItem.placemark.location.coordinate.longitude]
-                                                                              description:nil];
+                                                                                placeName:_destinationMapItem.name
+                                                                              description:_destinationMapItem.placemark.addressDictionary[@"street"]];
+    _destinationAnnotation.title = _destinationMapItem.name;
+    if (!_destinationAnnotation.title) {
+        _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
+    }
+    else {
+        _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[@"Street"];
+    }
     [self addAnnotation:_destinationAnnotation];
 }
 

@@ -375,17 +375,16 @@
         }
         annotationView.image = [UIImage imageNamed:@"logo"];
         [annotationView setCanShowCallout:YES];
-        
+
         return annotationView;
     }
-    
-    if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
-        
+    else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
+
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
         }
-        
+
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/5)];
         label.text = ((TSAgencyAnnotation *)annotation).title;
         label.font = [UIFont boldSystemFontOfSize:20];
@@ -398,6 +397,17 @@
         annotationView.frame = label.frame;
         annotationView.alpha = 0.0f;
         
+        return annotationView;
+    }
+    else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"TSSelectedDestinationAnnotation"];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"TSSelectedDestinationAnnotation"];
+        }
+        annotationView.annotation = annotation;
+        annotationView.image = [UIImage imageNamed:@"logo"];
+        [annotationView setCanShowCallout:YES];
+
         return annotationView;
     }
     

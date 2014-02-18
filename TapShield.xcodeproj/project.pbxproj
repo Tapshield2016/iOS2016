@@ -44,6 +44,8 @@
 		B583B9BD18AEB03600C5B8DA /* TSVirtualEntourageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B583B9BB18AEB03600C5B8DA /* TSVirtualEntourageViewController.m */; };
 		B5F2DCD718B3B018009A7CA4 /* TSBaseMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCD618B3B018009A7CA4 /* TSBaseMapAnnotation.m */; };
 		B5F2DCD818B3B018009A7CA4 /* TSBaseMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCD618B3B018009A7CA4 /* TSBaseMapAnnotation.m */; };
+		B5F2DCDB18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */; };
+		B5F2DCDC18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */; };
 		C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C118A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.m */; };
@@ -168,6 +170,8 @@
 		B583B9BB18AEB03600C5B8DA /* TSVirtualEntourageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSVirtualEntourageViewController.m; path = "View Controllers/TSVirtualEntourageViewController.m"; sourceTree = "<group>"; };
 		B5F2DCD518B3B018009A7CA4 /* TSBaseMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBaseMapAnnotation.h; sourceTree = "<group>"; };
 		B5F2DCD618B3B018009A7CA4 /* TSBaseMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBaseMapAnnotation.m; sourceTree = "<group>"; };
+		B5F2DCD918B3B130009A7CA4 /* TSSelectedDestinationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSelectedDestinationAnnotation.h; sourceTree = "<group>"; };
+		B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSelectedDestinationAnnotation.m; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
 		C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIAuthenticationManager.m; sourceTree = "<group>"; };
 		C520C8C018A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationResult.h; sourceTree = "<group>"; };
@@ -387,6 +391,8 @@
 				C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */,
 				B5F2DCD518B3B018009A7CA4 /* TSBaseMapAnnotation.h */,
 				B5F2DCD618B3B018009A7CA4 /* TSBaseMapAnnotation.m */,
+				B5F2DCD918B3B130009A7CA4 /* TSSelectedDestinationAnnotation.h */,
+				B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */,
 			);
 			path = Annotations;
 			sourceTree = "<group>";
@@ -721,6 +727,7 @@
 				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
+				B5F2DCDB18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				B53BBD0718980FDA006A27E0 /* TSViewController.m in Sources */,
@@ -767,6 +774,7 @@
 				C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
 				C5C1706818ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
+				B5F2DCDC18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */,
 				B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

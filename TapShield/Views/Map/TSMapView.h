@@ -11,6 +11,7 @@
 #import "TSUserLocationAnnotation.h"
 #import "TSAgencyAnnotation.h"
 #import "TSMapOverlayCircle.h"
+#import "TSSelectedDestinationAnnotation.h"
 
 @interface TSMapView : MKMapView
 
@@ -24,7 +25,7 @@
 
 // Virtual Entourage selected destination
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
-@property (nonatomic, strong) TSUserLocationAnnotation *destinationAnnotation;
+@property (nonatomic, strong) TSSelectedDestinationAnnotation *destinationAnnotation;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;

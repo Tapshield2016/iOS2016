@@ -8,6 +8,7 @@
 
 #import "TSMapView.h"
 #import "TSUserLocationAnnotation.h"
+#import "TSSelectedDestinationAnnotation.h"
 
 @interface TSMapView ()
 
@@ -47,9 +48,9 @@
     }
     
     // We'll want to swap for another annotation...
-    _destinationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
-                                                                                  placeName:[NSString stringWithFormat:@"%f, %f", _destinationMapItem.placemark.location.coordinate.latitude, _destinationMapItem.placemark.location.coordinate.longitude]
-                                                                                description:nil];
+    _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
+                                                                                placeName:[NSString stringWithFormat:@"%f, %f", _destinationMapItem.placemark.location.coordinate.latitude, _destinationMapItem.placemark.location.coordinate.longitude]
+                                                                              description:nil];
     [self addAnnotation:_destinationAnnotation];
 }
 

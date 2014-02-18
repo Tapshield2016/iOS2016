@@ -46,6 +46,10 @@
 		B5F2DCD818B3B018009A7CA4 /* TSBaseMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCD618B3B018009A7CA4 /* TSBaseMapAnnotation.m */; };
 		B5F2DCDB18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */; };
 		B5F2DCDC18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */; };
+		B5F2DCE018B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCDF18B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m */; };
+		B5F2DCE118B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCDF18B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m */; };
+		B5F2DCE318B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F2DCE218B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib */; };
+		B5F2DCE418B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F2DCE218B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib */; };
 		C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C118A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.m */; };
@@ -172,6 +176,9 @@
 		B5F2DCD618B3B018009A7CA4 /* TSBaseMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBaseMapAnnotation.m; sourceTree = "<group>"; };
 		B5F2DCD918B3B130009A7CA4 /* TSSelectedDestinationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSelectedDestinationAnnotation.h; sourceTree = "<group>"; };
 		B5F2DCDA18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSelectedDestinationAnnotation.m; sourceTree = "<group>"; };
+		B5F2DCDE18B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSelectedDestinationLeftCalloutAccessoryView.h; path = Accessories/TSSelectedDestinationLeftCalloutAccessoryView.h; sourceTree = "<group>"; };
+		B5F2DCDF18B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSelectedDestinationLeftCalloutAccessoryView.m; path = Accessories/TSSelectedDestinationLeftCalloutAccessoryView.m; sourceTree = "<group>"; };
+		B5F2DCE218B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TSSelectedDestinationLeftCalloutAccessoryView.xib; path = Accessories/TSSelectedDestinationLeftCalloutAccessoryView.xib; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
 		C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIAuthenticationManager.m; sourceTree = "<group>"; };
 		C520C8C018A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationResult.h; sourceTree = "<group>"; };
@@ -385,6 +392,7 @@
 		B5F2DCD318B3ADA2009A7CA4 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
+				B5F2DCDD18B3C99D009A7CA4 /* Accessories */,
 				B53BBD3218983648006A27E0 /* TSUserLocationAnnotation.h */,
 				B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */,
 				C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */,
@@ -409,6 +417,16 @@
 			);
 			name = Map;
 			path = Views/Map;
+			sourceTree = "<group>";
+		};
+		B5F2DCDD18B3C99D009A7CA4 /* Accessories */ = {
+			isa = PBXGroup;
+			children = (
+				B5F2DCDE18B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.h */,
+				B5F2DCDF18B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m */,
+				B5F2DCE218B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib */,
+			);
+			name = Accessories;
 			sourceTree = "<group>";
 		};
 		C520C8BC18A974C000D1D2E9 /* API Client */ = {
@@ -631,6 +649,7 @@
 			files = (
 				C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */,
+				B5F2DCE318B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
 				C5C1706318AAF47E00EEFBD6 /* circle.png in Resources */,
 				B53BBCFB18980FDA006A27E0 /* InfoPlist.strings in Resources */,
@@ -648,6 +667,7 @@
 				B53BBD1A18980FDA006A27E0 /* InfoPlist.strings in Resources */,
 				C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */,
 				C5C1706418AAF47E00EEFBD6 /* circle.png in Resources */,
+				B5F2DCE418B3C9F7009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
 				C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -726,6 +746,7 @@
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
+				B5F2DCE018B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				B5F2DCDB18B3B130009A7CA4 /* TSSelectedDestinationAnnotation.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
@@ -753,6 +774,7 @@
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
+				B5F2DCE118B3C9CF009A7CA4 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,

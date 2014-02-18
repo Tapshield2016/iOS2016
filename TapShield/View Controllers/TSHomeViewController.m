@@ -9,6 +9,7 @@
 #import "TSHomeViewController.h"
 #import "TSVirtualEntourageViewController.h"
 #include <MapKit/MapKit.h>
+#import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 
 @interface TSHomeViewController ()
 
@@ -403,15 +404,45 @@
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"TSSelectedDestinationAnnotation"];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"TSSelectedDestinationAnnotation"];
+            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TSSelectedDestinationLeftCalloutAccessoryView" owner:self options:nil];
+            TSSelectedDestinationLeftCalloutAccessoryView *leftCalloutAccessoryView = views[0];
+            annotationView.leftCalloutAccessoryView = leftCalloutAccessoryView;
         }
         annotationView.annotation = annotation;
         annotationView.image = [UIImage imageNamed:@"logo"];
         [annotationView setCanShowCallout:YES];
 
+        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+        [request setSource:[MKMapItem mapItemForCurrentLocation]];
+        [request setDestination:_mapView.destinationMapItem];
+        [request setTransportType:MKDirectionsTransportTypeAny]; // This can be limited to automobile and walking directions.
+        [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+        [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+            if (!error) {
+                NSLog(@"%@", response);
+                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [self formattedStringForDuration:response.expectedTravelTime];
+            }
+        }];
+
         return annotationView;
     }
     
     return nil;
+}
+
+- (NSString*)formattedStringForDuration:(NSTimeInterval)duration {
+    long durationInSeconds = lroundf(duration);
+    NSInteger hours = durationInSeconds / 3600;
+    NSInteger minutes = (durationInSeconds % 3600) / 60;
+    NSInteger seconds = durationInSeconds % 60;
+
+    if (hours > 0) {
+        return [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
+    }
+    else {
+        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {

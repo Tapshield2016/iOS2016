@@ -410,6 +410,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2d7-Z1-SHM">
                                 <rect key="frame" x="0.0" y="498" width="160" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <state key="normal" title="Log In">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -422,6 +423,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAg-lf-QNu">
                                 <rect key="frame" x="160" y="498" width="160" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.070588238540000001" green="0.4784313738" blue="0.74117648599999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <state key="normal" title="Sign Up">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -638,9 +640,9 @@
                                         <rect key="frame" x="10" y="0.0" width="210" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet"/>
                                         <connections>
-                                            <outlet property="delegate" destination="ax0-oI-OdA" id="a4p-RV-pkQ"/>
+                                            <outlet property="delegate" destination="jUA-Jf-8RT" id="aNf-xh-bpB"/>
                                         </connections>
                                     </textField>
                                 </subviews>
@@ -660,9 +662,9 @@
                                         <rect key="frame" x="10" y="0.0" width="210" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet"/>
                                         <connections>
-                                            <outlet property="delegate" destination="ax0-oI-OdA" id="RU0-Y1-8Hx"/>
+                                            <outlet property="delegate" destination="jUA-Jf-8RT" id="Yyh-aE-AEX"/>
                                         </connections>
                                     </textField>
                                 </subviews>
@@ -684,7 +686,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                         <connections>
-                                            <outlet property="delegate" destination="ax0-oI-OdA" id="sbZ-ZS-k4D"/>
+                                            <outlet property="delegate" destination="jUA-Jf-8RT" id="MUJ-9s-wUB"/>
                                         </connections>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="EmailEnvelope.png" translatesAutoresizingMaskIntoConstraints="NO" id="hbc-KI-LVY">
@@ -710,7 +712,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet" secureTextEntry="YES"/>
                                         <connections>
-                                            <outlet property="delegate" destination="ax0-oI-OdA" id="aeg-l4-sY6"/>
+                                            <outlet property="delegate" destination="jUA-Jf-8RT" id="e3B-c9-PfP"/>
                                         </connections>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LockIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="dky-fD-SOs">
@@ -734,9 +736,9 @@
                                         <rect key="frame" x="58" y="0.0" width="262" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
                                         <connections>
-                                            <outlet property="delegate" destination="ax0-oI-OdA" id="ehE-Ga-79Q"/>
+                                            <outlet property="delegate" destination="jUA-Jf-8RT" id="GVT-7o-uLX"/>
                                         </connections>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PhoneIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="yJt-7U-lHM">
@@ -760,9 +762,9 @@
                                         <rect key="frame" x="58" y="0.0" width="262" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
                                         <connections>
-                                            <outlet property="delegate" destination="ax0-oI-OdA" id="pRd-b8-9Pe"/>
+                                            <outlet property="delegate" destination="jUA-Jf-8RT" id="vpY-Ul-fBc"/>
                                         </connections>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DisarmIcon_KeyPad.png" translatesAutoresizingMaskIntoConstraints="NO" id="zLD-Pe-3xW">
@@ -874,7 +876,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="Register" id="zjp-H0-eVn"/>
                     <connections>
+                        <outlet property="addOrganizationButton" destination="31m-Nx-w56" id="FWI-UL-wVk"/>
                         <outlet property="checkAgreeButton" destination="qdb-6N-zSq" id="0eG-xF-FwS"/>
+                        <outlet property="disarmCodeTextField" destination="kA0-es-teJ" id="vfi-de-SRi"/>
+                        <outlet property="emailTextField" destination="G9k-a4-vBv" id="bCO-Fs-w46"/>
+                        <outlet property="firstNameTextField" destination="I5m-Dw-3vh" id="AKM-gm-8xS"/>
+                        <outlet property="lastNameTextField" destination="jPT-hv-6St" id="WHo-1T-aqQ"/>
+                        <outlet property="passwordTextField" destination="l1C-g0-cem" id="kyP-xD-AxD"/>
+                        <outlet property="phoneNumberTextField" destination="pDq-t5-hkv" id="AM0-vI-aP6"/>
+                        <outlet property="registerButton" destination="OKR-50-Ply" id="Jew-XT-DvJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wrD-Ks-vQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1700,6 +1710,7 @@ Last Updated: 12/12/13
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dwn-Cy-8RN">
                                 <rect key="frame" x="0.0" y="498" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <state key="normal" title="Return">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

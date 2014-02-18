@@ -8,9 +8,19 @@
 
 #import "TSBaseViewController.h"
 
-@interface TSRegisterViewController : TSBaseViewController
+@interface TSRegisterViewController : TSBaseViewController <UITextFieldDelegate>
 
 @property (nonatomic ,strong) NSString *emailAddress;
+
+@property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
+@property (weak, nonatomic) IBOutlet UITextField *disarmCodeTextField;
+
+@property (weak, nonatomic) IBOutlet UIButton *addOrganizationButton;
 @property (weak, nonatomic) IBOutlet UIButton *checkAgreeButton;
+@property (weak, nonatomic) IBOutlet UIButton *registerButton;
 
 @end

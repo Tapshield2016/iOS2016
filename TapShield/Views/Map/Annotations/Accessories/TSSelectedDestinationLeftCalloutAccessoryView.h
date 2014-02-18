@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSSelectedDestinationLeftCalloutAccessoryView : UIView
+@interface TSSelectedDestinationLeftCalloutAccessoryView : UIButton
 
 @property (nonatomic, strong) IBOutlet UILabel *etaLabel;
 @property (nonatomic, strong) IBOutlet UILabel *minutes;

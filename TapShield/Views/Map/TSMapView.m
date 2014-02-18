@@ -65,6 +65,10 @@
     [self showAnnotations:@[_destinationAnnotation] animated:NO];
 }
 
+- (void)selectDestinationAnnotation {
+    [self selectAnnotation:_destinationAnnotation animated:YES];
+}
+
 #pragma mark - Region
 
 - (void)setInitialLocation:(CLLocation *)initialLocation {

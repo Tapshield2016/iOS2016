@@ -78,6 +78,7 @@
     if (_mapView.destinationMapItem) {
         _showUserLocationButton.selected = NO; // Need to find a better way of doing this
         [_mapView centerMapOnSelectedDestination];
+        [_mapView selectDestinationAnnotation];
     }
 }
 
@@ -472,6 +473,11 @@
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
     _mapView.shouldUpdateCallOut = NO;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    [self requestAndDisplayRoutesForSelectedDestination];
 }
 
 

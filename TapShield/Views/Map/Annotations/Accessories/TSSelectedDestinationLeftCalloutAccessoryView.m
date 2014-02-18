@@ -19,6 +19,26 @@
     return self;
 }
 
+- (void)awakeFromNib {
+
+    _etaLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 3, 41, 20)];
+    _etaLabel.font = [UIFont systemFontOfSize:18.0];
+    _etaLabel.textAlignment = NSTextAlignmentCenter;
+    _etaLabel.backgroundColor = [UIColor clearColor];
+    _etaLabel.textColor = [UIColor whiteColor];
+    _etaLabel.text = @"ETA";
+    [self addSubview:_etaLabel];
+
+    _minutes = [[UILabel alloc] initWithFrame:CGRectMake(2, 20, 41, 20)];
+    _minutes.font = [UIFont systemFontOfSize:17.0];
+    _minutes.textAlignment = NSTextAlignmentCenter;
+    _minutes.backgroundColor = [UIColor clearColor];
+    _minutes.textColor = [UIColor whiteColor];
+    _minutes.adjustsFontSizeToFitWidth = YES;
+    _minutes.text = @"";
+    [self addSubview:_minutes];
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

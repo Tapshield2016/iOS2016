@@ -38,6 +38,7 @@
 - (void)adjustAnnotationAlphaForPan;
 - (void)userSelectedDestination:(MKMapItem *)mapItem;
 - (void)centerMapOnSelectedDestination;
+- (void)selectDestinationAnnotation;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

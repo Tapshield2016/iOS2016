@@ -11,5 +11,6 @@
 @interface TSRegisterViewController : TSBaseViewController
 
 @property (nonatomic ,strong) NSString *emailAddress;
+@property (weak, nonatomic) IBOutlet UIButton *checkAgreeButton;
 
 @end

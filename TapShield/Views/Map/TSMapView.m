@@ -52,7 +52,7 @@
     
     _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
                                                                                 placeName:_destinationMapItem.name
-                                                                              description:_destinationMapItem.placemark.addressDictionary[@"street"]];
+                                                                              description:_destinationMapItem.placemark.addressDictionary[@"Street"]];
     _destinationAnnotation.title = _destinationMapItem.name;
 
     // Ensure we have a title so callout will always come up

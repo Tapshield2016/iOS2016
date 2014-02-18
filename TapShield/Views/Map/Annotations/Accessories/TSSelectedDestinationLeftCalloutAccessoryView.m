@@ -21,8 +21,8 @@
 
 - (void)awakeFromNib {
 
-    _etaLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 3, 41, 20)];
-    _etaLabel.font = [UIFont systemFontOfSize:18.0];
+    _etaLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 5, 41, 20)];
+    _etaLabel.font = [UIFont systemFontOfSize:16.0];
     _etaLabel.textAlignment = NSTextAlignmentCenter;
     _etaLabel.backgroundColor = [UIColor clearColor];
     _etaLabel.textColor = [UIColor whiteColor];
@@ -30,7 +30,7 @@
     [self addSubview:_etaLabel];
 
     _minutes = [[UILabel alloc] initWithFrame:CGRectMake(2, 20, 41, 20)];
-    _minutes.font = [UIFont systemFontOfSize:17.0];
+    _minutes.font = [UIFont systemFontOfSize:14.0];
     _minutes.textAlignment = NSTextAlignmentCenter;
     _minutes.backgroundColor = [UIColor clearColor];
     _minutes.textColor = [UIColor whiteColor];

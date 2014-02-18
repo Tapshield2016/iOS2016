@@ -10,6 +10,7 @@
 #import "TSVirtualEntourageViewController.h"
 #include <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
+#import "TSUtilities.h"
 
 @interface TSHomeViewController ()
 
@@ -422,7 +423,7 @@
         [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
             if (!error) {
                 NSLog(@"%@", response);
-                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [self formattedStringForDuration:response.expectedTravelTime];
+                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:response.expectedTravelTime];
             }
         }];
 
@@ -430,20 +431,6 @@
     }
     
     return nil;
-}
-
-- (NSString*)formattedStringForDuration:(NSTimeInterval)duration {
-    long durationInSeconds = lroundf(duration);
-    NSInteger hours = durationInSeconds / 3600;
-    NSInteger minutes = (durationInSeconds % 3600) / 60;
-    NSInteger seconds = durationInSeconds % 60;
-
-    if (hours > 0) {
-        return [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
-    }
-    else {
-        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {

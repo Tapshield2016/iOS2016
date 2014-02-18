@@ -11,6 +11,7 @@
 #import "TSJavelinAPIClient.h"
 #import "TSColorPalette.h"
 #import "UIImage+Color.h"
+#import "UIView+FirstResponder.h"
 
 @interface TSBaseViewController : UIViewController
 

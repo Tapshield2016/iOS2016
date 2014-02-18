@@ -37,8 +37,7 @@
                                                object:nil];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tap];
-    
+    [_scrollView addGestureRecognizer:tap];
     
 	// Do any additional setup after loading the view.
     _checkAgreeButton.layer.shadowColor = [UIColor grayColor].CGColor;
@@ -62,14 +61,18 @@
     _checkAgreeButton.selected = !_checkAgreeButton.selected;
 }
 
+- (IBAction)registerUser:(id)sender {
+}
+
 #pragma mark - Keyboard
 
 - (void)dismissKeyboard {
-    [_emailTextField resignFirstResponder];
+    [[self.view findFirstResponder] resignFirstResponder];
 }
 
 
 - (void)keyboardWillShow:(NSNotification *)notification {
+    
     // get keyboard size and loctaion
     CGRect keyboardBounds;
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
@@ -88,9 +91,11 @@
     [UIView setAnimationCurve:[curve intValue]];
     
     // set views with new info
-    
+    _scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height + keyboardBounds.size.height);
     // commit animations
     [UIView commitAnimations];
+    
+    _scrollView.scrollEnabled = YES;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -112,6 +117,7 @@
     [UIView setAnimationCurve:[curve intValue]];
     
     // set views with new info
+    _scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     // commit animations
     [UIView commitAnimations];
 }

@@ -169,6 +169,8 @@
 		C5FD5E9A18B3143100E27EE9 /* LockIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9318B3143100E27EE9 /* LockIcon@2x.png */; };
 		C5FD5E9B18B3143100E27EE9 /* PhoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9418B3143100E27EE9 /* PhoneIcon.png */; };
 		C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9418B3143100E27EE9 /* PhoneIcon.png */; };
+		C5FD5E9F18B3285600E27EE9 /* UIView+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5E9E18B3285600E27EE9 /* UIView+FirstResponder.m */; };
+		C5FD5EA018B3285600E27EE9 /* UIView+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5E9E18B3285600E27EE9 /* UIView+FirstResponder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -318,6 +320,8 @@
 		C5FD5E9218B3143100E27EE9 /* PhoneIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PhoneIcon@2x.png"; path = "Images/PhoneIcon@2x.png"; sourceTree = "<group>"; };
 		C5FD5E9318B3143100E27EE9 /* LockIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LockIcon@2x.png"; path = "Images/LockIcon@2x.png"; sourceTree = "<group>"; };
 		C5FD5E9418B3143100E27EE9 /* PhoneIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PhoneIcon.png; path = Images/PhoneIcon.png; sourceTree = "<group>"; };
+		C5FD5E9D18B3285600E27EE9 /* UIView+FirstResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+FirstResponder.h"; path = "Utilities/UIView+FirstResponder.h"; sourceTree = "<group>"; };
+		C5FD5E9E18B3285600E27EE9 /* UIView+FirstResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+FirstResponder.m"; path = "Utilities/UIView+FirstResponder.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,6 +592,8 @@
 				C5372D9A18AEA93900D22682 /* TSConstants.m */,
 				C5372DA618AEE14000D22682 /* UIImage+Color.h */,
 				C5372DA718AEE14000D22682 /* UIImage+Color.m */,
+				C5FD5E9D18B3285600E27EE9 /* UIView+FirstResponder.h */,
+				C5FD5E9E18B3285600E27EE9 /* UIView+FirstResponder.m */,
 			);
 			name = Utilities;
 			path = TapShield;
@@ -919,6 +925,7 @@
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5372DB018B27C1F00D22682 /* TSEmailOrganizationViewController.m in Sources */,
+				C5FD5E9F18B3285600E27EE9 /* UIView+FirstResponder.m in Sources */,
 				C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
@@ -980,6 +987,7 @@
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
+				C5FD5EA018B3285600E27EE9 /* UIView+FirstResponder.m in Sources */,
 				C5372D9C18AEA93900D22682 /* TSConstants.m in Sources */,
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,

@@ -136,6 +136,7 @@
     
     if (_disarmCodeTextField == textField) {
         if ([_disarmCodeTextField.text length] + [string length] - range.length > 4) {
+            [textField resignFirstResponder];
             return NO;
         }
     }

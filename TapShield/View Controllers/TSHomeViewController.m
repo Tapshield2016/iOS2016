@@ -288,7 +288,7 @@
     }
     
     if (!_mapView.userLocationAnnotation) {
-        _mapView.userLocationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:lastReportedLocation.coordinate
+        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:lastReportedLocation.coordinate
                                                                                        placeName:[NSString stringWithFormat:@"%f, %f", lastReportedLocation.coordinate.latitude, lastReportedLocation.coordinate.longitude]
                                                                                      description:[NSString stringWithFormat:@"Accuracy: %f", lastReportedLocation.horizontalAccuracy]];
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
@@ -368,7 +368,7 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
-    if ([annotation isKindOfClass:[TSCustomMapAnnotationUserLocation class]]) {
+    if ([annotation isKindOfClass:[TSUserLocationAnnotation class]]) {
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"user"];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
@@ -415,7 +415,7 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
     
-    for(TSCustomMapAnnotationUserLocation *n in _mapView.annotations){
+    for(TSUserLocationAnnotation *n in _mapView.annotations){
         [_mapView addAnimatedOverlayToAnnotation:n];
     }
     

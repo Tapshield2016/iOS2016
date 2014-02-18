@@ -27,7 +27,7 @@
 		B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */; };
 		B53BBD2F1898195F006A27E0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD2E1898195F006A27E0 /* MapKit.framework */; };
 		B53BBD3118983409006A27E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD3018983408006A27E0 /* CoreLocation.framework */; };
-		B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */; };
+		B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */; };
 		B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */; };
 		B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */; };
 		B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08318AAB3FA004C2B26 /* TSSettingsViewController.m */; };
@@ -148,8 +148,8 @@
 		B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMenuViewController.m; path = "View Controllers/TSMenuViewController.m"; sourceTree = "<group>"; };
 		B53BBD2E1898195F006A27E0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B53BBD3018983408006A27E0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCustomMapAnnotationUserLocation.h; sourceTree = "<group>"; };
-		B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCustomMapAnnotationUserLocation.m; sourceTree = "<group>"; };
+		B53BBD3218983648006A27E0 /* TSUserLocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUserLocationAnnotation.h; sourceTree = "<group>"; };
+		B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUserLocationAnnotation.m; sourceTree = "<group>"; };
 		B543F07E18AAB3E9004C2B26 /* TSAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAboutViewController.h; path = "View Controllers/TSAboutViewController.h"; sourceTree = "<group>"; };
 		B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAboutViewController.m; path = "View Controllers/TSAboutViewController.m"; sourceTree = "<group>"; };
 		B543F08218AAB3FA004C2B26 /* TSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSettingsViewController.h; path = "View Controllers/TSSettingsViewController.h"; sourceTree = "<group>"; };
@@ -377,8 +377,8 @@
 		B5F2DCD318B3ADA2009A7CA4 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
-				B53BBD3218983648006A27E0 /* TSCustomMapAnnotationUserLocation.h */,
-				B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */,
+				B53BBD3218983648006A27E0 /* TSUserLocationAnnotation.h */,
+				B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */,
 				C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */,
 				C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */,
 			);
@@ -703,7 +703,7 @@
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
-				B53BBD3418983648006A27E0 /* TSCustomMapAnnotationUserLocation.m in Sources */,
+				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
 				C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import <MapKit/MapKit.h>
 #import "TSJavelinAPIClient.h"
-#import "TSCustomMapAnnotationUserLocation.h"
+#import "TSUserLocationAnnotation.h"
 #import "TSAgencyAnnotation.h"
 #import "TSMapOverlayCircle.h"
 
@@ -19,12 +19,12 @@
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
-@property (nonatomic, strong) TSCustomMapAnnotationUserLocation *userLocationAnnotation;
+@property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 
 // Virtual Entourage selected destination
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
-@property (nonatomic, strong) TSCustomMapAnnotationUserLocation *destinationAnnotation;
+@property (nonatomic, strong) TSUserLocationAnnotation *destinationAnnotation;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;

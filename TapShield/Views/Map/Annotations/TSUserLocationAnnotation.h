@@ -1,5 +1,5 @@
 //
-//  TSCustomMapAnnotationUserLocation.h
+//  TSUserLocationAnnotation.h
 //  TapShield
 //
 //  Created by Ben Boyd on 1/28/14.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface TSCustomMapAnnotationUserLocation : NSObject <MKAnnotation>
+@interface TSUserLocationAnnotation : NSObject <MKAnnotation>
 
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;

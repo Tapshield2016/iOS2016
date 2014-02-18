@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 @interface TSUtilities : NSObject
 
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
++ (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
 
 @end

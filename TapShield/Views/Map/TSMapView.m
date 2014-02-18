@@ -41,17 +41,20 @@
     return self;
 }
 
+#pragma mark - Destination methods
+
 - (void)userSelectedDestination:(MKMapItem *)mapItem {
     _destinationMapItem = mapItem;
     if (_destinationAnnotation) {
         [self removeAnnotation:_destinationAnnotation];
     }
     
-    // We'll want to swap for another annotation...
     _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
                                                                                 placeName:_destinationMapItem.name
                                                                               description:_destinationMapItem.placemark.addressDictionary[@"street"]];
     _destinationAnnotation.title = _destinationMapItem.name;
+
+    // Ensure we have a title so callout will always come up
     if (!_destinationAnnotation.title || [_destinationAnnotation.title isEqualToString:@""]) {
         _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
     }

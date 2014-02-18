@@ -8,6 +8,7 @@
 
 #import "TSVirtualEntourageViewController.h"
 #include <MapKit/MapKit.h>
+#import "TSUtilities.h"
 
 @interface TSVirtualEntourageViewController ()
 
@@ -41,6 +42,8 @@
 - (IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark - MKLocalSearch methods
 
 - (void)searchForLocation:(NSString *)searchString {
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
@@ -108,34 +111,11 @@
     return YES;
 }
 
-- (NSString *)getTitleForABRecordRef:(ABRecordRef)record {
-    NSString *firstName = (__bridge_transfer NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
-    NSString *lastName = (__bridge_transfer NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
-    NSString *organization = (__bridge_transfer NSString *)ABRecordCopyValue(record, kABPersonOrganizationProperty);
-    NSString *title = @"";
-
-    if (firstName && !lastName) {
-        title = firstName;
-    }
-    else if (!firstName && lastName) {
-        title = lastName;
-    }
-    else if (firstName && lastName) {
-        title = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-    }
-    else if (!firstName && !lastName) {
-        if (organization) {
-            title = organization;
-        }
-    }
-    return title;
-}
-
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
 
     ABMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
     NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
-    NSString *placeName = [self getTitleForABRecordRef:person];
+    NSString *placeName = [TSUtilities getTitleForABRecordRef:person];
 
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder geocodeAddressDictionary:addressDict completionHandler:^(NSArray *placemarks, NSError *error) {

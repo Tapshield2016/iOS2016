@@ -110,19 +110,11 @@
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
 
-    NSMutableDictionary *contactDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
     ABMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
     NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
-    if (ABMultiValueGetCount(addressRef) > 0) {
-        contactDictionary[@"street"] = [addressDict objectForKey:(NSString *)kABPersonAddressStreetKey];
-        contactDictionary[@"zip"] = [addressDict objectForKey:(NSString *)kABPersonAddressZIPKey];
-        contactDictionary[@"city"] = [addressDict objectForKey:(NSString *)kABPersonAddressCityKey];
-        contactDictionary[@"state"] = [addressDict objectForKey:(NSString *)kABPersonAddressStateKey];
-    }
 
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder geocodeAddressDictionary:addressDict completionHandler:^(NSArray *placemarks, NSError *error) {
-        NSLog(@"%@", placemarks);
         if ([placemarks count] > 0) {
             MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:placemarks[0]];
             MKMapItem *contactMapItem = [[MKMapItem alloc] initWithPlacemark:placemark];

@@ -207,6 +207,7 @@
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
     [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         if (!error) {
+            _selectedRoute = nil;
             [self removeRouteOverlays];
             _routes = [response routes];
             [self addRouteOverlaysToMapView];
@@ -216,6 +217,7 @@
 
 - (void)removeRouteOverlays {
     NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
+
     for (MKRoute *route in _routes) {
         [overlays addObject:route.polyline];
     }

@@ -17,7 +17,6 @@
 
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) TSJavelinAPIAgency *agency;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *disarmCode;

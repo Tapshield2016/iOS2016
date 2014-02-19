@@ -19,7 +19,6 @@
 
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];
-    _password = [attributes valueForKey:@"password"];
     _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
     _phoneNumber = [attributes valueForKey:@"phone_number"];
     _disarmCode = [attributes valueForKey:@"disarm_code"];
@@ -40,7 +39,6 @@
     [encoder encodeObject:[NSNumber numberWithUnsignedInteger:self.identifier] forKey:@"identifier"];
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_email forKey:@"email"];
-    [encoder encodeObject:_password forKey:@"password"];
     [encoder encodeObject:_agency forKey:@"agency"];
     [encoder encodeObject:_phoneNumber forKey:@"phoneNumber"];
     [encoder encodeObject:_disarmCode forKey:@"disarmCode"];
@@ -65,7 +63,6 @@
         self.identifier = [[decoder decodeObjectForKey:@"identifier"] unsignedIntegerValue];
         _username = [decoder decodeObjectForKey:@"username"];
         _email = [decoder decodeObjectForKey:@"email"];
-        _password = [decoder decodeObjectForKey:@"password"];
         _agency = [decoder decodeObjectForKey:@"agency"];
         _phoneNumber = [decoder decodeObjectForKey:@"phoneNumber"];
         _disarmCode = [decoder decodeObjectForKey:@"disarmCode"];

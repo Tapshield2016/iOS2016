@@ -47,7 +47,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
                       disarmCode:(NSString *)disarmCode
                        firstName:(NSString *)firstName
                         lastName:(NSString *)lastName
-                      completion:(TSJavelinAPIUserBlock)completion;
+                      completion:(void (^)(id responseObject))completion;
 
 - (void)logInUser:(NSString *)emailAddress password:(NSString *)password completion:(TSJavelinAPIUserBlock)completion;
 - (void)logoutUser:(void (^)(BOOL success))completion;
@@ -59,6 +59,9 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
 - (void)updateLoggedInUser:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;
+
+- (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
+- (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 
 - (NSString *)masterAccessTokenAuthorizationHeader;
 - (NSString *)loggedInUserTokenAuthorizationHeader;

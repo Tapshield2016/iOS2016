@@ -865,9 +865,9 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iA0-hj-Keo">
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iA0-hj-Keo">
                                                 <rect key="frame" x="0.0" y="433" width="320" height="70"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -894,13 +894,21 @@
                         <outlet property="checkAgreeButton" destination="P3F-NY-yiR" id="DIZ-gG-QXc"/>
                         <outlet property="containerView" destination="VbL-zn-h1N" id="vah-QW-gkt"/>
                         <outlet property="disarmCodeTextField" destination="wyQ-cf-2ht" id="irW-6M-xUd"/>
+                        <outlet property="disarmCodeView" destination="yei-7k-7t0" id="76O-Ey-ctz"/>
                         <outlet property="emailTextField" destination="pEe-7S-kTe" id="m1t-06-JF8"/>
+                        <outlet property="emailView" destination="r5A-8s-Omk" id="fid-Fj-MD6"/>
                         <outlet property="firstNameTextField" destination="Kxf-Gw-NxI" id="MQ9-Rw-SGE"/>
+                        <outlet property="firstNameView" destination="Orl-qb-zA0" id="KaB-4o-GcR"/>
                         <outlet property="lastNameTextField" destination="5Eb-eS-RKM" id="CnQ-ke-z7c"/>
+                        <outlet property="lastNameView" destination="jLG-D1-R4h" id="OWd-0z-QeG"/>
                         <outlet property="passwordTextField" destination="LFj-V6-WbY" id="4yk-V2-4jP"/>
+                        <outlet property="passwordView" destination="2yj-6P-pGv" id="vmg-ak-JVe"/>
                         <outlet property="phoneNumberTextField" destination="k2j-RU-ApS" id="904-98-t7h"/>
+                        <outlet property="phoneView" destination="TVT-Ox-CJl" id="quq-lY-dtS"/>
                         <outlet property="registerButton" destination="iA0-hj-Keo" id="HPw-kp-5cl"/>
                         <outlet property="scrollView" destination="8VG-8E-epY" id="ZIe-kB-pmU"/>
+                        <outlet property="termsView" destination="Fcc-SQ-JZb" id="qRn-Lt-lKa"/>
+                        <segue destination="mjo-E3-Aqu" kind="push" identifier="registerToEmailConfirmation" id="LiU-3R-Oo8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wrD-Ks-vQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1747,10 +1755,10 @@ Last Updated: 12/12/13
             </objects>
             <point key="canvasLocation" x="2230" y="402"/>
         </scene>
-        <!--View Controller - Required Information-->
+        <!--Phone Verification View Controller - Phone Verification-->
         <scene sceneID="ttN-4X-faa">
             <objects>
-                <viewController id="3Ml-FN-RnH" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSPhoneVerificationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oyY-O6-C7a"/>
                         <viewControllerLayoutGuide type="bottom" id="NjR-rd-M8u"/>
@@ -1784,7 +1792,7 @@ Last Updated: 12/12/13
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iQv-sk-X5A">
-                                <rect key="frame" x="114" y="518" width="126" height="30"/>
+                                <rect key="frame" x="97" y="448" width="126" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Complete Sign Up">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1796,16 +1804,16 @@ Last Updated: 12/12/13
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Required Information" id="0cK-yH-gfX"/>
+                    <navigationItem key="navigationItem" title="Phone Verification" id="0cK-yH-gfX"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hds-N3-zRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2987" y="-274"/>
         </scene>
-        <!--View Controller - Email Confirmation-->
+        <!--Email Verification View Controller - Email Confirmation-->
         <scene sceneID="qtd-ze-SDF">
             <objects>
-                <viewController id="mjo-E3-Aqu" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSEmailVerificationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mjo-E3-Aqu" customClass="TSEmailVerificationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ed7-Xd-ckq"/>
                         <viewControllerLayoutGuide type="bottom" id="Hfr-74-tHt"/>
@@ -1814,39 +1822,77 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="IrG-9z-KQj">
-                                <rect key="frame" x="20" y="93" width="280" height="111"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please check your email for an activation link." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="IrG-9z-KQj">
+                                <rect key="frame" x="20" y="301" width="280" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">Please check your email for an activation link. After you have clicked the link to confirm your account, please return here to complete the sign up process.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
+                                <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVD-Kj-BCL">
-                                <rect key="frame" x="87" y="269" width="147" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVD-Kj-BCL">
+                                <rect key="frame" x="0.0" y="498" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.070588238540000001" green="0.4784313738" blue="0.74117648599999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Complete Verification">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="3Ml-FN-RnH" kind="push" id="hEg-aC-H5T"/>
+                                    <action selector="completeVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="f8w-Tb-gtk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpf-6A-a3M">
-                                <rect key="frame" x="70" y="307" width="180" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpf-6A-a3M">
+                                <rect key="frame" x="0.0" y="429" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Re-send Verification Email">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="resendVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="BqA-IA-U9T"/>
+                                </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hzz-pX-IVR">
+                                <rect key="frame" x="0.0" y="84" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mailicon.png" translatesAutoresizingMaskIntoConstraints="NO" id="WhP-I5-i0c">
+                                        <rect key="frame" x="10" y="22" width="40" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0V-Nt-bMQ">
+                                        <rect key="frame" x="70" y="0.0" width="240" height="70"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="4fU-Rq-MOh">
+                                <rect key="frame" x="20" y="162" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.86666667461395264" green="0.29411765933036804" blue="0.22352941334247589" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Email Confirmation" id="DVY-Kj-xCM"/>
+                    <connections>
+                        <outlet property="completeVerificationButton" destination="uVD-Kj-BCL" id="ado-eG-F2m"/>
+                        <outlet property="emailAddressLabel" destination="S0V-Nt-bMQ" id="rXZ-yE-oSu"/>
+                        <outlet property="errorMessageLabel" destination="4fU-Rq-MOh" id="S5k-rp-vBW"/>
+                        <outlet property="resendEmailButton" destination="Cpf-6A-a3M" id="GPi-c9-opn"/>
+                        <segue destination="3Ml-FN-RnH" kind="push" identifier="emailConfirmationToPhoneVerification" id="pkg-c2-ung"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ONg-Ul-62S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2594" y="-274"/>
+            <point key="canvasLocation" x="2602" y="-274"/>
         </scene>
     </scenes>
     <resources>

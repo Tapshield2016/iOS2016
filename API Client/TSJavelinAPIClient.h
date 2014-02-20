@@ -112,6 +112,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 // Agency actions
 - (void)getAgencies:(void (^)(NSArray *agencies))completion;
+- (void)getAgenciesNearby:(CLLocation *)currentLocation radius:(float)radius completion:(void (^)(NSArray *agencies))completion;
 - (void)getAgencyForLoggedInUser:(void (^)(TSJavelinAPIAgency *agency))completion;
 
 // Mass Alert actions

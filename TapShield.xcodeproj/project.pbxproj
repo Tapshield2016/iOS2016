@@ -134,6 +134,8 @@
 		C5372E0818B3126000D22682 /* EmailEnvelope.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE718B3126000D22682 /* EmailEnvelope.png */; };
 		C5372E0918B3126000D22682 /* EmailEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */; };
 		C5372E0A18B3126000D22682 /* EmailEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */; };
+		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
+		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705718AAD76B00EEFBD6 /* logo.png */; };
 		C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
 		C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
@@ -305,6 +307,8 @@
 		C5372DE618B3126000D22682 /* DisarmIcon_KeyPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DisarmIcon_KeyPad@2x.png"; path = "Images/DisarmIcon_KeyPad@2x.png"; sourceTree = "<group>"; };
 		C5372DE718B3126000D22682 /* EmailEnvelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EmailEnvelope.png; path = Images/EmailEnvelope.png; sourceTree = "<group>"; };
 		C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EmailEnvelope@2x.png"; path = "Images/EmailEnvelope@2x.png"; sourceTree = "<group>"; };
+		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
+		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
 		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/TSMapOverlayCircle.h; sourceTree = "<group>"; };
@@ -465,6 +469,7 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C57C48A018B6B2DA00DFFBCE /* Cells */,
 				C5372DA018AEAC7400D22682 /* Map */,
 				C5C1706F18AC085100EEFBD6 /* Buttons */,
 			);
@@ -678,6 +683,15 @@
 				B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */,
 			);
 			name = Annotations;
+			sourceTree = "<group>";
+		};
+		C57C48A018B6B2DA00DFFBCE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */,
+				C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
@@ -930,6 +944,7 @@
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C520C8FC18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
+				C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */,
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
 				C5FD5EA318B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
@@ -974,6 +989,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
+				C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DB118B27C1F00D22682 /* TSEmailOrganizationViewController.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,

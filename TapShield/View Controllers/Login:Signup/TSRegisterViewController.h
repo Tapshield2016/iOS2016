@@ -11,6 +11,7 @@
 @interface TSRegisterViewController : TSBaseViewController <UITextFieldDelegate>
 
 @property (nonatomic ,strong) NSString *emailAddress;
+@property (nonatomic ,strong) TSJavelinAPIAgency *agency;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;

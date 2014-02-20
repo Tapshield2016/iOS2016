@@ -595,7 +595,7 @@
             </objects>
             <point key="canvasLocation" x="1415" y="-274"/>
         </scene>
-        <!--Organization Search View Controller-->
+        <!--Organization Search View Controller - Organization-->
         <scene sceneID="mSi-eN-V3C">
             <objects>
                 <viewController storyboardIdentifier="TSOrganizationSearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U4Y-Qf-oML" customClass="TSOrganizationSearchViewController" sceneMemberID="viewController">
@@ -606,13 +606,67 @@
                     <view key="view" contentMode="scaleToFill" id="V1T-lD-xmU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="IHs-v9-Wec">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search For Organization" id="xCa-pE-w9H">
+                                    <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="U4Y-Qf-oML" id="dx9-IV-2Bt"/>
+                                    </connections>
+                                </searchBar>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OrganizationCell" textLabel="QUf-mw-1kW" rowHeight="51" style="IBUITableViewCellStyleDefault" id="ByY-2V-Q6V" customClass="TSOrganizationCell">
+                                        <rect key="frame" x="0.0" y="130" width="320" height="51"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ByY-2V-Q6V" id="jD2-Xw-Bfy">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Tapshield" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QUf-mw-1kW">
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="U4Y-Qf-oML" id="9pw-3m-6Jw"/>
+                                    <outlet property="delegate" destination="U4Y-Qf-oML" id="Cwr-xv-QOq"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ui6-cH-74L"/>
+                    <navigationItem key="navigationItem" title="Organization" id="ui6-cH-74L">
+                        <barButtonItem key="rightBarButtonItem" title="Skip" style="done" id="5gd-N4-grM"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="xCa-pE-w9H" id="buA-cO-bM8"/>
+                        <outlet property="searchDisplayController" destination="uEp-X4-b3X" id="xIN-eg-5zM"/>
+                        <outlet property="tableView" destination="IHs-v9-Wec" id="5d5-iE-ox8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rPp-aR-vHi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="uEp-X4-b3X">
+                    <connections>
+                        <outlet property="delegate" destination="U4Y-Qf-oML" id="CdQ-kA-UR6"/>
+                        <outlet property="searchBar" destination="xCa-pE-w9H" id="IA7-U4-aFN"/>
+                        <outlet property="searchContentsController" destination="U4Y-Qf-oML" id="HCK-75-YpD"/>
+                        <outlet property="searchResultsDataSource" destination="U4Y-Qf-oML" id="lEW-eI-G0r"/>
+                        <outlet property="searchResultsDelegate" destination="U4Y-Qf-oML" id="n0w-Xc-SFV"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1782" y="402"/>
+            <point key="canvasLocation" x="1960" y="402"/>
         </scene>
         <!--Register View Controller - Register-->
         <scene sceneID="ZYf-Vb-ZBE">
@@ -816,6 +870,7 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="showEmailTextfield:" destination="ax0-oI-OdA" eventType="touchUpInside" id="YHc-rf-mSL"/>
+                                                            <segue destination="oXy-R4-DDR" kind="modal" id="3pK-fw-kzj"/>
                                                         </connections>
                                                     </button>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Agency.png" translatesAutoresizingMaskIntoConstraints="NO" id="cHs-wY-iUp">
@@ -1753,7 +1808,22 @@ Last Updated: 12/12/13
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GS-tt-F92" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2230" y="402"/>
+            <point key="canvasLocation" x="2405" y="402"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cTM-jy-VTq">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="oXy-R4-DDR" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XDf-cd-JVt">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="U4Y-Qf-oML" kind="relationship" relationship="rootViewController" id="psf-Nh-ivx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Emk-Hq-89D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1497" y="402"/>
         </scene>
         <!--Phone Verification View Controller - Phone Verification-->
         <scene sceneID="ttN-4X-faa">
@@ -1995,4 +2065,7 @@ Last Updated: 12/12/13
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="psf-Nh-ivx"/>
+    </inferredMetricsTieBreakers>
 </document>

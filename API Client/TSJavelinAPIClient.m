@@ -108,6 +108,23 @@ static dispatch_once_t onceToken;
       }];
 }
 
+- (void)getAgenciesNearby:(CLLocation *)currentLocation radius:(float)radius completion:(void (^)(NSArray *agencies))completion {
+    [self.requestSerializer setValue:[[self authenticationManager] masterAccessTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:@"agencies/"
+   parameters:@{@"latitude": [[NSNumber numberWithDouble:currentLocation.coordinate.latitude] stringValue],
+                @"longitude": [[NSNumber numberWithDouble:currentLocation.coordinate.longitude] stringValue],
+                @"distance_within": [[NSNumber numberWithFloat:radius] stringValue]}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if (completion) {
+              completion([self apiObjectArrayOfClass:@"TSJavelinAPIAgency" fromJSON:responseObject withKey:@"results"]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+      }];
+}
+
 - (void)getAgencyForLoggedInUser:(void (^)(TSJavelinAPIAgency *agency))completion {
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]

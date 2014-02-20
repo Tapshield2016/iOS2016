@@ -10,4 +10,6 @@
 
 @implementation TSConstants
 
+NSString * const kTSConstanstsMainStoryboard = @"Main";
+
 @end

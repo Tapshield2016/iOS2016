@@ -175,6 +175,8 @@
 		C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA218B3D58400E27EE9 /* TSEmailVerificationViewController.m */; };
 		C5FD5EA718B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */; };
 		C5FD5EA818B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */; };
+		C5FD5EAA18B5165600E27EE9 /* iphoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */; };
+		C5FD5EAB18B5165600E27EE9 /* iphoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -330,6 +332,7 @@
 		C5FD5EA218B3D58400E27EE9 /* TSEmailVerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEmailVerificationViewController.m; path = "TapShield/View Controllers/Login:Signup/TSEmailVerificationViewController.m"; sourceTree = SOURCE_ROOT; };
 		C5FD5EA518B4009000E27EE9 /* TSPhoneVerificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSPhoneVerificationViewController.h; path = "View Controllers/Login:Signup/TSPhoneVerificationViewController.h"; sourceTree = "<group>"; };
 		C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPhoneVerificationViewController.m; path = "View Controllers/Login:Signup/TSPhoneVerificationViewController.m"; sourceTree = "<group>"; };
+		C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iphoneIcon.png; path = Images/iphoneIcon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -680,6 +683,7 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */,
 				C5372DDA18B3126000D22682 /* AddPhotoButton.png */,
 				C5372DDB18B3126000D22682 /* AddPhotoButton@2x.png */,
 				C5372DD818B3126000D22682 /* AddPhotoButton_Down.png */,
@@ -815,6 +819,7 @@
 				C5FD5E8D18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
 				C5FD5E8718B3141800E27EE9 /* CheckBox_Unselected@2x.png in Resources */,
 				C5372E0918B3126000D22682 /* EmailEnvelope@2x.png in Resources */,
+				C5FD5EAA18B5165600E27EE9 /* iphoneIcon.png in Resources */,
 				C5372DCF18B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C5372DD118B2CD8A00D22682 /* googlePlus.png in Resources */,
 				C5372DE918B3126000D22682 /* AddPhotoButton_Down.png in Resources */,
@@ -852,6 +857,7 @@
 				C5372E0618B3126000D22682 /* DisarmIcon_KeyPad@2x.png in Resources */,
 				C5FD5E8418B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
 				C5372E0818B3126000D22682 /* EmailEnvelope.png in Resources */,
+				C5FD5EAB18B5165600E27EE9 /* iphoneIcon.png in Resources */,
 				C5FD5E8618B3141800E27EE9 /* CheckBox_Unselected.png in Resources */,
 				C5372DF218B3126000D22682 /* Agency.png in Resources */,
 				C5FD5E8C18B3141800E27EE9 /* CheckBox_UnselectedDown@2x.png in Resources */,

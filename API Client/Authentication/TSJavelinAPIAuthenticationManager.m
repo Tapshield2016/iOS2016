@@ -48,7 +48,6 @@ NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserAlreadyE
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) NSString *emailAddress;
 @property (nonatomic, strong) NSString *password;
-@property (nonatomic, strong) NSString *phoneNumberToBeVerified;
 @property (nonatomic, strong) TSJavelinAPIUserBlock loginCompletionBlock;
 @property (nonatomic, strong) TSJavelinAPIVerificationResultBlock verificationCompletionBlock;
 
@@ -327,21 +326,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Phone Verification
 
-- (void)isPhoneNumberVerified:(NSString *)phoneNumber completion:(void (^)(BOOL verified))completion {
-    
-    if (_loggedInUser.phoneNumberVerified && [phoneNumber isEqualToString:_loggedInUser.phoneNumber]) {
-        if (completion) {
-            completion(YES);
-            return;
-        }
-    }
-    
-    _phoneNumberToBeVerified = phoneNumber;
-    _verificationCompletionBlock = completion;
-}
-
-
-- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(BOOL success))completion {
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion {
     
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -350,25 +335,17 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"sent PhoneNumberVerificationRequest");
            if (completion) {
-               completion(YES);
+               completion(nil);
            }
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            if (completion) {
-               completion(NO);
+               completion(operation.responseObject);
            }
            NSLog(@"PhoneNumberVerificationRequest Failed");
-           NSString *errorMessage = @"Phone Number Verification Failed";
-           if (operation) {
-               if ([operation.responseObject objectForKey:@"message"]) {
-                   errorMessage = [operation.responseObject objectForKey:@"message"];
-               }
-           }
-           [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToSendVerificationPhoneNumberNotification
-                                                               object:errorMessage];
        }];
 }
 
-- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(BOOL success))completion {
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion {
     
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -377,13 +354,17 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"Code Verified");
            if (completion) {
-               completion(YES);
+               completion(nil);
            }
            _loggedInUser.phoneNumberVerified = YES;
            [self archiveLoggedInUser];
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"Code Verification Failed");
+           
+           if (completion) {
+               completion(operation.responseObject);
+           }
            
            NSString *message = @"Phone number verification failed";
            if ([operation.responseObject objectForKey:@"message"]) {
@@ -414,7 +395,14 @@ static dispatch_once_t onceToken;
                if (completion) {
                    completion(responseObject[@"token"]);
                }
+               
+               NSData *pushNotificationDeviceToken = [self retrieveLastArchivedAPNSDeviceToken];
+               if (pushNotificationDeviceToken) {
+                   [self setAPNSDeviceTokenForLoggedInUser:pushNotificationDeviceToken];
+               }
+               
                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidRetrieveAPITokenNotification object:responseObject];
+               
            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                NSLog(@"%@", error);
                if (completion) {
@@ -436,6 +424,11 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)loggedInUserTokenAuthorizationHeader {
+    
+    if (!_loggedInUser.apiToken) {
+        [self retrieveAPITokenForLoggedInUser:nil];
+    }
+    
     return [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
 }
 
@@ -641,18 +634,11 @@ static dispatch_once_t onceToken;
     else {
         [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:responseJSON]];
         
-        if (_loggedInUser.isEmailVerified) {
-            [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
-                NSData *pushNotificationDeviceToken = [self retrieveLastArchivedAPNSDeviceToken];
-                if (pushNotificationDeviceToken) {
-                    [self setAPNSDeviceTokenForLoggedInUser:pushNotificationDeviceToken];
-                }
-            }];
-        }
-
-        if (_loginCompletionBlock) {
-            _loginCompletionBlock(_loggedInUser);
-        }
+        [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
+            if (_loginCompletionBlock) {
+                _loginCompletionBlock(_loggedInUser);
+            }
+        }];
     }
     [self.responseData setLength:0];
 }

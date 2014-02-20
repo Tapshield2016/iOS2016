@@ -28,6 +28,9 @@
 {
     [super viewDidLoad];
     
+    [_registerButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
+    [_registerButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -99,9 +102,9 @@
     
     
     if ([[responseObject objectForKey:@"email"] isKindOfClass:[NSString class]]) {
-        TSJavelinAPIUser *user = [[TSJavelinAPIUser alloc] initWithAttributes:responseObject];
-        if ([user.email isEqualToString:_emailTextField.text]) {
-            
+        if ([[responseObject objectForKey:@"email"] isEqualToString:_emailTextField.text]) {
+            [self segueToEmailVerification];
+            return;
         }
     }
     
@@ -214,8 +217,13 @@
     [textField superview].backgroundColor = [UIColor whiteColor];
     
     if (_disarmCodeTextField == textField) {
-        if ([_disarmCodeTextField.text length] + [string length] - range.length > 4) {
+        
+        if ([textField.text length] + [string length] - range.length == 4) {
+            textField.text = [textField.text stringByAppendingString:string];
             [textField resignFirstResponder];
+            return NO;
+        }
+        else if ([textField.text length] + [string length] - range.length > 4) {
             return NO;
         }
     }

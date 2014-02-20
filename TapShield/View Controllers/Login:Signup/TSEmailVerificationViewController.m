@@ -45,6 +45,10 @@
                                                  name:kTSJavelinAPIAuthenticationManagerDidFailToVerifyUserNotification
                                                object:nil];
     
+    [_resendEmailButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
+    [_resendEmailButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
+    [_completeVerificationButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateNormal];
+    [_completeVerificationButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateHighlighted];
     
     _emailAddressLabel.text = _email;
 }

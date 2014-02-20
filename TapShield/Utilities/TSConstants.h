@@ -10,4 +10,6 @@
 
 @interface TSConstants : NSObject
 
+extern NSString * const kTSConstanstsMainStoryboard;
+
 @end

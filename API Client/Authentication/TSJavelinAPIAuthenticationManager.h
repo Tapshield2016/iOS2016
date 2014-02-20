@@ -54,11 +54,12 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
 
 - (void)isUserLoggedIn:(TSJavelinAPIUserBlock)completion;
 - (void)isLoggedInUserEmailVerified:(void (^)(BOOL success))completion;
-- (void)isPhoneNumberVerified:(NSString *)phoneNumber completion:(void (^)(BOOL verified))completion;
 - (void)resendVerificationEmailForEmailAddress:(NSString *)email completion:(void (^)(BOOL success))completion;
 - (void)updateLoggedInUser:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion;
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion;
 
 - (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;

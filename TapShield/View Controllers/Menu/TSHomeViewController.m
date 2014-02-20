@@ -56,7 +56,11 @@
     _locationManager.distanceFilter = 5.0f;
     
     if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        UINavigationController *navigationController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSLoginOrSignUpNavigationController"];
+        UINavigationController *navigationController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSLoginOrSignUpNavigationController"];
+        [self presentViewController:navigationController animated:NO completion:nil];
+    }
+    else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
+        UINavigationController *navigationController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSPhoneVerificationViewController"];
         [self presentViewController:navigationController animated:NO completion:nil];
     }
 }

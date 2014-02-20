@@ -19,9 +19,8 @@
 @property (nonatomic, strong) NSArray *nearbyOrganizationArray;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
-@property (nonatomic) BOOL isPresentedModally;
-
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *skipCancelButton;
 
 @end

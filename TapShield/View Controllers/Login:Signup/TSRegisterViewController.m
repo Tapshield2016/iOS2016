@@ -31,6 +31,9 @@
     [_registerButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
     [_registerButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
     
+    [_addOrganizationButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette darkGrayColor]] forState:UIControlStateNormal];
+    [_addOrganizationButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette darkGrayColor]] forState:UIControlStateHighlighted];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -55,6 +58,16 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if (_agency) {
+        _organizationLabel.text = _agency.name;
+        _addOrganizationButton.alpha = 0.0f;
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -62,6 +75,12 @@
 }
 
 #pragma mark - Button
+
+- (IBAction)removeOrganization:(id)sender {
+    _agency = nil;
+    _organizationLabel.text = @"";
+    _addOrganizationButton.alpha = 1.0f;
+}
 
 - (IBAction)selectAgree:(id)sender {
     _checkAgreeButton.selected = !_checkAgreeButton.selected;
@@ -85,7 +104,12 @@
         }
     }
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUserWithAgencyID:1
+    NSUInteger identifier = 1;
+    if (_agency) {
+        identifier = _agency.identifier;
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUserWithAgencyID:identifier
                                                                            emailAddress:[_emailTextField.text lowercaseString]
                                                                                password:_passwordTextField.text
                                                                             phoneNumber:_phoneNumberTextField.text

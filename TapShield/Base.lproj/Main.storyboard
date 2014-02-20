@@ -647,11 +647,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Organization" id="ui6-cH-74L">
-                        <barButtonItem key="rightBarButtonItem" title="Skip" style="done" id="5gd-N4-grM"/>
+                        <barButtonItem key="rightBarButtonItem" title="Skip" style="done" id="5gd-N4-grM">
+                            <connections>
+                                <action selector="skipOrCancel:" destination="U4Y-Qf-oML" id="UxN-QT-kRK"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="xCa-pE-w9H" id="buA-cO-bM8"/>
                         <outlet property="searchDisplayController" destination="uEp-X4-b3X" id="xIN-eg-5zM"/>
+                        <outlet property="skipCancelButton" destination="5gd-N4-grM" id="HUO-07-QuG"/>
                         <outlet property="tableView" destination="IHs-v9-Wec" id="5d5-iE-ox8"/>
                     </connections>
                 </viewController>
@@ -850,15 +855,24 @@
                                                         <attributedString key="attributedText"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Kk-hw-wip">
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7c-dG-hjf">
+                                                        <rect key="frame" x="258" y="0.0" width="62" height="70"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
+                                                        <state key="normal" title="Remove">
+                                                            <color key="titleColor" red="0.86666667460000002" green="0.2941176593" blue="0.22352941330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="removeOrganization:" destination="jUA-Jf-8RT" eventType="touchUpInside" id="2mR-ju-Wwe"/>
+                                                        </connections>
+                                                    </button>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bz8-aY-h3x">
                                                         <rect key="frame" x="58" y="0.0" width="200" height="70"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="ax0-oI-OdA" id="KjR-K2-Rek"/>
-                                                        </connections>
-                                                    </textField>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OMe-HT-nyB">
                                                         <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -869,7 +883,6 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="showEmailTextfield:" destination="ax0-oI-OdA" eventType="touchUpInside" id="YHc-rf-mSL"/>
                                                             <segue destination="oXy-R4-DDR" kind="modal" id="3pK-fw-kzj"/>
                                                         </connections>
                                                     </button>
@@ -956,6 +969,7 @@
                         <outlet property="firstNameView" destination="Orl-qb-zA0" id="KaB-4o-GcR"/>
                         <outlet property="lastNameTextField" destination="5Eb-eS-RKM" id="CnQ-ke-z7c"/>
                         <outlet property="lastNameView" destination="jLG-D1-R4h" id="OWd-0z-QeG"/>
+                        <outlet property="organizationLabel" destination="bz8-aY-h3x" id="MJe-td-BxB"/>
                         <outlet property="passwordTextField" destination="LFj-V6-WbY" id="4yk-V2-4jP"/>
                         <outlet property="passwordView" destination="2yj-6P-pGv" id="vmg-ak-JVe"/>
                         <outlet property="phoneNumberTextField" destination="k2j-RU-ApS" id="904-98-t7h"/>
@@ -1847,7 +1861,6 @@ Last Updated: 12/12/13
                                 </state>
                                 <connections>
                                     <action selector="resendSMS:" destination="3Ml-FN-RnH" eventType="touchUpInside" id="Weh-Iv-CZX"/>
-                                    <action selector="resendVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="qoH-iy-D2f"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please check your text messages for a verification code." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="JHG-77-Thb">
@@ -1879,9 +1892,6 @@ Last Updated: 12/12/13
                                         <state key="normal">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections>
-                                            <action selector="showEmailTextfield:" destination="ax0-oI-OdA" eventType="touchUpInside" id="b5H-ne-DBw"/>
-                                        </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="(555) 555-5555" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qPh-2B-EnE">
                                         <rect key="frame" x="70" y="0.0" width="250" height="70"/>

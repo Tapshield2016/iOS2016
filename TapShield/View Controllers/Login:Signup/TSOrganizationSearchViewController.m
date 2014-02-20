@@ -27,7 +27,10 @@
     
     [super viewWillAppear:animated];
     
-    _isPresentedModally = self.isBeingPresented;
+    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
+        _skipCancelButton.title = @"Cancel";
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,15 +39,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (IBAction)skipOrCancel:(id)sender {
+    
+    [self segueSendingAgency:nil];
+}
+
 - (void)segueSendingAgency:(TSJavelinAPIAgency *)agency {
     
-    if (_isPresentedModally) {
-        ((TSRegisterViewController *)self.presentingViewController).agency = agency;
+    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
+        if (agency) {
+            TSRegisterViewController *registerViewController = [((UINavigationController *)self.presentingViewController).viewControllers lastObject];
+            registerViewController.agency = agency;
+        }
+        [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
     
     TSRegisterViewController *registerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSRegisterViewController"];
-    registerViewController.agency = agency;
+    if (agency) {
+        registerViewController.agency = agency;
+    }
+    registerViewController.emailAddress = _emailAddress;
     [self.navigationController pushViewController:registerViewController animated:YES];
 }
 
@@ -138,10 +154,13 @@
             if (_nearbyOrganizationArray.count == 0) {
                 name = _statusString;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setUserInteractionEnabled:NO];
             }
             else {
                 name = ((TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row]).name;
                 cell.agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                [cell setUserInteractionEnabled:YES];
             }
         }
         else {

@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
 @property (weak, nonatomic) IBOutlet UITextField *disarmCodeTextField;
 
+@property (weak, nonatomic) IBOutlet UILabel *organizationLabel;
+
 @property (weak, nonatomic) IBOutlet UIButton *addOrganizationButton;
 @property (weak, nonatomic) IBOutlet UIButton *checkAgreeButton;
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;

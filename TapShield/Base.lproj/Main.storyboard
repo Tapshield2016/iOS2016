@@ -231,9 +231,29 @@
                     <view key="view" contentMode="scaleToFill" id="mCJ-Tt-OUL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f0h-rG-tkN">
+                                <rect key="frame" x="0.0" y="528" width="320" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="BEN-fW-Yfw"/>
+                                    <constraint firstAttribute="height" constant="40" id="oV8-TN-o3e"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zca-lS-TxY" firstAttribute="top" secondItem="f0h-rG-tkN" secondAttribute="bottom" id="WIj-v0-elI"/>
+                            <constraint firstItem="f0h-rG-tkN" firstAttribute="leading" secondItem="mCJ-Tt-OUL" secondAttribute="leading" id="Zg0-KM-Tyg"/>
+                            <constraint firstAttribute="trailing" secondItem="f0h-rG-tkN" secondAttribute="trailing" id="tNA-iS-M5d"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="tav-1t-zB3"/>
+                    <connections>
+                        <outlet property="versionBuildLabel" destination="f0h-rG-tkN" id="Wp5-OH-sgd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wKD-2B-dLP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

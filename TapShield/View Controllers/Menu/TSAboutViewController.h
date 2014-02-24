@@ -10,5 +10,6 @@
 #import "TSBaseViewController.h"
 
 @interface TSAboutViewController : TSBaseViewController
+@property (weak, nonatomic) IBOutlet UILabel *versionBuildLabel;
 
 @end

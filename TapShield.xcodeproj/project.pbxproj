@@ -14,7 +14,6 @@
 		B53BBCFB18980FDA006A27E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B53BBCF918980FDA006A27E0 /* InfoPlist.strings */; };
 		B53BBCFD18980FDA006A27E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBCFC18980FDA006A27E0 /* main.m */; };
 		B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */; };
-		B53BBD0418980FDA006A27E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0218980FDA006A27E0 /* Main.storyboard */; };
 		B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0818980FDA006A27E0 /* Images.xcassets */; };
 		B53BBD1118980FDA006A27E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF018980FDA006A27E0 /* Foundation.framework */; };
 		B53BBD1218980FDA006A27E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF418980FDA006A27E0 /* UIKit.framework */; };
@@ -90,6 +89,7 @@
 		C520C91E18A98EC600D1D2E9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C520C91D18A98EC600D1D2E9 /* libPods.a */; };
 		C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
 		C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
+		C532E62818BBDC2000FC111A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0218980FDA006A27E0 /* Main.storyboard */; };
 		C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9B18AEA93900D22682 /* TSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9A18AEA93900D22682 /* TSConstants.m */; };
@@ -144,6 +144,100 @@
 		C57C48AE18BBC32100DFFBCE /* no_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48AC18BBC32100DFFBCE /* no_image.png */; };
 		C57C48B118BBC6F100DFFBCE /* TSProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48B018BBC6F100DFFBCE /* TSProfileViewController.m */; };
 		C57C48B218BBC6F100DFFBCE /* TSProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48B018BBC6F100DFFBCE /* TSProfileViewController.m */; };
+		C57C48B718BBDB1900DFFBCE /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1706618ABDD0B00EEFBD6 /* TSColorPalette.m */; };
+		C57C48B818BBDB1900DFFBCE /* TSLocationGeofenceTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */; };
+		C57C48B918BBDB1900DFFBCE /* TSUserProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */; };
+		C57C48BA18BBDB1900DFFBCE /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E718A974C100D1D2E9 /* UIImage+Resize.m */; };
+		C57C48BB18BBDB1900DFFBCE /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA718AEE14000D22682 /* UIImage+Color.m */; };
+		C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8D018A974C000D1D2E9 /* TSJavelinS3UploadManager.m */; };
+		C57C48BD18BBDB1900DFFBCE /* TSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9A18AEA93900D22682 /* TSConstants.m */; };
+		C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8DD18A974C000D1D2E9 /* TSJavelinAPIMassAlert.m */; };
+		C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08318AAB3FA004C2B26 /* TSSettingsViewController.m */; };
+		C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD26189814F7006A27E0 /* TSHomeViewController.m */; };
+		C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8D318A974C000D1D2E9 /* TSJavelinAPIAgency.m */; };
+		C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
+		C57C48C318BBDB1900DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
+		C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA318AEC99900D22682 /* TSLoginViewController.m */; };
+		C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8DB18A974C000D1D2E9 /* TSJavelinAPIGroup.m */; };
+		C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48B018BBC6F100DFFBCE /* TSProfileViewController.m */; };
+		C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA218B3D58400E27EE9 /* TSEmailVerificationViewController.m */; };
+		C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08B18AAB41E004C2B26 /* TSMassNotificationsViewController.m */; };
+		C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C718A974C000D1D2E9 /* TSJavelinAlertManager.m */; };
+		C57C48CA18BBDB1900DFFBCE /* TSJavelinAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E318A974C100D1D2E9 /* TSJavelinAPIClient.m */; };
+		C57C48CB18BBDB1900DFFBCE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBCFC18980FDA006A27E0 /* main.m */; };
+		C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
+		C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8D918A974C000D1D2E9 /* TSJavelinAPIChatMessage.m */; };
+		C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8CA18A974C000D1D2E9 /* TSJavelinChatManager.m */; };
+		C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */; };
+		C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C518A974C000D1D2E9 /* TSJavelinAlertAMQPMessage.m */; };
+		C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DAB18B270E100D22682 /* TSAgreementViewController.m */; };
+		C57C48D218BBDB1900DFFBCE /* TSEmailOrganizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DAF18B27C1F00D22682 /* TSEmailOrganizationViewController.m */; };
+		C57C48D318BBDB1900DFFBCE /* UIView+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5E9E18B3285600E27EE9 /* UIView+FirstResponder.m */; };
+		C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */; };
+		C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DB718B2AB7400D22682 /* TSRegisterViewController.m */; };
+		C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8D718A974C000D1D2E9 /* TSJavelinAPIBaseModel.m */; };
+		C57C48D718BBDB1900DFFBCE /* TSHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08F18AAB4B6004C2B26 /* TSHelpViewController.m */; };
+		C57C48D818BBDB1900DFFBCE /* TSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F09318AABC05004C2B26 /* TSBaseViewController.m */; };
+		C57C48D918BBDB1900DFFBCE /* TSCustomMapAnnotationUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD3318983648006A27E0 /* TSCustomMapAnnotationUserLocation.m */; };
+		C57C48DA18BBDB1900DFFBCE /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
+		C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
+		C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E118A974C100D1D2E9 /* TSJavelinAPIUserProfile.m */; };
+		C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */; };
+		C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */; };
+		C57C48DF18BBDB1900DFFBCE /* TSJavelinAPIUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8EB18A974C100D1D2E9 /* TSJavelinAPIUtilities.m */; };
+		C57C48E018BBDB1900DFFBCE /* TSOrganizationSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DB318B27C3600D22682 /* TSOrganizationSearchViewController.m */; };
+		C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8DF18A974C100D1D2E9 /* TSJavelinAPIUser.m */; };
+		C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F07F18AAB3E9004C2B26 /* TSAboutViewController.m */; };
+		C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E918A974C100D1D2E9 /* TSGeofence.m */; };
+		C57C48E418BBDB1900DFFBCE /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
+		C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8D518A974C000D1D2E9 /* TSJavelinAPIAlert.m */; };
+		C57C48E618BBDB1900DFFBCE /* TSJavelinAPIAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C118A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.m */; };
+		C57C48E718BBDB1900DFFBCE /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
+		C57C48E818BBDB1900DFFBCE /* TSJavelinPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8CD18A974C000D1D2E9 /* TSJavelinPushNotificationManager.m */; };
+		C57C48EA18BBDB1900DFFBCE /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C520C91618A98E4400D1D2E9 /* libresolv.dylib */; };
+		C57C48EB18BBDB1900DFFBCE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD3018983408006A27E0 /* CoreLocation.framework */; };
+		C57C48EC18BBDB1900DFFBCE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBD2E1898195F006A27E0 /* MapKit.framework */; };
+		C57C48ED18BBDB1900DFFBCE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF218980FDA006A27E0 /* CoreGraphics.framework */; };
+		C57C48EE18BBDB1900DFFBCE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF418980FDA006A27E0 /* UIKit.framework */; };
+		C57C48EF18BBDB1900DFFBCE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF018980FDA006A27E0 /* Foundation.framework */; };
+		C57C48F018BBDB1900DFFBCE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
+		C57C48F218BBDB1900DFFBCE /* CheckBox_Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7D18B3141800E27EE9 /* CheckBox_Unselected.png */; };
+		C57C48F318BBDB1900DFFBCE /* Agency@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DDD18B3126000D22682 /* Agency@2x.png */; };
+		C57C48F418BBDB1900DFFBCE /* location2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706A18ABEFFC00EEFBD6 /* location2.png */; };
+		C57C48F518BBDB1900DFFBCE /* DisarmIcon_keypad.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE518B3126000D22682 /* DisarmIcon_keypad.png */; };
+		C57C48F618BBDB1900DFFBCE /* CheckBox_UnselectedDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E8018B3141800E27EE9 /* CheckBox_UnselectedDown@2x.png */; };
+		C57C48F718BBDB1900DFFBCE /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
+		C57C48F818BBDB1900DFFBCE /* AddPhotoButton_Down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DD918B3126000D22682 /* AddPhotoButton_Down@2x.png */; };
+		C57C48F918BBDB1900DFFBCE /* AddPhotoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DDA18B3126000D22682 /* AddPhotoButton.png */; };
+		C57C48FA18BBDB1900DFFBCE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0818980FDA006A27E0 /* Images.xcassets */; };
+		C57C48FB18BBDB1900DFFBCE /* LockIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9118B3143100E27EE9 /* LockIcon.png */; };
+		C57C48FC18BBDB1900DFFBCE /* CheckBox_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E8118B3141800E27EE9 /* CheckBox_Selected.png */; };
+		C57C48FD18BBDB1900DFFBCE /* CheckBox_Unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7E18B3141800E27EE9 /* CheckBox_Unselected@2x.png */; };
+		C57C48FE18BBDB1900DFFBCE /* EmailEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */; };
+		C57C48FF18BBDB1900DFFBCE /* iphoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */; };
+		C57C490018BBDB1900DFFBCE /* facebookIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCC18B2CD8A00D22682 /* facebookIcon.png */; };
+		C57C490118BBDB1900DFFBCE /* googlePlus.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCD18B2CD8A00D22682 /* googlePlus.png */; };
+		C57C490218BBDB1900DFFBCE /* AddPhotoButton_Down.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DD818B3126000D22682 /* AddPhotoButton_Down.png */; };
+		C57C490318BBDB1900DFFBCE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B53BBCF918980FDA006A27E0 /* InfoPlist.strings */; };
+		C57C490418BBDB1900DFFBCE /* Agency.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DDC18B3126000D22682 /* Agency.png */; };
+		C57C490518BBDB1900DFFBCE /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
+		C57C490618BBDB1900DFFBCE /* CheckBox_UnselectedDown.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7F18B3141800E27EE9 /* CheckBox_UnselectedDown.png */; };
+		C57C490718BBDB1900DFFBCE /* PhoneIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9218B3143100E27EE9 /* PhoneIcon@2x.png */; };
+		C57C490818BBDB1900DFFBCE /* AddPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DDB18B3126000D22682 /* AddPhotoButton@2x.png */; };
+		C57C490918BBDB1900DFFBCE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0218980FDA006A27E0 /* Main.storyboard */; };
+		C57C490A18BBDB1900DFFBCE /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E8218B3141800E27EE9 /* circle.png */; };
+		C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DD518B2CEBB00D22682 /* mailicon.png */; };
+		C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */; };
+		C57C490D18BBDB1900DFFBCE /* LockIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9318B3143100E27EE9 /* LockIcon@2x.png */; };
+		C57C490E18BBDB1900DFFBCE /* DisarmIcon_KeyPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE618B3126000D22682 /* DisarmIcon_KeyPad@2x.png */; };
+		C57C490F18BBDB1900DFFBCE /* PhoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9418B3143100E27EE9 /* PhoneIcon.png */; };
+		C57C491018BBDB1900DFFBCE /* twitterIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DCE18B2CD8A00D22682 /* twitterIcon.png */; };
+		C57C491118BBDB1900DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
+		C57C491218BBDB1900DFFBCE /* no_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48AC18BBC32100DFFBCE /* no_image.png */; };
+		C57C491318BBDB1900DFFBCE /* EmailEnvelope.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE718B3126000D22682 /* EmailEnvelope.png */; };
+		C57C491C18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57C491B18BBDB7D00DFFBCE /* TapShield copy-Info.plist */; };
+		C57C491D18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57C491B18BBDB7D00DFFBCE /* TapShield copy-Info.plist */; };
+		C57C491E18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57C491B18BBDB7D00DFFBCE /* TapShield copy-Info.plist */; };
 		C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705718AAD76B00EEFBD6 /* logo.png */; };
 		C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
 		C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
@@ -323,6 +417,8 @@
 		C57C48AC18BBC32100DFFBCE /* no_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no_image.png; path = Images/no_image.png; sourceTree = "<group>"; };
 		C57C48AF18BBC6F100DFFBCE /* TSProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSProfileViewController.h; sourceTree = "<group>"; };
 		C57C48B018BBC6F100DFFBCE /* TSProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSProfileViewController.m; sourceTree = "<group>"; };
+		C57C491918BBDB1900DFFBCE /* TapShield copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TapShield copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C57C491B18BBDB7D00DFFBCE /* TapShield copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TapShield copy-Info.plist"; sourceTree = "<group>"; };
 		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
 		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/TSMapOverlayCircle.h; sourceTree = "<group>"; };
@@ -383,6 +479,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C57C48E918BBDB1900DFFBCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C57C48EA18BBDB1900DFFBCE /* libresolv.dylib in Frameworks */,
+				C57C48EB18BBDB1900DFFBCE /* CoreLocation.framework in Frameworks */,
+				C57C48EC18BBDB1900DFFBCE /* MapKit.framework in Frameworks */,
+				C57C48ED18BBDB1900DFFBCE /* CoreGraphics.framework in Frameworks */,
+				C57C48EE18BBDB1900DFFBCE /* UIKit.framework in Frameworks */,
+				C57C48EF18BBDB1900DFFBCE /* Foundation.framework in Frameworks */,
+				C57C48F018BBDB1900DFFBCE /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -403,6 +513,7 @@
 			children = (
 				B53BBCED18980FDA006A27E0 /* TapShield.app */,
 				B53BBD0E18980FDA006A27E0 /* TapShieldTests.xctest */,
+				C57C491918BBDB1900DFFBCE /* TapShield copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -442,6 +553,7 @@
 		B53BBCF718980FDA006A27E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C57C491B18BBDB7D00DFFBCE /* TapShield copy-Info.plist */,
 				B53BBCF818980FDA006A27E0 /* TapShield-Info.plist */,
 				B53BBCF918980FDA006A27E0 /* InfoPlist.strings */,
 				B53BBCFC18980FDA006A27E0 /* main.m */,
@@ -773,6 +885,7 @@
 				B53BBCEA18980FDA006A27E0 /* Frameworks */,
 				B53BBCEB18980FDA006A27E0 /* Resources */,
 				B4F7DF645C0E445D8B0A4728 /* Copy Pods Resources */,
+				C57C48B318BBD80700DFFBCE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -800,6 +913,26 @@
 			productName = TapShieldTests;
 			productReference = B53BBD0E18980FDA006A27E0 /* TapShieldTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C57C48B418BBDB1900DFFBCE /* TapShield copy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C57C491618BBDB1900DFFBCE /* Build configuration list for PBXNativeTarget "TapShield copy" */;
+			buildPhases = (
+				C57C48B518BBDB1900DFFBCE /* Check Pods Manifest.lock */,
+				C57C48B618BBDB1900DFFBCE /* Sources */,
+				C57C48E918BBDB1900DFFBCE /* Frameworks */,
+				C57C48F118BBDB1900DFFBCE /* Resources */,
+				C57C491418BBDB1900DFFBCE /* Copy Pods Resources */,
+				C57C491518BBDB1900DFFBCE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TapShield copy";
+			productName = TapShield;
+			productReference = C57C491918BBDB1900DFFBCE /* TapShield copy.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -830,6 +963,7 @@
 			projectRoot = "";
 			targets = (
 				B53BBCEC18980FDA006A27E0 /* TapShield */,
+				C57C48B418BBDB1900DFFBCE /* TapShield copy */,
 				B53BBD0D18980FDA006A27E0 /* TapShieldTests */,
 			);
 		};
@@ -840,6 +974,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C532E62818BBDC2000FC111A /* Main.storyboard in Resources */,
 				C5FD5E8518B3141800E27EE9 /* CheckBox_Unselected.png in Resources */,
 				C5372DF318B3126000D22682 /* Agency@2x.png in Resources */,
 				C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */,
@@ -849,6 +984,7 @@
 				C5372DEB18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
 				C5372DED18B3126000D22682 /* AddPhotoButton.png in Resources */,
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
+				C57C491C18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
 				C5FD5E9518B3143100E27EE9 /* LockIcon.png in Resources */,
 				C5FD5E8D18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
 				C5FD5E8718B3141800E27EE9 /* CheckBox_Unselected@2x.png in Resources */,
@@ -863,7 +999,6 @@
 				C5FD5E8918B3141800E27EE9 /* CheckBox_UnselectedDown.png in Resources */,
 				C5FD5E9718B3143100E27EE9 /* PhoneIcon@2x.png in Resources */,
 				C5372DEF18B3126000D22682 /* AddPhotoButton@2x.png in Resources */,
-				B53BBD0418980FDA006A27E0 /* Main.storyboard in Resources */,
 				C5FD5E8F18B3141800E27EE9 /* circle.png in Resources */,
 				C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */,
 				C5FD5E8318B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
@@ -906,6 +1041,7 @@
 				C5FD5E9818B3143100E27EE9 /* PhoneIcon@2x.png in Resources */,
 				C5FD5E8A18B3141800E27EE9 /* CheckBox_UnselectedDown.png in Resources */,
 				C5372DEC18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
+				C57C491D18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
 				C5372DD418B2CD8A00D22682 /* twitterIcon.png in Resources */,
 				C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */,
 				C5372DEE18B3126000D22682 /* AddPhotoButton.png in Resources */,
@@ -914,6 +1050,48 @@
 				C5372DD718B2CEBB00D22682 /* mailicon.png in Resources */,
 				C57C48AE18BBC32100DFFBCE /* no_image.png in Resources */,
 				C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C57C48F118BBDB1900DFFBCE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C57C48F218BBDB1900DFFBCE /* CheckBox_Unselected.png in Resources */,
+				C57C48F318BBDB1900DFFBCE /* Agency@2x.png in Resources */,
+				C57C48F418BBDB1900DFFBCE /* location2.png in Resources */,
+				C57C48F518BBDB1900DFFBCE /* DisarmIcon_keypad.png in Resources */,
+				C57C48F618BBDB1900DFFBCE /* CheckBox_UnselectedDown@2x.png in Resources */,
+				C57C48F718BBDB1900DFFBCE /* logo.png in Resources */,
+				C57C48F818BBDB1900DFFBCE /* AddPhotoButton_Down@2x.png in Resources */,
+				C57C48F918BBDB1900DFFBCE /* AddPhotoButton.png in Resources */,
+				C57C48FA18BBDB1900DFFBCE /* Images.xcassets in Resources */,
+				C57C491E18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
+				C57C48FB18BBDB1900DFFBCE /* LockIcon.png in Resources */,
+				C57C48FC18BBDB1900DFFBCE /* CheckBox_Selected.png in Resources */,
+				C57C48FD18BBDB1900DFFBCE /* CheckBox_Unselected@2x.png in Resources */,
+				C57C48FE18BBDB1900DFFBCE /* EmailEnvelope@2x.png in Resources */,
+				C57C48FF18BBDB1900DFFBCE /* iphoneIcon.png in Resources */,
+				C57C490018BBDB1900DFFBCE /* facebookIcon.png in Resources */,
+				C57C490118BBDB1900DFFBCE /* googlePlus.png in Resources */,
+				C57C490218BBDB1900DFFBCE /* AddPhotoButton_Down.png in Resources */,
+				C57C490318BBDB1900DFFBCE /* InfoPlist.strings in Resources */,
+				C57C490418BBDB1900DFFBCE /* Agency.png in Resources */,
+				C57C490518BBDB1900DFFBCE /* location1.png in Resources */,
+				C57C490618BBDB1900DFFBCE /* CheckBox_UnselectedDown.png in Resources */,
+				C57C490718BBDB1900DFFBCE /* PhoneIcon@2x.png in Resources */,
+				C57C490818BBDB1900DFFBCE /* AddPhotoButton@2x.png in Resources */,
+				C57C490918BBDB1900DFFBCE /* Main.storyboard in Resources */,
+				C57C490A18BBDB1900DFFBCE /* circle.png in Resources */,
+				C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */,
+				C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */,
+				C57C490D18BBDB1900DFFBCE /* LockIcon@2x.png in Resources */,
+				C57C490E18BBDB1900DFFBCE /* DisarmIcon_KeyPad@2x.png in Resources */,
+				C57C490F18BBDB1900DFFBCE /* PhoneIcon.png in Resources */,
+				C57C491018BBDB1900DFFBCE /* twitterIcon.png in Resources */,
+				C57C491118BBDB1900DFFBCE /* XIcon.png in Resources */,
+				C57C491218BBDB1900DFFBCE /* no_image.png in Resources */,
+				C57C491318BBDB1900DFFBCE /* EmailEnvelope.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,6 +1127,62 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C57C48B318BBD80700DFFBCE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "# set new $IFS\nSAVEIFS=$IFS\nIFS=$(echo -en \"\\n\\b\")\nFILES=\"TapShield/*.plist\"\nfor plist in $FILES\ndo\necho \"Updating $plist\"\n\nif [[ -z \"$CFBundleVersionNew\" ]]\nthen\nCFBundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$plist\")\nCFBundleVersionNew=$(($CFBundleVersion + 1))\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $CFBundleVersionNew\" \"$plist\"\n\nCFBuildDate=$(date)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBuildDate $CFBuildDate\" \"$plist\"\n\ntouch \"$plist\"\ndone\n# restore $IFS\nIFS=$SAVEIFS";
+		};
+		C57C48B518BBDB1900DFFBCE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C57C491418BBDB1900DFFBCE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C57C491518BBDB1900DFFBCE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "# set new $IFS\nSAVEIFS=$IFS\nIFS=$(echo -en \"\\n\\b\")\nFILES=\"TapShield/*.plist\"\nfor plist in $FILES\ndo\necho \"Updating $plist\"\n\nif [[ -z \"$CFBundleVersionNew\" ]]\nthen\nCFBundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$plist\")\nCFBundleVersionNew=$(($CFBundleVersion + 1))\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $CFBundleVersionNew\" \"$plist\"\n\nCFBuildDate=$(date)\n\n/usr/libexec/PlistBuddy -c \"Set :CFBuildDate $CFBuildDate\" \"$plist\"\n\ntouch \"$plist\"\ndone\n# restore $IFS\nIFS=$SAVEIFS";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1062,6 +1296,63 @@
 				C5C1706818ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C57C48B618BBDB1900DFFBCE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C57C48B718BBDB1900DFFBCE /* TSColorPalette.m in Sources */,
+				C57C48B818BBDB1900DFFBCE /* TSLocationGeofenceTestView.m in Sources */,
+				C57C48B918BBDB1900DFFBCE /* TSUserProfileCell.m in Sources */,
+				C57C48BA18BBDB1900DFFBCE /* UIImage+Resize.m in Sources */,
+				C57C48BB18BBDB1900DFFBCE /* UIImage+Color.m in Sources */,
+				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
+				C57C48BD18BBDB1900DFFBCE /* TSConstants.m in Sources */,
+				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
+				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
+				C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */,
+				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
+				C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */,
+				C57C48C318BBDB1900DFFBCE /* TSOrganizationCell.m in Sources */,
+				C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */,
+				C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */,
+				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
+				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
+				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
+				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,
+				C57C48CA18BBDB1900DFFBCE /* TSJavelinAPIClient.m in Sources */,
+				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
+				C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */,
+				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
+				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
+				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
+				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
+				C57C48D218BBDB1900DFFBCE /* TSEmailOrganizationViewController.m in Sources */,
+				C57C48D318BBDB1900DFFBCE /* UIView+FirstResponder.m in Sources */,
+				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
+				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
+				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
+				C57C48D718BBDB1900DFFBCE /* TSHelpViewController.m in Sources */,
+				C57C48D818BBDB1900DFFBCE /* TSBaseViewController.m in Sources */,
+				C57C48D918BBDB1900DFFBCE /* TSCustomMapAnnotationUserLocation.m in Sources */,
+				C57C48DA18BBDB1900DFFBCE /* TSUserLocationButton.m in Sources */,
+				C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */,
+				C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */,
+				C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */,
+				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
+				C57C48DF18BBDB1900DFFBCE /* TSJavelinAPIUtilities.m in Sources */,
+				C57C48E018BBDB1900DFFBCE /* TSOrganizationSearchViewController.m in Sources */,
+				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,
+				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
+				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
+				C57C48E418BBDB1900DFFBCE /* TSJavelinAPIAuthenticationManager.m in Sources */,
+				C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */,
+				C57C48E618BBDB1900DFFBCE /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C57C48E718BBDB1900DFFBCE /* TSLoginOrSignUpViewController.m in Sources */,
+				C57C48E818BBDB1900DFFBCE /* TSJavelinPushNotificationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1258,6 +1549,46 @@
 			};
 			name = Release;
 		};
+		C57C491718BBDB1900DFFBCE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEV=1",
+				);
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/TapShield/TapShield copy-Info.plist";
+				PRODUCT_NAME = "TapShield copy";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C57C491818BBDB1900DFFBCE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEV=1",
+				);
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/TapShield/TapShield copy-Info.plist";
+				PRODUCT_NAME = "TapShield copy";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1284,6 +1615,15 @@
 			buildConfigurations = (
 				B53BBD2318980FDA006A27E0 /* Debug */,
 				B53BBD2418980FDA006A27E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C57C491618BBDB1900DFFBCE /* Build configuration list for PBXNativeTarget "TapShield copy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C57C491718BBDB1900DFFBCE /* Debug */,
+				C57C491818BBDB1900DFFBCE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

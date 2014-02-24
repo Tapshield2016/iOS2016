@@ -7,10 +7,15 @@
 //
 
 #import "TSHomeViewController.h"
+#import "TSVirtualEntourageViewController.h"
+#include <MapKit/MapKit.h>
+#import "TSSelectedDestinationLeftCalloutAccessoryView.h"
+#import "TSUtilities.h"
 
 @interface TSHomeViewController ()
 
-
+@property (nonatomic, strong) NSArray *routes;
+@property (nonatomic, strong) MKRoute *selectedRoute;
 
 @end
 
@@ -46,8 +51,12 @@
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
-    [self.mapView addGestureRecognizer:panRecognizer];
-    
+    [_mapView addGestureRecognizer:panRecognizer];
+
+    // Tap recognizer for selecting routes and other items
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [_mapView addGestureRecognizer:recognizer];
+
     _geocoder = [[CLGeocoder alloc] init];
     
     _locationManager = [[CLLocationManager alloc] init];
@@ -66,9 +75,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
-    
+
     TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     if (appDelegate.currentLocation) {
         [_mapView setRegionAtAppearanceAnimated:NO];
@@ -80,12 +89,20 @@
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
         [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
     }
+
+    // Display user location and selected destination if present
+    if (_mapView.destinationMapItem) {
+#warning Need to find a better way of turning on/off keeping the user in the center
+        _showUserLocationButton.selected = NO;
+        [_mapView centerMapOnSelectedDestination];
+        [_mapView selectDestinationAnnotation];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+
     [super viewDidAppear:animated];
-    
+
     [_locationManager startUpdatingLocation];
 }
 
@@ -108,6 +125,197 @@
     }
 }
 
+#pragma mark - UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+#pragma mark - Gesture handlers
+
+- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+        NSLog(@"drag ended");
+        _showUserLocationButton.selected = NO;
+    }
+}
+
+- (void)handleTap:(UIGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        for (int i = 0; i < recognizer.numberOfTouches; i++) {
+            CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
+
+            CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
+            MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
+
+            // Capture multiple routes in case of overlap
+            NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
+            for (id overlay in _mapView.overlays) {
+                if ([overlay isKindOfClass:[MKPolyline class]]) {
+                    MKPolyline *poly = (MKPolyline *) overlay;
+                    id view = [_mapView rendererForOverlay:poly];
+
+                    if ([view isKindOfClass:[MKPolylineRenderer class]]) {
+                        MKPolylineRenderer *polyView = (MKPolylineRenderer*) view;
+                        [polyView invalidatePath];
+
+                        CGPoint polygonViewPoint = [polyView pointForMapPoint:mapPoint];
+                        BOOL mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
+
+                        if (mapCoordinateIsInPolygon) {
+                            for (MKRoute *route in _routes) {
+                                if (route.polyline == poly) {
+                                    [struckRoutes addObject:route];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            [self setSelectedRouteFromStruckRoutes:struckRoutes];
+        }
+    }
+}
+
+#pragma mark - Virtual Entourage methods
+
+- (IBAction)displayVirtualEntourage:(id)sender {
+    UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"TSVirtualEntourageNavigationController"];
+    ((TSVirtualEntourageViewController *)navController.viewControllers[0]).mapView = _mapView;
+    [self presentViewController:navController animated:YES completion:^{
+
+    }];
+}
+
+#pragma mark - Route management and display methods
+
+- (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
+    if ([struckRoutes count] > 0) {
+        // If only one route, just take that one
+        if ([struckRoutes count] == 1) {
+            _selectedRoute = struckRoutes[0];
+        }
+        else {
+            // If multiple overlapping routes, alternate if one is already selected
+            BOOL previouslySelectedRouteWasStruck = NO;
+            for (MKRoute *route in struckRoutes) {
+                if (_selectedRoute == route) {
+                    int selectedIndex = [struckRoutes indexOfObject:route];
+                    _selectedRoute = struckRoutes[(selectedIndex + 1) % struckRoutes.count];
+                    previouslySelectedRouteWasStruck = YES;
+                    break;
+                }
+            }
+            // Otherwise, just take the first one
+            if (!previouslySelectedRouteWasStruck) {
+                _selectedRoute = struckRoutes[0];
+            }
+        }
+        NSLog(@"%@ selected", _selectedRoute.name);
+        [self refreshOverlays];
+    }
+}
+
+- (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion {
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_mapView.destinationMapItem];
+    [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+    [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+        if (!error) {
+            NSLog(@"%@", response);
+            completion(response.expectedTravelTime);
+        }
+        else {
+            NSLog(@"%@", error);
+            // May have gotten an error due to attempting walking directions over too far
+            // a distance, retry with 'Any'.
+            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _mapView.destinationTransportType == MKDirectionsTransportTypeWalking) {
+                NSLog(@"Error with walking directions, trying again with 'Any'");
+                _mapView.destinationTransportType = MKDirectionsTransportTypeAny;
+                [self calculateETAForSelectedDestination:completion];
+            }
+        }
+    }];
+}
+
+- (void)requestAndDisplayRoutesForSelectedDestination {
+    [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_mapView.destinationMapItem];
+    [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        if (!error) {
+            _selectedRoute = nil;
+            [self removeRouteOverlays];
+            _routes = [response routes];
+            [self addRouteOverlaysToMapView];
+        }
+    }];
+}
+
+- (void)removeRouteOverlays {
+    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
+
+    for (MKRoute *route in _routes) {
+        [overlays addObject:route.polyline];
+    }
+
+    [_mapView removeOverlays:overlays];
+}
+
+- (void)addRouteOverlaysToMapView {
+    for (MKRoute *route in _routes) {
+        if (route == _selectedRoute) {
+            // skip selected route so we can add it last, on top of others
+            // this handles when two routes overlap
+            continue;
+        }
+        [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
+        // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
+        //NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
+        //NSLog(@"%.02f miles", route.distance * 0.000621371);
+    }
+
+    if (_selectedRoute) {
+        // Add last to counter possible overlap preventing display
+        [_mapView addOverlay:[_selectedRoute polyline] level:MKOverlayLevelAboveRoads];
+    }
+}
+
+- (void)refreshOverlays {
+    [self removeRouteOverlays];
+    [self addRouteOverlaysToMapView];
+}
+
+- (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
+    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+    [renderer setLineWidth:4.0];
+    [renderer setStrokeColor:[UIColor lightGrayColor]];
+    
+    if (_selectedRoute) {
+        for (MKRoute *route in _routes) {
+            if (route == _selectedRoute) {
+                if (route.polyline == overlay) {
+                    NSLog(@"%@ highlighted", route.name);
+                    [renderer setStrokeColor:[UIColor blueColor]];
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        NSLog(@"No selected route right now");
+    }
+    
+    return renderer;
+}
 
 #pragma mark - CLLocationManagerDelegate methods
 
@@ -115,8 +323,6 @@
     TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     CLLocation *lastReportedLocation = [locations lastObject];
     appDelegate.currentLocation = lastReportedLocation;
-    
-    NSLog(@"%f", lastReportedLocation.horizontalAccuracy);
     
     _mapView.currentLocation = lastReportedLocation;
     
@@ -126,7 +332,7 @@
     }
     
     if (!_mapView.userLocationAnnotation) {
-        _mapView.userLocationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:lastReportedLocation.coordinate
+        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:lastReportedLocation.coordinate
                                                                                        placeName:[NSString stringWithFormat:@"%f, %f", lastReportedLocation.coordinate.latitude, lastReportedLocation.coordinate.longitude]
                                                                                      description:[NSString stringWithFormat:@"Accuracy: %f", lastReportedLocation.horizontalAccuracy]];
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
@@ -138,17 +344,8 @@
             [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
         });
         _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
-        
-//        [_mapView removeOverlay:_mapView.accuracyCircle];
-//        
-//        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseIn
-//                         animations:^{
-//                             _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
-//                         } completion:nil];
     }
-    
-    
-    
+
     if (!_mapView.isAnimatingToRegion && _showUserLocationButton.selected) {
         [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
     }
@@ -190,67 +387,48 @@
                 subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
             }
             
-            
             _mapView.userLocationAnnotation.title = title;
             _mapView.userLocationAnnotation.subtitle = subtitle;
         }
     }];
 }
 
-
 #pragma mark - MKMapViewDelegate methods
-
-//Enable show user location
-//
-//- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-//    if (!_mapView.initialLocation) {
-//        _mapView.initialLocation = userLocation.location;
-//    }
-//    
-//    [_geocoder reverseGeocodeLocation:_locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-//        if (placemarks) {
-//            CLPlacemark *placemark = [placemarks firstObject];
-//            _mapView.userLocation.title = [NSString stringWithFormat:@"%@ %@", placemark.subThoroughfare, placemark.thoroughfare];
-//            _mapView.userLocation.subtitle = [NSString stringWithFormat:@"%@, %@ %@", placemark.locality, placemark.administrativeArea, placemark.postalCode];
-//        }
-//    }];
-//    
-//    [_mapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
-//}
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if([overlay isKindOfClass:[MKPolygon class]]){
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
-    if ([overlay isKindOfClass:[MKCircle class]]) {
+    else if ([overlay isKindOfClass:[MKCircle class]]) {
         
         return [TSMapView mapViewCircleOverlay:overlay];
+    }
+    else if ([overlay isKindOfClass:[MKPolyline class]]) {
+        return [self rendererForRoutePolyline:overlay];
     }
     
     return nil;
 }
 
-
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
-    if ([annotation isKindOfClass:[TSCustomMapAnnotationUserLocation class]]) {
+    if ([annotation isKindOfClass:[TSUserLocationAnnotation class]]) {
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"user"];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
         }
         annotationView.image = [UIImage imageNamed:@"logo"];
         [annotationView setCanShowCallout:YES];
-        
+
         return annotationView;
     }
-    
-    if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
-        
+    else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
+
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"agency"];
         }
-        
+
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/5)];
         label.text = ((TSAgencyAnnotation *)annotation).title;
         label.font = [UIFont boldSystemFontOfSize:20];
@@ -265,10 +443,30 @@
         
         return annotationView;
     }
+    else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"TSSelectedDestinationAnnotation"];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"TSSelectedDestinationAnnotation"];
+            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TSSelectedDestinationLeftCalloutAccessoryView" owner:self options:nil];
+            TSSelectedDestinationLeftCalloutAccessoryView *leftCalloutAccessoryView = views[0];
+            annotationView.leftCalloutAccessoryView = leftCalloutAccessoryView;
+        }
+        annotationView.annotation = annotation;
+        annotationView.image = [UIImage imageNamed:@"logo"];
+        ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = @"";
+        [annotationView setCanShowCallout:YES];
+
+        [self calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
+            if (expectedTravelTime) {
+                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:expectedTravelTime];
+            }
+        }];
+
+        return annotationView;
+    }
     
     return nil;
 }
-
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
@@ -291,6 +489,9 @@
             fabs(_mapView.region.center.longitude - _locationManager.location.coordinate.longitude) >= .0000001) {
             [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
         }
+        
+    for(TSUserLocationAnnotation *n in _mapView.annotations){
+        [_mapView addAnimatedOverlayToAnnotation:n];
     }
     
     //[_mapView removeOverlay:_mapView.accuracyCircle];
@@ -307,6 +508,7 @@
     _mapView.shouldUpdateCallOut = NO;
 }
 
+    
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
@@ -315,6 +517,11 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
         _showUserLocationButton.selected = NO;
     }
+}
+    
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    [self requestAndDisplayRoutesForSelectedDestination];
 }
 
 

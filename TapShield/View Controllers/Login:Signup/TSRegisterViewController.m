@@ -187,6 +187,9 @@
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
     // get a rect for the textView frame
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardBounds.size.height, 0.0);
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
     
     // animations settings
     [UIView beginAnimations:nil context:NULL];
@@ -194,12 +197,14 @@
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
-    // set views with new info
-    _scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height + keyboardBounds.size.height);
-    // commit animations
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= keyboardBounds.size.height;
+    if (!CGRectContainsPoint(aRect, [self.view findFirstResponder].superview.frame.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
+        [_scrollView setContentOffset:scrollPoint];
+    }
+
     [UIView commitAnimations];
-    
-    _scrollView.scrollEnabled = YES;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -213,6 +218,10 @@
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
     // get a rect for the textView frame
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
     
     // animations settings
     [UIView beginAnimations:nil context:NULL];
@@ -220,9 +229,7 @@
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
-    // set views with new info
-    _scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    // commit animations
+    
     [UIView commitAnimations];
 }
 

@@ -136,6 +136,10 @@
 		C5372E0A18B3126000D22682 /* EmailEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
+		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
+		C57C48A718B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
+		C57C48AA18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */; };
+		C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */; };
 		C5C1705918AAD76B00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705718AAD76B00EEFBD6 /* logo.png */; };
 		C5C1705C18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
 		C5C1705D18AAE5DE00EEFBD6 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1705B18AAE5DE00EEFBD6 /* logo.png */; };
@@ -309,6 +313,9 @@
 		C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EmailEnvelope@2x.png"; path = "Images/EmailEnvelope@2x.png"; sourceTree = "<group>"; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
+		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
+		C57C48A818BBA2E400DFFBCE /* TSUserProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserProfileCell.h; path = Views/TSUserProfileCell.h; sourceTree = "<group>"; };
+		C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserProfileCell.m; path = Views/TSUserProfileCell.m; sourceTree = "<group>"; };
 		C5C1705718AAD76B00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images.xcassets/AppIcon.appiconset/logo.png; sourceTree = "<group>"; };
 		C5C1705B18AAE5DE00EEFBD6 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = TapShield/Images/logo.png; sourceTree = SOURCE_ROOT; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/TSMapOverlayCircle.h; sourceTree = "<group>"; };
@@ -690,6 +697,8 @@
 			children = (
 				C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */,
 				C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */,
+				C57C48A818BBA2E400DFFBCE /* TSUserProfileCell.h */,
+				C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -697,6 +706,7 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C57C48A518B7B17400DFFBCE /* XIcon.png */,
 				C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */,
 				C5372DDA18B3126000D22682 /* AddPhotoButton.png */,
 				C5372DDB18B3126000D22682 /* AddPhotoButton@2x.png */,
@@ -851,6 +861,7 @@
 				C5372E0518B3126000D22682 /* DisarmIcon_KeyPad@2x.png in Resources */,
 				C5FD5E9B18B3143100E27EE9 /* PhoneIcon.png in Resources */,
 				C5372DD318B2CD8A00D22682 /* twitterIcon.png in Resources */,
+				C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */,
 				C5372E0718B3126000D22682 /* EmailEnvelope.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -888,6 +899,7 @@
 				C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */,
 				C5372DEE18B3126000D22682 /* AddPhotoButton.png in Resources */,
 				C5FD5E9018B3141800E27EE9 /* circle.png in Resources */,
+				C57C48A718B7B17400DFFBCE /* XIcon.png in Resources */,
 				C5372DD718B2CEBB00D22682 /* mailicon.png in Resources */,
 				C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */,
 			);
@@ -935,6 +947,7 @@
 			files = (
 				C5C1706718ABDD0B00EEFBD6 /* TSColorPalette.m in Sources */,
 				C520C91418A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
+				C57C48AA18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C520C90E18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				C5372DA818AEE14000D22682 /* UIImage+Color.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
@@ -1013,6 +1026,7 @@
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
+				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C520C90718A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5372DB518B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */,

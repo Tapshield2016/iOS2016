@@ -204,7 +204,7 @@
     UIImage *selectedImage = _emailIcon.image;
     
     if (!editing) {
-        _emailIcon.image = [UIImage imageNamed:@"mailIcon"];
+        _emailIcon.image = [UIImage imageNamed:@"mailicon"];
         return;
     }
     

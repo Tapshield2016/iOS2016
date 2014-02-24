@@ -12,8 +12,6 @@
 
 @interface TSMapView ()
 
-@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
-
 @end
 
 @implementation TSMapView

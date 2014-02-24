@@ -83,7 +83,7 @@
         [_mapView setRegionAtAppearanceAnimated:NO];
         _mapView.initialLocation = appDelegate.currentLocation;
         
-        _mapView.userLocationAnnotation = [[TSCustomMapAnnotationUserLocation alloc] initWithCoordinates:appDelegate.currentLocation.coordinate
+        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:appDelegate.currentLocation.coordinate
                                                                                                placeName:[NSString stringWithFormat:@"%f, %f", appDelegate.currentLocation.coordinate.latitude, appDelegate.currentLocation.coordinate.longitude]
                                                                                              description:[NSString stringWithFormat:@"Accuracy: %f", appDelegate.currentLocation.horizontalAccuracy]];
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
@@ -489,6 +489,7 @@
             fabs(_mapView.region.center.longitude - _locationManager.location.coordinate.longitude) >= .0000001) {
             [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
         }
+    }
 
     for(TSUserLocationAnnotation *n in _mapView.annotations){
         [_mapView addAnimatedOverlayToAnnotation:n];
@@ -506,16 +507,6 @@
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
     _mapView.shouldUpdateCallOut = NO;
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
-
-- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-        _showUserLocationButton.selected = NO;
-    }
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {

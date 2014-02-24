@@ -12,7 +12,6 @@
 #import "TSAgencyAnnotation.h"
 #import "TSAppDelegate.h"
 #import "TSColorPalette.h"
-#import "TSCustomMapAnnotationUserLocation.h"
 #import "TSMapOverlayCircle.h"
 #import "TSSelectedDestinationAnnotation.h"
 

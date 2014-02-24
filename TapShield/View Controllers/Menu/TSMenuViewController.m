@@ -39,21 +39,24 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
-    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Home",
+    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
+                                                                    @"Home",
                                                                     @"Mass Notifications",
+                                                                    @"Profile",
                                                                     @"Settings",
-                                                                    @"About",
-                                                                    @"Feedback",
-                                                                    @"Help", nil];
+                                                                    @"Help",
+                                                                    @"About", nil];
 
-    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects:@"TSHomeViewController",
-                                                                           @"TSMassNotificationsViewController",
-                                                                           @"TSSettingsViewController",
-                                                                           @"TSAboutViewController",
-                                                                           @"TSFeedbackViewController",
-                                                                           @"TSHelpViewController", nil];
+    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects: @"TSProfileViewController",
+                                                                            @"TSHomeViewController",
+                                                                            @"TSMassNotificationsViewController",
+                                                                            @"TSProfileViewController",
+                                                                            @"TSSettingsViewController",
+                                                                            @"TSHelpViewController",
+                                                                            @"TSAboutViewController", nil];
     self.tableView.separatorColor = [UIColor whiteColor];
     self.tableView.backgroundColor = [TSColorPalette charcoalColor];
+    [self.tableView registerClass:[TSUserProfileCell class]  forCellReuseIdentifier:@"ProfileCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -114,10 +117,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) {
+        TSUserProfileCell *profileCell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath:indexPath];
+        if (profileCell == nil) {
+            profileCell = [[TSUserProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ProfileCell"];
+        }
+        
+        profileCell.user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
+        
+        profileCell.backgroundColor = [TSColorPalette charcoalColor];
+        profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
+            profileCell.selected = YES;
+        }
+        
+        return profileCell;
+    }
+    
+    
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    
     
     cell.textLabel.text = _viewControllerTitles[indexPath.row];
     cell.textLabel.textColor = [UIColor whiteColor];
@@ -125,6 +145,7 @@
     cell.textLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:20];
     cell.backgroundColor = [TSColorPalette charcoalColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width);
     
     if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
         cell.textLabel.textColor = [TSColorPalette tapshieldBlue];
@@ -135,7 +156,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return self.view.frame.size.height/_viewControllerTitles.count;
+    if (indexPath.row == 0) {
+        return self.view.frame.size.height/6;
+    }
+    
+    return (self.view.frame.size.height - self.view.frame.size.height/6)/(_viewControllerTitles.count - 1);
 }
 
 @end

@@ -12,6 +12,10 @@
 @interface TSUserProfileCell : UITableViewCell
 
 @property (nonatomic, strong) TSJavelinAPIUser *user;
+@property (nonatomic, strong) UIImageView *profileImageView;
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *organizationLabel;
+@property (nonatomic, strong) UILabel *disarmCodeLabel;
 
 
 @end

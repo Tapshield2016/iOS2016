@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSColorPalette.h"
+#import "TSUserProfileCell.h"
 
 @class MSDynamicsDrawerViewController;
 

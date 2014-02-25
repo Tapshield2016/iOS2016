@@ -124,6 +124,9 @@
 		C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E8DD18BCF85E00FC111A /* TSLocationController.m */; };
 		C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E8DD18BCF85E00FC111A /* TSLocationController.m */; };
 		C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E8DD18BCF85E00FC111A /* TSLocationController.m */; };
+		C532E8E318BD44F400FC111A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E118BD44F400FC111A /* Main.storyboard */; };
+		C532E8E418BD44F400FC111A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E118BD44F400FC111A /* Main.storyboard */; };
+		C532E8E518BD44F400FC111A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E118BD44F400FC111A /* Main.storyboard */; };
 		C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9C18AEA93900D22682 /* TSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9A18AEA93900D22682 /* TSConstants.m */; };
@@ -331,7 +334,6 @@
 		B53BBCFE18980FDA006A27E0 /* TapShield-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TapShield-Prefix.pch"; sourceTree = "<group>"; };
 		B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TSAppDelegate.h; path = TapShield/TSAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TSAppDelegate.m; path = TapShield/TSAppDelegate.m; sourceTree = SOURCE_ROOT; };
-		B53BBD0318980FDA006A27E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B53BBD0818980FDA006A27E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B53BBD0E18980FDA006A27E0 /* TapShieldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapShieldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B53BBD0F18980FDA006A27E0 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -429,6 +431,7 @@
 		C532E64F18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TSSelectedDestinationLeftCalloutAccessoryView.xib; sourceTree = "<group>"; };
 		C532E8DC18BCF85D00FC111A /* TSLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLocationController.h; path = Utilities/TSLocationController.h; sourceTree = "<group>"; };
 		C532E8DD18BCF85E00FC111A /* TSLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLocationController.m; path = Utilities/TSLocationController.m; sourceTree = "<group>"; };
+		C532E8E218BD44F400FC111A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAgencyAnnotation.h; path = Views/Map/Annotations/TSAgencyAnnotation.h; sourceTree = "<group>"; };
 		C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAgencyAnnotation.m; path = Views/Map/Annotations/TSAgencyAnnotation.m; sourceTree = "<group>"; };
 		C5372D9A18AEA93900D22682 /* TSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSConstants.m; path = Utilities/TSConstants.m; sourceTree = "<group>"; };
@@ -583,11 +586,11 @@
 		B53BBCF618980FDA006A27E0 /* TapShield */ = {
 			isa = PBXGroup;
 			children = (
+				C532E8E118BD44F400FC111A /* Main.storyboard */,
 				B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */,
 				B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */,
 				B53BBD0818980FDA006A27E0 /* Images.xcassets */,
 				C5C1705A18AAE39600EEFBD6 /* Images */,
-				B53BBD0218980FDA006A27E0 /* Main.storyboard */,
 				B53BBCF718980FDA006A27E0 /* Supporting Files */,
 				B5F2DCE518B3E6E1009A7CA4 /* Utilities */,
 				B53BBD29189814FC006A27E0 /* View Controllers */,
@@ -1056,6 +1059,7 @@
 				C5FD5E8D18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
 				C5FD5E8718B3141800E27EE9 /* CheckBox_Unselected@2x.png in Resources */,
 				C5372E0918B3126000D22682 /* EmailEnvelope@2x.png in Resources */,
+				C532E8E318BD44F400FC111A /* Main.storyboard in Resources */,
 				C5FD5EAA18B5165600E27EE9 /* iphoneIcon.png in Resources */,
 				C5372DCF18B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C5372DD118B2CD8A00D22682 /* googlePlus.png in Resources */,
@@ -1089,6 +1093,7 @@
 				C5372DD218B2CD8A00D22682 /* googlePlus.png in Resources */,
 				C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C5FD5E8818B3141800E27EE9 /* CheckBox_Unselected@2x.png in Resources */,
+				C532E8E518BD44F400FC111A /* Main.storyboard in Resources */,
 				C5372DF018B3126000D22682 /* AddPhotoButton@2x.png in Resources */,
 				C5FD5E9618B3143100E27EE9 /* LockIcon.png in Resources */,
 				B53BBD1A18980FDA006A27E0 /* InfoPlist.strings in Resources */,
@@ -1141,6 +1146,7 @@
 				C57C48FD18BBDB1900DFFBCE /* CheckBox_Unselected@2x.png in Resources */,
 				C57C48FE18BBDB1900DFFBCE /* EmailEnvelope@2x.png in Resources */,
 				C57C48FF18BBDB1900DFFBCE /* iphoneIcon.png in Resources */,
+				C532E8E418BD44F400FC111A /* Main.storyboard in Resources */,
 				C57C490018BBDB1900DFFBCE /* facebookIcon.png in Resources */,
 				C57C490118BBDB1900DFFBCE /* googlePlus.png in Resources */,
 				C57C490218BBDB1900DFFBCE /* AddPhotoButton_Down.png in Resources */,
@@ -1467,21 +1473,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		B53BBD0218980FDA006A27E0 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B53BBD0318980FDA006A27E0 /* Base */,
-			);
-			name = Main.storyboard;
-			path = TapShield;
-			sourceTree = SOURCE_ROOT;
-		};
 		B53BBD1818980FDA006A27E0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B53BBD1918980FDA006A27E0 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C532E8E118BD44F400FC111A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C532E8E218BD44F400FC111A /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

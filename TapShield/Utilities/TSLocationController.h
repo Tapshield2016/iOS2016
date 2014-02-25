@@ -11,23 +11,24 @@
 #import <CoreLocation/CoreLocation.h>
 
 @protocol TSLocationControllerDelegate
-@required
 
+@required
 - (void)locationDidUpdate:(CLLocation*)location;
 
 @end
 
+typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
+
 @interface TSLocationController : NSObject <CLLocationManagerDelegate>
-{
-    CLLocationManager *locationManager;
-    CLLocation *location;
-    __weak id delegate;
-}
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *location;
-@property (nonatomic, weak) id  delegate;
+@property (nonatomic, weak) id <TSLocationControllerDelegate> delegate;
 
-+ (TSLocationController *)sharedLocationController;
+
+@property (nonatomic, strong) TSLocationControllerLocationReceived locationReceivedBlock;
+@property (nonatomic, strong) TSLocationControllerLocationReceived accurateLocationReceivedBlock;
+
++ (instancetype)sharedLocationController;
 
 @end

@@ -97,7 +97,6 @@
 		C520C91E18A98EC600D1D2E9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C520C91D18A98EC600D1D2E9 /* libPods.a */; };
 		C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
 		C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
-		C532E62818BBDC2000FC111A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0218980FDA006A27E0 /* Main.storyboard */; };
 		C532E63118BBF1E900FC111A /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E62A18BBF1E900FC111A /* TSColorPalette.m */; };
 		C532E63218BBF1E900FC111A /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E62A18BBF1E900FC111A /* TSColorPalette.m */; };
 		C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E62A18BBF1E900FC111A /* TSColorPalette.m */; };
@@ -253,7 +252,6 @@
 		C57C490618BBDB1900DFFBCE /* CheckBox_UnselectedDown.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7F18B3141800E27EE9 /* CheckBox_UnselectedDown.png */; };
 		C57C490718BBDB1900DFFBCE /* PhoneIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E9218B3143100E27EE9 /* PhoneIcon@2x.png */; };
 		C57C490818BBDB1900DFFBCE /* AddPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DDB18B3126000D22682 /* AddPhotoButton@2x.png */; };
-		C57C490918BBDB1900DFFBCE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B53BBD0218980FDA006A27E0 /* Main.storyboard */; };
 		C57C490A18BBDB1900DFFBCE /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E8218B3141800E27EE9 /* circle.png */; };
 		C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DD518B2CEBB00D22682 /* mailicon.png */; };
 		C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */; };
@@ -1043,7 +1041,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C532E62818BBDC2000FC111A /* Main.storyboard in Resources */,
 				C5FD5E8518B3141800E27EE9 /* CheckBox_Unselected.png in Resources */,
 				C5372DF318B3126000D22682 /* Agency@2x.png in Resources */,
 				C532E65318BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
@@ -1153,7 +1150,6 @@
 				C57C490618BBDB1900DFFBCE /* CheckBox_UnselectedDown.png in Resources */,
 				C57C490718BBDB1900DFFBCE /* PhoneIcon@2x.png in Resources */,
 				C57C490818BBDB1900DFFBCE /* AddPhotoButton@2x.png in Resources */,
-				C57C490918BBDB1900DFFBCE /* Main.storyboard in Resources */,
 				C57C490A18BBDB1900DFFBCE /* circle.png in Resources */,
 				C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */,
 				C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */,

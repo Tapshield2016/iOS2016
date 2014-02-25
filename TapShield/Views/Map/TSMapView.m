@@ -9,6 +9,7 @@
 #import "TSMapView.h"
 #import "TSUserLocationAnnotation.h"
 #import "TSSelectedDestinationAnnotation.h"
+#import "TSLocationController.h"
 
 @interface TSMapView ()
 
@@ -73,20 +74,14 @@
 
 #pragma mark - Region
 
-- (void)setInitialLocation:(CLLocation *)initialLocation {
-    _initialLocation = initialLocation;
-    [self getAllGeofenceBoundaries];
-}
-
-
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated {
     //will not work if view has not appeared
-    TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     MKCoordinateRegion region;
-    region.center = appDelegate.currentLocation.coordinate;
+    region.center = [TSLocationController sharedLocationController].location.coordinate;
     region.span = MKCoordinateSpanMake(0.006, 0.006);
     region = [self regionThatFits:region];
     [self setRegion:region animated:animated];
+    [self getAllGeofenceBoundaries];
 }
 
 #pragma mark - Annotation
@@ -201,7 +196,8 @@
 
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation {
     //get a frame around the annotation
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, _currentLocation.horizontalAccuracy*2, _currentLocation.horizontalAccuracy*2);
+    CLLocation *location = [TSLocationController sharedLocationController].location;
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, location.horizontalAccuracy*2, location.horizontalAccuracy*2);
     CGRect rect = [self  convertRegion:region toRectToView:self];
     //set up the animated overlay
     if(!_animatedOverlay){
@@ -224,10 +220,9 @@
     }
 }
 
-- (void)setCurrentLocation:(CLLocation *)currentLocation {
-    _currentLocation = currentLocation;
+- (void)resetAnimatedOverlayAt:(CLLocation *)location {
     
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(_userLocationAnnotation.coordinate, _currentLocation.horizontalAccuracy*2, _currentLocation.horizontalAccuracy*2);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, location.horizontalAccuracy*2, location.horizontalAccuracy*2);
     CGRect rect = [self  convertRegion:region toRectToView:self];
     //set up the animated overlay
     if(_animatedOverlay){

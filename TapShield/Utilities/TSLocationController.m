@@ -47,7 +47,6 @@ static dispatch_once_t predicate;
         _locationReceivedBlock = completion;
     }
     
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [_locationManager startUpdatingLocation];
 }
 

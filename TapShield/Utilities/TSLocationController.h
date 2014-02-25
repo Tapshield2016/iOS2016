@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
 @protocol TSLocationControllerDelegate
@@ -25,10 +24,13 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, weak) id <TSLocationControllerDelegate> delegate;
 
-
 @property (nonatomic, strong) TSLocationControllerLocationReceived locationReceivedBlock;
 @property (nonatomic, strong) TSLocationControllerLocationReceived accurateLocationReceivedBlock;
 
 + (instancetype)sharedLocationController;
+
+- (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion;
+- (void)latestLocation:(TSLocationControllerLocationReceived)completion;
+- (void)latestAccurateLocation:(TSLocationControllerLocationReceived)completion;
 
 @end

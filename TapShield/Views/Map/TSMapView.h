@@ -18,9 +18,7 @@
 @interface TSMapView : MKMapView
 
 @property (nonatomic, strong) NSArray *geofenceArray;
-@property (nonatomic, strong) CLLocation *initialLocation;
 @property (nonatomic, strong) CLLocation *previousLocation;
-@property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
@@ -48,5 +46,6 @@
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;
 - (void)removeAnimatedOverlay;
+- (void)resetAnimatedOverlayAt:(CLLocation *)location;
 
 @end

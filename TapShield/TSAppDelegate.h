@@ -15,6 +15,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
-@property (nonatomic, strong) CLLocation *currentLocation;
 
 @end

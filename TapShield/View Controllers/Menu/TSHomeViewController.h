@@ -11,13 +11,12 @@
 #import "TSUserLocationButton.h"
 #import "TSBaseViewController.h"
 
-@interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate>
+@interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet UIView *bottomButtonContainerView;
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLGeocoder *geocoder;
 
 - (IBAction)displayVirtualEntourage:(id)sender;

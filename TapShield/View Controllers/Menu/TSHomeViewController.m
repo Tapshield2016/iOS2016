@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) MKRoute *selectedRoute;
+@property (nonatomic) BOOL viewDidAppear;
 
 @end
 
@@ -59,11 +60,6 @@
 
     _geocoder = [[CLGeocoder alloc] init];
     
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    _locationManager.distanceFilter = 5.0f;
-    
     if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         UINavigationController *navigationController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSLoginOrSignUpNavigationController"];
         [self presentViewController:navigationController animated:NO completion:nil];
@@ -77,18 +73,16 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-
-    TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
-    if (appDelegate.currentLocation) {
-        [_mapView setRegionAtAppearanceAnimated:NO];
-        _mapView.initialLocation = appDelegate.currentLocation;
+    
+    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
         
-        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:appDelegate.currentLocation.coordinate
-                                                                                               placeName:[NSString stringWithFormat:@"%f, %f", appDelegate.currentLocation.coordinate.latitude, appDelegate.currentLocation.coordinate.longitude]
-                                                                                             description:[NSString stringWithFormat:@"Accuracy: %f", appDelegate.currentLocation.horizontalAccuracy]];
+        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
+                                                                                      placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
+                                                                                    description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
-        [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
-    }
+        [_mapView updateAccuracyCircleWithLocation:location];
+    }];
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
@@ -103,7 +97,8 @@
 
     [super viewDidAppear:animated];
 
-    [_locationManager startUpdatingLocation];
+    //To determine animation of map
+    _viewDidAppear = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -120,7 +115,7 @@
             [_mapView setRegionAtAppearanceAnimated:YES];
         }
         else {
-            [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
         }
     }
 }
@@ -317,44 +312,35 @@
     return renderer;
 }
 
-#pragma mark - CLLocationManagerDelegate methods
+#pragma mark - TSLocationControllerDelegate methods
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    TSAppDelegate *appDelegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
-    CLLocation *lastReportedLocation = [locations lastObject];
-    appDelegate.currentLocation = lastReportedLocation;
-    
-    _mapView.currentLocation = lastReportedLocation;
-    
-    if (!_mapView.initialLocation) {
-        _mapView.initialLocation = lastReportedLocation;
-        [_mapView setRegionAtAppearanceAnimated:YES];
-    }
+- (void)locationDidUpdate:(CLLocation *)location {
     
     if (!_mapView.userLocationAnnotation) {
-        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:lastReportedLocation.coordinate
-                                                                                       placeName:[NSString stringWithFormat:@"%f, %f", lastReportedLocation.coordinate.latitude, lastReportedLocation.coordinate.longitude]
-                                                                                     description:[NSString stringWithFormat:@"Accuracy: %f", lastReportedLocation.horizontalAccuracy]];
+        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
+                                                                                       placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
+                                                                                     description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
-        [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
+        [_mapView updateAccuracyCircleWithLocation:location];
     }
     else {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_mapView updateAccuracyCircleWithLocation:_locationManager.location];
+            [_mapView updateAccuracyCircleWithLocation:location];
         });
-        _mapView.userLocationAnnotation.coordinate = lastReportedLocation.coordinate;
+        _mapView.userLocationAnnotation.coordinate = location.coordinate;
     }
 
     if (!_mapView.isAnimatingToRegion && _showUserLocationButton.selected) {
-        [_mapView setCenterCoordinate:lastReportedLocation.coordinate animated:YES];
+        [_mapView setCenterCoordinate:location.coordinate animated:YES];
     }
     
-    if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:lastReportedLocation] > 15 && _mapView.shouldUpdateCallOut) {
-        [self geocoderUpdateUserLocationAnnotationCallOutForLocation:lastReportedLocation];
+    if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 15 && _mapView.shouldUpdateCallOut) {
+        [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
     }
     
-    _mapView.previousLocation = lastReportedLocation;
+    _mapView.previousLocation = location;
+    [_mapView resetAnimatedOverlayAt:location];
 }
 
 - (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
@@ -481,13 +467,12 @@
     
     [_mapView addAnimatedOverlayToAnnotation:_mapView.userLocationAnnotation];
     
-    NSLog(@"%f && %f", fabs(_mapView.region.center.latitude - _locationManager.location.coordinate.latitude), fabs(_mapView.region.center.longitude - _locationManager.location.coordinate.longitude));
-    
+    CLLocation *location = [TSLocationController sharedLocationController].location;
     if (_showUserLocationButton.selected) {
         //avoid loop from negligible differences in region change during zoom
-        if (fabs(_mapView.region.center.latitude - _locationManager.location.coordinate.latitude) >= .0000001 ||
-            fabs(_mapView.region.center.longitude - _locationManager.location.coordinate.longitude) >= .0000001) {
-            [_mapView setCenterCoordinate:_locationManager.location.coordinate animated:YES];
+        if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
+            fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
+            [_mapView setCenterCoordinate:location.coordinate animated:YES];
         }
     }
 
@@ -502,7 +487,7 @@
     
     _mapView.shouldUpdateCallOut = YES;
     
-    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:_locationManager.location];
+    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {

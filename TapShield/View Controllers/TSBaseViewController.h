@@ -13,6 +13,7 @@
 #import "TSColorPalette.h"
 #import "UIImage+Color.h"
 #import "UIView+FirstResponder.h"
+#import "TSLocationController.h"
 
 @interface TSBaseViewController : UIViewController
 

@@ -122,6 +122,9 @@
 		C532E65318BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C532E64F18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib */; };
 		C532E65418BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C532E64F18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib */; };
 		C532E65518BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C532E64F18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib */; };
+		C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E8DD18BCF85E00FC111A /* TSLocationController.m */; };
+		C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E8DD18BCF85E00FC111A /* TSLocationController.m */; };
+		C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E8DD18BCF85E00FC111A /* TSLocationController.m */; };
 		C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9C18AEA93900D22682 /* TSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9A18AEA93900D22682 /* TSConstants.m */; };
@@ -426,6 +429,8 @@
 		C532E64D18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSelectedDestinationLeftCalloutAccessoryView.h; sourceTree = "<group>"; };
 		C532E64E18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSelectedDestinationLeftCalloutAccessoryView.m; sourceTree = "<group>"; };
 		C532E64F18BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TSSelectedDestinationLeftCalloutAccessoryView.xib; sourceTree = "<group>"; };
+		C532E8DC18BCF85D00FC111A /* TSLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLocationController.h; path = Utilities/TSLocationController.h; sourceTree = "<group>"; };
+		C532E8DD18BCF85E00FC111A /* TSLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLocationController.m; path = Utilities/TSLocationController.m; sourceTree = "<group>"; };
 		C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAgencyAnnotation.h; path = Views/Map/Annotations/TSAgencyAnnotation.h; sourceTree = "<group>"; };
 		C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAgencyAnnotation.m; path = Views/Map/Annotations/TSAgencyAnnotation.m; sourceTree = "<group>"; };
 		C5372D9A18AEA93900D22682 /* TSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSConstants.m; path = Utilities/TSConstants.m; sourceTree = "<group>"; };
@@ -542,12 +547,12 @@
 		B53BBCE418980FDA006A27E0 = {
 			isa = PBXGroup;
 			children = (
+				5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */,
 				C520C8BC18A974C000D1D2E9 /* API Client */,
-				B53BBCF618980FDA006A27E0 /* TapShield */,
-				B53BBD1518980FDA006A27E0 /* TapShieldTests */,
 				B53BBCEF18980FDA006A27E0 /* Frameworks */,
 				B53BBCEE18980FDA006A27E0 /* Products */,
-				5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */,
+				B53BBCF618980FDA006A27E0 /* TapShield */,
+				B53BBD1518980FDA006A27E0 /* TapShieldTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -580,15 +585,15 @@
 		B53BBCF618980FDA006A27E0 /* TapShield */ = {
 			isa = PBXGroup;
 			children = (
-				B5F2DCE518B3E6E1009A7CA4 /* Utilities */,
-				C5C1705A18AAE39600EEFBD6 /* Images */,
-				B53BBD29189814FC006A27E0 /* View Controllers */,
-				B53BBD351898364C006A27E0 /* Views */,
 				B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */,
 				B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */,
-				B53BBD0218980FDA006A27E0 /* Main.storyboard */,
 				B53BBD0818980FDA006A27E0 /* Images.xcassets */,
+				C5C1705A18AAE39600EEFBD6 /* Images */,
+				B53BBD0218980FDA006A27E0 /* Main.storyboard */,
 				B53BBCF718980FDA006A27E0 /* Supporting Files */,
+				B5F2DCE518B3E6E1009A7CA4 /* Utilities */,
+				B53BBD29189814FC006A27E0 /* View Controllers */,
+				B53BBD351898364C006A27E0 /* Views */,
 			);
 			path = TapShield;
 			sourceTree = SOURCE_ROOT;
@@ -661,6 +666,8 @@
 				C532E63018BBF1E900FC111A /* UIView+FirstResponder.m */,
 				B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */,
 				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
+				C532E8DC18BCF85D00FC111A /* TSLocationController.h */,
+				C532E8DD18BCF85E00FC111A /* TSLocationController.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1310,6 +1317,7 @@
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				C520C8F818A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 			);
@@ -1366,6 +1374,7 @@
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				B5F2DCD818B3B018009A7CA4 /* TSBaseMapAnnotation.m in Sources */,
+				C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
 				C5FD5EA018B3285600E27EE9 /* UIView+FirstResponder.m in Sources */,
 				C5372D9C18AEA93900D22682 /* TSConstants.m in Sources */,
@@ -1401,6 +1410,7 @@
 				C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */,
 				C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */,
 				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
+				C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
 				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,

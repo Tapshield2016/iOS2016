@@ -45,11 +45,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-//    CALayer *TopBorder = [CALayer layer];
-//    TopBorder.frame = CGRectMake(0.0f, 0.0f, _bottomButtonContainerView.frame.size.width, 0.5f);
-//    TopBorder.backgroundColor = [TSColorPalette colorByAdjustingColor:[UIColor blackColor] Alpha:0.3f].CGColor;
-//    [_bottomButtonContainerView.layer addSublayer:TopBorder];
-    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [_mapView addGestureRecognizer:panRecognizer];
@@ -68,21 +63,18 @@
         UINavigationController *navigationController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSPhoneVerificationViewController"];
         [self presentViewController:navigationController animated:NO completion:nil];
     }
+    
+    [TSLocationController sharedLocationController].delegate = self;
+    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
     
-    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
-        [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
-        
-        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                      placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
-                                                                                    description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
-        [_mapView addAnnotation:_mapView.userLocationAnnotation];
-        [_mapView updateAccuracyCircleWithLocation:location];
-    }];
+    [self.navigationController setToolbarHidden:NO animated:YES];
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
@@ -97,7 +89,7 @@
 
     [super viewDidAppear:animated];
 
-    //To determine animation of map
+    //To determine animation of first region
     _viewDidAppear = YES;
 }
 
@@ -320,6 +312,7 @@
         _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
                                                                                        placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
                                                                                      description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
+        
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
         [_mapView updateAccuracyCircleWithLocation:location];
     }

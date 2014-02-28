@@ -74,7 +74,7 @@
 
     [super viewWillAppear:animated];
     
-    [self.navigationController setToolbarHidden:NO animated:YES];
+    
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
@@ -88,6 +88,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+    
+    [self.navigationController setToolbarHidden:NO animated:YES];
 
     //To determine animation of first region
     _viewDidAppear = YES;

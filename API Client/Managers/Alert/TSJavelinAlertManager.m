@@ -186,7 +186,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Alert methods
 
-- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type existingLocation:(CLLocation *)existingLocation completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {
+- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {
     
     if (alert == nil) {
         return;
@@ -198,82 +198,92 @@ static dispatch_once_t onceToken;
 
     _activeAlert = alert;
     
-    [self startStandardLocationUpdates:existingLocation completion:^(CLLocation *location) {
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            
-            NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:4];
-            alertInfo[@"user"] = alert.agencyUser.email;
-            
-            if ([TSGeofence isWithinBoundariesWithOverhang:location]) {
-                alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
-                alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
-                alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
-                alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
-                alertInfo[@"alert_type"] = type;
-            }
-            else {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        
+        NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:4];
+        alertInfo[@"user"] = alert.agencyUser.email;
+        
+        if ([TSGeofence isWithinBoundariesWithOverhang:location]) {
+            alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
+            alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
+            alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
+            alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
+            alertInfo[@"alert_type"] = type;
+        }
+        else {
+            return;
+        }
+        
+        NSString *alertJson = [TSJavelinAlertAMQPMessage amqpMessageStringFromDictionary:alertInfo];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        });
+        
+        SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
+        
+        AFNetworkReachabilityManager *hostReachability = [AFNetworkReachabilityManager managerForDomain:TSJavelinAlertManagerRemoteHostName];
+        if ([hostReachability networkReachabilityStatus] == AFNetworkReachabilityStatusNotReachable) {
+            if (completion) {
+                NSLog(@"Lost Connectivity During Initiate Alert");
+                completion(NO);
                 return;
             }
-
-            NSString *alertJson = [TSJavelinAlertAMQPMessage amqpMessageStringFromDictionary:alertInfo];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-            });
-            
-            SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
-
-            AFNetworkReachabilityManager *hostReachability = [AFNetworkReachabilityManager managerForDomain:TSJavelinAlertManagerRemoteHostName];
-            if ([hostReachability networkReachabilityStatus] == AFNetworkReachabilityStatusNotReachable) {
-                if (completion) {
-                    NSLog(@"Lost Connectivity During Initiate Alert");
-                    completion(NO);
-                    return;
-                }
+        }
+        
+        SQSGetQueueUrlResponse *getQueueURLResponse;
+        
+        @try {
+            getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
+        }
+        @catch (NSException *exception) {
+            if (completion) {
+                completion(NO);
             }
-            
-            SQSGetQueueUrlResponse *getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
-            SQSSendMessageRequest *sendMessageRequest = [[SQSSendMessageRequest alloc] initWithQueueUrl:getQueueURLResponse.queueUrl
-                                                                                         andMessageBody:alertJson];
-            
-            hostReachability = [AFNetworkReachabilityManager managerForDomain:TSJavelinAlertManagerRemoteHostName];
-            if ([hostReachability networkReachabilityStatus] == AFNetworkReachabilityStatusNotReachable) {
-                if (completion) {
-                    NSLog(@"Lost Connectivity During Initiate Alert");
-                    completion(NO);
-                    return;
-                }
+            return;
+        }
+        
+        SQSSendMessageRequest *sendMessageRequest = [[SQSSendMessageRequest alloc] initWithQueueUrl:getQueueURLResponse.queueUrl
+                                                                                     andMessageBody:alertJson];
+        
+        SQSSendMessageResponse *sendMessageResponse;
+        @try {
+            sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
+        }
+        @catch (NSException *exception) {
+            if (completion) {
+                completion(NO);
             }
-            
-            SQSSendMessageResponse *sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
-            
-            if(sendMessageResponse.error != nil) {
-                NSLog(@"Error: %@", sendMessageResponse.error);
-                if (completion) {
-                    completion(NO);
-                }
+            return;
+        }
+        
+        
+        if (sendMessageResponse.error != nil) {
+            NSLog(@"Error: %@", sendMessageResponse.error);
+            if (completion) {
+                completion(NO);
             }
-            else {
-                if (completion) {
-                    completion(YES);
-                    [self scheduleTimerForLoggedInUser];
-                }
-                // Send user profile using API client method
-                [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
-                    if (profileDataUploadSucceeded) {
-                        NSLog(@"profileDataUploadSucceeded");
-                    }
-                    if (imageUploadSucceeded) {
-                        NSLog(@"imageUploadSucceeded");
-                    }
-                }];
+        }
+        else {
+            if (completion) {
+                completion(YES);
+                [self scheduleTimerForLoggedInUser];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-            });
+            // Send user profile using API client method
+            [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
+                if (profileDataUploadSucceeded) {
+                    NSLog(@"profileDataUploadSucceeded");
+                }
+                if (imageUploadSucceeded) {
+                    NSLog(@"imageUploadSucceeded");
+                }
+            }];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         });
-    }];
+    });
 }
 
 - (void)scheduleTimerForLoggedInUser {

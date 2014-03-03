@@ -81,28 +81,17 @@
 
 - (void)getLocationAndSearchForNearbyAgencies {
     
-    if (!_locationManager) {
-        _locationManager = [[CLLocationManager alloc] init];
-    }
-    _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [_locationManager startUpdatingLocation];
-}
-
-#pragma mark - Location Delegate
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    
-    [_locationManager stopUpdatingLocation];
-    
-    [[TSJavelinAPIClient sharedClient] getAgenciesNearby:[locations firstObject] radius:50.0f completion:^(NSArray *agencies) {
-        if (agencies) {
-            _nearbyOrganizationArray = agencies;
-        }
-        else {
-            _statusString = @"None Found";
-        }
-        [_tableView reloadData];
+    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        [[TSLocationController sharedLocationController] stopLocationUpdates];
+        [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
+            if (agencies) {
+                _nearbyOrganizationArray = agencies;
+            }
+            else {
+                _statusString = @"None Found";
+            }
+            [_tableView reloadData];
+        }];
     }];
 }
 

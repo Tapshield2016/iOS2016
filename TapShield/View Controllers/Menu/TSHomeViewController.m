@@ -67,6 +67,15 @@
     [TSLocationController sharedLocationController].delegate = self;
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
         [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
+        
+        if (!_mapView.userLocationAnnotation) {
+            _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
+                                                                                          placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
+                                                                                        description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
+            
+            [_mapView addAnnotation:_mapView.userLocationAnnotation];
+            [_mapView updateAccuracyCircleWithLocation:location];
+        }
     }];
 }
 

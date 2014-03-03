@@ -7,7 +7,7 @@
 //
 
 #import "TSVirtualEntourageViewController.h"
-#include <MapKit/MapKit.h>
+#import <MapKit/MapKit.h>
 #import "TSUtilities.h"
 
 @interface TSVirtualEntourageViewController ()

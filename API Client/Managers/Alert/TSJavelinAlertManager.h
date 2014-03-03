@@ -13,38 +13,24 @@ extern NSString * const TSJavelinAlertManagerDidRecieveActiveAlertNotification;
 extern NSString * const TSJavelinAlertManagerDidCancelNotification;
 extern NSString * const TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification;
 
+extern NSString * const kTSJavelinAlertManagerSentActiveAlert;
+extern NSString * const kTSJavelinAlertManagerAwaitingDisarm;
+
 @class TSJavelinAPIAlert;
 
 typedef void (^TSJavelinAlertManagerAlertQueuedBlock)(BOOL success);
-
-// Delegate definition
-@protocol TSJavelinAlertManagerDelegate <NSObject>
-
-@optional
-- (void)locationUpdated:(CLLocation *)location;
-- (void)locationUpdateFailed:(NSError *)error;
-- (void)locationServiceAuthorizationStatusChanged:(CLAuthorizationStatus)status;
-
-@end
-
 typedef void (^TSJavelinAPIAlertManagerLocationReceived)(CLLocation *location);
 
-@interface TSJavelinAlertManager : NSObject <CLLocationManagerDelegate>
+@interface TSJavelinAlertManager : NSObject
 
-@property (weak) id<TSJavelinAlertManagerDelegate> delegate;
-@property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) TSJavelinAPIAlert *activeAlert;
 
 + (instancetype)sharedManager;
 
-// Location methods
-- (void)startStandardLocationUpdates:(CLLocation *)existingLocation completion:(TSJavelinAPIAlertManagerLocationReceived)completion;
-- (void)startSignificantChangeUpdates:(TSJavelinAPIAlertManagerLocationReceived)completion;
-- (BOOL)locationServicesEnabled;
-
 // Alert methods
-- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type existingLocation:(CLLocation *)existingLocation completion:(TSJavelinAlertManagerAlertQueuedBlock)completion;
+- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(TSJavelinAlertManagerAlertQueuedBlock)completion;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
-- (void)cancelAlert;
+- (void)stopAlertUpdates;
+- (void)resetArchivedAlertBools;
 
 @end

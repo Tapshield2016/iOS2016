@@ -53,6 +53,15 @@ static dispatch_once_t predicate;
     [_locationManager startUpdatingLocation];
 }
 
+- (void)startSignificantChangeUpdates:(TSLocationControllerLocationReceived)completion {
+  
+    if (completion) {
+        _locationReceivedBlock = completion;
+    }
+        
+    [_locationManager startMonitoringSignificantLocationChanges];
+}
+
 
 - (void)latestLocation:(TSLocationControllerLocationReceived)completion {
     

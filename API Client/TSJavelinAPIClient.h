@@ -90,7 +90,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 @end
 
-@interface TSJavelinAPIClient : AFHTTPRequestOperationManager <TSJavelinAlertManagerDelegate>
+@interface TSJavelinAPIClient : AFHTTPRequestOperationManager
 
 // The authManager should be used to perform any user-relation actions like
 // logging in/out, registration, or setting any user info.
@@ -103,6 +103,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 @property (nonatomic, strong) TSJavelinAPIUserProfileUploadBlock profileUploadBlock;
 @property (nonatomic, strong) NSTimer *locationPostTimer;
 @property (nonatomic, strong) CLLocation *previouslyPostedLocation;
+@property (nonatomic, strong) CLLocation *locationAwaitingPost;
 @property (nonatomic) bool isStillActiveAlert;
 
 // Init methods
@@ -121,9 +122,10 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 // Alert actions
 // Valid alert types are 'C' (Chat), 'E' (Emergency), and 'T' (Timer)
-- (void)sendEmergencyAlertWithAlertType:(NSString *)type existingLocation:(CLLocation *)location completion:(void (^)(BOOL success))completion;
-- (void)findActiveAlertForLoggedinUser:(TSJavelinAlertManagerAlertQueuedBlock)completion;
+- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL success))completion;
+- (void)findActiveAlertForLoggedinUser:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 - (void)cancelAlert;
+- (void)disarmAlert;
 - (void)findActiveAlertAndCancel;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
 

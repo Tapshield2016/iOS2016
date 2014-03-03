@@ -8,7 +8,7 @@
 
 #import "TSHomeViewController.h"
 #import "TSVirtualEntourageViewController.h"
-#include <MapKit/MapKit.h>
+#import <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 #import "TSUtilities.h"
 

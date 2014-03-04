@@ -12,8 +12,15 @@
 
 @protocol TSLocationControllerDelegate
 
-@required
+@optional
 - (void)locationDidUpdate:(CLLocation*)location;
+- (void)didStartMonitoringForRegion:(CLRegion *)region;
+- (void)didEnterRegion:(CLRegion *)region;
+- (void)didExitRegion:(CLRegion *)region;
+- (void)didUpdateHeading:(CLHeading *)newHeading;
+- (void)didFailWithError:(NSError *)error;
+- (void)monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error;
+- (void)didChangeAuthorizationStatus:(CLAuthorizationStatus)status;
 
 @end
 

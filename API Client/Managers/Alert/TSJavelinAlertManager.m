@@ -166,7 +166,7 @@ static dispatch_once_t onceToken;
             
             if (completion) {
                 completion(YES);
-                [self scheduleTimerForLoggedInUser];
+                [self scheduleFindActiveAlertTimer];
             }
             // Send user profile using API client method
             [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
@@ -184,7 +184,7 @@ static dispatch_once_t onceToken;
     });
 }
 
-- (void)scheduleTimerForLoggedInUser {
+- (void)scheduleFindActiveAlertTimer {
     dispatch_async(dispatch_get_main_queue(), ^{
     _findActiveAlertTimer = [NSTimer scheduledTimerWithTimeInterval:10
                                                             target:self
@@ -202,7 +202,7 @@ static dispatch_once_t onceToken;
             [[TSJavelinAlertManager sharedManager] setActiveAlert:activeAlert];
         }
         else {
-            [self scheduleTimerForLoggedInUser];
+            [self scheduleFindActiveAlertTimer];
         }
     }];
 }

@@ -116,6 +116,7 @@ static dispatch_once_t predicate;
         _locationReceivedBlock = nil;
     }
     
+    [[TSJavelinAPIClient sharedClient] locationUpdated:_location];
     [_delegate locationDidUpdate:_location];
 }
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TSJavelinAPIClient.h"
 
 @protocol TSLocationControllerDelegate
 

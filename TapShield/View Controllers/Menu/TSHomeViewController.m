@@ -186,6 +186,7 @@
     }];
 }
 
+
 #pragma mark - Route management and display methods
 
 - (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
@@ -502,6 +503,27 @@
     [mapView deselectAnnotation:view.annotation animated:YES];
     [self requestAndDisplayRoutesForSelectedDestination];
 }
+
+
+#pragma mark - Alert Methods
+
+
+- (IBAction)sendAlert:(id)sender {
+    
+    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
+        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
+            if (success) {
+                
+            }
+            else {
+                
+            }
+        }];
+    }];
+    
+}
+
+
 
 
 @end

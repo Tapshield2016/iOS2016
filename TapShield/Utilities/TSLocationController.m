@@ -11,9 +11,6 @@
 
 #import "TSLocationController.h"
 
-NSString * const TSLocationControllerDidUpdateLocation = @"TSLocationControllerDidUpdateLocation";
-//NSString * const TSLocationControllerDidUpdateLocation = @"TSLocationControllerDidUpdateLocation";
-
 @implementation TSLocationController
 
 static TSLocationController *_sharedLocationControllerInstance = nil;

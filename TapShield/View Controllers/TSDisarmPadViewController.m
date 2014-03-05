@@ -34,11 +34,15 @@
     
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
     toolbar.barStyle = UIBarStyleBlack;
-    //toolbar.alpha = .5;
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    //toolbar.barTintColor = self.view.tintColor;
     [self.view insertSubview:toolbar atIndex:0];
     
+    _countdownTintView = [[UIView alloc] initWithFrame:self.view.bounds];
+    CGRect frame = _countdownTintView.frame;
+    frame.origin.y = self.view.frame.size.height - 1.0f;
+    _countdownTintView.frame = frame;
+    _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.6];
+    [self.view insertSubview:_countdownTintView atIndex:0];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,7 +51,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f
+                                                           target:self
+                                                         selector:@selector(sendEmergency:)
+                                                         userInfo:nil
+                                                          repeats:NO];
+    
+    [UIView animateWithDuration:10.0f animations:^{
+        _countdownTintView.frame = self.view.frame;
+    }];
+}
 
 - (void)selectCodeCircles {
     int i = 1;
@@ -84,6 +101,19 @@
 }
 
 - (IBAction)sendEmergency:(id)sender {
+    
+    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
+        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
+            if (success) {
+                
+            }
+            else {
+                
+            }
+        }];
+    }];
+
+    
 }
 
 - (void)checkDisarmCode {
@@ -93,16 +123,16 @@
     }
     
     if ([_disarmTextField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-        }];
+        [_sendEmergencyTimer invalidate];
+        [[TSJavelinAPIClient sharedClient] disarmAlert];
+        [[TSJavelinAPIClient sharedClient] cancelAlert];
+        [self dismissViewControllerAnimated:NO completion:nil];
     }
     else {
         [self shakeDisarmCircles];
         _disarmTextField.text = @"";
         [self performSelector:@selector(selectCodeCircles) withObject:nil afterDelay:0.08 * 6];
     }
-    
 }
 
 - (void)shakeDisarmCircles {

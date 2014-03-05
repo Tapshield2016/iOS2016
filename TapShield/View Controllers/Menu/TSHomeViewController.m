@@ -514,27 +514,14 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    _disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    TSDisarmPadViewController *disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
 
-    [_disarmPad setTransitioningDelegate:_transitionController];
-    _disarmPad.modalPresentationStyle= UIModalPresentationCustom;
-    [self presentViewController:_disarmPad animated:YES completion:^{
+    [disarmPad setTransitioningDelegate:_transitionController];
+    disarmPad.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:disarmPad animated:YES completion:^{
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         [self.navigationController setToolbarHidden:YES animated:YES];
     }];
-    
-    
-//    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
-//        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
-//            if (success) {
-//                
-//            }
-//            else {
-//                
-//            }
-//        }];
-//    }];
-    
 }
 
 

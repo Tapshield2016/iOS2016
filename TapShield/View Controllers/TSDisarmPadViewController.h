@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
 
 @property (strong, nonatomic) NSArray *codeCircleArray;
+@property (strong, nonatomic) UIView *countdownTintView;
+@property (strong, nonatomic) NSTimer *sendEmergencyTimer;
 
 - (IBAction)numberPressed:(id)sender;
 - (IBAction)clearDisarmText:(id)sender;

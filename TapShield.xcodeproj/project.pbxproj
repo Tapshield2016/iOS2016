@@ -166,6 +166,10 @@
 		C5372E0818B3126000D22682 /* EmailEnvelope.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE718B3126000D22682 /* EmailEnvelope.png */; };
 		C5372E0918B3126000D22682 /* EmailEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */; };
 		C5372E0A18B3126000D22682 /* EmailEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */; };
+		C5391EA018C7D17700C23C0A /* TSTransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391E9F18C7D17700C23C0A /* TSTransitionDelegate.m */; };
+		C5391EA318C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
+		C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
+		C5391EA518C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
@@ -452,6 +456,10 @@
 		C5372DE618B3126000D22682 /* DisarmIcon_KeyPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DisarmIcon_KeyPad@2x.png"; path = "Images/DisarmIcon_KeyPad@2x.png"; sourceTree = "<group>"; };
 		C5372DE718B3126000D22682 /* EmailEnvelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EmailEnvelope.png; path = Images/EmailEnvelope.png; sourceTree = "<group>"; };
 		C5372DE818B3126000D22682 /* EmailEnvelope@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EmailEnvelope@2x.png"; path = "Images/EmailEnvelope@2x.png"; sourceTree = "<group>"; };
+		C5391E9E18C7D17700C23C0A /* TSTransitionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTransitionDelegate.h; path = "View Controllers/TSTransitionDelegate.h"; sourceTree = "<group>"; };
+		C5391E9F18C7D17700C23C0A /* TSTransitionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTransitionDelegate.m; path = "View Controllers/TSTransitionDelegate.m"; sourceTree = "<group>"; };
+		C5391EA118C7D19100C23C0A /* TSTransitionAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTransitionAnimation.h; path = "View Controllers/TSTransitionAnimation.h"; sourceTree = "<group>"; };
+		C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTransitionAnimation.m; path = "View Controllers/TSTransitionAnimation.m"; sourceTree = "<group>"; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
@@ -624,6 +632,7 @@
 		B53BBD29189814FC006A27E0 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C5391E9D18C7D12900C23C0A /* Transitions */,
 				B543F09218AABC05004C2B26 /* TSBaseViewController.h */,
 				B543F09318AABC05004C2B26 /* TSBaseViewController.m */,
 				C5CB078118C681F900BC9425 /* Alert */,
@@ -874,6 +883,17 @@
 				B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */,
 			);
 			name = Annotations;
+			sourceTree = "<group>";
+		};
+		C5391E9D18C7D12900C23C0A /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				C5391E9E18C7D17700C23C0A /* TSTransitionDelegate.h */,
+				C5391E9F18C7D17700C23C0A /* TSTransitionDelegate.m */,
+				C5391EA118C7D19100C23C0A /* TSTransitionAnimation.h */,
+				C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */,
+			);
+			name = Transitions;
 			sourceTree = "<group>";
 		};
 		C57C48A018B6B2DA00DFFBCE /* Cells */ = {
@@ -1292,6 +1312,7 @@
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */,
+				C5391EA318C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
 				B53BBCFD18980FDA006A27E0 /* main.m in Sources */,
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
@@ -1323,6 +1344,7 @@
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */,
+				C5391EA018C7D17700C23C0A /* TSTransitionDelegate.m in Sources */,
 				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				C520C8F818A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C5CB078418C6851D00BC9425 /* TSNumberPadButton.m in Sources */,
@@ -1384,6 +1406,7 @@
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
+				C5391EA518C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
 				C57C48B218BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
 				C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
 				C532E64B18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
@@ -1447,6 +1470,7 @@
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
+				C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
 				C57C48E418BBDB1900DFFBCE /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */,
 				C57C48E618BBDB1900DFFBCE /* TSJavelinAPIAuthenticationResult.m in Sources */,

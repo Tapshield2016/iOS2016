@@ -26,16 +26,55 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-        [self drawCircleButton:[TSColorPalette lightTextColor]];
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:NO];
     }
     return self;
 }
 
-- (void)drawCircleButton:(UIColor *)color
+- (void)setHighlighted:(BOOL)highlighted {
+    
+    [super setHighlighted:highlighted];
+    
+    if (highlighted) {
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.5f] highlighted:highlighted];
+    }
+    else {
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:highlighted];
+    }
+}
+
+- (void)setSelected:(BOOL)selected {
+    
+    [super setSelected:selected];
+    
+    if (selected) {
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:1.0f] selected:selected];
+    }
+    else {
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] selected:selected];
+    }
+}
+
+
+- (void)drawCircleButton:(UIColor *)color {
+    [self drawCircleButton:color highlighted:NO selected:NO];
+}
+
+- (void)drawCircleButton:(UIColor *)color highlighted:(BOOL)highlighted {
+    [self drawCircleButton:color highlighted:highlighted selected:NO];
+}
+
+- (void)drawCircleButton:(UIColor *)color selected:(BOOL)selected {
+    [self drawCircleButton:color highlighted:NO selected:selected];
+}
+
+- (void)drawCircleButton:(UIColor *)color highlighted:(BOOL)highlighted selected:(BOOL)selected
 {
+    [self.circleLayer removeFromSuperlayer];
+    
     self.color = color;
     
-    [self setTitleColor:color forState:UIControlStateNormal];
+    [self setTitleColor:[TSColorPalette whiteColor] forState:UIControlStateNormal];
     
     self.circleLayer = [CAShapeLayer layer];
     
@@ -50,7 +89,16 @@
     [self.circleLayer setStrokeColor:[color CGColor]];
     
     [self.circleLayer setLineWidth:2.0f];
-    [self.circleLayer setFillColor:[[UIColor clearColor] CGColor]];
+    
+    UIColor *fillColor = [UIColor clearColor];
+    if (highlighted) {
+        fillColor = [[TSColorPalette whiteColor] colorWithAlphaComponent:0.1];
+    }
+    else if (selected) {
+        fillColor = color;
+    }
+    
+    [self.circleLayer setFillColor:[fillColor CGColor]];
     
     [[self layer] addSublayer:self.circleLayer];
 }

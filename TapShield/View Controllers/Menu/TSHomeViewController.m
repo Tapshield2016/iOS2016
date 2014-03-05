@@ -14,6 +14,7 @@
 
 @interface TSHomeViewController ()
 
+@property (nonatomic, strong) TSTransitionDelegate *transitionController;
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) MKRoute *selectedRoute;
 @property (nonatomic) BOOL viewDidAppear;
@@ -44,6 +45,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _transitionController = [[TSTransitionDelegate alloc] init];
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
@@ -99,6 +102,7 @@
     [super viewDidAppear:animated];
     
     [self.navigationController setToolbarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     //To determine animation of first region
     _viewDidAppear = YES;
@@ -510,19 +514,14 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    //UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-     //[self presentViewController:navigationController animated:NO completion:nil];
-    
-    
     _disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-    _disarmPad.view.alpha = 0.0f;
-    [self.view addSubview:_disarmPad.view];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController setToolbarHidden:YES animated:YES];
-    
-   [UIView animateWithDuration:0.3f animations:^{
-       _disarmPad.view.alpha = 1.0f;
-   }];
+
+    [_disarmPad setTransitioningDelegate:_transitionController];
+    _disarmPad.modalPresentationStyle= UIModalPresentationCustom;
+    [self presentViewController:_disarmPad animated:YES completion:^{
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navigationController setToolbarHidden:YES animated:YES];
+    }];
     
     
 //    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {

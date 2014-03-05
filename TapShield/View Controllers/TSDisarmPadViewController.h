@@ -7,11 +7,24 @@
 //
 
 #import "TSBaseViewController.h"
+#import "TSNumberPadButton.h"
 
 @interface TSDisarmPadViewController : TSBaseViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *disarmTextField;
+@property (weak, nonatomic) IBOutlet UIView *codeCircleContainerView;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle1;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle2;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle3;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle4;
+@property (weak, nonatomic) IBOutlet UIButton *emergencyButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
+
+@property (strong, nonatomic) NSArray *codeCircleArray;
 
 - (IBAction)numberPressed:(id)sender;
+- (IBAction)clearDisarmText:(id)sender;
+- (IBAction)sendEmergency:(id)sender;
+
 
 @end

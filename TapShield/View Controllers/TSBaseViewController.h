@@ -10,10 +10,12 @@
 #import "TSConstants.h"
 #import "TSAppDelegate.h"
 #import "TSJavelinAPIClient.h"
+#import "TSJavelinAPIAuthenticationManager.h"
 #import "TSColorPalette.h"
 #import "UIImage+Color.h"
 #import "UIView+FirstResponder.h"
 #import "TSLocationController.h"
+#import "TSTransitionDelegate.h"
 
 @interface TSBaseViewController : UIViewController
 

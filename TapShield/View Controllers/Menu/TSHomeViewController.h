@@ -10,9 +10,11 @@
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
 #import "TSBaseViewController.h"
+#import "TSDisarmPadViewController.h"
 
 @interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
 
+@property (strong, nonatomic) TSDisarmPadViewController *disarmPad;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet UIButton *alertButton;

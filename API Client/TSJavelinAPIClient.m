@@ -354,6 +354,10 @@ static dispatch_once_t onceToken;
         });
     }
     
+    if (location.coordinate.latitude == _previouslyPostedLocation.coordinate.latitude && location.coordinate.longitude == _previouslyPostedLocation.coordinate.longitude) {
+        return;
+    }
+    
     //Send Location right away if enough time has passed or accuracy increased
     NSTimeInterval timeOfPreviousLocation = [_previouslyPostedLocation.timestamp timeIntervalSinceNow];
     if (abs(timeOfPreviousLocation) > 20 || location.horizontalAccuracy < _previouslyPostedLocation.horizontalAccuracy) {
@@ -368,7 +372,7 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    if (!location) {
+    if (![location isKindOfClass:[CLLocation class]] || !location) {
         location = _locationAwaitingPost;
     }
     

@@ -272,6 +272,12 @@
 		C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706A18ABEFFC00EEFBD6 /* location2.png */; };
 		C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
 		C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
+		C5CB078418C6851D00BC9425 /* TSNumberPadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078318C6851D00BC9425 /* TSNumberPadButton.m */; };
+		C5CB078518C6851D00BC9425 /* TSNumberPadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078318C6851D00BC9425 /* TSNumberPadButton.m */; };
+		C5CB078618C6851D00BC9425 /* TSNumberPadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078318C6851D00BC9425 /* TSNumberPadButton.m */; };
+		C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
+		C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
+		C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5FD5E8318B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */; };
 		C5FD5E8418B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */; };
 		C5FD5E8518B3141800E27EE9 /* CheckBox_Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7D18B3141800E27EE9 /* CheckBox_Unselected.png */; };
@@ -462,6 +468,10 @@
 		C5C1706A18ABEFFC00EEFBD6 /* location2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location2.png; path = Images/location2.png; sourceTree = "<group>"; };
 		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Map/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
 		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Views/Map/Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
+		C5CB078218C6851D00BC9425 /* TSNumberPadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSNumberPadButton.h; path = Views/TSNumberPadButton.h; sourceTree = "<group>"; };
+		C5CB078318C6851D00BC9425 /* TSNumberPadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSNumberPadButton.m; path = Views/TSNumberPadButton.m; sourceTree = "<group>"; };
+		C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDisarmPadViewController.h; path = "View Controllers/TSDisarmPadViewController.h"; sourceTree = "<group>"; };
+		C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDisarmPadViewController.m; path = "View Controllers/TSDisarmPadViewController.m"; sourceTree = "<group>"; };
 		C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_Selected@2x.png"; path = "Images/CheckBox_Selected@2x.png"; sourceTree = "<group>"; };
 		C5FD5E7D18B3141800E27EE9 /* CheckBox_Unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckBox_Unselected.png; path = Images/CheckBox_Unselected.png; sourceTree = "<group>"; };
 		C5FD5E7E18B3141800E27EE9 /* CheckBox_Unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_Unselected@2x.png"; path = "Images/CheckBox_Unselected@2x.png"; sourceTree = "<group>"; };
@@ -616,6 +626,7 @@
 			children = (
 				B543F09218AABC05004C2B26 /* TSBaseViewController.h */,
 				B543F09318AABC05004C2B26 /* TSBaseViewController.m */,
+				C5CB078118C681F900BC9425 /* Alert */,
 				C5372D9F18AEABA600D22682 /* Menu */,
 				C5372D9E18AEAB8900D22682 /* Login/Signup */,
 				B583B9BA18AEB03600C5B8DA /* TSVirtualEntourageViewController.h */,
@@ -920,10 +931,21 @@
 			children = (
 				C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */,
 				C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */,
+				C5CB078218C6851D00BC9425 /* TSNumberPadButton.h */,
+				C5CB078318C6851D00BC9425 /* TSNumberPadButton.m */,
 			);
 			name = Buttons;
 			path = TapShield;
 			sourceTree = SOURCE_ROOT;
+		};
+		C5CB078118C681F900BC9425 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */,
+				C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */,
+			);
+			name = Alert;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -1253,6 +1275,7 @@
 				C532E63A18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C532E65018BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
+				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C532E63118BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
@@ -1302,6 +1325,7 @@
 				C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				C520C8F818A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
+				C5CB078418C6851D00BC9425 /* TSNumberPadButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1342,6 +1366,7 @@
 				C520C90718A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5372DB518B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */,
+				C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				B583B9BD18AEB03600C5B8DA /* TSVirtualEntourageViewController.m in Sources */,
 				C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
@@ -1352,6 +1377,7 @@
 				B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */,
 				B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
+				C5CB078618C6851D00BC9425 /* TSNumberPadButton.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
@@ -1403,6 +1429,7 @@
 				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
+				C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C57C48D718BBDB1900DFFBCE /* TSHelpViewController.m in Sources */,
 				C57C48D818BBDB1900DFFBCE /* TSBaseViewController.m in Sources */,
 				C57C48D918BBDB1900DFFBCE /* TSUserLocationAnnotation.m in Sources */,
@@ -1413,6 +1440,7 @@
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
 				C532E63B18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C57C48DF18BBDB1900DFFBCE /* TSJavelinAPIUtilities.m in Sources */,
+				C5CB078518C6851D00BC9425 /* TSNumberPadButton.m in Sources */,
 				C532E63818BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C57C48E018BBDB1900DFFBCE /* TSOrganizationSearchViewController.m in Sources */,
 				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,

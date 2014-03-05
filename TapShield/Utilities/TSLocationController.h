@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TSJavelinAPIClient.h"
 
-@protocol TSLocationControllerDelegate
+@protocol TSLocationControllerDelegate <NSObject>
 
 @optional
 - (void)locationDidUpdate:(CLLocation*)location;

@@ -36,7 +36,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     //[TestFlight takeOff:@"20b29a44-3d54-4f22-af1e-41bec7b9746c"];
     
     //walgreens
-    [TestFlight takeOff:@"6297569e-1e3e-4cf0-b050-3cda4da5b378"];
+    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";

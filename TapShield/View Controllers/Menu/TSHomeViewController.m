@@ -510,16 +510,31 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
-        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
-            if (success) {
-                
-            }
-            else {
-                
-            }
-        }];
-    }];
+    //UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+     //[self presentViewController:navigationController animated:NO completion:nil];
+    
+    
+    _disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    _disarmPad.view.alpha = 0.0f;
+    [self.view addSubview:_disarmPad.view];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setToolbarHidden:YES animated:YES];
+    
+   [UIView animateWithDuration:0.3f animations:^{
+       _disarmPad.view.alpha = 1.0f;
+   }];
+    
+    
+//    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
+//        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
+//            if (success) {
+//                
+//            }
+//            else {
+//                
+//            }
+//        }];
+//    }];
     
 }
 

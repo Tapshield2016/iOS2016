@@ -114,35 +114,53 @@ static dispatch_once_t predicate;
     }
     
     [[TSJavelinAPIClient sharedClient] locationUpdated:_location];
-    [_delegate locationDidUpdate:_location];
+    
+    if ([_delegate respondsToSelector:@selector(locationDidUpdate:)]) {
+        [_delegate locationDidUpdate:_location];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
-    [_delegate didStartMonitoringForRegion:region];
+    if ([_delegate respondsToSelector:@selector(didStartMonitoringForRegion:)]) {
+        [_delegate didStartMonitoringForRegion:region];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    [_delegate didEnterRegion:region];
+    if ([_delegate respondsToSelector:@selector(didEnterRegion:)]) {
+        [_delegate didEnterRegion:region];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    [_delegate didExitRegion:region];
+    if ([_delegate respondsToSelector:@selector(didExitRegion:)]) {
+        [_delegate didExitRegion:region];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
-    [_delegate didUpdateHeading:newHeading];
+    if ([_delegate respondsToSelector:@selector(didUpdateHeading:)]) {
+        [_delegate didUpdateHeading:newHeading];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    [_delegate didFailWithError:error];
+    if ([_delegate respondsToSelector:@selector(didFailWithError:)]) {
+        [_delegate didFailWithError:error];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
-    [_delegate monitoringDidFailForRegion:region withError:error];
+    if ([_delegate respondsToSelector:@selector(monitoringDidFailForRegion:withError:)]) {
+        [_delegate monitoringDidFailForRegion:region withError:error];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    [_delegate didChangeAuthorizationStatus:status];
+    
+    if ([_delegate respondsToSelector:@selector(didChangeAuthorizationStatus:)]) {
+        [_delegate didChangeAuthorizationStatus:status];
+    }
 }
 
 

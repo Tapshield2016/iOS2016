@@ -7,6 +7,7 @@
 //
 
 #import "TSDisarmPadViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface TSDisarmPadViewController ()
 
@@ -14,13 +15,16 @@
 
 @implementation TSDisarmPadViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
++ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
+    
+    TSDisarmPadViewController *disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    
+    [disarmPad setTransitioningDelegate:delegate];
+    disarmPad.modalPresentationStyle = UIModalPresentationCustom;
+    [presentingController presentViewController:disarmPad animated:YES completion:^{
+        [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
+        [presentingController.navigationController setToolbarHidden:YES animated:YES];
+    }];
 }
 
 - (void)viewDidLoad
@@ -55,30 +59,52 @@
     
     [super viewDidAppear:animated];
     
-    _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f
-                                                           target:self
-                                                         selector:@selector(sendEmergency:)
-                                                         userInfo:nil
-                                                          repeats:NO];
+    [self scheduleSendEmergencyTimer];
     
     [UIView animateWithDuration:10.0f animations:^{
         _countdownTintView.frame = self.view.frame;
     }];
 }
 
-- (void)selectCodeCircles {
-    int i = 1;
-    for (TSNumberPadButton *circle in _codeCircleArray) {
-        
-        if (_disarmTextField.text.length < i) {
-            circle.selected = NO;
-        }
-        else {
-            circle.selected = YES;
-        }
-        i++;
+
+#pragma mark - Emergency Alert
+
+- (void)scheduleSendEmergencyTimer {
+    
+    _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                           target:self
+                                                         selector:@selector(emergencyTimerCountdown:)
+                                                         userInfo:[NSDate date]
+                                                          repeats:YES];
+}
+
+- (void)emergencyTimerCountdown:(NSTimer *)timer {
+    
+    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+    
+    if ([(NSDate *)timer.userInfo timeIntervalSinceNow] <= -10) {
+        [_sendEmergencyTimer invalidate];
+        [self performSelector:@selector(sendEmergency:) withObject:timer];
     }
 }
+
+- (IBAction)sendEmergency:(id)sender {
+    
+    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
+        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
+            if (success) {
+                
+            }
+            else {
+                
+            }
+        }];
+    }];
+
+    
+}
+
+#pragma mark - Disarm Code
 
 - (IBAction)numberPressed:(id)sender {
     
@@ -100,20 +126,18 @@
     [self selectCodeCircles];
 }
 
-- (IBAction)sendEmergency:(id)sender {
-    
-    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
-        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
-            if (success) {
-                
-            }
-            else {
-                
-            }
-        }];
-    }];
-
-    
+- (void)selectCodeCircles {
+    int i = 1;
+    for (TSNumberPadButton *circle in _codeCircleArray) {
+        
+        if (_disarmTextField.text.length < i) {
+            circle.selected = NO;
+        }
+        else {
+            circle.selected = YES;
+        }
+        i++;
+    }
 }
 
 - (void)checkDisarmCode {
@@ -134,6 +158,8 @@
         [self performSelector:@selector(selectCodeCircles) withObject:nil afterDelay:0.08 * 6];
     }
 }
+
+#pragma mark - Animations
 
 - (void)shakeDisarmCircles {
     CABasicAnimation *animation =

@@ -514,14 +514,7 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    TSDisarmPadViewController *disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-
-    [disarmPad setTransitioningDelegate:_transitionController];
-    disarmPad.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:disarmPad animated:YES completion:^{
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-        [self.navigationController setToolbarHidden:YES animated:YES];
-    }];
+    [TSDisarmPadViewController presentFromViewController:self transitionDelegate:_transitionController];
 }
 
 

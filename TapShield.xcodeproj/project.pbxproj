@@ -170,6 +170,8 @@
 		C5391EA318C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
 		C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
 		C5391EA518C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
+		C5391EAA18C7F44400C23C0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5391EA918C7F44400C23C0A /* AVFoundation.framework */; };
+		C5391EAB18C7F44900C23C0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5391EA918C7F44400C23C0A /* AVFoundation.framework */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
@@ -460,6 +462,8 @@
 		C5391E9F18C7D17700C23C0A /* TSTransitionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTransitionDelegate.m; path = "View Controllers/TSTransitionDelegate.m"; sourceTree = "<group>"; };
 		C5391EA118C7D19100C23C0A /* TSTransitionAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTransitionAnimation.h; path = "View Controllers/TSTransitionAnimation.h"; sourceTree = "<group>"; };
 		C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTransitionAnimation.m; path = "View Controllers/TSTransitionAnimation.m"; sourceTree = "<group>"; };
+		C5391EA618C7F3F900C23C0A /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		C5391EA918C7F44400C23C0A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
@@ -503,6 +507,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5391EAA18C7F44400C23C0A /* AVFoundation.framework in Frameworks */,
 				C520C91718A98E4400D1D2E9 /* libresolv.dylib in Frameworks */,
 				B53BBD3118983409006A27E0 /* CoreLocation.framework in Frameworks */,
 				B53BBD2F1898195F006A27E0 /* MapKit.framework in Frameworks */,
@@ -532,6 +537,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5391EAB18C7F44900C23C0A /* AVFoundation.framework in Frameworks */,
 				C57C48EA18BBDB1900DFFBCE /* libresolv.dylib in Frameworks */,
 				C57C48EB18BBDB1900DFFBCE /* CoreLocation.framework in Frameworks */,
 				C57C48EC18BBDB1900DFFBCE /* MapKit.framework in Frameworks */,
@@ -570,6 +576,8 @@
 		B53BBCEF18980FDA006A27E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C5391EA918C7F44400C23C0A /* AVFoundation.framework */,
+				C5391EA618C7F3F900C23C0A /* CoreAudio.framework */,
 				C520C91D18A98EC600D1D2E9 /* libPods.a */,
 				C520C91618A98E4400D1D2E9 /* libresolv.dylib */,
 				B53BBD3018983408006A27E0 /* CoreLocation.framework */,

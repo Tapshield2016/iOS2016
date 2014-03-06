@@ -11,28 +11,71 @@
 @implementation TSTransitionAnimation
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
-    return 0.25f;
+    return 1.0f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
     
+    if (self.isPresenting) {
+        [self executePresentationAnimation:transitionContext];
+    }
+    else {
+        [self executeDismissalAnimation:transitionContext];
+    }
+}
+
+- (void)executePresentationAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
     UIView *inView = [transitionContext containerView];
-    UIViewController *toViewController = (UIViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIViewController *fromViewController = (UIViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     [inView addSubview:toViewController.view];
     
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    [toViewController.view setFrame:CGRectMake(0, screenRect.size.height, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
+    CGPoint centerOffScreen = inView.center;
     
-    [UIView animateWithDuration:0.25f
-                     animations:^{
-                         
-                         [toViewController.view setFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
-                     }
-                     completion:^(BOOL finished) {
-                         [transitionContext completeTransition:YES];
-                     }];
+    centerOffScreen.y = 2 * inView.bounds.size.height;
+    toViewController.view.center = centerOffScreen;
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        
+        toViewController.view.center = inView.center;
+        
+    } completion:^(BOOL finished) {
+        
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
+}
+
+- (void)executeDismissalAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
+    UIView *inView = [transitionContext containerView];
+    
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    [inView insertSubview:toViewController.view belowSubview:fromViewController.view];
+    
+    CGPoint centerOffScreen = inView.center;
+    centerOffScreen.y = inView.frame.size.height;
+    
+    [UIView animateKeyframesWithDuration:0.5f delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        
+        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:1.0 animations:^{
+            fromViewController.view.transform = CGAffineTransformScale(fromViewController.view.transform, 3, 3);
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:1.0 animations:^{
+            for (UIView *view in fromViewController.view.subviews) {
+                view.alpha = 0.0f;
+            }
+        }];
+        
+    } completion:^(BOOL finished) {
+        [fromViewController.view removeFromSuperview];
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
 }
 
 

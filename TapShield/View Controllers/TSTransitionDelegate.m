@@ -17,11 +17,10 @@
 }
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    //I will fix it later.
-    //    AnimatedTransitioning *controller = [[AnimatedTransitioning alloc]init];
-    //    controller.isPresenting = NO;
-    //    return controller;
-    return nil;
+
+    TSTransitionAnimation *controller = [[TSTransitionAnimation alloc]init];
+    controller.isPresenting = NO;
+    return controller;
 }
 
 - (id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator {

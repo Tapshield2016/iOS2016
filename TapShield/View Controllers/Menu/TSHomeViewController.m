@@ -85,8 +85,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-    
-    
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {

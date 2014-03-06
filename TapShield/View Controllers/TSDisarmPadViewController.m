@@ -19,12 +19,12 @@
     
     TSDisarmPadViewController *disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
     
+    [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
+    [presentingController.navigationController setToolbarHidden:YES animated:YES];
+    
     [disarmPad setTransitioningDelegate:delegate];
     disarmPad.modalPresentationStyle = UIModalPresentationCustom;
-    [presentingController presentViewController:disarmPad animated:YES completion:^{
-        [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
-        [presentingController.navigationController setToolbarHidden:YES animated:YES];
-    }];
+    [presentingController presentViewController:disarmPad animated:YES completion:nil];
 }
 
 - (void)viewDidLoad
@@ -63,6 +63,7 @@
     
     [UIView animateWithDuration:10.0f animations:^{
         _countdownTintView.frame = self.view.frame;
+        _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
     }];
 }
 
@@ -70,6 +71,11 @@
 #pragma mark - Emergency Alert
 
 - (void)scheduleSendEmergencyTimer {
+    
+    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
+        _emergencyButton.hidden = YES;
+        return;
+    }
     
     _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
                                                            target:self
@@ -101,7 +107,7 @@
         }];
     }];
 
-    
+    [self performSelectorOnMainThread:@selector(stopTintViewAmination) withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark - Disarm Code
@@ -150,7 +156,16 @@
         [_sendEmergencyTimer invalidate];
         [[TSJavelinAPIClient sharedClient] disarmAlert];
         [[TSJavelinAPIClient sharedClient] cancelAlert];
-        [self dismissViewControllerAnimated:NO completion:nil];
+        
+        UINavigationController *parentNavigationController;
+        if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
+            parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
+        }
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+            [parentNavigationController setToolbarHidden:NO animated:YES];
+            [parentNavigationController setNavigationBarHidden:NO animated:YES];
+        }];
     }
     else {
         [self shakeDisarmCircles];
@@ -172,6 +187,20 @@
     [animation setToValue:[NSValue valueWithCGPoint:
                            CGPointMake([_codeCircleContainerView center].x + 20.0f, [_codeCircleContainerView center].y)]];
     [[_codeCircleContainerView layer] addAnimation:animation forKey:@"position"];
+}
+
+- (void)stopTintViewAmination {
+    
+    [_countdownTintView.layer removeAllAnimations];
+    
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _countdownTintView.frame = self.view.frame;
+                         _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
+                         _emergencyButton.alpha = 0.0f;
+                     } completion:nil];
 }
 
 

@@ -10,4 +10,17 @@
 
 @interface TSEmergencyAlertViewController : TSBaseViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dispatcherLabel;
+@property (weak, nonatomic) IBOutlet UILabel *callTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *alertInfoLabel;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *speakerButton;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *redialButton;
+@property (weak, nonatomic) IBOutlet TSNumberPadButton *chatButton;
+
+- (IBAction)speakerPhoneToggle:(id)sender;
+- (IBAction)redialPhoneNumber:(id)sender;
+- (IBAction)showChatViewController:(id)sender;
+
+
 @end

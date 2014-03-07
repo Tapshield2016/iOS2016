@@ -36,4 +36,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)speakerPhoneToggle:(id)sender {
+}
+
+- (IBAction)redialPhoneNumber:(id)sender {
+}
+
+- (IBAction)showChatViewController:(id)sender {
+}
 @end

@@ -10,7 +10,7 @@
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
 #import "TSBaseViewController.h"
-#import "TSDisarmPadViewController.h"
+#import "TSPageViewController.h"
 
 @interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
 

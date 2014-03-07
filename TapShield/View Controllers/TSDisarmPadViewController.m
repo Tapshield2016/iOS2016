@@ -18,13 +18,17 @@
 + (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
     
     TSDisarmPadViewController *disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:disarmPad];
+    [navigationViewController setNavigationBarHidden:YES];
     
     [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
     [presentingController.navigationController setToolbarHidden:YES animated:YES];
     
-    [disarmPad setTransitioningDelegate:delegate];
-    disarmPad.modalPresentationStyle = UIModalPresentationCustom;
-    [presentingController presentViewController:disarmPad animated:YES completion:nil];
+    [navigationViewController setTransitioningDelegate:delegate];
+    navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
+    [presentingController presentViewController:navigationViewController animated:YES completion:^{
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }];
 }
 
 - (void)viewDidLoad
@@ -32,18 +36,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [self.view setBackgroundColor:[UIColor clearColor]];
+    
     _codeCircleArray = @[_codeCircle1, _codeCircle2, _codeCircle3, _codeCircle4];
     
     _disarmTextField.text = @"";
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
-    toolbar.barStyle = UIBarStyleBlack;
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view insertSubview:toolbar atIndex:0];
-    
     _countdownTintView = [[UIView alloc] initWithFrame:self.view.bounds];
     CGRect frame = _countdownTintView.frame;
-    frame.origin.y = self.view.frame.size.height - 1.0f;
+    frame.origin.y = self.view.frame.size.height - 10.0f;
     _countdownTintView.frame = frame;
     _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.6];
     [self.view insertSubview:_countdownTintView atIndex:0];
@@ -61,12 +62,11 @@
     
     [self scheduleSendEmergencyTimer];
     
-    [UIView animateWithDuration:10.0f animations:^{
+    [UIView animateWithDuration:10.0f delay:0.0f options:UIViewAnimationOptionAllowAnimatedContent animations:^{
         _countdownTintView.frame = self.view.frame;
         _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
-    }];
+    } completion:nil];
 }
-
 
 #pragma mark - Emergency Alert
 
@@ -77,11 +77,13 @@
         return;
     }
     
-    _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
-                                                           target:self
-                                                         selector:@selector(emergencyTimerCountdown:)
-                                                         userInfo:[NSDate date]
-                                                          repeats:YES];
+    if (!_sendEmergencyTimer) {
+        _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                               target:self
+                                                             selector:@selector(emergencyTimerCountdown:)
+                                                             userInfo:[NSDate date]
+                                                              repeats:YES];
+    }
 }
 
 - (void)emergencyTimerCountdown:(NSTimer *)timer {
@@ -106,7 +108,7 @@
             }
         }];
     }];
-
+    
     [self performSelectorOnMainThread:@selector(stopTintViewAmination) withObject:nil waitUntilDone:NO];
 }
 
@@ -128,6 +130,15 @@
 
 - (IBAction)clearDisarmText:(id)sender {
     _disarmTextField.text = @"";
+    
+    [self selectCodeCircles];
+}
+
+- (IBAction)deleteDisarmText:(id)sender {
+    
+    if ([_disarmTextField.text length] > 0) {
+        _disarmTextField.text = [_disarmTextField.text substringToIndex:_disarmTextField.text.length - 1];
+    }
     
     [self selectCodeCircles];
 }
@@ -162,7 +173,11 @@
             parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
         }
         
+        _toolbar.translucent = NO;
+        _toolbar.alpha = 0.5;
+        
         [self dismissViewControllerAnimated:YES completion:^{
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
             [parentNavigationController setToolbarHidden:NO animated:YES];
             [parentNavigationController setNavigationBarHidden:NO animated:YES];
         }];
@@ -193,14 +208,20 @@
     
     [_countdownTintView.layer removeAllAnimations];
     
-    [UIView animateWithDuration:1.0f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         _countdownTintView.frame = self.view.frame;
-                         _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
-                         _emergencyButton.alpha = 0.0f;
-                     } completion:nil];
+    
+    [UIView animateKeyframesWithDuration:1.0f delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeLinear |UIViewAnimationOptionBeginFromCurrentState animations:^{
+        
+        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:1.0f animations:^{
+            _countdownTintView.frame = self.view.frame;
+            _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
+            
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.5f animations:^{
+            _emergencyButton.alpha = 0.0f;
+        }];
+        
+    } completion:nil];
 }
 
 

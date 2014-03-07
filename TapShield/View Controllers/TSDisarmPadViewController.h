@@ -23,9 +23,11 @@
 @property (strong, nonatomic) NSArray *codeCircleArray;
 @property (strong, nonatomic) UIView *countdownTintView;
 @property (strong, nonatomic) NSTimer *sendEmergencyTimer;
+@property (strong, nonatomic) UIToolbar *toolbar;
 
 - (IBAction)numberPressed:(id)sender;
 - (IBAction)clearDisarmText:(id)sender;
+- (IBAction)deleteDisarmText:(id)sender;
 - (IBAction)sendEmergency:(id)sender;
 
 + (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate;

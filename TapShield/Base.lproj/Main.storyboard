@@ -2261,6 +2261,21 @@ Last Updated: 12/12/13
             </objects>
             <point key="canvasLocation" x="2027" y="1329"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="PlR-gZ-7E8">
+            <objects>
+                <navigationController definesPresentationContext="YES" navigationBarHidden="YES" id="xud-OQ-CXd" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9zH-xH-1VY">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="b9r-js-Ebz" kind="relationship" relationship="rootViewController" id="PmQ-9c-I5g"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GYB-fZ-XzG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1594" y="2195"/>
+        </scene>
         <!--Disarm Pad View Controller-->
         <scene sceneID="nrl-0d-6y0">
             <objects>
@@ -2397,7 +2412,7 @@ Last Updated: 12/12/13
                                 <rect key="frame" x="0.0" y="65" width="320" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BIt-1R-bCu" customClass="TSNumberPadButton">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BIt-1R-bCu" customClass="TSNumberPadButton">
                                         <rect key="frame" x="90" y="14" width="14" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -2405,7 +2420,7 @@ Last Updated: 12/12/13
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGQ-wK-rZX" customClass="TSNumberPadButton">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGQ-wK-rZX" customClass="TSNumberPadButton">
                                         <rect key="frame" x="133" y="14" width="14" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -2413,7 +2428,7 @@ Last Updated: 12/12/13
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tsi-5O-jqm" customClass="TSNumberPadButton">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tsi-5O-jqm" customClass="TSNumberPadButton">
                                         <rect key="frame" x="176" y="14" width="14" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -2421,7 +2436,7 @@ Last Updated: 12/12/13
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T24-kI-ike" customClass="TSNumberPadButton">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T24-kI-ike" customClass="TSNumberPadButton">
                                         <rect key="frame" x="219" y="14" width="14" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -2433,7 +2448,19 @@ Last Updated: 12/12/13
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XpJ-vL-fCN">
-                                <rect key="frame" x="252" y="518" width="48" height="49"/>
+                                <rect key="frame" x="235" y="445" width="51" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteDisarmText:" destination="b9r-js-Ebz" eventType="touchUpInside" id="0Ca-yn-mAJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uQv-2L-9wD">
+                                <rect key="frame" x="35" y="445" width="51" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Clear">
@@ -2441,15 +2468,15 @@ Last Updated: 12/12/13
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="clearDisarmText:" destination="b9r-js-Ebz" eventType="touchUpInside" id="bh4-1O-nnh"/>
+                                    <action selector="clearDisarmText:" destination="b9r-js-Ebz" eventType="touchUpInside" id="AfD-ru-eGL"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rth-4l-iUR">
-                                <rect key="frame" x="20" y="518" width="90" height="49"/>
+                                <rect key="frame" x="0.0" y="518" width="320" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Emergency">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="> slide to alert">
+                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -2464,10 +2491,10 @@ Last Updated: 12/12/13
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="QCH-JR-BqK"/>
                     <connections>
-                        <outlet property="clearButton" destination="XpJ-vL-fCN" id="eDw-6S-Zbr"/>
                         <outlet property="codeCircle1" destination="BIt-1R-bCu" id="WMq-sa-wYv"/>
                         <outlet property="codeCircle2" destination="TGQ-wK-rZX" id="tSz-D7-dgG"/>
                         <outlet property="codeCircle3" destination="Tsi-5O-jqm" id="PQu-hn-jH0"/>
@@ -2480,6 +2507,66 @@ Last Updated: 12/12/13
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyT-m2-bpk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2019" y="2195"/>
+        </scene>
+        <!--Emergency Alert View Controller-->
+        <scene sceneID="8vV-ne-SaL">
+            <objects>
+                <viewController storyboardIdentifier="TSEmergencyAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cif-Vi-G9b" customClass="TSEmergencyAlertViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="c69-Kj-FOD"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ucu-Ho-fMx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ucr-pm-deT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TapShield" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3f-Fc-kja">
+                                <rect key="frame" x="0.0" y="46" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8kF-K0-9yM">
+                                <rect key="frame" x="134" y="104" width="52" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vkr-Cs-Uai" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2467" y="2195"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="QKC-ej-bgM">
+            <objects>
+                <pageViewController storyboardIdentifier="TSPageViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="nSr-C0-RWc" customClass="TSPageViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="23n-VN-MtE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2466" y="2864"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="5GI-Z0-s2m">
+            <objects>
+                <viewController storyboardIdentifier="TSChatViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DqL-1a-yG4" customClass="TSChatViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hHP-e6-KoI"/>
+                        <viewControllerLayoutGuide type="bottom" id="Fjp-4A-Bra"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zpu-W3-kLP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JNH-7u-eaS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2917" y="2195"/>
         </scene>
         <!--Virtual Entourage View Controller - Virtual Entourage-->
         <scene sceneID="BsE-JY-VCu">

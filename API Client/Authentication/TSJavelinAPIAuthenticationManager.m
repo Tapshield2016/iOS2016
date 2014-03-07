@@ -365,11 +365,6 @@ static dispatch_once_t onceToken;
            if (completion) {
                completion(operation.responseObject);
            }
-           
-           NSString *message = @"Phone number verification failed";
-           if ([operation.responseObject objectForKey:@"message"]) {
-               message = [operation.responseObject objectForKey:@"message"];
-           }
        }];
 }
 

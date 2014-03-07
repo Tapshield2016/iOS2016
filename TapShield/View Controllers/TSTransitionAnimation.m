@@ -26,10 +26,9 @@
 
 - (void)executePresentationAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
     
-    UIView *inView = [transitionContext containerView];
-    
     UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
+    UIView *inView = [transitionContext containerView];
     [inView addSubview:toViewController.view];
     
     CGPoint centerOffScreen = inView.center;
@@ -37,7 +36,7 @@
     centerOffScreen.y = 2 * inView.bounds.size.height;
     toViewController.view.center = centerOffScreen;
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
         
         toViewController.view.center = inView.center;
         
@@ -49,16 +48,11 @@
 
 - (void)executeDismissalAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
     
-    UIView *inView = [transitionContext containerView];
-    
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
+    UIView *inView = [transitionContext containerView];
     [inView insertSubview:toViewController.view belowSubview:fromViewController.view];
-    
-    CGPoint centerOffScreen = inView.center;
-    centerOffScreen.y = inView.frame.size.height;
     
     [UIView animateKeyframesWithDuration:0.5f delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
         

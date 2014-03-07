@@ -512,7 +512,7 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    [TSDisarmPadViewController presentFromViewController:self transitionDelegate:_transitionController];
+    [TSPageViewController presentFromViewController:self transitionDelegate:_transitionController];
 }
 
 

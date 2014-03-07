@@ -143,6 +143,7 @@
 
     ABMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
     NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
+    CFRelease(addressRef);
     NSString *placeName = [TSUtilities getTitleForABRecordRef:person];
 
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];

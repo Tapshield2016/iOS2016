@@ -172,6 +172,15 @@
 		C5391EA518C7D19100C23C0A /* TSTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */; };
 		C5391EAA18C7F44400C23C0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5391EA918C7F44400C23C0A /* AVFoundation.framework */; };
 		C5391EAB18C7F44900C23C0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5391EA918C7F44400C23C0A /* AVFoundation.framework */; };
+		C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EAD18C8D9A900C23C0A /* TSEmergencyAlertViewController.m */; };
+		C5391EAF18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EAD18C8D9A900C23C0A /* TSEmergencyAlertViewController.m */; };
+		C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EAD18C8D9A900C23C0A /* TSEmergencyAlertViewController.m */; };
+		C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EBC18CA238D00C23C0A /* TSPageViewController.m */; };
+		C5391EBE18CA238D00C23C0A /* TSPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EBC18CA238D00C23C0A /* TSPageViewController.m */; };
+		C5391EBF18CA238D00C23C0A /* TSPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EBC18CA238D00C23C0A /* TSPageViewController.m */; };
+		C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
+		C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
+		C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
@@ -464,6 +473,12 @@
 		C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTransitionAnimation.m; path = "View Controllers/TSTransitionAnimation.m"; sourceTree = "<group>"; };
 		C5391EA618C7F3F900C23C0A /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		C5391EA918C7F44400C23C0A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C5391EAC18C8D9A900C23C0A /* TSEmergencyAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSEmergencyAlertViewController.h; path = "View Controllers/TSEmergencyAlertViewController.h"; sourceTree = "<group>"; };
+		C5391EAD18C8D9A900C23C0A /* TSEmergencyAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEmergencyAlertViewController.m; path = "View Controllers/TSEmergencyAlertViewController.m"; sourceTree = "<group>"; };
+		C5391EBB18CA238D00C23C0A /* TSPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSPageViewController.h; path = "View Controllers/TSPageViewController.h"; sourceTree = "<group>"; };
+		C5391EBC18CA238D00C23C0A /* TSPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPageViewController.m; path = "View Controllers/TSPageViewController.m"; sourceTree = "<group>"; };
+		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
+		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
@@ -971,6 +986,12 @@
 			children = (
 				C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */,
 				C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */,
+				C5391EAC18C8D9A900C23C0A /* TSEmergencyAlertViewController.h */,
+				C5391EAD18C8D9A900C23C0A /* TSEmergencyAlertViewController.m */,
+				C5391EBB18CA238D00C23C0A /* TSPageViewController.h */,
+				C5391EBC18CA238D00C23C0A /* TSPageViewController.m */,
+				C5391EC018CA34F800C23C0A /* TSChatViewController.h */,
+				C5391EC118CA34F800C23C0A /* TSChatViewController.m */,
 			);
 			name = Alert;
 			sourceTree = "<group>";
@@ -1328,6 +1349,7 @@
 				B583B9BC18AEB03600C5B8DA /* TSVirtualEntourageViewController.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
+				C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5372DB018B27C1F00D22682 /* TSEmailOrganizationViewController.m in Sources */,
@@ -1342,11 +1364,13 @@
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
+				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
+				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
@@ -1370,6 +1394,7 @@
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
+				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
@@ -1415,11 +1440,13 @@
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C5391EA518C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
+				C5391EBF18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C57C48B218BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
 				C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
 				C532E64B18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */,
+				C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1434,6 +1461,7 @@
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
 				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
+				C5391EAF18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
 				C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */,
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
@@ -1479,11 +1507,13 @@
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
 				C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
+				C5391EBE18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C57C48E418BBDB1900DFFBCE /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */,
 				C57C48E618BBDB1900DFFBCE /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C57C48E718BBDB1900DFFBCE /* TSLoginOrSignUpViewController.m in Sources */,
 				C57C48E818BBDB1900DFFBCE /* TSJavelinPushNotificationManager.m in Sources */,
+				C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

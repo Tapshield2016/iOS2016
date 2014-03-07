@@ -188,6 +188,7 @@
         }
         
         MKPolygon *geofencePolygon = [MKPolygon polygonWithCoordinates:boundaries count:coordinateArray.count];
+        free(boundaries);
         [self addOverlay:geofencePolygon level:MKOverlayLevelAboveRoads];
     }
 }

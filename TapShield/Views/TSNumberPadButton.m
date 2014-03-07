@@ -35,12 +35,7 @@
     
     [super setHighlighted:highlighted];
     
-    if (highlighted) {
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.5f] highlighted:highlighted];
-    }
-    else {
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:highlighted];
-    }
+    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:highlighted];
 }
 
 - (void)setSelected:(BOOL)selected {
@@ -92,7 +87,7 @@
     
     UIColor *fillColor = [UIColor clearColor];
     if (highlighted) {
-        fillColor = [[TSColorPalette whiteColor] colorWithAlphaComponent:0.1];
+        fillColor = color;
     }
     else if (selected) {
         fillColor = color;

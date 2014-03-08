@@ -42,12 +42,7 @@
     
     _disarmTextField.text = @"";
     
-    _countdownTintView = [[UIView alloc] initWithFrame:self.view.bounds];
-    CGRect frame = _countdownTintView.frame;
-    frame.origin.y = self.view.frame.size.height - 10.0f;
-    _countdownTintView.frame = frame;
-    _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.6];
-    [self.view insertSubview:_countdownTintView atIndex:0];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,16 +51,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if (!self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
     [self scheduleSendEmergencyTimer];
-    
-    [UIView animateWithDuration:10.0f delay:0.0f options:UIViewAnimationOptionAllowAnimatedContent animations:^{
-        _countdownTintView.frame = self.view.frame;
-        _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
-    } completion:nil];
 }
 
 #pragma mark - Emergency Alert
@@ -98,6 +97,8 @@
 
 - (IBAction)sendEmergency:(id)sender {
     
+    _isSendingAlert = YES;
+    
     [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
         [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
             if (success) {
@@ -108,8 +109,6 @@
             }
         }];
     }];
-    
-    [self performSelectorOnMainThread:@selector(stopTintViewAmination) withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark - Disarm Code
@@ -204,25 +203,7 @@
     [[_codeCircleContainerView layer] addAnimation:animation forKey:@"position"];
 }
 
-- (void)stopTintViewAmination {
-    
-    [_countdownTintView.layer removeAllAnimations];
-    
-    
-    [UIView animateKeyframesWithDuration:1.0f delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeLinear |UIViewAnimationOptionBeginFromCurrentState animations:^{
-        
-        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:1.0f animations:^{
-            _countdownTintView.frame = self.view.frame;
-            _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
-            
-        }];
-        
-        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:0.5f animations:^{
-            _emergencyButton.alpha = 0.0f;
-        }];
-        
-    } completion:nil];
-}
+
 
 
 @end

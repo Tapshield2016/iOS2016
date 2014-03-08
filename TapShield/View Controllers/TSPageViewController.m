@@ -7,9 +7,7 @@
 //
 
 #import "TSPageViewController.h"
-#import "TSDisarmPadViewController.h"
-#import "TSEmergencyAlertViewController.h"
-#import "TSChatViewController.h"
+
 
 @interface TSPageViewController ()
 
@@ -22,6 +20,7 @@
     TSPageViewController *alertPageView = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSPageViewController"];
     UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:alertPageView];
     [navigationViewController setNavigationBarHidden:YES];
+    navigationViewController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     
     [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
     [presentingController.navigationController setToolbarHidden:YES animated:YES];
@@ -38,7 +37,16 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    _isFirstTimeViewed = YES;
+    
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    
+    _countdownTintView = [[UIView alloc] initWithFrame:self.view.bounds];
+    CGRect frame = _countdownTintView.frame;
+    frame.origin.y = self.view.frame.size.height - 10.0f;
+    _countdownTintView.frame = frame;
+    _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.6];
+    [self.view insertSubview:_countdownTintView atIndex:0];
     
     _toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
     _toolbar.barStyle = UIBarStyleBlack;
@@ -46,22 +54,51 @@
     [self.view insertSubview:_toolbar atIndex:0];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
-    TSDisarmPadViewController *TSDisarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-    TSEmergencyAlertViewController *TSEmergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
-    TSChatViewController *TSChatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
+    _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
+    _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
     
-    _alertViewControllers = @[TSDisarmPadViewController, TSEmergencyAlertViewController, TSChatViewController];
+    _alertViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
     
-    [self setViewControllers:@[TSDisarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     self.delegate = self;
     self.dataSource = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [UIView animateWithDuration:10.0f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        _countdownTintView.frame = self.view.frame;
+        _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
+    } completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)showChatViewController {
+    
+    [self setViewControllers:@[_chatViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+}
+
+#pragma mark - Background Animation
+
+- (void)stopTintViewAmination {
+    
+    [_countdownTintView.layer removeAllAnimations];
+    
+    
+    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        _countdownTintView.frame = self.view.frame;
+        _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.2f];
+        
+    } completion:nil];
 }
 
 
@@ -71,32 +108,37 @@
     
     NSUInteger index = [_alertViewControllers indexOfObject:[previousViewControllers lastObject]];
     
-    if (!completed) {
-        if (index >= 1) {
-            if (self.navigationController.navigationBarHidden) {
-                [self.navigationController setNavigationBarHidden:NO animated:YES];
+    switch (index) {
+        case 0:
+            if (completed) {
+                
+                if (_isFirstTimeViewed) {
+                    if (!_disarmPadViewController.isSendingAlert) {
+                        [_disarmPadViewController sendEmergency:nil];
+                        [self stopTintViewAmination];
+                    }
+                    _isFirstTimeViewed = NO;
+                }
             }
-        }
-    }
-    else {
-        if (index == 0) {
-            if (self.navigationController.navigationBarHidden) {
-                [self.navigationController setNavigationBarHidden:NO animated:YES];
-            }
-        }
+            
+            break;
+            
+        case 1:
+            
+            break;
+            
+        case 2:
+            
+            break;
+            
+        default:
+            
+            break;
     }
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     
-    NSLog(@"willTransitionToViewControllers, %@", pendingViewControllers);
-    
-    NSUInteger index = [_alertViewControllers indexOfObject:[pendingViewControllers lastObject]];
-    if (index == 0) {
-        if (!self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-        }
-    }
 }
 
 - (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {

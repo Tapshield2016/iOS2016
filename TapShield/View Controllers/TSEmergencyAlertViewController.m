@@ -7,6 +7,7 @@
 //
 
 #import "TSEmergencyAlertViewController.h"
+#import "TSPageViewController.h"
 
 @interface TSEmergencyAlertViewController ()
 
@@ -30,6 +31,16 @@
     [self.view setBackgroundColor:[UIColor clearColor]];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if (!self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
+    self.navigationController.navigationBar.topItem.title = self.title;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -43,5 +54,8 @@
 }
 
 - (IBAction)showChatViewController:(id)sender {
+    
+    UIViewController *viewController = ((TSPageViewController *)self.parentViewController).chatViewController;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 @end

@@ -167,7 +167,7 @@
                 
                 TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:agency.agencyCenter
                                                                                              placeName:agency.name
-                                                                                           description:[NSString stringWithFormat:@"%i", agency.identifier]];
+                                                                                           description:[NSString stringWithFormat:@"%lu", (unsigned long)agency.identifier]];
                 [self addAnnotation:agencyAnnotation];
             }
         }

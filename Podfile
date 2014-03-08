@@ -1,7 +1,7 @@
 platform :ios, '7.0'
 
-pod 'AFNetworking', '~> 2.0.3'
+pod 'AFNetworking'
 pod 'MSDynamicsDrawerViewController'
-pod 'AWSiOSSDK', '~> 1.7.1'
+pod 'AWSiOSSDK'
 pod 'SSKeychain'
 pod 'TwilioSDK'

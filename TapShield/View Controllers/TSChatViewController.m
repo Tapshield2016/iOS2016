@@ -25,7 +25,8 @@
     _textMessageBarView = [[TSTextMessageBarView alloc] initWithFrame:frame];
     _inputAccessoryView = [[TSObservingInputAccessoryView alloc] init];
     _inputAccessoryView.clipsToBounds = NO;
-    _messageTextView.inputAccessoryView = _inputAccessoryView;
+//    _messageTextView = [[UITextView alloc] init];
+//    _messageTextView.inputAccessoryView = _inputAccessoryView;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -68,15 +69,11 @@
     UIView *activeKeyboard = _textMessageBarView.messageBoxTextView.inputAccessoryView.superview;
     
     if (activeKeyboard.frame.origin.y >= self.view.bounds.size.height - _messageBarContainerView.frame.size.height) {
-        [_textMessageBarView removeFromSuperview];
+        _textMessageBarView.alpha = 0.0f;
     }
     
     if (activeKeyboard.frame.origin.y < [UIScreen mainScreen].bounds.size.height - activeKeyboard.frame.size.height - _textMessageBarView.frame.size.height) {
     }
-    
-//    CGRect frame = _messageBarContainerView.frame;
-//    frame.origin.y = activeKeyboard.frame.origin.y - frame.size.height;
-//    _messageBarContainerView.frame = frame;
 }
 
 #pragma mark - Responding to keyboard events
@@ -119,7 +116,10 @@
     [UIView setAnimationDuration:animationDuration];
     [UIView setAnimationCurve:[curve intValue]];
     
-    _messageBarContainerView.frame = newMessageBarViewFrame;
+    if (_textMessageBarView.alpha == 0) {
+        _messageBarContainerView.frame = newMessageBarViewFrame;
+    }
+    
     NSLog(@"Will Show");
     
     [UIView commitAnimations];
@@ -140,14 +140,15 @@
     
     if (_inputAccessoryView.subviews.count == 0) {
         [_inputAccessoryView addSubview:_textMessageBarView];
-        [_textMessageBarView.messageBoxTextView becomeFirstResponder];
-        _textMessageBarView.messageBoxTextView.inputAccessoryView = _inputAccessoryView;
-        [_messageTextView removeFromSuperview];
-        _messageTextView = nil;
     }
+    _textMessageBarView.alpha = 1.0f;
+    [_textMessageBarView.messageBoxTextView becomeFirstResponder];
+    _textMessageBarView.messageBoxTextView.inputAccessoryView = _inputAccessoryView;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
+    
+    //[_textMessageBarView removeFromSuperview];
     
     NSDictionary *userInfo = [notification userInfo];
     

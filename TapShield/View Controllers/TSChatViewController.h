@@ -11,8 +11,8 @@
 
 @interface TSChatViewController : TSBaseViewController <UIScrollViewDelegate, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet TSTextMessageBarView *messageBarContainerView;
-@property (weak, nonatomic) IBOutlet UITextView *messageTextView;
+@property (strong, nonatomic) IBOutlet TSTextMessageBarView *messageBarContainerView;
+@property (strong, nonatomic) UITextView *messageTextView;
 
 
 @property (strong, nonatomic) TSObservingInputAccessoryView *inputAccessoryView;

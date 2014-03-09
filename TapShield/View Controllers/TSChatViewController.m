@@ -10,7 +10,10 @@
 
 @interface TSChatViewController ()
 
+
 @end
+
+CGRect keyboardRect;
 
 @implementation TSChatViewController
 
@@ -23,10 +26,9 @@
     frame.origin.y = 0;
     
     _textMessageBarView = [[TSTextMessageBarView alloc] initWithFrame:frame];
+    _textMessageBarView.alpha = 0.0f;
     _inputAccessoryView = [[TSObservingInputAccessoryView alloc] init];
     _inputAccessoryView.clipsToBounds = NO;
-//    _messageTextView = [[UITextView alloc] init];
-//    _messageTextView.inputAccessoryView = _inputAccessoryView;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -53,6 +55,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if (_textMessageBarView.alpha == 1.0f) {
+        _textMessageBarView.alpha = 0.0f;
+    }
+    
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
@@ -61,6 +73,23 @@
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     self.navigationController.navigationBar.topItem.title = self.title;
+    
+    if (_textMessageBarView.alpha == 0.0f) {
+        [_messageBarContainerView.messageBoxTextView becomeFirstResponder];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [_textMessageBarView.messageBoxTextView resignFirstResponder];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    
+    [super viewDidDisappear:animated];
+    
 }
 
 - (void)superviewDidChange:(NSNotification *)notification {
@@ -71,6 +100,9 @@
     if (activeKeyboard.frame.origin.y >= self.view.bounds.size.height - _messageBarContainerView.frame.size.height) {
         _textMessageBarView.alpha = 0.0f;
     }
+    else {
+        _textMessageBarView.alpha = 1.0f;
+    }
     
     if (activeKeyboard.frame.origin.y < [UIScreen mainScreen].bounds.size.height - activeKeyboard.frame.size.height - _textMessageBarView.frame.size.height) {
     }
@@ -80,25 +112,15 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification {
     
+    NSLog(@"Will Show");
     
     [self resetAccessoryViewObserver];
-    
-    /*
-     Reduce the size of the text view so that it's not obscured by the keyboard.
-     Animate the resize so that it's in sync with the appearance of the keyboard.
-     */
     
     NSDictionary *userInfo = [notification userInfo];
     
     // Get the origin of the keyboard when it's displayed.
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
-    
-    // Get the top of the keyboard as the y coordinate of its origin in self's view's
-    // coordinate system. The bottom of the text view's frame should align with the top
-    // of the keyboard's final position.
-    //
-    CGRect keyboardRect = [aValue CGRectValue];
+    keyboardRect = [aValue CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
     CGFloat keyboardTop = keyboardRect.origin.y;
@@ -109,23 +131,23 @@
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
-    
+    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     // Animate the resize of the text view's frame in sync with the keyboard's appearance.
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:animationDuration];
     [UIView setAnimationCurve:[curve intValue]];
     
-    if (_textMessageBarView.alpha == 0) {
+    if (_textMessageBarView.alpha == 0 && _messageBarContainerView.frame.origin.y > 400) {
         _messageBarContainerView.frame = newMessageBarViewFrame;
     }
-    
-    NSLog(@"Will Show");
     
     [UIView commitAnimations];
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification {
+    
+    NSLog(@"Did Show");
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(superviewDidChange:)
@@ -148,7 +170,7 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification {
     
-    //[_textMessageBarView removeFromSuperview];
+    NSLog(@"Will Hide");
     
     NSDictionary *userInfo = [notification userInfo];
     
@@ -165,8 +187,6 @@
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:animationDuration];
     [UIView setAnimationCurve:[curve intValue]];
-    
-    NSLog(@"Will Hide");
     
     
     [UIView commitAnimations];

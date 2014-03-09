@@ -14,5 +14,6 @@
 @property (strong, nonatomic) IBOutlet TSTextMessageBarView *textMessageBarBaseView;
 @property (strong, nonatomic) TSTextMessageBarView *textMessageBarAccessoryView;
 @property (strong, nonatomic) TSObservingInputAccessoryView *inputAccessoryView;
+@property (strong, nonatomic) UIToolbar *toolbar;
 
 @end

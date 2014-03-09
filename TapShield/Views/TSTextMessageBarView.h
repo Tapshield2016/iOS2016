@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) UITextView *messageBoxTextView;
 @property (strong, nonatomic) UIButton *sendButton;
+@property (strong, nonatomic) UIToolbar *toolbar;
 
 - (void)recreateTextViewWithText:(NSString *)text;
 

@@ -20,6 +20,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    _toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
+    _toolbar.barStyle = UIBarStyleBlack;
+    _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view insertSubview:_toolbar atIndex:0];
+    
     CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = 0;
     

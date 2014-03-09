@@ -58,6 +58,7 @@
 - (void)recreateTextViewWithText:(NSString *)text {
     
     CGRect textViewFrame = CGRectMake(self.frame.size.width / 10, self.frame.size.height/10, self.frame.size.width/10 * 7, self.frame.size.height/10 * 8);
+    
     if (!_messageBoxTextView) {
         _messageBoxTextView = [[UITextView alloc] initWithFrame:textViewFrame];
     }

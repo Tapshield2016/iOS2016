@@ -13,8 +13,6 @@
 
 @end
 
-CGRect keyboardRect;
-
 @implementation TSChatViewController
 
 - (void)viewDidLoad
@@ -22,13 +20,15 @@ CGRect keyboardRect;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    CGRect frame = _messageBarContainerView.frame;
+    CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = 0;
     
-    _textMessageBarView = [[TSTextMessageBarView alloc] initWithFrame:frame];
-    _textMessageBarView.alpha = 0.0f;
+    _textMessageBarAccessoryView = [[TSTextMessageBarView alloc] initWithFrame:frame];
+    _textMessageBarAccessoryView.alpha = 0.0f;
     _inputAccessoryView = [[TSObservingInputAccessoryView alloc] init];
     _inputAccessoryView.clipsToBounds = NO;
+    _textMessageBarAccessoryView.messageBoxTextView.inputAccessoryView = _inputAccessoryView;
+    [_inputAccessoryView addSubview:_textMessageBarAccessoryView];
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -59,8 +59,9 @@ CGRect keyboardRect;
     
     [super viewWillAppear:animated];
     
-    if (_textMessageBarView.alpha == 1.0f) {
-        _textMessageBarView.alpha = 0.0f;
+    //view did not load hide and reset
+    if (_textMessageBarAccessoryView.alpha == 1.0f) {
+        _textMessageBarAccessoryView.alpha = 0.0f;
     }
     
 }
@@ -74,8 +75,8 @@ CGRect keyboardRect;
     }
     self.navigationController.navigationBar.topItem.title = self.title;
     
-    if (_textMessageBarView.alpha == 0.0f) {
-        [_messageBarContainerView.messageBoxTextView becomeFirstResponder];
+    if (_textMessageBarAccessoryView.alpha == 0.0f) {
+        [_textMessageBarBaseView.messageBoxTextView becomeFirstResponder];
     }
 }
 
@@ -83,49 +84,51 @@ CGRect keyboardRect;
     
     [super viewWillDisappear:animated];
     
-    [_textMessageBarView.messageBoxTextView resignFirstResponder];
+    [_textMessageBarAccessoryView.messageBoxTextView resignFirstResponder];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    
-    [super viewDidDisappear:animated];
-    
-}
+#pragma mark - Accessory View Movement
 
 - (void)superviewDidChange:(NSNotification *)notification {
     
+    UIView *activeKeyboard = _textMessageBarAccessoryView.messageBoxTextView.inputAccessoryView.superview;
     
-    UIView *activeKeyboard = _textMessageBarView.messageBoxTextView.inputAccessoryView.superview;
-    
-    if (activeKeyboard.frame.origin.y >= self.view.bounds.size.height - _messageBarContainerView.frame.size.height) {
-        _textMessageBarView.alpha = 0.0f;
+    //Accessory frame is heading out of self.view's bounds.  Quick swap textMessageBarViews using alpha
+    if (activeKeyboard.frame.origin.y >= self.view.bounds.size.height - _textMessageBarBaseView.frame.size.height) {
+        _textMessageBarAccessoryView.alpha = 0.0f;
     }
     else {
-        _textMessageBarView.alpha = 1.0f;
+        _textMessageBarAccessoryView.alpha = 1.0f;
     }
+}
+
+- (void)removeAccessoryViewObserver {
     
-    if (activeKeyboard.frame.origin.y < [UIScreen mainScreen].bounds.size.height - activeKeyboard.frame.size.height - _textMessageBarView.frame.size.height) {
-    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification object:nil];
+}
+
+- (void)addAccessoryViewObserver {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(superviewDidChange:)
+                                                 name:TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification
+                                               object:nil];
 }
 
 #pragma mark - Responding to keyboard events
 
 - (void)keyboardWillShow:(NSNotification *)notification {
     
-    NSLog(@"Will Show");
-    
-    [self resetAccessoryViewObserver];
-    
     NSDictionary *userInfo = [notification userInfo];
     
     // Get the origin of the keyboard when it's displayed.
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyboardRect = [aValue CGRectValue];
+    CGRect keyboardRect = [aValue CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
     CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newMessageBarViewFrame = _messageBarContainerView.frame;
-    newMessageBarViewFrame.origin.y = keyboardTop - _messageBarContainerView.frame.size.height;
+    CGRect newMessageBarViewFrame = _textMessageBarBaseView.frame;
+    newMessageBarViewFrame.origin.y = keyboardTop - _textMessageBarBaseView.frame.size.height;
     
     // Get the duration of the animation.
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
@@ -138,8 +141,8 @@ CGRect keyboardRect;
     [UIView setAnimationDuration:animationDuration];
     [UIView setAnimationCurve:[curve intValue]];
     
-    if (_textMessageBarView.alpha == 0 && _messageBarContainerView.frame.origin.y > 400) {
-        _messageBarContainerView.frame = newMessageBarViewFrame;
+    if (_textMessageBarAccessoryView.alpha == 0) {
+        _textMessageBarBaseView.frame = newMessageBarViewFrame;
     }
     
     [UIView commitAnimations];
@@ -147,52 +150,27 @@ CGRect keyboardRect;
 
 - (void)keyboardDidShow:(NSNotification *)notification {
     
-    NSLog(@"Did Show");
+    //ensure superview notifications are coming through
+    [self removeAccessoryViewObserver];
+    [self addAccessoryViewObserver];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(superviewDidChange:)
-                                                 name:TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification
-                                               object:nil];
+    //show Accessory Bar View
+    _inputAccessoryView.frame = _textMessageBarAccessoryView.frame;
+    _textMessageBarAccessoryView.alpha = 1.0f;
+    [_textMessageBarAccessoryView.messageBoxTextView becomeFirstResponder];
     
-    CGRect newMessageBarViewFrame = _messageBarContainerView.frame;
+    //Base Bar View return to original frame
+    CGRect newMessageBarViewFrame = _textMessageBarBaseView.frame;
     newMessageBarViewFrame.origin.y = self.view.frame.size.height - newMessageBarViewFrame.size.height;
-    _messageBarContainerView.frame = newMessageBarViewFrame;
-    
-    _inputAccessoryView.frame = _textMessageBarView.frame;
-    
-    if (_inputAccessoryView.subviews.count == 0) {
-        [_inputAccessoryView addSubview:_textMessageBarView];
-    }
-    _textMessageBarView.alpha = 1.0f;
-    [_textMessageBarView.messageBoxTextView becomeFirstResponder];
-    _textMessageBarView.messageBoxTextView.inputAccessoryView = _inputAccessoryView;
+    _textMessageBarBaseView.frame = newMessageBarViewFrame;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
     
-    NSLog(@"Will Hide");
+    //Update Base Bar Text View to be shown with new text
+    [_textMessageBarBaseView recreateTextViewWithText:_textMessageBarAccessoryView.messageBoxTextView.text];
     
-    NSDictionary *userInfo = [notification userInfo];
-    
-    CGRect newMessageBarViewFrame = _messageBarContainerView.frame;
-    newMessageBarViewFrame.origin.y = self.view.bounds.size.height - _messageBarContainerView.frame.size.height;
-    
-    
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:[curve intValue]];
-    
-    
-    [UIView commitAnimations];
-    
-    [_messageBarContainerView recreateTextViewWithText:_textMessageBarView.messageBoxTextView.text];
-    
+    //return accessory view to zero height to remove any gap for Keyboard Will Show animation
     CGRect frame = _inputAccessoryView.frame;
     frame.size.height = 0;
     _inputAccessoryView.frame = frame;
@@ -200,17 +178,10 @@ CGRect keyboardRect;
 
 - (void)keyboardDidHide:(NSNotification *)notification {
     
-    [self resetAccessoryViewObserver];
+    //remove observer until Accessory View visible again
+    [self removeAccessoryViewObserver];
 }
 
-- (void)resetAccessoryViewObserver {
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification object:nil];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-}
 
 #pragma mark - Table View Delegate Methods 
 

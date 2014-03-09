@@ -9,13 +9,10 @@
 #import "TSBaseViewController.h"
 #import "TSTextMessageBarView.h"
 
-@interface TSChatViewController : TSBaseViewController <UIScrollViewDelegate, UITableViewDelegate>
+@interface TSChatViewController : TSBaseViewController <UITableViewDelegate, UITextFieldDelegate>
 
-@property (strong, nonatomic) IBOutlet TSTextMessageBarView *messageBarContainerView;
-@property (strong, nonatomic) UITextView *messageTextView;
-
-
+@property (strong, nonatomic) IBOutlet TSTextMessageBarView *textMessageBarBaseView;
+@property (strong, nonatomic) TSTextMessageBarView *textMessageBarAccessoryView;
 @property (strong, nonatomic) TSObservingInputAccessoryView *inputAccessoryView;
-@property (strong, nonatomic) TSTextMessageBarView *textMessageBarView;
 
 @end

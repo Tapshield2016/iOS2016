@@ -8,7 +8,7 @@
 
 #import "TSObservingInputAccessoryView.h"
 
-NSString * const TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification = @"MJXObservingInputAccessoryViewSuperviewFrameDidChangeNotification";
+NSString * const TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification = @"TSObservingInputAccessoryViewSuperviewFrameDidChangeNotification";
 
 
 @implementation TSObservingInputAccessoryView

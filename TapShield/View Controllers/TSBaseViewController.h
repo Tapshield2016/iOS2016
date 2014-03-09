@@ -17,6 +17,7 @@
 #import "TSLocationController.h"
 #import "TSTransitionDelegate.h"
 #import "TSNumberPadButton.h"
+#import "TSObservingInputAccessoryView.h"
 
 @interface TSBaseViewController : UIViewController
 

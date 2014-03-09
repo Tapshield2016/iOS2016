@@ -44,6 +44,12 @@
 		B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
 		B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */; };
 		B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */; };
+		C51A40A318CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */; };
+		C51A40A418CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */; };
+		C51A40A518CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */; };
+		C51A40A818CBE88B007D7884 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
+		C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
+		C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
 		C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */; };
 		C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8C118A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.m */; };
@@ -377,6 +383,10 @@
 		B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginOrSignUpViewController.m; path = "TapShield/View Controllers/Login:Signup/TSLoginOrSignUpViewController.m"; sourceTree = SOURCE_ROOT; };
 		B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUtilities.h; path = Utilities/TSUtilities.h; sourceTree = "<group>"; };
 		B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUtilities.m; path = Utilities/TSUtilities.m; sourceTree = "<group>"; };
+		C51A40A118CBCF7C007D7884 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
+		C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSObservingInputAccessoryView.m; path = Views/TSObservingInputAccessoryView.m; sourceTree = "<group>"; };
+		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/TSTextMessageBarView.h; sourceTree = "<group>"; };
+		C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTextMessageBarView.m; path = Views/TSTextMessageBarView.m; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
 		C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIAuthenticationManager.m; sourceTree = "<group>"; };
 		C520C8C018A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationResult.h; sourceTree = "<group>"; };
@@ -670,6 +680,7 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C51A40A018CBCF40007D7884 /* Keyboard */,
 				C57C48A018B6B2DA00DFFBCE /* Cells */,
 				C5372DA018AEAC7400D22682 /* Map */,
 				C5C1706F18AC085100EEFBD6 /* Buttons */,
@@ -695,6 +706,17 @@
 				C532E8DD18BCF85E00FC111A /* TSLocationController.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		C51A40A018CBCF40007D7884 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				C51A40A118CBCF7C007D7884 /* TSObservingInputAccessoryView.h */,
+				C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */,
+				C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */,
+				C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */,
+			);
+			name = Keyboard;
 			sourceTree = "<group>";
 		};
 		C520C8BC18A974C000D1D2E9 /* API Client */ = {
@@ -1354,6 +1376,7 @@
 				C5FD5EA718B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
 				C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
+				C51A40A318CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
@@ -1365,6 +1388,7 @@
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
+				C51A40A818CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
@@ -1403,12 +1427,14 @@
 				C5372DB918B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				B543F08518AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C520C90D18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
+				C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
+				C51A40A518CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */,
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
@@ -1470,12 +1496,14 @@
 				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
 				C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
+				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
 				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,
 				C57C48CA18BBDB1900DFFBCE /* TSJavelinAPIClient.m in Sources */,
 				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
 				C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */,
 				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
+				C51A40A418CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,

@@ -17,10 +17,12 @@
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet UIButton *alertButton;
+@property (weak, nonatomic) IBOutlet UIButton *chatButton;
 
 @property (nonatomic, strong) CLGeocoder *geocoder;
 
 - (IBAction)displayVirtualEntourage:(id)sender;
 - (IBAction)sendAlert:(id)sender;
+- (IBAction)openChatWindow:(id)sender;
 
 @end

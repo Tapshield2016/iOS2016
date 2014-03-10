@@ -33,11 +33,12 @@
 
 - (void)setupSubview {
     
+    self.backgroundColor = [UIColor clearColor];
+    
     CGRect toolBarFrame = self.frame;
     toolBarFrame.origin.y = 0.0f;
-    _toolbar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
-    
-    [self addSubview:_toolbar];
+    self.toolbar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
+    [self insertSubview:self.toolbar atIndex:0];
     
     [self recreateTextViewWithText:nil];
     
@@ -72,7 +73,7 @@
     [self addSubview:_messageBoxTextView];
 }
 
-- (void)addCameraButtonWithTarge:(id)target action:(SEL)action {
+- (void)addCameraButtonWithTarget:(id)target action:(SEL)action {
     
     UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:target action:action];
     cameraButton.tintColor = [UIColor lightGrayColor];

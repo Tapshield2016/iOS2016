@@ -44,9 +44,6 @@
 		B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
 		B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */; };
 		B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */; };
-		C51A40A318CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */; };
-		C51A40A418CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */; };
-		C51A40A518CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */; };
 		C51A40A818CBE88B007D7884 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
 		C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
 		C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
@@ -187,6 +184,9 @@
 		C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C556598518CC180F00288AD3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
+		C556598718CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
+		C556598818CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
+		C556598918CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
@@ -383,8 +383,6 @@
 		B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginOrSignUpViewController.m; path = "TapShield/View Controllers/Login:Signup/TSLoginOrSignUpViewController.m"; sourceTree = SOURCE_ROOT; };
 		B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUtilities.h; path = Utilities/TSUtilities.h; sourceTree = "<group>"; };
 		B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUtilities.m; path = Utilities/TSUtilities.m; sourceTree = "<group>"; };
-		C51A40A118CBCF7C007D7884 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
-		C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSObservingInputAccessoryView.m; path = Views/TSObservingInputAccessoryView.m; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/TSTextMessageBarView.h; sourceTree = "<group>"; };
 		C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTextMessageBarView.m; path = Views/TSTextMessageBarView.m; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
@@ -488,6 +486,7 @@
 		C5391EBC18CA238D00C23C0A /* TSPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPageViewController.m; path = "View Controllers/TSPageViewController.m"; sourceTree = "<group>"; };
 		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
 		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
+		C556598618CC51A900288AD3 /* redial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redial.png; path = Images/redial.png; sourceTree = "<group>"; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
@@ -711,8 +710,6 @@
 		C51A40A018CBCF40007D7884 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				C51A40A118CBCF7C007D7884 /* TSObservingInputAccessoryView.h */,
-				C51A40A218CBCF7C007D7884 /* TSObservingInputAccessoryView.m */,
 				C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */,
 				C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */,
 			);
@@ -954,6 +951,7 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C556598618CC51A900288AD3 /* redial.png */,
 				C532E8E618BD583200FC111A /* logo.png */,
 				C57C48AC18BBC32100DFFBCE /* no_image.png */,
 				C5372DDA18B3126000D22682 /* AddPhotoButton.png */,
@@ -1131,6 +1129,7 @@
 				C5FD5E9518B3143100E27EE9 /* LockIcon.png in Resources */,
 				C5FD5E8D18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
 				C5FD5E8718B3141800E27EE9 /* CheckBox_Unselected@2x.png in Resources */,
+				C556598718CC51A900288AD3 /* redial.png in Resources */,
 				C5372E0918B3126000D22682 /* EmailEnvelope@2x.png in Resources */,
 				C532E8E318BD44F400FC111A /* Main.storyboard in Resources */,
 				C5FD5EAA18B5165600E27EE9 /* iphoneIcon.png in Resources */,
@@ -1191,6 +1190,7 @@
 				C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */,
 				C5372DEE18B3126000D22682 /* AddPhotoButton.png in Resources */,
 				C5FD5E9018B3141800E27EE9 /* circle.png in Resources */,
+				C556598918CC51A900288AD3 /* redial.png in Resources */,
 				C57C48A718B7B17400DFFBCE /* XIcon.png in Resources */,
 				C5372DD718B2CEBB00D22682 /* mailicon.png in Resources */,
 				C57C48AE18BBC32100DFFBCE /* no_image.png in Resources */,
@@ -1233,6 +1233,7 @@
 				C57C490D18BBDB1900DFFBCE /* LockIcon@2x.png in Resources */,
 				C57C490E18BBDB1900DFFBCE /* DisarmIcon_KeyPad@2x.png in Resources */,
 				C57C490F18BBDB1900DFFBCE /* PhoneIcon.png in Resources */,
+				C556598818CC51A900288AD3 /* redial.png in Resources */,
 				C57C491018BBDB1900DFFBCE /* twitterIcon.png in Resources */,
 				C57C491118BBDB1900DFFBCE /* XIcon.png in Resources */,
 				C57C491218BBDB1900DFFBCE /* no_image.png in Resources */,
@@ -1376,7 +1377,6 @@
 				C5FD5EA718B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
 				C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
-				C51A40A318CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
@@ -1434,7 +1434,6 @@
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
-				C51A40A518CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */,
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
@@ -1503,7 +1502,6 @@
 				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
 				C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */,
 				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
-				C51A40A418CBCF7C007D7884 /* TSObservingInputAccessoryView.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,

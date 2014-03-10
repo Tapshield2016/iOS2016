@@ -515,6 +515,11 @@
     [TSPageViewController presentFromViewController:self transitionDelegate:_transitionController];
 }
 
+- (IBAction)openChatWindow:(id)sender {
+    
+    [TSChatViewController presentFromViewController:self transitionDelegate:_transitionController];
+}
+
 
 
 

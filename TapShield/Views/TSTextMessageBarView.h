@@ -15,5 +15,6 @@
 @property (strong, nonatomic) UIToolbar *toolbar;
 
 - (void)recreateTextViewWithText:(NSString *)text;
+- (void)addCameraButtonWithTarget:(id)target action:(SEL)action;
 
 @end

@@ -31,6 +31,4 @@
 - (IBAction)deleteDisarmText:(id)sender;
 - (IBAction)sendEmergency:(id)sender;
 
-+ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate;
-
 @end

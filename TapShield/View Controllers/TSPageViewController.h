@@ -24,7 +24,6 @@
 
 @property (nonatomic) BOOL isFirstTimeViewed;
 
-+ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate;
 - (void)showChatViewController;
 
 @end

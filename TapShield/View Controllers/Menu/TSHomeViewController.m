@@ -512,12 +512,12 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    [TSPageViewController presentFromViewController:self transitionDelegate:_transitionController];
+    [self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController];
 }
 
 - (IBAction)openChatWindow:(id)sender {
     
-    [TSChatViewController presentFromViewController:self transitionDelegate:_transitionController];
+    [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController];
 }
 
 

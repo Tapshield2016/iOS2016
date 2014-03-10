@@ -16,6 +16,4 @@
 @property (strong, nonatomic) UIView *inputAccessoryView;
 @property (strong, nonatomic) UIToolbar *toolbar;
 
-+ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate;
-
 @end

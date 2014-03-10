@@ -15,23 +15,6 @@
 
 @implementation TSPageViewController
 
-+ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
-    
-    TSPageViewController *alertPageView = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSPageViewController"];
-    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:alertPageView];
-    [navigationViewController setNavigationBarHidden:YES];
-    navigationViewController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
-    
-    [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
-    [presentingController.navigationController setToolbarHidden:YES animated:YES];
-    
-    [navigationViewController setTransitioningDelegate:delegate];
-    navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
-    [presentingController presentViewController:navigationViewController animated:YES completion:^{
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    }];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

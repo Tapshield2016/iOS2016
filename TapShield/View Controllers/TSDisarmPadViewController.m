@@ -15,22 +15,6 @@
 
 @implementation TSDisarmPadViewController
 
-+ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
-    
-    TSDisarmPadViewController *disarmPad = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:disarmPad];
-    [navigationViewController setNavigationBarHidden:YES];
-    
-    [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
-    [presentingController.navigationController setToolbarHidden:YES animated:YES];
-    
-    [navigationViewController setTransitioningDelegate:delegate];
-    navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
-    [presentingController presentViewController:navigationViewController animated:YES completion:^{
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    }];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

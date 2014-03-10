@@ -14,22 +14,6 @@
 
 @implementation TSChatViewController
 
-+ (void)presentFromViewController:(UIViewController *)presentingController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
-    
-    TSChatViewController *chatViewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSChatViewController"];
-    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
-    [navigationViewController setNavigationBarHidden:YES];
-    navigationViewController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
-    
-    [presentingController.navigationController setNavigationBarHidden:YES animated:YES];
-    [presentingController.navigationController setToolbarHidden:YES animated:YES];
-    
-    [navigationViewController setTransitioningDelegate:delegate];
-    navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
-    [presentingController presentViewController:navigationViewController animated:YES completion:^{
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    }];
-}
 
 - (void)viewDidLoad
 {
@@ -81,6 +65,12 @@
     if (self.navigationController.navigationBarHidden) {
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         [self.navigationController setNavigationBarHidden:NO animated:YES];
+        
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                        style:UIBarButtonItemStyleDone
+                                                                       target:self
+                                                                       action:@selector(dismissViewController)];
+        self.navigationItem.rightBarButtonItem = rightButton;
     }
     self.navigationController.navigationBar.topItem.title = self.title;
     
@@ -92,6 +82,20 @@
     [super viewWillDisappear:animated];
     
     [_textMessageBarAccessoryView.messageBoxTextView resignFirstResponder];
+}
+
+- (void)dismissViewController {
+    
+    UINavigationController *parentNavigationController;
+    if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
+        parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        [parentNavigationController setToolbarHidden:NO animated:YES];
+        [parentNavigationController setNavigationBarHidden:NO animated:YES];
+    }];
 }
 
 

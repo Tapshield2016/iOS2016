@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSBaseViewController.h"
+#import "TSBasePageViewController.h"
 #import "TSDisarmPadViewController.h"
 #import "TSEmergencyAlertViewController.h"
 #import "TSChatViewController.h"
 
-@interface TSPageViewController : UIPageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@interface TSPageViewController : TSBasePageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *alertViewControllers;
-@property (strong, nonatomic) UIToolbar *toolbar;
 @property (strong, nonatomic) TSDisarmPadViewController *disarmPadViewController;
 @property (strong, nonatomic) TSEmergencyAlertViewController *emergencyAlertViewController;
 @property (strong, nonatomic) TSChatViewController *chatViewController;

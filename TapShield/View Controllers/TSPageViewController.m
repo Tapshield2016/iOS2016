@@ -31,10 +31,7 @@
     _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.6];
     [self.view insertSubview:_countdownTintView atIndex:0];
     
-    _toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
-    _toolbar.barStyle = UIBarStyleBlack;
-    _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view insertSubview:_toolbar atIndex:0];
+    [self setTranslucentBackground:YES];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
     _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];

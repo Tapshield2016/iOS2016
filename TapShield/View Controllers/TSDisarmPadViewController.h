@@ -8,6 +8,7 @@
 
 #import "TSBaseViewController.h"
 #import "TSNumberPadButton.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface TSDisarmPadViewController : TSBaseViewController <UITextFieldDelegate>
 
@@ -22,7 +23,6 @@
 
 @property (strong, nonatomic) NSArray *codeCircleArray;
 @property (strong, nonatomic) NSTimer *sendEmergencyTimer;
-@property (strong, nonatomic) UIToolbar *toolbar;
 
 @property (nonatomic) BOOL isSendingAlert;
 

@@ -1,8 +1,8 @@
 //
-//  TSBaseViewController.h
+//  TSBasePageViewController.h
 //  TapShield
 //
-//  Created by Ben Boyd on 2/11/14.
+//  Created by Adam Share on 3/10/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
@@ -18,9 +18,7 @@
 #import "TSTransitionDelegate.h"
 #import "TSNumberPadButton.h"
 
-@interface TSBaseViewController : UIViewController
-
-- (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate;
+@interface TSBasePageViewController : UIPageViewController
 
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (strong, nonatomic) UIToolbar *toolbar;

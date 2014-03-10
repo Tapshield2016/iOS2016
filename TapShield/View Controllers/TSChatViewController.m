@@ -20,29 +20,33 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    _toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
-    _toolbar.barStyle = UIBarStyleBlack;
-    _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view insertSubview:_toolbar atIndex:0];
+    [self setTranslucentBackground:YES];
     
     CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = -frame.size.height;
     
     _textMessageBarAccessoryView = [[TSTextMessageBarView alloc] initWithFrame:frame];
-    _textMessageBarAccessoryView.messageBoxTextView.delegate = self;
-    _textMessageBarBaseView.messageBoxTextView.delegate = self;
+    _textMessageBarAccessoryView.textView.delegate = self;
+    
+    _textMessageBarBaseView.textView.delegate = self;
+    _textMessageBarBaseView.identicalAccessoryView = _textMessageBarAccessoryView;
+    [_textMessageBarBaseView addButtonCoveringTextViewWithTarget:self action:@selector(showKeyboard)];
     
     frame.size.height = 0;
-    _inputAccessoryView = [[UIView alloc] initWithFrame:frame];
+    _inputAccessoryView = [[TSObservingInputAccessoryView alloc] initWithFrame:frame];
     _inputAccessoryView.clipsToBounds = NO;
     _inputAccessoryView.backgroundColor = [UIColor clearColor];
     
-    _textMessageBarAccessoryView.messageBoxTextView.inputAccessoryView = _inputAccessoryView;
+    _textMessageBarAccessoryView.textView.inputAccessoryView = _inputAccessoryView;
     [_inputAccessoryView addSubview:_textMessageBarAccessoryView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow:)
                                                  name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification
                                                object:nil];
 }
 
@@ -74,14 +78,14 @@
     }
     self.navigationController.navigationBar.topItem.title = self.title;
     
-    [_textMessageBarBaseView.messageBoxTextView becomeFirstResponder];
+    [self showKeyboard];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
     
-    [_textMessageBarAccessoryView.messageBoxTextView resignFirstResponder];
+    [_textMessageBarAccessoryView.textView resignFirstResponder];
 }
 
 - (void)dismissViewController {
@@ -98,12 +102,22 @@
     }];
 }
 
+- (void)showKeyboard {
+    
+    [_textMessageBarBaseView.textView becomeFirstResponder];
+}
 
 #pragma mark - Keyboard Notifications
 
 - (void)keyboardDidShow:(NSNotification *)notification {
     
-    [_textMessageBarAccessoryView.messageBoxTextView becomeFirstResponder];
+    [_textMessageBarAccessoryView.textView becomeFirstResponder];
+    _textMessageBarBaseView.identicalAccessoryViewShown = YES;
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    
+    _textMessageBarBaseView.identicalAccessoryViewShown = NO;
 }
 
 
@@ -111,7 +125,9 @@
 
 - (void)textViewDidChange:(UITextView *)textView {
     
-    _textMessageBarBaseView.messageBoxTextView.text = textView.text;
+    _textMessageBarBaseView.textView.text = textView.text;
+    [_textMessageBarAccessoryView refreshBarHeightWithKeyboard:_inputAccessoryView.superview navigationBar:self.navigationController.navigationBar];
+    [_textMessageBarBaseView resizeBarToReflect:_textMessageBarAccessoryView];
 }
 
 

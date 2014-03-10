@@ -7,7 +7,7 @@
 //
 
 #import "TSDisarmPadViewController.h"
-#import <AVFoundation/AVFoundation.h>
+#import "TSPageViewController.h"
 
 @interface TSDisarmPadViewController ()
 
@@ -156,8 +156,8 @@
             parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
         }
         
-        _toolbar.translucent = NO;
-        _toolbar.alpha = 0.5;
+        [((TSPageViewController *)self.parentViewController).toolbar setTranslucent:NO];
+        [((TSPageViewController *)self.parentViewController).toolbar setAlpha:0.5f];
         
         [self dismissViewControllerAnimated:YES completion:^{
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;

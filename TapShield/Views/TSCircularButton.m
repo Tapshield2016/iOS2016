@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSNumberPadButton.h"
+#import "TSCircularButton.h"
 #import "TSColorPalette.h"
 
-@implementation TSNumberPadButton
+@implementation TSCircularButton
 
 - (id)initWithFrame:(CGRect)frame
 {

@@ -7,17 +7,17 @@
 //
 
 #import "TSBaseViewController.h"
-#import "TSNumberPadButton.h"
+#import "TSCircularButton.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface TSDisarmPadViewController : TSBaseViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *disarmTextField;
 @property (weak, nonatomic) IBOutlet UIView *codeCircleContainerView;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle1;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle2;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle3;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *codeCircle4;
+@property (weak, nonatomic) IBOutlet TSCircularButton *codeCircle1;
+@property (weak, nonatomic) IBOutlet TSCircularButton *codeCircle2;
+@property (weak, nonatomic) IBOutlet TSCircularButton *codeCircle3;
+@property (weak, nonatomic) IBOutlet TSCircularButton *codeCircle4;
 @property (weak, nonatomic) IBOutlet UIButton *emergencyButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
 

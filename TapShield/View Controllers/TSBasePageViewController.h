@@ -16,7 +16,7 @@
 #import "UIView+FirstResponder.h"
 #import "TSLocationController.h"
 #import "TSTransitionDelegate.h"
-#import "TSNumberPadButton.h"
+#import "TSCircularButton.h"
 
 @interface TSBasePageViewController : UIPageViewController
 

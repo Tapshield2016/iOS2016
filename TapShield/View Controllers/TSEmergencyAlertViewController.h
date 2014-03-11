@@ -14,9 +14,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *dispatcherLabel;
 @property (weak, nonatomic) IBOutlet UILabel *callTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *alertInfoLabel;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *speakerButton;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *redialButton;
-@property (weak, nonatomic) IBOutlet TSNumberPadButton *chatButton;
+@property (weak, nonatomic) IBOutlet TSCircularButton *speakerButton;
+@property (weak, nonatomic) IBOutlet TSCircularButton *redialButton;
+@property (weak, nonatomic) IBOutlet TSCircularButton *chatButton;
 
 - (IBAction)speakerPhoneToggle:(id)sender;
 - (IBAction)redialPhoneNumber:(id)sender;

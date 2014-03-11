@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
+#import <GooglePlus/GooglePlus.h>
 #import "TSConstants.h"
 #import "TSAppDelegate.h"
 #import "TSJavelinAPIClient.h"
@@ -16,7 +18,7 @@
 #import "UIView+FirstResponder.h"
 #import "TSLocationController.h"
 #import "TSTransitionDelegate.h"
-#import "TSNumberPadButton.h"
+#import "TSCircularButton.h"
 
 @interface TSBaseViewController : UIViewController
 

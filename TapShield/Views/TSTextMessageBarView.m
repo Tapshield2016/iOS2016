@@ -163,9 +163,7 @@
     CGRect newToolbarFrame = _toolbar.frame;
     newToolbarFrame.size.height = barView.toolbar.frame.size.height;
     
-    
-    CGRect newTextViewFrame = _textView.frame;
-    newTextViewFrame = barView.textView.frame;
+    CGRect newTextViewFrame = barView.textView.frame;
 	
     [UIView animateWithDuration:0.1f
                           delay:0

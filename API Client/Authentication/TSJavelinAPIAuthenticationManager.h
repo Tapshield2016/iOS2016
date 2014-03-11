@@ -40,6 +40,12 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
 + (instancetype)initializeSharedManagerWithBaseAuthURL:(NSString *)baseAuthURL;
 + (instancetype)sharedManager;
 
+- (void)logoutSocial;
+- (void)createFacebookUser:(NSString *)facebookAPIAuthToken;
+- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret;
+- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken;
+- (void)createLinkedInUser:(NSString *)linkedInAccessToken;
+
 - (void)registerUserWithAgencyID:(NSUInteger)agencyID
                     emailAddress:(NSString *)emailAddress
                         password:(NSString *)password

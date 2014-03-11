@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSNumberPadButton : UIButton
+@interface TSCircularButton : UIButton
 
 @property (nonatomic, strong) CAShapeLayer *circleLayer;
 @property (nonatomic, strong) UIColor *color;

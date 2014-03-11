@@ -109,7 +109,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Social Authentication Methods
 
-- (void)logout {
+- (void)logoutSocial {
     [self GET:@"logout/"
    parameters:nil
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -120,7 +120,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createFacebookUser:(NSString *)facebookAPIAuthToken {
-    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-facebook-user/"
     parameters:@{ @"access_token": facebookAPIAuthToken }
@@ -132,7 +132,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret {
-    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-twitter-user/"
     parameters:@{ @"oauth_token": twitterOauthToken,
@@ -145,7 +145,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken {
-    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-google-user/"
     parameters:@{ @"access_token": googleAccessToken,
@@ -158,7 +158,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createLinkedInUser:(NSString *)linkedInAccessToken {
-    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-linkedin-user/"
     parameters:@{ @"access_token": linkedInAccessToken }

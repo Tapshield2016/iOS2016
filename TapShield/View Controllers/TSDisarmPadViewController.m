@@ -128,7 +128,7 @@
 
 - (void)selectCodeCircles {
     int i = 1;
-    for (TSNumberPadButton *circle in _codeCircleArray) {
+    for (TSCircularButton *circle in _codeCircleArray) {
         
         if (_disarmTextField.text.length < i) {
             circle.selected = NO;

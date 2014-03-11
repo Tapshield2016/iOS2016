@@ -48,6 +48,10 @@
                                              selector:@selector(keyboardDidHide:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,6 +119,13 @@
     _textMessageBarBaseView.identicalAccessoryViewShown = YES;
 }
 
+- (void)keyboardWillHide:(NSNotification *)notification {
+    
+    [self setDecoyAccessoryView];
+    [_inputAccessoryView.superview.layer removeAllAnimations];
+}
+
+
 - (void)keyboardDidHide:(NSNotification *)notification {
     
     _textMessageBarBaseView.identicalAccessoryViewShown = NO;
@@ -133,5 +144,37 @@
 
 #pragma mark - Table View Delegate Methods 
 
+- (void)setRealAccessoryView {
+    CGRect frame = _inputAccessoryView.frame;
+    frame.size.height = _textMessageBarAccessoryView.frame.size.height;
+    _inputAccessoryView.frame = frame;
+    _textMessageBarAccessoryView.frame = frame;
+}
+
+- (void)setDecoyAccessoryView {
+    
+    CGRect frame = _inputAccessoryView.frame;
+    frame.size.height = 0.0f;
+    frame.origin.y = 0.0f;
+    _inputAccessoryView.frame = frame;
+    
+    frame = _textMessageBarAccessoryView.frame;
+    frame.origin.y = -_textMessageBarAccessoryView.frame.size.height;
+    _textMessageBarAccessoryView.frame = frame;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    //[self setRealAccessoryView];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    //[self setDecoyAccessoryView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+    NSLog(@"%f", scrollView.frame.size.height);
+    
+}
 
 @end

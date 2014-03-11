@@ -177,7 +177,6 @@
                          _textView.frame = newTextViewFrame;
                          self.frame = newBarFrame;
                      } completion:nil];
-    
 }
 
 @end

@@ -304,6 +304,18 @@
 		C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
+		C5FC0A6318CF704F00AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
+		C5FC0A6418CF705600AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
+		C5FC0A6518CF705C00AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
+		C5FC0A6718CF706E00AB787F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6618CF706E00AB787F /* Security.framework */; };
+		C5FC0A6818CF707400AB787F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6618CF706E00AB787F /* Security.framework */; };
+		C5FC0A6918CF707A00AB787F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6618CF706E00AB787F /* Security.framework */; };
+		C5FC0A6B18CF721B00AB787F /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6A18CF721B00AB787F /* Twitter.framework */; };
+		C5FC0A6C18CF722600AB787F /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6A18CF721B00AB787F /* Twitter.framework */; };
+		C5FC0A6D18CF723400AB787F /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6A18CF721B00AB787F /* Twitter.framework */; };
+		C5FC0A6F18CF726500AB787F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6E18CF726500AB787F /* Accounts.framework */; };
+		C5FC0A7018CF726B00AB787F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6E18CF726500AB787F /* Accounts.framework */; };
+		C5FC0A7118CF727000AB787F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6E18CF726500AB787F /* Accounts.framework */; };
 		C5FD5E8318B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */; };
 		C5FD5E8418B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */; };
 		C5FD5E8518B3141800E27EE9 /* CheckBox_Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5E7D18B3141800E27EE9 /* CheckBox_Unselected.png */; };
@@ -432,7 +444,6 @@
 		C520C8EC18A974C100D1D2E9 /* TSLocationGeofenceTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLocationGeofenceTestView.h; sourceTree = "<group>"; };
 		C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocationGeofenceTestView.m; sourceTree = "<group>"; };
 		C520C91618A98E4400D1D2E9 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
-		C520C91D18A98EC600D1D2E9 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapView.h; path = TapShield/Views/Map/TSMapView.h; sourceTree = SOURCE_ROOT; };
 		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapView.m; path = TapShield/Views/Map/TSMapView.m; sourceTree = SOURCE_ROOT; };
 		C532E62918BBF1E900FC111A /* TSColorPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSColorPalette.h; path = Utilities/TSColorPalette.h; sourceTree = "<group>"; };
@@ -517,6 +528,10 @@
 		C5CB078318C6851D00BC9425 /* TSNumberPadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSNumberPadButton.m; path = Views/TSNumberPadButton.m; sourceTree = "<group>"; };
 		C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDisarmPadViewController.h; path = "View Controllers/TSDisarmPadViewController.h"; sourceTree = "<group>"; };
 		C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDisarmPadViewController.m; path = "View Controllers/TSDisarmPadViewController.m"; sourceTree = "<group>"; };
+		C5FC0A6218CF704F00AB787F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		C5FC0A6618CF706E00AB787F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C5FC0A6A18CF721B00AB787F /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		C5FC0A6E18CF726500AB787F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C5FD5E7C18B3141800E27EE9 /* CheckBox_Selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_Selected@2x.png"; path = "Images/CheckBox_Selected@2x.png"; sourceTree = "<group>"; };
 		C5FD5E7D18B3141800E27EE9 /* CheckBox_Unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CheckBox_Unselected.png; path = Images/CheckBox_Unselected.png; sourceTree = "<group>"; };
 		C5FD5E7E18B3141800E27EE9 /* CheckBox_Unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CheckBox_Unselected@2x.png"; path = "Images/CheckBox_Unselected@2x.png"; sourceTree = "<group>"; };
@@ -540,6 +555,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5FC0A6F18CF726500AB787F /* Accounts.framework in Frameworks */,
+				C5FC0A6B18CF721B00AB787F /* Twitter.framework in Frameworks */,
+				C5FC0A6718CF706E00AB787F /* Security.framework in Frameworks */,
+				C5FC0A6318CF704F00AB787F /* Social.framework in Frameworks */,
 				C5391EAA18C7F44400C23C0A /* AVFoundation.framework in Frameworks */,
 				C520C91718A98E4400D1D2E9 /* libresolv.dylib in Frameworks */,
 				B53BBD3118983409006A27E0 /* CoreLocation.framework in Frameworks */,
@@ -555,6 +574,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5FC0A7118CF727000AB787F /* Accounts.framework in Frameworks */,
+				C5FC0A6D18CF723400AB787F /* Twitter.framework in Frameworks */,
+				C5FC0A6918CF707A00AB787F /* Security.framework in Frameworks */,
+				C5FC0A6518CF705C00AB787F /* Social.framework in Frameworks */,
 				C556598518CC180F00288AD3 /* libPods.a in Frameworks */,
 				C520C91C18A98EB400D1D2E9 /* CoreGraphics.framework in Frameworks */,
 				C520C91B18A98E8D00D1D2E9 /* XCTest.framework in Frameworks */,
@@ -570,6 +593,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5FC0A7018CF726B00AB787F /* Accounts.framework in Frameworks */,
+				C5FC0A6C18CF722600AB787F /* Twitter.framework in Frameworks */,
+				C5FC0A6818CF707400AB787F /* Security.framework in Frameworks */,
+				C5FC0A6418CF705600AB787F /* Social.framework in Frameworks */,
 				C5391EAB18C7F44900C23C0A /* AVFoundation.framework in Frameworks */,
 				C57C48EA18BBDB1900DFFBCE /* libresolv.dylib in Frameworks */,
 				C57C48EB18BBDB1900DFFBCE /* CoreLocation.framework in Frameworks */,
@@ -588,6 +615,7 @@
 			isa = PBXGroup;
 			children = (
 				5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */,
+				C5FC0A7218CF780800AB787F /* External Frameworks */,
 				C520C8BC18A974C000D1D2E9 /* API Client */,
 				B53BBCEF18980FDA006A27E0 /* Frameworks */,
 				B53BBCEE18980FDA006A27E0 /* Products */,
@@ -609,17 +637,20 @@
 		B53BBCEF18980FDA006A27E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C5FC0A6E18CF726500AB787F /* Accounts.framework */,
+				C5FC0A6A18CF721B00AB787F /* Twitter.framework */,
 				C5391EA918C7F44400C23C0A /* AVFoundation.framework */,
 				C5391EA618C7F3F900C23C0A /* CoreAudio.framework */,
-				C520C91D18A98EC600D1D2E9 /* libPods.a */,
-				C520C91618A98E4400D1D2E9 /* libresolv.dylib */,
-				B53BBD3018983408006A27E0 /* CoreLocation.framework */,
-				B53BBD2E1898195F006A27E0 /* MapKit.framework */,
-				B53BBCF018980FDA006A27E0 /* Foundation.framework */,
 				B53BBCF218980FDA006A27E0 /* CoreGraphics.framework */,
+				B53BBD3018983408006A27E0 /* CoreLocation.framework */,
+				B53BBCF018980FDA006A27E0 /* Foundation.framework */,
+				200B9FDD64BF4B79934E3759 /* libPods.a */,
+				C520C91618A98E4400D1D2E9 /* libresolv.dylib */,
+				B53BBD2E1898195F006A27E0 /* MapKit.framework */,
+				C5FC0A6618CF706E00AB787F /* Security.framework */,
+				C5FC0A6218CF704F00AB787F /* Social.framework */,
 				B53BBCF418980FDA006A27E0 /* UIKit.framework */,
 				B53BBD0F18980FDA006A27E0 /* XCTest.framework */,
-				200B9FDD64BF4B79934E3759 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1035,6 +1066,13 @@
 				C5391EC118CA34F800C23C0A /* TSChatViewController.m */,
 			);
 			name = Alert;
+			sourceTree = "<group>";
+		};
+		C5FC0A7218CF780800AB787F /* External Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "External Frameworks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

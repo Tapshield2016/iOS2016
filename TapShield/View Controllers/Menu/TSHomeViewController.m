@@ -202,7 +202,7 @@
             BOOL previouslySelectedRouteWasStruck = NO;
             for (MKRoute *route in struckRoutes) {
                 if (_selectedRoute == route) {
-                    int selectedIndex = [struckRoutes indexOfObject:route];
+                    NSUInteger selectedIndex = [struckRoutes indexOfObject:route];
                     _selectedRoute = struckRoutes[(selectedIndex + 1) % struckRoutes.count];
                     previouslySelectedRouteWasStruck = YES;
                     break;

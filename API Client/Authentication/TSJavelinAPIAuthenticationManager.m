@@ -104,6 +104,72 @@ static dispatch_once_t onceToken;
     return self;
 }
 
+
+
+
+#pragma mark - Social Authentication Methods
+
+- (void)logout {
+    [self GET:@"logout/"
+   parameters:nil
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          NSLog(@"Success: %@", responseObject);
+      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"ERROR: %@", error);
+      }];
+}
+
+- (void)createFacebookUser:(NSString *)facebookAPIAuthToken {
+    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-facebook-user/"
+    parameters:@{ @"access_token": facebookAPIAuthToken }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+       }];
+}
+
+- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret {
+    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-twitter-user/"
+    parameters:@{ @"oauth_token": twitterOauthToken,
+                  @"oauth_token_secret": twitterOauthTokenSecret }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+       }];
+}
+
+- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken {
+    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-google-user/"
+    parameters:@{ @"access_token": googleAccessToken,
+                  @"refresh_token": googleRefreshToken }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+       }];
+}
+
+- (void)createLinkedInUser:(NSString *)linkedInAccessToken {
+    [self.requestSerializer setValue:TSJavelinAPIDevelopmentMasterAccessToken
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-linkedin-user/"
+    parameters:@{ @"access_token": linkedInAccessToken }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+       }];
+}
+
+
 #pragma mark - Login/Registration Methods
 
 - (void)registerUserWithAgencyID:(NSUInteger)agencyID

@@ -305,9 +305,12 @@
 		C585F1B018CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1AF18CF8B44009EEF16 /* TSSocialAuthorizationViewController.m */; };
 		C585F1B118CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1AF18CF8B44009EEF16 /* TSSocialAuthorizationViewController.m */; };
 		C585F1B218CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1AF18CF8B44009EEF16 /* TSSocialAuthorizationViewController.m */; };
-		C585F1CB18CFB294009EEF16 /* TSFaceBookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1CA18CFB294009EEF16 /* TSFaceBookLogin.m */; };
-		C585F1CC18CFB294009EEF16 /* TSFaceBookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1CA18CFB294009EEF16 /* TSFaceBookLogin.m */; };
-		C585F1CD18CFB294009EEF16 /* TSFaceBookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1CA18CFB294009EEF16 /* TSFaceBookLogin.m */; };
+		C585F1CB18CFB294009EEF16 /* TSFacebookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */; };
+		C585F1CC18CFB294009EEF16 /* TSFacebookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */; };
+		C585F1CD18CFB294009EEF16 /* TSFacebookLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */; };
+		C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1D118D0B390009EEF16 /* TSGooglePlusButton.m */; };
+		C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1D118D0B390009EEF16 /* TSGooglePlusButton.m */; };
+		C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F1D118D0B390009EEF16 /* TSGooglePlusButton.m */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -425,8 +428,8 @@
 		B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginOrSignUpViewController.m; path = "TapShield/View Controllers/Login:Signup/TSLoginOrSignUpViewController.m"; sourceTree = SOURCE_ROOT; };
 		B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUtilities.h; path = Utilities/TSUtilities.h; sourceTree = "<group>"; };
 		B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUtilities.m; path = Utilities/TSUtilities.m; sourceTree = "<group>"; };
-		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/TSTextMessageBarView.h; sourceTree = "<group>"; };
-		C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTextMessageBarView.m; path = Views/TSTextMessageBarView.m; sourceTree = "<group>"; };
+		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
+		C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTextMessageBarView.m; path = Views/Keyboard/TSTextMessageBarView.m; sourceTree = "<group>"; };
 		C520C8BE18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationManager.h; sourceTree = "<group>"; };
 		C520C8BF18A974C000D1D2E9 /* TSJavelinAPIAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIAuthenticationManager.m; sourceTree = "<group>"; };
 		C520C8C018A974C000D1D2E9 /* TSJavelinAPIAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIAuthenticationResult.h; sourceTree = "<group>"; };
@@ -528,11 +531,11 @@
 		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
 		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
 		C556598618CC51A900288AD3 /* redial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redial.png; path = Images/redial.png; sourceTree = "<group>"; };
-		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/TSOrganizationCell.h; sourceTree = "<group>"; };
-		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/TSOrganizationCell.m; sourceTree = "<group>"; };
+		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/Cells/TSOrganizationCell.h; sourceTree = "<group>"; };
+		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/Cells/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
-		C57C48A818BBA2E400DFFBCE /* TSUserProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserProfileCell.h; path = Views/TSUserProfileCell.h; sourceTree = "<group>"; };
-		C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserProfileCell.m; path = Views/TSUserProfileCell.m; sourceTree = "<group>"; };
+		C57C48A818BBA2E400DFFBCE /* TSUserProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserProfileCell.h; path = Views/Cells/TSUserProfileCell.h; sourceTree = "<group>"; };
+		C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserProfileCell.m; path = Views/Cells/TSUserProfileCell.m; sourceTree = "<group>"; };
 		C57C48AC18BBC32100DFFBCE /* no_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no_image.png; path = Images/no_image.png; sourceTree = "<group>"; };
 		C57C48AF18BBC6F100DFFBCE /* TSProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSProfileViewController.h; sourceTree = "<group>"; };
 		C57C48B018BBC6F100DFFBCE /* TSProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSProfileViewController.m; sourceTree = "<group>"; };
@@ -556,20 +559,22 @@
 		C585F1BF18CF8D71009EEF16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C585F1C118CF8D71009EEF16 /* TapShield_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapShield_Tests.m; sourceTree = "<group>"; };
 		C585F1C318CF8D71009EEF16 /* TapShield Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TapShield Tests-Prefix.pch"; sourceTree = "<group>"; };
-		C585F1C918CFB294009EEF16 /* TSFaceBookLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSFaceBookLogin.h; path = Views/TSFaceBookLogin.h; sourceTree = "<group>"; };
-		C585F1CA18CFB294009EEF16 /* TSFaceBookLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSFaceBookLogin.m; path = Views/TSFaceBookLogin.m; sourceTree = "<group>"; };
+		C585F1C918CFB294009EEF16 /* TSFacebookLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSFacebookLogin.h; path = Views/Buttons/TSFacebookLogin.h; sourceTree = "<group>"; };
+		C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSFacebookLogin.m; path = Views/Buttons/TSFacebookLogin.m; sourceTree = "<group>"; };
+		C585F1D018D0B390009EEF16 /* TSGooglePlusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSGooglePlusButton.h; path = Views/Buttons/TSGooglePlusButton.h; sourceTree = "<group>"; };
+		C585F1D118D0B390009EEF16 /* TSGooglePlusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSGooglePlusButton.m; path = Views/Buttons/TSGooglePlusButton.m; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
-		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
-		C5B2E98518CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSObservingInputAccessoryView.m; path = Views/TSObservingInputAccessoryView.m; sourceTree = "<group>"; };
-		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/TSMapOverlayCircle.h; sourceTree = "<group>"; };
-		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/TSMapOverlayCircle.m; sourceTree = "<group>"; };
+		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
+		C5B2E98518CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSObservingInputAccessoryView.m; path = Views/Keyboard/TSObservingInputAccessoryView.m; sourceTree = "<group>"; };
+		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
+		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
 		C5C1706A18ABEFFC00EEFBD6 /* location2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location2.png; path = Images/location2.png; sourceTree = "<group>"; };
 		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Map/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
 		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Views/Map/Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
-		C5CB078218C6851D00BC9425 /* TSCircularButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCircularButton.h; path = Views/TSCircularButton.h; sourceTree = "<group>"; };
-		C5CB078318C6851D00BC9425 /* TSCircularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularButton.m; path = Views/TSCircularButton.m; sourceTree = "<group>"; };
+		C5CB078218C6851D00BC9425 /* TSCircularButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCircularButton.h; path = Views/Buttons/TSCircularButton.h; sourceTree = "<group>"; };
+		C5CB078318C6851D00BC9425 /* TSCircularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularButton.m; path = Views/Buttons/TSCircularButton.m; sourceTree = "<group>"; };
 		C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDisarmPadViewController.h; path = "View Controllers/TSDisarmPadViewController.h"; sourceTree = "<group>"; };
 		C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDisarmPadViewController.m; path = "View Controllers/TSDisarmPadViewController.m"; sourceTree = "<group>"; };
 		C5FC0A6218CF704F00AB787F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -993,11 +998,11 @@
 		C5372DA018AEAC7400D22682 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				C585F1CF18D0B2FE009EEF16 /* Overlays */,
+				C585F1CE18D0B2E6009EEF16 /* Buttons */,
 				C5372DA118AEAC9E00D22682 /* Annotations */,
 				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
 				C520C92218AA8C0F00D1D2E9 /* TSMapView.m */,
-				C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */,
-				C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */,
 			);
 			name = Map;
 			path = TapShield;
@@ -1086,6 +1091,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C585F1CE18D0B2E6009EEF16 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */,
+				C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
+		C585F1CF18D0B2FE009EEF16 /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */,
+				C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */,
+			);
+			name = Overlays;
+			sourceTree = "<group>";
+		};
 		C5B2E98318CE177300E2CF04 /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -1138,12 +1161,12 @@
 		C5C1706F18AC085100EEFBD6 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */,
-				C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */,
 				C5CB078218C6851D00BC9425 /* TSCircularButton.h */,
 				C5CB078318C6851D00BC9425 /* TSCircularButton.m */,
-				C585F1C918CFB294009EEF16 /* TSFaceBookLogin.h */,
-				C585F1CA18CFB294009EEF16 /* TSFaceBookLogin.m */,
+				C585F1C918CFB294009EEF16 /* TSFacebookLogin.h */,
+				C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */,
+				C585F1D018D0B390009EEF16 /* TSGooglePlusButton.h */,
+				C585F1D118D0B390009EEF16 /* TSGooglePlusButton.m */,
 			);
 			name = Buttons;
 			path = TapShield;
@@ -1244,6 +1267,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "TapShield, LLC";
 				TargetAttributes = {
+					B53BBCEC18980FDA006A27E0 = {
+						DevelopmentTeam = 896VCD8T65;
+					};
 					B53BBD0D18980FDA006A27E0 = {
 						TestTargetID = B53BBCEC18980FDA006A27E0;
 					};
@@ -1540,6 +1566,7 @@
 				C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
+				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
@@ -1550,7 +1577,7 @@
 				C5B2E98618CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
-				C585F1CB18CFB294009EEF16 /* TSFaceBookLogin.m in Sources */,
+				C585F1CB18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
@@ -1588,6 +1615,7 @@
 				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
+				C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
@@ -1602,7 +1630,7 @@
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
-				C585F1CD18CFB294009EEF16 /* TSFaceBookLogin.m in Sources */,
+				C585F1CD18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
@@ -1666,6 +1694,7 @@
 				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
 				C5391EAF18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
+				C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */,
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
 				C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */,
@@ -1680,7 +1709,7 @@
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
 				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,
 				C57C48CA18BBDB1900DFFBCE /* TSJavelinAPIClient.m in Sources */,
-				C585F1CC18CFB294009EEF16 /* TSFaceBookLogin.m in Sources */,
+				C585F1CC18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
 				C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */,
 				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
@@ -1851,6 +1880,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1870,6 +1900,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (

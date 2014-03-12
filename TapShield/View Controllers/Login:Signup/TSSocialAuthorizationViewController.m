@@ -29,7 +29,7 @@
 #define ERROR_NO_KEYS @"You need to add your Twitter app keys to Info.plist to use this demo.\nPlease see README.md for more info."
 #define ERROR_OK @"OK"
 
-static NSString * const kGooglePlusClientId = @"61858600218-fpv61ndnn5lf08ercokidjcrs2nqs8oq.apps.googleusercontent.com";
+static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0oj69ab32ces5n.apps.googleusercontent.com";
 
 @interface TSSocialAuthorizationViewController ()
 
@@ -46,6 +46,10 @@ static NSString * const kGooglePlusClientId = @"61858600218-fpv61ndnn5lf08ercoki
 {
     [super viewDidLoad];
     
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+    
+    [_signInGooglePlusButton clearButtonStyleAndCustomize];
+    
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.translucentBackground = YES;
@@ -55,7 +59,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-fpv61ndnn5lf08ercoki
     _apiManager = [[TWAPIManager alloc] init];
 
     // Facebook setup
-    _fbLoginView.readPermissions = @[@"basic_info", @"email", @"user_likes"];
+    _facebookLoginView.readPermissions = @[@"basic_info", @"email", @"user_likes"];
 
     // Google+ setup
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
@@ -73,12 +77,12 @@ static NSString * const kGooglePlusClientId = @"61858600218-fpv61ndnn5lf08ercoki
 
     // LinkedIn setup
     // https://github.com/jeyben/IOSLinkedInAPI
-    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://example.com/haha"
-                                                                                    clientId:@"7540ig5wwjd42o"
-                                                                                clientSecret:@"OmAwX5Lxu8VVm4df"
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
+                                                                                    clientId:@"75cqjrach211kt"
+                                                                                clientSecret:@"wAdZqm3bZJkKgq0l"
                                                                                        state:@"DCEEFWF45453sdffef424"
                                                                                grantedAccess:@[@"r_fullprofile", @"r_emailaddress"]];
-    _linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:nil];
+    _linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
 }
 
 - (void)didReceiveMemoryWarning

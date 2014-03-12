@@ -16,7 +16,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        [self drawCircleButton:[TSColorPalette lightTextColor]];
+        
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:NO];
     }
     return self;
 }

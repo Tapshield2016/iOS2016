@@ -7,7 +7,10 @@
 //
 
 #import "FBLoginView.h"
+#import "TSCircularButton.h"
 
-@interface TSFaceBookLogin : FBLoginView
+@interface TSFacebookLogin : FBLoginView
+
+@property (strong, nonatomic) TSCircularButton *circleButton;
 
 @end

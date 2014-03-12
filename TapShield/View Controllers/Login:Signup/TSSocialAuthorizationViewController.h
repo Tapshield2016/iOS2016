@@ -10,13 +10,16 @@
 #import "TSBaseViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <GooglePlus/GooglePlus.h>
+#import "TSFacebookLogin.h"
+#import "TSGooglePlusButton.h"
 
 @class GPPSignInButton;
 
 @interface TSSocialAuthorizationViewController : TSBaseViewController <FBLoginViewDelegate, UIActionSheetDelegate, GPPSignInDelegate>
 
-@property (nonatomic, weak) IBOutlet FBLoginView *fbLoginView;
-@property (nonatomic, weak) IBOutlet GPPSignInButton *signInButton;
+
+@property (nonatomic, weak) IBOutlet TSFacebookLogin *facebookLoginView;
+@property (nonatomic, weak) IBOutlet TSGooglePlusButton *signInGooglePlusButton;
 
 - (IBAction)refreshTwitterAccounts:(id)sender;
 - (IBAction)didTapConnectWithLinkedIn:(id)sender;

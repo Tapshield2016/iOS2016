@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -22,10 +20,33 @@
 	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>logo</string>
+			<key>CFBundleURLName</key>
+			<string>com.tapshield.TapShield</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.tapshield.TapShield</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>3</string>
+	<key>FacebookAppID</key>
+	<string>412321438904850</string>
+	<key>FacebookDisplayName</key>
+	<string>TapShield</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>TWITTER_CONSUMER_KEY</key>
+	<string>VLLGKmotEFAuKeEBojQaA</string>
+	<key>TWITTER_CONSUMER_SECRET</key>
+	<string>5yoX6vJoc7JmDrgo3HkhZfmCoWlKv9fR4SPCTBbcCo</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -38,5 +59,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

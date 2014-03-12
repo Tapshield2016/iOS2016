@@ -1,41 +1,25 @@
 //
-//  TSFaceBookLogin.m
+//  TSGooglePlusButton.m
 //  TapShield
 //
-//  Created by Adam Share on 3/11/14.
+//  Created by Adam Share on 3/12/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSFaceBookLogin.h"
-#import "TSColorPalette.h"
+#import "TSCircularButton.h"
+#import "TSGooglePlusButton.h"
 
-@implementation TSFaceBookLogin
+@implementation TSGooglePlusButton
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        [[self subviews]
-         makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [self drawCircleButton:[TSColorPalette lightTextColor]];
-    }
-    return self;
+- (void)clearButtonStyleAndCustomize {
+    
+    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:NO];
+    
+    [self setBackgroundImage:nil forState:UIControlStateNormal];
+    [self setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [self setImage:nil forState:UIControlStateNormal];
+    [self setImage:nil forState:UIControlStateHighlighted];
 }
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        [[self subviews]
-         makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [self drawCircleButton:[TSColorPalette lightTextColor]];
-    }
-    
-    return self;
-}
-
 
 - (void)setHighlighted:(BOOL)highlighted {
     

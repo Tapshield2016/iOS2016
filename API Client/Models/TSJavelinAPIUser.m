@@ -19,7 +19,13 @@
 
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];
-    _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    
+    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
+    }
     _phoneNumber = [attributes valueForKey:@"phone_number"];
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
@@ -27,11 +33,11 @@
     _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
     
-
     //@property (nonatomic, strong) NSArray *groups;
         
     return self;
 }
+
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc

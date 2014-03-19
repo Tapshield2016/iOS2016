@@ -126,6 +126,10 @@ static dispatch_once_t onceToken;
 
 - (void)getAgencyForLoggedInUser:(void (^)(TSJavelinAPIAgency *agency))completion {
     
+    if (![[self authenticationManager] loggedInUser].agency.url) {
+        return;
+    }
+    
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:[[self authenticationManager] loggedInUser].agency.url

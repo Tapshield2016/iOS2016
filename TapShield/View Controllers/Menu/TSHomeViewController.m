@@ -11,6 +11,8 @@
 #import <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 #import "TSUtilities.h"
+#import "TSIntroPageViewController.h"
+#import "TSPhoneVerificationViewController.h"
 
 @interface TSHomeViewController ()
 
@@ -59,12 +61,10 @@
     _geocoder = [[CLGeocoder alloc] init];
     
     if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        UINavigationController *navigationController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSLoginOrSignUpNavigationController"];
-        [self presentViewController:navigationController animated:NO completion:nil];
+        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil];
     }
     else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
-        UINavigationController *navigationController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:@"TSPhoneVerificationViewController"];
-        [self presentViewController:navigationController animated:NO completion:nil];
+        [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil];
     }
     
     [TSLocationController sharedLocationController].delegate = self;

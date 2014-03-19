@@ -16,17 +16,19 @@
 
 - (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
     
-    UIViewController *chatViewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
     
-    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
+    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
     [navigationViewController setNavigationBarHidden:YES];
     navigationViewController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self.navigationController setToolbarHidden:YES animated:YES];
     
-    [navigationViewController setTransitioningDelegate:delegate];
-    navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
+    if (delegate) {
+        [navigationViewController setTransitioningDelegate:delegate];
+        navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
+    }
     [self presentViewController:navigationViewController animated:YES completion:^{
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     }];

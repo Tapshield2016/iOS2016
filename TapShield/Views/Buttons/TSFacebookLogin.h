@@ -13,4 +13,6 @@
 
 @property (strong, nonatomic) TSCircularButton *circleButton;
 
+- (void)addCircularAnimationWithCircleFrame:(CGRect)frame arcCenter:(CGPoint)center startAngle:(float)startAngle endAngle:(float)endAngle duration:(float)duration;
+
 @end

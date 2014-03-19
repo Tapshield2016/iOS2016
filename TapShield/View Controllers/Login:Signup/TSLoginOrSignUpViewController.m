@@ -7,6 +7,7 @@
 //
 
 #import "TSLoginOrSignUpViewController.h"
+#import "TSSocialAuthorizationViewController.h"
 
 @interface TSLoginOrSignUpViewController ()
 
@@ -14,29 +15,37 @@
 
 @implementation TSLoginOrSignUpViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [_loginButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
-    [_loginButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
-    [_signUpButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateNormal];
-    [_signUpButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateHighlighted];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)showLoginView:(id)sender {
+    
+    [self socialLogInView:YES];
+}
+
+- (IBAction)showSignUpView:(id)sender {
+    
+    [self socialLogInView:NO];
+}
+
+- (void)socialLogInView:(BOOL)login {
+    
+    TSSocialAuthorizationViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSSocialAuthorizationViewController class])];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [navigationController setNavigationBarHidden:YES];
+    
+    viewController.logIn = login;
+    
+    [self presentViewController:navigationController animated:NO completion:nil];
 }
 
 @end

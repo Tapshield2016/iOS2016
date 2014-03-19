@@ -10,5 +10,9 @@
 #import "TSBaseViewController.h"
 
 @interface TSSettingsViewController : TSBaseViewController
+@property (weak, nonatomic) IBOutlet UIButton *logOutButton;
+
+
+- (IBAction)logOutUser:(id)sender;
 
 @end

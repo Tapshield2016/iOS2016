@@ -13,7 +13,9 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *introScrollView;
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
+- (IBAction)showLoginView:(id)sender;
+- (IBAction)showSignUpView:(id)sender;
+
 
 @end

@@ -8,6 +8,8 @@
 
 #import "TSSocialAuthorizationViewController.h"
 #import "TSJavelinAPIClient.h"
+#import "TSLoginViewController.h"
+#import "TSRegisterViewController.h"
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>
@@ -81,8 +83,53 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
                                                                                     clientId:@"75cqjrach211kt"
                                                                                 clientSecret:@"wAdZqm3bZJkKgq0l"
                                                                                        state:@"DCEEFWF45453sdffef424"
-                                                                               grantedAccess:@[@"r_fullprofile", @"r_emailaddress"]];
+                                                                               grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
     _linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (_logIn) {
+        [self.view sendSubviewToBack:_signUpButton];
+        [self animateLoginButtons];
+    }
+    else {
+        [self.view sendSubviewToBack:_loginButton];
+        [self animateSignupButtons];
+    }
+}
+
+- (void)animateLoginButtons {
+    
+    float endAngle = 2 * M_PI - M_PI_2 - 0.2f;
+    float increment = M_PI/4.5;
+    NSArray *buttonArray = @[_facebookLoginView, _twitterButton, _signInGooglePlusButton, _linkedInButton, _emailButton];
+    
+    [self animateButtons:buttonArray aroundFrame:_loginButton startingFromAngle:M_PI firstEndingAngle:endAngle separatedByAngle:increment];
+}
+
+- (void)animateSignupButtons {
+    
+    float endAngle = 2 * M_PI - M_PI_2 + 0.2f;
+    float increment = -M_PI/4.5;
+    NSArray *buttonArray = @[_facebookLoginView, _twitterButton, _signInGooglePlusButton, _linkedInButton, _emailButton];
+    
+    [self animateButtons:buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
+    
+}
+
+- (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
+    
+    for (UIView *circleButtons in buttons) {
+        if (endAngle >= 2 * M_PI) {
+            endAngle -= 2 * M_PI;
+        }
+        
+        [((TSCircularButton *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f];
+        
+        endAngle += increment;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,6 +137,28 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)dismissViewController:(id)sender {
+    
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+#pragma mark - Email methods 
+
+- (IBAction)emailLoginSignup:(id)sender {
+    
+    UIViewController *viewController;
+    
+    if (_logIn) {
+        viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginViewController class])];
+    }
+    else {
+        viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRegisterViewController class])];
+    }
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 
 #pragma mark - LinkedIn methods
 
@@ -108,6 +177,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         NSLog(@"Authorization failed %@", error);
     }];
 }
+
 
 - (void)requestMeWithToken:(NSString *)accessToken {
     [_linkedInClient GET:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *result) {
@@ -192,6 +262,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
  *
  *  Upon completion, the button to continue will be displayed, or the user will be presented with a status message.
  */
+
 - (IBAction)refreshTwitterAccounts:(id)sender
 {
     NSLog(@"Refreshing Twitter Accounts \n");
@@ -248,5 +319,12 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"Cancel"];
     [sheet showInView:self.view];
 }
+
+
+
+#pragma mark - Animations
+
+
+
 
 @end

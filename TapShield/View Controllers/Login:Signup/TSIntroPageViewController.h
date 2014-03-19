@@ -7,21 +7,18 @@
 //
 
 #import "TSBasePageViewController.h"
+#import "TSSocialAuthorizationViewController.h"
+#import "TSLoginViewController.h"
+#import "TSLoginOrSignUpViewController.h"
 
-// Twitter-related imports
-#import <Accounts/Accounts.h>
-#import "OAuth+Additions.h"
-#import "TWAPIManager.h"
-#import "TWSignedRequest.h"
+@interface TSIntroPageViewController : TSBasePageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
-// Google+
-#import <GoogleOpenSource/GoogleOpenSource.h>
-#import <GooglePlus/GooglePlus.h>
+@property (strong, nonatomic) TSLoginOrSignUpViewController *logInOrSignUpViewController;
+@property (strong, nonatomic) TSSocialAuthorizationViewController *socialAuthorizationViewController;
+@property (strong, nonatomic) TSLoginViewController *loginViewController;
 
-// LinkedIn
-#import "LIALinkedInHttpClient.h"
-#import "LIALinkedInApplication.h"
 
-@interface TSIntroPageViewController : TSBasePageViewController
+@property (nonatomic) BOOL isFirstTimeViewed;
+@property (nonatomic, strong) NSArray *pageViewControllers;
 
 @end

@@ -164,11 +164,11 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    //[self setRealAccessoryView];
+//    [self setRealAccessoryView];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    //[self setDecoyAccessoryView];
+//    [self performSelectorOnMainThread:@selector(setDecoyAccessoryView) withObject:nil waitUntilDone:YES];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {

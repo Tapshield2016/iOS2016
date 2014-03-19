@@ -109,6 +109,18 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Social Authentication Methods
 
+- (void)socialLoggedInUserWithAttributes:(NSDictionary *)attributes {
+    [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:attributes]];
+    [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
+        if (token) {
+            [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+        }
+        else {
+            NSLog(@"Social Loggin failed to retrieve token");
+        }
+    }];
+}
+
 - (void)logoutSocial {
     [self GET:@"logout/"
    parameters:nil
@@ -126,6 +138,9 @@ static dispatch_once_t onceToken;
     parameters:@{ @"access_token": facebookAPIAuthToken }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
        }];
@@ -139,6 +154,9 @@ static dispatch_once_t onceToken;
                   @"oauth_token_secret": twitterOauthTokenSecret }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
        }];
@@ -152,6 +170,9 @@ static dispatch_once_t onceToken;
                   @"refresh_token": googleRefreshToken }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
        }];
@@ -164,6 +185,9 @@ static dispatch_once_t onceToken;
     parameters:@{ @"access_token": linkedInAccessToken }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
        }];
@@ -703,6 +727,7 @@ static dispatch_once_t onceToken;
     }
     [self.responseData setLength:0];
 }
+
 
 
 @end

@@ -14,12 +14,11 @@
 
 @interface TSPageViewController : TSBasePageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
-@property (nonatomic, strong) NSArray *alertViewControllers;
 @property (strong, nonatomic) TSDisarmPadViewController *disarmPadViewController;
 @property (strong, nonatomic) TSEmergencyAlertViewController *emergencyAlertViewController;
 @property (strong, nonatomic) TSChatViewController *chatViewController;
 @property (strong, nonatomic) UIView *countdownTintView;
-
+@property (nonatomic, strong) NSArray *pageViewControllers;
 
 @property (nonatomic) BOOL isFirstTimeViewed;
 

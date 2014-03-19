@@ -38,7 +38,7 @@
     _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
     _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
     
-    _alertViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
+    self.pageViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
     
     [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -86,7 +86,7 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    NSUInteger index = [_alertViewControllers indexOfObject:[previousViewControllers lastObject]];
+    NSUInteger index = [self.pageViewControllers indexOfObject:[previousViewControllers lastObject]];
     
     switch (index) {
         case 0:
@@ -140,22 +140,22 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
-    NSUInteger index = [_alertViewControllers indexOfObject:viewController];
+    NSUInteger index = [self.pageViewControllers indexOfObject:viewController];
     if (index == 0 || index == NSNotFound) {
         return nil;
     }
     
-    return _alertViewControllers[index - 1];
+    return self.pageViewControllers[index - 1];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
-    NSUInteger index = [_alertViewControllers indexOfObject:viewController];
-    if (index == _alertViewControllers.count - 1 || index == NSNotFound) {
+    NSUInteger index = [self.pageViewControllers indexOfObject:viewController];
+    if (index == self.pageViewControllers.count - 1 || index == NSNotFound) {
         return nil;
     }
     
-    return _alertViewControllers[index + 1];
+    return self.pageViewControllers[index + 1];
 }
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {

@@ -7,6 +7,7 @@
 //
 
 #import "TSSettingsViewController.h"
+#import "TSIntroPageViewController.h"
 
 @interface TSSettingsViewController ()
 
@@ -35,4 +36,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)logOutUser:(id)sender {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
+        if (success) {
+            [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+            
+            [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil];
+        }
+    }];
+}
 @end

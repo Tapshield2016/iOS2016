@@ -42,7 +42,7 @@
         if (success) {
             [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
             
-            [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil];
+            [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:YES];
         }
     }];
 }

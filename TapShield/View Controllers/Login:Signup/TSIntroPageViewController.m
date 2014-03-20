@@ -20,23 +20,26 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [self.navigationController setNavigationBarHidden:YES];
+    
     _isFirstTimeViewed = YES;
     
-    
-    [self setTranslucentBackground:YES];
+    _backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
+    _backgroundImage.frame = self.view.frame;
+    [self.view insertSubview:_backgroundImage atIndex:0];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
     
+    _welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSWelcomeViewController class])];
+    
     _logInOrSignUpViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginOrSignUpViewController class])];
-//    _socialAuthorizationViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSSocialAuthorizationViewController class])];
-    _loginViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginViewController class])];
     
-    _pageViewControllers = @[_logInOrSignUpViewController];
+    _pageViewControllers = @[_welcomeViewController, _logInOrSignUpViewController];
     
-    [self setViewControllers:@[_logInOrSignUpViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self setViewControllers:@[_welcomeViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     //self.delegate = self;
-    //self.dataSource = self;
+    self.dataSource = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -56,25 +59,7 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    NSUInteger index = [_pageViewControllers indexOfObject:[previousViewControllers lastObject]];
     
-    switch (index) {
-        case 0:
-            
-            break;
-            
-        case 1:
-            
-            break;
-            
-        case 2:
-            
-            break;
-            
-        default:
-            
-            break;
-    }
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
@@ -120,7 +105,7 @@
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     
-    return 0;
+    return _pageViewControllers.count;
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {

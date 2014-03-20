@@ -500,6 +500,9 @@
 		C585F2D718DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F21C18DA2A3B009EEF16 /* splash_logo_big@2x.png */; };
 		C585F2D818DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F21C18DA2A3B009EEF16 /* splash_logo_big@2x.png */; };
 		C585F2D918DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F21C18DA2A3B009EEF16 /* splash_logo_big@2x.png */; };
+		C585F2DC18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */; };
+		C585F2DD18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */; };
+		C585F2DE18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -815,6 +818,8 @@
 		C585F21A18DA2A3B009EEF16 /* splash_bg@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "splash_bg@2x"; sourceTree = "<group>"; };
 		C585F21B18DA2A3B009EEF16 /* splash_logo_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_logo_big.png; sourceTree = "<group>"; };
 		C585F21C18DA2A3B009EEF16 /* splash_logo_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo_big@2x.png"; sourceTree = "<group>"; };
+		C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSWelcomeViewController.h; path = "View Controllers/Login:Signup/TSWelcomeViewController.h"; sourceTree = "<group>"; };
+		C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSWelcomeViewController.m; path = "View Controllers/Login:Signup/TSWelcomeViewController.m"; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -1218,6 +1223,8 @@
 				C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */,
 				C585F18E18CF7E73009EEF16 /* TSIntroPageViewController.h */,
 				C585F18F18CF7E73009EEF16 /* TSIntroPageViewController.m */,
+				C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */,
+				C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */,
 			);
 			name = Login/Signup;
 			path = TapShield;
@@ -2133,6 +2140,7 @@
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C532E64918BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
+				C585F2DC18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */,
 				C5391EA318C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
@@ -2228,6 +2236,7 @@
 				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C532E64518BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1B218CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
+				C585F2DE18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
 				C520C90718A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5372DB518B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */,
@@ -2307,6 +2316,7 @@
 				C532E63218BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C57C48D218BBDB1900DFFBCE /* TSEmailOrganizationViewController.m in Sources */,
 				C585F1B118CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
+				C585F2DD18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
 				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,

@@ -98,6 +98,10 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         [self.view sendSubviewToBack:_loginButton];
         [self animateSignupButtons];
     }
+    
+    UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
+    backgroundImage.frame = self.view.frame;
+    [self.view insertSubview:backgroundImage atIndex:0];
 }
 
 - (void)animateLoginButtons {

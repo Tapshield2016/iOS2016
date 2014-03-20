@@ -14,22 +14,22 @@
 
 @implementation TSBaseViewController
 
-- (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate {
+- (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated {
     
     UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
     
     UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [navigationViewController setNavigationBarHidden:YES];
+    [navigationViewController setNavigationBarHidden:animated];
     navigationViewController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController setToolbarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setToolbarHidden:YES animated:animated];
     
     if (delegate) {
         [navigationViewController setTransitioningDelegate:delegate];
         navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
     }
-    [self presentViewController:navigationViewController animated:YES completion:^{
+    [self presentViewController:navigationViewController animated:animated completion:^{
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     }];
 }

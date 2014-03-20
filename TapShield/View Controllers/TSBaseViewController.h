@@ -22,7 +22,7 @@
 
 @interface TSBaseViewController : UIViewController
 
-- (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate;
+- (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated;
 
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (strong, nonatomic) UIToolbar *toolbar;

@@ -61,10 +61,10 @@
     _geocoder = [[CLGeocoder alloc] init];
     
     if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil];
+        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:NO];
     }
     else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
-        [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil];
+        [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
     }
     
     [TSLocationController sharedLocationController].delegate = self;
@@ -512,12 +512,12 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    [self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController];
+    [self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
 }
 
 - (IBAction)openChatWindow:(id)sender {
     
-    [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController];
+    [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController animated:YES];
 }
 
 

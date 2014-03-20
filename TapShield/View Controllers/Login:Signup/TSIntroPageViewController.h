@@ -20,6 +20,7 @@
 @property (strong, nonatomic) TSLoginViewController *loginViewController;
 
 @property (strong, nonatomic) UIImageView *backgroundImage;
+@property (strong, nonatomic) UIButton *skipButton;
 
 @property (nonatomic) BOOL isFirstTimeViewed;
 @property (nonatomic, strong) NSArray *pageViewControllers;

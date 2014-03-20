@@ -21,6 +21,8 @@
     [_smallLogoImageView setHidden:YES];
     
     self.view.backgroundColor = [UIColor clearColor];
+    _swipeLabelView.alpha = 0.0f;
+    _welcomeLabel.alpha = 0.0f;
     
     _isFirstTimeViewed = YES;
 }
@@ -45,7 +47,14 @@
         [_splashLargeLogoImageView setHidden:YES];
         [_smallLogoImageView setHidden:NO];
     }];
+    
+    [UIView animateWithDuration:0.5 delay:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        _swipeLabelView.alpha = 1.0f;
+        _welcomeLabel.alpha = 1.0f;
+    } completion:nil];
+    
 }
+
 
 - (void)didReceiveMemoryWarning
 {

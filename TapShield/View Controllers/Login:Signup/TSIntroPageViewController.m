@@ -24,9 +24,15 @@
     
     _isFirstTimeViewed = YES;
     
-    _backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
+    _backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background568"]];
     _backgroundImage.frame = self.view.frame;
     [self.view insertSubview:_backgroundImage atIndex:0];
+    
+    _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_skipButton setTitle:@"Skip" forState:UIControlStateNormal];
+    _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, self.view.frame.size.height/14 * 13, self.view.frame.size.width/10 * 2, self.view.frame.size.height/14);
+    [self.view addSubview:_skipButton];
+    
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
     
@@ -42,10 +48,16 @@
     self.dataSource = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,8 +122,16 @@
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
     
+    [self setupPageControlAppearance];
+    
     return 0;
 }
 
+
+- (void)setupPageControlAppearance
+{
+//    UIPageControl * pageControl = [[self.view.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(class = %@)", [UIPageControl class]]] lastObject];
+    
+}
 
 @end

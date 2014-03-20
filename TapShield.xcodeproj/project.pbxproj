@@ -503,6 +503,9 @@
 		C585F2DC18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */; };
 		C585F2DD18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */; };
 		C585F2DE18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */; };
+		C585F2E018DA79B6009EEF16 /* background568.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F2DF18DA79B6009EEF16 /* background568.png */; };
+		C585F2E118DA79B6009EEF16 /* background568.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F2DF18DA79B6009EEF16 /* background568.png */; };
+		C585F2E218DA79B6009EEF16 /* background568.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F2DF18DA79B6009EEF16 /* background568.png */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -820,6 +823,7 @@
 		C585F21C18DA2A3B009EEF16 /* splash_logo_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo_big@2x.png"; sourceTree = "<group>"; };
 		C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSWelcomeViewController.h; path = "View Controllers/Login:Signup/TSWelcomeViewController.h"; sourceTree = "<group>"; };
 		C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSWelcomeViewController.m; path = "View Controllers/Login:Signup/TSWelcomeViewController.m"; sourceTree = "<group>"; };
+		C585F2DF18DA79B6009EEF16 /* background568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background568.png; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -1397,6 +1401,7 @@
 		C585F1E118DA2A3A009EEF16 /* V_1_Intro_slide.psb_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C585F2DF18DA79B6009EEF16 /* background568.png */,
 				C585F1E218DA2A3A009EEF16 /* pag_dot_active.png */,
 				C585F1E318DA2A3A009EEF16 /* pag_dot_active@2x.png */,
 				C585F1E418DA2A3A009EEF16 /* pag_dot_inactive.png */,
@@ -1714,6 +1719,7 @@
 				C5FD5E8B18B3141800E27EE9 /* CheckBox_UnselectedDown@2x.png in Resources */,
 				C585F2CE18DA2A3B009EEF16 /* splash_bg.png in Resources */,
 				C585F22018DA2A3B009EEF16 /* input_email_icon@2x.png in Resources */,
+				C585F2E018DA79B6009EEF16 /* background568.png in Resources */,
 				C585F2D718DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */,
 				C585F2B318DA2A3B009EEF16 /* progress_bar_s1.png in Resources */,
 				C5372DEB18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
@@ -1901,6 +1907,7 @@
 				C585F24018DA2A3B009EEF16 /* pag_dot_active@2x.png in Resources */,
 				C585F2CD18DA2A3B009EEF16 /* splash_bg-568h@2x in Resources */,
 				C585F27C18DA2A3B009EEF16 /* google_icon@2x.png in Resources */,
+				C585F2E218DA79B6009EEF16 /* background568.png in Resources */,
 				C57C48AE18BBC32100DFFBCE /* no_image.png in Resources */,
 				C585F24C18DA2A3B009EEF16 /* splash_logo_small@2x.png in Resources */,
 				C585F26418DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
@@ -2007,6 +2014,7 @@
 				C585F23F18DA2A3B009EEF16 /* pag_dot_active@2x.png in Resources */,
 				C585F2CC18DA2A3B009EEF16 /* splash_bg-568h@2x in Resources */,
 				C585F27B18DA2A3B009EEF16 /* google_icon@2x.png in Resources */,
+				C585F2E118DA79B6009EEF16 /* background568.png in Resources */,
 				C57C491218BBDB1900DFFBCE /* no_image.png in Resources */,
 				C585F24B18DA2A3B009EEF16 /* splash_logo_small@2x.png in Resources */,
 				C585F26318DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,

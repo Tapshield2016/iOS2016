@@ -48,6 +48,13 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 {
     [super viewDidLoad];
     
+    
+    [[_emailButton imageView] setContentMode: UIViewContentModeCenter];
+    [[_twitterButton imageView] setContentMode: UIViewContentModeRight];
+    
+    
+    NSLog(@"%@", _twitterButton.imageView);
+    
     [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
     
     [_signInGooglePlusButton clearButtonStyleAndCustomize];

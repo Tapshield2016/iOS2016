@@ -36,7 +36,7 @@
     self.layer.cornerRadius = 5.0f;
     self.layer.masksToBounds = YES;
     self.layer.borderWidth = 1.0f;
-    self.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholder attributes:@{ NSForegroundColorAttributeName : [UIColor lightTextColor] }];
+    self.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholder attributes:@{ NSForegroundColorAttributeName : [TSColorPalette lightTextColor] }];
     self.edgeInsets = UIEdgeInsetsMake(0, 40, 0, 0);
 }
 

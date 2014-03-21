@@ -34,6 +34,7 @@
     
     _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_skipButton setTitle:@"Skip" forState:UIControlStateNormal];
+    _skipButton.titleLabel.font = [TSRalewayFont customFontFromStandardFont:[UIFont systemFontOfSize:18]];
     _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, self.view.frame.size.height/14 * 13, self.view.frame.size.width/10 * 2, self.view.frame.size.height/14);
     [self.view addSubview:_skipButton];
     

@@ -96,7 +96,13 @@
     return UIColorFromRGB(0x404040);
 }
 
++ (UIColor *)activeTextColor {
+    return UIColorFromRGB(0x595f64);
+}
 
++ (UIColor *)inActiveTextColor {
+    return UIColorFromRGB(0xb5b9bd);
+}
 
 
 @end

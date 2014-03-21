@@ -1,14 +1,14 @@
 //
-//  TSBaseLabel.m
+//  TSBaseButton.m
 //  TapShield
 //
-//  Created by Adam Share on 3/20/14.
+//  Created by Adam Share on 3/21/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseLabel.h"
+#import "TSBaseButton.h"
 
-@implementation TSBaseLabel
+@implementation TSBaseButton
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         
-        self.font = [TSRalewayFont customFontFromStandardFont:self.font];
+        self.titleLabel.font = [TSRalewayFont customFontFromStandardFont:self.titleLabel.font];
     }
     return self;
 }
@@ -27,10 +27,9 @@
     if (self) {
         // Initialization code
         
-        self.font = [TSRalewayFont customFontFromStandardFont:self.font];
+        self.titleLabel.font = [TSRalewayFont customFontFromStandardFont:self.titleLabel.font];
     }
     return self;
 }
-
 
 @end

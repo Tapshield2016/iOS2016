@@ -15,5 +15,7 @@
 + (UIColor *)tapshieldBlue;
 + (UIColor *)tapshieldDarkBlue;
 + (UIColor *)charcoalColor;
++ (UIColor *)activeTextColor;
++ (UIColor *)inActiveTextColor;
 
 @end

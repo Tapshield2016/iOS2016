@@ -19,6 +19,7 @@
 #import "TSLocationController.h"
 #import "TSTransitionDelegate.h"
 #import "TSCircularButton.h"
+#import "TSRalewayFont.h"
 
 @interface TSBaseViewController : UIViewController
 

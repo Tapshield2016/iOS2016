@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *linkedInButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *emailButton;
 
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
+
 @property (weak, nonatomic) IBOutlet TSAnimatedView *facebookView;
 @property (weak, nonatomic) IBOutlet TSAnimatedView *twitterView;
 @property (weak, nonatomic) IBOutlet TSAnimatedView *googleView;

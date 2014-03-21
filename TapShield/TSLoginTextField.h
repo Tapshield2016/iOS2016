@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TSBaseTextField.h"
 
-@interface TSLoginTextField : UITextField
+@interface TSLoginTextField : TSBaseTextField
 
 @property (nonatomic, assign) UIEdgeInsets edgeInsets;
 

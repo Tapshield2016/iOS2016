@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TSBaseButton.h"
 
-@interface TSCircularButton : UIButton
+@interface TSCircularButton : TSBaseButton
 
 @property (nonatomic, strong) CAShapeLayer *circleLayer;
 @property (nonatomic, strong) UIColor *color;

@@ -1,14 +1,14 @@
 //
-//  TSBaseLabel.m
+//  TSBaseTextField.m
 //  TapShield
 //
-//  Created by Adam Share on 3/20/14.
+//  Created by Adam Share on 3/21/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseLabel.h"
+#import "TSBaseTextField.h"
 
-@implementation TSBaseLabel
+@implementation TSBaseTextField
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,6 +31,5 @@
     }
     return self;
 }
-
 
 @end

@@ -9,7 +9,7 @@
 #import "TSSocialAuthorizationViewController.h"
 #import "TSJavelinAPIClient.h"
 #import "TSLoginViewController.h"
-#import "TSRegisterViewController.h"
+#import "TSAskOrganizationViewController.h"
 #import "TSAnimatedView.h"
 
 // Twitter-related imports
@@ -60,7 +60,27 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.translucentBackground = YES;
-
+    self.toolbar.alpha = 0.99;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(dismissViewController:)];
+    [self.toolbar addGestureRecognizer:tap];
+    
+    
+    if (_logIn) {
+        [self.view sendSubviewToBack:_signUpButton];
+    }
+    else {
+        [self.view sendSubviewToBack:_loginButton];
+    }
+    
+    [self.view sendSubviewToBack:_logoImageView];
+    
+    UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
+    backgroundImage.frame = self.view.frame;
+    [self.view insertSubview:backgroundImage atIndex:0];
+    
+    
     // Twitter setup
     _accountStore = [[ACAccountStore alloc] init];
     _apiManager = [[TWAPIManager alloc] init];
@@ -93,22 +113,17 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
     
     if (!_hasAnimated) {
         if (_logIn) {
-            [self.view sendSubviewToBack:_signUpButton];
             [self animateLoginButtons];
         }
         else {
-            [self.view sendSubviewToBack:_loginButton];
             [self animateSignupButtons];
         }
     }
-    
-    UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
-    backgroundImage.frame = self.view.frame;
-    [self.view insertSubview:backgroundImage atIndex:0];
 }
 
 - (void)animateLoginButtons {
@@ -157,18 +172,18 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (IBAction)emailLoginSignup:(id)sender {
     
-    UIViewController *viewController;
+    Class class;
     
     if (_logIn) {
-        viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginViewController class])];
+        class = [TSLoginViewController class];
     }
     else {
-        viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRegisterViewController class])];
+        class = [TSAskOrganizationViewController class];
     }
     
     _transitionDelegate = [[TSTransitionDelegate alloc] init];
     
-    [self pushViewControllerWithClass:[TSLoginViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
+    [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
 }
 
 

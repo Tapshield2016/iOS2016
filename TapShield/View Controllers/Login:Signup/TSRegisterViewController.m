@@ -187,7 +187,7 @@
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
     // get a rect for the textView frame
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, self.navigationController.navigationBar.frame.size.height, keyboardBounds.size.height, 0.0);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0f, keyboardBounds.size.height, 0.0);
     _scrollView.contentInset = contentInsets;
     _scrollView.scrollIndicatorInsets = contentInsets;
     

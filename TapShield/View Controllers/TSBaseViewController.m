@@ -34,6 +34,18 @@
     }];
 }
 
+- (void)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated {
+    
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
+    
+    if (transitionDelegate && navigationDelegate) {
+        viewController.transitioningDelegate = transitionDelegate;
+        self.navigationController.delegate = navigationDelegate;
+    }
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

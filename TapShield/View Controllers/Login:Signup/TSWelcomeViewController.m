@@ -7,6 +7,7 @@
 //
 
 #import "TSWelcomeViewController.h"
+#import "TSIntroPageViewController.h"
 
 @interface TSWelcomeViewController ()
 
@@ -44,8 +45,12 @@
     [UIView animateWithDuration:1.5f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         _splashLargeLogoImageView.frame = frame;
     } completion:^(BOOL finished) {
+        
+        TSIntroPageViewController *pageView = (TSIntroPageViewController *)self.parentViewController;
+        [pageView.logoImage setHidden:NO];
+        pageView.logoImage.frame = _smallLogoImageView.frame;
+        
         [_splashLargeLogoImageView setHidden:YES];
-        [_smallLogoImageView setHidden:NO];
     }];
     
     [UIView animateWithDuration:0.5 delay:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{

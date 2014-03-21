@@ -19,7 +19,7 @@
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
 
     TSTransitionAnimation *controller = [[TSTransitionAnimation alloc]init];
-    controller.isPresenting = NO;
+    controller.isDismissing = YES;
     return controller;
 }
 
@@ -29,6 +29,34 @@
 
 - (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
     return nil;
+}
+
+#pragma mark - UINavigationControllerDelegate
+
+/*
+ Called when pushing/popping a view controller on a navigation controller that has a delegate
+ */
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC
+{
+    id<UIViewControllerAnimatedTransitioning> animationController;
+    
+    // Fade In - Push
+    if (operation == UINavigationControllerOperationPush) {
+        TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
+        animator.isPushing = YES;
+        animationController = animator;
+    }
+    // Fade Out - Pop
+    else if (operation == UINavigationControllerOperationPop) {
+        TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
+        animator.isPopping = YES;
+        animationController = animator;
+    }
+    
+    return animationController;
 }
 
 @end

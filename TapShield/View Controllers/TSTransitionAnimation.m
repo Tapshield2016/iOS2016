@@ -19,8 +19,14 @@
     if (self.isPresenting) {
         [self executePresentationAnimation:transitionContext];
     }
-    else {
+    else if (self.isDismissing) {
         [self executeDismissalAnimation:transitionContext];
+    }
+    else if (self.isPushing) {
+        [self executePushAnimation:transitionContext];
+    }
+    else if (self.isPopping) {
+        [self executePopAnimation:transitionContext];
     }
 }
 
@@ -64,6 +70,46 @@
             for (UIView *view in fromViewController.view.subviews) {
                 view.alpha = 0.0f;
             }
+        }];
+        
+    } completion:^(BOOL finished) {
+        [fromViewController.view removeFromSuperview];
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
+}
+
+- (void)executePushAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
+    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    UIView *inView = [transitionContext containerView];
+    [inView addSubview:toViewController.view];
+    
+    toViewController.view.alpha = 0.0f;
+    
+    [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        
+        toViewController.view.alpha = 1.0f;
+        
+    } completion:^(BOOL finished) {
+        
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
+}
+
+- (void)executePopAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    UIView *inView = [transitionContext containerView];
+    [inView insertSubview:toViewController.view belowSubview:fromViewController.view];
+    
+    [UIView animateKeyframesWithDuration:0.3f delay:0.0f options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        
+        [UIView addKeyframeWithRelativeStartTime:0.0f relativeDuration:1.0 animations:^{
+            
+            fromViewController.view.alpha = 0.0f;
         }];
         
     } completion:^(BOOL finished) {

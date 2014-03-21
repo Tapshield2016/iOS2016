@@ -28,6 +28,10 @@
     _backgroundImage.frame = self.view.frame;
     [self.view insertSubview:_backgroundImage atIndex:0];
     
+    _logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
+    [_logoImage setHidden:YES];
+    [self.view insertSubview:_logoImage atIndex:1];
+    
     _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_skipButton setTitle:@"Skip" forState:UIControlStateNormal];
     _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, self.view.frame.size.height/14 * 13, self.view.frame.size.width/10 * 2, self.view.frame.size.height/14);
@@ -42,9 +46,11 @@
     
     _pageViewControllers = @[_welcomeViewController, _logInOrSignUpViewController];
     
+    NSLog(@"%@", _welcomeViewController.smallLogoImageView);
+    
     [self setViewControllers:@[_welcomeViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
-    //self.delegate = self;
+    self.delegate = self;
     self.dataSource = self;
 }
 
@@ -71,7 +77,14 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    
+    if (completed) {
+        if ([[previousViewControllers lastObject] isEqual:_pageViewControllers[_pageViewControllers.count - 2]]) {
+            [_skipButton setHidden:YES];
+        }
+        else {
+            [_skipButton setHidden:NO];
+        }
+    }
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {

@@ -187,6 +187,15 @@
 		C556598718CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
 		C556598818CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
 		C556598918CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
+		C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
+		C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
+		C5662BCB18DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
+		C5662BCE18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BCD18DB8A3C00FD4F44 /* TSButtonLabel.m */; };
+		C5662BCF18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BCD18DB8A3C00FD4F44 /* TSButtonLabel.m */; };
+		C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BCD18DB8A3C00FD4F44 /* TSButtonLabel.m */; };
+		C5662BD418DBA70100FD4F44 /* TSLoginTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BD318DBA70100FD4F44 /* TSLoginTextField.m */; };
+		C5662BD518DBA70100FD4F44 /* TSLoginTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BD318DBA70100FD4F44 /* TSLoginTextField.m */; };
+		C5662BD618DBA70100FD4F44 /* TSLoginTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BD318DBA70100FD4F44 /* TSLoginTextField.m */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
@@ -506,6 +515,39 @@
 		C585F2E018DA79B6009EEF16 /* background568.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F2DF18DA79B6009EEF16 /* background568.png */; };
 		C585F2E118DA79B6009EEF16 /* background568.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F2DF18DA79B6009EEF16 /* background568.png */; };
 		C585F2E218DA79B6009EEF16 /* background568.png in Resources */ = {isa = PBXBuildFile; fileRef = C585F2DF18DA79B6009EEF16 /* background568.png */; };
+		C585F2E518DB6B66009EEF16 /* TSAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */; };
+		C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */; };
+		C585F2E718DB6B66009EEF16 /* TSAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */; };
+		C585F2F418DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EA18DB6E2E009EEF16 /* Raleway-Bold.otf */; };
+		C585F2F518DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EA18DB6E2E009EEF16 /* Raleway-Bold.otf */; };
+		C585F2F618DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EA18DB6E2E009EEF16 /* Raleway-Bold.otf */; };
+		C585F2F718DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EB18DB6E2E009EEF16 /* Raleway-ExtraBold.otf */; };
+		C585F2F818DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EB18DB6E2E009EEF16 /* Raleway-ExtraBold.otf */; };
+		C585F2F918DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EB18DB6E2E009EEF16 /* Raleway-ExtraBold.otf */; };
+		C585F2FA18DB6E2E009EEF16 /* Raleway-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf */; };
+		C585F2FB18DB6E2E009EEF16 /* Raleway-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf */; };
+		C585F2FC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf */; };
+		C585F2FD18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2ED18DB6E2E009EEF16 /* Raleway-Heavy.otf */; };
+		C585F2FE18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2ED18DB6E2E009EEF16 /* Raleway-Heavy.otf */; };
+		C585F2FF18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2ED18DB6E2E009EEF16 /* Raleway-Heavy.otf */; };
+		C585F30018DB6E2E009EEF16 /* Raleway-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EE18DB6E2E009EEF16 /* Raleway-Light.otf */; };
+		C585F30118DB6E2E009EEF16 /* Raleway-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EE18DB6E2E009EEF16 /* Raleway-Light.otf */; };
+		C585F30218DB6E2E009EEF16 /* Raleway-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EE18DB6E2E009EEF16 /* Raleway-Light.otf */; };
+		C585F30318DB6E2E009EEF16 /* Raleway-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EF18DB6E2E009EEF16 /* Raleway-Medium.otf */; };
+		C585F30418DB6E2E009EEF16 /* Raleway-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EF18DB6E2E009EEF16 /* Raleway-Medium.otf */; };
+		C585F30518DB6E2E009EEF16 /* Raleway-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2EF18DB6E2E009EEF16 /* Raleway-Medium.otf */; };
+		C585F30618DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F018DB6E2E009EEF16 /* Raleway-Regular.otf */; };
+		C585F30718DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F018DB6E2E009EEF16 /* Raleway-Regular.otf */; };
+		C585F30818DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F018DB6E2E009EEF16 /* Raleway-Regular.otf */; };
+		C585F30918DB6E2E009EEF16 /* Raleway-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */; };
+		C585F30A18DB6E2E009EEF16 /* Raleway-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */; };
+		C585F30B18DB6E2E009EEF16 /* Raleway-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */; };
+		C585F30C18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */; };
+		C585F30D18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */; };
+		C585F30E18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */; };
+		C585F30F18DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
+		C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
+		C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -726,6 +768,12 @@
 		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
 		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
 		C556598618CC51A900288AD3 /* redial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redial.png; path = Images/redial.png; sourceTree = "<group>"; };
+		C5662BC718DB88C000FD4F44 /* TSBaseLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseLabel.h; path = Views/Labels/TSBaseLabel.h; sourceTree = "<group>"; };
+		C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseLabel.m; path = Views/Labels/TSBaseLabel.m; sourceTree = "<group>"; };
+		C5662BCC18DB8A3C00FD4F44 /* TSButtonLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSButtonLabel.h; sourceTree = "<group>"; };
+		C5662BCD18DB8A3C00FD4F44 /* TSButtonLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSButtonLabel.m; sourceTree = "<group>"; };
+		C5662BD218DBA70100FD4F44 /* TSLoginTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLoginTextField.h; sourceTree = "<group>"; };
+		C5662BD318DBA70100FD4F44 /* TSLoginTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLoginTextField.m; sourceTree = "<group>"; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/Cells/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/Cells/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
@@ -824,6 +872,18 @@
 		C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSWelcomeViewController.h; path = "View Controllers/Login:Signup/TSWelcomeViewController.h"; sourceTree = "<group>"; };
 		C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSWelcomeViewController.m; path = "View Controllers/Login:Signup/TSWelcomeViewController.m"; sourceTree = "<group>"; };
 		C585F2DF18DA79B6009EEF16 /* background568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background568.png; sourceTree = "<group>"; };
+		C585F2E318DB6B66009EEF16 /* TSAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAnimatedView.h; sourceTree = "<group>"; };
+		C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAnimatedView.m; sourceTree = "<group>"; };
+		C585F2EA18DB6E2E009EEF16 /* Raleway-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.otf"; sourceTree = "<group>"; };
+		C585F2EB18DB6E2E009EEF16 /* Raleway-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBold.otf"; sourceTree = "<group>"; };
+		C585F2EC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraLight.otf"; sourceTree = "<group>"; };
+		C585F2ED18DB6E2E009EEF16 /* Raleway-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Heavy.otf"; sourceTree = "<group>"; };
+		C585F2EE18DB6E2E009EEF16 /* Raleway-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Light.otf"; sourceTree = "<group>"; };
+		C585F2EF18DB6E2E009EEF16 /* Raleway-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Medium.otf"; sourceTree = "<group>"; };
+		C585F2F018DB6E2E009EEF16 /* Raleway-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.otf"; sourceTree = "<group>"; };
+		C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-SemiBold.otf"; sourceTree = "<group>"; };
+		C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Thin.otf"; sourceTree = "<group>"; };
+		C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -969,6 +1029,7 @@
 		B53BBCF618980FDA006A27E0 /* TapShield */ = {
 			isa = PBXGroup;
 			children = (
+				C585F2E818DB6E2E009EEF16 /* Font */,
 				C532E8E118BD44F400FC111A /* Main.storyboard */,
 				B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */,
 				B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */,
@@ -1032,10 +1093,14 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5662BD118DBA6D400FD4F44 /* TextFields */,
+				C5662BC618DB886000FD4F44 /* Labels */,
 				C51A40A018CBCF40007D7884 /* Keyboard */,
 				C57C48A018B6B2DA00DFFBCE /* Cells */,
 				C5372DA018AEAC7400D22682 /* Map */,
 				C5C1706F18AC085100EEFBD6 /* Buttons */,
+				C585F2E318DB6B66009EEF16 /* TSAnimatedView.h */,
+				C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -1298,6 +1363,26 @@
 			name = Transitions;
 			sourceTree = "<group>";
 		};
+		C5662BC618DB886000FD4F44 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				C5662BC718DB88C000FD4F44 /* TSBaseLabel.h */,
+				C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */,
+				C5662BCC18DB8A3C00FD4F44 /* TSButtonLabel.h */,
+				C5662BCD18DB8A3C00FD4F44 /* TSButtonLabel.m */,
+			);
+			name = Labels;
+			sourceTree = "<group>";
+		};
+		C5662BD118DBA6D400FD4F44 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				C5662BD218DBA70100FD4F44 /* TSLoginTextField.h */,
+				C5662BD318DBA70100FD4F44 /* TSLoginTextField.m */,
+			);
+			name = TextFields;
+			sourceTree = "<group>";
+		};
 		C57C48A018B6B2DA00DFFBCE /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1506,6 +1591,31 @@
 			);
 			name = V_0_Splash.psb_iPhone_assets;
 			path = Images/V_0_Splash.psb_iPhone_assets;
+			sourceTree = "<group>";
+		};
+		C585F2E818DB6E2E009EEF16 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				C585F2E918DB6E2E009EEF16 /* Raleway */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		C585F2E918DB6E2E009EEF16 /* Raleway */ = {
+			isa = PBXGroup;
+			children = (
+				C585F2EA18DB6E2E009EEF16 /* Raleway-Bold.otf */,
+				C585F2EB18DB6E2E009EEF16 /* Raleway-ExtraBold.otf */,
+				C585F2EC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf */,
+				C585F2ED18DB6E2E009EEF16 /* Raleway-Heavy.otf */,
+				C585F2EE18DB6E2E009EEF16 /* Raleway-Light.otf */,
+				C585F2EF18DB6E2E009EEF16 /* Raleway-Medium.otf */,
+				C585F2F018DB6E2E009EEF16 /* Raleway-Regular.otf */,
+				C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */,
+				C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */,
+				C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */,
+			);
+			path = Raleway;
 			sourceTree = "<group>";
 		};
 		C5B2E98318CE177300E2CF04 /* Map */ = {
@@ -1719,6 +1829,7 @@
 				C5FD5E8B18B3141800E27EE9 /* CheckBox_UnselectedDown@2x.png in Resources */,
 				C585F2CE18DA2A3B009EEF16 /* splash_bg.png in Resources */,
 				C585F22018DA2A3B009EEF16 /* input_email_icon@2x.png in Resources */,
+				C585F2FA18DB6E2E009EEF16 /* Raleway-ExtraLight.otf in Resources */,
 				C585F2E018DA79B6009EEF16 /* background568.png in Resources */,
 				C585F2D718DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */,
 				C585F2B318DA2A3B009EEF16 /* progress_bar_s1.png in Resources */,
@@ -1732,6 +1843,7 @@
 				C585F23E18DA2A3B009EEF16 /* pag_dot_active@2x.png in Resources */,
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
 				C57C491C18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
+				C585F2F418DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */,
 				C585F21D18DA2A3B009EEF16 /* input_email_icon.png in Resources */,
 				C585F25F18DA2A3B009EEF16 /* btn_small_circle_normal.png in Resources */,
 				C585F29B18DA2A3B009EEF16 /* password_input_icon.png in Resources */,
@@ -1740,6 +1852,8 @@
 				C585F24718DA2A3B009EEF16 /* splash_logo_small.png in Resources */,
 				C585F22918DA2A3B009EEF16 /* input_phone_icon.png in Resources */,
 				C585F2B918DA2A3B009EEF16 /* progress_bar_s2.png in Resources */,
+				C585F30918DB6E2E009EEF16 /* Raleway-SemiBold.otf in Resources */,
+				C585F30618DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C5FD5E9518B3143100E27EE9 /* LockIcon.png in Resources */,
 				C5FD5E8D18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
 				C585F2D418DA2A3B009EEF16 /* splash_logo_big.png in Resources */,
@@ -1753,6 +1867,7 @@
 				C5FD5EAA18B5165600E27EE9 /* iphoneIcon.png in Resources */,
 				C585F2CB18DA2A3B009EEF16 /* splash_bg-568h@2x in Resources */,
 				C585F28318DA2A3B009EEF16 /* twitter_icon.png in Resources */,
+				C585F2F718DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */,
 				C5372DCF18B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C585F2C818DA2A3B009EEF16 /* progress_bar_s4@2x.png in Resources */,
 				C585F25618DA2A3B009EEF16 /* btn_big_circle_normal@2x.png in Resources */,
@@ -1772,10 +1887,12 @@
 				B53BBCFB18980FDA006A27E0 /* InfoPlist.strings in Resources */,
 				C532E8E718BD583200FC111A /* logo.png in Resources */,
 				C585F24418DA2A3B009EEF16 /* pag_dot_inactive@2x.png in Resources */,
+				C585F30F18DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C585F28C18DA2A3B009EEF16 /* btn_login_normal@2x.png in Resources */,
 				C5372DF118B3126000D22682 /* Agency.png in Resources */,
 				C585F26818DA2A3B009EEF16 /* btn_small_circle_pressed@2x.png in Resources */,
 				C585F22F18DA2A3B009EEF16 /* btn_user_badge_normal.png in Resources */,
+				C585F30318DB6E2E009EEF16 /* Raleway-Medium.otf in Resources */,
 				C585F27D18DA2A3B009EEF16 /* linkedin_icon.png in Resources */,
 				C585F23B18DA2A3B009EEF16 /* pag_dot_active.png in Resources */,
 				C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */,
@@ -1788,8 +1905,11 @@
 				C585F27118DA2A3B009EEF16 /* facebook_icon.png in Resources */,
 				C5372DEF18B3126000D22682 /* AddPhotoButton@2x.png in Resources */,
 				C5FD5E8F18B3141800E27EE9 /* circle.png in Resources */,
+				C585F2FD18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */,
+				C585F30018DB6E2E009EEF16 /* Raleway-Light.otf in Resources */,
 				C585F25C18DA2A3B009EEF16 /* btn_big_circle_pressed@2x.png in Resources */,
 				C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */,
+				C585F30C18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C585F24D18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C585F2A118DA2A3B009EEF16 /* btn_yes_no_normal.png in Resources */,
 				C5FD5E8318B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
@@ -1817,6 +1937,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C585F24F18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
+				C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C585F2A018DA2A3B009EEF16 /* password_input_icon@2x.png in Resources */,
 				C5372DD018B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C585F29418DA2A3B009EEF16 /* btn_login_pressed@2x.png in Resources */,
@@ -1852,6 +1973,7 @@
 				C532E8E918BD583200FC111A /* logo.png in Resources */,
 				C585F2CA18DA2A3B009EEF16 /* progress_bar_s4@2x.png in Resources */,
 				C585F24318DA2A3B009EEF16 /* pag_dot_inactive.png in Resources */,
+				C585F30218DB6E2E009EEF16 /* Raleway-Light.otf in Resources */,
 				C585F25B18DA2A3B009EEF16 /* btn_big_circle_pressed.png in Resources */,
 				C5372E0818B3126000D22682 /* EmailEnvelope.png in Resources */,
 				C5FD5EAB18B5165600E27EE9 /* iphoneIcon.png in Resources */,
@@ -1872,6 +1994,7 @@
 				C585F2BE18DA2A3B009EEF16 /* progress_bar_s2@2x.png in Resources */,
 				C5372DF418B3126000D22682 /* Agency@2x.png in Resources */,
 				C585F2B518DA2A3B009EEF16 /* progress_bar_s1.png in Resources */,
+				C585F2FC18DB6E2E009EEF16 /* Raleway-ExtraLight.otf in Resources */,
 				C585F26A18DA2A3B009EEF16 /* btn_small_circle_pressed@2x.png in Resources */,
 				C585F29A18DA2A3B009EEF16 /* email_input_icon@2x.png in Resources */,
 				C585F28518DA2A3B009EEF16 /* twitter_icon.png in Resources */,
@@ -1882,16 +2005,22 @@
 				C585F22E18DA2A3B009EEF16 /* input_phone_icon@2x.png in Resources */,
 				C585F25818DA2A3B009EEF16 /* btn_big_circle_normal@2x.png in Resources */,
 				C585F2A918DA2A3B009EEF16 /* btn_yes_no_pressed.png in Resources */,
+				C585F30B18DB6E2E009EEF16 /* Raleway-SemiBold.otf in Resources */,
+				C585F30518DB6E2E009EEF16 /* Raleway-Medium.otf in Resources */,
 				C585F22218DA2A3B009EEF16 /* input_email_icon@2x.png in Resources */,
 				C5372E0A18B3126000D22682 /* EmailEnvelope@2x.png in Resources */,
 				C5FD5E8E18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
 				C585F22818DA2A3B009EEF16 /* input_password_icon@2x.png in Resources */,
+				C585F2FF18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */,
 				C5FD5E9818B3143100E27EE9 /* PhoneIcon@2x.png in Resources */,
 				C5FD5E8A18B3141800E27EE9 /* CheckBox_UnselectedDown.png in Resources */,
 				C5372DEC18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
 				C57C491D18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
 				C5372DD418B2CD8A00D22682 /* twitterIcon.png in Resources */,
+				C585F2F918DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */,
 				C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */,
+				C585F2F618DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */,
+				C585F30E18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C585F2A618DA2A3B009EEF16 /* btn_yes_no_normal@2x.png in Resources */,
 				C585F28E18DA2A3B009EEF16 /* btn_login_normal@2x.png in Resources */,
 				C585F23A18DA2A3B009EEF16 /* btn_user_badge_pressed@2x.png in Resources */,
@@ -1912,6 +2041,7 @@
 				C585F24C18DA2A3B009EEF16 /* splash_logo_small@2x.png in Resources */,
 				C585F26418DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
 				C532E65518BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
+				C585F30818DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C585F2D918DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */,
 				C585F23118DA2A3B009EEF16 /* btn_user_badge_normal.png in Resources */,
 				C585F27018DA2A3B009EEF16 /* email_icon@2x.png in Resources */,
@@ -1924,6 +2054,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C585F24E18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
+				C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C585F29F18DA2A3B009EEF16 /* password_input_icon@2x.png in Resources */,
 				C57C48F218BBDB1900DFFBCE /* CheckBox_Unselected.png in Resources */,
 				C585F29318DA2A3B009EEF16 /* btn_login_pressed@2x.png in Resources */,
@@ -1959,6 +2090,7 @@
 				C57C48FE18BBDB1900DFFBCE /* EmailEnvelope@2x.png in Resources */,
 				C585F2C918DA2A3B009EEF16 /* progress_bar_s4@2x.png in Resources */,
 				C585F24218DA2A3B009EEF16 /* pag_dot_inactive.png in Resources */,
+				C585F30118DB6E2E009EEF16 /* Raleway-Light.otf in Resources */,
 				C585F25A18DA2A3B009EEF16 /* btn_big_circle_pressed.png in Resources */,
 				C57C48FF18BBDB1900DFFBCE /* iphoneIcon.png in Resources */,
 				C532E8E418BD44F400FC111A /* Main.storyboard in Resources */,
@@ -1979,6 +2111,7 @@
 				C585F2BD18DA2A3B009EEF16 /* progress_bar_s2@2x.png in Resources */,
 				C57C490418BBDB1900DFFBCE /* Agency.png in Resources */,
 				C585F2B418DA2A3B009EEF16 /* progress_bar_s1.png in Resources */,
+				C585F2FB18DB6E2E009EEF16 /* Raleway-ExtraLight.otf in Resources */,
 				C585F26918DA2A3B009EEF16 /* btn_small_circle_pressed@2x.png in Resources */,
 				C585F29918DA2A3B009EEF16 /* email_input_icon@2x.png in Resources */,
 				C585F28418DA2A3B009EEF16 /* twitter_icon.png in Resources */,
@@ -1989,16 +2122,22 @@
 				C585F22D18DA2A3B009EEF16 /* input_phone_icon@2x.png in Resources */,
 				C585F25718DA2A3B009EEF16 /* btn_big_circle_normal@2x.png in Resources */,
 				C585F2A818DA2A3B009EEF16 /* btn_yes_no_pressed.png in Resources */,
+				C585F30A18DB6E2E009EEF16 /* Raleway-SemiBold.otf in Resources */,
+				C585F30418DB6E2E009EEF16 /* Raleway-Medium.otf in Resources */,
 				C585F22118DA2A3B009EEF16 /* input_email_icon@2x.png in Resources */,
 				C57C490518BBDB1900DFFBCE /* location1.png in Resources */,
 				C57C490618BBDB1900DFFBCE /* CheckBox_UnselectedDown.png in Resources */,
 				C585F22718DA2A3B009EEF16 /* input_password_icon@2x.png in Resources */,
+				C585F2FE18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */,
 				C57C490718BBDB1900DFFBCE /* PhoneIcon@2x.png in Resources */,
 				C57C490818BBDB1900DFFBCE /* AddPhotoButton@2x.png in Resources */,
 				C57C490A18BBDB1900DFFBCE /* circle.png in Resources */,
 				C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */,
 				C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */,
+				C585F2F818DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */,
 				C57C490D18BBDB1900DFFBCE /* LockIcon@2x.png in Resources */,
+				C585F2F518DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */,
+				C585F30D18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C585F2A518DA2A3B009EEF16 /* btn_yes_no_normal@2x.png in Resources */,
 				C585F28D18DA2A3B009EEF16 /* btn_login_normal@2x.png in Resources */,
 				C585F23918DA2A3B009EEF16 /* btn_user_badge_pressed@2x.png in Resources */,
@@ -2019,6 +2158,7 @@
 				C585F24B18DA2A3B009EEF16 /* splash_logo_small@2x.png in Resources */,
 				C585F26318DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
 				C532E65418BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
+				C585F30718DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C585F2D818DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */,
 				C585F23018DA2A3B009EEF16 /* btn_user_badge_normal.png in Resources */,
 				C585F26F18DA2A3B009EEF16 /* email_icon@2x.png in Resources */,
@@ -2125,12 +2265,15 @@
 				C520C91418A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C57C48AA18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C520C90E18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
+				C5662BCE18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C532E63418BBF1E900FC111A /* TSConstants.m in Sources */,
 				C532E63A18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
+				C5662BD418DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
 				C532E65018BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
+				C585F2E518DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C532E63118BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
@@ -2169,6 +2312,7 @@
 				C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
+				C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
@@ -2206,6 +2350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5B2E98818CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
+				C5662BD618DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DB118B27C1F00D22682 /* TSEmailOrganizationViewController.m in Sources */,
@@ -2214,6 +2359,7 @@
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
+				C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
@@ -2235,8 +2381,10 @@
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
+				C585F2E718DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */,
+				C5662BCB18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C532E65218BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
@@ -2286,6 +2434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5B2E98718CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
+				C5662BD518DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
 				C57C48B818BBDB1900DFFBCE /* TSLocationGeofenceTestView.m in Sources */,
 				C57C48B918BBDB1900DFFBCE /* TSUserProfileCell.m in Sources */,
 				C57C48BA18BBDB1900DFFBCE /* UIImage+Resize.m in Sources */,
@@ -2294,6 +2443,7 @@
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
 				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
+				C5662BCF18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5391EAF18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
 				C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
@@ -2315,8 +2465,10 @@
 				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
 				C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */,
 				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
+				C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
+				C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,

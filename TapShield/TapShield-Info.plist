@@ -61,5 +61,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Raleway-Thin.otf</string>
+		<string>Raleway-SemiBold.otf</string>
+		<string>Raleway-Regular.otf</string>
+		<string>Raleway-Medium.otf</string>
+		<string>Raleway-Light.otf</string>
+		<string>Raleway-Heavy.otf</string>
+		<string>Raleway-ExtraLight.otf</string>
+		<string>Raleway-ExtraBold.otf</string>
+		<string>Raleway-Bold.otf</string>
+	</array>
 </dict>
 </plist>

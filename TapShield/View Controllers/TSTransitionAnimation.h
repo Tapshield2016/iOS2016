@@ -11,5 +11,8 @@
 @interface TSTransitionAnimation : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign) BOOL isPresenting;
+@property (nonatomic, assign) BOOL isDismissing;
+@property (nonatomic, assign) BOOL isPushing;
+@property (nonatomic, assign) BOOL isPopping;
 
 @end

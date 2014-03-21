@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "TSTransitionAnimation.h"
 
-@interface TSTransitionDelegate : NSObject <UIViewControllerTransitioningDelegate>
+@interface TSTransitionDelegate : NSObject <UIViewControllerTransitioningDelegate, UINavigationControllerDelegate>
 
 @end

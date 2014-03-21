@@ -10,6 +10,7 @@
 #import "TSJavelinAPIClient.h"
 #import "TSLoginViewController.h"
 #import "TSRegisterViewController.h"
+#import "TSAnimatedView.h"
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>
@@ -40,6 +41,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 @property (nonatomic, strong) NSArray *accounts;
 @property (nonatomic, strong) LIALinkedInHttpClient *linkedInClient;
 
+@property (nonatomic, strong) NSArray *buttonArray;
+
 @end
 
 @implementation TSSocialAuthorizationViewController
@@ -48,12 +51,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 {
     [super viewDidLoad];
     
-    
-    [[_emailButton imageView] setContentMode: UIViewContentModeCenter];
-    [[_twitterButton imageView] setContentMode: UIViewContentModeRight];
-    
-    
-    NSLog(@"%@", _twitterButton.imageView);
+    _buttonArray = @[_facebookView, _twitterView, _googleView, _linkedinView, _emailView];
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
     
@@ -97,13 +95,15 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (_logIn) {
-        [self.view sendSubviewToBack:_signUpButton];
-        [self animateLoginButtons];
-    }
-    else {
-        [self.view sendSubviewToBack:_loginButton];
-        [self animateSignupButtons];
+    if (!_hasAnimated) {
+        if (_logIn) {
+            [self.view sendSubviewToBack:_signUpButton];
+            [self animateLoginButtons];
+        }
+        else {
+            [self.view sendSubviewToBack:_loginButton];
+            [self animateSignupButtons];
+        }
     }
     
     UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
@@ -114,30 +114,29 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 - (void)animateLoginButtons {
     
     float endAngle = 2 * M_PI - M_PI_2 - 0.2f;
-    float increment = M_PI/4.5;
-    NSArray *buttonArray = @[_facebookLoginView, _twitterButton, _signInGooglePlusButton, _linkedInButton, _emailButton];
+    float increment = M_PI/4.3;
     
-    [self animateButtons:buttonArray aroundFrame:_loginButton startingFromAngle:M_PI firstEndingAngle:endAngle separatedByAngle:increment];
+    [self animateButtons:_buttonArray aroundFrame:_loginButton startingFromAngle:M_PI firstEndingAngle:endAngle separatedByAngle:increment];
 }
 
 - (void)animateSignupButtons {
     
     float endAngle = 2 * M_PI - M_PI_2 + 0.2f;
-    float increment = -M_PI/4.5;
-    NSArray *buttonArray = @[_facebookLoginView, _twitterButton, _signInGooglePlusButton, _linkedInButton, _emailButton];
+    float increment = -M_PI/4.3;
     
-    [self animateButtons:buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
-    
+    [self animateButtons:_buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
 }
 
 - (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
     
-    for (UIView *circleButtons in buttons) {
+    _hasAnimated = YES;
+    
+    for (TSAnimatedView *circleButtons in buttons) {
         if (endAngle >= 2 * M_PI) {
             endAngle -= 2 * M_PI;
         }
         
-        [((TSCircularButton *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f];
+        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f];
         
         endAngle += increment;
     }
@@ -167,7 +166,9 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRegisterViewController class])];
     }
     
-    [self.navigationController pushViewController:viewController animated:YES];
+    _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    
+    [self pushViewControllerWithClass:[TSLoginViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
 }
 
 

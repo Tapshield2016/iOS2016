@@ -12,6 +12,7 @@
 #import <GooglePlus/GooglePlus.h>
 #import "TSFacebookLogin.h"
 #import "TSGooglePlusButton.h"
+#import "TSAnimatedView.h"
 
 @class GPPSignInButton;
 
@@ -26,7 +27,17 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *linkedInButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *emailButton;
 
+@property (weak, nonatomic) IBOutlet TSAnimatedView *facebookView;
+@property (weak, nonatomic) IBOutlet TSAnimatedView *twitterView;
+@property (weak, nonatomic) IBOutlet TSAnimatedView *googleView;
+@property (weak, nonatomic) IBOutlet TSAnimatedView *linkedinView;
+@property (weak, nonatomic) IBOutlet TSAnimatedView *emailView;
+
+@property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
+
+
 @property (nonatomic) BOOL logIn;
+@property (nonatomic) BOOL hasAnimated;
 
 - (IBAction)dismissViewController:(id)sender;
 

@@ -24,6 +24,8 @@
 
 - (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated;
 
+- (void)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated;
+
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (strong, nonatomic) UIToolbar *toolbar;
 

@@ -196,6 +196,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Login/Registration Methods
 
+
+
 - (void)registerUserWithAgencyID:(NSUInteger)agencyID
                     emailAddress:(NSString *)emailAddress
                         password:(NSString *)password
@@ -204,12 +206,36 @@ static dispatch_once_t onceToken;
                        firstName:(NSString *)firstName
                         lastName:(NSString *)lastName
                       completion:(void (^)(id responseObject))completion {
+    
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if (agencyID) {
+        [mutableDictionary setObject:@(agencyID) forKey:@"agency"];
+    }
+    if (emailAddress) {
+        [mutableDictionary setObject:emailAddress forKey:@"email"];
+    }
+    if (password) {
+        [mutableDictionary setObject:password forKey:@"password"];
+    }
+    if (phoneNumber) {
+        [mutableDictionary setObject:phoneNumber forKey:@"phone_number"];
+    }
+    if (disarmCode) {
+        [mutableDictionary setObject:disarmCode forKey:@"disarm_code"];
+    }
+    if (firstName) {
+        [mutableDictionary setObject:firstName forKey:@"first_name"];
+    }
+    if (lastName) {
+        [mutableDictionary setObject:lastName forKey:@"last_name"];
+    }
+    
+    
     // Set default Authorization token for allowing access to register API method
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                            forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/register/"
-    parameters:@{@"email": emailAddress, @"password": password, @"agency": @(agencyID),
-                 @"phone_number": phoneNumber, @"disarm_code": disarmCode, @"first_name": firstName, @"last_name": lastName}
+    parameters:mutableDictionary
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            [self storeUserCredentials:emailAddress password:password];

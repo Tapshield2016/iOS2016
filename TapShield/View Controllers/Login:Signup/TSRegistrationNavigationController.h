@@ -9,16 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "TSOrganizationSearchViewController.h"
 #import "TSRegisterViewController.h"
+#import "TSEmailVerificationViewController.h"
+#import "TSPhoneVerificationViewController.h"
 
 @interface TSRegistrationNavigationController : UINavigationController <UINavigationBarDelegate, UINavigationControllerDelegate>
-
 
 - (id)initWithoutOrganizationViewController;
 - (id)initWithOrganizationViewController;
 
 @property (nonatomic, strong) UIView *progressView;
 @property (nonatomic, strong) UIImageView *progressImageView;
+@property (nonatomic, strong) UIBarButtonItem *nextButton;
+
+@property (nonatomic, strong) NSArray *registrationViewControllers;
+
 @property (nonatomic, strong) TSOrganizationSearchViewController *organizationSearchViewController;
 @property (nonatomic, strong) TSRegisterViewController *registerViewController;
+@property (nonatomic, strong) TSEmailVerificationViewController *emailVerificationViewController;
+@property (nonatomic, strong) TSPhoneVerificationViewController *phoneVerificationViewController;
 
 @end

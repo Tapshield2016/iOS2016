@@ -8,6 +8,7 @@
 
 #import "TSRegisterViewController.h"
 #import "TSEmailVerificationViewController.h"
+#import "TSRegistrationNavigationController.h"
 
 @interface TSRegisterViewController ()
 
@@ -18,6 +19,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
+    self.navigationItem.rightBarButtonItem = nextButton;
     
     _containerView.backgroundColor = [TSColorPalette listBackgroundColor];
     
@@ -52,6 +56,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 #pragma mark - Button
 
@@ -124,15 +129,15 @@
 
 - (void)segueToEmailVerification {
     
-    TSEmailVerificationViewController *emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSEmailVerificationViewController"];
-    emailVerificationViewController.email = [_emailTextField.text lowercaseString];
-    emailVerificationViewController.password = _passwordTextField.text;
+    TSRegistrationNavigationController *navigationController = (TSRegistrationNavigationController *)self.navigationController;
     
-    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].isEmailVerified) {
-        [emailVerificationViewController segueToPhoneVerification];
-        return;
+    if (!navigationController.emailVerificationViewController) {
+        navigationController.emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSEmailVerificationViewController"];
+        navigationController.emailVerificationViewController.email = [_emailTextField.text lowercaseString];
+        navigationController.emailVerificationViewController.password = _passwordTextField.text;
     }
-    [self.navigationController pushViewController:emailVerificationViewController animated:YES];
+    
+    [self.navigationController pushViewController:navigationController.emailVerificationViewController animated:YES];
 }
 
 #pragma mark - Keyboard

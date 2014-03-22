@@ -44,6 +44,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.delegate = self;
+    //self.navigationBar.delegate = self;
+    
+    _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSRegisterViewController class], [TSEmailVerificationViewController class], [TSPhoneVerificationViewController class]];
+    
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     
     self.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
@@ -63,6 +68,25 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)pushNextViewController {
+    
+    int i = 0;
+    for (Class class in _registrationViewControllers) {
+        if (class == self.topViewController) {
+            i++;
+            break;
+        }
+        i++;
+    }
+    
+    if (i < _registrationViewControllers.count) {
+        [self pushViewControllerWithClass:_registrationViewControllers[i] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    }
+    else {
+        
+    }
 }
 
 #pragma mark - Navigation Bar Delegate
@@ -96,6 +120,18 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     
+}
+
+- (void)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated {
+    
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
+    
+    if (transitionDelegate && navigationDelegate) {
+        viewController.transitioningDelegate = transitionDelegate;
+        self.navigationController.delegate = navigationDelegate;
+    }
+    
+    [self pushViewController:viewController animated:YES];
 }
 
 

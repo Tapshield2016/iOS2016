@@ -1020,7 +1020,6 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create account" id="zjp-H0-eVn"/>
                     <connections>
                         <outlet property="containerView" destination="VbL-zn-h1N" id="vah-QW-gkt"/>
                         <outlet property="emailTextField" destination="pEe-7S-kTe" id="m1t-06-JF8"/>

@@ -31,6 +31,7 @@
         _skipCancelButton.title = @"Cancel";
     }
     
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)didReceiveMemoryWarning

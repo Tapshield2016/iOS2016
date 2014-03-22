@@ -44,15 +44,33 @@
 
 
 - (IBAction)noOrganization:(id)sender {
-    TSRegistrationNavigationController *navigationController = [[TSRegistrationNavigationController alloc] initWithoutOrganizationViewController];
     
-    [self presentViewController:navigationController animated:YES completion:nil];
+    if (!_navigationDelegate) {
+        _navigationDelegate = [[TSRegistrationNavigationDelegate alloc] init];
+    }
+    
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRegisterViewController class])];
+    
+    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    [_navigationDelegate customizeRegistrationNavigationController:navigationViewController];
+    
+    [self presentViewController:navigationViewController animated:YES completion:nil];
 }
 
 - (IBAction)yesOrganization:(id)sender {
-    TSRegistrationNavigationController *navigationController = [[TSRegistrationNavigationController alloc] initWithOrganizationViewController];
     
-    [self presentViewController:navigationController animated:YES completion:nil];
+    if (!_navigationDelegate) {
+        _navigationDelegate = [[TSRegistrationNavigationDelegate alloc] init];
+    }
+    
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSOrganizationSearchViewController class])];
+    
+    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    [_navigationDelegate customizeRegistrationNavigationController:navigationViewController];
+    
+    [self presentViewController:navigationViewController animated:YES completion:nil];
 }
 
 @end

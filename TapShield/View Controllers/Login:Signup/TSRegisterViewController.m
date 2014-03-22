@@ -8,7 +8,7 @@
 
 #import "TSRegisterViewController.h"
 #import "TSEmailVerificationViewController.h"
-#import "TSRegistrationNavigationController.h"
+#import "TSRegistrationNavigationDelegate.h"
 
 @interface TSRegisterViewController ()
 
@@ -129,15 +129,16 @@
 
 - (void)segueToEmailVerification {
     
-    TSRegistrationNavigationController *navigationController = (TSRegistrationNavigationController *)self.navigationController;
+//    TSRegistrationNavigationController *navigationController = (TSRegistrationNavigationController *)self.navigationController;
+//    
+//    if (!navigationController.emailVerificationViewController) {
+//        navigationController.emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSEmailVerificationViewController"];
+//        navigationController.emailVerificationViewController.email = [_emailTextField.text lowercaseString];
+//        navigationController.emailVerificationViewController.password = _passwordTextField.text;
+//    }
     
-    if (!navigationController.emailVerificationViewController) {
-        navigationController.emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSEmailVerificationViewController"];
-        navigationController.emailVerificationViewController.email = [_emailTextField.text lowercaseString];
-        navigationController.emailVerificationViewController.password = _passwordTextField.text;
-    }
     
-    [self.navigationController pushViewController:navigationController.emailVerificationViewController animated:YES];
+    [self pushViewControllerWithClass:[TSEmailVerificationViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
 }
 
 #pragma mark - Keyboard

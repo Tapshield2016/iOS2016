@@ -1029,7 +1029,6 @@
                         <outlet property="phoneNumberTextField" destination="k2j-RU-ApS" id="904-98-t7h"/>
                         <outlet property="phoneView" destination="TVT-Ox-CJl" id="quq-lY-dtS"/>
                         <outlet property="scrollView" destination="8VG-8E-epY" id="ZIe-kB-pmU"/>
-                        <segue destination="mjo-E3-Aqu" kind="push" identifier="registerToEmailConfirmation" id="LiU-3R-Oo8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wrD-Ks-vQj" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -12,10 +12,9 @@
 #import "TSEmailVerificationViewController.h"
 #import "TSPhoneVerificationViewController.h"
 
-@interface TSRegistrationNavigationController : UINavigationController <UINavigationBarDelegate, UINavigationControllerDelegate>
+@interface TSRegistrationNavigationDelegate : NSObject <UINavigationBarDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
 
-- (id)initWithoutOrganizationViewController;
-- (id)initWithOrganizationViewController;
+- (void)customizeRegistrationNavigationController:(UINavigationController *)navigationController;
 
 @property (nonatomic, strong) UIView *progressView;
 @property (nonatomic, strong) UIImageView *progressImageView;

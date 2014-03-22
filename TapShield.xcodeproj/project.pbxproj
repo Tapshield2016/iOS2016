@@ -205,9 +205,9 @@
 		C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
 		C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
 		C5662BE518DCB49800FD4F44 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
-		C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationController.m */; };
-		C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationController.m */; };
-		C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationController.m */; };
+		C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */; };
+		C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */; };
+		C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */; };
 		C5662BEE18DD091500FD4F44 /* TSBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BED18DD091500FD4F44 /* TSBorderedView.m */; };
 		C5662BEF18DD091500FD4F44 /* TSBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BED18DD091500FD4F44 /* TSBorderedView.m */; };
 		C5662BF018DD091500FD4F44 /* TSBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BED18DD091500FD4F44 /* TSBorderedView.m */; };
@@ -801,8 +801,8 @@
 		C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRalewayFont.m; sourceTree = "<group>"; };
 		C5662BE118DCB49800FD4F44 /* TSBaseTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBaseTextField.h; sourceTree = "<group>"; };
 		C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBaseTextField.m; sourceTree = "<group>"; };
-		C5662BE618DCE42E00FD4F44 /* TSRegistrationNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationNavigationController.h; path = "View Controllers/Login:Signup/TSRegistrationNavigationController.h"; sourceTree = "<group>"; };
-		C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegistrationNavigationController.m; path = "View Controllers/Login:Signup/TSRegistrationNavigationController.m"; sourceTree = "<group>"; };
+		C5662BE618DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationNavigationDelegate.h; path = "View Controllers/Login:Signup/TSRegistrationNavigationDelegate.h"; sourceTree = "<group>"; };
+		C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegistrationNavigationDelegate.m; path = "View Controllers/Login:Signup/TSRegistrationNavigationDelegate.m"; sourceTree = "<group>"; };
 		C5662BEC18DD091500FD4F44 /* TSBorderedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBorderedView.h; path = Views/TSBorderedView.h; sourceTree = "<group>"; };
 		C5662BED18DD091500FD4F44 /* TSBorderedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBorderedView.m; path = Views/TSBorderedView.m; sourceTree = "<group>"; };
 		C5662BF118DD0C8B00FD4F44 /* TSRegistrationTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationTextField.h; path = Views/TextFields/TSRegistrationTextField.h; sourceTree = "<group>"; };
@@ -1418,8 +1418,8 @@
 		C5662BEB18DCE43B00FD4F44 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				C5662BE618DCE42E00FD4F44 /* TSRegistrationNavigationController.h */,
-				C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationController.m */,
+				C5662BE618DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.h */,
+				C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */,
 				C5372DAE18B27C1F00D22682 /* TSAskOrganizationViewController.h */,
 				C5372DAF18B27C1F00D22682 /* TSAskOrganizationViewController.m */,
 				C5372DB218B27C3600D22682 /* TSOrganizationSearchViewController.h */,
@@ -2387,7 +2387,7 @@
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
-				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationController.m in Sources */,
+				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C51A40A818CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
@@ -2454,7 +2454,7 @@
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C532E65218BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
-				C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationController.m in Sources */,
+				C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C532E64518BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
@@ -2545,7 +2545,7 @@
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
-				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationController.m in Sources */,
+				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AC18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C532E63218BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C57C48D218BBDB1900DFFBCE /* TSAskOrganizationViewController.m in Sources */,

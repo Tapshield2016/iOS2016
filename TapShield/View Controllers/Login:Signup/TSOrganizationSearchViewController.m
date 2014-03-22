@@ -21,6 +21,11 @@
     _statusString = @"Locating...";
     
     [self getOrganizationsToDisplay];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    [_cancelBarButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [_skipCancelButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -30,8 +35,6 @@
     if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
         _skipCancelButton.title = @"Cancel";
     }
-    
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -220,4 +223,12 @@
 }
 
 
+- (IBAction)dismissRegistration:(id)sender {
+    
+    NSLog(@"%@", self.presentingViewController.presentingViewController);
+    NSLog(@"%@", self.navigationController.presentingViewController);
+    NSLog(@"%@", ((UINavigationController *)self.presentingViewController).topViewController);
+    
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
 @end

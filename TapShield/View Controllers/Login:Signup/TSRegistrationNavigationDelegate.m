@@ -93,6 +93,24 @@ NSString * const progress4 = @"progress_bar_s4";
     int i = 0;
     for (Class class in _registrationViewControllers) {
         if ([viewController isKindOfClass:class]) {
+            
+//            UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, _progressView.frame.size.height)];
+//            containerView.opaque = NO;
+//            containerView.backgroundColor = [UIColor clearColor];
+//            containerView.clipsToBounds = YES;
+//            UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:progressArray[i]]];
+//            imageView.contentMode = UIViewContentModeCenter;
+//            
+//            [containerView addSubview:imageView];
+//            [_progressView addSubview:containerView];
+//            
+//            [UIView animateWithDuration:1.0f animations:^{
+//                containerView.frame = _progressImageView.frame;
+//            } completion:^(BOOL finished) {
+//                _progressImageView.image = imageView.image;
+//                [containerView removeFromSuperview];
+//            }];
+            
             _progressImageView.image = [UIImage imageNamed:progressArray[i]];
         }
         i++;

@@ -22,5 +22,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *skipCancelButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBarButton;
+- (IBAction)dismissRegistration:(id)sender;
 
 @end

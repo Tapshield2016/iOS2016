@@ -857,7 +857,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search For Organization" id="xCa-pE-w9H">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                     <connections>
@@ -866,7 +866,7 @@
                                 </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OrganizationCell" textLabel="QUf-mw-1kW" rowHeight="51" style="IBUITableViewCellStyleDefault" id="ByY-2V-Q6V" customClass="TSOrganizationCell">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="51"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ByY-2V-Q6V" id="jD2-Xw-Bfy">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -898,13 +898,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Organization" id="ui6-cH-74L">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Pul-UL-3I5">
+                            <connections>
+                                <action selector="dismissRegistration:" destination="U4Y-Qf-oML" id="ZJS-6Q-7Ea"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Skip" style="done" id="5gd-N4-grM">
                             <connections>
                                 <action selector="skipOrCancel:" destination="U4Y-Qf-oML" id="UxN-QT-kRK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="cancelBarButton" destination="Pul-UL-3I5" id="RSA-N2-JDo"/>
                         <outlet property="searchBar" destination="xCa-pE-w9H" id="buA-cO-bM8"/>
                         <outlet property="searchDisplayController" destination="uEp-X4-b3X" id="xIN-eg-5zM"/>
                         <outlet property="skipCancelButton" destination="5gd-N4-grM" id="HUO-07-QuG"/>
@@ -1020,6 +1027,7 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="containerView" destination="VbL-zn-h1N" id="vah-QW-gkt"/>
                         <outlet property="emailTextField" destination="pEe-7S-kTe" id="m1t-06-JF8"/>

@@ -20,6 +20,7 @@
 {
     [super viewDidLoad];
     
+    
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
     self.navigationItem.rightBarButtonItem = nextButton;
     

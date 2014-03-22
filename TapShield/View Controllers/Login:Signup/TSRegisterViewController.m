@@ -15,24 +15,11 @@
 
 @implementation TSRegisterViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [_registerButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
-    [_registerButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
-    
-    [_addOrganizationButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette darkGrayColor]] forState:UIControlStateNormal];
-    [_addOrganizationButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette darkGrayColor]] forState:UIControlStateHighlighted];
+    _containerView.backgroundColor = [TSColorPalette listBackgroundColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -46,12 +33,7 @@
                                                                           action:@selector(dismissKeyboard)];
     [_scrollView addGestureRecognizer:tap];
     
-	// Do any additional setup after loading the view.
-    _checkAgreeButton.layer.shadowColor = [UIColor grayColor].CGColor;
-    _checkAgreeButton.layer.shadowOffset = CGSizeMake(0, 1);
-    _checkAgreeButton.layer.shadowOpacity = 1;
-    _checkAgreeButton.layer.shadowRadius = 1.0;
-    _checkAgreeButton.clipsToBounds = NO;
+    
     
     if (_emailAddress) {
         _emailTextField.text = _emailAddress;
@@ -61,11 +43,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    if (_agency) {
-        _organizationLabel.text = _agency.name;
-        _addOrganizationButton.alpha = 0.0f;
-    }
+
+    [_phoneNumberTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,18 +54,6 @@
 }
 
 #pragma mark - Button
-
-- (IBAction)removeOrganization:(id)sender {
-    _agency = nil;
-    _organizationLabel.text = @"";
-    _addOrganizationButton.alpha = 1.0f;
-}
-
-- (IBAction)selectAgree:(id)sender {
-    _checkAgreeButton.selected = !_checkAgreeButton.selected;
-    
-    _termsView.backgroundColor = [UIColor clearColor];
-}
 
 - (IBAction)registerUser:(id)sender {
     
@@ -247,18 +214,18 @@
     
     [textField superview].backgroundColor = [UIColor whiteColor];
     
-    if (_disarmCodeTextField == textField) {
-        
-        if ([textField.text length] + [string length] - range.length == 4) {
-            textField.text = [textField.text stringByAppendingString:string];
-            [textField resignFirstResponder];
-            return NO;
-        }
-        else if ([textField.text length] + [string length] - range.length > 4) {
-            return NO;
-        }
-    }
-    else if (_phoneNumberTextField == textField) {
+//    if (_disarmCodeTextField == textField) {
+//        
+//        if ([textField.text length] + [string length] - range.length == 4) {
+//            textField.text = [textField.text stringByAppendingString:string];
+//            [textField resignFirstResponder];
+//            return NO;
+//        }
+//        else if ([textField.text length] + [string length] - range.length > 4) {
+//            return NO;
+//        }
+//    }
+    if (_phoneNumberTextField == textField) {
         NSString *alphaNumericTextField = [self removeNonNumericalCharacters:textField.text];
         if ([string isEqualToString:@""]) {
             if ([alphaNumericTextField length] == 4) {
@@ -321,14 +288,7 @@
     
     BOOL isValid = YES;
     
-    if ([_firstNameTextField.text rangeOfCharacterFromSet: [NSCharacterSet letterCharacterSet]].location == NSNotFound) {
-        isValid = NO;
-        _firstNameView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
-    }
-    if ([_lastNameTextField.text rangeOfCharacterFromSet: [NSCharacterSet letterCharacterSet]].location == NSNotFound) {
-        isValid = NO;
-        _lastNameView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
-    }
+
     if ([_emailTextField.text rangeOfCharacterFromSet: [NSCharacterSet alphanumericCharacterSet]].location == NSNotFound) {
         isValid = NO;
         _emailView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
@@ -341,14 +301,7 @@
         isValid = NO;
         _phoneView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
     }
-    if ([[self removeNonNumericalCharacters:_disarmCodeTextField.text] length] != 4) {
-        isValid = NO;
-        _disarmCodeView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
-    }
-    if (!_checkAgreeButton.selected) {
-        isValid = NO;
-        _termsView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
-    }
+
     
     return isValid;
 }

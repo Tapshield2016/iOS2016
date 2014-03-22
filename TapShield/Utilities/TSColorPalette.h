@@ -17,5 +17,6 @@
 + (UIColor *)charcoalColor;
 + (UIColor *)activeTextColor;
 + (UIColor *)inActiveTextColor;
++ (UIColor *)listBackgroundColor;
 
 @end

@@ -34,6 +34,21 @@
     }];
 }
 
+
+- (void)presentNavigationControllerWithClass:(UINavigationController *)navigationController transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated {
+    
+    navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
+    
+    if (delegate) {
+        [navigationController setTransitioningDelegate:delegate];
+        navigationController.modalPresentationStyle = UIModalPresentationCustom;
+    }
+    [self presentViewController:navigationController animated:animated completion:^{
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }];
+}
+
+
 - (void)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated {
     
     UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];

@@ -85,7 +85,8 @@
 }
 
 + (UIColor *)tapshieldBlue {
-    return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
+    //return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
+    return UIColorFromRGB(0x3aa1d3);
 }
 
 + (UIColor *)tapshieldDarkBlue {
@@ -102,6 +103,10 @@
 
 + (UIColor *)inActiveTextColor {
     return UIColorFromRGB(0xb5b9bd);
+}
+
++ (UIColor *)listBackgroundColor {
+    return UIColorFromRGB(0xe6ebee);
 }
 
 

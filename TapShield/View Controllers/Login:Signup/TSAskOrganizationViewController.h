@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "TSBaseViewController.h"
+#import "TSRegistrationNavigationController.h"
 
 @interface TSAskOrganizationViewController : TSBaseViewController
 @property (weak, nonatomic) IBOutlet UIButton *yesButton;
 @property (weak, nonatomic) IBOutlet UIButton *noButton;
+- (IBAction)noOrganization:(id)sender;
+- (IBAction)yesOrganization:(id)sender;
 
 @end

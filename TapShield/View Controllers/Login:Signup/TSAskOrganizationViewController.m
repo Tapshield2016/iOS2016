@@ -43,7 +43,16 @@
 }
 
 
+- (IBAction)noOrganization:(id)sender {
+    TSRegistrationNavigationController *navigationController = [[TSRegistrationNavigationController alloc] initWithoutOrganizationViewController];
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
 
-
+- (IBAction)yesOrganization:(id)sender {
+    TSRegistrationNavigationController *navigationController = [[TSRegistrationNavigationController alloc] initWithOrganizationViewController];
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
 
 @end

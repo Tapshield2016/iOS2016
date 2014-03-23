@@ -8,6 +8,7 @@
 
 #import "TSWelcomeViewController.h"
 #import "TSIntroPageViewController.h"
+#import "TSGradientSwipeViewController.h"
 
 @interface TSWelcomeViewController ()
 
@@ -26,6 +27,19 @@
     _welcomeLabel.alpha = 0.0f;
     
     _isFirstTimeViewed = YES;
+    
+    _swipeViewController = [[TSGradientSwipeViewController alloc] init];
+    _swipeViewController.view.frame = _swipeLabelView.bounds;
+    _swipeViewController.label.frame = _swipeLabelView.bounds;
+    _swipeViewController.imageView.frame = _swipeLabelView.bounds;
+    [_swipeLabelView addSubview:_swipeViewController.view];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -36,6 +50,13 @@
         [self performSelector:@selector(animation) withObject:nil afterDelay:1.0f];
     }
     _isFirstTimeViewed = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [_swipeViewController.view removeFromSuperview];
 }
 
 - (void)animation {

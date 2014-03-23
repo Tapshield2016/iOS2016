@@ -48,6 +48,8 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     NSString *remoteHostName = @"api.tapshield.com";
 #endif
     
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;

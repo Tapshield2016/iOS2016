@@ -145,14 +145,16 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 - (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
     
     _hasAnimated = YES;
+    int delay = 0.0f;
     
     for (TSAnimatedView *circleButtons in buttons) {
         if (endAngle >= 2 * M_PI) {
             endAngle -= 2 * M_PI;
         }
         
-        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f];
+        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f delay:delay];
         
+        delay += 0.0f;
         endAngle += increment;
     }
 }

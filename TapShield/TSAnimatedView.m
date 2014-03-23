@@ -19,7 +19,7 @@
     return self;
 }
 
-- (void)addCircularAnimationWithCircleFrame:(CGRect)frame arcCenter:(CGPoint)center startAngle:(float)startAngle endAngle:(float)endAngle duration:(float)duration {
+- (void)addCircularAnimationWithCircleFrame:(CGRect)frame arcCenter:(CGPoint)center startAngle:(float)startAngle endAngle:(float)endAngle duration:(float)duration delay:(float)delay {
     
     // Set up path movement
     CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
@@ -31,6 +31,8 @@
     pathAnimation.delegate = self;
     pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     pathAnimation.duration = duration;
+    pathAnimation.beginTime = CACurrentMediaTime() + delay;
+    
     
     // Create a circle path
     CGMutablePathRef curvedPath = CGPathCreateMutable();

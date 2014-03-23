@@ -225,10 +225,8 @@
 
 - (IBAction)dismissRegistration:(id)sender {
     
-    NSLog(@"%@", self.presentingViewController.presentingViewController);
-    NSLog(@"%@", self.navigationController.presentingViewController);
-    NSLog(@"%@", ((UINavigationController *)self.presentingViewController).topViewController);
-    
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }];
 }
 @end

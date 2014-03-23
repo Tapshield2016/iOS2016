@@ -37,9 +37,6 @@ NSString * const progress4 = @"progress_bar_s4";
     
     navigationController.delegate = self;
     
-    navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
-    [navigationController.interactivePopGestureRecognizer setEnabled:YES];
-    
     _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSRegisterViewController class], [TSEmailVerificationViewController class], [TSPhoneVerificationViewController class]];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;

@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "TSJavelinAPIAgency.h"
+#import "TSBaseLabel.h"
 
 @interface TSOrganizationCell : UITableViewCell
 
 @property (nonatomic, strong) TSJavelinAPIAgency *agency;
+@property (strong, nonatomic) TSBaseLabel *organizationLabel;
+@property (strong, nonatomic) UIImageView *logoImageView;
+
 
 @end

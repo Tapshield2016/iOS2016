@@ -32,4 +32,13 @@
     return self;
 }
 
+- (CGRect)textRectForBounds:(CGRect)bounds {
+    return [super textRectForBounds:UIEdgeInsetsInsetRect(bounds, self.edgeInsets)];
+}
+
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+    return [super editingRectForBounds:UIEdgeInsetsInsetRect(bounds, self.edgeInsets)];
+}
+
+
 @end

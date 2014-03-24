@@ -109,5 +109,25 @@
     return UIColorFromRGB(0xe6ebee);
 }
 
++ (UIColor *)listCellTextColor {
+    return UIColorFromRGB(0x606366);
+}
+
++ (UIColor *)cellSeparatorColor {
+    return UIColorFromRGB(0xb9b9c2);
+}
+
++ (UIColor *)tableViewBackgroundColor {
+    return UIColorFromRGB(0xf3f6f9);
+}
+
++ (UIColor *)tableViewHeaderColor {
+    return UIColorFromRGB(0x5eb6e0);
+}
+
++ (UIColor *)searchFieldBackgroundColor {
+    return UIColorFromRGB(0x75bde0);
+}
+
 
 @end

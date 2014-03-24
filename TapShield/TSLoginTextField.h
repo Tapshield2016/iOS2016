@@ -10,6 +10,5 @@
 
 @interface TSLoginTextField : TSBaseTextField
 
-@property (nonatomic, assign) UIEdgeInsets edgeInsets;
 
 @end

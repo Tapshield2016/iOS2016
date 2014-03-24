@@ -40,12 +40,6 @@
     self.edgeInsets = UIEdgeInsetsMake(0, 40, 0, 0);
 }
 
-- (CGRect)textRectForBounds:(CGRect)bounds {
-    return [super textRectForBounds:UIEdgeInsetsInsetRect(bounds, self.edgeInsets)];
-}
 
-- (CGRect)editingRectForBounds:(CGRect)bounds {
-    return [super editingRectForBounds:UIEdgeInsetsInsetRect(bounds, self.edgeInsets)];
-}
 
 @end

@@ -19,10 +19,14 @@
 @property (nonatomic, strong) NSArray *allOrganizationsArray;
 @property (nonatomic, strong) NSArray *nearbyOrganizationArray;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UISearchDisplayController *searchDisplay;
+
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *skipCancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBarButton;
+
+
 - (IBAction)dismissRegistration:(id)sender;
 
 @end

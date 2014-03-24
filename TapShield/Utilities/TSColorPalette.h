@@ -18,5 +18,10 @@
 + (UIColor *)activeTextColor;
 + (UIColor *)inActiveTextColor;
 + (UIColor *)listBackgroundColor;
++ (UIColor *)listCellTextColor;
++ (UIColor *)cellSeparatorColor;
++ (UIColor *)tableViewBackgroundColor;
++ (UIColor *)tableViewHeaderColor;
++ (UIColor *)searchFieldBackgroundColor;
 
 @end

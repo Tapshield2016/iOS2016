@@ -26,6 +26,69 @@
     
     [_cancelBarButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [_skipCancelButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    
+    _searchDisplay = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+    _searchDisplay.delegate = self;
+    _searchDisplay.searchResultsDataSource = self;
+    _searchDisplay.searchResultsDelegate = self;
+    
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    
+    [self customizeTableView:_tableView];
+    
+    [self customizeSearchBarAppearance:_searchBar];
+}
+
+- (void)changeClearButtonStyle {
+    
+    for (UIView *view in ((UITextField *)[_searchBar.subviews firstObject]).subviews) {
+        
+        if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+            
+            for (UIButton *button in ((UITextField *)view).subviews) {
+                
+                if ([button isKindOfClass:[UIButton class]]) {
+                    
+                    [button setImage:[button.imageView.image fillImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+                    [button setImage:[button.imageView.image fillImageWithColor:[UIColor lightTextColor]] forState:UIControlStateHighlighted];
+                }
+            }
+        }
+    }
+}
+
+- (void)customizeSearchBarAppearance:(UISearchBar *)searchBar {
+    
+    UITextField *textField = [((UITextField *)[searchBar.subviews firstObject]).subviews lastObject];
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor = [TSColorPalette searchFieldBackgroundColor];
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0];
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].textColor = [UIColor whiteColor];
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].tintColor = [UIColor whiteColor];
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].borderStyle = UITextBorderStyleNone;
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
+    
+    textField.layer.cornerRadius = 3.0f;
+    textField.layer.masksToBounds = YES;
+    
+    NSLog(@"%@", textField.rightView);
+
+    searchBar.tintColor = [TSColorPalette tapshieldBlue];
+    
+    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayRegular size:17.0f] } forState:UIControlStateNormal];
+    
+    searchBar.barTintColor = [TSColorPalette listBackgroundColor];
+    
+    UIImage *leftViewImage = ((UIImageView *)textField.leftView).image;
+    UIImage *rightViewImage = ((UIImageView *)textField.rightView).image;
+    [searchBar setImage:[leftViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    [searchBar setImage:[rightViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconClear state:UIControlStateHighlighted];
+    
+    for (UIView *view in ((UITextField *)[_searchBar.subviews firstObject]).subviews) {
+        
+        if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+            NSLog(@"%@", ((UITextField *)view).subviews);
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -35,6 +98,7 @@
     if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
         _skipCancelButton.title = @"Cancel";
     }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,11 +107,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Bar Button Action
 
 - (IBAction)skipOrCancel:(id)sender {
     
     [self segueSendingAgency:nil];
 }
+
+#pragma mark - Organization Methods
 
 - (void)segueSendingAgency:(TSJavelinAPIAgency *)agency {
     
@@ -100,17 +167,28 @@
 }
 
 
-#pragma mark Content Filtering
 
--(void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+#pragma mark - Content Filtering
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
     _filteredOrganizationMutableArray = [NSMutableArray arrayWithArray:[_allOrganizationsArray filteredArrayUsingPredicate:predicate]];
 }
 
+#pragma mark - Tabl View Customization
+
+- (void)customizeTableView:(UITableView *)tableView {
+    
+    tableView.separatorColor = [TSColorPalette cellSeparatorColor];
+    tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    [tableView setSectionIndexBackgroundColor:[TSColorPalette tableViewHeaderColor]];
+}
+
+
 #pragma mark - UISearchDisplayController Delegate Methods
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     
     [self filterContentForSearchText:searchString scope:
      [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
@@ -118,13 +196,24 @@
     return YES;
 }
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     
     [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
      [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
     
     return YES;
 }
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+    
+    [self customizeTableView:tableView];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    [self performSelector:@selector(changeClearButtonStyle) withObject:nil afterDelay:0.01];
+}
+
 
 #pragma mark - TableView Delegate
 
@@ -137,32 +226,27 @@
         cell = [[TSOrganizationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    NSString *name;
-    
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        name = ((TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row]).name;
         cell.agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
     } else {
         if (indexPath.section == 0) {
             if (_nearbyOrganizationArray.count == 0) {
-                name = _statusString;
+                cell.organizationLabel.text = _statusString;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setUserInteractionEnabled:NO];
             }
             else {
-                name = ((TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row]).name;
                 cell.agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 [cell setUserInteractionEnabled:YES];
             }
         }
         else {
-            name = ((TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row]).name;
             cell.agency = (TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row];
         }
     }
     
-    cell.textLabel.text = name;
+    cell.backgroundColor = [TSColorPalette tableViewBackgroundColor];
     
     return cell;
 }
@@ -196,6 +280,30 @@
     return @"All";
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    
+    headerView.backgroundColor = [TSColorPalette tableViewHeaderColor];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width - 10, headerView.frame.size.height)];
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0f];
+    [headerView addSubview:label];
+    
+    label.text = @"All";
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        label.text = @"Results";
+    }
+    else if (section == 0) {
+        label.text = @"Organizations Nearby";
+    }
+
+    return headerView;
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -220,6 +328,11 @@
         }
     }
     
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 30.0f;
 }
 
 

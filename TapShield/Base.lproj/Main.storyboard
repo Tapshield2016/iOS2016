@@ -853,37 +853,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="IHs-v9-Wec">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" rowHeight="40" sectionHeaderHeight="30" sectionFooterHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="IHs-v9-Wec">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search For Organization" id="xCa-pE-w9H">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search For Organization" id="xCa-pE-w9H">
                                     <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                     <connections>
                                         <outlet property="delegate" destination="U4Y-Qf-oML" id="dx9-IV-2Bt"/>
                                     </connections>
                                 </searchBar>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OrganizationCell" textLabel="QUf-mw-1kW" rowHeight="51" style="IBUITableViewCellStyleDefault" id="ByY-2V-Q6V" customClass="TSOrganizationCell">
-                                        <rect key="frame" x="0.0" y="130" width="320" height="51"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ByY-2V-Q6V" id="jD2-Xw-Bfy">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Tapshield" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QUf-mw-1kW">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="U4Y-Qf-oML" id="9pw-3m-6Jw"/>
                                     <outlet property="delegate" destination="U4Y-Qf-oML" id="Cwr-xv-QOq"/>
@@ -913,7 +895,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="cancelBarButton" destination="Pul-UL-3I5" id="RSA-N2-JDo"/>
-                        <outlet property="searchBar" destination="xCa-pE-w9H" id="buA-cO-bM8"/>
+                        <outlet property="searchBar" destination="xCa-pE-w9H" id="S8A-Uw-Rxv"/>
                         <outlet property="searchDisplayController" destination="uEp-X4-b3X" id="xIN-eg-5zM"/>
                         <outlet property="skipCancelButton" destination="5gd-N4-grM" id="HUO-07-QuG"/>
                         <outlet property="tableView" destination="IHs-v9-Wec" id="5d5-iE-ox8"/>
@@ -923,7 +905,6 @@
                 <searchDisplayController id="uEp-X4-b3X">
                     <connections>
                         <outlet property="delegate" destination="U4Y-Qf-oML" id="CdQ-kA-UR6"/>
-                        <outlet property="searchBar" destination="xCa-pE-w9H" id="IA7-U4-aFN"/>
                         <outlet property="searchContentsController" destination="U4Y-Qf-oML" id="HCK-75-YpD"/>
                         <outlet property="searchResultsDataSource" destination="U4Y-Qf-oML" id="lEW-eI-G0r"/>
                         <outlet property="searchResultsDelegate" destination="U4Y-Qf-oML" id="n0w-Xc-SFV"/>
@@ -957,7 +938,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="phone (555) 555-5555" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k2j-RU-ApS" customClass="TSRegistrationTextField">
-                                                        <rect key="frame" x="58" y="0.0" width="262" height="40"/>
+                                                        <rect key="frame" x="40" y="0.0" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
@@ -977,7 +958,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pEe-7S-kTe" customClass="TSRegistrationTextField">
-                                                        <rect key="frame" x="58" y="0.0" width="262" height="40"/>
+                                                        <rect key="frame" x="40" y="0.0" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
@@ -997,7 +978,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LFj-V6-WbY" customClass="TSRegistrationTextField">
-                                                        <rect key="frame" x="58" y="0.0" width="262" height="40"/>
+                                                        <rect key="frame" x="40" y="0.0" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet" secureTextEntry="YES"/>

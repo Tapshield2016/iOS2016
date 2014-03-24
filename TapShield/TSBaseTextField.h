@@ -12,4 +12,6 @@
 
 @interface TSBaseTextField : UITextField
 
+@property (nonatomic, assign) UIEdgeInsets edgeInsets;
+
 @end

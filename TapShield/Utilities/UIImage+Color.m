@@ -48,4 +48,24 @@
     return image;
 }
 
+- (UIImage *)fillImageWithColor:(UIColor *)color {
+    
+    //image color change
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:self];
+    
+    CGRect rect = CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextClipToMask(context, rect, self.CGImage);
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIImage *flippedImage = [UIImage imageWithCGImage:img.CGImage
+                                                scale:1.0 orientation: UIImageOrientationDownMirrored];
+    return flippedImage;
+}
+
 @end

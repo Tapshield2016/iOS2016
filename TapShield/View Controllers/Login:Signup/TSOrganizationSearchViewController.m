@@ -41,16 +41,21 @@
 
 - (void)changeClearButtonStyle {
     
-    for (UIView *view in ((UITextField *)[_searchBar.subviews firstObject]).subviews) {
+    if (!_clearButtonImage) {
         
-        if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+        for (UIView *view in ((UITextField *)[_searchBar.subviews firstObject]).subviews) {
             
-            for (UIButton *button in ((UITextField *)view).subviews) {
+            if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
                 
-                if ([button isKindOfClass:[UIButton class]]) {
+                for (UIButton *button in ((UITextField *)view).subviews) {
                     
-                    [button setImage:[button.imageView.image fillImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-                    [button setImage:[button.imageView.image fillImageWithColor:[UIColor lightTextColor]] forState:UIControlStateHighlighted];
+                    if ([button isKindOfClass:[UIButton class]]) {
+                        
+                        _clearButtonImage = [button.imageView.image fillImageWithColor:[UIColor whiteColor]];
+                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor lightTextColor]] forState:UIControlStateHighlighted];
+                        
+                    }
                 }
             }
         }
@@ -156,7 +161,7 @@
         [[TSLocationController sharedLocationController] stopLocationUpdates];
         [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
             if (agencies) {
-                _nearbyOrganizationArray = agencies;
+                self.nearbyOrganizationArray = agencies;
             }
             else {
                 _statusString = @"None Found";
@@ -176,10 +181,12 @@
     _filteredOrganizationMutableArray = [NSMutableArray arrayWithArray:[_allOrganizationsArray filteredArrayUsingPredicate:predicate]];
 }
 
-#pragma mark - Tabl View Customization
+#pragma mark - Table View Customization
 
 - (void)customizeTableView:(UITableView *)tableView {
     
+    tableView.tintColor = [TSColorPalette tapshieldBlue];
+    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.separatorColor = [TSColorPalette cellSeparatorColor];
     tableView.backgroundColor = [TSColorPalette listBackgroundColor];
     [tableView setSectionIndexBackgroundColor:[TSColorPalette tableViewHeaderColor]];
@@ -316,6 +323,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         [self segueSendingAgency:(TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row]];
     }
@@ -328,6 +338,12 @@
         }
     }
     
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryNone;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

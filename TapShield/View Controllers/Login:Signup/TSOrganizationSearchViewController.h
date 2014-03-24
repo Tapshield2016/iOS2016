@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSArray *allOrganizationsArray;
 @property (nonatomic, strong) NSArray *nearbyOrganizationArray;
 
+@property (nonatomic, strong) UIImage *clearButtonImage;
+
 @property (strong, nonatomic) UISearchDisplayController *searchDisplay;
 
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;

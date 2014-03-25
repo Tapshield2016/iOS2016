@@ -53,8 +53,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     
     _buttonArray = @[_facebookView, _twitterView, _googleView, _linkedinView, _emailView];
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
-    
     [_signInGooglePlusButton clearButtonStyleAndCustomize];
     
     [self.view setBackgroundColor:[UIColor clearColor]];
@@ -240,7 +238,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
     NSLog(@"User is logged out...");
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+//    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
 }
 
 #pragma mark - UIActionSheetDelegate

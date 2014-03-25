@@ -46,14 +46,8 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
 - (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken;
 - (void)createLinkedInUser:(NSString *)linkedInAccessToken;
 
-- (void)registerUserWithAgencyID:(NSUInteger)agencyID
-                    emailAddress:(NSString *)emailAddress
-                        password:(NSString *)password
-                     phoneNumber:(NSString *)phoneNumber
-                      disarmCode:(NSString *)disarmCode
-                       firstName:(NSString *)firstName
-                        lastName:(NSString *)lastName
-                      completion:(void (^)(id responseObject))completion;
+- (void)registerUser:(TSJavelinAPIUser *)user
+          completion:(void (^)(id responseObject))completion;
 
 - (void)logInUser:(NSString *)emailAddress password:(NSString *)password completion:(TSJavelinAPIUserBlock)completion;
 - (void)logoutUser:(void (^)(BOOL success))completion;

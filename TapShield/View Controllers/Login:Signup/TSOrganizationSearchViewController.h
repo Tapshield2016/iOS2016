@@ -13,18 +13,18 @@
 
 @interface TSOrganizationSearchViewController : TSBaseViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) NSString *emailAddress;
-@property (nonatomic, strong) NSString *statusString;
-@property (nonatomic, strong) NSMutableArray *filteredOrganizationMutableArray;
-@property (nonatomic, strong) NSArray *allOrganizationsArray;
-@property (nonatomic, strong) NSArray *nearbyOrganizationArray;
-
-@property (nonatomic, strong) UIImage *clearButtonImage;
-
+@property (strong, nonatomic) NSString *emailAddress;
+@property (strong, nonatomic) NSString *statusString;
+@property (strong, nonatomic) NSMutableArray *filteredOrganizationMutableArray;
+@property (strong, nonatomic) NSArray *allOrganizationsArray;
+@property (strong, nonatomic) NSArray *nearbyOrganizationArray;
+@property (strong, nonatomic) UIImage *clearButtonImage;
 @property (strong, nonatomic) UISearchDisplayController *searchDisplay;
+@property (strong, nonatomic) TSJavelinAPIUser *user;
+@property (strong, nonatomic) TSJavelinAPIAgency *previousAgencySelected;
 
-@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *skipCancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBarButton;
 

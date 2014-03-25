@@ -40,8 +40,10 @@
     
     
     
-    if (_emailAddress) {
-        _emailTextField.text = _emailAddress;
+    if (_user) {
+        _emailTextField.text = _user.email;
+        _passwordTextField.text = _user.password;
+        _phoneNumberTextField.text = _user.phoneNumber;
     }
 }
 
@@ -77,26 +79,13 @@
         }
     }
     
-    NSUInteger identifier = 1;
-    if (_agency) {
-        identifier = _agency.identifier;
-    }
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUserWithAgencyID:identifier
-                                                                           emailAddress:[_emailTextField.text lowercaseString]
-                                                                               password:_passwordTextField.text
-                                                                            phoneNumber:_phoneNumberTextField.text
-                                                                             disarmCode:_disarmCodeTextField.text
-                                                                              firstName:_firstNameTextField.text
-                                                                               lastName:_lastNameTextField.text
-                                                                             completion:^(id responseObject) {
-                                                                                 NSLog(@"%@", responseObject);
-                                                                                 [self parseResponseObject:responseObject];
-                                                                             }];
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUser:_user completion:^(id responseObject) {
+        NSLog(@"%@", responseObject);
+        [self parseResponseObject:responseObject];
+    }];
 }
 
 - (void)parseResponseObject:(id)responseObject {
-    
     
     if ([[responseObject objectForKey:@"email"] isKindOfClass:[NSString class]]) {
         if ([[responseObject objectForKey:@"email"] isEqualToString:_emailTextField.text]) {

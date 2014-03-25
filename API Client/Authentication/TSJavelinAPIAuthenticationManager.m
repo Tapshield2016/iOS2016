@@ -198,36 +198,30 @@ static dispatch_once_t onceToken;
 
 
 
-- (void)registerUserWithAgencyID:(NSUInteger)agencyID
-                    emailAddress:(NSString *)emailAddress
-                        password:(NSString *)password
-                     phoneNumber:(NSString *)phoneNumber
-                      disarmCode:(NSString *)disarmCode
-                       firstName:(NSString *)firstName
-                        lastName:(NSString *)lastName
+- (void)registerUser:(TSJavelinAPIUser *)user
                       completion:(void (^)(id responseObject))completion {
     
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
-    if (agencyID) {
-        [mutableDictionary setObject:@(agencyID) forKey:@"agency"];
+    if (user.agency.identifier) {
+        [mutableDictionary setObject:@(user.agency.identifier) forKey:@"agency"];
     }
-    if (emailAddress) {
-        [mutableDictionary setObject:emailAddress forKey:@"email"];
+    if (user.email) {
+        [mutableDictionary setObject:user.email forKey:@"email"];
     }
-    if (password) {
-        [mutableDictionary setObject:password forKey:@"password"];
+    if (user.password) {
+        [mutableDictionary setObject:user.password forKey:@"password"];
     }
-    if (phoneNumber) {
-        [mutableDictionary setObject:phoneNumber forKey:@"phone_number"];
+    if (user.phoneNumber) {
+        [mutableDictionary setObject:user.phoneNumber forKey:@"phone_number"];
     }
-    if (disarmCode) {
-        [mutableDictionary setObject:disarmCode forKey:@"disarm_code"];
+    if (user.disarmCode) {
+        [mutableDictionary setObject:user.disarmCode forKey:@"disarm_code"];
     }
-    if (firstName) {
-        [mutableDictionary setObject:firstName forKey:@"first_name"];
+    if (user.firstName) {
+        [mutableDictionary setObject:user.firstName forKey:@"first_name"];
     }
-    if (lastName) {
-        [mutableDictionary setObject:lastName forKey:@"last_name"];
+    if (user.lastName) {
+        [mutableDictionary setObject:user.lastName forKey:@"last_name"];
     }
     
     
@@ -238,9 +232,9 @@ static dispatch_once_t onceToken;
     parameters:mutableDictionary
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
-           [self storeUserCredentials:emailAddress password:password];
-           _emailAddress = emailAddress;
-           _password = password;
+           [self storeUserCredentials:user.email password:user.password];
+           _emailAddress = user.email;
+           _password = user.password;
            
            if (completion) {
                completion(responseObject);

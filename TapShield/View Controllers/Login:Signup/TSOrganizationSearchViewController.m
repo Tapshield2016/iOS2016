@@ -32,12 +32,112 @@
     _searchDisplay.searchResultsDataSource = self;
     _searchDisplay.searchResultsDelegate = self;
     
-    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.shadowImage = [UIImage imageFromColor:[UIColor whiteColor]];
     
     [self customizeTableView:_tableView];
-    
     [self customizeSearchBarAppearance:_searchBar];
+    
+    _user = [[TSJavelinAPIUser alloc] init];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
+        _skipCancelButton.title = @"Cancel";
+    }
+    
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Bar Button Action
+
+- (IBAction)skipOrCancel:(id)sender {
+    
+    [self segueSendingAgency:nil];
+}
+
+#pragma mark - Organization Methods
+
+- (void)segueSendingAgency:(TSJavelinAPIAgency *)agency {
+    
+    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
+        if (agency) {
+            TSRegisterViewController *registerViewController = [((UINavigationController *)self.presentingViewController).viewControllers lastObject];
+            registerViewController.user = _user;
+        }
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
+    TSRegisterViewController *registerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSRegisterViewController"];
+    if (_user) {
+        registerViewController.user = _user;
+    }
+    
+    [self.navigationController pushViewController:registerViewController animated:YES];
+}
+
+- (void)getOrganizationsToDisplay {
+    [[TSJavelinAPIClient sharedClient] getAgencies:^(NSArray *agencies) {
+        
+        if (!agencies) {
+            return;
+        }
+        
+        _allOrganizationsArray = agencies;
+        _filteredOrganizationMutableArray = [[NSMutableArray alloc] initWithCapacity:_allOrganizationsArray.count];
+        
+        [_tableView reloadData];
+        [self getLocationAndSearchForNearbyAgencies];
+    }];
+}
+
+- (void)getLocationAndSearchForNearbyAgencies {
+    
+    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        [[TSLocationController sharedLocationController] stopLocationUpdates];
+        [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
+            if (agencies) {
+                self.nearbyOrganizationArray = agencies;
+            }
+            else {
+                self.statusString = @"None Found";
+            }
+            [self.tableView reloadData];
+        }];
+    }];
+}
+
+
+
+#pragma mark - Content Filtering
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    _filteredOrganizationMutableArray = [NSMutableArray arrayWithArray:[_allOrganizationsArray filteredArrayUsingPredicate:predicate]];
+}
+
+#pragma mark - Table View Customization
+
+- (void)customizeTableView:(UITableView *)tableView {
+    
+    tableView.separatorInset = UIEdgeInsetsZero;
+    tableView.tintColor = [TSColorPalette tapshieldBlue];
+    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    tableView.separatorColor = [TSColorPalette cellSeparatorColor];
+    tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    [tableView setSectionIndexBackgroundColor:[TSColorPalette tableViewHeaderColor]];
+}
+
+#pragma mark - Search Bar Customization
 
 - (void)changeClearButtonStyle {
     
@@ -75,8 +175,6 @@
     textField.layer.cornerRadius = 3.0f;
     textField.layer.masksToBounds = YES;
     
-    NSLog(@"%@", textField.rightView);
-
     searchBar.tintColor = [TSColorPalette tapshieldBlue];
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayRegular size:17.0f] } forState:UIControlStateNormal];
@@ -84,112 +182,7 @@
     searchBar.barTintColor = [TSColorPalette listBackgroundColor];
     
     UIImage *leftViewImage = ((UIImageView *)textField.leftView).image;
-    UIImage *rightViewImage = ((UIImageView *)textField.rightView).image;
     [searchBar setImage:[leftViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    [searchBar setImage:[rightViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconClear state:UIControlStateHighlighted];
-    
-    for (UIView *view in ((UITextField *)[_searchBar.subviews firstObject]).subviews) {
-        
-        if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-            NSLog(@"%@", ((UITextField *)view).subviews);
-        }
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
-    
-    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
-        _skipCancelButton.title = @"Cancel";
-    }
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Bar Button Action
-
-- (IBAction)skipOrCancel:(id)sender {
-    
-    [self segueSendingAgency:nil];
-}
-
-#pragma mark - Organization Methods
-
-- (void)segueSendingAgency:(TSJavelinAPIAgency *)agency {
-    
-    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
-        if (agency) {
-            TSRegisterViewController *registerViewController = [((UINavigationController *)self.presentingViewController).viewControllers lastObject];
-            registerViewController.agency = agency;
-        }
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return;
-    }
-    
-    TSRegisterViewController *registerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSRegisterViewController"];
-    if (agency) {
-        registerViewController.agency = agency;
-    }
-    registerViewController.emailAddress = _emailAddress;
-    [self.navigationController pushViewController:registerViewController animated:YES];
-}
-
-- (void)getOrganizationsToDisplay {
-    [[TSJavelinAPIClient sharedClient] getAgencies:^(NSArray *agencies) {
-        
-        if (!agencies) {
-            return;
-        }
-        
-        _allOrganizationsArray = agencies;
-        _filteredOrganizationMutableArray = [[NSMutableArray alloc] initWithCapacity:_allOrganizationsArray.count];
-        
-        [_tableView reloadData];
-        [self getLocationAndSearchForNearbyAgencies];
-    }];
-}
-
-- (void)getLocationAndSearchForNearbyAgencies {
-    
-    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
-        [[TSLocationController sharedLocationController] stopLocationUpdates];
-        [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
-            if (agencies) {
-                self.nearbyOrganizationArray = agencies;
-            }
-            else {
-                _statusString = @"None Found";
-            }
-            [_tableView reloadData];
-        }];
-    }];
-}
-
-
-
-#pragma mark - Content Filtering
-
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
-    _filteredOrganizationMutableArray = [NSMutableArray arrayWithArray:[_allOrganizationsArray filteredArrayUsingPredicate:predicate]];
-}
-
-#pragma mark - Table View Customization
-
-- (void)customizeTableView:(UITableView *)tableView {
-    
-    tableView.tintColor = [TSColorPalette tapshieldBlue];
-    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    tableView.separatorColor = [TSColorPalette cellSeparatorColor];
-    tableView.backgroundColor = [TSColorPalette listBackgroundColor];
-    [tableView setSectionIndexBackgroundColor:[TSColorPalette tableViewHeaderColor]];
 }
 
 
@@ -221,6 +214,15 @@
     [self performSelector:@selector(changeClearButtonStyle) withObject:nil afterDelay:0.01];
 }
 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    _user.agency = _previousAgencySelected;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    
+    _previousAgencySelected = _user.agency;
+}
 
 #pragma mark - TableView Delegate
 
@@ -253,7 +255,18 @@
         }
     }
     
+    UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+    selectedView.backgroundColor = [TSColorPalette whiteColor];
+    cell.selectedBackgroundView = selectedView;
     cell.backgroundColor = [TSColorPalette tableViewBackgroundColor];
+    
+    if ([_user.agency.name isEqualToString:cell.agency.name]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }
@@ -321,20 +334,35 @@
     return 2;
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell.selected) {
+        cell.selected = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        _user.agency = nil;
+        return nil;
+    }
+    
+    return indexPath;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        [self segueSendingAgency:(TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row]];
+        _user.agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
+        [self.searchDisplayController setActive:NO animated:YES];
+        [_tableView reloadData];
     }
     else {
         if (indexPath.section == 0) {
-            [self segueSendingAgency:(TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row]];
+            _user.agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
         }
         else {
-            [self segueSendingAgency:(TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row]];
+            _user.agency = (TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row];
         }
     }
     

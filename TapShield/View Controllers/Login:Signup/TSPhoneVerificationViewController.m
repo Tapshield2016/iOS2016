@@ -28,8 +28,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [_resendButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
-    [_resendButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationWillEnterForeground)
@@ -131,12 +132,6 @@
         if ([self removeNonNumericalCharacters:textField.text].length == 10) {
             textField.text = [self formatPhoneNumber:textField.text];
         }
-        
-        textField.textColor = [TSColorPalette whiteColor];
-        [self phoneIconSelected:NO];
-        [UIView animateWithDuration:0.1f animations:^{
-            _phoneNumberBackgroundView.alpha = 1.0f;
-        }];
     }
     else if (_verificationCodeTextField == textField) {
         
@@ -149,14 +144,6 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     
-    if (_phoneNumberTextField == textField) {
-        textField.textColor = [TSColorPalette blackColor];
-        [self phoneIconSelected:YES];
-        
-        [UIView animateWithDuration:0.1f animations:^{
-            _phoneNumberBackgroundView.alpha = 0.0f;
-        }];
-    }
     
 }
 
@@ -194,30 +181,18 @@
     view.superview.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
 }
 
-- (void)phoneIconSelected:(BOOL)editing {
-    UIImage *selectedImage = _iPhoneImageView.image;
-    
-    if (!editing) {
-        _iPhoneImageView.image = [UIImage imageNamed:@"iPhoneIcon"];
-        return;
-    }
-    
-    //image color change
-    CGRect rect = CGRectMake(0, 0, _iPhoneImageView.frame.size.width, _iPhoneImageView.frame.size.height);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextClipToMask(context, rect, selectedImage.CGImage);
-    CGContextSetFillColorWithColor(context, [[TSColorPalette darkGrayColor] CGColor]);
-    CGContextFillRect(context, rect);
-    selectedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    _iPhoneImageView.image = [UIImage imageWithCGImage:selectedImage.CGImage scale:1.0f orientation: UIImageOrientationDownMirrored];
-}
 
 #pragma mark - Activity Indicator
 
 - (void)startCodeVerificationIndicator {
+    
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
+        [_verificationCodeTextField.rightView addSubview:_activityIndicatorView];
+    }
+    
+    
     [_activityIndicatorView startAnimating];
     [UIView animateWithDuration:0.1f animations:^{
         _activityIndicatorView.alpha = 1.0f;

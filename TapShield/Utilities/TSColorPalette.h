@@ -23,5 +23,6 @@
 + (UIColor *)tableViewBackgroundColor;
 + (UIColor *)tableViewHeaderColor;
 + (UIColor *)searchFieldBackgroundColor;
++ (UIColor *)registrationButtonTextColor;
 
 @end

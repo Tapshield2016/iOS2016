@@ -1010,6 +1010,7 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                     </view>
+                    <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="containerView" destination="VbL-zn-h1N" id="vah-QW-gkt"/>
@@ -1880,10 +1881,10 @@ Last Updated: 12/12/13
             </objects>
             <point key="canvasLocation" x="2405" y="402"/>
         </scene>
-        <!--Phone Verification View Controller - Phone Verification-->
+        <!--Phone Verification View Controller - Verification-->
         <scene sceneID="ttN-4X-faa">
             <objects>
-                <viewController storyboardIdentifier="TSPhoneVerificationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSPhoneVerificationViewController" title="Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oyY-O6-C7a"/>
                         <viewControllerLayoutGuide type="bottom" id="NjR-rd-M8u"/>
@@ -1892,14 +1893,11 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjk-W9-PjA">
-                                <rect key="frame" x="0.0" y="498" width="320" height="70"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjk-W9-PjA" customClass="TSRegistrationButton">
+                                <rect key="frame" x="0.0" y="312" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="IyX-ui-6KX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Re-send Verification SMS">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1907,125 +1905,62 @@ Last Updated: 12/12/13
                                     <action selector="resendSMS:" destination="3Ml-FN-RnH" eventType="touchUpInside" id="Weh-Iv-CZX"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please check your text messages for a verification code." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="JHG-77-Thb">
-                                <rect key="frame" x="20" y="358" width="280" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="LT0-h1-X7G"/>
-                                    <constraint firstAttribute="height" constant="70" id="NyX-To-Q8O"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nhN-6m-dde">
-                                <rect key="frame" x="0.0" y="84" width="320" height="69"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7gE-B1-0gW" userLabel="codeView" customClass="TSBorderedView">
+                                <rect key="frame" x="0.0" y="174" width="320" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FiK-CE-fL8">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTM-fP-WXS" customClass="TSRegistrationTextField">
+                                        <rect key="frame" x="140" y="0.0" width="180" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <attributedString key="attributedText"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsk-TM-VGt">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" none="YES"/>
-                                        </accessibility>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
-                                        <inset key="titleEdgeInsets" minX="-46" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="(555) 555-5555" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qPh-2B-EnE">
-                                        <rect key="frame" x="70" y="0.0" width="250" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3Ml-FN-RnH" id="NPN-ju-fvk"/>
-                                        </connections>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="iphoneIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="d6M-Me-irM">
-                                        <rect key="frame" x="21" y="10" width="28" height="50"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your code:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIo-3H-5pN" customClass="TSRegistrationLabel">
+                                        <rect key="frame" x="8" y="0.0" width="123" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31h-H7-9WZ" userLabel="phoneView" customClass="TSBorderedView">
+                                <rect key="frame" x="0.0" y="89" width="320" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(555) 555-5555" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Se8-ax-53X" customClass="TSRegistrationTextField">
+                                        <rect key="frame" x="40" y="0.0" width="280" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
+                                    </textField>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ehh-sF-iWa">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="He8-sv-1I0">
-                                <rect key="frame" x="0.0" y="153" width="320" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jt8-uQ-2bY">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <attributedString key="attributedText"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Code (1234)" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZGt-oH-FtD">
-                                        <rect key="frame" x="70" y="0.0" width="262" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3Ml-FN-RnH" id="JL4-9x-NTi"/>
-                                        </connections>
-                                    </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LockIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Rek-RX-Eqb">
-                                        <rect key="frame" x="15" y="20" width="40" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Lwj-yy-Fkc">
-                                        <rect key="frame" x="280" y="25" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="dEb-Xm-kSt">
-                                <rect key="frame" x="20" y="232" width="280" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.86666667460000002" green="0.2941176593" blue="0.22352941330000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="JHG-77-Thb" secondAttribute="trailing" constant="20" id="LDs-dk-fjf"/>
-                            <constraint firstItem="Qjk-W9-PjA" firstAttribute="top" secondItem="JHG-77-Thb" secondAttribute="bottom" constant="70" id="Pyp-Kg-K7A"/>
-                            <constraint firstItem="JHG-77-Thb" firstAttribute="leading" secondItem="Vy5-XR-B6F" secondAttribute="leading" constant="20" id="Q5E-Fa-VUy"/>
-                            <constraint firstAttribute="trailing" secondItem="Qjk-W9-PjA" secondAttribute="trailing" id="Trl-34-XDf"/>
-                            <constraint firstItem="NjR-rd-M8u" firstAttribute="top" secondItem="Qjk-W9-PjA" secondAttribute="bottom" id="a3n-Ie-WBR"/>
-                            <constraint firstItem="Qjk-W9-PjA" firstAttribute="leading" secondItem="Vy5-XR-B6F" secondAttribute="leading" id="veQ-Pc-r86"/>
-                        </constraints>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Phone Verification" id="0cK-yH-gfX"/>
+                    <navigationItem key="navigationItem" id="oPS-Ds-7Al"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="Lwj-yy-Fkc" id="23e-HX-Jdt"/>
-                        <outlet property="errorLabel" destination="dEb-Xm-kSt" id="bIg-SO-okp"/>
-                        <outlet property="iPhoneImageView" destination="d6M-Me-irM" id="UyP-oE-HaL"/>
-                        <outlet property="phoneNumberBackgroundView" destination="wsk-TM-VGt" id="t0p-sf-8PL"/>
-                        <outlet property="phoneNumberTextField" destination="qPh-2B-EnE" id="H3M-xx-Qyl"/>
-                        <outlet property="resendButton" destination="Qjk-W9-PjA" id="djR-8s-Ged"/>
-                        <outlet property="verificationCodeTextField" destination="ZGt-oH-FtD" id="qBB-a7-Tcc"/>
-                        <outlet property="verificationView" destination="He8-sv-1I0" id="Aiw-B9-vzS"/>
+                        <outlet property="phoneNumberTextField" destination="Se8-ax-53X" id="ZK3-lh-fBK"/>
+                        <outlet property="resendButton" destination="Qjk-W9-PjA" id="Kx2-Gc-Kod"/>
+                        <outlet property="verificationCodeTextField" destination="yTM-fP-WXS" id="b4X-IH-LGe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hds-N3-zRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2987" y="-274"/>
         </scene>
-        <!--Email Verification View Controller - Email Confirmation-->
+        <!--Email Verification View Controller - Verification-->
         <scene sceneID="qtd-ze-SDF">
             <objects>
-                <viewController storyboardIdentifier="TSEmailVerificationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mjo-E3-Aqu" customClass="TSEmailVerificationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSEmailVerificationViewController" title="Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mjo-E3-Aqu" customClass="TSEmailVerificationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ed7-Xd-ckq"/>
                         <viewControllerLayoutGuide type="bottom" id="Hfr-74-tHt"/>
@@ -2034,105 +1969,78 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please check your email for an activation link." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="IrG-9z-KQj">
-                                <rect key="frame" x="20" y="358" width="280" height="70"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVD-Kj-BCL" customClass="TSRegistrationButton">
+                                <rect key="frame" x="0.0" y="224" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="RQF-Z2-ZyU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVD-Kj-BCL">
-                                <rect key="frame" x="0.0" y="428" width="320" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.070588238540000001" green="0.4784313738" blue="0.74117648599999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="CvO-2j-OdH"/>
-                                    <constraint firstAttribute="height" constant="70" id="dzR-DC-ZDH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Complete Verification">
+                                    <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="completeVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="f8w-Tb-gtk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpf-6A-a3M">
-                                <rect key="frame" x="0.0" y="498" width="320" height="70"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpf-6A-a3M" customClass="TSRegistrationButton">
+                                <rect key="frame" x="0.0" y="304" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="2es-yC-Raf"/>
-                                    <constraint firstAttribute="width" constant="320" id="O4b-PM-eRY"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Re-send Verification Email">
+                                    <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="resendVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="BqA-IA-U9T"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hzz-pX-IVR">
-                                <rect key="frame" x="0.0" y="40" width="320" height="70"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="We've sent you a verification link to" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="M60-iu-eON" customClass="TSRegistrationLabel">
+                                <rect key="frame" x="25" y="64" width="260" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Head to your inbox and follow the instructions from there" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="abn-fd-Mqn" customClass="TSRegistrationLabel">
+                                <rect key="frame" x="25" y="144" width="260" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Haven't recieved confirmation email?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="gch-Ae-ihI" customClass="TSRegistrationLabel">
+                                <rect key="frame" x="25" y="264" width="260" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8G5-qq-wCH" userLabel="emailView" customClass="TSBorderedView">
+                                <rect key="frame" x="0.0" y="104" width="320" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mailicon.png" translatesAutoresizingMaskIntoConstraints="NO" id="WhP-I5-i0c">
-                                        <rect key="frame" x="10" y="22" width="40" height="26"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TRp-7m-8rT" customClass="TSRegistrationTextField">
+                                        <rect key="frame" x="40" y="0.0" width="280" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
+                                    </textField>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_email_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="zYs-Wb-2IK">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="name@example.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0V-Nt-bMQ">
-                                        <rect key="frame" x="70" y="0.0" width="240" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="6zT-E2-Ke4"/>
-                                </constraints>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="4fU-Rq-MOh">
-                                <rect key="frame" x="20" y="118" width="280" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="8rY-5m-LiW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.86666667461395264" green="0.29411765933036804" blue="0.22352941334247589" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="uVD-Kj-BCL" firstAttribute="leading" secondItem="eGN-rF-tgN" secondAttribute="leading" id="1uB-yL-bbZ"/>
-                            <constraint firstItem="4fU-Rq-MOh" firstAttribute="leading" secondItem="eGN-rF-tgN" secondAttribute="leading" constant="20" id="9Tf-A2-uOX"/>
-                            <constraint firstItem="Cpf-6A-a3M" firstAttribute="leading" secondItem="eGN-rF-tgN" secondAttribute="leading" id="BhL-3z-eNv"/>
-                            <constraint firstItem="uVD-Kj-BCL" firstAttribute="top" secondItem="IrG-9z-KQj" secondAttribute="bottom" id="GyT-Fn-PiM"/>
-                            <constraint firstAttribute="trailing" secondItem="Cpf-6A-a3M" secondAttribute="trailing" id="Mgv-QX-qdc"/>
-                            <constraint firstAttribute="trailing" secondItem="uVD-Kj-BCL" secondAttribute="trailing" id="OUI-2M-MxN"/>
-                            <constraint firstItem="IrG-9z-KQj" firstAttribute="leading" secondItem="eGN-rF-tgN" secondAttribute="leading" constant="20" id="UsQ-03-REM"/>
-                            <constraint firstItem="Hzz-pX-IVR" firstAttribute="top" secondItem="ed7-Xd-ckq" secondAttribute="bottom" constant="20" id="cES-um-X5r"/>
-                            <constraint firstItem="4fU-Rq-MOh" firstAttribute="top" secondItem="Hzz-pX-IVR" secondAttribute="bottom" constant="8" id="efb-WT-3S1"/>
-                            <constraint firstItem="4fU-Rq-MOh" firstAttribute="top" secondItem="Hzz-pX-IVR" secondAttribute="bottom" constant="8" symbolic="YES" id="fxb-yy-fkG"/>
-                            <constraint firstAttribute="trailing" secondItem="Hzz-pX-IVR" secondAttribute="trailing" id="irp-Zu-Pdo"/>
-                            <constraint firstItem="Hzz-pX-IVR" firstAttribute="leading" secondItem="eGN-rF-tgN" secondAttribute="leading" id="ogZ-gk-ma6"/>
-                            <constraint firstItem="Cpf-6A-a3M" firstAttribute="top" secondItem="uVD-Kj-BCL" secondAttribute="bottom" id="qFW-A4-TUk"/>
-                            <constraint firstAttribute="trailing" secondItem="4fU-Rq-MOh" secondAttribute="trailing" constant="20" id="qIK-r9-CMn"/>
-                            <constraint firstItem="Hfr-74-tHt" firstAttribute="top" secondItem="Cpf-6A-a3M" secondAttribute="bottom" id="sDJ-ER-rpN"/>
-                            <constraint firstAttribute="trailing" secondItem="IrG-9z-KQj" secondAttribute="trailing" constant="20" id="uEx-nh-zpD"/>
-                        </constraints>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Email Confirmation" id="DVY-Kj-xCM"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="completeVerificationButton" destination="uVD-Kj-BCL" id="ado-eG-F2m"/>
-                        <outlet property="emailAddressLabel" destination="S0V-Nt-bMQ" id="rXZ-yE-oSu"/>
-                        <outlet property="errorMessageLabel" destination="4fU-Rq-MOh" id="S5k-rp-vBW"/>
+                        <outlet property="emailTextField" destination="TRp-7m-8rT" id="Gkt-Tb-UrM"/>
+                        <outlet property="errorMessageLabel" destination="M60-iu-eON" id="vvf-gd-Nj7"/>
                         <outlet property="resendEmailButton" destination="Cpf-6A-a3M" id="GPi-c9-opn"/>
                         <segue destination="3Ml-FN-RnH" kind="push" identifier="emailConfirmationToPhoneVerification" id="pkg-c2-ung"/>
                     </connections>
@@ -2655,7 +2563,6 @@ Last Updated: 12/12/13
         </scene>
     </scenes>
     <resources>
-        <image name="LockIcon.png" width="24" height="24"/>
         <image name="background568.png" width="640" height="1136"/>
         <image name="btn_login_normal.png" width="201" height="41"/>
         <image name="btn_login_pressed.png" width="201" height="41"/>
@@ -2667,10 +2574,8 @@ Last Updated: 12/12/13
         <image name="input_email_icon.png" width="26" height="26"/>
         <image name="input_password_icon.png" width="26" height="26"/>
         <image name="input_phone_icon.png" width="26" height="26"/>
-        <image name="iphoneIcon.png" width="139" height="255"/>
         <image name="linkedin_icon.png" width="30" height="30"/>
         <image name="location1.png" width="63" height="63"/>
-        <image name="mailicon.png" width="302" height="194"/>
         <image name="password_input_icon.png" width="25" height="26"/>
         <image name="redial.png" width="146" height="146"/>
         <image name="splash_logo_big.png" width="292" height="175"/>

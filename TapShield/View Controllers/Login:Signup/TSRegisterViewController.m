@@ -24,6 +24,13 @@
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
     self.navigationItem.rightBarButtonItem = nextButton;
     
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    if (self.navigationController.viewControllers.count <= 1) {
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(dismissRegistration:)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
+    }
+    
     _containerView.backgroundColor = [TSColorPalette listBackgroundColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -45,6 +52,9 @@
         _passwordTextField.text = _user.password;
         _phoneNumberTextField.text = _user.phoneNumber;
     }
+    else {
+        _user = [[TSJavelinAPIUser alloc] init];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -65,10 +75,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
-    
-    _user.email = _emailTextField.text;
-    _user.password = _passwordTextField.text;
-    _user.phoneNumber = _phoneNumberTextField.text;
+//    
+//    _user.email = _emailTextField.text;
+//    _user.password = _passwordTextField.text;
+//    _user.phoneNumber = _phoneNumberTextField.text;
     
     for (UIViewController *viewController in self.navigationController.viewControllers) {
         if ([viewController respondsToSelector:@selector(setUser:)]) {
@@ -85,6 +95,13 @@
 
 
 #pragma mark - Button
+
+- (IBAction)dismissRegistration:(id)sender {
+    
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }];
+}
 
 - (IBAction)registerUser:(id)sender {
     
@@ -154,9 +171,16 @@
 //        navigationController.emailVerificationViewController.password = _passwordTextField.text;
 //    }
     
+//    [self pushViewControllerWithClass:[TSEmailVerificationViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
     
-    [self pushViewControllerWithClass:[TSEmailVerificationViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    TSRegisterViewController *emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEmailVerificationViewController class])];
+    if (_user) {
+        emailVerificationViewController.user = _user;
+    }
+    
+    [self.navigationController pushViewController:emailVerificationViewController animated:YES];
 }
+
 
 #pragma mark - Keyboard
 
@@ -287,6 +311,10 @@
             textField.text = mutableNumber;
         }
     }
+    
+    _user.email = _emailTextField.text;
+    _user.password = _passwordTextField.text;
+    _user.phoneNumber = _phoneNumberTextField.text;
 }
 
 

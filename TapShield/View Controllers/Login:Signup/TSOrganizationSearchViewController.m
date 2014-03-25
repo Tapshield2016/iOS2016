@@ -67,16 +67,7 @@
 
 - (void)segueSendingAgency:(TSJavelinAPIAgency *)agency {
     
-    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
-        if (agency) {
-            TSRegisterViewController *registerViewController = [((UINavigationController *)self.presentingViewController).viewControllers lastObject];
-            registerViewController.user = _user;
-        }
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return;
-    }
-    
-    TSRegisterViewController *registerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSRegisterViewController"];
+    TSRegisterViewController *registerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRegisterViewController class])];
     if (_user) {
         registerViewController.user = _user;
     }

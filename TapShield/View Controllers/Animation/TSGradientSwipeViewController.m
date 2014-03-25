@@ -46,15 +46,26 @@ static const int animationFramesPerSec = 20;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    // stop glint timer
+    
+    
+}
+
+
+- (void)startAnimation {
+    
+    [self startTimer];
+}
+
+- (void)stopAnimation {
+    
     [self stopTimer];
 }
+
 
 #pragma mark - Enabled
 
 - (void) setEnabled:(BOOL)enabled {
     
-    _label.enabled = enabled;
     if (enabled) {
         [self startTimer];
     }
@@ -62,6 +73,7 @@ static const int animationFramesPerSec = 20;
         [self stopTimer];
     }
 }
+
 
 #pragma mark - Timer
 
@@ -91,6 +103,8 @@ static const int animationFramesPerSec = 20;
                            selector:@selector(animationTimerFired:) 
                            userInfo:nil 
                            repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:_animationTimer forMode:NSRunLoopCommonModes];
     }
 }
 

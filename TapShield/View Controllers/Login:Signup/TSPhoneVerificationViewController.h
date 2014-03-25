@@ -7,15 +7,15 @@
 //
 
 #import "TSBaseViewController.h"
+#import "TSRegistrationTextField.h"
+#import "TSRegistrationButton.h"
+#import "TSRegistrationLabel.h"
 
 @interface TSPhoneVerificationViewController : TSBaseViewController <UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
-@property (weak, nonatomic) IBOutlet UITextField *verificationCodeTextField;
-@property (weak, nonatomic) IBOutlet UIView *phoneNumberBackgroundView;
-@property (weak, nonatomic) IBOutlet UIButton *resendButton;
-@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
-@property (weak, nonatomic) IBOutlet UIView *verificationView;
-@property (weak, nonatomic) IBOutlet UIImageView *iPhoneImageView;
+@property (weak, nonatomic) IBOutlet TSRegistrationTextField *phoneNumberTextField;
+@property (weak, nonatomic) IBOutlet TSRegistrationTextField *verificationCodeTextField;
+@property (weak, nonatomic) IBOutlet TSRegistrationButton *resendButton;
+@property (weak, nonatomic) IBOutlet TSRegistrationLabel *errorLabel;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
 
 @end

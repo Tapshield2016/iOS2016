@@ -19,6 +19,9 @@
 @property (nonatomic, strong) NSTimer *animationTimer;
 @property (nonatomic) int animationTimerCount;
 
+- (void)startAnimation;
+- (void)stopAnimation;
+
 @end
 
 

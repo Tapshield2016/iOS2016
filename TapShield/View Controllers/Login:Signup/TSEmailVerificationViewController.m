@@ -22,6 +22,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [TSColorPalette listBackgroundColor];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(completeVerification:)];
+    self.navigationItem.rightBarButtonItem = nextButton;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(signUpDidFailToCreateConnectionForLogin:)
                                                  name:kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL
@@ -37,12 +44,8 @@
                                                  name:kTSJavelinAPIAuthenticationManagerDidFailToVerifyUserNotification
                                                object:nil];
     
-    [_resendEmailButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
-    [_resendEmailButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateHighlighted];
-    [_completeVerificationButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateNormal];
-    [_completeVerificationButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateHighlighted];
-    
-    _emailAddressLabel.text = _email;
+    _emailTextField.text = _user.email;
+    _emailTextField.userInteractionEnabled = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,7 +94,7 @@
                 return;
             }
             
-            [[[TSJavelinAPIClient sharedClient] authenticationManager] logInUser:_email password:_password completion:^(TSJavelinAPIUser *user) {
+            [[[TSJavelinAPIClient sharedClient] authenticationManager] logInUser:_user.email password:_user.password completion:^(TSJavelinAPIUser *user) {
                 if (user) {
                     [self segueToPhoneVerification];
                 }
@@ -110,7 +113,7 @@
 
 - (IBAction)resendVerification:(id)sender {
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] resendVerificationEmailForEmailAddress:_email completion:^(BOOL success) {
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] resendVerificationEmailForEmailAddress:_user.email completion:^(BOOL success) {
         if (success) {
             NSLog(@"Re-sent");
         }

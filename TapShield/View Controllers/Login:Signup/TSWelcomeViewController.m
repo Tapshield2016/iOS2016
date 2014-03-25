@@ -56,14 +56,13 @@
     
     [super viewWillDisappear:animated];
     
-    [_swipeViewController.view removeFromSuperview];
 }
 
 - (void)animation {
     
     CGRect frame = _smallLogoImageView.frame;
     
-    [UIView animateWithDuration:1.5f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         _splashLargeLogoImageView.frame = frame;
     } completion:^(BOOL finished) {
         

@@ -142,8 +142,8 @@
 }
 
 
-- (void)setupPageControlAppearance
-{
+- (void)setupPageControlAppearance {
+    
 //    UIPageControl * pageControl = [[self.view.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(class = %@)", [UIPageControl class]]] lastObject];
     
 }

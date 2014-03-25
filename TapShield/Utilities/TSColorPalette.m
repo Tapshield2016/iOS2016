@@ -129,5 +129,9 @@
     return UIColorFromRGB(0x75bde0);
 }
 
++ (UIColor *)registrationButtonTextColor {
+    return UIColorFromRGB(0x0d669f);
+}
+
 
 @end

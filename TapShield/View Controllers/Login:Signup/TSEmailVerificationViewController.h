@@ -7,15 +7,18 @@
 //
 
 #import "TSBaseViewController.h"
+#import "TSRegistrationTextField.h"
+#import "TSRegistrationButton.h"
+#import "TSRegistrationLabel.h"
 
 @interface TSEmailVerificationViewController : TSBaseViewController
 
-@property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *password;
-@property (weak, nonatomic) IBOutlet UILabel *emailAddressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *errorMessageLabel;
-@property (weak, nonatomic) IBOutlet UIButton *completeVerificationButton;
-@property (weak, nonatomic) IBOutlet UIButton *resendEmailButton;
+@property (strong, nonatomic) TSJavelinAPIUser *user;
+
+@property (weak, nonatomic) IBOutlet TSRegistrationTextField *emailTextField;
+@property (weak, nonatomic) IBOutlet TSRegistrationLabel *errorMessageLabel;
+@property (weak, nonatomic) IBOutlet TSRegistrationButton *completeVerificationButton;
+@property (weak, nonatomic) IBOutlet TSRegistrationButton *resendEmailButton;
 
 - (void)segueToPhoneVerification;
 

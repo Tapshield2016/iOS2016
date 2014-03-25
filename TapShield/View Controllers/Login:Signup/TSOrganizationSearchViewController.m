@@ -216,12 +216,14 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
-    _user.agency = _previousAgencySelected;
+//    _user.agency = _previousAgencySelected;
+    
+    [_tableView reloadData];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     
-    _previousAgencySelected = _user.agency;
+//    _previousAgencySelected = _user.agency;
 }
 
 #pragma mark - TableView Delegate
@@ -262,10 +264,17 @@
     
     if ([_user.agency.name isEqualToString:cell.agency.name]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        
+        if (!cell.selected) {
+            [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        }
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        if (cell.selected) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
     }
     
     return cell;
@@ -341,6 +350,8 @@
         cell.selected = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
         _user.agency = nil;
+        
+        [tableView reloadData];
         return nil;
     }
     
@@ -355,7 +366,6 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         _user.agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
         [self.searchDisplayController setActive:NO animated:YES];
-        [_tableView reloadData];
     }
     else {
         if (indexPath.section == 0) {
@@ -366,6 +376,7 @@
         }
     }
     
+    [_tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {

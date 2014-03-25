@@ -50,8 +50,31 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    NSArray *textFieldArray = @[_phoneNumberTextField, _emailTextField, _passwordTextField];
+    ;
+    
+    for (UITextField *textField in textFieldArray) {
+        if (!textField.text || textField.text.length == 0) {
+            [textField becomeFirstResponder];
+            break;
+        }
+    }
+}
 
-    [_phoneNumberTextField becomeFirstResponder];
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    _user.email = _emailTextField.text;
+    _user.password = _passwordTextField.text;
+    _user.phoneNumber = _phoneNumberTextField.text;
+    
+    for (UIViewController *viewController in self.navigationController.viewControllers) {
+        if ([viewController respondsToSelector:@selector(setUser:)]) {
+            [viewController performSelector:@selector(setUser:) withObject:_user];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,6 +101,10 @@
             return;
         }
     }
+    
+    _user.email = _emailTextField.text;
+    _user.password = _passwordTextField.text;
+    _user.phoneNumber = _phoneNumberTextField.text;
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUser:_user completion:^(id responseObject) {
         NSLog(@"%@", responseObject);

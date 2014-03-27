@@ -41,6 +41,11 @@
     CGRect rect = CGRectMake(0, 0, frame.size.width, frame.size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    if (!context) {
+        return;
+    }
+    
     CGContextClipToMask(context, rect, self.image.CGImage);
     CGContextSetFillColorWithColor(context, [colorForAnimation CGColor]);
     CGContextFillRect(context, rect);

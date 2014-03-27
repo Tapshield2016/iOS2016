@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>8</string>
 	<key>FacebookAppID</key>
 	<string>412321438904850</string>
 	<key>FacebookDisplayName</key>
@@ -47,22 +47,6 @@
 	<string>VLLGKmotEFAuKeEBojQaA</string>
 	<key>TWITTER_CONSUMER_SECRET</key>
 	<string>5yoX6vJoc7JmDrgo3HkhZfmCoWlKv9fR4SPCTBbcCo</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>UIStatusBarHidden</key>
-	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Raleway-Thin.otf</string>
@@ -75,5 +59,17 @@
 		<string>Raleway-ExtraBold.otf</string>
 		<string>Raleway-Bold.otf</string>
 	</array>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

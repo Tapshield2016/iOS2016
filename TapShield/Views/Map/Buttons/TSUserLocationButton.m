@@ -24,30 +24,13 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-        UIImage *selectedImage = [UIImage imageNamed:@"location1"];
         
+        [self setCircleColors:[TSColorPalette tapshieldBlue]
+                    fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f]
+         highlightedFillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2f]
+            selectedFillColor:nil];
         
-        //image color change
-        
-        CGRect rect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        UIGraphicsBeginImageContext(rect.size);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextClipToMask(context, rect, selectedImage.CGImage);
-        CGContextSetFillColorWithColor(context, [[TSColorPalette tapshieldBlue] CGColor]);
-        CGContextFillRect(context, rect);
-        selectedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        [self setBackgroundImage:selectedImage forState:UIControlStateSelected];
-        
-        
-        
-        self.layer.shadowColor = [UIColor grayColor].CGColor;
-        self.layer.shadowOffset = CGSizeMake(0, 1);
-        self.layer.shadowOpacity = 1;
-        self.layer.shadowRadius = 1.0;
-        self.clipsToBounds = NO;
-        
+        [self drawCircleButtonHighlighted:NO selected:NO];
     }
     return self;
 }

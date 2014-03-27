@@ -11,6 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 #import "MSDynamicsDrawerStyler.h"
 #import "TSMenuViewController.h"
+#import <TestFlightSDK/TestFlight.h>
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -28,15 +29,12 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 {
     
 #ifdef DEV
-    //[TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDevelopmentBaseURL];
     NSString *remoteHostName = @"dev.tapshield.com";
+    //[TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     
 #elif DEMO
-    //[TestFlight takeOff:@"20b29a44-3d54-4f22-af1e-41bec7b9746c"];
-    
-    //walgreens
-    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";
@@ -60,6 +58,11 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    
+    self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
+    self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg"]];
+    self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller
     [menuViewController transitionToViewController:@"TSHomeViewController"];

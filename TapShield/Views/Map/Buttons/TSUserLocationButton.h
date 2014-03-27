@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TSColorPalette.h"
+#import "TSCircularButton.h"
 
-@interface TSUserLocationButton : UIButton
+@interface TSUserLocationButton : TSCircularButton
 
 @end

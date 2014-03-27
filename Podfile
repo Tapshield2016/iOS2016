@@ -10,4 +10,4 @@ pod 'TwilioSDK'
 pod 'IOSLinkedInAPI'
 pod 'Facebook-iOS-SDK'
 pod 'google-plus-ios-sdk'
-
+pod 'TestFlightSDK'

@@ -48,6 +48,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tapshield_icon"]];
+    imageView.contentMode = UIViewContentModeCenter;
+    _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    self.navigationItem.titleView = imageView;
+    self.navigationItem.rightBarButtonItem = _yankBarButton;
+    
     _transitionController = [[TSTransitionDelegate alloc] init];
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
@@ -85,11 +92,12 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {
-#warning Need to find a better way of turning on/off keeping the user in the center
-        _showUserLocationButton.selected = NO;
+        _isTrackingUser = NO;
         [_mapView centerMapOnSelectedDestination];
         [_mapView selectDestinationAnnotation];
     }
@@ -99,7 +107,6 @@
 
     [super viewDidAppear:animated];
     
-    [self.navigationController setToolbarHidden:NO animated:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     //To determine animation of first region
@@ -113,15 +120,14 @@
 }
 
 - (IBAction)userLocationTUI:(id)sender {
-    _showUserLocationButton.selected = !_showUserLocationButton.selected;
     
-    if (_showUserLocationButton.selected) {
-        if (_mapView.region.span.latitudeDelta > 0.1f) {
-            [_mapView setRegionAtAppearanceAnimated:YES];
-        }
-        else {
-            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
-        }
+    _isTrackingUser = YES;
+    
+    if (_mapView.region.span.latitudeDelta > 0.1f) {
+        [_mapView setRegionAtAppearanceAnimated:YES];
+    }
+    else {
+        [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
     }
 }
 
@@ -135,8 +141,7 @@
 
 - (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-        NSLog(@"drag ended");
-        _showUserLocationButton.selected = NO;
+        _isTrackingUser = NO;
     }
 }
 
@@ -172,7 +177,6 @@
                     }
                 }
             }
-
             [self setSelectedRouteFromStruckRoutes:struckRoutes];
         }
     }
@@ -181,11 +185,11 @@
 #pragma mark - Virtual Entourage methods
 
 - (IBAction)displayVirtualEntourage:(id)sender {
-    UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"TSVirtualEntourageNavigationController"];
-    ((TSVirtualEntourageViewController *)navController.viewControllers[0]).mapView = _mapView;
-    [self presentViewController:navController animated:YES completion:^{
-
-    }];
+    
+    TSVirtualEntourageViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil]instantiateViewControllerWithIdentifier:NSStringFromClass([TSVirtualEntourageViewController class])];
+    viewController.mapView = _mapView;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 
@@ -338,7 +342,7 @@
         _mapView.userLocationAnnotation.coordinate = location.coordinate;
     }
 
-    if (!_mapView.isAnimatingToRegion && _showUserLocationButton.selected) {
+    if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
         [_mapView setCenterCoordinate:location.coordinate animated:YES];
     }
     
@@ -410,7 +414,7 @@
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
         }
-        annotationView.image = [UIImage imageNamed:@"logo"];
+        annotationView.image = [UIImage imageNamed:@"tapshield_icon"];
         [annotationView setCanShowCallout:YES];
 
         return annotationView;
@@ -445,7 +449,7 @@
             annotationView.leftCalloutAccessoryView = leftCalloutAccessoryView;
         }
         annotationView.annotation = annotation;
-        annotationView.image = [UIImage imageNamed:@"logo"];
+        annotationView.image = [UIImage imageNamed:@"tapshield_icon"];
         ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = @"";
         [annotationView setCanShowCallout:YES];
 
@@ -475,7 +479,7 @@
     [_mapView addAnimatedOverlayToAnnotation:_mapView.userLocationAnnotation];
     
     CLLocation *location = [TSLocationController sharedLocationController].location;
-    if (_showUserLocationButton.selected) {
+    if (_isTrackingUser) {
         //avoid loop from negligible differences in region change during zoom
         if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
             fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
@@ -506,6 +510,11 @@
     [self requestAndDisplayRoutesForSelectedDestination];
 }
 
+
+- (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error {
+    
+    NSLog(@"Failed Loading Map");
+}
 
 #pragma mark - Alert Methods
 

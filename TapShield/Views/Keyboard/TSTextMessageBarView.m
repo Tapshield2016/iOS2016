@@ -40,8 +40,7 @@
     
     self.backgroundColor = [UIColor clearColor];
     
-    CGRect toolBarFrame = self.frame;
-    toolBarFrame.origin.y = 0.0f;
+    CGRect toolBarFrame = self.bounds;
     self.toolbar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
     [self insertSubview:self.toolbar atIndex:0];
     

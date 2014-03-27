@@ -101,7 +101,6 @@
     
     [self dismissViewControllerAnimated:YES completion:^{
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-        [parentNavigationController setToolbarHidden:NO animated:YES];
         [parentNavigationController setNavigationBarHidden:NO animated:YES];
     }];
 }
@@ -121,8 +120,6 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification {
     
-    [self setDecoyAccessoryView];
-    [_inputAccessoryView.superview.layer removeAllAnimations];
 }
 
 
@@ -173,7 +170,6 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     
-    NSLog(@"%f", scrollView.frame.size.height);
     
 }
 

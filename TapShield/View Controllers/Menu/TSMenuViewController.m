@@ -9,6 +9,8 @@
 #import "TSMenuViewController.h"
 #import "MSDynamicsDrawerViewController.h"
 
+#define MENU_CELL_SIZE 80
+
 @interface TSMenuViewController ()
 
 @property (nonatomic, strong) NSString *currentPanelStoryBoardIdentifier;
@@ -42,7 +44,6 @@
     _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
                                                                     @"Home",
                                                                     @"Mass Notifications",
-                                                                    @"Profile",
                                                                     @"Settings",
                                                                     @"Help",
                                                                     @"About", nil];
@@ -50,12 +51,12 @@
     _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects: @"TSProfileViewController",
                                                                             @"TSHomeViewController",
                                                                             @"TSMassNotificationsViewController",
-                                                                            @"TSProfileViewController",
                                                                             @"TSSettingsViewController",
                                                                             @"TSHelpViewController",
                                                                             @"TSAboutViewController", nil];
-    self.tableView.separatorColor = [UIColor whiteColor];
-    self.tableView.backgroundColor = [TSColorPalette charcoalColor];
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
     [self.tableView registerClass:[TSUserProfileCell class]  forCellReuseIdentifier:@"ProfileCell"];
 }
 
@@ -73,11 +74,10 @@
     }
     
     if (!_leftBarButtonItem) {
-        _leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu"
+        _leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
-                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
-    }
+                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];    }
 
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
@@ -97,70 +97,66 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self transitionToViewController:_viewControllerStoryboardIDs[indexPath.row]];
+    [self transitionToViewController:[tableView cellForRowAtIndexPath:indexPath].reuseIdentifier];
     [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    // Return the number of sections.
+//    return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    // Return the number of rows in the section.
+//    return [_viewControllerStoryboardIDs count];
+//}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [_viewControllerStoryboardIDs count];
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    static NSString *CellIdentifier = @"Cell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    cell.textLabel.text = _viewControllerTitles[indexPath.row];
+//    cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5f];
+//    cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:20];
+//    cell.backgroundColor = [TSColorPalette clearColor];
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    
+//    
+//    if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
+//        cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0f];
+//    }
+//    
+//    return cell;
+//}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0) {
-        TSUserProfileCell *profileCell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath:indexPath];
-        if (profileCell == nil) {
-            profileCell = [[TSUserProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ProfileCell"];
-        }
-        
-        profileCell.user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
-        
-        profileCell.backgroundColor = [TSColorPalette charcoalColor];
-        profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
-            profileCell.selected = YES;
-        }
-        
-        return profileCell;
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    float dimAlpha = 0.5f;
+    
+    cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:dimAlpha];
+    cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:20];
+    cell.backgroundColor = [TSColorPalette clearColor];
+    cell.imageView.alpha = dimAlpha;
+    
+    if ([cell.reuseIdentifier isEqualToString:_currentPanelStoryBoardIdentifier]) {
+        cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0f];
+        cell.imageView.alpha = 1.0f;
     }
-    
-    
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    cell.textLabel.text = _viewControllerTitles[indexPath.row];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.alpha = 0.9f;
-    cell.textLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:20];
-    cell.backgroundColor = [TSColorPalette charcoalColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width);
-    
-    if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
-        cell.textLabel.textColor = [TSColorPalette tapshieldBlue];
-    }
-    
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == 0) {
-        return self.view.frame.size.height/6;
+    if (indexPath.row == 0 || indexPath.row == 6) {
+        
+        return ([UIScreen mainScreen].bounds.size.height - MENU_CELL_SIZE * 5)/2;
     }
     
-    return (self.view.frame.size.height - self.view.frame.size.height/6)/(_viewControllerTitles.count - 1);
+    return MENU_CELL_SIZE;
 }
 
 @end

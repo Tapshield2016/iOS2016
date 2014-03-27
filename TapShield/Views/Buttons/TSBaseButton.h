@@ -10,6 +10,8 @@
 #import "TSRalewayFont.h"
 #import "TSColorPalette.h"
 
+#define ALPHA 1.0
+
 @interface TSBaseButton : UIButton
 
 @end

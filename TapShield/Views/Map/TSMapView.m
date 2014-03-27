@@ -152,6 +152,7 @@
     
     MKCircle *previousCircle = _accuracyCircle;
     _accuracyCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
+    _animatedOverlay.circle = _accuracyCircle;
     [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];
     
     [self removeOverlay:previousCircle];

@@ -161,7 +161,6 @@
         
         [self dismissViewControllerAnimated:YES completion:^{
             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-            [parentNavigationController setToolbarHidden:NO animated:YES];
             [parentNavigationController setNavigationBarHidden:NO animated:YES];
         }];
     }

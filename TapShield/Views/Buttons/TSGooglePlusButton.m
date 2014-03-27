@@ -9,11 +9,12 @@
 #import "TSCircularButton.h"
 #import "TSGooglePlusButton.h"
 
+
 @implementation TSGooglePlusButton
 
 - (void)clearButtonStyleAndCustomize {
     
-    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:NO];
+    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA] highlighted:NO];
     
     [self setBackgroundImage:nil forState:UIControlStateNormal];
     [self setBackgroundImage:nil forState:UIControlStateHighlighted];
@@ -25,7 +26,7 @@
     
     [super setHighlighted:highlighted];
     
-    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:highlighted];
+    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA] highlighted:highlighted];
 }
 
 - (void)setSelected:(BOOL)selected {
@@ -36,7 +37,7 @@
         [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:1.0f] selected:selected];
     }
     else {
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] selected:selected];
+        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA] selected:selected];
     }
 }
 
@@ -73,11 +74,11 @@
     
     [self.circleLayer setStrokeColor:[color CGColor]];
     
-    [self.circleLayer setLineWidth:2.0f];
+    [self.circleLayer setLineWidth:1.0f];
     
-    UIColor *fillColor = [UIColor clearColor];
+    UIColor *fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.05];
     if (highlighted) {
-        fillColor = color;
+        fillColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
     }
     else if (selected) {
         fillColor = color;

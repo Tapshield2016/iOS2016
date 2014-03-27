@@ -17,8 +17,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:NO];
+        [self setCircleColors:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA] fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.05] highlightedFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.2] selectedFillColor:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]];
+        [self drawCircleButtonHighlighted:NO selected:NO];
     }
     return self;
 }
@@ -28,7 +28,12 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:NO];
+        [self setCircleColors:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]
+                    fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.05]
+         highlightedFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.2]
+            selectedFillColor:[[TSColorPalette whiteColor]
+                               colorWithAlphaComponent:ALPHA]];
+        [self drawCircleButtonHighlighted:NO selected:NO];
     }
     return self;
 }
@@ -37,39 +42,27 @@
     
     [super setHighlighted:highlighted];
     
-    [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] highlighted:highlighted];
+    [self drawCircleButtonHighlighted:highlighted selected:NO];
 }
 
 - (void)setSelected:(BOOL)selected {
     
     [super setSelected:selected];
     
-    if (selected) {
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:1.0f] selected:selected];
-    }
-    else {
-        [self drawCircleButton:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.3f] selected:selected];
-    }
+    [self drawCircleButtonHighlighted:NO selected:selected];
 }
 
-
-- (void)drawCircleButton:(UIColor *)color {
-    [self drawCircleButton:color highlighted:NO selected:NO];
-}
-
-- (void)drawCircleButton:(UIColor *)color highlighted:(BOOL)highlighted {
-    [self drawCircleButton:color highlighted:highlighted selected:NO];
-}
-
-- (void)drawCircleButton:(UIColor *)color selected:(BOOL)selected {
-    [self drawCircleButton:color highlighted:NO selected:selected];
-}
-
-- (void)drawCircleButton:(UIColor *)color highlighted:(BOOL)highlighted selected:(BOOL)selected
-{
-    [self.circleLayer removeFromSuperlayer];
+- (void)setCircleColors:(UIColor *)color fillColor:(UIColor *)fillColor highlightedFillColor:(UIColor *)highlightedFillColor selectedFillColor:(UIColor *)selectedFillColor {
     
     self.color = color;
+    self.fillColor = fillColor;
+    self.highlightedColor = highlightedFillColor;
+    self.selectedColor = selectedFillColor;
+}
+
+- (void)drawCircleButtonHighlighted:(BOOL)highlighted selected:(BOOL)selected {
+    
+    [self.circleLayer removeFromSuperlayer];
     
     [self setTitleColor:[TSColorPalette whiteColor] forState:UIControlStateNormal];
     
@@ -83,21 +76,26 @@
     
     [self.circleLayer setPath:[path CGPath]];
     
-    [self.circleLayer setStrokeColor:[color CGColor]];
+    [self.circleLayer setStrokeColor:[self.color CGColor]];
     
-    [self.circleLayer setLineWidth:2.0f];
+    [self.circleLayer setLineWidth:1.0f];
     
-    UIColor *fillColor = [UIColor clearColor];
+    UIColor *fillColor = self.color;
+    
+    if (self.fillColor) {
+        fillColor = self.fillColor;
+    }
+    
     if (highlighted) {
-        fillColor = color;
+        fillColor = self.highlightedColor;
     }
     else if (selected) {
-        fillColor = color;
+        fillColor = self.selectedColor;
     }
     
     [self.circleLayer setFillColor:[fillColor CGColor]];
     
-    [[self layer] addSublayer:self.circleLayer];
+    [[self layer] insertSublayer:self.circleLayer atIndex:0];
 }
 
 

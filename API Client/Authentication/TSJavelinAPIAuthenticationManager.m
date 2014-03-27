@@ -111,14 +111,35 @@ static dispatch_once_t onceToken;
 
 - (void)socialLoggedInUserWithAttributes:(NSDictionary *)attributes {
     [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:attributes]];
+    
+    if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
+        [_delegate loginSuccessful:nil];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:nil];
+    [self storeUserCredentials:_emailAddress password:_password];
+    _emailAddress = nil;
+    _password = nil;
+    
+    [self deleteCookiesForLoginDomain];
+    
     [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
         if (token) {
             [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+            
         }
         else {
             NSLog(@"Social Loggin failed to retrieve token");
         }
     }];
+}
+
+
+- (void)socialLoginFailed {
+    
+    if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
+        [_delegate loginFailed:nil];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:nil];
 }
 
 - (void)logoutSocial {
@@ -143,6 +164,7 @@ static dispatch_once_t onceToken;
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
+           [self socialLoginFailed];
        }];
 }
 
@@ -159,6 +181,7 @@ static dispatch_once_t onceToken;
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
+           [self socialLoginFailed];
        }];
 }
 
@@ -175,6 +198,7 @@ static dispatch_once_t onceToken;
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
+           [self socialLoginFailed];
        }];
 }
 
@@ -190,6 +214,7 @@ static dispatch_once_t onceToken;
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
+           [self socialLoginFailed];
        }];
 }
 

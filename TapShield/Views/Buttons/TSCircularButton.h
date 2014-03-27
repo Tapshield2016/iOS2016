@@ -12,7 +12,11 @@
 
 @property (nonatomic, strong) CAShapeLayer *circleLayer;
 @property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *highlightedColor;
+@property (nonatomic, strong) UIColor *selectedColor;
 
-- (void)drawCircleButton:(UIColor *)color;
+- (void)setCircleColors:(UIColor *)color fillColor:(UIColor *)fillColor highlightedFillColor:(UIColor *)highlightedFillColor selectedFillColor:(UIColor *)selectedFillColor;
+- (void)drawCircleButtonHighlighted:(BOOL)highlighted selected:(BOOL)selected;
 
 @end

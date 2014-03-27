@@ -51,6 +51,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 {
     [super viewDidLoad];
     
+    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = self;
+    
     _buttonArray = @[_facebookView, _twitterView, _googleView, _linkedinView, _emailView];
     
     [_signInGooglePlusButton clearButtonStyleAndCustomize];
@@ -121,39 +123,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         else {
             [self animateSignupButtons];
         }
-    }
-}
-
-- (void)animateLoginButtons {
-    
-    float endAngle = 2 * M_PI - M_PI_2 - 0.2f;
-    float increment = M_PI/4.3;
-    
-    [self animateButtons:_buttonArray aroundFrame:_loginButton startingFromAngle:M_PI firstEndingAngle:endAngle separatedByAngle:increment];
-}
-
-- (void)animateSignupButtons {
-    
-    float endAngle = 2 * M_PI - M_PI_2 + 0.2f;
-    float increment = -M_PI/4.3;
-    
-    [self animateButtons:_buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
-}
-
-- (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
-    
-    _hasAnimated = YES;
-    int delay = 0.0f;
-    
-    for (TSAnimatedView *circleButtons in buttons) {
-        if (endAngle >= 2 * M_PI) {
-            endAngle -= 2 * M_PI;
-        }
-        
-        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f delay:delay];
-        
-        delay += 0.0f;
-        endAngle += increment;
     }
 }
 
@@ -348,9 +317,54 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 }
 
 
+#pragma mark - Authentication Manager Delegate 
+
+- (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
+    
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+}
+
 
 #pragma mark - Animations
 
+
+- (void)animateLoginButtons {
+    
+    float endAngle = 2 * M_PI - M_PI_2 - 0.2f;
+    float increment = M_PI/4.3;
+    
+    [self animateButtons:_buttonArray aroundFrame:_loginButton startingFromAngle:M_PI firstEndingAngle:endAngle separatedByAngle:increment];
+}
+
+- (void)animateSignupButtons {
+    
+    float endAngle = 2 * M_PI - M_PI_2 + 0.2f;
+    float increment = -M_PI/4.3;
+    
+    [self animateButtons:_buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
+}
+
+- (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
+    
+    _hasAnimated = YES;
+    int delay = 0.0f;
+    
+    for (TSAnimatedView *circleButtons in buttons) {
+        if (endAngle >= 2 * M_PI) {
+            endAngle -= 2 * M_PI;
+        }
+        
+        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f delay:delay];
+        
+        delay += 0.0f;
+        endAngle += increment;
+    }
+}
 
 
 

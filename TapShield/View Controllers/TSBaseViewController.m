@@ -73,6 +73,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
 - (void)setTranslucentBackground:(BOOL)translucentBackground {
     
     _translucentBackground = translucentBackground;

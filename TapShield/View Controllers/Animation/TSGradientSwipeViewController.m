@@ -13,6 +13,18 @@ static const int animationFramesPerSec = 20;
 
 @implementation TSGradientSwipeViewController
 
+- (id)initWithTitleText:(NSString *)titleText {
+    
+    self = [super init];
+    
+    if (self) {
+        self.titleText = titleText;
+    }
+    
+    return self;
+}
+
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -23,7 +35,7 @@ static const int animationFramesPerSec = 20;
     _imageView.contentMode = UIViewContentModeCenter;
     
     _label = [[TSBaseLabel alloc] initWithFrame:self.view.frame];
-    _label.text = @"Swipe screen";
+    _label.text = _titleText;
     _label.font = [UIFont fontWithName:kFontRalewayRegular size:18.0];
     
     _label.layer.delegate = self;
@@ -98,7 +110,7 @@ static const int animationFramesPerSec = 20;
         _animationTimerCount = 0;
         [self setGradientLocations:0];
         _animationTimer = [NSTimer 
-                           scheduledTimerWithTimeInterval:2.0/animationFramesPerSec
+                           scheduledTimerWithTimeInterval:1.0/animationFramesPerSec
                            target:self 
                            selector:@selector(animationTimerFired:) 
                            userInfo:nil 

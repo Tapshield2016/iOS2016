@@ -17,8 +17,10 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) TSBaseLabel *label;
 @property (nonatomic, strong) NSTimer *animationTimer;
+@property (nonatomic, strong) NSString *titleText;
 @property (nonatomic) int animationTimerCount;
 
+- (id)initWithTitleText:(NSString *)titleText;
 - (void)startAnimation;
 - (void)stopAnimation;
 

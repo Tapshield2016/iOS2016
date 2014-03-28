@@ -2418,17 +2418,24 @@ Last Updated: 12/12/13
                                     <action selector="clearDisarmText:" destination="b9r-js-Ebz" eventType="touchUpInside" id="AfD-ru-eGL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rth-4l-iUR">
-                                <rect key="frame" x="110" y="518" width="100" height="49"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EeM-Wn-it4">
+                                <rect key="frame" x="100" y="518" width="120" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="23"/>
-                                <state key="normal" title="send alert">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="sendEmergency:" destination="b9r-js-Ebz" eventType="touchUpInside" id="kEs-Fm-Ccr"/>
-                                </connections>
-                            </button>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rth-4l-iUR">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="23"/>
+                                        <state key="normal" title="send alert">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sendEmergency:" destination="b9r-js-Ebz" eventType="touchUpInside" id="kEs-Fm-Ccr"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter Disarmcode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-xl-8rE">
                                 <rect key="frame" x="0.0" y="40" width="320" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2448,6 +2455,7 @@ Last Updated: 12/12/13
                         <outlet property="codeCircleContainerView" destination="Ygi-1j-xgJ" id="eWr-I2-3pD"/>
                         <outlet property="disarmTextField" destination="WPv-8p-cbI" id="M1J-l9-Bse"/>
                         <outlet property="emergencyButton" destination="Rth-4l-iUR" id="sGi-Mt-Pjw"/>
+                        <outlet property="swipeLabelView" destination="EeM-Wn-it4" id="b4n-pm-dya"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyT-m2-bpk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2661,7 +2669,7 @@ Last Updated: 12/12/13
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
-                                <rect key="frame" x="0.0" y="109" width="320" height="459"/>
+                                <rect key="frame" x="0.0" y="104" width="320" height="464"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -2700,7 +2708,7 @@ Last Updated: 12/12/13
                         <constraints>
                             <constraint firstItem="R8m-ie-HlH" firstAttribute="top" secondItem="z0p-0p-Ljz" secondAttribute="bottom" constant="-4" id="5aR-R9-mks"/>
                             <constraint firstAttribute="trailing" secondItem="R8m-ie-HlH" secondAttribute="trailing" id="IvT-rh-MqP"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="R8m-ie-HlH" secondAttribute="bottom" constant="5" id="Kqr-ec-nhu"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="R8m-ie-HlH" secondAttribute="bottom" id="Kqr-ec-nhu"/>
                             <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="R8m-ie-HlH" secondAttribute="leading" id="Qxf-uL-ucE"/>
                             <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="bAm-X1-znb"/>
                             <constraint firstAttribute="bottom" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="f5o-R5-LOG"/>
@@ -2713,7 +2721,11 @@ Last Updated: 12/12/13
                                 <action selector="dismissViewController:" destination="vuB-WZ-keb" id="Gnq-8x-qOm"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="bookmarks" id="su8-Lj-Fp1"/>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="bookmarks" id="su8-Lj-Fp1">
+                            <connections>
+                                <action selector="searchContacts:" destination="vuB-WZ-keb" id="Czr-Mn-7Gk"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>

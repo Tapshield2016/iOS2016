@@ -50,9 +50,6 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-
-    // Default to driving AND walking directions
-
     
     self.view.backgroundColor = [UIColor clearColor];
     
@@ -60,6 +57,13 @@
                                                                           action:@selector(dismissViewController:)];
     [self.view addGestureRecognizer:tap];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [_searchBar becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,6 +77,14 @@
     [self dismissViewControllerAnimated:YES completion:^{
         [_homeViewController viewDidAppear:NO];
     }];
+}
+
+- (IBAction)searchContacts:(id)sender {
+    
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    picker.displayedProperties = @[@(kABPersonAddressProperty)];
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 #pragma mark - Keyboard Notifications
@@ -213,12 +225,6 @@
     }
 }
 
-- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
-    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
-    picker.displayedProperties = @[@(kABPersonAddressProperty)];
-    [self presentViewController:picker animated:YES completion:nil];
-}
 
 #pragma mark - ABPeoplePickerNavigationControllerDelegate methods
 

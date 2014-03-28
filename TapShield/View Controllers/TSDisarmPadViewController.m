@@ -26,7 +26,11 @@
     
     _disarmTextField.text = @"";
     
-    
+    _swipeViewController = [[TSGradientSwipeViewController alloc] initWithTitleText:@"send alert"];
+    _swipeViewController.view.frame = _swipeLabelView.bounds;
+    _swipeViewController.label.frame = _swipeLabelView.bounds;
+    _swipeViewController.imageView.frame = _swipeLabelView.bounds;
+    [_swipeLabelView addSubview:_swipeViewController.view];
 }
 
 - (void)didReceiveMemoryWarning

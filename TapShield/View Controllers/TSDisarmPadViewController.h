@@ -8,6 +8,7 @@
 
 #import "TSBaseViewController.h"
 #import "TSCircularButton.h"
+#import "TSGradientSwipeViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface TSDisarmPadViewController : TSBaseViewController <UITextFieldDelegate>
@@ -20,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *codeCircle4;
 @property (weak, nonatomic) IBOutlet UIButton *emergencyButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
+@property (weak, nonatomic) IBOutlet UIView *swipeLabelView;
+@property (strong, nonatomic) TSGradientSwipeViewController *swipeViewController;
 
 @property (strong, nonatomic) NSArray *codeCircleArray;
 @property (strong, nonatomic) NSTimer *sendEmergencyTimer;

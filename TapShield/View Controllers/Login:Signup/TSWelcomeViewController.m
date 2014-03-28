@@ -28,7 +28,7 @@
     
     _isFirstTimeViewed = YES;
     
-    _swipeViewController = [[TSGradientSwipeViewController alloc] init];
+    _swipeViewController = [[TSGradientSwipeViewController alloc] initWithTitleText:@"Swipe screen"];
     _swipeViewController.view.frame = _swipeLabelView.bounds;
     _swipeViewController.label.frame = _swipeLabelView.bounds;
     _swipeViewController.imageView.frame = _swipeLabelView.bounds;

@@ -321,6 +321,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
     
+    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
+    
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

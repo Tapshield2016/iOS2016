@@ -19,5 +19,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)dismissViewController:(id)sender;
+- (IBAction)searchContacts:(id)sender;
 
 @end

@@ -116,65 +116,7 @@
     _filteredOrganizationMutableArray = [NSMutableArray arrayWithArray:[_allOrganizationsArray filteredArrayUsingPredicate:predicate]];
 }
 
-#pragma mark - Table View Customization
 
-- (void)customizeTableView:(UITableView *)tableView {
-    
-    tableView.separatorInset = UIEdgeInsetsZero;
-    tableView.tintColor = [TSColorPalette tapshieldBlue];
-    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    tableView.separatorColor = [TSColorPalette cellSeparatorColor];
-    tableView.backgroundColor = [TSColorPalette listBackgroundColor];
-    [tableView setSectionIndexBackgroundColor:[TSColorPalette tableViewHeaderColor]];
-}
-
-#pragma mark - Search Bar Customization
-
-- (void)changeClearButtonStyle {
-    
-    if (!_clearButtonImage) {
-        
-        for (UIView *view in ((UITextField *)[_searchBar.subviews firstObject]).subviews) {
-            
-            if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-                
-                for (UIButton *button in ((UITextField *)view).subviews) {
-                    
-                    if ([button isKindOfClass:[UIButton class]]) {
-                        
-                        _clearButtonImage = [button.imageView.image fillImageWithColor:[UIColor whiteColor]];
-                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor lightTextColor]] forState:UIControlStateHighlighted];
-                        
-                    }
-                }
-            }
-        }
-    }
-}
-
-- (void)customizeSearchBarAppearance:(UISearchBar *)searchBar {
-    
-    UITextField *textField = [((UITextField *)[searchBar.subviews firstObject]).subviews lastObject];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor = [TSColorPalette searchFieldBackgroundColor];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].textColor = [UIColor whiteColor];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].tintColor = [UIColor whiteColor];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].borderStyle = UITextBorderStyleNone;
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
-    
-    textField.layer.cornerRadius = 3.0f;
-    textField.layer.masksToBounds = YES;
-    
-    searchBar.tintColor = [TSColorPalette tapshieldBlue];
-    
-    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayRegular size:17.0f] } forState:UIControlStateNormal];
-    
-    searchBar.barTintColor = [TSColorPalette listBackgroundColor];
-    
-    UIImage *leftViewImage = ((UIImageView *)textField.leftView).image;
-    [searchBar setImage:[leftViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-}
 
 
 #pragma mark - UISearchDisplayController Delegate Methods
@@ -202,7 +144,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    [self performSelector:@selector(changeClearButtonStyle) withObject:nil afterDelay:0.01];
+    [self performSelector:@selector(changeClearButtonStyle:) withObject:_searchBar afterDelay:0.01];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -251,7 +193,7 @@
     UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
     selectedView.backgroundColor = [TSColorPalette whiteColor];
     cell.selectedBackgroundView = selectedView;
-    cell.backgroundColor = [TSColorPalette tableViewBackgroundColor];
+    cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     
     if ([_user.agency.name isEqualToString:cell.agency.name]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;

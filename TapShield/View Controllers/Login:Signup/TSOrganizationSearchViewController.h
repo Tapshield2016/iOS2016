@@ -18,7 +18,6 @@
 @property (strong, nonatomic) NSMutableArray *filteredOrganizationMutableArray;
 @property (strong, nonatomic) NSArray *allOrganizationsArray;
 @property (strong, nonatomic) NSArray *nearbyOrganizationArray;
-@property (strong, nonatomic) UIImage *clearButtonImage;
 @property (strong, nonatomic) UISearchDisplayController *searchDisplay;
 @property (strong, nonatomic) TSJavelinAPIUser *user;
 @property (strong, nonatomic) TSJavelinAPIAgency *previousAgencySelected;

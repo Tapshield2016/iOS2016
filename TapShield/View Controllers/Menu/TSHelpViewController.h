@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 
-@interface TSHelpViewController : TSBaseViewController
+@interface TSHelpViewController : TSNavigationViewController
 
 @end

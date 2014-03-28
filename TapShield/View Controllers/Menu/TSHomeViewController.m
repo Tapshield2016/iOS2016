@@ -107,8 +107,8 @@
 
     [super viewDidAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-
+    [self showAllSubviews];
+    
     //To determine animation of first region
     _viewDidAppear = YES;
 }
@@ -129,6 +129,28 @@
     else {
         [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
     }
+}
+
+- (void)showAllSubviews {
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        for (UIView *view in self.view.subviews) {
+            view.alpha = 1.0f;
+        }
+    }];
+}
+
+- (void)showOnlyMap {
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        for (UIView *view in self.view.subviews) {
+            if ([view isKindOfClass:[MKMapView class]]) {
+                continue;
+            }
+            
+            view.alpha = 0.0f;
+        }
+    }];
 }
 
 #pragma mark - UIGestureRecognizerDelegate methods
@@ -186,10 +208,10 @@
 
 - (IBAction)displayVirtualEntourage:(id)sender {
     
-    TSVirtualEntourageViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil]instantiateViewControllerWithIdentifier:NSStringFromClass([TSVirtualEntourageViewController class])];
-    viewController.mapView = _mapView;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [self presentViewController:navigationController animated:YES completion:nil];
+    UIViewController *viewController = [self presentViewControllerWithClass:[TSVirtualEntourageViewController class] transitionDelegate:_transitionController animated:YES];
+    ((TSVirtualEntourageViewController *)viewController).homeViewController = self;
+    
+    [self showOnlyMap];
 }
 
 
@@ -414,7 +436,7 @@
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
         }
-        annotationView.image = [UIImage imageNamed:@"tapshield_icon"];
+        annotationView.image = [UIImage imageNamed:@"user_icon"];
         [annotationView setCanShowCallout:YES];
 
         return annotationView;
@@ -449,7 +471,7 @@
             annotationView.leftCalloutAccessoryView = leftCalloutAccessoryView;
         }
         annotationView.annotation = annotation;
-        annotationView.image = [UIImage imageNamed:@"tapshield_icon"];
+        annotationView.image = [UIImage imageNamed:@"pins_other_icon"];
         ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = @"";
         [annotationView setCanShowCallout:YES];
 

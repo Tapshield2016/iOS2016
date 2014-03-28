@@ -82,6 +82,7 @@
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
+    [paneNavigationViewController setNavigationBarHidden:YES];
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
 
     paneViewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
@@ -102,37 +103,6 @@
 }
 
 #pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    // Return the number of sections.
-//    return 1;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    // Return the number of rows in the section.
-//    return [_viewControllerStoryboardIDs count];
-//}
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    static NSString *CellIdentifier = @"Cell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    cell.textLabel.text = _viewControllerTitles[indexPath.row];
-//    cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5f];
-//    cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:20];
-//    cell.backgroundColor = [TSColorPalette clearColor];
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    
-//    
-//    if (_viewControllerStoryboardIDs[indexPath.row] == _currentPanelStoryBoardIdentifier) {
-//        cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0f];
-//    }
-//    
-//    return cell;
-//}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     

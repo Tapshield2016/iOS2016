@@ -7,12 +7,22 @@
 //
 
 #import "TSTransitionDelegate.h"
+#import "TSVirtualEntourageViewController.h"
 
 @implementation TSTransitionDelegate
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     TSTransitionAnimation *controller = [[TSTransitionAnimation alloc]init];
     controller.isPresenting = YES;
+    
+    if ([presented isKindOfClass:[UINavigationController class]]) {
+        presented = ((UINavigationController *)presented).topViewController;
+    }
+    
+    if ([presented isKindOfClass:[TSVirtualEntourageViewController class]]) {
+        controller.isTopDownPresentation = YES;
+    }
+    
     return controller;
 }
 
@@ -20,6 +30,15 @@
 
     TSTransitionAnimation *controller = [[TSTransitionAnimation alloc]init];
     controller.isDismissing = YES;
+    
+    if ([dismissed isKindOfClass:[UINavigationController class]]) {
+        dismissed = ((UINavigationController *)dismissed).topViewController;
+    }
+    
+    if ([dismissed isKindOfClass:[TSVirtualEntourageViewController class]]) {
+        controller.isTopDownPresentation = YES;
+    }
+    
     return controller;
 }
 

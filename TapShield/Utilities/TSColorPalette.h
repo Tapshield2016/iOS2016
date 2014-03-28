@@ -20,7 +20,7 @@
 + (UIColor *)listBackgroundColor;
 + (UIColor *)listCellTextColor;
 + (UIColor *)cellSeparatorColor;
-+ (UIColor *)tableViewBackgroundColor;
++ (UIColor *)cellBackgroundColor;
 + (UIColor *)tableViewHeaderColor;
 + (UIColor *)searchFieldBackgroundColor;
 + (UIColor *)registrationButtonTextColor;

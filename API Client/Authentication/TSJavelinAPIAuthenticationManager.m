@@ -302,10 +302,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)logoutUser:(void (^)(BOOL success))completion {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
-    [defaults synchronize];
     _loggedInUser = nil;
+    
+    [self removeArchivedLoggedInUser];
     
     if (completion) {
         completion(YES);
@@ -665,6 +664,13 @@ static dispatch_once_t onceToken;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedUserObject = [NSKeyedArchiver archivedDataWithRootObject:_loggedInUser];
     [defaults setObject:encodedUserObject forKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
+    [defaults synchronize];
+}
+
+- (void)removeArchivedLoggedInUser {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
     [defaults synchronize];
 }
 

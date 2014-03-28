@@ -55,12 +55,5 @@
     _organizationLabel.text = agency.name;
 }
 
-- (void)customStyleCell {
-    
-    _organizationLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:15.0f];
-    _organizationLabel.textColor = [TSColorPalette listCellTextColor];
-    self.tintColor = [TSColorPalette tapshieldBlue];
-}
-
 
 @end

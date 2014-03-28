@@ -11,16 +11,27 @@
 @implementation TSTransitionAnimation
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
-    return 1.0f;
+    return 0.5f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
     
     if (self.isPresenting) {
-        [self executePresentationAnimation:transitionContext];
+        if (self.isTopDownPresentation) {
+            [self executeTopDownPresentationAnimation:transitionContext];
+        }
+        else {
+            [self executePresentationAnimation:transitionContext];
+        }
     }
     else if (self.isDismissing) {
-        [self executeDismissalAnimation:transitionContext];
+        
+        if (self.isTopDownPresentation) {
+            [self executeTopDownDismissalAnimation:transitionContext];
+        }
+        else {
+            [self executeDismissalAnimation:transitionContext];
+        }
     }
     else if (self.isPushing) {
         [self executePushAnimation:transitionContext];
@@ -28,6 +39,48 @@
     else if (self.isPopping) {
         [self executePopAnimation:transitionContext];
     }
+}
+
+- (void)executeTopDownPresentationAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
+    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    UIView *inView = [transitionContext containerView];
+    [inView addSubview:toViewController.view];
+    
+    CGPoint centerOffScreen = inView.center;
+    centerOffScreen.y -= inView.bounds.size.height;
+    toViewController.view.center = centerOffScreen;
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        
+        toViewController.view.center = inView.center;
+        
+    } completion:^(BOOL finished) {
+        
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
+}
+
+- (void)executeTopDownDismissalAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    UIView *inView = [transitionContext containerView];
+    
+    [inView insertSubview:toViewController.view belowSubview:fromViewController.view];
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+        CGPoint centerOffScreen = inView.center;
+        centerOffScreen.y -= inView.bounds.size.height;
+        fromViewController.view.center = centerOffScreen;
+        
+    } completion:^(BOOL finished) {
+        [fromViewController.view removeFromSuperview];
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
 }
 
 - (void)executePresentationAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{

@@ -8,6 +8,7 @@
 
 #import "TSSettingsViewController.h"
 #import "TSIntroPageViewController.h"
+#import "MSDynamicsDrawerViewController.h"
 
 @interface TSSettingsViewController ()
 
@@ -37,6 +38,8 @@
 }
 
 - (IBAction)logOutUser:(id)sender {
+    
+//    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.presentingViewController;
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
         if (success) {

@@ -6,10 +6,9 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 
-@interface TSAboutViewController : TSBaseViewController
+@interface TSAboutViewController : TSNavigationViewController
 @property (weak, nonatomic) IBOutlet UILabel *versionBuildLabel;
 
 @end

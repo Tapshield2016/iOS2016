@@ -23,11 +23,16 @@
 
 @interface TSBaseViewController : UIViewController
 
-- (void)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated;
+- (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated;
 
-- (void)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated;
+- (UIViewController *)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated;
+
+- (void)customizeSearchBarAppearance:(UISearchBar *)searchBar;
+- (void)changeClearButtonStyle:(UISearchBar *)searchBar;
+- (void)customizeTableView:(UITableView *)tableView;
 
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (strong, nonatomic) UIToolbar *toolbar;
+@property (strong, nonatomic) UIImage *clearButtonImage;
 
 @end

@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSMapView.h"
+#import "TSNavigationViewController.h"
+#import "TSHomeViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface TSVirtualEntourageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface TSVirtualEntourageViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) TSMapView *mapView;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *directionsTypeSegmentedControl;
 
-- (IBAction)dismiss:(id)sender;
+@property (nonatomic, strong) TSHomeViewController *homeViewController;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+- (IBAction)dismissViewController:(id)sender;
 
 @end

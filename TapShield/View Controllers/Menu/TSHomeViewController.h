@@ -6,13 +6,12 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSPageViewController.h"
 
-@interface TSHomeViewController : TSBaseViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;

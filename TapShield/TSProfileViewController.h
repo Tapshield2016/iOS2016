@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 
-@interface TSProfileViewController : TSBaseViewController
+@interface TSProfileViewController : TSNavigationViewController
 
 @end

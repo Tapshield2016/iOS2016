@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 
-@interface TSSettingsViewController : TSBaseViewController
+@class MSDynamicsDrawerViewController;
+
+@interface TSSettingsViewController : TSNavigationViewController
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 
 

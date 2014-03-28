@@ -37,7 +37,7 @@
                                     <tableViewCell contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="i37-H6-cwR">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i37-H6-cwR">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i37-H6-cwR" id="N5a-pI-IeF">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
@@ -46,7 +46,7 @@
                                     <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSProfileViewController" textLabel="hTP-Q4-Tdp" imageView="Z96-1S-jrI" rowHeight="80" style="IBUITableViewCellStyleDefault" id="t2F-4X-sTk">
                                         <rect key="frame" x="0.0" y="80" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t2F-4X-sTk">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t2F-4X-sTk" id="OuN-Dl-oBH">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -90,7 +90,7 @@
                                     <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSMassNotificationsViewController" textLabel="igr-hx-2Xr" imageView="lzP-wT-6Xb" rowHeight="80" style="IBUITableViewCellStyleDefault" id="DbR-OS-NnN">
                                         <rect key="frame" x="0.0" y="240" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DbR-OS-NnN">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DbR-OS-NnN" id="gvg-KG-Hfe">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -2647,9 +2647,10 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search" showsBookmarkButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
-                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
+                                <rect key="frame" x="0.0" y="60" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <scopeButtonTitles>
                                     <string>Nearby</string>
@@ -2659,7 +2660,7 @@ Last Updated: 12/12/13
                                     <outlet property="delegate" destination="vuB-WZ-keb" id="W0A-d8-j58"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
                                 <rect key="frame" x="0.0" y="109" width="320" height="459"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2697,35 +2698,26 @@ Last Updated: 12/12/13
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="R8m-ie-HlH" firstAttribute="top" secondItem="z0p-0p-Ljz" secondAttribute="bottom" constant="1" id="5aR-R9-mks"/>
+                            <constraint firstItem="R8m-ie-HlH" firstAttribute="top" secondItem="z0p-0p-Ljz" secondAttribute="bottom" constant="-4" id="5aR-R9-mks"/>
                             <constraint firstAttribute="trailing" secondItem="R8m-ie-HlH" secondAttribute="trailing" id="IvT-rh-MqP"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="R8m-ie-HlH" secondAttribute="bottom" id="Kqr-ec-nhu"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="R8m-ie-HlH" secondAttribute="bottom" constant="5" id="Kqr-ec-nhu"/>
                             <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="R8m-ie-HlH" secondAttribute="leading" id="Qxf-uL-ucE"/>
                             <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="bAm-X1-znb"/>
                             <constraint firstAttribute="bottom" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="f5o-R5-LOG"/>
                             <constraint firstItem="MMA-RX-ciz" firstAttribute="trailing" secondItem="R8m-ie-HlH" secondAttribute="trailing" id="zsz-Zv-oMm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="4Uw-Ce-DMj">
-                        <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="Nqj-m2-DoR">
+                    <navigationItem key="navigationItem" title="Destination" id="4Uw-Ce-DMj">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" style="plain" id="Nqj-m2-DoR">
                             <connections>
-                                <action selector="dismiss:" destination="vuB-WZ-keb" id="1au-RQ-WZB"/>
+                                <action selector="dismissViewController:" destination="vuB-WZ-keb" id="Gnq-8x-qOm"/>
                             </connections>
                         </barButtonItem>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="6rD-7p-BY4">
-                            <rect key="frame" x="93" y="7" width="134" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Any"/>
-                                <segment title="Car"/>
-                                <segment title="Walk"/>
-                            </segments>
-                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="bookmarks" id="su8-Lj-Fp1"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="directionsTypeSegmentedControl" destination="6rD-7p-BY4" id="FOb-9e-Ncp"/>
+                        <outlet property="searchBar" destination="R8m-ie-HlH" id="STJ-J4-Okb"/>
                         <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
                     </connections>
                 </viewController>

@@ -117,7 +117,7 @@
     return UIColorFromRGB(0xb9b9c2);
 }
 
-+ (UIColor *)tableViewBackgroundColor {
++ (UIColor *)cellBackgroundColor {
     return UIColorFromRGB(0xf3f6f9);
 }
 

@@ -8,7 +8,7 @@
 
 #import "TSSettingsViewController.h"
 #import "TSIntroPageViewController.h"
-#import "MSDynamicsDrawerViewController.h"
+#import "TSHomeViewController.h"
 
 @interface TSSettingsViewController ()
 
@@ -29,6 +29,22 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _socialAccounts = [[TSSocialAccounts alloc] init];
+    [_socialAccounts addSocialViewsTo:self.view];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [_socialAccounts initializeFacebookView];
+    [_socialAccounts addSocialViewsTo:self.view];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [_socialAccounts deallocFacebookView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,13 +54,9 @@
 }
 
 - (IBAction)logOutUser:(id)sender {
-    
-//    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.presentingViewController;
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
-        if (success) {
-            [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
-            
+
+    [_socialAccounts logoutAllUserTypesCompletion:^(BOOL loggedOut) {
+        if (loggedOut) {
             [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:YES];
         }
     }];

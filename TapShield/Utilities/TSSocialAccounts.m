@@ -1,30 +1,12 @@
 //
-//  TSViewController.m
-//  SocialAuthTest
+//  TSSocialAccounts.m
+//  TapShield
 //
-//  Created by Ben Boyd on 3/7/14.
+//  Created by Adam Share on 3/28/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
+#import "TSSocialAccounts.h"
 
-#import "TSSocialAuthorizationViewController.h"
-#import "TSJavelinAPIClient.h"
-#import "TSLoginViewController.h"
-#import "TSAskOrganizationViewController.h"
-#import "TSAnimatedView.h"
-
-// Twitter-related imports
-#import <Accounts/Accounts.h>
-#import "OAuth+Additions.h"
-#import "TWAPIManager.h"
-#import "TWSignedRequest.h"
-
-// Google+
-#import <GoogleOpenSource/GoogleOpenSource.h>
-#import <GooglePlus/GooglePlus.h>
-
-// LinkedIn
-#import "LIALinkedInHttpClient.h"
-#import "LIALinkedInApplication.h"
 
 #define ERROR_TITLE_MSG @"Whoa, there cowboy"
 #define ERROR_NO_ACCOUNTS @"You must add a Twitter account in Settings.app to use this demo."
@@ -34,126 +16,98 @@
 
 static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0oj69ab32ces5n.apps.googleusercontent.com";
 
-@interface TSSocialAuthorizationViewController ()
 
-@property (nonatomic, strong) ACAccountStore *accountStore;
-@property (nonatomic, strong) TWAPIManager *apiManager;
-@property (nonatomic, strong) NSArray *accounts;
-@property (nonatomic, strong) LIALinkedInHttpClient *linkedInClient;
+@implementation TSSocialAccounts
 
-@property (nonatomic, strong) NSArray *buttonArray;
-
-@end
-
-@implementation TSSocialAuthorizationViewController
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (id)init {
     
-    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = self;
+    self = [super init];
     
-    _buttonArray = @[_facebookView, _twitterView, _googleView, _linkedinView, _emailView];
-    
-    [_signInGooglePlusButton clearButtonStyleAndCustomize];
-    
-    [self.view setBackgroundColor:[UIColor clearColor]];
-    
-    self.translucentBackground = YES;
-    self.toolbar.alpha = 0.99;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(dismissViewController:)];
-    [self.toolbar addGestureRecognizer:tap];
-    
-    
-    if (_logIn) {
-        [self.view sendSubviewToBack:_signUpButton];
+    if (self) {
+        
+        //Facebook
+        [self initializeFacebookView];
+        
+        // Twitter setup
+        self.accountStore = [[ACAccountStore alloc] init];
+        self.apiManager = [[TWAPIManager alloc] init];
+        
+        // Google+ setup
+        GPPSignIn *signIn = [GPPSignIn sharedInstance];
+        signIn.shouldFetchGooglePlusUser = YES;
+        signIn.shouldFetchGoogleUserEmail = YES;
+        
+        // You previously set kClientId in the "Initialize the Google+ client" step
+        signIn.clientID = kGooglePlusClientId;
+        
+        // Uncomment one of these two statements for the scope you chose in the previous step
+        signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
+        //signIn.scopes = @[ @"profile" ];            // "profile" scope
+        // Optional: declare signIn.actions, see "app activities"
+        signIn.delegate = self;
+        
+        // LinkedIn setup
+        // https://github.com/jeyben/IOSLinkedInAPI
+        LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
+                                                                                        clientId:@"75cqjrach211kt"
+                                                                                    clientSecret:@"wAdZqm3bZJkKgq0l"
+                                                                                           state:@"DCEEFWF45453sdffef424"
+                                                                                   grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
+        self.linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
     }
-    else {
-        [self.view sendSubviewToBack:_loginButton];
-    }
     
-    [self.view sendSubviewToBack:_logoImageView];
-    
-    UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_bg"]];
-    backgroundImage.frame = self.view.frame;
-    [self.view insertSubview:backgroundImage atIndex:0];
-    
-    
-    // Twitter setup
-    _accountStore = [[ACAccountStore alloc] init];
-    _apiManager = [[TWAPIManager alloc] init];
+    return self;
+}
 
+- (void)initializeFacebookView {
+    
     // Facebook setup
-    _facebookLoginView.readPermissions = @[@"basic_info", @"email", @"user_likes"];
-
-    // Google+ setup
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;
-    
-    // You previously set kClientId in the "Initialize the Google+ client" step
-    signIn.clientID = kGooglePlusClientId;
-    
-    // Uncomment one of these two statements for the scope you chose in the previous step
-    signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
-    //signIn.scopes = @[ @"profile" ];            // "profile" scope
-    // Optional: declare signIn.actions, see "app activities"
-    signIn.delegate = self;
-
-    // LinkedIn setup
-    // https://github.com/jeyben/IOSLinkedInAPI
-    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
-                                                                                    clientId:@"75cqjrach211kt"
-                                                                                clientSecret:@"wAdZqm3bZJkKgq0l"
-                                                                                       state:@"DCEEFWF45453sdffef424"
-                                                                               grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
-    _linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:animated];
-    
-    if (!_hasAnimated) {
-        if (_logIn) {
-            [self animateLoginButtons];
-        }
-        else {
-            [self animateSignupButtons];
-        }
+    if (!self.facebookLoginView) {
+        self.facebookLoginView = [[FBLoginView alloc] init];
+        self.facebookLoginView.readPermissions = @[@"basic_info", @"email", @"user_likes"];
+        self.facebookLoginView.delegate = self;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)deallocFacebookView {
+    
+    self.facebookLoginView = nil;
+    self.facebookLoginView.delegate = nil;
 }
 
-- (IBAction)dismissViewController:(id)sender {
+- (void)addSocialViewsTo:(UIView *)view {
     
+    [view addSubview:_facebookLoginView];
+    [view addSubview:_signInGooglePlusButton];
     
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [_facebookLoginView setHidden:YES];
+    [_signInGooglePlusButton setHidden:YES];
 }
 
-#pragma mark - Email methods 
 
-- (IBAction)emailLoginSignup:(id)sender {
+- (void)logoutAllUserTypesCompletion:(LoggedOutBlock)completion {
     
-    Class class;
-    
-    if (_logIn) {
-        class = [TSLoginViewController class];
+    if (_facebookLoggedIn) {
+        
+        [((UIButton *)[_facebookLoginView.subviews firstObject]) sendActionsForControlEvents: UIControlEventTouchUpInside];
+        if (completion) {
+            _loggedOutBlock = completion;
+        }
     }
     else {
-        class = [TSAskOrganizationViewController class];
+        _facebookLoginView.delegate = nil;
+        _facebookLoginView = nil;
+        
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
+            if (success) {
+                [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+                
+            }
+            if (completion) {
+                completion(success);
+            }
+        }];
     }
-    
-    _transitionDelegate = [[TSTransitionDelegate alloc] init];
-    
-    [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
 }
 
 
@@ -203,12 +157,14 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView; {
     NSLog(@"User is logged in. Access token is %@", [[FBSession.activeSession accessTokenData] accessToken]);
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
+//    [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
+    _facebookLoggedIn = YES;
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
     NSLog(@"User is logged out...");
-//    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+    _facebookLoggedIn = NO;
+    [self logoutAllUserTypesCompletion:_loggedOutBlock];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -224,7 +180,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
                 
                 NSArray *parts = [responseStr componentsSeparatedByString:@"&"];
                 NSString *lined = [parts componentsJoinedByString:@"\n"];
-
+                
                 // Turn response into dictionary for ease of use...
                 NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
                 for (NSString *param in [responseStr componentsSeparatedByString:@"&"]) {
@@ -232,7 +188,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
                     if([elements count] < 2) continue;
                     [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
                 }
-
+                
                 [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"]];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -314,63 +270,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         [sheet addButtonWithTitle:acct.username];
     }
     sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"Cancel"];
-    [sheet showInView:self.view];
+//    [sheet showInView:self.view];
 }
-
-
-#pragma mark - Authentication Manager Delegate 
-
-- (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
-    
-    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
-    _facebookLoginView.delegate = nil;
-    _facebookLoginView = nil;
-    
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result {
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
-}
-
-
-#pragma mark - Animations
-
-
-- (void)animateLoginButtons {
-    
-    float endAngle = 2 * M_PI - M_PI_2 - 0.2f;
-    float increment = M_PI/4.3;
-    
-    [self animateButtons:_buttonArray aroundFrame:_loginButton startingFromAngle:M_PI firstEndingAngle:endAngle separatedByAngle:increment];
-}
-
-- (void)animateSignupButtons {
-    
-    float endAngle = 2 * M_PI - M_PI_2 + 0.2f;
-    float increment = -M_PI/4.3;
-    
-    [self animateButtons:_buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
-}
-
-- (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
-    
-    _hasAnimated = YES;
-    int delay = 0.0f;
-    
-    for (TSAnimatedView *circleButtons in buttons) {
-        if (endAngle >= 2 * M_PI) {
-            endAngle -= 2 * M_PI;
-        }
-        
-        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f delay:delay];
-        
-        delay += 0.0f;
-        endAngle += increment;
-    }
-}
-
 
 
 @end

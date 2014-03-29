@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "TSNavigationViewController.h"
-
-@class MSDynamicsDrawerViewController;
+#import "TSSocialAccounts.h"
 
 @interface TSSettingsViewController : TSNavigationViewController
-@property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 
+@property (strong, nonatomic) TSSocialAccounts *socialAccounts;
+@property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 
 - (IBAction)logOutUser:(id)sender;
 

@@ -143,9 +143,6 @@
     textField.layer.masksToBounds = YES;
     
     searchBar.tintColor = [TSColorPalette tapshieldBlue];
-    
-    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayRegular size:17.0f] } forState:UIControlStateNormal];
-    
     searchBar.barTintColor = [TSColorPalette listBackgroundColor];
     
     UIImage *leftViewImage = ((UIImageView *)textField.leftView).image;

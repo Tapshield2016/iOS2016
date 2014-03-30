@@ -1038,6 +1038,12 @@
 		C5B2E98618CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E98518CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m */; };
 		C5B2E98718CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E98518CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m */; };
 		C5B2E98818CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E98518CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m */; };
+		C5B5634118E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634018E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m */; };
+		C5B5634218E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634018E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m */; };
+		C5B5634318E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634018E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m */; };
+		C5B5634618E875200013AF69 /* TSSpotCrimeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */; };
+		C5B5634718E875200013AF69 /* TSSpotCrimeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */; };
+		C5B5634818E875200013AF69 /* TSSpotCrimeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */; };
 		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
@@ -1053,9 +1059,9 @@
 		C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5D484EF18E5EE09006EB287 /* TSVirtualEntourageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B583B9BB18AEB03600C5B8DA /* TSVirtualEntourageViewController.m */; };
-		C5D484F218E60A2C006EB287 /* TSSocialAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccounts.m */; };
-		C5D484F318E60A2C006EB287 /* TSSocialAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccounts.m */; };
-		C5D484F418E60A2C006EB287 /* TSSocialAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccounts.m */; };
+		C5D484F218E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */; };
+		C5D484F318E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */; };
+		C5D484F418E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */; };
 		C5FC0A6318CF704F00AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
 		C5FC0A6418CF705600AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
 		C5FC0A6518CF705C00AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
@@ -1548,6 +1554,10 @@
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
 		C5B2E98518CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSObservingInputAccessoryView.m; path = Views/Keyboard/TSObservingInputAccessoryView.m; sourceTree = "<group>"; };
+		C5B5633F18E7CC6B0013AF69 /* TSSpotCrimeAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAPIClient.h; path = "API Client/SpotCrime/TSSpotCrimeAPIClient.h"; sourceTree = SOURCE_ROOT; };
+		C5B5634018E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAPIClient.m; path = SpotCrime/TSSpotCrimeAPIClient.m; sourceTree = "<group>"; };
+		C5B5634418E875200013AF69 /* TSSpotCrimeLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeLocation.h; path = SpotCrime/TSSpotCrimeLocation.h; sourceTree = "<group>"; };
+		C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeLocation.m; path = SpotCrime/TSSpotCrimeLocation.m; sourceTree = "<group>"; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
@@ -1558,8 +1568,8 @@
 		C5CB078318C6851D00BC9425 /* TSCircularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularButton.m; path = Views/Buttons/TSCircularButton.m; sourceTree = "<group>"; };
 		C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDisarmPadViewController.h; path = "View Controllers/TSDisarmPadViewController.h"; sourceTree = "<group>"; };
 		C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDisarmPadViewController.m; path = "View Controllers/TSDisarmPadViewController.m"; sourceTree = "<group>"; };
-		C5D484F018E60A2C006EB287 /* TSSocialAccounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSocialAccounts.h; path = Utilities/TSSocialAccounts.h; sourceTree = "<group>"; };
-		C5D484F118E60A2C006EB287 /* TSSocialAccounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSocialAccounts.m; path = Utilities/TSSocialAccounts.m; sourceTree = "<group>"; };
+		C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSocialAccountsManager.h; path = Utilities/TSSocialAccountsManager.h; sourceTree = "<group>"; };
+		C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSocialAccountsManager.m; path = Utilities/TSSocialAccountsManager.m; sourceTree = "<group>"; };
 		C5FC0A6218CF704F00AB787F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C5FC0A6618CF706E00AB787F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C5FC0A6A18CF721B00AB787F /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -1786,8 +1796,8 @@
 				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
 				C532E8DC18BCF85D00FC111A /* TSLocationController.h */,
 				C532E8DD18BCF85E00FC111A /* TSLocationController.m */,
-				C5D484F018E60A2C006EB287 /* TSSocialAccounts.h */,
-				C5D484F118E60A2C006EB287 /* TSSocialAccounts.m */,
+				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
+				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1806,6 +1816,7 @@
 		C520C8BC18A974C000D1D2E9 /* API Client */ = {
 			isa = PBXGroup;
 			children = (
+				C5B5633E18E7CBB10013AF69 /* SpotCrime */,
 				C520C8BD18A974C000D1D2E9 /* Authentication */,
 				C520C8C218A974C000D1D2E9 /* Managers */,
 				C520C8D118A974C000D1D2E9 /* Models */,
@@ -2561,6 +2572,17 @@
 				C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */,
 			);
 			name = Map;
+			sourceTree = "<group>";
+		};
+		C5B5633E18E7CBB10013AF69 /* SpotCrime */ = {
+			isa = PBXGroup;
+			children = (
+				C5B5633F18E7CC6B0013AF69 /* TSSpotCrimeAPIClient.h */,
+				C5B5634018E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m */,
+				C5B5634418E875200013AF69 /* TSSpotCrimeLocation.h */,
+				C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */,
+			);
+			name = SpotCrime;
 			sourceTree = "<group>";
 		};
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
@@ -3673,6 +3695,7 @@
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5662BEE18DD091500FD4F44 /* TSBorderedView.m in Sources */,
+				C5B5634118E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
 				C55644F218DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */,
 				C5372DB018B27C1F00D22682 /* TSAskOrganizationViewController.m in Sources */,
 				C5FD5EA718B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
@@ -3681,7 +3704,7 @@
 				C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
-				C5D484F218E60A2C006EB287 /* TSSocialAccounts.m in Sources */,
+				C5D484F218E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
 				C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
@@ -3704,6 +3727,7 @@
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C585F1A818CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C5B5634618E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
@@ -3747,11 +3771,12 @@
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				C532E63618BBF1E900FC111A /* TSConstants.m in Sources */,
 				C5FD5EA818B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
-				C5D484F418E60A2C006EB287 /* TSSocialAccounts.m in Sources */,
+				C5D484F418E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
 				C5372DB918B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				B543F08518AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C520C90D18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				C5662BE518DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
+				C5B5634318E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
 				C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
@@ -3759,6 +3784,7 @@
 				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C585F1CD18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
+				C5B5634818E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
@@ -3872,6 +3898,7 @@
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AC18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
+				C5B5634218E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
 				C532E63218BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C57C48D218BBDB1900DFFBCE /* TSAskOrganizationViewController.m in Sources */,
 				C585F1B118CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
@@ -3880,7 +3907,7 @@
 				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
 				C55644F818E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
-				C5D484F318E60A2C006EB287 /* TSSocialAccounts.m in Sources */,
+				C5D484F318E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
 				C585F1A018CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C585F19118CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
@@ -3903,6 +3930,7 @@
 				C5CB078518C6851D00BC9425 /* TSCircularButton.m in Sources */,
 				C532E63818BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C57C48E018BBDB1900DFFBCE /* TSOrganizationSearchViewController.m in Sources */,
+				C5B5634718E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
 				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1A318CF88CF009EEF16 /* OAuth+Additions.m in Sources */,

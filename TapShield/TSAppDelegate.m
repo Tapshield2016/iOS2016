@@ -48,17 +48,22 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
+    [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;
-
     // Add some styles for the drawer
     [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    [self.dynamicsDrawerViewController setElasticity:0.0f];
+    [self.dynamicsDrawerViewController setGravityMagnitude:4.0f];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
-    
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
     self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg"]];

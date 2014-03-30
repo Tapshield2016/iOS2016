@@ -75,6 +75,7 @@
 - (IBAction)dismissViewController:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:^{
+        [_homeViewController viewWillAppear:NO];
         [_homeViewController viewDidAppear:NO];
     }];
 }

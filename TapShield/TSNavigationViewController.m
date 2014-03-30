@@ -29,15 +29,6 @@
     // Do any additional setup after loading the view.
     
     _navigationBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
-    
-    for (UINavigationItem *item in self.navigationController.navigationBar.items) {
-        
-        [item.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-        [item.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-        [item.backBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    }
-    
-    [self.navigationController.navigationBar setTintColor:[TSColorPalette tapshieldBlue]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,12 +37,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 

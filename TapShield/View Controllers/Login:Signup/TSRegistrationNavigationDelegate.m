@@ -43,7 +43,6 @@ NSString * const progress4 = @"progress_bar_s4";
     
     navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:-10.0f forBarMetrics:UIBarMetricsDefault];
-    [navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayMedium size:17.0f], NSFontAttributeName, nil]];
     
     _progressImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:progress1]];
     [_progressImageView setContentMode:UIViewContentModeCenter];

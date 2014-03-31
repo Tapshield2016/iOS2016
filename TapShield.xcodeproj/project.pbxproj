@@ -1044,6 +1044,9 @@
 		C5B5634618E875200013AF69 /* TSSpotCrimeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */; };
 		C5B5634718E875200013AF69 /* TSSpotCrimeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */; };
 		C5B5634818E875200013AF69 /* TSSpotCrimeLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */; };
+		C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634A18E8EA900013AF69 /* TSToolBarView.m */; };
+		C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634A18E8EA900013AF69 /* TSToolBarView.m */; };
+		C5B5634D18E8EA900013AF69 /* TSToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634A18E8EA900013AF69 /* TSToolBarView.m */; };
 		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
@@ -1558,6 +1561,8 @@
 		C5B5634018E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAPIClient.m; path = SpotCrime/TSSpotCrimeAPIClient.m; sourceTree = "<group>"; };
 		C5B5634418E875200013AF69 /* TSSpotCrimeLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeLocation.h; path = SpotCrime/TSSpotCrimeLocation.h; sourceTree = "<group>"; };
 		C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeLocation.m; path = SpotCrime/TSSpotCrimeLocation.m; sourceTree = "<group>"; };
+		C5B5634918E8EA900013AF69 /* TSToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSToolBarView.h; path = Views/TSToolBarView.h; sourceTree = "<group>"; };
+		C5B5634A18E8EA900013AF69 /* TSToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSToolBarView.m; path = Views/TSToolBarView.m; sourceTree = "<group>"; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
@@ -1776,6 +1781,8 @@
 				C5C1706F18AC085100EEFBD6 /* Buttons */,
 				C585F2E318DB6B66009EEF16 /* TSAnimatedView.h */,
 				C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */,
+				C5B5634918E8EA900013AF69 /* TSToolBarView.h */,
+				C5B5634A18E8EA900013AF69 /* TSToolBarView.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -3677,6 +3684,7 @@
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C532E64918BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
+				C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */,
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C585F2DC18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
@@ -3776,6 +3784,7 @@
 				B543F08518AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C520C90D18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				C5662BE518DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
+				C5B5634D18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C5B5634318E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
 				C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
@@ -3880,6 +3889,7 @@
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
+				C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
 				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,
 				C57C48CA18BBDB1900DFFBCE /* TSJavelinAPIClient.m in Sources */,

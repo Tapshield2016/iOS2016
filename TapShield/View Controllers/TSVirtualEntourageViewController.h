@@ -17,6 +17,7 @@
 @property (nonatomic, strong) TSHomeViewController *homeViewController;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *dismissalView;
 
 - (IBAction)dismissViewController:(id)sender;
 - (IBAction)searchContacts:(id)sender;

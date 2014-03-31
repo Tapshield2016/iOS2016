@@ -24,8 +24,6 @@
     
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(completeVerification:)];
     self.navigationItem.rightBarButtonItem = nextButton;
     

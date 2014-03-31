@@ -131,6 +131,23 @@
 
 - (void)customizeSearchBarAppearance:(UISearchBar *)searchBar {
     
+    for (UIView *subview in searchBar.subviews) {
+        
+        if (subview.subviews) {
+            for (UIView *view in subview.subviews) {
+                if ([view isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
+                    [view removeFromSuperview];
+                    break;
+                }
+            }
+        }
+        
+        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
+            [subview removeFromSuperview];
+            break;
+        }
+    }
+    
     UITextField *textField = [((UITextField *)[searchBar.subviews firstObject]).subviews lastObject];
     [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor = [TSColorPalette searchFieldBackgroundColor];
     [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0];
@@ -143,7 +160,7 @@
     textField.layer.masksToBounds = YES;
     
     searchBar.tintColor = [TSColorPalette tapshieldBlue];
-    searchBar.barTintColor = [TSColorPalette listBackgroundColor];
+//    searchBar.barTintColor = [TSColorPalette listBackgroundColor];
     
     UIImage *leftViewImage = ((UIImageView *)textField.leftView).image;
     [searchBar setImage:[leftViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];

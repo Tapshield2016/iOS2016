@@ -28,12 +28,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Car", @"Walk"]];
     _directionsTypeSegmentedControl.tintColor = [TSColorPalette tapshieldBlue];
     
     _directionsTransportType = MKDirectionsTransportTypeAutomobile;
     [_directionsTypeSegmentedControl addTarget:self
                                         action:@selector(transportTypeSegmentedControlValueChanged:)
                               forControlEvents:UIControlEventValueChanged];
+    
+    [self.navigationItem setTitleView:_directionsTypeSegmentedControl];
 }
 
 - (void)didReceiveMemoryWarning

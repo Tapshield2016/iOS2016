@@ -22,8 +22,6 @@
     
     [self getOrganizationsToDisplay];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
     _searchDisplay = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
     _searchDisplay.delegate = self;
     _searchDisplay.searchResultsDataSource = self;

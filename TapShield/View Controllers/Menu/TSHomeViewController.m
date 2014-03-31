@@ -92,8 +92,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-    
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 
     // Display user location and selected destination if present
     if (_mapView.destinationMapItem) {

@@ -12,7 +12,12 @@
 
 @interface TSRoutePickerViewController : TSNavigationViewController
 
-@property (nonatomic, strong) IBOutlet UISegmentedControl *directionsTypeSegmentedControl;
+@property (nonatomic, strong) TSHomeViewController *homeViewController;
+@property (nonatomic, strong) MKMapItem *destinationMapItem;
+@property (nonatomic, strong) UISegmentedControl *directionsTypeSegmentedControl;
 @property (nonatomic, assign) MKDirectionsTransportType directionsTransportType;
+@property (weak, nonatomic) IBOutlet UIView *routeInfoView;
+@property (weak, nonatomic) IBOutlet TSBaseLabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *etaLabel;
 
 @end

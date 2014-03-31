@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSOrganizationCell.h"
 #import "TSRegisterViewController.h"
 #import "TSLocationController.h"
 
-@interface TSOrganizationSearchViewController : TSBaseViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface TSOrganizationSearchViewController : TSNavigationViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSString *emailAddress;
 @property (strong, nonatomic) NSString *statusString;

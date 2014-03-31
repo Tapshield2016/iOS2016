@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSRegistrationTextField.h"
 #import "TSRegistrationButton.h"
 #import "TSRegistrationLabel.h"
 
-@interface TSEmailVerificationViewController : TSBaseViewController
+@interface TSEmailVerificationViewController : TSNavigationViewController
 
 @property (strong, nonatomic) TSJavelinAPIUser *user;
 

@@ -23,9 +23,7 @@
     
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
     self.navigationItem.rightBarButtonItem = nextButton;
-    
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
+
     if (self.navigationController.viewControllers.count <= 1) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(dismissRegistration:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
@@ -75,10 +73,6 @@
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
-//    
-//    _user.email = _emailTextField.text;
-//    _user.password = _passwordTextField.text;
-//    _user.phoneNumber = _phoneNumberTextField.text;
     
     for (UIViewController *viewController in self.navigationController.viewControllers) {
         if ([viewController respondsToSelector:@selector(setUser:)]) {

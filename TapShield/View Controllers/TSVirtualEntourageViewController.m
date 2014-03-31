@@ -9,6 +9,7 @@
 #import "TSVirtualEntourageViewController.h"
 #import <MapKit/MapKit.h>
 #import "TSUtilities.h"
+#import "TSRoutePickerViewController.h"
 
 @interface TSVirtualEntourageViewController ()
 
@@ -38,8 +39,7 @@
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
-    self.navigationController.navigationBar.barTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5f];
-    _searchBar.barTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5f];
+    _searchBar.barTintColor = [UIColor clearColor];
     self.removeNavigationShadow = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -55,8 +55,7 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissViewController:)];
-    [self.view addGestureRecognizer:tap];
-    
+    [_dismissalView addGestureRecognizer:tap];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -191,21 +190,29 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    CGRect frame = _tableView.frame;
+    frame.size.height = _searchResults.count * (self.view.bounds.size.height - _searchBar.frame.origin.y - _searchBar.frame.size.height)/10;
+    _tableView.frame = frame;
+    
     return _searchResults.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return _tableView.bounds.size.height/10;
+    return (self.view.bounds.size.height - _searchBar.frame.origin.y - _searchBar.frame.size.height)/10;
 }
 
 #pragma mark - UITableViewDelegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
-    #warning destination
+    
 //    [_homeViewController.mapView userSelectedDestination:mapItem forTransportType:_directionsTransportType];
-    [self dismissViewController:nil];
+    
+    UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    ((TSRoutePickerViewController *)destinationViewController).homeViewController = _homeViewController;
+    ((TSRoutePickerViewController *)destinationViewController).destinationMapItem = mapItem;
 }
 
 #pragma mark - UISearchBarDelegate methods

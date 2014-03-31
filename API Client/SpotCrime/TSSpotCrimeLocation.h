@@ -16,7 +16,6 @@
 @property (strong, nonatomic) NSString *cdid; //:23923102,
 @property (strong, nonatomic) NSString *date; //:"10/17/11 09:00 PM",
 
-
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
 @end

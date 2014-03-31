@@ -8,6 +8,9 @@
 
 #import "TSSpotCrimeLocation.h"
 
+static NSString * const IconImagePrefix = @"pins_";
+static NSString * const IconImageSuffix = @"_icon";
+
 @implementation TSSpotCrimeLocation
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
@@ -22,6 +25,14 @@
     }
     
     return self;
+}
+
++ (UIImage *)imageFromSpotCrimeType:(NSString *)type {
+    
+    NSString *imageName = [NSString stringWithFormat:@"%@%@%@", IconImagePrefix, type, IconImageSuffix];
+    UIImage *image = [UIImage imageNamed:imageName];
+    
+    return image;
 }
 
 @end

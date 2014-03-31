@@ -2655,15 +2655,22 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HS1-2j-UMN">
+                                <rect key="frame" x="0.0" y="104" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GgN-I0-Vx7" customClass="TSToolBarView">
+                                <rect key="frame" x="0.0" y="60" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
                                 <rect key="frame" x="0.0" y="60" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Nearby</string>
-                                    <string>Contacts</string>
-                                </scopeButtonTitles>
                                 <connections>
                                     <outlet property="delegate" destination="vuB-WZ-keb" id="W0A-d8-j58"/>
                                 </connections>
@@ -2729,6 +2736,7 @@ Last Updated: 12/12/13
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="dismissalView" destination="HS1-2j-UMN" id="eSc-2w-671"/>
                         <outlet property="searchBar" destination="R8m-ie-HlH" id="STJ-J4-Okb"/>
                         <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
                     </connections>
@@ -2736,6 +2744,51 @@ Last Updated: 12/12/13
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ky-at-Ly8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1507" y="1339"/>
+        </scene>
+        <!--Route Picker View Controller-->
+        <scene sceneID="l2p-ft-Ity">
+            <objects>
+                <viewController storyboardIdentifier="TSRoutePickerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GTK-a7-ESV" customClass="TSRoutePickerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zxR-Z0-Wbo"/>
+                        <viewControllerLayoutGuide type="bottom" id="uc0-0g-Kev"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yEk-vZ-EOm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cJ-xl-oGK" customClass="TSToolBarView">
+                                <rect key="frame" x="0.0" y="60" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Street Avenue" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQl-OT-QPc" customClass="TSBaseLabel">
+                                        <rect key="frame" x="20" y="11" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIf-WA-DEI" customClass="TSBaseLabel">
+                                        <rect key="frame" x="20" y="28" width="280" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="addressLabel" destination="wQl-OT-QPc" id="FYD-XS-b0S"/>
+                        <outlet property="etaLabel" destination="gIf-WA-DEI" id="al8-FU-Vkj"/>
+                        <outlet property="routeInfoView" destination="6cJ-xl-oGK" id="V0A-BT-7cm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0QV-ac-n5c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1918" y="1339"/>
         </scene>
     </scenes>
     <resources>

@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSRegistrationTextField.h"
 #import "TSRegistrationButton.h"
 #import "TSRegistrationLabel.h"
 
-@interface TSPhoneVerificationViewController : TSBaseViewController <UITextFieldDelegate>
+@interface TSPhoneVerificationViewController : TSNavigationViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet TSRegistrationTextField *phoneNumberTextField;
 @property (weak, nonatomic) IBOutlet TSRegistrationTextField *verificationCodeTextField;
 @property (weak, nonatomic) IBOutlet TSRegistrationButton *resendButton;

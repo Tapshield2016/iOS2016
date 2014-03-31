@@ -39,8 +39,6 @@ NSString * const progress4 = @"progress_bar_s4";
     
     _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSRegisterViewController class], [TSEmailVerificationViewController class], [TSPhoneVerificationViewController class]];
     
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    
     navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:-10.0f forBarMetrics:UIBarMetricsDefault];
     

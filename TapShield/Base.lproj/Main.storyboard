@@ -2660,21 +2660,27 @@ Last Updated: 12/12/13
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GgN-I0-Vx7" customClass="TSToolBarView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GgN-I0-Vx7" customClass="TSToolBarView">
                                 <rect key="frame" x="0.0" y="60" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="vuB-WZ-keb" id="W0A-d8-j58"/>
+                                        </connections>
+                                    </searchBar>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="J23-Ld-9Id"/>
+                                    <constraint firstAttribute="width" constant="320" id="vT0-H4-0ge"/>
+                                </constraints>
                             </view>
-                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
-                                <rect key="frame" x="0.0" y="60" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="vuB-WZ-keb" id="W0A-d8-j58"/>
-                                </connections>
-                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
                                 <rect key="frame" x="0.0" y="104" width="320" height="464"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2713,13 +2719,13 @@ Last Updated: 12/12/13
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="R8m-ie-HlH" firstAttribute="top" secondItem="z0p-0p-Ljz" secondAttribute="bottom" constant="-4" id="5aR-R9-mks"/>
-                            <constraint firstAttribute="trailing" secondItem="R8m-ie-HlH" secondAttribute="trailing" id="IvT-rh-MqP"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="R8m-ie-HlH" secondAttribute="bottom" id="Kqr-ec-nhu"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="R8m-ie-HlH" secondAttribute="leading" id="Qxf-uL-ucE"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="bAm-X1-znb"/>
-                            <constraint firstAttribute="bottom" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="f5o-R5-LOG"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="trailing" secondItem="R8m-ie-HlH" secondAttribute="trailing" id="zsz-Zv-oMm"/>
+                            <constraint firstItem="GgN-I0-Vx7" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="5Vt-n3-FSS"/>
+                            <constraint firstItem="GgN-I0-Vx7" firstAttribute="top" secondItem="dTj-Wb-H6Q" secondAttribute="top" constant="60" id="BD5-Py-KS3"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="HwG-mM-pXX"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="GgN-I0-Vx7" secondAttribute="bottom" id="RsY-MW-8By"/>
+                            <constraint firstItem="YcF-kv-V2o" firstAttribute="top" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="hzI-xw-5X1"/>
+                            <constraint firstAttribute="trailing" secondItem="GgN-I0-Vx7" secondAttribute="trailing" id="uII-Eq-Gei"/>
+                            <constraint firstAttribute="trailing" secondItem="MMA-RX-ciz" secondAttribute="trailing" id="xE0-VT-8C9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Destination" id="4Uw-Ce-DMj">
@@ -2757,6 +2763,11 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="umI-fa-4nR" customClass="TSHitTestForwardingView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cJ-xl-oGK" customClass="TSToolBarView">
                                 <rect key="frame" x="0.0" y="60" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2783,6 +2794,7 @@ Last Updated: 12/12/13
                     <connections>
                         <outlet property="addressLabel" destination="wQl-OT-QPc" id="FYD-XS-b0S"/>
                         <outlet property="etaLabel" destination="gIf-WA-DEI" id="al8-FU-Vkj"/>
+                        <outlet property="hitTestView" destination="umI-fa-4nR" id="gG5-Rt-irc"/>
                         <outlet property="routeInfoView" destination="6cJ-xl-oGK" id="V0A-BT-7cm"/>
                     </connections>
                 </viewController>

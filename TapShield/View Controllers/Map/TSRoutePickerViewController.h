@@ -8,6 +8,7 @@
 
 #import "TSNavigationViewController.h"
 #import "TSHomeViewController.h"
+#import "TSHitTestForwardingView.h"
 #import <MapKit/MapKit.h>
 
 @interface TSRoutePickerViewController : TSNavigationViewController
@@ -19,5 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *etaLabel;
+@property (weak, nonatomic) IBOutlet TSHitTestForwardingView *hitTestView;
 
 @end

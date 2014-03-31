@@ -14,6 +14,7 @@
 @interface TSVirtualEntourageViewController ()
 
 @property (nonatomic, strong) NSArray *searchResults;
+@property (nonatomic, strong) TSTransitionDelegate *transitionDelegate;
 
 @end
 
@@ -210,7 +211,11 @@
     
 //    [_homeViewController.mapView userSelectedDestination:mapItem forTransportType:_directionsTransportType];
     
-    UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    [_searchBar resignFirstResponder];
+    
+    _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    
+    UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
     ((TSRoutePickerViewController *)destinationViewController).homeViewController = _homeViewController;
     ((TSRoutePickerViewController *)destinationViewController).destinationMapItem = mapItem;
 }

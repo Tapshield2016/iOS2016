@@ -1047,6 +1047,9 @@
 		C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634A18E8EA900013AF69 /* TSToolBarView.m */; };
 		C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634A18E8EA900013AF69 /* TSToolBarView.m */; };
 		C5B5634D18E8EA900013AF69 /* TSToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634A18E8EA900013AF69 /* TSToolBarView.m */; };
+		C5B5635018E926C70013AF69 /* TSHitTestForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */; };
+		C5B5635118E926C70013AF69 /* TSHitTestForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */; };
+		C5B5635218E926C70013AF69 /* TSHitTestForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */; };
 		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
@@ -1563,6 +1566,8 @@
 		C5B5634518E875200013AF69 /* TSSpotCrimeLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeLocation.m; path = SpotCrime/TSSpotCrimeLocation.m; sourceTree = "<group>"; };
 		C5B5634918E8EA900013AF69 /* TSToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSToolBarView.h; path = Views/TSToolBarView.h; sourceTree = "<group>"; };
 		C5B5634A18E8EA900013AF69 /* TSToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSToolBarView.m; path = Views/TSToolBarView.m; sourceTree = "<group>"; };
+		C5B5634E18E926C70013AF69 /* TSHitTestForwardingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSHitTestForwardingView.h; sourceTree = "<group>"; };
+		C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSHitTestForwardingView.m; sourceTree = "<group>"; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
@@ -1783,6 +1788,8 @@
 				C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */,
 				C5B5634918E8EA900013AF69 /* TSToolBarView.h */,
 				C5B5634A18E8EA900013AF69 /* TSToolBarView.m */,
+				C5B5634E18E926C70013AF69 /* TSHitTestForwardingView.h */,
+				C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -3730,6 +3737,7 @@
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
+				C5B5635018E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C51A40A818CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
@@ -3770,6 +3778,7 @@
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
+				C5B5635218E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
@@ -3935,6 +3944,7 @@
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
 				C532E63B18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
+				C5B5635118E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5662BF418DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C57C48DF18BBDB1900DFFBCE /* TSJavelinAPIUtilities.m in Sources */,
 				C5CB078518C6851D00BC9425 /* TSCircularButton.m in Sources */,

@@ -28,6 +28,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _hitTestView.sendToView = _homeViewController.view;
+    
     _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Car", @"Walk"]];
     _directionsTypeSegmentedControl.tintColor = [TSColorPalette tapshieldBlue];
     
@@ -64,6 +66,7 @@
             break;
     }
 }
+
 
 
 @end

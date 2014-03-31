@@ -34,10 +34,20 @@
         }
     }
     else if (self.isPushing) {
-        [self executePushAnimation:transitionContext];
+        if (self.isSlide) {
+            [self executeSlideTransition:transitionContext];
+        }
+        else {
+            [self executePushAnimation:transitionContext];
+        }
     }
     else if (self.isPopping) {
-        [self executePopAnimation:transitionContext];
+        if (self.isSlide) {
+            [self executeSlideTransition:transitionContext];
+        }
+        else {
+            [self executePopAnimation:transitionContext];
+        }
     }
 }
 
@@ -131,6 +141,8 @@
     }];
 }
 
+#pragma mark - Push Fade Animation
+
 - (void)executePushAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
     
     UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
@@ -169,6 +181,54 @@
         [fromViewController.view removeFromSuperview];
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
+}
+
+
+#pragma mark - Push Slide Animation
+
+- (void)executeSlideTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *fromView = fromVC.view;
+    UIView *toView = toVC.view;
+    UIView *containerView = [transitionContext containerView];
+    CGFloat duration = 0.3f;
+    
+    CGRect initialFrame = [transitionContext initialFrameForViewController:fromVC];
+    CGRect offscreenRectRight = initialFrame;
+    offscreenRectRight.origin.x += CGRectGetWidth(initialFrame);
+    CGRect offscreenRectLeft = initialFrame;
+    offscreenRectLeft.origin.x -= CGRectGetWidth(initialFrame);
+    
+    // Presenting
+    if (self.isPushing) {
+        // Position the view offscreen
+        toView.frame = offscreenRectRight;
+        [containerView addSubview:toView];
+        
+        // Animate the view onscreen
+        [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations: ^{
+            toView.frame = initialFrame;
+            fromView.frame = offscreenRectLeft;
+        } completion: ^(BOOL finished) {
+            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        }];
+    }
+    // Dismissing
+    else {
+        [containerView addSubview:toView];
+        [containerView sendSubviewToBack:toView];
+        toView.frame = offscreenRectLeft;
+        // Animate the view offscreen
+        [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations: ^{
+            toView.frame = initialFrame;
+            fromView.frame = offscreenRectRight;
+        } completion: ^(BOOL finished) {
+            [fromView removeFromSuperview];
+            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        }];
+    }
 }
 
 

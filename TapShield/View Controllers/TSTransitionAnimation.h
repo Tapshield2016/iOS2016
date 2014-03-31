@@ -17,5 +17,6 @@
 
 @property (nonatomic, assign) BOOL isTopDownPresentation;
 @property (nonatomic, assign) BOOL isBottomUpPresentation;
+@property (nonatomic, assign) BOOL isSlide;
 
 @end

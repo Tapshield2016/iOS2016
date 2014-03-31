@@ -66,12 +66,21 @@
     if (operation == UINavigationControllerOperationPush) {
         TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
         animator.isPushing = YES;
+        
+        if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSVirtualEntourageViewController class]]) {
+            animator.isSlide = YES;
+        }
+        
         animationController = animator;
     }
     // Fade Out - Pop
     else if (operation == UINavigationControllerOperationPop) {
         TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
         animator.isPopping = YES;
+        
+        if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSVirtualEntourageViewController class]]) {
+            animator.isSlide = YES;
+        }
         animationController = animator;
     }
     

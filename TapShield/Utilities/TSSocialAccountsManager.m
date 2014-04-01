@@ -23,7 +23,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 static TSSocialAccountsManager *_sharedSocialAccountsManagerInstance = nil;
 static dispatch_once_t predicate;
 
-+ (instancetype)sharedSocialAccountsManager {
++ (instancetype)initializeShareSocialAccountsManager {
     
     if (_sharedSocialAccountsManagerInstance == nil) {
         dispatch_once(&predicate, ^{
@@ -71,6 +71,15 @@ static dispatch_once_t predicate;
     }
     
     return self;
+}
+
++ (instancetype)sharedSocialAccountsManager {
+    if (_sharedSocialAccountsManagerInstance == nil) {
+        [NSException raise:@"Shared Client Not Initialized"
+                    format:@"Before calling [TSJavelinAPIClient sharedClient] you must first initialize the shared client"];
+    }
+    
+    return _sharedSocialAccountsManagerInstance;
 }
 
 - (void)initializeFacebookView {
@@ -171,14 +180,17 @@ static dispatch_once_t predicate;
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView; {
     NSLog(@"User is logged in. Access token is %@", [[FBSession.activeSession accessTokenData] accessToken]);
-//    [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
     _facebookLoggedIn = YES;
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
     NSLog(@"User is logged out...");
-    _facebookLoggedIn = NO;
-    [self logoutAllUserTypesCompletion:_loggedOutBlock];
+    
+    if (_facebookLoggedIn) {
+        _facebookLoggedIn = NO;
+        [self logoutAllUserTypesCompletion:_loggedOutBlock];
+    }
 }
 
 #pragma mark - UIActionSheetDelegate

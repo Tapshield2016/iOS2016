@@ -11,6 +11,7 @@
 #import "TSLoginViewController.h"
 #import "TSAskOrganizationViewController.h"
 #import "TSAnimatedView.h"
+#import "TSSocialAccountsManager.h"
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>
@@ -191,26 +192,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"]];
 }
 
-#pragma mark - FBLoginViewDelegate methods
-
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
-    NSLog(@"Something went wrong: %@", error);
-}
-
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
-    NSLog(@"%@", user);
-}
-
-- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView; {
-    NSLog(@"User is logged in. Access token is %@", [[FBSession.activeSession accessTokenData] accessToken]);
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
-}
-
-- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-    NSLog(@"User is logged out...");
-//    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
-}
-
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -323,8 +304,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
     
     [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
-    _facebookLoginView.delegate = nil;
-    _facebookLoginView = nil;
     
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }

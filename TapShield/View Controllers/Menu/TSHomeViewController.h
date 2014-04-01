@@ -29,4 +29,7 @@
 - (IBAction)sendAlert:(id)sender;
 - (IBAction)openChatWindow:(id)sender;
 
+//Map Routing
+- (void)requestAndDisplayRoutesForSelectedDestination;
+
 @end

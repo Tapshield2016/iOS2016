@@ -19,6 +19,7 @@
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) MKRoute *selectedRoute;
+@property (nonatomic, strong) MKDirections *directions;
 @property (nonatomic) BOOL viewDidAppear;
 
 @end
@@ -93,12 +94,6 @@
 
     [super viewWillAppear:animated];
 
-    // Display user location and selected destination if present
-    if (_mapView.destinationMapItem) {
-        _isTrackingUser = NO;
-        [_mapView centerMapOnSelectedDestination];
-        [_mapView selectDestinationAnnotation];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -166,6 +161,9 @@
 }
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
+    
+    double shortestDistance = INFINITY;
+    
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         for (int i = 0; i < recognizer.numberOfTouches; i++) {
             CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
@@ -181,13 +179,21 @@
                     id view = [_mapView rendererForOverlay:poly];
 
                     if ([view isKindOfClass:[MKPolylineRenderer class]]) {
-                        MKPolylineRenderer *polyView = (MKPolylineRenderer*) view;
-                        [polyView invalidatePath];
-
-                        CGPoint polygonViewPoint = [polyView pointForMapPoint:mapPoint];
-                        BOOL mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
-
-                        if (mapCoordinateIsInPolygon) {
+                        
+                        double distanceToPolyline = [self distanceOfPoint:mapPoint toPoly:poly];
+                        if (distanceToPolyline < shortestDistance) {
+                            
+                            //Reset array to only include closest polyline
+                            struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
+                            shortestDistance = distanceToPolyline;
+                            
+                            for (MKRoute *route in _routes) {
+                                if (route.polyline == poly) {
+                                    [struckRoutes addObject:route];
+                                }
+                            }
+                        }
+                        else if (distanceToPolyline == shortestDistance) {
                             for (MKRoute *route in _routes) {
                                 if (route.polyline == poly) {
                                     [struckRoutes addObject:route];
@@ -200,6 +206,43 @@
             [self setSelectedRouteFromStruckRoutes:struckRoutes];
         }
     }
+}
+
+- (double)distanceOfPoint:(MKMapPoint)pt toPoly:(MKPolyline *)poly {
+    double distance = MAXFLOAT;
+    for (int n = 0; n < poly.pointCount - 1; n++) {
+        
+        MKMapPoint ptA = poly.points[n];
+        MKMapPoint ptB = poly.points[n + 1];
+        
+        double xDelta = ptB.x - ptA.x;
+        double yDelta = ptB.y - ptA.y;
+        
+        if (xDelta == 0.0 && yDelta == 0.0) {
+            
+            // Points must not be equal
+            continue;
+        }
+        
+        double u = ((pt.x - ptA.x) * xDelta + (pt.y - ptA.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+        MKMapPoint ptClosest;
+        if (u < 0.0) {
+            
+            ptClosest = ptA;
+        }
+        else if (u > 1.0) {
+            
+            ptClosest = ptB;
+        }
+        else {
+            
+            ptClosest = MKMapPointMake(ptA.x + u * xDelta, ptA.y + u * yDelta);
+        }
+        
+        distance = MIN(distance, MKMetersBetweenMapPoints(ptClosest, pt));
+    }
+    
+    return distance;
 }
 
 #pragma mark - Virtual Entourage methods
@@ -243,11 +286,13 @@
 }
 
 - (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion {
+    
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
     [request setDestination:_mapView.destinationMapItem];
     [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
     [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
         if (!error) {
@@ -268,14 +313,19 @@
 }
 
 - (void)requestAndDisplayRoutesForSelectedDestination {
+    
     [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
     [request setDestination:_mapView.destinationMapItem];
     [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
     [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
-    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+    
+    if (_directions.isCalculating) {
+        [_directions cancel];
+    }
+    _directions = [[MKDirections alloc] initWithRequest:request];
+    [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         if (!error) {
             _selectedRoute = nil;
             [self removeRouteOverlays];
@@ -304,8 +354,8 @@
         }
         [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
         // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
-        //NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
-        //NSLog(@"%.02f miles", route.distance * 0.000621371);
+        NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
+        NSLog(@"%.02f miles", route.distance * 0.000621371);
     }
 
     if (_selectedRoute) {
@@ -322,14 +372,18 @@
 - (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
     [renderer setLineWidth:4.0];
-    [renderer setStrokeColor:[UIColor lightGrayColor]];
+    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5]];
+    
+    if (!_selectedRoute) {
+        _selectedRoute = [_routes firstObject];
+    }
     
     if (_selectedRoute) {
         for (MKRoute *route in _routes) {
             if (route == _selectedRoute) {
                 if (route.polyline == overlay) {
                     NSLog(@"%@ highlighted", route.name);
-                    [renderer setStrokeColor:[UIColor blueColor]];
+                    [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
                     break;
                 }
             }
@@ -506,12 +560,6 @@
             [_mapView setCenterCoordinate:location.coordinate animated:YES];
         }
     }
-
-    for(TSUserLocationAnnotation *n in _mapView.annotations){
-        [_mapView addAnimatedOverlayToAnnotation:n];
-    }
-    
-    //[_mapView removeOverlay:_mapView.accuracyCircle];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {

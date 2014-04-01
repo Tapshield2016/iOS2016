@@ -44,6 +44,7 @@ typedef void (^LoggedOutBlock)(BOOL loggedOut);
 
 @property (nonatomic) BOOL facebookLoggedIn;
 
++ (instancetype)initializeShareSocialAccountsManager;
 + (instancetype)sharedSocialAccountsManager;
 
 - (void)initializeFacebookView;

@@ -30,21 +30,17 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    _socialAccounts = [[TSSocialAccountsManager alloc] init];
-    [_socialAccounts addSocialViewsTo:self.view];
+    [[TSSocialAccountsManager sharedSocialAccountsManager] addSocialViewsTo:self.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
-    [_socialAccounts initializeFacebookView];
-    [_socialAccounts addSocialViewsTo:self.view];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
-    [_socialAccounts deallocFacebookView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +51,7 @@
 
 - (IBAction)logOutUser:(id)sender {
 
-    [_socialAccounts logoutAllUserTypesCompletion:^(BOOL loggedOut) {
+    [[TSSocialAccountsManager sharedSocialAccountsManager] logoutAllUserTypesCompletion:^(BOOL loggedOut) {
         if (loggedOut) {
             [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:YES];
         }

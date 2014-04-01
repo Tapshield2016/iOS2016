@@ -32,6 +32,7 @@
     
     _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Car", @"Walk"]];
     _directionsTypeSegmentedControl.tintColor = [TSColorPalette tapshieldBlue];
+    [_directionsTypeSegmentedControl setSelectedSegmentIndex:0];
     
     _directionsTransportType = MKDirectionsTransportTypeAutomobile;
     [_directionsTypeSegmentedControl addTarget:self
@@ -39,6 +40,19 @@
                               forControlEvents:UIControlEventValueChanged];
     
     [self.navigationItem setTitleView:_directionsTypeSegmentedControl];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [_homeViewController.mapView userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    
+    // Display user location and selected destination if present
+    if (_homeViewController.mapView.destinationMapItem) {
+        _homeViewController.isTrackingUser = NO;
+        [_homeViewController requestAndDisplayRoutesForSelectedDestination];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +79,9 @@
             _directionsTransportType = MKDirectionsTransportTypeAny;
             break;
     }
+    
+    [_homeViewController.mapView userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [_homeViewController requestAndDisplayRoutesForSelectedDestination];
 }
 
 

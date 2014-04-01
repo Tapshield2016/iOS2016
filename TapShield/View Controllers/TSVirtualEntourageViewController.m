@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) NSArray *searchResults;
 @property (nonatomic, strong) TSTransitionDelegate *transitionDelegate;
+@property (nonatomic, strong) MKLocalSearch *search;
 
 @end
 
@@ -153,8 +154,11 @@
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = searchString;
     request.region = _homeViewController.mapView.region;
-    MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
-    [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+    if (_search.isSearching) {
+        [_search cancel];
+    }
+    _search = [[MKLocalSearch alloc] initWithRequest:request];
+    [_search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
         if ([response.mapItems count] > 0) {
             _searchResults = response.mapItems;
             [_tableView reloadData];
@@ -208,8 +212,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
-    
-//    [_homeViewController.mapView userSelectedDestination:mapItem forTransportType:_directionsTransportType];
     
     [_searchBar resignFirstResponder];
     

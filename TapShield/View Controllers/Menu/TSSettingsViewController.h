@@ -12,7 +12,6 @@
 
 @interface TSSettingsViewController : TSNavigationViewController
 
-@property (strong, nonatomic) TSSocialAccountsManager *socialAccounts;
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 
 - (IBAction)logOutUser:(id)sender;

@@ -345,8 +345,57 @@
     [_mapView removeOverlays:overlays];
 }
 
+- (MKMapPoint)findUniqueMapPointFrom:(MKPolyline *)polyline comparing:(NSArray *)routeArray {
+    MKMapPoint uniquePoint;
+    NSArray *result;
+    
+    NSMutableSet *initialSet = [[NSMutableSet alloc] initWithCapacity:polyline.pointCount];
+    for (int n = 0; n < polyline.pointCount; n++) {
+        
+        MKMapPoint point = polyline.points[n];
+        [initialSet addObject:[NSValue valueWithCGPoint:CGPointMake(point.x, point.y)]];
+    }
+    NSMutableSet *filteredSet = [[NSMutableSet alloc] initWithCapacity:polyline.pointCount];
+    
+    for (MKRoute *route in routeArray) {
+        
+        NSMutableSet *set1 = initialSet;
+        NSMutableSet *set2 = [[NSMutableSet alloc] initWithCapacity:route.polyline.pointCount];;
+        for (int n = 0; n < route.polyline.pointCount; n++) {
+            
+            MKMapPoint point = route.polyline.points[n];
+            [set2 addObject:[NSValue valueWithCGPoint:CGPointMake(point.x, point.y)]];
+        }
+        
+        [set1 minusSet:set2]; //this will give you only the obejcts that are in both sets
+        
+        if (filteredSet.count != 0) {
+            [set1 intersectSet:filteredSet];
+        }
+        result = [set1 allObjects];
+        filteredSet = set1;
+    }
+    
+    if (result) {
+        uniquePoint = MKMapPointMake([[result firstObject] CGPointValue].x, [[result firstObject] CGPointValue].y);
+    }
+    NSLog(@"%f, %f", uniquePoint.x, uniquePoint.y);
+    
+    return uniquePoint;
+}
+
 - (void)addRouteOverlaysToMapView {
+    
+    if (_routes.count > 1) {
+        for (MKRoute *route in _routes) {
+            NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:_routes];
+            [mutableArray removeObjectsInArray:@[route]];
+            [self findUniqueMapPointFrom:route.polyline comparing:mutableArray];
+        }
+    }
+    
     for (MKRoute *route in _routes) {
+        
         if (route == _selectedRoute) {
             // skip selected route so we can add it last, on top of others
             // this handles when two routes overlap

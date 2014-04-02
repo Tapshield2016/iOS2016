@@ -7,7 +7,7 @@
 //
 
 #import "TSHomeViewController.h"
-#import "TSVirtualEntourageViewController.h"
+#import "TSDestinationSearchViewController.h"
 #import <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 #import "TSUtilities.h"
@@ -17,9 +17,6 @@
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
-@property (nonatomic, strong) NSArray *routes;
-@property (nonatomic, strong) MKRoute *selectedRoute;
-@property (nonatomic, strong) MKDirections *directions;
 @property (nonatomic) BOOL viewDidAppear;
 
 @end
@@ -48,6 +45,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _entourageManager = [[TSVirtualEntourageManager alloc] initWithMapView:_mapView];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tapshield_icon"]];
     imageView.contentMode = UIViewContentModeCenter;
@@ -112,15 +111,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)clearEntourageAndResetMap {
+    
+    [_entourageManager removeRouteOverlays];
+    [_mapView removeCurrentDestinationAnnotation];
+    self.isTrackingUser = YES;
+}
+
 - (IBAction)userLocationTUI:(id)sender {
     
-    _isTrackingUser = YES;
+    self.isTrackingUser = YES;
+}
+
+- (void)setIsTrackingUser:(BOOL)isTrackingUser {
     
-    if (_mapView.region.span.latitudeDelta > 0.1f) {
-        [_mapView setRegionAtAppearanceAnimated:YES];
-    }
-    else {
-        [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
+    _isTrackingUser = isTrackingUser;
+    
+    if (isTrackingUser) {
+        if (_mapView.region.span.latitudeDelta > 0.1f) {
+            [_mapView setRegionAtAppearanceAnimated:YES];
+        }
+        else {
+            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
+        }
     }
 }
 
@@ -162,8 +175,6 @@
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
     
-    double shortestDistance = INFINITY;
-    
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         for (int i = 0; i < recognizer.numberOfTouches; i++) {
             CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
@@ -171,279 +182,22 @@
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
 
-            // Capture multiple routes in case of overlap
-            NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
-            for (id overlay in _mapView.overlays) {
-                if ([overlay isKindOfClass:[MKPolyline class]]) {
-                    MKPolyline *poly = (MKPolyline *) overlay;
-                    id view = [_mapView rendererForOverlay:poly];
-
-                    if ([view isKindOfClass:[MKPolylineRenderer class]]) {
-                        
-                        double distanceToPolyline = [self distanceOfPoint:mapPoint toPoly:poly];
-                        if (distanceToPolyline < shortestDistance) {
-                            
-                            //Reset array to only include closest polyline
-                            struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
-                            shortestDistance = distanceToPolyline;
-                            
-                            for (MKRoute *route in _routes) {
-                                if (route.polyline == poly) {
-                                    [struckRoutes addObject:route];
-                                }
-                            }
-                        }
-                        else if (distanceToPolyline == shortestDistance) {
-                            for (MKRoute *route in _routes) {
-                                if (route.polyline == poly) {
-                                    [struckRoutes addObject:route];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            [self setSelectedRouteFromStruckRoutes:struckRoutes];
+            [_entourageManager selectRouteClosestTo:mapPoint];
         }
     }
-}
-
-- (double)distanceOfPoint:(MKMapPoint)pt toPoly:(MKPolyline *)poly {
-    double distance = MAXFLOAT;
-    for (int n = 0; n < poly.pointCount - 1; n++) {
-        
-        MKMapPoint ptA = poly.points[n];
-        MKMapPoint ptB = poly.points[n + 1];
-        
-        double xDelta = ptB.x - ptA.x;
-        double yDelta = ptB.y - ptA.y;
-        
-        if (xDelta == 0.0 && yDelta == 0.0) {
-            
-            // Points must not be equal
-            continue;
-        }
-        
-        double u = ((pt.x - ptA.x) * xDelta + (pt.y - ptA.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
-        MKMapPoint ptClosest;
-        if (u < 0.0) {
-            
-            ptClosest = ptA;
-        }
-        else if (u > 1.0) {
-            
-            ptClosest = ptB;
-        }
-        else {
-            
-            ptClosest = MKMapPointMake(ptA.x + u * xDelta, ptA.y + u * yDelta);
-        }
-        
-        distance = MIN(distance, MKMetersBetweenMapPoints(ptClosest, pt));
-    }
-    
-    return distance;
 }
 
 #pragma mark - Virtual Entourage methods
 
 - (IBAction)displayVirtualEntourage:(id)sender {
     
-    UIViewController *viewController = [self presentViewControllerWithClass:[TSVirtualEntourageViewController class] transitionDelegate:_transitionController animated:YES];
-    ((TSVirtualEntourageViewController *)viewController).homeViewController = self;
+    UIViewController *viewController = [self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
+    ((TSDestinationSearchViewController *)viewController).homeViewController = self;
     
     [self showOnlyMap];
 }
 
 
-#pragma mark - Route management and display methods
-
-- (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
-    if ([struckRoutes count] > 0) {
-        // If only one route, just take that one
-        if ([struckRoutes count] == 1) {
-            _selectedRoute = struckRoutes[0];
-        }
-        else {
-            // If multiple overlapping routes, alternate if one is already selected
-            BOOL previouslySelectedRouteWasStruck = NO;
-            for (MKRoute *route in struckRoutes) {
-                if (_selectedRoute == route) {
-                    NSUInteger selectedIndex = [struckRoutes indexOfObject:route];
-                    _selectedRoute = struckRoutes[(selectedIndex + 1) % struckRoutes.count];
-                    previouslySelectedRouteWasStruck = YES;
-                    break;
-                }
-            }
-            // Otherwise, just take the first one
-            if (!previouslySelectedRouteWasStruck) {
-                _selectedRoute = struckRoutes[0];
-            }
-        }
-        NSLog(@"%@ selected", _selectedRoute.name);
-        [self refreshOverlays];
-    }
-}
-
-- (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion {
-    
-    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-    [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:_mapView.destinationMapItem];
-    [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
-    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
-    
-    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-    [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
-        if (!error) {
-            NSLog(@"%@", response);
-            completion(response.expectedTravelTime);
-        }
-        else {
-            NSLog(@"%@", error);
-            // May have gotten an error due to attempting walking directions over too far
-            // a distance, retry with 'Any'.
-            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _mapView.destinationTransportType == MKDirectionsTransportTypeWalking) {
-                NSLog(@"Error with walking directions, trying again with 'Any'");
-                _mapView.destinationTransportType = MKDirectionsTransportTypeAny;
-                [self calculateETAForSelectedDestination:completion];
-            }
-        }
-    }];
-}
-
-- (void)requestAndDisplayRoutesForSelectedDestination {
-    
-    [_mapView showAnnotations:@[_mapView.userLocationAnnotation, _mapView.destinationAnnotation] animated:YES];
-    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-    [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:_mapView.destinationMapItem];
-    [request setTransportType:_mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
-    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
-    
-    if (_directions.isCalculating) {
-        [_directions cancel];
-    }
-    _directions = [[MKDirections alloc] initWithRequest:request];
-    [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-        if (!error) {
-            _selectedRoute = nil;
-            [self removeRouteOverlays];
-            _routes = [response routes];
-            [self addRouteOverlaysToMapView];
-        }
-    }];
-}
-
-- (void)removeRouteOverlays {
-    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
-
-    for (MKRoute *route in _routes) {
-        [overlays addObject:route.polyline];
-    }
-
-    [_mapView removeOverlays:overlays];
-}
-
-- (MKMapPoint)findUniqueMapPointFrom:(MKPolyline *)polyline comparing:(NSArray *)routeArray {
-    MKMapPoint uniquePoint;
-    NSArray *result;
-    
-    NSMutableSet *initialSet = [[NSMutableSet alloc] initWithCapacity:polyline.pointCount];
-    for (int n = 0; n < polyline.pointCount; n++) {
-        
-        MKMapPoint point = polyline.points[n];
-        [initialSet addObject:[NSValue valueWithCGPoint:CGPointMake(point.x, point.y)]];
-    }
-    NSMutableSet *filteredSet = [[NSMutableSet alloc] initWithCapacity:polyline.pointCount];
-    
-    for (MKRoute *route in routeArray) {
-        
-        NSMutableSet *set1 = initialSet;
-        NSMutableSet *set2 = [[NSMutableSet alloc] initWithCapacity:route.polyline.pointCount];;
-        for (int n = 0; n < route.polyline.pointCount; n++) {
-            
-            MKMapPoint point = route.polyline.points[n];
-            [set2 addObject:[NSValue valueWithCGPoint:CGPointMake(point.x, point.y)]];
-        }
-        
-        [set1 minusSet:set2]; //this will give you only the obejcts that are in both sets
-        
-        if (filteredSet.count != 0) {
-            [set1 intersectSet:filteredSet];
-        }
-        result = [set1 allObjects];
-        filteredSet = set1;
-    }
-    
-    if (result) {
-        uniquePoint = MKMapPointMake([[result firstObject] CGPointValue].x, [[result firstObject] CGPointValue].y);
-    }
-    NSLog(@"%f, %f", uniquePoint.x, uniquePoint.y);
-    
-    return uniquePoint;
-}
-
-- (void)addRouteOverlaysToMapView {
-    
-    if (_routes.count > 1) {
-        for (MKRoute *route in _routes) {
-            NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:_routes];
-            [mutableArray removeObjectsInArray:@[route]];
-            [self findUniqueMapPointFrom:route.polyline comparing:mutableArray];
-        }
-    }
-    
-    for (MKRoute *route in _routes) {
-        
-        if (route == _selectedRoute) {
-            // skip selected route so we can add it last, on top of others
-            // this handles when two routes overlap
-            continue;
-        }
-        [_mapView addOverlay:[route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
-        // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
-        NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
-        NSLog(@"%.02f miles", route.distance * 0.000621371);
-    }
-
-    if (_selectedRoute) {
-        // Add last to counter possible overlap preventing display
-        [_mapView addOverlay:[_selectedRoute polyline] level:MKOverlayLevelAboveRoads];
-    }
-}
-
-- (void)refreshOverlays {
-    [self removeRouteOverlays];
-    [self addRouteOverlaysToMapView];
-}
-
-- (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
-    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-    [renderer setLineWidth:4.0];
-    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5]];
-    
-    if (!_selectedRoute) {
-        _selectedRoute = [_routes firstObject];
-    }
-    
-    if (_selectedRoute) {
-        for (MKRoute *route in _routes) {
-            if (route == _selectedRoute) {
-                if (route.polyline == overlay) {
-                    NSLog(@"%@ highlighted", route.name);
-                    [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
-                    break;
-                }
-            }
-        }
-    }
-    else {
-        NSLog(@"No selected route right now");
-    }
-    
-    return renderer;
-}
 
 #pragma mark - TSLocationControllerDelegate methods
 
@@ -530,6 +284,33 @@
     return nil;
 }
 
+- (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
+    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+    [renderer setLineWidth:4.0];
+    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5]];
+    
+    if (!_entourageManager.selectedRoute) {
+        _entourageManager.selectedRoute = [_entourageManager.routes firstObject];
+    }
+    
+    if (_entourageManager.selectedRoute) {
+        for (MKRoute *route in _entourageManager.routes) {
+            if (route == _entourageManager.selectedRoute) {
+                if (route.polyline == overlay) {
+                    NSLog(@"%@ highlighted", route.name);
+                    [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        NSLog(@"No selected route right now");
+    }
+    
+    return renderer;
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
     if ([annotation isKindOfClass:[TSUserLocationAnnotation class]]) {
@@ -564,24 +345,45 @@
         return annotationView;
     }
     else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"TSSelectedDestinationAnnotation"];
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"TSSelectedDestinationAnnotation"];
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
             NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TSSelectedDestinationLeftCalloutAccessoryView" owner:self options:nil];
             TSSelectedDestinationLeftCalloutAccessoryView *leftCalloutAccessoryView = views[0];
             annotationView.leftCalloutAccessoryView = leftCalloutAccessoryView;
         }
         annotationView.annotation = annotation;
         annotationView.image = [UIImage imageNamed:@"pins_other_icon"];
+        annotationView.centerOffset = CGPointMake(0, -annotationView.image.size.height / 2);
         ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = @"";
         [annotationView setCanShowCallout:YES];
 
-        [self calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
-            if (expectedTravelTime) {
-                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:expectedTravelTime];
-            }
-        }];
+//        [self calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
+//            if (expectedTravelTime) {
+//                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:expectedTravelTime];
+//            }
+//        }];
 
+        return annotationView;
+    }
+    else if ([annotation isKindOfClass:[TSRouteTimeAnnotation class]]) {
+        
+        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
+        }
+        annotationView.image = [UIImage imageNamed:@"bubble_time_LB_icon"];
+        annotationView.centerOffset = CGPointMake(annotationView.image.size.width / 2, -annotationView.image.size.height / 2);
+        
+        UILabel *etaLabel = [[UILabel alloc] initWithFrame:annotationView.bounds];
+        etaLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:10.0f];
+        etaLabel.textColor = [TSColorPalette whiteColor];
+        etaLabel.textAlignment = NSTextAlignmentCenter;
+        etaLabel.text = ((TSRouteTimeAnnotation *)annotation).title;
+        
+        [annotationView addSubview:etaLabel];
+        [annotationView setCanShowCallout:NO];
+        
         return annotationView;
     }
     
@@ -624,7 +426,7 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     [mapView deselectAnnotation:view.annotation animated:YES];
-    [self requestAndDisplayRoutesForSelectedDestination];
+//    [self requestAndDisplayRoutesForSelectedDestination];
 }
 
 

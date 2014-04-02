@@ -11,7 +11,7 @@
 #import "TSHomeViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface TSVirtualEntourageViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface TSDestinationSearchViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 
 @property (nonatomic, strong) TSHomeViewController *homeViewController;

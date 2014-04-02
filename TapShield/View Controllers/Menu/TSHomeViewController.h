@@ -10,6 +10,8 @@
 #import "TSUserLocationButton.h"
 #import "TSNavigationViewController.h"
 #import "TSPageViewController.h"
+#import "TSVirtualEntourageManager.h"
+
 
 @interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
 
@@ -18,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *entourageButton;
 @property (weak, nonatomic) IBOutlet UIButton *alertButton;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
+
+@property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
 
 @property (strong, nonatomic) UIBarButtonItem *yankBarButton;
 
@@ -29,7 +33,6 @@
 - (IBAction)sendAlert:(id)sender;
 - (IBAction)openChatWindow:(id)sender;
 
-//Map Routing
-- (void)requestAndDisplayRoutesForSelectedDestination;
+- (void)clearEntourageAndResetMap;
 
 @end

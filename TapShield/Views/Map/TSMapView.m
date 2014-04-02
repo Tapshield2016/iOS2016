@@ -43,8 +43,15 @@
 #pragma mark - Destination methods
 
 - (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType {
-    _destinationMapItem = mapItem;
+    
     _destinationTransportType = transportType;
+    
+    if (_destinationMapItem == mapItem) {
+        return;
+    }
+    
+    _destinationMapItem = mapItem;
+    
     if (_destinationAnnotation) {
         [self removeAnnotation:_destinationAnnotation];
     }
@@ -62,6 +69,13 @@
         _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[@"Street"];
     }
     [self addAnnotation:_destinationAnnotation];
+}
+
+- (void)removeCurrentDestinationAnnotation {
+    
+    if (_destinationAnnotation) {
+        [self removeAnnotation:_destinationAnnotation];
+    }
 }
 
 - (void)centerMapOnSelectedDestination {

@@ -2678,10 +2678,10 @@ Last Updated: 12/12/13
             </objects>
             <point key="canvasLocation" x="2934" y="2195"/>
         </scene>
-        <!--Virtual Entourage View Controller - Virtual Entourage-->
+        <!--Destination Search View Controller - Virtual Entourage-->
         <scene sceneID="BsE-JY-VCu">
             <objects>
-                <viewController storyboardIdentifier="TSVirtualEntourageViewController" title="Virtual Entourage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSVirtualEntourageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSDestinationSearchViewController" title="Virtual Entourage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSDestinationSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="z0p-0p-Ljz"/>
                         <viewControllerLayoutGuide type="bottom" id="YcF-kv-V2o"/>
@@ -2764,7 +2764,7 @@ Last Updated: 12/12/13
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Destination" id="4Uw-Ce-DMj">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" style="plain" id="Nqj-m2-DoR">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="Nqj-m2-DoR">
                             <connections>
                                 <action selector="dismissViewController:" destination="vuB-WZ-keb" id="Gnq-8x-qOm"/>
                             </connections>

@@ -10,6 +10,8 @@
 
 @interface TSRoutePickerViewController ()
 
+@property (nonatomic, strong) MKDirections *directions;
+
 @end
 
 @implementation TSRoutePickerViewController
@@ -51,7 +53,7 @@
     // Display user location and selected destination if present
     if (_homeViewController.mapView.destinationMapItem) {
         _homeViewController.isTrackingUser = NO;
-        [_homeViewController requestAndDisplayRoutesForSelectedDestination];
+        [self requestAndDisplayRoutesForSelectedDestination];
     }
 }
 
@@ -81,8 +83,73 @@
     }
     
     [_homeViewController.mapView userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
-    [_homeViewController requestAndDisplayRoutesForSelectedDestination];
+    [self requestAndDisplayRoutesForSelectedDestination];
 }
+
+
+
+
+#pragma mark - Route management and display methods
+
+- (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion {
+    
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_homeViewController.mapView.destinationMapItem];
+    [request setTransportType:_homeViewController.mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+    [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+        if (!error) {
+            NSLog(@"%@", response);
+            completion(response.expectedTravelTime);
+        }
+        else {
+            NSLog(@"%@", error);
+            // May have gotten an error due to attempting walking directions over too far
+            // a distance, retry with 'Any'.
+            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _homeViewController.mapView.destinationTransportType == MKDirectionsTransportTypeWalking) {
+                NSLog(@"Error with walking directions, trying again with 'Any'");
+                _homeViewController.mapView.destinationTransportType = MKDirectionsTransportTypeAny;
+                [self calculateETAForSelectedDestination:completion];
+            }
+        }
+    }];
+}
+
+- (void)requestAndDisplayRoutesForSelectedDestination {
+    
+    if (!_homeViewController.mapView.userLocationAnnotation || !_homeViewController.mapView.destinationAnnotation) {
+        return;
+    }
+    
+    [_homeViewController.mapView showAnnotations:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.mapView.destinationAnnotation] animated:YES];
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_homeViewController.mapView.destinationMapItem];
+    [request setTransportType:_homeViewController.mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    
+    if (_directions.isCalculating) {
+        [_directions cancel];
+    }
+    _directions = [[MKDirections alloc] initWithRequest:request];
+    [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        if (!error) {
+            _homeViewController.entourageManager.selectedRoute = nil;
+            [_homeViewController.entourageManager removeRouteOverlays];
+            _homeViewController.entourageManager.routes = [response routes];
+            [_homeViewController.entourageManager addRouteOverlaysToMapView];
+        }
+    }];
+}
+
+
+
+
+
+
 
 
 

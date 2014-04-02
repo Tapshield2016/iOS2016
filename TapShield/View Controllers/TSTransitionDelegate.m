@@ -7,7 +7,7 @@
 //
 
 #import "TSTransitionDelegate.h"
-#import "TSVirtualEntourageViewController.h"
+#import "TSDestinationSearchViewController.h"
 
 @implementation TSTransitionDelegate
 
@@ -19,7 +19,7 @@
         presented = ((UINavigationController *)presented).topViewController;
     }
     
-    if ([presented isKindOfClass:[TSVirtualEntourageViewController class]]) {
+    if ([presented isKindOfClass:[TSDestinationSearchViewController class]]) {
         controller.isTopDownPresentation = YES;
     }
     
@@ -35,7 +35,7 @@
         dismissed = ((UINavigationController *)dismissed).topViewController;
     }
     
-    if ([dismissed isKindOfClass:[TSVirtualEntourageViewController class]]) {
+    if ([dismissed isKindOfClass:[TSDestinationSearchViewController class]]) {
         controller.isTopDownPresentation = YES;
     }
     
@@ -67,7 +67,7 @@
         TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
         animator.isPushing = YES;
         
-        if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSVirtualEntourageViewController class]]) {
+        if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSDestinationSearchViewController class]]) {
             animator.isSlide = YES;
         }
         
@@ -78,7 +78,7 @@
         TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
         animator.isPopping = YES;
         
-        if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSVirtualEntourageViewController class]]) {
+        if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSDestinationSearchViewController class]]) {
             animator.isSlide = YES;
         }
         animationController = animator;

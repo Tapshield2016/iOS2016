@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSVirtualEntourageViewController.h"
+#import "TSDestinationSearchViewController.h"
 #import <MapKit/MapKit.h>
 #import "TSUtilities.h"
 #import "TSRoutePickerViewController.h"
 
-@interface TSVirtualEntourageViewController ()
+@interface TSDestinationSearchViewController ()
 
 @property (nonatomic, strong) NSArray *searchResults;
 @property (nonatomic, strong) TSTransitionDelegate *transitionDelegate;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation TSVirtualEntourageViewController
+@implementation TSDestinationSearchViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -78,6 +78,7 @@
     [self dismissViewControllerAnimated:YES completion:^{
         [_homeViewController viewWillAppear:NO];
         [_homeViewController viewDidAppear:NO];
+        [_homeViewController clearEntourageAndResetMap];
     }];
 }
 

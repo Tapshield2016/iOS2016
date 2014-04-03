@@ -43,6 +43,10 @@
 - (void)setUrl:(NSString *)url {
     _url = url;
 
+    if (!url || [url isKindOfClass:[NSNull class]]) {
+        return;
+    }
+    
     // Expects a path like /api/v1/users/1/, so the 2nd to last item in the
     // list of components should be our integer ID.
     NSArray *urlComponents = [_url componentsSeparatedByString:@"/"];

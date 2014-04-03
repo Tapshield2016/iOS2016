@@ -48,14 +48,8 @@ NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserAlreadyE
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) NSString *emailAddress;
 @property (nonatomic, strong) NSString *password;
-@property (nonatomic, strong) NSString *phoneNumberToBeVerified;
 @property (nonatomic, strong) TSJavelinAPIUserBlock loginCompletionBlock;
 @property (nonatomic, strong) TSJavelinAPIVerificationResultBlock verificationCompletionBlock;
-@property (nonatomic, strong) UIAlertView *emailVerificationAlertView;
-@property (nonatomic, strong) UIAlertView *phoneNumberVerificationAlertView;
-@property (nonatomic, strong) UIAlertView *failedPhoneNumberVerificationAlertView;
-@property (nonatomic, strong) UIAlertView *phoneVerificationRequiredAlert;
-@property (nonatomic, strong) UIAlertView *phoneVerificationCompleteAlert;
 
 @end
 
@@ -110,41 +104,181 @@ static dispatch_once_t onceToken;
     return self;
 }
 
+
+
+
+#pragma mark - Social Authentication Methods
+
+- (void)socialLoggedInUserWithAttributes:(NSDictionary *)attributes {
+    [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:attributes]];
+    
+    if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
+        [_delegate loginSuccessful:nil];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:nil];
+    [self storeUserCredentials:_emailAddress password:_password];
+    _emailAddress = nil;
+    _password = nil;
+    
+    [self deleteCookiesForLoginDomain];
+    
+    [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
+        if (token) {
+            [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+            
+        }
+        else {
+            NSLog(@"Social Loggin failed to retrieve token");
+        }
+    }];
+}
+
+
+- (void)socialLoginFailed {
+    
+    if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
+        [_delegate loginFailed:nil];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:nil];
+}
+
+- (void)logoutSocial {
+    [self GET:@"logout/"
+   parameters:nil
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          NSLog(@"Success: %@", responseObject);
+      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"ERROR: %@", error);
+      }];
+}
+
+- (void)createFacebookUser:(NSString *)facebookAPIAuthToken {
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-facebook-user/"
+    parameters:@{ @"access_token": facebookAPIAuthToken }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           [self socialLoginFailed];
+       }];
+}
+
+- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret {
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-twitter-user/"
+    parameters:@{ @"oauth_token": twitterOauthToken,
+                  @"oauth_token_secret": twitterOauthTokenSecret }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           [self socialLoginFailed];
+       }];
+}
+
+- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken {
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-google-user/"
+    parameters:@{ @"access_token": googleAccessToken,
+                  @"refresh_token": googleRefreshToken }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           [self socialLoginFailed];
+       }];
+}
+
+- (void)createLinkedInUser:(NSString *)linkedInAccessToken {
+    [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/create-linkedin-user/"
+    parameters:@{ @"access_token": linkedInAccessToken }
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [self socialLoggedInUserWithAttributes:responseObject];
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           [self socialLoginFailed];
+       }];
+}
+
+
 #pragma mark - Login/Registration Methods
 
-- (void)registerUserWithAgencyID:(NSUInteger)agencyID
-                    emailAddress:(NSString *)emailAddress
-                        password:(NSString *)password
-                     phoneNumber:(NSString *)phoneNumber
-                      disarmCode:(NSString *)disarmCode
-                       firstName:(NSString *)firstName
-                        lastName:(NSString *)lastName
-                      completion:(TSJavelinAPIUserBlock)completion {
+
+
+- (void)registerUser:(TSJavelinAPIUser *)user
+                      completion:(void (^)(id responseObject))completion {
+    
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if (user.agency.identifier) {
+        [mutableDictionary setObject:@(user.agency.identifier) forKey:@"agency"];
+    }
+    if (user.email) {
+        [mutableDictionary setObject:user.email forKey:@"email"];
+    }
+    if (user.password) {
+        [mutableDictionary setObject:user.password forKey:@"password"];
+    }
+    if (user.phoneNumber) {
+        [mutableDictionary setObject:user.phoneNumber forKey:@"phone_number"];
+    }
+    if (user.disarmCode) {
+        [mutableDictionary setObject:user.disarmCode forKey:@"disarm_code"];
+    }
+    if (user.firstName) {
+        [mutableDictionary setObject:user.firstName forKey:@"first_name"];
+    }
+    if (user.lastName) {
+        [mutableDictionary setObject:user.lastName forKey:@"last_name"];
+    }
+    
+    
     // Set default Authorization token for allowing access to register API method
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                            forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/register/"
-    parameters:@{@"email": emailAddress, @"password": password, @"agency": @(agencyID),
-                 @"phone_number": phoneNumber, @"disarm_code": disarmCode, @"first_name": firstName, @"last_name": lastName}
+    parameters:mutableDictionary
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           [self storeUserCredentials:user.email password:user.password];
+           _emailAddress = user.email;
+           _password = user.password;
+           
            if (completion) {
-               [self logInUser:emailAddress password:password completion:completion];
+               completion(responseObject);
            }
+           
            [self.requestSerializer clearAuthorizationHeader];
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidRegisterUserNotification
                                                                object:responseObject];
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
            NSLog(@"%@", error);
-           NSString *errorMessage = @"Sign up request failed";
-           if (operation) {
-               if ([operation.responseObject objectForKey:@"email"]) {
-                   errorMessage = [[operation.responseObject objectForKey:@"email"] firstObject];
-               }
-           }
+           
            [self.requestSerializer clearAuthorizationHeader];
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserNotification
-                                                               object:errorMessage];
+                                                               object:operation.responseObject];
+           if (completion) {
+               completion(operation.responseObject);
+           }
        }
      ];
 }
@@ -168,10 +302,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)logoutUser:(void (^)(BOOL success))completion {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
-    [defaults synchronize];
     _loggedInUser = nil;
+    
+    [self removeArchivedLoggedInUser];
     
     if (completion) {
         completion(YES);
@@ -327,28 +460,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Phone Verification
 
-- (void)isPhoneNumberVerified:(NSString *)phoneNumber completion:(void (^)(BOOL verified))completion {
-    
-    if (_loggedInUser.phoneNumberVerified && [phoneNumber isEqualToString:_loggedInUser.phoneNumber]) {
-        if (completion) {
-            completion(YES);
-            return;
-        }
-    }
-    
-    _phoneNumberToBeVerified = phoneNumber;
-    _verificationCompletionBlock = completion;
-    
-    _phoneVerificationRequiredAlert = [[UIAlertView alloc] initWithTitle:@"Phone Number Verification Required"
-                                                                 message:@"To verify the phone number you provided, we will attempt to send a text message with a verification code to your phone."
-                                                                delegate:self
-                                                       cancelButtonTitle:@"Send SMS"
-                                                       otherButtonTitles:nil];
-    [_phoneVerificationRequiredAlert show];
-}
-
-
-- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(BOOL success))completion {
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion {
     
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -357,26 +469,17 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"sent PhoneNumberVerificationRequest");
            if (completion) {
-               completion(YES);
+               completion(nil);
            }
-           [self presentPhoneNumberVerificationAlert:_verificationCompletionBlock];
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            if (completion) {
-               completion(NO);
+               completion(operation.responseObject);
            }
            NSLog(@"PhoneNumberVerificationRequest Failed");
-           NSString *errorMessage = @"Phone Number Verification Failed";
-           if (operation) {
-               if ([operation.responseObject objectForKey:@"message"]) {
-                   errorMessage = [operation.responseObject objectForKey:@"message"];
-               }
-           }
-           [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToSendVerificationPhoneNumberNotification
-                                                               object:errorMessage];
        }];
 }
 
-- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(BOOL success))completion {
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion {
     
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -385,33 +488,17 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"Code Verified");
            if (completion) {
-               completion(YES);
+               completion(nil);
            }
            _loggedInUser.phoneNumberVerified = YES;
            [self archiveLoggedInUser];
            
-           _phoneVerificationCompleteAlert = [[UIAlertView alloc] initWithTitle:@"Phone Number Verified"
-                                                                        message:@"\nThank You"
-                                                                       delegate:self
-                                                              cancelButtonTitle:nil
-                                                              otherButtonTitles:nil];
-           [_phoneVerificationCompleteAlert show];
-           [self performSelector:@selector(dismissAlertView:) withObject:_phoneVerificationCompleteAlert afterDelay:2.0];
-           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"Code Verification Failed");
            
-           NSString *message = @"Phone number verification failed";
-           if ([operation.responseObject objectForKey:@"message"]) {
-               message = [operation.responseObject objectForKey:@"message"];
+           if (completion) {
+               completion(operation.responseObject);
            }
-           
-           _failedPhoneNumberVerificationAlertView = [[UIAlertView alloc] initWithTitle:message
-                                                                                message:@"Please re-enter the verification code and try again"
-                                                                               delegate:self
-                                                                      cancelButtonTitle:@"OK"
-                                                                      otherButtonTitles:nil];
-           [_failedPhoneNumberVerificationAlertView show];
        }];
 }
 
@@ -437,7 +524,14 @@ static dispatch_once_t onceToken;
                if (completion) {
                    completion(responseObject[@"token"]);
                }
+               
+               NSData *pushNotificationDeviceToken = [self retrieveLastArchivedAPNSDeviceToken];
+               if (pushNotificationDeviceToken) {
+                   [self setAPNSDeviceTokenForLoggedInUser:pushNotificationDeviceToken];
+               }
+               
                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidRetrieveAPITokenNotification object:responseObject];
+               
            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                NSLog(@"%@", error);
                if (completion) {
@@ -459,6 +553,11 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)loggedInUserTokenAuthorizationHeader {
+    
+    if (!_loggedInUser.apiToken) {
+        [self retrieveAPITokenForLoggedInUser:nil];
+    }
+    
     return [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
 }
 
@@ -533,6 +632,15 @@ static dispatch_once_t onceToken;
     return password;
 }
 
+- (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password {
+    _emailAddress = email;
+    _password = password;
+    
+    if (!_password) {
+        _password = [self getPasswordForEmailAddress:email];
+    }
+}
+
 - (TSJavelinAPIUser *)retrieveArchivedLoggedInUser {
     TSJavelinAPIUser *archivedUser;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -556,6 +664,13 @@ static dispatch_once_t onceToken;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedUserObject = [NSKeyedArchiver archivedDataWithRootObject:_loggedInUser];
     [defaults setObject:encodedUserObject forKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
+    [defaults synchronize];
+}
+
+- (void)removeArchivedLoggedInUser {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
     [defaults synchronize];
 }
 
@@ -616,18 +731,10 @@ static dispatch_once_t onceToken;
                 else if ([authResponse isEqualToString:@"Email unverified"]) {
                     // Unverified email address
                     result.loginFailureReason = kTSJavelinAPIAuthenticationManagerLoginFailureUnverifiedEmail;
+                    if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
+                        [_delegate loginFailed:result];
+                    }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
-                    
-                    [self presentVerificationAlert:^(BOOL checkAgain) {
-                        if (!checkAgain) {
-                            if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
-                                [_delegate loginFailed:result];
-                            }
-                        }
-                        else {
-                            [self makeLoginRequest:nil];
-                        }
-                    }];
                 }
             }
             else {
@@ -663,185 +770,15 @@ static dispatch_once_t onceToken;
     else {
         [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:responseJSON]];
         
-        if (_loggedInUser.isEmailVerified) {
-            [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
-                NSData *pushNotificationDeviceToken = [self retrieveLastArchivedAPNSDeviceToken];
-                if (pushNotificationDeviceToken) {
-                    [self setAPNSDeviceTokenForLoggedInUser:pushNotificationDeviceToken];
-                }
-            }];
-        }
-
-        if (_loginCompletionBlock) {
-            _loginCompletionBlock(_loggedInUser);
-        }
+        [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
+            if (_loginCompletionBlock) {
+                _loginCompletionBlock(_loggedInUser);
+            }
+        }];
     }
     [self.responseData setLength:0];
 }
 
-#pragma mark UIAlertViewDelegate methods
-
-- (void)dismissAlertView:(UIAlertView *)alertView {
-    [alertView dismissWithClickedButtonIndex:-1 animated:YES];
-}
-
-- (void)presentVerificationAlert:(TSJavelinAPIVerificationResultBlock)completion {
-    if (completion) {
-        _verificationCompletionBlock = completion;
-    }
-    _emailVerificationAlertView = [[UIAlertView alloc] initWithTitle:@"Verify Your Account"
-                                                        message:@"Please check your email for a verification link"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Complete Verification", @"Resend Verification Email", nil];
-    [_emailVerificationAlertView show];
-}
-
-
-- (void)presentPhoneNumberVerificationAlert:(TSJavelinAPIVerificationResultBlock)completion {
-    
-    _phoneNumberVerificationAlertView = [[UIAlertView alloc] initWithTitle:@"Input Verification Code"
-                                                                   message:@"If you do not receive a code shortly, please verify that your phone number is correct and tap 'Resend SMS'"
-                                                                  delegate:self
-                                                         cancelButtonTitle:@"Cancel"
-                                                         otherButtonTitles:@"Verify", @"Resend SMS", nil];
-    
-    _phoneNumberVerificationAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    // set keyboard to numberpad
-    
-    [[_phoneNumberVerificationAlertView textFieldAtIndex:0] setDelegate:self];
-    [[_phoneNumberVerificationAlertView textFieldAtIndex:0] setPlaceholder:@"Verification Code"];
-    [[_phoneNumberVerificationAlertView textFieldAtIndex:0] setTextAlignment:NSTextAlignmentCenter];
-    [[_phoneNumberVerificationAlertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
-    [[_phoneNumberVerificationAlertView textFieldAtIndex:0] setKeyboardAppearance:UIKeyboardAppearanceDark];
-    [[_phoneNumberVerificationAlertView textFieldAtIndex:0] becomeFirstResponder];
-    [_phoneNumberVerificationAlertView show];
-}
-
--(void)willPresentAlertView:(UIAlertView *)alertView {
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
-        
-        if (_phoneVerificationCompleteAlert == alertView) {
-            CGRect alertFrame = alertView.frame;
-            alertFrame.size.height = alertFrame.size.height - 43;
-            alertView.frame = alertFrame;
-        }
-        
-        if (_phoneNumberVerificationAlertView == alertView) {
-            [alertView setFrame:CGRectMake(10, 30, 300, 240)];
-            NSArray *subviewArray = [alertView subviews];
-            
-            //UILabel *title = (UILabel *)[subviewArray objectAtIndex:1];
-            
-            UILabel *message = (UILabel *)[subviewArray objectAtIndex:2];
-            message.numberOfLines = 3;
-            message.adjustsFontSizeToFitWidth = YES;
-            [message setFrame:CGRectMake(10, 30, 280, 80)];
-            
-            UIButton *cancelbutton = (UIButton *)[subviewArray objectAtIndex:3];
-            [cancelbutton setFrame:CGRectMake(10, 140, 138, 42)];
-            
-            UIButton *submitbutton = (UIButton *)[subviewArray objectAtIndex:4];
-            [submitbutton setFrame:CGRectMake(10, 185, 280, 42)];
-            
-            UIButton *resendbutton = (UIButton *)[subviewArray objectAtIndex:5];
-            [resendbutton setFrame:CGRectMake(152, 140, 138, 42)];
-            
-            UIImageView *textfieldBackground = (UIImageView *)[subviewArray objectAtIndex:6];
-            [textfieldBackground setFrame:CGRectMake(60, 105, 180, 31)];
-            CALayer *layer = [textfieldBackground layer];
-            [layer setMasksToBounds:YES];
-            [layer setCornerRadius:8.0];
-            
-            UITextField *placeTF = (UITextField *)[subviewArray objectAtIndex:7];
-            [placeTF setFrame:CGRectMake(65, 105, 170, 31)];
-        }
-    }
-    
-}
-
--(BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView {
-    
-    if (_phoneNumberVerificationAlertView == alertView) {
-        UITextField *textField = [alertView textFieldAtIndex:0];
-        if ([textField.text length] == 0) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (_phoneVerificationRequiredAlert == alertView) {
-        [self sendPhoneNumberVerificationRequest:_phoneNumberToBeVerified completion:nil];
-        return;
-    }
-    
-    if (_failedPhoneNumberVerificationAlertView == alertView) {
-        [self presentPhoneNumberVerificationAlert:_verificationCompletionBlock];
-        return;
-    }
-    
-    if (_emailVerificationAlertView == alertView) {
-        switch (buttonIndex) {
-            case 1:
-            {
-                [self isLoggedInUserEmailVerified:^(BOOL success) {
-                    if (success) {
-                        if (_verificationCompletionBlock) {
-                            _verificationCompletionBlock(YES);
-                        }
-                    }
-                    else {
-                        [self presentVerificationAlert:_verificationCompletionBlock];
-                    }
-                }];
-            }
-                break;
-                
-            case 2:
-                [self resendVerificationEmailForEmailAddress:_emailAddress completion:nil];
-                [self presentVerificationAlert:_verificationCompletionBlock];
-                return;
-                
-            default:
-                if (_verificationCompletionBlock) {
-                    _verificationCompletionBlock(NO);
-                }
-                break;
-        }
-    }
-    
-    if (_phoneNumberVerificationAlertView == alertView) {
-        
-        NSString *code = [alertView textFieldAtIndex:0].text;
-        
-        switch (buttonIndex) {
-            case 1:
-            {
-                [self checkPhoneVerificationCode:code completion:_verificationCompletionBlock];
-                break;
-            }
-            case 2:
-            {
-                [self sendPhoneNumberVerificationRequest:_loggedInUser.phoneNumber completion:nil];
-                return;
-            }
-                
-            default:
-            {
-                if (_verificationCompletionBlock) {
-                    _verificationCompletionBlock(NO);
-                }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToSendVerificationPhoneNumberNotification
-                                                                    object:nil];
-                break;
-            }
-        }
-    }
-}
 
 
 @end

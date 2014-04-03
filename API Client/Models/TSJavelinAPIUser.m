@@ -19,8 +19,13 @@
 
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];
-    _password = [attributes valueForKey:@"password"];
-    _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    
+    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
+    }
     _phoneNumber = [attributes valueForKey:@"phone_number"];
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
@@ -28,11 +33,11 @@
     _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
     
-
     //@property (nonatomic, strong) NSArray *groups;
         
     return self;
 }
+
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
@@ -40,7 +45,6 @@
     [encoder encodeObject:[NSNumber numberWithUnsignedInteger:self.identifier] forKey:@"identifier"];
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_email forKey:@"email"];
-    [encoder encodeObject:_password forKey:@"password"];
     [encoder encodeObject:_agency forKey:@"agency"];
     [encoder encodeObject:_phoneNumber forKey:@"phoneNumber"];
     [encoder encodeObject:_disarmCode forKey:@"disarmCode"];
@@ -65,7 +69,6 @@
         self.identifier = [[decoder decodeObjectForKey:@"identifier"] unsignedIntegerValue];
         _username = [decoder decodeObjectForKey:@"username"];
         _email = [decoder decodeObjectForKey:@"email"];
-        _password = [decoder decodeObjectForKey:@"password"];
         _agency = [decoder decodeObjectForKey:@"agency"];
         _phoneNumber = [decoder decodeObjectForKey:@"phoneNumber"];
         _disarmCode = [decoder decodeObjectForKey:@"disarmCode"];

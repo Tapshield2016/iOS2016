@@ -7,9 +7,16 @@
 //
 
 #import "TSAppDelegate.h"
+#import "TSJavelinAPIClient.h"
 #import "MSDynamicsDrawerViewController.h"
 #import "MSDynamicsDrawerStyler.h"
 #import "TSMenuViewController.h"
+#import "TSSocialAccountsManager.h"
+#import <TestFlightSDK/TestFlight.h>
+
+static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
+static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
+static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.com/api/v1/";
 
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
@@ -21,20 +28,52 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+#ifdef DEV
+    [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDevelopmentBaseURL];
+    NSString *remoteHostName = @"dev.tapshield.com";
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+    
+#elif DEMO
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+    
+    [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
+    NSString *remoteHostName = @"demo.tapshield.com";
+    _isFirstMainViewLoad = YES;
+    _isDemoVersion = YES;
+    
+#elif APP_STORE
+    [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIProductionBaseURL];
+    NSString *remoteHostName = @"api.tapshield.com";
+#endif
+    
+    [TSSocialAccountsManager initializeShareSocialAccountsManager];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;
-
     // Add some styles for the drawer
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    [self.dynamicsDrawerViewController setElasticity:0.0f];
+    [self.dynamicsDrawerViewController setGravityMagnitude:4.0f];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
+    self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg"]];
+    self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller
     [menuViewController transitionToViewController:@"TSHomeViewController"];
-
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.dynamicsDrawerViewController;
     [self.window makeKeyAndVisible];

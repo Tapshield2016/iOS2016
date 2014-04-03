@@ -1,7 +1,13 @@
 platform :ios, '7.0'
 
-pod 'AFNetworking', '~> 2.0.3'
+inhibit_all_warnings!
+
+pod 'AFNetworking'
 pod 'MSDynamicsDrawerViewController'
-pod 'AWSiOSSDK', '~> 1.7.1'
+pod 'AWSiOSSDK'
 pod 'SSKeychain'
 pod 'TwilioSDK'
+pod 'IOSLinkedInAPI'
+pod 'Facebook-iOS-SDK'
+pod 'google-plus-ios-sdk'
+pod 'TestFlightSDK'

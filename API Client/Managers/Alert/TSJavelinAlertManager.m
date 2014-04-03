@@ -15,10 +15,10 @@
 #import "TSJavelinAPIAgency.h"
 #import "TSGeofence.h"
 #import "TSLocationGeofenceTestView.h"
-//#import "Reachability.h"
 #import <AFNetworkReachabilityManager.h>
 #import <MapKit/MapKit.h>
-#include <AmazonSQSClient.h>
+#import <AmazonSQSClient.h>
+#import <AmazonEndpoints.h>
 
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentAccessKey = @"AKIAJSDRUWW6PPF2FWWA";
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentSecretKey = @"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";
@@ -44,6 +44,9 @@ NSString * const TSJavelinAlertManagerDidRecieveActiveAlertNotification = @"TSJa
 NSString * const TSJavelinAlertManagerDidCancelNotification = @"TSJavelinAlertManagerDidCancelNotification";
 NSString * const TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification = @"TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification";
 
+NSString * const kTSJavelinAlertManagerSentActiveAlert = @"kTSJavelinAlertManagerSentActiveAlert";
+NSString * const kTSJavelinAlertManagerAwaitingDisarm = @"kTSJavelinAlertManagerAwaitingDisarm";
+
 @interface TSJavelinAlertManager ()
 
 @property (nonatomic, strong) AmazonSQSClient *sqs;
@@ -51,7 +54,7 @@ NSString * const TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification = 
 @property (nonatomic, assign) BOOL locationUpdatesInProgress;
 @property (nonatomic, strong) TSJavelinAPIAlertManagerLocationReceived locationReceivedBlock;
 @property (nonatomic, strong) NSString *alertQueueName;
-@property (nonatomic, strong) NSTimer *getActiveAlertTimer;
+@property (nonatomic, strong) NSTimer *findActiveAlertTimer;
 @property (nonatomic, strong) NSString *remoteHostName;
 
 @end
@@ -82,110 +85,15 @@ static dispatch_once_t onceToken;
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSProductionAlertQueueName;
         _sharedManager.sqs.endpoint = [AmazonEndpoints sqsEndpoint:US_EAST_1];
 #endif
-        [_sharedManager initLocationManager];
     }
     
     return _sharedManager;
 }
 
-#pragma mark - Location methods
-
-- (void)initLocationManager {
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-}
-
-- (BOOL)locationServicesEnabled {
-    return [CLLocationManager locationServicesEnabled];
-}
-
-- (void)startStandardLocationUpdates:(CLLocation *)existingLocation completion:(TSJavelinAPIAlertManagerLocationReceived)completion {
-
-    NSLog(@"Existing Location - %@", existingLocation);
-    
-    if (existingLocation) {
-        completion(existingLocation);
-    }
-    else if (completion) {
-        _locationReceivedBlock = completion;
-    }
-    
-    if (_locationManager == nil) {
-        [self initLocationManager];
-    }
-    
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    // Set a movement threshold for new events.
-    //_locationManager.distanceFilter = 500; // meters
-    
-    [_locationManager startUpdatingLocation];
-    _locationUpdatesInProgress = YES;
-
-}
-
-- (void)startSignificantChangeUpdates:(TSJavelinAPIAlertManagerLocationReceived)completion {
-    if ([CLLocationManager locationServicesEnabled]) {
-        if (_locationManager == nil) {
-            [self initLocationManager];
-        }
-        
-        if (completion) {
-            _locationReceivedBlock = completion;
-        }
-        
-        [_locationManager startMonitoringSignificantLocationChanges];
-        _locationUpdatesInProgress = YES;
-    }
-}
-
-- (void)stopLocationUpdates {
-    [_locationManager stopUpdatingLocation];
-    _locationUpdatesInProgress = NO;
-    
-    if (_locationReceivedBlock) {
-        _locationReceivedBlock = nil;
-    }
-}
-
-#pragma mark CLLocationManagerDelegate methods
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    //NSLog(@"%@", locations);
-    _lastReportedLocation = [locations lastObject];
-    
-    if ([_delegate respondsToSelector:@selector(locationUpdated:)]) {
-        [_delegate locationUpdated:_lastReportedLocation];
-    }
-    
-    if (_locationReceivedBlock) {
-        _locationReceivedBlock(_lastReportedLocation);
-        _locationReceivedBlock = nil;
-    }
-//#warning Geofence Testing
-//    [TSLocationGeofenceTestView showDataFromLocation:_lastReportedLocation];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if ([_delegate respondsToSelector:@selector(locationUpdateFailed:)]) {
-        [_delegate locationUpdateFailed:error];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (!(status == kCLAuthorizationStatusAuthorized && _locationUpdatesInProgress)) {
-        [self stopLocationUpdates];
-    }
-    
-    if ([_delegate respondsToSelector:@selector(locationServiceAuthorizationStatusChanged:)]) {
-        [_delegate locationServiceAuthorizationStatusChanged:status];
-    }
-}
 
 #pragma mark - Alert methods
 
-- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type existingLocation:(CLLocation *)existingLocation completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {
+- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {
     
     if (alert == nil) {
         return;
@@ -197,100 +105,104 @@ static dispatch_once_t onceToken;
 
     _activeAlert = alert;
     
-    [self startStandardLocationUpdates:existingLocation completion:^(CLLocation *location) {
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            
-            NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:4];
-            alertInfo[@"user"] = alert.agencyUser.email;
-            
-            if ([TSGeofence isWithinBoundariesWithOverhang:location]) {
-                alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
-                alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
-                alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
-                alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
-                alertInfo[@"alert_type"] = type;
-            }
-            else {
-                return;
-            }
-
-            NSString *alertJson = [TSJavelinAlertAMQPMessage amqpMessageStringFromDictionary:alertInfo];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-            });
-            
-            SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
-
-            AFNetworkReachabilityManager *hostReachability = [AFNetworkReachabilityManager managerForDomain:TSJavelinAlertManagerRemoteHostName];
-            if ([hostReachability networkReachabilityStatus] == AFNetworkReachabilityStatusNotReachable) {
-                if (completion) {
-                    NSLog(@"Lost Connectivity During Initiate Alert");
-                    completion(NO);
-                    return;
-                }
-            }
-            
-            SQSGetQueueUrlResponse *getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
-            SQSSendMessageRequest *sendMessageRequest = [[SQSSendMessageRequest alloc] initWithQueueUrl:getQueueURLResponse.queueUrl
-                                                                                         andMessageBody:alertJson];
-            
-            hostReachability = [AFNetworkReachabilityManager managerForDomain:TSJavelinAlertManagerRemoteHostName];
-            if ([hostReachability networkReachabilityStatus] == AFNetworkReachabilityStatusNotReachable) {
-                if (completion) {
-                    NSLog(@"Lost Connectivity During Initiate Alert");
-                    completion(NO);
-                    return;
-                }
-            }
-            
-            SQSSendMessageResponse *sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
-            
-            if(sendMessageResponse.error != nil) {
-                NSLog(@"Error: %@", sendMessageResponse.error);
-                if (completion) {
-                    completion(NO);
-                }
-            }
-            else {
-                if (completion) {
-                    completion(YES);
-                    [self scheduleTimerForLoggedInUser];
-                }
-                // Send user profile using API client method
-                [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
-                    if (profileDataUploadSucceeded) {
-                        NSLog(@"profileDataUploadSucceeded");
-                    }
-                    if (imageUploadSucceeded) {
-                        NSLog(@"imageUploadSucceeded");
-                    }
-                }];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-            });
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        
+        NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:4];
+        alertInfo[@"user"] = alert.agencyUser.email;
+        
+        if ([TSGeofence isWithinBoundariesWithOverhang:location]) {
+            alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
+            alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
+            alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
+            alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
+            alertInfo[@"alert_type"] = type;
+        }
+        else {
+            return;
+        }
+        
+        NSString *alertJson = [TSJavelinAlertAMQPMessage amqpMessageStringFromDictionary:alertInfo];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         });
-    }];
+        
+        SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
+        SQSGetQueueUrlResponse *getQueueURLResponse;
+        
+        @try {
+            getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
+        }
+        @catch (NSException *exception) {
+            if (completion) {
+                completion(NO);
+            }
+            return;
+        }
+        
+        SQSSendMessageRequest *sendMessageRequest = [[SQSSendMessageRequest alloc] initWithQueueUrl:getQueueURLResponse.queueUrl
+                                                                                     andMessageBody:alertJson];
+        SQSSendMessageResponse *sendMessageResponse;
+        @try {
+            sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
+        }
+        @catch (NSException *exception) {
+            if (completion) {
+                completion(NO);
+            }
+            return;
+        }
+        
+        
+        if (sendMessageResponse.error != nil) {
+            NSLog(@"Error: %@", sendMessageResponse.error);
+            if (completion) {
+                completion(NO);
+            }
+        }
+        else {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
+            
+            if (completion) {
+                completion(YES);
+                [self scheduleFindActiveAlertTimer];
+            }
+            // Send user profile using API client method
+            [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
+                if (profileDataUploadSucceeded) {
+                    NSLog(@"profileDataUploadSucceeded");
+                }
+                if (imageUploadSucceeded) {
+                    NSLog(@"imageUploadSucceeded");
+                }
+            }];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        });
+    });
 }
 
-- (void)scheduleTimerForLoggedInUser {
+- (void)scheduleFindActiveAlertTimer {
     dispatch_async(dispatch_get_main_queue(), ^{
-    _getActiveAlertTimer = [NSTimer scheduledTimerWithTimeInterval:10
+    _findActiveAlertTimer = [NSTimer scheduledTimerWithTimeInterval:10
                                                             target:self
-                                                          selector:@selector(findActiveAlertForLoggedinUser)
+                                                          selector:@selector(findAndSetActiveAlertForLoggedinUser)
                                                           userInfo:nil
                                                            repeats:NO];
     });
 }
 
 
-- (void)findActiveAlertForLoggedinUser {
+- (void)findAndSetActiveAlertForLoggedinUser {
     NSLog(@"findACtiveAlertCalled");
-    [[TSJavelinAPIClient sharedClient] findActiveAlertForLoggedinUser:^(BOOL success) {
-        if (!success) {
-            [self scheduleTimerForLoggedInUser];
+    [[TSJavelinAPIClient sharedClient] findActiveAlertForLoggedinUser:^(TSJavelinAPIAlert *activeAlert) {
+        if (activeAlert) {
+            [[TSJavelinAlertManager sharedManager] setActiveAlert:activeAlert];
+        }
+        else {
+            [self scheduleFindActiveAlertTimer];
         }
     }];
 }
@@ -306,13 +218,12 @@ static dispatch_once_t onceToken;
 }
 
 - (void)sendActiveAlertNotification {
-    [_getActiveAlertTimer invalidate];
+    [_findActiveAlertTimer invalidate];
     [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:_activeAlert];
 }
 
-- (void)cancelAlert {
-    [_getActiveAlertTimer invalidate];
-    [self stopLocationUpdates];
+- (void)stopAlertUpdates {
+    [_findActiveAlertTimer invalidate];
 }
 
 - (void)setActiveAlert:(TSJavelinAPIAlert *)activeAlert
@@ -330,7 +241,11 @@ static dispatch_once_t onceToken;
     }
 }
 
-
+- (void)resetArchivedAlertBools {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kTSJavelinAlertManagerSentActiveAlert];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kTSJavelinAlertManagerAwaitingDisarm];
+}
 
 
 @end

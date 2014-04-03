@@ -141,7 +141,7 @@
             break;
             
         default:
-            [NSException raise:NSInvalidArgumentException format:@"Unsupported content mode: %d", contentMode];
+            [NSException raise:NSInvalidArgumentException format:@"Unsupported content mode: %i", (int)contentMode];
     }
     
     CGSize newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio);
@@ -149,8 +149,7 @@
     return [self resizedImage:newSize interpolationQuality:quality];
 }
 
-#pragma mark -
-#pragma mark Private helper methods
+#pragma mark - Private helper methods
 
 // Returns a copy of the image that has been transformed using the given affine transform and scaled to the new size
 // The new image's orientation will be UIImageOrientationUp, regardless of the current image's orientation

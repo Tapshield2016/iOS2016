@@ -22,7 +22,7 @@
 @interface TSJavelinAPIClient ()
 
 @property (nonatomic, strong) NSString *baseAuthURL;
-@property (nonatomic, strong) NSTimer *timerForFailedDisarm;
+@property (nonatomic, strong) NSTimer *disarmRetryTimer;
 @property (nonatomic, strong) NSTimer *timerForFailedFindActiveAlertURL;
 
 @end
@@ -42,7 +42,6 @@ static dispatch_once_t onceToken;
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 
         _sharedClient.alertManager = [TSJavelinAlertManager sharedManager];
-        _sharedClient.alertManager.delegate = _sharedClient;
 
         _sharedClient.chatManager = [TSJavelinChatManager sharedManager];
 
@@ -108,7 +107,28 @@ static dispatch_once_t onceToken;
       }];
 }
 
+- (void)getAgenciesNearby:(CLLocation *)currentLocation radius:(float)radius completion:(void (^)(NSArray *agencies))completion {
+    [self.requestSerializer setValue:[[self authenticationManager] masterAccessTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:@"agencies/"
+   parameters:@{@"latitude": [[NSNumber numberWithDouble:currentLocation.coordinate.latitude] stringValue],
+                @"longitude": [[NSNumber numberWithDouble:currentLocation.coordinate.longitude] stringValue],
+                @"distance_within": [[NSNumber numberWithFloat:radius] stringValue]}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if (completion) {
+              completion([self apiObjectArrayOfClass:@"TSJavelinAPIAgency" fromJSON:responseObject withKey:@"results"]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+      }];
+}
+
 - (void)getAgencyForLoggedInUser:(void (^)(TSJavelinAPIAgency *agency))completion {
+    
+    if (![[self authenticationManager] loggedInUser].agency.url) {
+        return;
+    }
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -155,7 +175,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Alert Methods
 
-- (void)sendEmergencyAlertWithAlertType:(NSString *)type existingLocation:(CLLocation *)location completion:(void (^)(BOOL success))completion {
+- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL success))completion {
     _isStillActiveAlert = YES;
     TSJavelinAPIAlert *alert = [[TSJavelinAPIAlert alloc] init];
     alert.agencyUser = [[TSJavelinAPIAuthenticationManager sharedManager] loggedInUser];
@@ -165,7 +185,7 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type existingLocation:location completion:^(BOOL success) {
+    [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type location:location completion:^(BOOL success) {
         if (success) {
             NSLog(@"Success!");
             completion(success);
@@ -176,138 +196,47 @@ static dispatch_once_t onceToken;
     }];
 }
 
-- (void)findActiveAlertForLoggedinUser:(TSJavelinAlertManagerAlertQueuedBlock)completion {
-    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
-                  forHTTPHeaderField:@"Authorization"];
-    [self GET:@"alerts/"
-   parameters:@{ @"agency_user": [NSString stringWithFormat:@"%lu", (unsigned long)[[self authenticationManager] loggedInUser].identifier],
-                 @"status": @"N" }
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          if ([responseObject[@"results"] count] > 0) {
-              TSJavelinAPIAlert *foundAlert = [[TSJavelinAPIAlert alloc] initWithAttributes:responseObject[@"results"][0]];
-              NSLog(@"active alert found");
-              [[TSJavelinAlertManager sharedManager] setActiveAlert:foundAlert];
-              if (completion) {
-                  completion(YES);
-              }
-          }
-          else {
-              [self GET:@"alerts/"
-             parameters:@{ @"agency_user": [NSString stringWithFormat:@"%lu", (unsigned long)[[self authenticationManager] loggedInUser].identifier],
-                           @"status": @"A" }
-                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    if ([responseObject[@"results"] count] > 0) {
-                        TSJavelinAPIAlert *foundAlert = [[TSJavelinAPIAlert alloc] initWithAttributes:responseObject[@"results"][0]];
-                        NSLog(@"active alert found");
-                        [[TSJavelinAlertManager sharedManager] setActiveAlert:foundAlert];
-                        if (completion) {
-                            completion(YES);
-                        }
-                    }
-                    else {
-                        [self GET:@"alerts/"
-                       parameters:@{ @"agency_user": [NSString stringWithFormat:@"%lu", (unsigned long)[[self authenticationManager] loggedInUser].identifier],
-                                     @"status": @"P" }
-                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                              if ([responseObject[@"results"] count] > 0) {
-                                  TSJavelinAPIAlert *foundAlert = [[TSJavelinAPIAlert alloc] initWithAttributes:responseObject[@"results"][0]];
-                                  NSLog(@"active alert found");
-                                  [[TSJavelinAlertManager sharedManager] setActiveAlert:foundAlert];
-                                  if (completion) {
-                                      completion(YES);
-                                  }
-                              }
-                              else {
-                                  if (completion) {
-                                      completion(NO);
-                                  }
-                              }
-                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                              NSLog(@"%@", error);
-                              if (completion) {
-                                  completion(NO);
-                              }
-                          }];
-                    }
-                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    NSLog(@"%@", error);
-                    if (completion) {
-                        completion(NO);
-                    }
-                }];
-          }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
-          if (completion) {
-              completion(NO);
-          }
+- (void)findActiveAlertForLoggedinUser:(void (^)(TSJavelinAPIAlert *activeAlert))completion {
+    
+    [self getActiveAlertWithStatus:@[@"N", @"A", @"P"] fromObject:0 completion:^(TSJavelinAPIAlert *activeAlert) {
+        if (completion) {
+            completion(activeAlert);
+        }
     }];
 }
 
-- (void)findActiveAlertURLForLoggedInUser:(void (^)(NSString *activeAlertURL))completion {
+- (void)getActiveAlertWithStatus:(NSArray *)statuses fromObject:(NSUInteger)index completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion {
+    
+    if (index >= statuses.count) {
+        if (completion) {
+            completion(nil);
+        }
+        return;
+    }
+    
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"alerts/"
    parameters:@{ @"agency_user": [NSString stringWithFormat:@"%lu", (unsigned long)[[self authenticationManager] loggedInUser].identifier],
-                 @"status": @"N" }
+                 @"status": statuses[index] }
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if ([responseObject[@"results"] count] > 0) {
               TSJavelinAPIAlert *foundAlert = [[TSJavelinAPIAlert alloc] initWithAttributes:responseObject[@"results"][0]];
               NSLog(@"active alert found");
               if (completion) {
-                  completion(foundAlert.url);
+                  completion(foundAlert);
               }
           }
           else {
-              [self GET:@"alerts/"
-             parameters:@{ @"agency_user": [NSString stringWithFormat:@"%lu", (unsigned long)[[self authenticationManager] loggedInUser].identifier],
-                           @"status": @"A" }
-                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    if ([responseObject[@"results"] count] > 0) {
-                        TSJavelinAPIAlert *foundAlert = [[TSJavelinAPIAlert alloc] initWithAttributes:responseObject[@"results"][0]];
-                        NSLog(@"active alert found");
-                        if (completion) {
-                            completion(foundAlert.url);
-                        }
-                    }
-                    else {
-                        [self GET:@"alerts/"
-                       parameters:@{ @"agency_user": [NSString stringWithFormat:@"%lu", (unsigned long)[[self authenticationManager] loggedInUser].identifier],
-                                     @"status": @"P" }
-                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                              if ([responseObject[@"results"] count] > 0) {
-                                  TSJavelinAPIAlert *foundAlert = [[TSJavelinAPIAlert alloc] initWithAttributes:responseObject[@"results"][0]];
-                                  NSLog(@"active alert found");
-                                  if (completion) {
-                                      completion(foundAlert.url);
-                                  }
-                              }
-                              else {
-                                  if (completion) {
-                                      completion(nil);
-                                  }
-                              }
-                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                              NSLog(@"%@", error);
-                              if (completion) {
-                                  completion(nil);
-                              }
-                          }];
-                    }
-                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    NSLog(@"%@", error);
-                    if (completion) {
-                        completion(nil);
-                    }
-                }];
+              [self getActiveAlertWithStatus:statuses fromObject:index + 1 completion:completion];
           }
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
-          if (completion) {
-              completion(nil);
-          }
+          [self getActiveAlertWithStatus:statuses fromObject:index + 1 completion:completion];
       }];
 }
+
+
 
 - (void)uploadUserProfileData:(TSJavelinAPIUserProfileUploadBlock)completion {
     
@@ -402,99 +331,7 @@ static dispatch_once_t onceToken;
     }
 }
 
-- (void)startTimerForFailedDisarm
-{
-    if (_timerForFailedDisarm) {
-        return;
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        _timerForFailedDisarm = [NSTimer scheduledTimerWithTimeInterval:10.0
-                                                                 target:self
-                                                               selector:@selector(postDisarmed:)
-                                                               userInfo:nil
-                                                                repeats:YES];
-    });
-    
-}
-
-- (void)startTimerForFailedFindActiveAlertURL
-{
-    if (_timerForFailedDisarm) {
-        return;
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        _timerForFailedFindActiveAlertURL = [NSTimer scheduledTimerWithTimeInterval:10.0
-                                                                             target:self
-                                                                           selector:@selector(findActiveAlertAndCancel)
-                                                                           userInfo:nil
-                                                                            repeats:YES];
-    });
-}
-
-- (void)cancelAlert {
-    _isStillActiveAlert = NO;
-    [_locationPostTimer invalidate];
-    _locationPostTimer = nil;
-    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
-    if (activeAlert.url) {
-        [self postDisarmed:activeAlert.url];
-    }
-    [[TSJavelinAlertManager sharedManager] cancelAlert];
-}
-
-- (void)findActiveAlertAndCancel {
-    _isStillActiveAlert = NO;
-    [_locationPostTimer invalidate];
-    _locationPostTimer = nil;
-    
-    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
-    if (activeAlert.url) {
-        [self postDisarmed:activeAlert.url];
-    }
-    else {
-        [self findActiveAlertURLForLoggedInUser:^(NSString *foundActiveAlertURL) {
-            if (!foundActiveAlertURL) {
-                [self startTimerForFailedFindActiveAlertURL];
-                return;
-            }
-            [_timerForFailedFindActiveAlertURL invalidate];
-            [self postDisarmed:foundActiveAlertURL];
-        }];
-    }
-    
-    [[TSJavelinAlertManager sharedManager] cancelAlert];
-}
-         
-- (void)postDisarmed:(NSString *)activeAlertURL {
-    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
-                  forHTTPHeaderField:@"Authorization"];
-    [self POST:[NSString stringWithFormat:@"%@disarm/", activeAlertURL]
-    parameters:nil
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"DISARMED ALERT: %@", responseObject);
-           [[[TSJavelinAPIClient sharedClient] alertManager] setActiveAlert:nil];
-           [_timerForFailedFindActiveAlertURL invalidate];
-           [_timerForFailedDisarm invalidate];
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"FAILED TO DISARM ALERT: %@", error);
-           [self startTimerForFailedDisarm];
-       }
-     ];
-}
-
-
-- (void)alertReceiptReceivedForAlertWithURL:(NSString *)url {
-    if (!_isStillActiveAlert) {
-        [self postDisarmed:url];
-        return;
-    }
-    [[self alertManager] alertReceiptReceivedForAlertWithURL:url];
-}
-
-#pragma mark TSJavelinAlertManagerDelegate Methods
+#pragma mark Location Updates
 
 - (void)locationUpdated:(CLLocation *)location {
     TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
@@ -506,36 +343,46 @@ static dispatch_once_t onceToken;
         return;
     }
     
+    
+    _locationAwaitingPost = location;
+    
     if (!_locationPostTimer) {
         dispatch_async(dispatch_get_main_queue(), ^{
             _locationPostTimer = [NSTimer scheduledTimerWithTimeInterval:20
                                                                   target:self
-                                                                selector:@selector(sendLocationUpdate)
+                                                                selector:@selector(sendLocationUpdate:)
                                                                 userInfo:nil
                                                                  repeats:YES];
-            [self sendLocationUpdate];
+            [self sendLocationUpdate:location];
             return;
         });
+    }
+    
+    if (location.coordinate.latitude == _previouslyPostedLocation.coordinate.latitude && location.coordinate.longitude == _previouslyPostedLocation.coordinate.longitude) {
+        return;
     }
     
     //Send Location right away if enough time has passed or accuracy increased
     NSTimeInterval timeOfPreviousLocation = [_previouslyPostedLocation.timestamp timeIntervalSinceNow];
     if (abs(timeOfPreviousLocation) > 20 || location.horizontalAccuracy < _previouslyPostedLocation.horizontalAccuracy) {
-        [self sendLocationUpdate];
+        [self sendLocationUpdate:location];
     }
 }
 
-- (void)sendLocationUpdate {
+- (void)sendLocationUpdate:(CLLocation *)location {
     
     if (!_isStillActiveAlert) {
         [_locationPostTimer invalidate];
         return;
     }
     
+    if (![location isKindOfClass:[CLLocation class]] || !location) {
+        location = _locationAwaitingPost;
+    }
+    
     TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
     
     //Check to make sure location needs to be sent
-    CLLocation *location = [TSJavelinAlertManager sharedManager].locationManager.location;
     if (_previouslyPostedLocation) {
         if ([location distanceFromLocation:_previouslyPostedLocation] < 5 && location.horizontalAccuracy >= _previouslyPostedLocation.horizontalAccuracy) {
             return;
@@ -562,6 +409,112 @@ static dispatch_once_t onceToken;
            NSLog(@"Failed to create new alert location: %@", error);
        }];
 }
+
+
+#pragma mark Disarm Alert
+
+- (void)startTimerForFailedDisarmOfURL:(NSString *)activeAlertURL
+{
+    if (_disarmRetryTimer) {
+        return;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        _disarmRetryTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
+                                                             target:self
+                                                           selector:@selector(postDisarmedFromTimer:)
+                                                           userInfo:@{@"URL": activeAlertURL}
+                                                            repeats:YES];
+    });
+    
+}
+
+- (void)postDisarmedFromTimer:(NSTimer *)disarmRetryTimer {
+    
+    NSDictionary *userInfo = [disarmRetryTimer userInfo];
+    [self postDisarmedToActiveAlertURL:[userInfo objectForKey:@"URL"]];
+}
+
+- (void)startTimerForFailedFindActiveAlertURL
+{
+    if (_disarmRetryTimer) {
+        return;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        _timerForFailedFindActiveAlertURL = [NSTimer scheduledTimerWithTimeInterval:10.0
+                                                                             target:self
+                                                                           selector:@selector(findActiveAlertAndCancel)
+                                                                           userInfo:nil
+                                                                            repeats:YES];
+    });
+}
+
+- (void)cancelAlert {
+    
+    _isStillActiveAlert = NO;
+    [_locationPostTimer invalidate];
+    _locationPostTimer = nil;
+    [[TSJavelinAlertManager sharedManager] stopAlertUpdates];
+}
+
+- (void)disarmAlert {
+    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTSJavelinAlertManagerSentActiveAlert]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerAwaitingDisarm];
+        
+        if (activeAlert.url) {
+            [self postDisarmedToActiveAlertURL:activeAlert.url];
+        }
+        else {
+            [self findActiveAlertAndCancel];
+        }
+    }
+}
+
+- (void)findActiveAlertAndCancel {
+    
+    [self findActiveAlertForLoggedinUser:^(TSJavelinAPIAlert *activeAlert) {
+        if (!activeAlert) {
+            [self startTimerForFailedFindActiveAlertURL];
+            return;
+        }
+        [_timerForFailedFindActiveAlertURL invalidate];
+        [self postDisarmedToActiveAlertURL:activeAlert.url];
+    }];
+}
+
+- (void)postDisarmedToActiveAlertURL:(NSString *)activeAlertURL {
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:[NSString stringWithFormat:@"%@disarm/", activeAlertURL]
+    parameters:nil
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"DISARMED ALERT: %@", responseObject);
+           [[self alertManager] setActiveAlert:nil];
+           [_timerForFailedFindActiveAlertURL invalidate];
+           [_disarmRetryTimer invalidate];
+           [[TSJavelinAlertManager sharedManager] resetArchivedAlertBools];
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"FAILED TO DISARM ALERT: %@", error);
+           [self startTimerForFailedDisarmOfURL:activeAlertURL];
+       }
+     ];
+}
+
+
+- (void)alertReceiptReceivedForAlertWithURL:(NSString *)url {
+    if (!_isStillActiveAlert) {
+        [self postDisarmedToActiveAlertURL:url];
+        return;
+    }
+    [[self alertManager] alertReceiptReceivedForAlertWithURL:url];
+}
+
 
 
 #pragma mark - Chat Message Methods

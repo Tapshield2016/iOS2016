@@ -40,25 +40,29 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
 + (instancetype)initializeSharedManagerWithBaseAuthURL:(NSString *)baseAuthURL;
 + (instancetype)sharedManager;
 
-- (void)registerUserWithAgencyID:(NSUInteger)agencyID
-                    emailAddress:(NSString *)emailAddress
-                        password:(NSString *)password
-                     phoneNumber:(NSString *)phoneNumber
-                      disarmCode:(NSString *)disarmCode
-                       firstName:(NSString *)firstName
-                        lastName:(NSString *)lastName
-                      completion:(TSJavelinAPIUserBlock)completion;
+- (void)logoutSocial;
+- (void)createFacebookUser:(NSString *)facebookAPIAuthToken;
+- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret;
+- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken;
+- (void)createLinkedInUser:(NSString *)linkedInAccessToken;
+
+- (void)registerUser:(TSJavelinAPIUser *)user
+          completion:(void (^)(id responseObject))completion;
 
 - (void)logInUser:(NSString *)emailAddress password:(NSString *)password completion:(TSJavelinAPIUserBlock)completion;
 - (void)logoutUser:(void (^)(BOOL success))completion;
 
 - (void)isUserLoggedIn:(TSJavelinAPIUserBlock)completion;
 - (void)isLoggedInUserEmailVerified:(void (^)(BOOL success))completion;
-- (void)isPhoneNumberVerified:(NSString *)phoneNumber completion:(void (^)(BOOL verified))completion;
 - (void)resendVerificationEmailForEmailAddress:(NSString *)email completion:(void (^)(BOOL success))completion;
 - (void)updateLoggedInUser:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion;
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion;
+
+- (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
+- (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 
 - (NSString *)masterAccessTokenAuthorizationHeader;
 - (NSString *)loggedInUserTokenAuthorizationHeader;

@@ -7,7 +7,7 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
-#include <CoreLocation/CoreLocation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface TSJavelinAPIAgency : TSJavelinAPIBaseModel
 

@@ -10,7 +10,7 @@
 #import "TSJavelinAPIClient.h"
 #import "TSJavelinAPIChatMessage.h"
 #import "TSJavelinAPIAlert.h"
-#include <AmazonDynamoDBClient.h>
+#import <AmazonDynamoDBClient.h>
 
 static NSString * const kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey = @"AKIAJJX2VM346XUKRROA";
 static NSString * const kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey = @"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";

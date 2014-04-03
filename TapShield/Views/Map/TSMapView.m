@@ -40,51 +40,6 @@
     return self;
 }
 
-#pragma mark - Destination methods
-
-- (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType {
-    
-    _destinationTransportType = transportType;
-    
-    if (_destinationMapItem == mapItem) {
-        return;
-    }
-    
-    _destinationMapItem = mapItem;
-    
-    if (_destinationAnnotation) {
-        [self removeAnnotation:_destinationAnnotation];
-    }
-    
-    _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
-                                                                                placeName:_destinationMapItem.name
-                                                                              description:_destinationMapItem.placemark.addressDictionary[@"Street"]];
-    _destinationAnnotation.title = _destinationMapItem.name;
-
-    // Ensure we have a title so callout will always come up
-    if (!_destinationAnnotation.title || [_destinationAnnotation.title isEqualToString:@""]) {
-        _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
-    }
-    else {
-        _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[@"Street"];
-    }
-    [self addAnnotation:_destinationAnnotation];
-}
-
-- (void)removeCurrentDestinationAnnotation {
-    
-    if (_destinationAnnotation) {
-        [self removeAnnotation:_destinationAnnotation];
-    }
-}
-
-- (void)centerMapOnSelectedDestination {
-    [self showAnnotations:@[_destinationAnnotation] animated:NO];
-}
-
-- (void)selectDestinationAnnotation {
-    [self selectAnnotation:_destinationAnnotation animated:YES];
-}
 
 #pragma mark - Region
 

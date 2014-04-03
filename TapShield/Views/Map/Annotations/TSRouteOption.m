@@ -16,15 +16,26 @@
     
     if (self) {
         self.route = route;
-        
-        
     }
     
     return self;
 }
 
 
-- (MKMapPoint)findUniqueMapPointFromComparing:(NSArray *)routeArray {
+- (MKMapPoint)findUniqueMapPointComparingRoutes:(NSArray *)routeArray {
+    
+    if (!_route) {
+        return MKMapPointMake(0, 0);
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:routeArray];
+    [mutableArray removeObjectsInArray:@[_route]];
+    routeArray = mutableArray;
+    
+    if (routeArray.count == 0 || !routeArray) {
+        return _route.polyline.points[_route.polyline.pointCount/2];
+    }
+    
     MKMapPoint uniquePoint;
     NSArray *result;
     

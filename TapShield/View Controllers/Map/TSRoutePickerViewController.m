@@ -48,10 +48,10 @@
     
     [super viewWillAppear:animated];
     
-    [_homeViewController.mapView userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [_homeViewController.entourageManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     
     // Display user location and selected destination if present
-    if (_homeViewController.mapView.destinationMapItem) {
+    if (_homeViewController.entourageManager.destinationMapItem) {
         _homeViewController.isTrackingUser = NO;
         [self requestAndDisplayRoutesForSelectedDestination];
     }
@@ -82,7 +82,7 @@
             break;
     }
     
-    [_homeViewController.mapView userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [_homeViewController.entourageManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     [self requestAndDisplayRoutesForSelectedDestination];
 }
 
@@ -95,9 +95,9 @@
     
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:_homeViewController.mapView.destinationMapItem];
-    [request setTransportType:_homeViewController.mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
-    [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
+    [request setDestination:_homeViewController.entourageManager.destinationMapItem];
+    [request setTransportType:_homeViewController.entourageManager.destinationTransportType];
+    [request setRequestsAlternateRoutes:YES];
     
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
@@ -109,9 +109,9 @@
             NSLog(@"%@", error);
             // May have gotten an error due to attempting walking directions over too far
             // a distance, retry with 'Any'.
-            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _homeViewController.mapView.destinationTransportType == MKDirectionsTransportTypeWalking) {
+            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _homeViewController.entourageManager.destinationTransportType == MKDirectionsTransportTypeWalking) {
                 NSLog(@"Error with walking directions, trying again with 'Any'");
-                _homeViewController.mapView.destinationTransportType = MKDirectionsTransportTypeAny;
+                _homeViewController.entourageManager.destinationTransportType = MKDirectionsTransportTypeAny;
                 [self calculateETAForSelectedDestination:completion];
             }
         }
@@ -120,15 +120,15 @@
 
 - (void)requestAndDisplayRoutesForSelectedDestination {
     
-    if (!_homeViewController.mapView.userLocationAnnotation || !_homeViewController.mapView.destinationAnnotation) {
+    if (!_homeViewController.mapView.userLocationAnnotation || !_homeViewController.entourageManager.destinationAnnotation) {
         return;
     }
     
-    [_homeViewController.mapView showAnnotations:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.mapView.destinationAnnotation] animated:YES];
+    [_homeViewController.mapView showAnnotations:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.entourageManager.destinationAnnotation] animated:YES];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:_homeViewController.mapView.destinationMapItem];
-    [request setTransportType:_homeViewController.mapView.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setDestination:_homeViewController.entourageManager.destinationMapItem];
+    [request setTransportType:_homeViewController.entourageManager.destinationTransportType]; // This can be limited to automobile and walking directions.
     [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
     
     if (_directions.isCalculating) {
@@ -138,9 +138,9 @@
     [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         if (!error) {
             _homeViewController.entourageManager.selectedRoute = nil;
-            [_homeViewController.entourageManager removeRouteOverlays];
+            [_homeViewController.entourageManager removeRouteOverlaysAndAnnotations];
             _homeViewController.entourageManager.routes = [response routes];
-            [_homeViewController.entourageManager addRouteOverlaysToMapView];
+            [_homeViewController.entourageManager addRouteOverlaysToMapViewAndAnnotations];
         }
     }];
 }

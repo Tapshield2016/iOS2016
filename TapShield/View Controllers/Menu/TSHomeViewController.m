@@ -113,9 +113,31 @@
 
 - (void)clearEntourageAndResetMap {
     
-    [_entourageManager removeRouteOverlays];
-    [_mapView removeCurrentDestinationAnnotation];
+    [_entourageManager removeRouteOverlaysAndAnnotations];
+    [_entourageManager removeCurrentDestinationAnnotation];
     self.isTrackingUser = YES;
+}
+
+
+#pragma mark - Home Screen Buttons
+
+
+- (IBAction)sendAlert:(id)sender {
+    
+    [self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+}
+
+- (IBAction)openChatWindow:(id)sender {
+    
+    [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController animated:YES];
+}
+
+- (IBAction)displayVirtualEntourage:(id)sender {
+    
+    UIViewController *viewController = [self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
+    ((TSDestinationSearchViewController *)viewController).homeViewController = self;
+    
+    [self showOnlyMap];
 }
 
 - (IBAction)userLocationTUI:(id)sender {
@@ -159,6 +181,9 @@
     }];
 }
 
+
+
+
 #pragma mark - UIGestureRecognizerDelegate methods
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -187,15 +212,6 @@
     }
 }
 
-#pragma mark - Virtual Entourage methods
-
-- (IBAction)displayVirtualEntourage:(id)sender {
-    
-    UIViewController *viewController = [self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
-    ((TSDestinationSearchViewController *)viewController).homeViewController = self;
-    
-    [self showOnlyMap];
-}
 
 
 
@@ -290,14 +306,14 @@
     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5]];
     
     if (!_entourageManager.selectedRoute) {
-        _entourageManager.selectedRoute = [_entourageManager.routes firstObject];
+        _entourageManager.selectedRoute = [_entourageManager.routeOptions firstObject];
     }
     
     if (_entourageManager.selectedRoute) {
-        for (MKRoute *route in _entourageManager.routes) {
-            if (route == _entourageManager.selectedRoute) {
-                if (route.polyline == overlay) {
-                    NSLog(@"%@ highlighted", route.name);
+        for (TSRouteOption *routeOption in _entourageManager.routeOptions) {
+            if (routeOption == _entourageManager.selectedRoute) {
+                if (routeOption.route.polyline == overlay) {
+                    NSLog(@"%@ highlighted", routeOption.route.name);
                     [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
                     break;
                 }
@@ -372,14 +388,16 @@
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
         }
-        annotationView.image = [UIImage imageNamed:@"bubble_time_LB_icon"];
-        annotationView.centerOffset = CGPointMake(annotationView.image.size.width / 2, -annotationView.image.size.height / 2);
+        
+        TSRouteTimeAnnotation *etaAnnotation = (TSRouteTimeAnnotation *)annotation;
+        annotationView.image = [etaAnnotation imageForAnnotationViewDirection];
+        annotationView.centerOffset = etaAnnotation.viewCenterOffset;
         
         UILabel *etaLabel = [[UILabel alloc] initWithFrame:annotationView.bounds];
         etaLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:10.0f];
         etaLabel.textColor = [TSColorPalette whiteColor];
         etaLabel.textAlignment = NSTextAlignmentCenter;
-        etaLabel.text = ((TSRouteTimeAnnotation *)annotation).title;
+        etaLabel.text = etaAnnotation.title;
         
         [annotationView addSubview:etaLabel];
         [annotationView setCanShowCallout:NO];
@@ -435,18 +453,6 @@
     NSLog(@"Failed Loading Map");
 }
 
-#pragma mark - Alert Methods
-
-
-- (IBAction)sendAlert:(id)sender {
-    
-    [self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
-}
-
-- (IBAction)openChatWindow:(id)sender {
-    
-    [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController animated:YES];
-}
 
 
 

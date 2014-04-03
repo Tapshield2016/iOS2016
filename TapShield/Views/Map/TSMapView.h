@@ -26,13 +26,6 @@
 @property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
 
-// Virtual Entourage selected destination
-// Probably need to find another place to stuff these things, feels a little sloppy
-@property (nonatomic, strong) MKMapItem *destinationMapItem;
-@property (nonatomic, strong) TSSelectedDestinationAnnotation *destinationAnnotation;
-@property (nonatomic, strong) NSArray *routeOptionsArray;
-@property (nonatomic, assign) MKDirectionsTransportType destinationTransportType;
-
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;
 
@@ -42,12 +35,6 @@
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)adjustAnnotationAlphaForPan;
-
-//Destination Annotation
-- (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType;
-- (void)centerMapOnSelectedDestination;
-- (void)selectDestinationAnnotation;
-- (void)removeCurrentDestinationAnnotation;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

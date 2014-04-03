@@ -9,19 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "TSRouteTimeAnnotation.h"
 
-//bubble_time_RT_icon
-
-#define kAnnotationImageDirectionArray @"LT", @"RT", @"LB", @"RB", nil
-typedef enum {
-    kLeftTop,
-    kRightTop,
-    kLeftBottom,
-    kRightBottom,
-} RelativeLocation;
-
 @interface TSRouteOption : NSObject
 
 @property (nonatomic, strong) MKRoute *route;
 @property (nonatomic, strong) TSRouteTimeAnnotation *routeTimeAnnotation;
+
+- (id)initWithRoute:(MKRoute *)route;
+
+- (MKMapPoint)findUniqueMapPointComparingRoutes:(NSArray *)routeArray;
 
 @end

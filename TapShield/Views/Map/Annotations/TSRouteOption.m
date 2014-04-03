@@ -36,7 +36,7 @@
         return _route.polyline.points[_route.polyline.pointCount*2/3];
     }
     
-    MKMapPoint uniquePoint;
+    MKMapPoint uniquePoint = _route.polyline.points[_route.polyline.pointCount/2];
     NSArray *result;
     
     NSMutableSet *initialSet = [[NSMutableSet alloc] initWithCapacity:_route.polyline.pointCount];
@@ -66,7 +66,7 @@
         filteredSet = set1;
     }
     
-    if (result) {
+    if (result.count != 0) {
         uniquePoint = MKMapPointMake([[result firstObject] CGPointValue].x, [[result firstObject] CGPointValue].y);
     }
     

@@ -10,6 +10,7 @@
 #import "TSSelectedDestinationAnnotation.h"
 #import "TSRouteOption.h"
 #import "TSMapView.h"
+#import "TSRouteTimeAnnotationView.h"
 #import <MapKit/MapKit.h>
 
 @interface TSVirtualEntourageManager : NSObject
@@ -29,6 +30,7 @@
 - (instancetype)initWithMapView:(MKMapView *)mapView;
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint;
+- (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView;
 - (void)addRouteOverlaysToMapViewAndAnnotations;
 - (void)removeRouteOverlaysAndAnnotations;
 - (void)removeCurrentDestinationAnnotation;

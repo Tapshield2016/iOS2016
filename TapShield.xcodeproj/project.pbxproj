@@ -659,6 +659,21 @@
 		C56356F618EC825C00BAA5D7 /* TSRouteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F518EC825C00BAA5D7 /* TSRouteManager.m */; };
 		C56356F718EC825C00BAA5D7 /* TSRouteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F518EC825C00BAA5D7 /* TSRouteManager.m */; };
 		C56356F818EC825C00BAA5D7 /* TSRouteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F518EC825C00BAA5D7 /* TSRouteManager.m */; };
+		C56356FB18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */; };
+		C56356FC18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */; };
+		C56356FD18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */; };
+		C563570018ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */; };
+		C563570118ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */; };
+		C563570218ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */; };
+		C563570518ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */; };
+		C563570618ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */; };
+		C563570718ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */; };
+		C563570B18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */; };
+		C563570C18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */; };
+		C563570D18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */; };
+		C563571018ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */; };
+		C563571118ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */; };
+		C563571218ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */; };
 		C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
 		C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
 		C5662BCB18DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
@@ -1444,6 +1459,16 @@
 		C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSVirtualEntourageManager.m; path = "Virtual Entourage/TSVirtualEntourageManager.m"; sourceTree = "<group>"; };
 		C56356F418EC825C00BAA5D7 /* TSRouteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRouteManager.h; sourceTree = "<group>"; };
 		C56356F518EC825C00BAA5D7 /* TSRouteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRouteManager.m; sourceTree = "<group>"; };
+		C56356F918ED06C600BAA5D7 /* TSRouteTimeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteTimeAnnotationView.h; path = Views/Map/Annotations/TSRouteTimeAnnotationView.h; sourceTree = "<group>"; };
+		C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteTimeAnnotationView.m; path = Views/Map/Annotations/TSRouteTimeAnnotationView.m; sourceTree = "<group>"; };
+		C56356FE18ED13B600BAA5D7 /* TSBaseAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseAnnotationView.h; path = Views/Map/Annotations/TSBaseAnnotationView.h; sourceTree = "<group>"; };
+		C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseAnnotationView.m; path = Views/Map/Annotations/TSBaseAnnotationView.m; sourceTree = "<group>"; };
+		C563570318ED148D00BAA5D7 /* TSOrganizationAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationAnnotationView.h; path = Views/Map/Annotations/TSOrganizationAnnotationView.h; sourceTree = "<group>"; };
+		C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationAnnotationView.m; path = Views/Map/Annotations/TSOrganizationAnnotationView.m; sourceTree = "<group>"; };
+		C563570918ED160800BAA5D7 /* TSUserAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUserAnnotationView.h; sourceTree = "<group>"; };
+		C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUserAnnotationView.m; sourceTree = "<group>"; };
+		C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDestinationAnnotation.h; path = Views/Map/Annotations/TSDestinationAnnotation.h; sourceTree = "<group>"; };
+		C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDestinationAnnotation.m; path = Views/Map/Annotations/TSDestinationAnnotation.m; sourceTree = "<group>"; };
 		C5662BC718DB88C000FD4F44 /* TSBaseLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseLabel.h; path = Views/Labels/TSBaseLabel.h; sourceTree = "<group>"; };
 		C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseLabel.m; path = Views/Labels/TSBaseLabel.m; sourceTree = "<group>"; };
 		C5662BCC18DB8A3C00FD4F44 /* TSButtonLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSButtonLabel.h; sourceTree = "<group>"; };
@@ -2040,6 +2065,7 @@
 		C5372DA118AEAC9E00D22682 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
+				C563570818ED149500BAA5D7 /* Annotation Views */,
 				C532E64C18BBF2DE00FC111A /* Accessories */,
 				C532E63D18BBF2D600FC111A /* TSBaseMapAnnotation.h */,
 				C532E63E18BBF2D600FC111A /* TSBaseMapAnnotation.m */,
@@ -2320,6 +2346,23 @@
 				C56356F518EC825C00BAA5D7 /* TSRouteManager.m */,
 			);
 			name = "Virtual Entourage";
+			sourceTree = "<group>";
+		};
+		C563570818ED149500BAA5D7 /* Annotation Views */ = {
+			isa = PBXGroup;
+			children = (
+				C563570318ED148D00BAA5D7 /* TSOrganizationAnnotationView.h */,
+				C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */,
+				C56356F918ED06C600BAA5D7 /* TSRouteTimeAnnotationView.h */,
+				C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */,
+				C56356FE18ED13B600BAA5D7 /* TSBaseAnnotationView.h */,
+				C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */,
+				C563570918ED160800BAA5D7 /* TSUserAnnotationView.h */,
+				C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */,
+				C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotation.h */,
+				C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */,
+			);
+			name = "Annotation Views";
 			sourceTree = "<group>";
 		};
 		C5662BC618DB886000FD4F44 /* Labels */ = {
@@ -3706,6 +3749,7 @@
 				C5662BDE18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C532E65018BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
+				C563570018ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C55644F718E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C5662BF318DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
@@ -3735,6 +3779,7 @@
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */,
 				C5391EA318C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
+				C563570B18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				B53BBCFD18980FDA006A27E0 /* main.m in Sources */,
 				C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
@@ -3745,6 +3790,7 @@
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
 				C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C56356FB18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5662BEE18DD091500FD4F44 /* TSBorderedView.m in Sources */,
 				C5C5E4D218EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
@@ -3769,11 +3815,13 @@
 				C5B2E98618CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
+				C563570518ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C585F1CB18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				C56356F118EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C556477F18E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
+				C563571018ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
@@ -3825,6 +3873,7 @@
 				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
+				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				C532E63618BBF1E900FC111A /* TSConstants.m in Sources */,
 				C5FD5EA818B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
@@ -3835,10 +3884,13 @@
 				C5662BE518DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C5B5634D18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C5B5634318E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
+				C563570218ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
+				C563570718ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C563570D18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C585F1CD18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
@@ -3890,6 +3942,7 @@
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
+				C56356FD18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C585F1A418CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
@@ -3921,6 +3974,7 @@
 				C57C48B918BBDB1900DFFBCE /* TSUserProfileCell.m in Sources */,
 				C57C48BA18BBDB1900DFFBCE /* UIImage+Resize.m in Sources */,
 				C532E63518BBF1E900FC111A /* TSConstants.m in Sources */,
+				C563570118ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
@@ -3950,6 +4004,7 @@
 				C585F1CC18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
 				C57C48CC18BBDB1900DFFBCE /* TSMapView.m in Sources */,
+				C563570C18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
 				C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C556478018E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
@@ -3960,6 +4015,7 @@
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
+				C56356FC18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AC18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D318EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
@@ -3984,11 +4040,13 @@
 				C5662BEF18DD091500FD4F44 /* TSBorderedView.m in Sources */,
 				C57C48DA18BBDB1900DFFBCE /* TSUserLocationButton.m in Sources */,
 				C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
+				C563570618ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */,
 				C56356F218EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
 				C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */,
 				C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */,
 				C5662BDA18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
+				C563571118ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
 				C532E63B18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,

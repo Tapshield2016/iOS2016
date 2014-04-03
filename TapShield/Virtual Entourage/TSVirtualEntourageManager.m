@@ -60,6 +60,20 @@
     }
 }
 
+- (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView {
+    
+    for (TSRouteOption *routeOption in _routeOptions) {
+        if (routeAnnotationView.annotation == routeOption.routeTimeAnnotation) {
+            
+            if (self.selectedRoute != routeOption) {
+                [self setSelectedRouteFromStruckRoutes:@[routeOption]];
+            }
+            
+            break;
+        }
+    }
+}
+
 - (void)setSelectedRoute:(TSRouteOption *)selectedRoute {
 
     _selectedRoute.routeTimeAnnotation.isSelected = NO;
@@ -106,7 +120,7 @@
     [self setSelectedRouteFromStruckRoutes:struckRoutes];
 }
 
-- (void)setSelectedRouteFromStruckRoutes:(NSMutableArray *)struckRoutes {
+- (void)setSelectedRouteFromStruckRoutes:(NSArray *)struckRoutes {
     
     TSRouteTimeAnnotation *annotation;
     

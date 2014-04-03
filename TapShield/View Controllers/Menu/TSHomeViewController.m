@@ -13,6 +13,10 @@
 #import "TSUtilities.h"
 #import "TSIntroPageViewController.h"
 #import "TSPhoneVerificationViewController.h"
+#import "TSRouteTimeAnnotationView.h"
+#import "TSOrganizationAnnotationView.h"
+#import "TSUserAnnotationView.h"
+#import "TSDestinationAnnotation.h"
 
 @interface TSHomeViewController ()
 
@@ -203,10 +207,15 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         for (int i = 0; i < recognizer.numberOfTouches; i++) {
             CGPoint point = [recognizer locationOfTouch:i inView:_mapView];
+            
+            //If hitting Annotation don't test polyline proximity
+            UIView *view = [_mapView hitTest:point withEvent:nil];
+            if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+                return;
+            }
 
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-
             [_entourageManager selectRouteClosestTo:mapPoint];
         }
     }
@@ -302,8 +311,8 @@
 
 - (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-    [renderer setLineWidth:4.0];
-    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5]];
+    [renderer setLineWidth:8.0];
+    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3]];
     
     if (!_entourageManager.selectedRoute) {
         _entourageManager.selectedRoute = [_entourageManager.routeOptions firstObject];
@@ -329,83 +338,38 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
+    id annotationView;
+    
     if ([annotation isKindOfClass:[TSUserLocationAnnotation class]]) {
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"user"];
+        annotationView = (TSUserAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSUserAnnotationView class])];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"user"];
+            annotationView = [[TSUserAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSUserAnnotationView class])];
         }
-        annotationView.image = [UIImage imageNamed:@"user_icon"];
-        [annotationView setCanShowCallout:YES];
-
-        return annotationView;
     }
     else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
 
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:((TSAgencyAnnotation *)annotation).subtitle];
+        annotationView = (TSOrganizationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSAgencyAnnotation class])];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"agency"];
+            annotationView = [[TSOrganizationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSAgencyAnnotation class])];
         }
-
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/5)];
-        label.text = ((TSAgencyAnnotation *)annotation).title;
-        label.font = [UIFont boldSystemFontOfSize:20];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.numberOfLines = 0;
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor darkGrayColor];
-        [annotationView addSubview:label];
-        annotationView.frame = label.frame;
-        annotationView.alpha = 0.0f;
-        
-        return annotationView;
+        ((TSOrganizationAnnotationView *)annotationView).label.text = ((TSAgencyAnnotation *)annotation).title;
     }
     else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
+        annotationView = (TSDestinationAnnotation *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
-            NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"TSSelectedDestinationLeftCalloutAccessoryView" owner:self options:nil];
-            TSSelectedDestinationLeftCalloutAccessoryView *leftCalloutAccessoryView = views[0];
-            annotationView.leftCalloutAccessoryView = leftCalloutAccessoryView;
+            annotationView = [[TSDestinationAnnotation alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
         }
-        annotationView.annotation = annotation;
-        annotationView.image = [UIImage imageNamed:@"pins_other_icon"];
-        annotationView.centerOffset = CGPointMake(0, -annotationView.image.size.height / 2);
-        ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = @"";
-        [annotationView setCanShowCallout:YES];
-
-//        [self calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
-//            if (expectedTravelTime) {
-//                ((TSSelectedDestinationLeftCalloutAccessoryView *)annotationView.leftCalloutAccessoryView).minutes.text = [TSUtilities formattedStringForDuration:expectedTravelTime];
-//            }
-//        }];
-
-        return annotationView;
     }
     else if ([annotation isKindOfClass:[TSRouteTimeAnnotation class]]) {
         
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
+        annotationView = (TSRouteTimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
+            annotationView = [[TSRouteTimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
         }
-        
-        TSRouteTimeAnnotation *etaAnnotation = (TSRouteTimeAnnotation *)annotation;
-        annotationView.image = [etaAnnotation imageForAnnotationViewDirection];
-        annotationView.centerOffset = etaAnnotation.viewCenterOffset;
-        
-        UILabel *etaLabel = [[UILabel alloc] initWithFrame:annotationView.bounds];
-        etaLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:10.0f];
-        etaLabel.textColor = [TSColorPalette whiteColor];
-        etaLabel.textAlignment = NSTextAlignmentCenter;
-        etaLabel.text = etaAnnotation.title;
-        
-        [annotationView addSubview:etaLabel];
-        [annotationView setCanShowCallout:NO];
-        
-        return annotationView;
+        [annotationView setupViewForAnnotation:annotation];
     }
     
-    return nil;
+    return annotationView;
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
@@ -434,6 +398,10 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
     _mapView.shouldUpdateCallOut = YES;
+    
+    if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+        [_entourageManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
+    }
     
     [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
 }

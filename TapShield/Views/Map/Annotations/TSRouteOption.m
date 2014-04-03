@@ -33,7 +33,7 @@
     routeArray = mutableArray;
     
     if (routeArray.count == 0 || !routeArray) {
-        return _route.polyline.points[_route.polyline.pointCount/2];
+        return _route.polyline.points[_route.polyline.pointCount*2/3];
     }
     
     MKMapPoint uniquePoint;

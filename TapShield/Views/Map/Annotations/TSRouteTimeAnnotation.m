@@ -58,11 +58,7 @@
         
         _isInCenter = YES;
         
-        yLocation = kTop;
-        
-        if (yDifference > 0) {
-            yLocation = kBottom;
-        }
+        yLocation = kBottom;
     }
     
     for (TSBaseMapAnnotation *annotation in annotations) {
@@ -80,16 +76,20 @@
     
     if (xLocation == kCenter) {
         
-        xLocation = kRight;
-        
-        if (yLocation == kBottom) {
-            xLocation = kLeft;
-        }
-        
-        if (xDifference > 0) {
-            xLocation = kLeft;
+        if (vectorDirection == kLeftTop || vectorDirection == kRightBottom) {
             
             if (yLocation == kBottom) {
+                xLocation = kLeft;
+            }
+            else {
+                xLocation = kRight;
+            }
+        }
+        else {
+            if (yLocation != kBottom) {
+                xLocation = kLeft;
+            }
+            else {
                 xLocation = kRight;
             }
         }
@@ -132,6 +132,14 @@
         }
         else if (_travelVectorDirection == kLeftTop || _travelVectorDirection == kRightBottom) {
             _annotationViewDirection = kRightTop;
+        }
+    }
+    else {
+        if (_travelVectorDirection == kRightTop || _travelVectorDirection == kLeftBottom) {
+            _annotationViewDirection = kRightBottom;
+        }
+        else if (_travelVectorDirection == kLeftTop || _travelVectorDirection == kRightBottom) {
+            _annotationViewDirection = kLeftBottom;
         }
     }
     

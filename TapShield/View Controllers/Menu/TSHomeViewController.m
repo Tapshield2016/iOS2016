@@ -393,6 +393,8 @@
             [_mapView setCenterCoordinate:location.coordinate animated:YES];
         }
     }
+    
+    [self flipIntersectingRouteAnnotation];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
@@ -401,6 +403,7 @@
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
         [_entourageManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
+        [self flipIntersectingRouteAnnotation];
     }
     
     [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
@@ -422,7 +425,31 @@
 }
 
 
-
+- (void)flipIntersectingRouteAnnotation {
+    
+    NSMutableArray *annotationViewArray = [[NSMutableArray alloc] initWithCapacity:5];
+    for (UIView *view in _mapView.subviews) {
+        for (UIView *subview in view.subviews) {
+            if ([subview isKindOfClass:NSClassFromString(@"MKNewAnnotationContainerView")]) {
+                for (UIView *annotationView in subview.subviews) {
+                    if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+                        [annotationViewArray addObject:annotationView];
+                    }
+                }
+            }
+        }
+        for (TSRouteTimeAnnotationView *routeView in annotationViewArray) {
+            NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:annotationViewArray];
+            [mutableArray removeObject:routeView];
+            for (TSRouteTimeAnnotationView *otherView in mutableArray) {
+                if(CGRectIntersectsRect([routeView frame], [otherView frame])) {
+                    NSLog(@"Need To Flip.");
+                    [routeView flipViewAwayfromView:otherView];
+                }
+            }
+        }
+    }
+}
 
 
 @end

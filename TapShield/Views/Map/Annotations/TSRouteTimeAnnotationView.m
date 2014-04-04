@@ -40,6 +40,35 @@
     }
 }
 
+- (void)flipViewAwayfromView:(UIView *)view {
+    
+    TSRouteTimeAnnotation *etaAnnotation = (TSRouteTimeAnnotation *)self.annotation;
+    
+    double yDifference = -view.center.y - (-self.center.y); //y axis is unsigned increaseing downward
+    double xDifference = view.center.x - self.center.x;
+    //    float radians = atan2(yDifference, xDifference);
+    
+    RelativeLocation vectorDirection = 0;
+    
+    if (xDifference > 0) {
+        vectorDirection += kRight;
+    }
+    else {
+        vectorDirection += kLeft;
+    }
+    
+    if (yDifference > 0) {
+        vectorDirection += kTop;
+    }
+    else {
+        vectorDirection += kBottom;
+    }
+    
+    etaAnnotation.annotationViewDirection = vectorDirection;
+    self.image = [etaAnnotation imageForAnnotationViewDirection];
+    self.centerOffset = etaAnnotation.viewCenterOffset;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

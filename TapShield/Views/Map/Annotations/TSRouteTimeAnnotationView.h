@@ -10,6 +10,9 @@
 
 @interface TSRouteTimeAnnotationView : TSBaseAnnotationView
 
+@property (assign, nonatomic) BOOL isFlipped;
+
 - (void)setupViewForAnnotation:(id<MKAnnotation>)annotation;
+- (void)flipViewAwayfromView:(UIView *)view;
 
 @end

@@ -24,7 +24,6 @@
 // Virtual Entourage selected destination
 @property (nonatomic, strong) TSSelectedDestinationAnnotation *destinationAnnotation;
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
-@property (nonatomic, strong) NSArray *routeOptionsArray;
 @property (nonatomic, assign) MKDirectionsTransportType destinationTransportType;
 
 - (instancetype)initWithMapView:(MKMapView *)mapView;

@@ -26,37 +26,51 @@
     
     _routes = routes;
     
-    NSMutableArray *annotationCoordinates = [[NSMutableArray alloc] initWithArray:@[_mapView.userLocationAnnotation, _destinationAnnotation]];
-    
     NSMutableArray *mutableRouteOptions = [[NSMutableArray alloc] initWithCapacity:4];
     
     for (MKRoute *route in _routes) {
-        
         TSRouteOption *routeOption = [[TSRouteOption alloc] initWithRoute:route];
-        MKMapPoint uniquePoint = [routeOption findUniqueMapPointComparingRoutes:_routes];
-        
-        routeOption.routeTimeAnnotation = [[TSRouteTimeAnnotation alloc] initWithCoordinates:MKCoordinateForMapPoint(uniquePoint) placeName:[TSUtilities formattedStringForDuration:route.expectedTravelTime] description:@""];
-        
-        [annotationCoordinates addObject:routeOption.routeTimeAnnotation];
         [mutableRouteOptions addObject:routeOption];
     }
     
     self.routeOptions = mutableRouteOptions;
-    _routingAnnotations = annotationCoordinates;
 }
+
 
 - (void)setRouteOptions:(NSArray *)routeOptions {
     
     _routeOptions = routeOptions;
     
+    [self creatRouteAnnotations];
+}
+
+- (void)creatRouteAnnotations {
+    
+    NSMutableArray *annotationCoordinates = [[NSMutableArray alloc] initWithArray:@[_mapView.userLocationAnnotation, _destinationAnnotation]];
+    
     for (TSRouteOption *routeOption in _routeOptions) {
         
-        [routeOption.routeTimeAnnotation setImageDirectionRelativeToStartingPoint:_mapView.userLocationAnnotation endingPoint:_destinationAnnotation];
+            [routeOption findUniqueMapPointComparingRoutes:_routes completion:^(MKMapPoint uniquePointFromSet) {
+                routeOption.routeTimeAnnotation = [[TSRouteTimeAnnotation alloc] initWithCoordinates:MKCoordinateForMapPoint(uniquePointFromSet) placeName:[TSUtilities formattedStringForDuration:routeOption.route.expectedTravelTime] description:@""];
+                [annotationCoordinates addObject:routeOption.routeTimeAnnotation];
+            }];
+    }
+    _routingAnnotations = annotationCoordinates;
+    [self adjustAnnotationImageDirections];
+}
+
+- (void)adjustAnnotationImageDirections {
+    
+    for (TSRouteOption *routeOption in _routeOptions) {
         
-        NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:_routeOptions];
-        [mutableArray removeObject:routeOption];
-        
-        [routeOption.routeTimeAnnotation setImageDirectionRelativeToRouteOptions:mutableArray];
+        if (routeOption.routeTimeAnnotation) {
+            [routeOption.routeTimeAnnotation setImageDirectionRelativeToStartingPoint:_mapView.userLocationAnnotation endingPoint:_destinationAnnotation];
+            
+            NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:_routeOptions];
+            [mutableArray removeObject:routeOption];
+            
+            [routeOption.routeTimeAnnotation setImageDirectionRelativeToRouteOptions:mutableArray];
+        }
     }
 }
 
@@ -101,14 +115,14 @@
                     struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
                     shortestDistance = distanceToPolyline;
                     
-                    for (TSRouteOption *routeOption in _routeOptions) {
+                    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
                         if (routeOption.route.polyline == poly) {
                             [struckRoutes addObject:routeOption];
                         }
                     }
                 }
                 else if (distanceToPolyline == shortestDistance) {
-                    for (TSRouteOption *routeOption in _routeOptions) {
+                    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
                         if (routeOption.route.polyline == poly) {
                             [struckRoutes addObject:routeOption];
                         }
@@ -122,13 +136,10 @@
 
 - (void)setSelectedRouteFromStruckRoutes:(NSArray *)struckRoutes {
     
-    TSRouteTimeAnnotation *annotation;
-    
     if ([struckRoutes count] > 0) {
         // If only one route, just take that one
         if ([struckRoutes count] == 1) {
             self.selectedRoute = (TSRouteOption *)struckRoutes[0];
-            annotation = ((TSRouteOption *)struckRoutes[0]).routeTimeAnnotation;
         }
         else {
             // If multiple overlapping routes, alternate if one is already selected
@@ -154,6 +165,10 @@
 - (void)addRouteOverlaysToMapViewAndAnnotations {
     
     [self addRouteOverlaysToMapView];
+    [self addRouteAnnotations];
+}
+
+- (void)addRouteAnnotations {
     
     for (TSRouteOption *routeOption in _routeOptions) {
         
@@ -200,10 +215,13 @@
 
 - (void)removeAnnotations {
     
-    NSMutableArray *annotations = [[NSMutableArray alloc] initWithCapacity:[_routingAnnotations count]];
+    NSMutableArray *annotations = [[NSMutableArray alloc] initWithCapacity:[_routeOptions count]];
     
-    for (TSRouteOption *routeOption in _routeOptions) {
-        [annotations addObject:routeOption.routeTimeAnnotation];
+    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
+        
+        if (routeOption.routeTimeAnnotation) {
+            [annotations addObject:routeOption.routeTimeAnnotation];
+        }
     }
     
     [_mapView removeAnnotations:annotations];
@@ -212,7 +230,7 @@
 - (void)removeRouteOverlays{
     NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
     
-    for (TSRouteOption *routeOption in _routeOptions) {
+    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
         [overlays addObject:routeOption.route.polyline];
     }
     

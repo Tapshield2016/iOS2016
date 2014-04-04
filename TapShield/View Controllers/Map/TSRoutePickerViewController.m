@@ -134,13 +134,16 @@
     if (_directions.isCalculating) {
         [_directions cancel];
     }
+    
+    _homeViewController.entourageManager.selectedRoute = nil;
+    [_homeViewController.entourageManager removeRouteOverlaysAndAnnotations];
+    
     _directions = [[MKDirections alloc] initWithRequest:request];
     [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         if (!error) {
-            _homeViewController.entourageManager.selectedRoute = nil;
-            [_homeViewController.entourageManager removeRouteOverlaysAndAnnotations];
             _homeViewController.entourageManager.routes = [response routes];
             [_homeViewController.entourageManager addRouteOverlaysToMapViewAndAnnotations];
+            [_homeViewController.mapView showAnnotations:_homeViewController.entourageManager.routingAnnotations animated:YES];
         }
     }];
 }

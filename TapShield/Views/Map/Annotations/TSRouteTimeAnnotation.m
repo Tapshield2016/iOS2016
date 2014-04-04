@@ -109,7 +109,6 @@
     
     BOOL above = NO;
     BOOL below = NO;
-    BOOL middle = NO;
     
     for (TSRouteOption *routeOption in routeOptions) {
         
@@ -124,7 +123,7 @@
     }
     
     if (above && below) {
-        middle = YES;
+        return;
     }
     else if (below) {
         

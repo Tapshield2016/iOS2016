@@ -36,13 +36,16 @@
     
     [self customizeSearchBarAppearance:_searchBar];
     [self customizeTableView:_tableView];
+    _searchBar.barTintColor = [UIColor clearColor];
+    self.removeNavigationShadow = YES;
     
-    _tableView.backgroundColor = [UIColor clearColor];
+    CGRect frame = _tableView.frame;
+    frame.origin.y = 2*self.view.bounds.size.height;
+    _tableView.frame = frame;
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
-    _searchBar.barTintColor = [UIColor clearColor];
-    self.removeNavigationShadow = YES;
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -54,10 +57,12 @@
                                                object:nil];
     
     self.view.backgroundColor = [UIColor clearColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(dismissViewController:)];
-    [_dismissalView addGestureRecognizer:tap];
+    [super viewWillAppear:animated];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -65,6 +70,15 @@
     [super viewDidAppear:animated];
     
     [_searchBar becomeFirstResponder];
+    
+    [self presentationAnimation];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [self dismissalAnimation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,6 +86,32 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - View Animations 
+
+- (void)presentationAnimation {
+    
+    CGRect frame = _tableView.frame;
+    frame.origin.y = _toolBarView.frame.origin.y + _toolBarView.frame.size.height;
+    frame.size.height = self.view.bounds.size.height - frame.origin.y;
+    
+    [UIView animateWithDuration:0.3 delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        _tableView.frame = frame;
+    } completion:nil];
+}
+
+- (void)dismissalAnimation {
+    
+    CGRect frame = _tableView.frame;
+    frame.origin.y = self.view.bounds.size.height*2;
+    
+    [UIView animateWithDuration:0.3 delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        _tableView.frame = frame;
+    } completion:nil];
+}
+
+
+#pragma mark - Button Actions
 
 - (IBAction)dismissViewController:(id)sender {
     
@@ -181,12 +221,14 @@
     selectedView.backgroundColor = [TSColorPalette whiteColor];
     cell.selectedBackgroundView = selectedView;
     cell.backgroundColor = [TSColorPalette clearColor];
-    cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:15.0f];
+    cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:16.0f];
     cell.textLabel.textColor = [TSColorPalette listCellTextColor];
+    cell.detailTextLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:10.0f];
+    cell.detailTextLabel.textColor = [TSColorPalette listCellDetailsTextColor];
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:cell.bounds];
-    toolbar.barTintColor = [TSColorPalette cellBackgroundColor];
-    [cell insertSubview:toolbar atIndex:0];
+//    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:cell.bounds];
+//    toolbar.barTintColor = [TSColorPalette cellBackgroundColor];
+//    [cell insertSubview:toolbar atIndex:0];
     
     return cell;
 }
@@ -197,16 +239,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    CGRect frame = _tableView.frame;
-    frame.size.height = _searchResults.count * (self.view.bounds.size.height - _searchBar.frame.origin.y - _searchBar.frame.size.height)/10;
-    _tableView.frame = frame;
-    
     return _searchResults.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return (self.view.bounds.size.height - _searchBar.frame.origin.y - _searchBar.frame.size.height)/10;
+    return _tableView.bounds.size.height/10;
 }
 
 #pragma mark - UITableViewDelegate methods

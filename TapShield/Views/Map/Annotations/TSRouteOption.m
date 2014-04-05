@@ -7,6 +7,7 @@
 //
 
 #import "TSRouteOption.h"
+#import "TSUtilities.h"
 
 @implementation TSRouteOption
 
@@ -24,12 +25,12 @@
 
 - (void)findUniqueMapPointComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromSet))completion {
     
-    if (self.route.polyline.pointCount > 8000) {
+//    if (self.route.polyline.pointCount > 2000) {
         [self findUniqueMapPointQuickComparingRoutes:routeArray completion:completion];
-    }
-    else {
-        [self findUniqueMapPointAccurateComparingRoutes:routeArray completion:completion];
-    }
+//    }
+//    else {
+//        [self findUniqueMapPointAccurateComparingRoutes:routeArray completion:completion];
+//    }
 }
 
 - (void)findUniqueMapPointQuickComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromSet))completion {
@@ -55,13 +56,6 @@
     MKMapPoint uniquePointFromSet = _route.polyline.points[_route.polyline.pointCount/2];
     NSArray *result;
     
-    NSLog(@"%lu", (unsigned long)_route.polyline.pointCount);
-    NSLog(@"Begin Filter");
-    
-    //    }
-    //    else {
-    ///////////Using NSSet
-    
     NSMutableSet *initialSet = [[NSMutableSet alloc] initWithCapacity:_route.polyline.pointCount];
     
     for (int n = 0; n < _route.polyline.pointCount; n++) {
@@ -86,22 +80,71 @@
         if (filteredSet.count != 0) {
             [set1 intersectSet:filteredSet]; //this will give you only the objects that are in both sets
         }
-        result = [set1 allObjects];
         filteredSet = set1;
-        
     }
     
-    //////////////
-    //    }
+    NSSortDescriptor *sortX = [NSSortDescriptor sortDescriptorWithKey:nil
+                                                            ascending:YES
+                                                           comparator:^NSComparisonResult(id obj1, id obj2) {
+                                                               CGPoint pt1 = [obj1 CGPointValue];
+                                                               CGPoint pt2 = [obj2 CGPointValue];
+                                                            
+                                                               if (pt1.x > pt2.x)
+                                                                   return NSOrderedDescending;
+                                                               else if (pt1.x < pt2.x)
+                                                                   return NSOrderedAscending;
+                                                               else
+                                                                   return NSOrderedSame;
+                                                           }];
     
-    if (result.count != 0) {
-        uniquePointFromSet = MKMapPointMake([result[result.count/2] CGPointValue].x, [result[result.count/2] CGPointValue].y);
-    }
+    NSSortDescriptor *sortY = [NSSortDescriptor sortDescriptorWithKey:nil
+                                                            ascending:YES
+                                                           comparator:^NSComparisonResult(id obj1, id obj2) {
+                                                               CGPoint pt1 = [obj1 CGPointValue];
+                                                               CGPoint pt2 = [obj2 CGPointValue];
+                                                               
+                                                               if (pt1.y > pt2.y)
+                                                                   return NSOrderedDescending;
+                                                               else if (pt1.y < pt2.y)
+                                                                   return NSOrderedAscending;
+                                                               else
+                                                                   return NSOrderedSame;
+                                                           }];
     
-    NSLog(@"End Filter");
+    NSArray *xSort = [filteredSet sortedArrayUsingDescriptors:@[sortX]];
+//    NSArray *ySort = [filteredSet sortedArrayUsingDescriptors:@[sortY]];
+    
+//    NSNumber *average = [filteredSet valueForKeyPath:@"@avg."];
+    
+    float middleX = ([[xSort lastObject]CGPointValue].x - [[xSort firstObject ]CGPointValue].x)/2 + [[xSort firstObject ]CGPointValue].x;
+    float middleY = ([[xSort lastObject]CGPointValue].y - [[xSort firstObject ]CGPointValue].y)/2 + [[xSort firstObject ]CGPointValue].y;
+    MKMapPoint middlePoint = MKMapPointMake(middleX, middleY);
+    
+    uniquePointFromSet = [TSUtilities closestPoint:middlePoint toPoly:_route.polyline];
+    
+//    if ([[xSort lastObject]CGPointValue].x - [[xSort firstObject ]CGPointValue].x >
+//        [[xSort lastObject]CGPointValue].y - [[xSort firstObject ]CGPointValue].y) {
+//        result = xSort;
+//    }
+//    else {
+//        result = ySort;
+//    }
+//    
+//    if (result.count != 0) {
+//        uniquePointFromSet = MKMapPointMake([result[result.count/2] CGPointValue].x, [result[result.count/2] CGPointValue].y);
+//    }
     
     if (completion) {
         completion(uniquePointFromSet);
+    }
+}
+
+float RoundTo(float number, float to) {
+    if (number >= 0) {
+        return to * floorf(number / to + 0.5f);
+    }
+    else {
+        return to * ceilf(number / to - 0.5f);
     }
 }
 

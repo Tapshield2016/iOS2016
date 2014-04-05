@@ -55,6 +55,12 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
     
+    [UITableView appearance].separatorInset = UIEdgeInsetsZero;
+    [UITableView appearance].tintColor = [TSColorPalette tapshieldBlue];
+    [UITableView appearance].separatorColor = [TSColorPalette cellSeparatorColor];
+    [UITableView appearance].backgroundColor = [TSColorPalette listBackgroundColor];
+    [UITableView appearance].sectionIndexTrackingBackgroundColor = [TSColorPalette tableViewHeaderColor];
+    
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;

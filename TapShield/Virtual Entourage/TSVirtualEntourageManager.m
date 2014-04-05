@@ -108,7 +108,7 @@
             
             if ([view isKindOfClass:[MKPolylineRenderer class]]) {
                 
-                double distanceToPolyline = [self distanceOfPoint:mapPoint toPoly:poly];
+                double distanceToPolyline = [TSUtilities distanceOfPoint:mapPoint toPoly:poly];
                 if (distanceToPolyline < shortestDistance) {
                     
                     //Reset array to only include closest polyline
@@ -287,46 +287,6 @@
 
 - (void)selectDestinationAnnotation {
     [_mapView selectAnnotation:_destinationAnnotation animated:YES];
-}
-
-
-#pragma mark - Distance Methods 
-
-- (double)distanceOfPoint:(MKMapPoint)pt toPoly:(MKPolyline *)poly {
-    double distance = MAXFLOAT;
-    for (int n = 0; n < poly.pointCount - 1; n++) {
-        
-        MKMapPoint ptA = poly.points[n];
-        MKMapPoint ptB = poly.points[n + 1];
-        
-        double xDelta = ptB.x - ptA.x;
-        double yDelta = ptB.y - ptA.y;
-        
-        if (xDelta == 0.0 && yDelta == 0.0) {
-            
-            // Points must not be equal
-            continue;
-        }
-        
-        double u = ((pt.x - ptA.x) * xDelta + (pt.y - ptA.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
-        MKMapPoint ptClosest;
-        if (u < 0.0) {
-            
-            ptClosest = ptA;
-        }
-        else if (u > 1.0) {
-            
-            ptClosest = ptB;
-        }
-        else {
-            
-            ptClosest = MKMapPointMake(ptA.x + u * xDelta, ptA.y + u * yDelta);
-        }
-        
-        distance = MIN(distance, MKMetersBetweenMapPoints(ptClosest, pt));
-    }
-    
-    return distance;
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "TSTransitionAnimation.h"
+#import "TSDestinationSearchViewController.h"
 
 @implementation TSTransitionAnimation
 
@@ -67,6 +68,12 @@
         toViewController.view.center = inView.center;
         
     } completion:^(BOOL finished) {
+        
+//        if ([toViewController isKindOfClass:[UINavigationController class]]) {
+//            if ([[(UINavigationController *)toViewController topViewController] isKindOfClass:[TSDestinationSearchViewController class]]) {
+//                [(TSDestinationSearchViewController *)[(UINavigationController *)toViewController topViewController] presentationAnimation];
+//            }
+//        }
         
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];

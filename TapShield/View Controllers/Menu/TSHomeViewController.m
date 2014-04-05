@@ -311,8 +311,8 @@
 
 - (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-    [renderer setLineWidth:8.0];
-    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3]];
+    [renderer setLineWidth:6.0];
+    [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
     if (!_entourageManager.selectedRoute) {
         _entourageManager.selectedRoute = [_entourageManager.routeOptions firstObject];
@@ -323,7 +323,7 @@
             if (routeOption == _entourageManager.selectedRoute) {
                 if (routeOption.route.polyline == overlay) {
                     NSLog(@"%@ highlighted", routeOption.route.name);
-                    [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
+                    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
                 }
             }
@@ -434,18 +434,20 @@
                 for (UIView *annotationView in subview.subviews) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
+                        [subview bringSubviewToFront:annotationView];
                     }
                 }
             }
         }
-        for (TSRouteTimeAnnotationView *routeView in annotationViewArray) {
-            NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:annotationViewArray];
-            [mutableArray removeObject:routeView];
-            for (TSRouteTimeAnnotationView *otherView in mutableArray) {
-                if(CGRectIntersectsRect([routeView frame], [otherView frame])) {
-                    NSLog(@"Need To Flip.");
-                    [routeView flipViewAwayfromView:otherView];
-                }
+    }
+    for (TSRouteTimeAnnotationView *routeView in annotationViewArray) {
+        NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:annotationViewArray];
+        [mutableArray removeObject:routeView];
+        
+        for (TSRouteTimeAnnotationView *otherView in mutableArray) {
+            if(CGRectIntersectsRect([routeView frame], [otherView frame])) {
+                NSLog(@"Need To Flip.");
+                [routeView flipViewAwayfromView:otherView];
             }
         }
     }

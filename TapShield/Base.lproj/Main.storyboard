@@ -2695,8 +2695,8 @@ Last Updated: 12/12/13
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <tableView opaque="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
-                                <rect key="frame" x="0.0" y="104" width="320" height="464"/>
+                            <tableView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
+                                <rect key="frame" x="0.0" y="1200" width="320" height="464"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -2756,11 +2756,7 @@ Last Updated: 12/12/13
                         <constraints>
                             <constraint firstItem="GgN-I0-Vx7" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="5Vt-n3-FSS"/>
                             <constraint firstItem="GgN-I0-Vx7" firstAttribute="top" secondItem="dTj-Wb-H6Q" secondAttribute="top" constant="60" id="BD5-Py-KS3"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="HwG-mM-pXX"/>
-                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="GgN-I0-Vx7" secondAttribute="bottom" id="RsY-MW-8By"/>
-                            <constraint firstItem="YcF-kv-V2o" firstAttribute="top" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="hzI-xw-5X1"/>
                             <constraint firstAttribute="trailing" secondItem="GgN-I0-Vx7" secondAttribute="trailing" id="uII-Eq-Gei"/>
-                            <constraint firstAttribute="trailing" secondItem="MMA-RX-ciz" secondAttribute="trailing" id="xE0-VT-8C9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Destination" id="4Uw-Ce-DMj">
@@ -2780,6 +2776,7 @@ Last Updated: 12/12/13
                         <outlet property="dismissalView" destination="HS1-2j-UMN" id="eSc-2w-671"/>
                         <outlet property="searchBar" destination="R8m-ie-HlH" id="STJ-J4-Okb"/>
                         <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
+                        <outlet property="toolBarView" destination="GgN-I0-Vx7" id="Z7t-GC-0LV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ky-at-Ly8" userLabel="First Responder" sceneMemberID="firstResponder"/>

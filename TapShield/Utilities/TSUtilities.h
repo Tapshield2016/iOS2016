@@ -8,10 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import <MapKit/MapKit.h>
 
 @interface TSUtilities : NSObject
 
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
+
+//distance
++ (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
++ (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
 
 @end

@@ -113,6 +113,10 @@
     return UIColorFromRGB(0x606366);
 }
 
++ (UIColor *)listCellDetailsTextColor {
+    return UIColorFromRGB(0x898e91);
+}
+
 + (UIColor *)cellSeparatorColor {
     return UIColorFromRGB(0xb9b9c2);
 }

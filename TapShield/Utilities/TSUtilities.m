@@ -47,4 +47,55 @@
     return title;
 }
 
+# pragma mark - Distance Methods
+
++ (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline {
+    
+    MKMapPoint pointClosest = [TSUtilities closestPoint:point toPoly:polyline];
+    
+    return MKMetersBetweenMapPoints(pointClosest, point);
+}
+
++ (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline {
+    double distance = MAXFLOAT;
+    MKMapPoint returnPoint;
+    for (int n = 0; n < polyline.pointCount - 1; n++) {
+        
+        MKMapPoint ptA = polyline.points[n];
+        MKMapPoint ptB = polyline.points[n + 1];
+        
+        double xDelta = ptB.x - ptA.x;
+        double yDelta = ptB.y - ptA.y;
+        
+        if (xDelta == 0.0 && yDelta == 0.0) {
+            
+            // Points must not be equal
+            continue;
+        }
+        
+        double u = ((point.x - ptA.x) * xDelta + (point.y - ptA.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+        MKMapPoint pointClosest;
+        if (u < 0.0) {
+            
+            pointClosest = ptA;
+        }
+        else if (u > 1.0) {
+            
+            pointClosest = ptB;
+        }
+        else {
+            
+            pointClosest = MKMapPointMake(ptA.x + u * xDelta, ptA.y + u * yDelta);
+        }
+        
+        double compareDistance = MKMetersBetweenMapPoints(pointClosest, point);
+        if (compareDistance < distance) {
+            distance = compareDistance;
+            returnPoint = pointClosest;
+        }
+    }
+    
+    return returnPoint;
+}
+
 @end

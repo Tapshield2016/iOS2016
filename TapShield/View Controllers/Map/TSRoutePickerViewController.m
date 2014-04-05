@@ -124,7 +124,7 @@
         return;
     }
     
-    [_homeViewController.mapView showAnnotations:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.entourageManager.destinationAnnotation] animated:YES];
+    [self showAnnotationsWithPadding:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.entourageManager.destinationAnnotation]];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
     [request setDestination:_homeViewController.entourageManager.destinationMapItem];
@@ -143,14 +143,24 @@
         if (!error) {
             _homeViewController.entourageManager.routes = [response routes];
             [_homeViewController.entourageManager addRouteOverlaysToMapViewAndAnnotations];
-            [_homeViewController.mapView showAnnotations:_homeViewController.entourageManager.routingAnnotations animated:YES];
+            [self showAnnotationsWithPadding:_homeViewController.entourageManager.routingAnnotations];
         }
     }];
 }
 
 
 
-
+- (void)showAnnotationsWithPadding:(NSArray *)annotations {
+    
+    MKMapRect zoomRect = MKMapRectNull;
+    for (id <MKAnnotation> annotation in annotations)
+    {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
+        zoomRect = MKMapRectUnion(zoomRect, pointRect);
+    }
+    [_homeViewController.mapView setVisibleMapRect:zoomRect edgePadding:UIEdgeInsetsMake(130, 60, 30, 60) animated:YES];
+}
 
 
 

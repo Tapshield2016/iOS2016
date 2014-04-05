@@ -96,12 +96,7 @@
 
 - (void)customizeTableView:(UITableView *)tableView {
     
-    tableView.separatorInset = UIEdgeInsetsZero;
-    tableView.tintColor = [TSColorPalette tapshieldBlue];
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    tableView.separatorColor = [TSColorPalette cellSeparatorColor];
-    tableView.backgroundColor = [TSColorPalette listBackgroundColor];
-    [tableView setSectionIndexBackgroundColor:[TSColorPalette tableViewHeaderColor]];
 }
 
 #pragma mark - Search Bar Customization

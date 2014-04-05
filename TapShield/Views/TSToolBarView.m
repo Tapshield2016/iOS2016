@@ -36,6 +36,8 @@
     
     self.toolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //flip shadow downward
+    [self.toolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
     [self insertSubview:_toolbar atIndex:0];
 }
 

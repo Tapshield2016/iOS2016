@@ -10,6 +10,7 @@
 #import "TSNavigationViewController.h"
 #import "TSHomeViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
+#import "TSToolBarView.h"
 
 @interface TSDestinationSearchViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
 
@@ -18,6 +19,9 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *dismissalView;
+@property (weak, nonatomic) IBOutlet TSToolBarView *toolBarView;
+
+- (void)presentationAnimation;
 
 - (IBAction)dismissViewController:(id)sender;
 - (IBAction)searchContacts:(id)sender;

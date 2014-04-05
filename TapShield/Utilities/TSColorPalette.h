@@ -19,6 +19,7 @@
 + (UIColor *)inActiveTextColor;
 + (UIColor *)listBackgroundColor;
 + (UIColor *)listCellTextColor;
++ (UIColor *)listCellDetailsTextColor;
 + (UIColor *)cellSeparatorColor;
 + (UIColor *)cellBackgroundColor;
 + (UIColor *)tableViewHeaderColor;

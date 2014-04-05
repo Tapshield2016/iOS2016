@@ -47,14 +47,16 @@
     routeArray = mutableArray;
     
     if (routeArray.count == 0 || !routeArray) {
+        
+        MKMapPoint middle = [self middleMapPointLineStart:_route.polyline.points[0] end:_route.polyline.points[_route.polyline.pointCount- 1]];
+        MKMapPoint uniquePointFromSearch = [TSUtilities closestPoint:middle toPoly:_route.polyline];
         if (completion) {
-            completion(_route.polyline.points[_route.polyline.pointCount*2/3]);
+            completion(uniquePointFromSearch);
         }
         return;
     }
     
     MKMapPoint uniquePointFromSet = _route.polyline.points[_route.polyline.pointCount/2];
-    NSArray *result;
     
     NSMutableSet *initialSet = [[NSMutableSet alloc] initWithCapacity:_route.polyline.pointCount];
     
@@ -112,40 +114,38 @@
                                                            }];
     
     NSArray *xSort = [filteredSet sortedArrayUsingDescriptors:@[sortX]];
-//    NSArray *ySort = [filteredSet sortedArrayUsingDescriptors:@[sortY]];
+    NSArray *ySort = [filteredSet sortedArrayUsingDescriptors:@[sortY]];
     
-//    NSNumber *average = [filteredSet valueForKeyPath:@"@avg."];
+    CGPoint middle;
     
-    float middleX = ([[xSort lastObject]CGPointValue].x - [[xSort firstObject ]CGPointValue].x)/2 + [[xSort firstObject ]CGPointValue].x;
-    float middleY = ([[xSort lastObject]CGPointValue].y - [[xSort firstObject ]CGPointValue].y)/2 + [[xSort firstObject ]CGPointValue].y;
-    MKMapPoint middlePoint = MKMapPointMake(middleX, middleY);
+    if ([[xSort lastObject]CGPointValue].x - [[xSort firstObject ]CGPointValue].x >
+        [[ySort lastObject]CGPointValue].y - [[ySort firstObject ]CGPointValue].y) {
+        middle = [self middleCGPointLineStart:[[xSort firstObject ]CGPointValue] end:[[xSort lastObject ]CGPointValue]];
+    }
+    else {
+        middle = [self middleCGPointLineStart:[[ySort firstObject ]CGPointValue] end:[[ySort lastObject ]CGPointValue]];
+    }
     
-    uniquePointFromSet = [TSUtilities closestPoint:middlePoint toPoly:_route.polyline];
-    
-//    if ([[xSort lastObject]CGPointValue].x - [[xSort firstObject ]CGPointValue].x >
-//        [[xSort lastObject]CGPointValue].y - [[xSort firstObject ]CGPointValue].y) {
-//        result = xSort;
-//    }
-//    else {
-//        result = ySort;
-//    }
-//    
-//    if (result.count != 0) {
-//        uniquePointFromSet = MKMapPointMake([result[result.count/2] CGPointValue].x, [result[result.count/2] CGPointValue].y);
-//    }
+    MKMapPoint middleMapPoint = MKMapPointMake(middle.x, middle.y);
+    uniquePointFromSet = [TSUtilities closestPoint:middleMapPoint toPoly:_route.polyline];
     
     if (completion) {
         completion(uniquePointFromSet);
     }
 }
 
-float RoundTo(float number, float to) {
-    if (number >= 0) {
-        return to * floorf(number / to + 0.5f);
-    }
-    else {
-        return to * ceilf(number / to - 0.5f);
-    }
+- (CGPoint)middleCGPointLineStart:(CGPoint)point1 end:(CGPoint)point2 {
+    float x = (point2.x - point1.x)/2 + point1.x;
+    float y = (point2.y - point1.y)/2 + point1.y;
+                
+    return CGPointMake(x,y);
+}
+
+- (MKMapPoint)middleMapPointLineStart:(MKMapPoint)point1 end:(MKMapPoint)point2 {
+    float x = (point2.x - point1.x)/2 + point1.x;
+    float y = (point2.y - point1.y)/2 + point1.y;
+    
+    return MKMapPointMake(x,y);
 }
 
 - (void)findUniqueMapPointAccurateComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromArray))completion {

@@ -7,8 +7,6 @@
 //
 
 #import "TSOrganizationCell.h"
-#import "TSRalewayFont.h"
-#import "TSColorPalette.h"
 
 @implementation TSOrganizationCell
 

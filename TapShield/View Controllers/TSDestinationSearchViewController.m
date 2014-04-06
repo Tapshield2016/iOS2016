@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "TSUtilities.h"
 #import "TSRoutePickerViewController.h"
+#import "TSMapItemCell.h"
 
 static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
 
@@ -67,6 +68,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     
     [super viewWillAppear:animated];
     
+    [_tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,6 +92,8 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Saved MapItems
 
 - (void)unarchivePreviousMapItems {
     
@@ -116,10 +120,12 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     if (!_previousMapItemSelections) {
         _previousMapItemSelections = [[NSMutableArray alloc] initWithCapacity:10];
     }
+    
+    [_previousMapItemSelections removeObject:mapItem];
     [_previousMapItemSelections insertObject:mapItem atIndex:0];
     
     if (_previousMapItemSelections.count > 20) {
-        [_previousMapItemSelections removeObjectsInRange:NSMakeRange(19, _previousMapItemSelections.count-19)];
+        [_previousMapItemSelections removeObjectsInRange:NSMakeRange(20, _previousMapItemSelections.count-20)];
     }
     
     [self archivePreviousMapItems];
@@ -246,20 +252,13 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"VirtualEntourageSearchResultCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    TSMapItemCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[TSMapItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
 
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
-    cell.textLabel.text = mapItem.name;
-    cell.detailTextLabel.text = mapItem.placemark.addressDictionary[@"Street"];
-    
-    UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
-    selectedView.backgroundColor = [TSColorPalette whiteColor];
-    cell.selectedBackgroundView = selectedView;
-    cell.backgroundColor = [TSColorPalette clearColor];
-    cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:16.0f];
-    cell.textLabel.textColor = [TSColorPalette listCellTextColor];
-    cell.detailTextLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:10.0f];
-    cell.detailTextLabel.textColor = [TSColorPalette listCellDetailsTextColor];
+    [cell showDetailsForMapItem:mapItem];
     
     return cell;
 }
@@ -306,7 +305,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     
     [self performSelector:@selector(changeClearButtonStyle:) withObject:searchBar afterDelay:0.01];
     
-    if (searchText && searchText > 0) {
+    if (searchText && searchText.length > 0) {
         [self searchForLocation:searchText];
     }
     else {

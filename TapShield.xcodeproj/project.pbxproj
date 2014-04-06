@@ -47,6 +47,15 @@
 		C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
 		C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
 		C501CC2B18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
+		C501CC2E18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2D18F1DDD3005A0B98 /* TSBaseTableViewCell.m */; };
+		C501CC2F18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2D18F1DDD3005A0B98 /* TSBaseTableViewCell.m */; };
+		C501CC3018F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2D18F1DDD3005A0B98 /* TSBaseTableViewCell.m */; };
+		C501CC3318F1DE7D005A0B98 /* TSContactsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3218F1DE7D005A0B98 /* TSContactsCell.m */; };
+		C501CC3418F1DE7D005A0B98 /* TSContactsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3218F1DE7D005A0B98 /* TSContactsCell.m */; };
+		C501CC3518F1DE7D005A0B98 /* TSContactsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3218F1DE7D005A0B98 /* TSContactsCell.m */; };
+		C501CC3818F1DE95005A0B98 /* TSMapItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */; };
+		C501CC3918F1DE95005A0B98 /* TSMapItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */; };
+		C501CC3A18F1DE95005A0B98 /* TSMapItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */; };
 		C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918918E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
@@ -1197,6 +1206,12 @@
 		B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUtilities.m; path = Utilities/TSUtilities.m; sourceTree = "<group>"; };
 		C501CC2718F1D12E005A0B98 /* MKMapItem+EncodeDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapItem+EncodeDecode.h"; sourceTree = "<group>"; };
 		C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapItem+EncodeDecode.m"; sourceTree = "<group>"; };
+		C501CC2C18F1DDD3005A0B98 /* TSBaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBaseTableViewCell.h; sourceTree = "<group>"; };
+		C501CC2D18F1DDD3005A0B98 /* TSBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBaseTableViewCell.m; sourceTree = "<group>"; };
+		C501CC3118F1DE7D005A0B98 /* TSContactsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSContactsCell.h; sourceTree = "<group>"; };
+		C501CC3218F1DE7D005A0B98 /* TSContactsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSContactsCell.m; sourceTree = "<group>"; };
+		C501CC3618F1DE95005A0B98 /* TSMapItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMapItemCell.h; sourceTree = "<group>"; };
+		C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMapItemCell.m; sourceTree = "<group>"; };
 		C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRoutePickerViewController.h; path = "View Controllers/Map/TSRoutePickerViewController.h"; sourceTree = "<group>"; };
 		C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoutePickerViewController.m; path = "View Controllers/Map/TSRoutePickerViewController.m"; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
@@ -2428,6 +2443,12 @@
 				C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */,
 				C57C48A818BBA2E400DFFBCE /* TSUserProfileCell.h */,
 				C57C48A918BBA2E400DFFBCE /* TSUserProfileCell.m */,
+				C501CC2C18F1DDD3005A0B98 /* TSBaseTableViewCell.h */,
+				C501CC2D18F1DDD3005A0B98 /* TSBaseTableViewCell.m */,
+				C501CC3118F1DE7D005A0B98 /* TSContactsCell.h */,
+				C501CC3218F1DE7D005A0B98 /* TSContactsCell.m */,
+				C501CC3618F1DE95005A0B98 /* TSMapItemCell.h */,
+				C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -3770,6 +3791,7 @@
 				C585F1B018CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
 				C585F19018CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
+				C501CC3818F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */,
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
@@ -3779,6 +3801,7 @@
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
+				C501CC2E18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C532E64918BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */,
@@ -3798,6 +3821,7 @@
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
 				C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C501CC3318F1DE7D005A0B98 /* TSContactsCell.m in Sources */,
 				C56356FB18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5662BEE18DD091500FD4F44 /* TSBorderedView.m in Sources */,
@@ -3866,6 +3890,7 @@
 				C556478618E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
 				C5662BD618DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
+				C501CC3A18F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DB118B27C1F00D22682 /* TSAskOrganizationViewController.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
@@ -3880,6 +3905,7 @@
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
+				C501CC3018F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
@@ -3936,6 +3962,7 @@
 				C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				C5662BF018DD091500FD4F44 /* TSBorderedView.m in Sources */,
+				C501CC3518F1DE7D005A0B98 /* TSContactsCell.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
@@ -3997,6 +4024,7 @@
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
 				C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */,
 				C57C48C318BBDB1900DFFBCE /* TSOrganizationCell.m in Sources */,
+				C501CC3918F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */,
 				C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */,
 				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
@@ -4006,6 +4034,7 @@
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
+				C501CC2F18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
@@ -4025,6 +4054,7 @@
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
+				C501CC3418F1DE7D005A0B98 /* TSContactsCell.m in Sources */,
 				C56356FC18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AC18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,

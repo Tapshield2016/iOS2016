@@ -6,10 +6,9 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "TSJavelinAPIClient.h"
+#import "TSBaseTableViewCell.h"
 
-@interface TSUserProfileCell : UITableViewCell
+@interface TSUserProfileCell : TSBaseTableViewCell
 
 @property (nonatomic, strong) TSJavelinAPIUser *user;
 @property (nonatomic, strong) UIImageView *profileImageView;

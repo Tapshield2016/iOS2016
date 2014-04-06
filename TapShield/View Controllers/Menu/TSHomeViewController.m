@@ -438,7 +438,9 @@
                 for (UIView *annotationView in subview.subviews) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
-                        [subview bringSubviewToFront:annotationView];
+                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:_entourageManager.selectedRoute.routeTimeAnnotation]) {
+                            [subview bringSubviewToFront:annotationView];
+                        }
                     }
                 }
             }

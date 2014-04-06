@@ -6,11 +6,9 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "TSJavelinAPIAgency.h"
-#import "TSBaseLabel.h"
+#import "TSBaseTableViewCell.h"
 
-@interface TSOrganizationCell : UITableViewCell
+@interface TSOrganizationCell : TSBaseTableViewCell
 
 @property (nonatomic, strong) TSJavelinAPIAgency *agency;
 @property (strong, nonatomic) TSBaseLabel *organizationLabel;

@@ -7,7 +7,6 @@
 //
 
 #import "TSUserProfileCell.h"
-#import "TSColorPalette.h"
 
 @implementation TSUserProfileCell
 

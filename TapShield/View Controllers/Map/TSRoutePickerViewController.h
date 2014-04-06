@@ -19,7 +19,7 @@
 @property (nonatomic, assign) MKDirectionsTransportType directionsTransportType;
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *etaLabel;
+@property (weak, nonatomic) IBOutlet TSBaseLabel *etaLabel;
 @property (weak, nonatomic) IBOutlet TSHitTestForwardingView *hitTestView;
 
 @end

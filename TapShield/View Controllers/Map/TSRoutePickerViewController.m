@@ -7,6 +7,7 @@
 //
 
 #import "TSRoutePickerViewController.h"
+#import "TSUtilities.h"
 
 @interface TSRoutePickerViewController ()
 
@@ -42,6 +43,11 @@
                               forControlEvents:UIControlEventValueChanged];
     
     [self.navigationItem setTitleView:_directionsTypeSegmentedControl];
+    
+    [_homeViewController.entourageManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
+    
+    _etaLabel.textColor = [TSColorPalette tapshieldBlue];
+    _addressLabel.textColor = [TSColorPalette tapshieldBlue];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -57,10 +63,46 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [_homeViewController.entourageManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - KVO Route Changes
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    TSRouteOption *selectedRouteOption = [object valueForKeyPath:keyPath];
+    if (!selectedRouteOption) {
+        return;
+    }
+    
+    _addressLabel.text = selectedRouteOption.route.name;
+    _etaLabel.text = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:selectedRouteOption.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:selectedRouteOption.route.distance]];
+    
+    
+    NSLog(@"%@", selectedRouteOption.route.name);
+    NSLog(@"%f", selectedRouteOption.route.distance);
+    NSLog(@"%f", selectedRouteOption.route.expectedTravelTime);
+    NSLog(@"%@", selectedRouteOption.route.advisoryNotices);
+    NSLog(@"%@", selectedRouteOption.route.steps);
+    for (MKRouteStep *step in selectedRouteOption.route.steps) {
+        NSLog(@"%@", step.instructions);
+        NSLog(@"%@", step.notice);
+        NSLog(@"%f", step.distance);
+        NSLog(@"%u", step.transportType);
+    }
+    NSLog(@"%u", selectedRouteOption.route.transportType);
+    
+    NSLog(@"Route KVO");
 }
 
 

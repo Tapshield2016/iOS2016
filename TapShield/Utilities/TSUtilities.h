@@ -13,6 +13,9 @@
 @interface TSUtilities : NSObject
 
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
++ (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration;
++ (NSString *)fromattedStringForDistanceInUSStandard:(CLLocationDistance)meters;
+
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
 
 //distance

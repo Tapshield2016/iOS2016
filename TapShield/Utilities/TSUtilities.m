@@ -17,11 +17,72 @@
     NSInteger seconds = durationInSeconds % 60;
 
     if (hours > 0) {
-        return [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
+        if (minutes == 0) {
+            return [NSString stringWithFormat:@"%ih", hours];
+        }
+        return [NSString stringWithFormat:@"%ih %imin", hours, minutes];
     }
     else {
-        return [NSString stringWithFormat:@"%02ld:%02ld", (long)minutes, (long)seconds];
+        if (minutes == 0) {
+            return [NSString stringWithFormat:@"%isec", seconds];
+        }
+        
+        return [NSString stringWithFormat:@"%imin", minutes];
     }
+}
+
++ (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration {
+    long durationInSeconds = lroundf(duration);
+    NSInteger hours = durationInSeconds / 3600;
+    NSInteger minutes = (durationInSeconds % 3600) / 60;
+    NSInteger seconds = durationInSeconds % 60;
+    
+    NSString *hourString = @"hours";
+    if (hours == 1) {
+        hourString = @"hour";
+    }
+    NSString *minutesString = @"minutes";
+    if (minutes == 1) {
+        minutesString = @"minute";
+    }
+    NSString *secondsString = @"seconds";
+    if (seconds == 1) {
+        secondsString = @"second";
+    }
+    
+    if (hours > 0) {
+        if (minutes == 0) {
+            return [NSString stringWithFormat:@"%i %@", hours, hourString];
+        }
+        return [NSString stringWithFormat:@"%i %@ %i %@", hours, hourString, minutes, minutesString];
+    }
+    else {
+        if (minutes == 0) {
+            return [NSString stringWithFormat:@"%i %@", seconds, secondsString];
+        }
+        
+        return [NSString stringWithFormat:@"%i %@", minutes, minutesString];
+    }
+}
+
++ (NSString *)fromattedStringForDistanceInUSStandard:(CLLocationDistance)meters {
+    
+    long distanceInMiles = lroundf(meters * 0.000621371);
+    
+    if (distanceInMiles == 1) {
+        return [NSString stringWithFormat:@"%i mile", (int)distanceInMiles];
+    }
+    else if (distanceInMiles == 0) {
+        
+        long distanceInFeet = (int)lroundf(meters*3.28084);
+        
+        if (distanceInFeet == 1) {
+            return [NSString stringWithFormat:@"%i foot", (int)distanceInFeet];
+        }
+        return [NSString stringWithFormat:@"%i feet", (int)distanceInFeet];
+    }
+    
+    return [NSString stringWithFormat:@"%i miles", (int)distanceInMiles];
 }
 
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record {

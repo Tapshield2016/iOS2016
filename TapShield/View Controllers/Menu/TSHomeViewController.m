@@ -322,7 +322,6 @@
         for (TSRouteOption *routeOption in _entourageManager.routeOptions) {
             if (routeOption == _entourageManager.selectedRoute) {
                 if (routeOption.route.polyline == overlay) {
-                    NSLog(@"%@ highlighted", routeOption.route.name);
                     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
                 }
@@ -370,6 +369,11 @@
     }
     
     return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    
+    [self flipIntersectingRouteAnnotation];
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {

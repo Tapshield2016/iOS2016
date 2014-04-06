@@ -18,15 +18,10 @@
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *entourageButton;
-@property (weak, nonatomic) IBOutlet UIButton *alertButton;
-@property (weak, nonatomic) IBOutlet UIButton *chatButton;
 
 @property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
-
 @property (strong, nonatomic) UIBarButtonItem *yankBarButton;
-
-@property (nonatomic, strong) CLGeocoder *geocoder;
-
+@property (strong, nonatomic) CLGeocoder *geocoder;
 @property (nonatomic) BOOL isTrackingUser;
 
 - (IBAction)displayVirtualEntourage:(id)sender;

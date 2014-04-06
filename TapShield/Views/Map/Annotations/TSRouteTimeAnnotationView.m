@@ -18,7 +18,7 @@
         // Initialization code
         
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.label.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:10.0f];
+        self.label.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:12.0f];
         self.label.textColor = [TSColorPalette whiteColor];
         self.label.textAlignment = NSTextAlignmentCenter;
         
@@ -36,8 +36,33 @@
         self.image = [etaAnnotation imageForAnnotationViewDirection];
         self.centerOffset = etaAnnotation.viewCenterOffset;
         self.label.text = etaAnnotation.title;
-        self.label.frame = self.bounds;
+        [self labelOffsetForViewDirectionForAnnotation:annotation];
     }
+}
+
+- (void)labelOffsetForViewDirectionForAnnotation:(id<MKAnnotation>)annotation {
+    
+    TSRouteTimeAnnotation *etaAnnotation = (TSRouteTimeAnnotation *)annotation;
+    CGRect labelFrame = self.bounds;
+    
+    int edgeInset = 5;
+    labelFrame.size.width -= edgeInset;
+    labelFrame.size.height -= edgeInset;
+    
+    if (etaAnnotation.annotationViewDirection == kLeftBottom) {
+        labelFrame.origin.x +=edgeInset;
+    }
+    else if (etaAnnotation.annotationViewDirection == kRightBottom) {
+    }
+    else if (etaAnnotation.annotationViewDirection == kLeftTop) {
+        labelFrame.origin.x +=edgeInset;
+        labelFrame.origin.y +=edgeInset;
+    }
+    else if (etaAnnotation.annotationViewDirection == kRightTop) {
+        labelFrame.origin.y +=edgeInset;
+    }
+    
+    self.label.frame = labelFrame;
 }
 
 - (void)flipViewAwayfromView:(UIView *)view {
@@ -67,6 +92,7 @@
     etaAnnotation.annotationViewDirection = vectorDirection;
     self.image = [etaAnnotation imageForAnnotationViewDirection];
     self.centerOffset = etaAnnotation.viewCenterOffset;
+    [self labelOffsetForViewDirectionForAnnotation:etaAnnotation];
 }
 
 /*

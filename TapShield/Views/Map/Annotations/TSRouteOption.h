@@ -17,7 +17,5 @@
 - (id)initWithRoute:(MKRoute *)route;
 
 - (void)findUniqueMapPointComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromSet))completion;
-- (void)findUniqueMapPointQuickComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromSet))completion;
-- (void)findUniqueMapPointAccurateComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromArray))completion;
 
 @end

@@ -157,7 +157,6 @@
                 self.selectedRoute = (TSRouteOption *)struckRoutes[0];
             }
         }
-        NSLog(@"%@ selected", _selectedRoute.route.name);
         [self refreshOverlays];
     }
 }

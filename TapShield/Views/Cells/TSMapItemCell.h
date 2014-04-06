@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) TSBaseLabel *nameLabel;
 @property (strong, nonatomic) TSBaseLabel *addressLabel;
+@property (strong, nonatomic) UIImageView *pinImageView;
 
 - (void)showDetailsForMapItem:(MKMapItem *)mapItem;
 

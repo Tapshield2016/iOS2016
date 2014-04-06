@@ -84,7 +84,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     
     [super viewWillDisappear:animated];
     
-    [self dismissalAnimation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -158,6 +157,8 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 #pragma mark - Button Actions
 
 - (IBAction)dismissViewController:(id)sender {
+    
+    [self dismissalAnimation];
     
     [self dismissViewControllerAnimated:YES completion:^{
         [_homeViewController viewWillAppear:NO];

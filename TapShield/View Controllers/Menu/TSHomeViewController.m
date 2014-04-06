@@ -403,7 +403,9 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    _mapView.shouldUpdateCallOut = YES;
+    if ([view isKindOfClass:[TSUserAnnotationView class]]) {
+        _mapView.shouldUpdateCallOut = YES;
+    }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
         [_entourageManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
@@ -411,6 +413,8 @@
     }
     
     [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
+    
+    [_mapView bringSubviewToFront:view];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {

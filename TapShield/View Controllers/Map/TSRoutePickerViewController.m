@@ -48,6 +48,8 @@
     
     _etaLabel.textColor = [TSColorPalette tapshieldBlue];
     _addressLabel.textColor = [TSColorPalette tapshieldBlue];
+    [_addressLabel setAdjustsFontSizeToFitWidth:YES];
+    [_etaLabel setAdjustsFontSizeToFitWidth:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,28 +89,16 @@
     
     _addressLabel.text = selectedRouteOption.route.name;
     _etaLabel.text = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:selectedRouteOption.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:selectedRouteOption.route.distance]];
-    
-    
-    NSLog(@"%@", selectedRouteOption.route.name);
-    NSLog(@"%f", selectedRouteOption.route.distance);
-    NSLog(@"%f", selectedRouteOption.route.expectedTravelTime);
-    NSLog(@"%@", selectedRouteOption.route.advisoryNotices);
-    NSLog(@"%@", selectedRouteOption.route.steps);
-    for (MKRouteStep *step in selectedRouteOption.route.steps) {
-        NSLog(@"%@", step.instructions);
-        NSLog(@"%@", step.notice);
-        NSLog(@"%f", step.distance);
-        NSLog(@"%u", step.transportType);
-    }
-    NSLog(@"%u", selectedRouteOption.route.transportType);
-    
-    NSLog(@"Route KVO");
 }
 
 
 #pragma mark - UISegmentedControl event handlers
 
 - (void)transportTypeSegmentedControlValueChanged:(id)sender {
+    
+    _addressLabel.text = @"Re-routing";
+    _etaLabel.text = @"";
+    
     switch ([_directionsTypeSegmentedControl selectedSegmentIndex]) {
             
         case 0:
@@ -186,6 +176,10 @@
             _homeViewController.entourageManager.routes = [response routes];
             [_homeViewController.entourageManager addRouteOverlaysToMapViewAndAnnotations];
             [self showAnnotationsWithPadding:_homeViewController.entourageManager.routingAnnotations];
+        }
+        else {
+            _addressLabel.text = error.localizedDescription;
+            _etaLabel.text = error.localizedFailureReason;
         }
     }];
 }

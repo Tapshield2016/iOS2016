@@ -8,6 +8,7 @@
 
 #import "TSVirtualEntourageManager.h"
 #import "TSUtilities.h"
+#import "MKMapItem+EncodeDecode.h"
 
 @implementation TSVirtualEntourageManager
 

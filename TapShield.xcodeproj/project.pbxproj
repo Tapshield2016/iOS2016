@@ -44,6 +44,9 @@
 		B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */; };
 		B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */; };
 		B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */; };
+		C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
+		C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
+		C501CC2B18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
 		C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918918E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
@@ -1192,6 +1195,8 @@
 		B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLoginOrSignUpViewController.m; path = "TapShield/View Controllers/Login:Signup/TSLoginOrSignUpViewController.m"; sourceTree = SOURCE_ROOT; };
 		B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUtilities.h; path = Utilities/TSUtilities.h; sourceTree = "<group>"; };
 		B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUtilities.m; path = Utilities/TSUtilities.m; sourceTree = "<group>"; };
+		C501CC2718F1D12E005A0B98 /* MKMapItem+EncodeDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapItem+EncodeDecode.h"; sourceTree = "<group>"; };
+		C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapItem+EncodeDecode.m"; sourceTree = "<group>"; };
 		C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRoutePickerViewController.h; path = "View Controllers/Map/TSRoutePickerViewController.h"; sourceTree = "<group>"; };
 		C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoutePickerViewController.m; path = "View Controllers/Map/TSRoutePickerViewController.m"; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
@@ -1857,6 +1862,8 @@
 				C532E8DD18BCF85E00FC111A /* TSLocationController.m */,
 				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
 				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
+				C501CC2718F1D12E005A0B98 /* MKMapItem+EncodeDecode.h */,
+				C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -3770,6 +3777,7 @@
 				C57C48B118BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
 				C5FD5EA318B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
+				C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C532E64918BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */,
@@ -3865,6 +3873,7 @@
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
+				C501CC2B18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5B5635218E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
@@ -3995,6 +4004,7 @@
 				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
 				C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
+				C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */,

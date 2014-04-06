@@ -11,6 +11,8 @@
 #import "TSUtilities.h"
 #import "TSRoutePickerViewController.h"
 
+static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
+
 @interface TSDestinationSearchViewController ()
 
 @property (nonatomic, strong) NSArray *searchResults;
@@ -33,6 +35,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self unarchivePreviousMapItems];
     
     [self customizeSearchBarAppearance:_searchBar];
     [self customizeTableView:_tableView];
@@ -87,6 +91,40 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)unarchivePreviousMapItems {
+    
+    NSArray *savedArray = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:TSDestinationSearchPastResults]];
+    _previousMapItemSelections = [[NSMutableArray alloc] initWithArray:savedArray];
+    
+    if (_searchResults.count == 0) {
+        _searchResults = _previousMapItemSelections;
+    }
+}
+
+- (void)archivePreviousMapItems {
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_previousMapItemSelections] forKey:TSDestinationSearchPastResults];
+}
+
+- (void)showPreviousSelections {
+    _searchResults = _previousMapItemSelections;
+    [_tableView reloadData];
+}
+
+- (void)addMapItemToSavedSelections:(MKMapItem *)mapItem {
+    
+    if (!_previousMapItemSelections) {
+        _previousMapItemSelections = [[NSMutableArray alloc] initWithCapacity:10];
+    }
+    [_previousMapItemSelections insertObject:mapItem atIndex:0];
+    
+    if (_previousMapItemSelections.count > 20) {
+        [_previousMapItemSelections removeObjectsInRange:NSMakeRange(19, _previousMapItemSelections.count-19)];
+    }
+    
+    [self archivePreviousMapItems];
+}
+
 #pragma mark - View Animations 
 
 - (void)presentationAnimation {
@@ -105,7 +143,7 @@
     CGRect frame = _tableView.frame;
     frame.origin.y = self.view.bounds.size.height*2;
     
-    [UIView animateWithDuration:0.3 delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.6 delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
         _tableView.frame = frame;
     } completion:nil];
 }
@@ -145,7 +183,6 @@
     
     // get a rect for the textView frame
     
-    
     // animations settings
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -170,8 +207,6 @@
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
     // get a rect for the textView frame
-    
-    
     
     // animations settings
     [UIView beginAnimations:nil context:NULL];
@@ -226,10 +261,6 @@
     cell.detailTextLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:10.0f];
     cell.detailTextLabel.textColor = [TSColorPalette listCellDetailsTextColor];
     
-//    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:cell.bounds];
-//    toolbar.barTintColor = [TSColorPalette cellBackgroundColor];
-//    [cell insertSubview:toolbar atIndex:0];
-    
     return cell;
 }
 
@@ -251,6 +282,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
+    [self addMapItemToSavedSelections:mapItem];
     
     [_searchBar resignFirstResponder];
     
@@ -276,6 +308,9 @@
     
     if (searchText && searchText > 0) {
         [self searchForLocation:searchText];
+    }
+    else {
+        [self showPreviousSelections];
     }
 }
 

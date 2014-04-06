@@ -17,7 +17,8 @@
         // Initialization code
         self.addressLabel = [[TSBaseLabel alloc] init];
         self.nameLabel = [[TSBaseLabel alloc] init];
-        [self.view adds]
+        [self addSubview: self.addressLabel];
+        [self addSubview: self.nameLabel];
         
         UIView *selectedView = [[UIView alloc] initWithFrame:self.frame];
         selectedView.backgroundColor = [TSColorPalette whiteColor];
@@ -25,6 +26,7 @@
         self.backgroundColor = [TSColorPalette cellBackgroundColor];
         self.nameLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:16.0f];
         self.nameLabel.textColor = [TSColorPalette listCellTextColor];
+        self.nameLabel.number
         self.addressLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:10.0f];
         self.addressLabel.textColor = [TSColorPalette listCellDetailsTextColor];
     }
@@ -41,8 +43,8 @@
                                           _nameLabel.font, NSFontAttributeName,
                                           nil];
     
-    CGRect frame = [_nameLabel.text boundingRectWithSize:CGSizeMake(263, 2000.0)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
+    CGRect frame = [_nameLabel.text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height/2)
+                                            options:NSStringDrawingTruncatesLastVisibleLine
                                          attributes:attributesDictionary
                                             context:nil];
     nameFrame.size = frame.size;
@@ -55,7 +57,7 @@
                                           _addressLabel.font, NSFontAttributeName,
                                           nil];
     
-    frame = [_addressLabel.text boundingRectWithSize:CGSizeMake(263, 2000.0)
+    frame = [_addressLabel.text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height/2)
                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                               attributes:attributesDictionary
                                                  context:nil];

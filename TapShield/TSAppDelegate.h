@@ -16,4 +16,6 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
 
+- (void)drawerCanDragForMenu:(BOOL)enabled;
+
 @end

@@ -67,12 +67,14 @@
     
     [super viewWillAppear:animated];
     
+    [self drawerCanDragForMenu:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
     
+    [self drawerCanDragForMenu:YES];
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {

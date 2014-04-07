@@ -117,4 +117,9 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)drawerCanDragForMenu:(BOOL)enabled; {
+    
+    [self.dynamicsDrawerViewController setPaneDragRevealEnabled:enabled forDirection:MSDynamicsDrawerDirectionLeft];
+}
+
 @end

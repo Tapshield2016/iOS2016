@@ -38,7 +38,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     [super viewDidLoad];
     
     [self unarchivePreviousMapItems];
-    
     [self customizeSearchBarAppearance:_searchBar];
     [self customizeTableView:_tableView];
     _searchBar.barTintColor = [UIColor clearColor];

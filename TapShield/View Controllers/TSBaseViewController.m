@@ -162,4 +162,11 @@
 }
 
 
+#pragma mark - MSDynamicDrawer Settings
+
+- (void)drawerCanDragForMenu:(BOOL)enabled {
+    [(TSAppDelegate *)[UIApplication sharedApplication].delegate drawerCanDragForMenu:enabled];
+}
+
+
 @end

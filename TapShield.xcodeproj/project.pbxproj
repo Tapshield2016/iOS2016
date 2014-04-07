@@ -56,6 +56,9 @@
 		C501CC3818F1DE95005A0B98 /* TSMapItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */; };
 		C501CC3918F1DE95005A0B98 /* TSMapItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */; };
 		C501CC3A18F1DE95005A0B98 /* TSMapItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */; };
+		C501CC3D18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3C18F22751005A0B98 /* TSNotifySelectionViewController.m */; };
+		C501CC3E18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3C18F22751005A0B98 /* TSNotifySelectionViewController.m */; };
+		C501CC3F18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC3C18F22751005A0B98 /* TSNotifySelectionViewController.m */; };
 		C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918918E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
@@ -1212,6 +1215,8 @@
 		C501CC3218F1DE7D005A0B98 /* TSContactsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSContactsCell.m; path = Views/Cells/TSContactsCell.m; sourceTree = "<group>"; };
 		C501CC3618F1DE95005A0B98 /* TSMapItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapItemCell.h; path = Views/Cells/TSMapItemCell.h; sourceTree = "<group>"; };
 		C501CC3718F1DE95005A0B98 /* TSMapItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapItemCell.m; path = Views/Cells/TSMapItemCell.m; sourceTree = "<group>"; };
+		C501CC3B18F22751005A0B98 /* TSNotifySelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSNotifySelectionViewController.h; path = "View Controllers/Map/TSNotifySelectionViewController.h"; sourceTree = "<group>"; };
+		C501CC3C18F22751005A0B98 /* TSNotifySelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSNotifySelectionViewController.m; path = "View Controllers/Map/TSNotifySelectionViewController.m"; sourceTree = "<group>"; };
 		C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRoutePickerViewController.h; path = "View Controllers/Map/TSRoutePickerViewController.h"; sourceTree = "<group>"; };
 		C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoutePickerViewController.m; path = "View Controllers/Map/TSRoutePickerViewController.m"; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
@@ -2691,6 +2696,8 @@
 				B583B9BB18AEB03600C5B8DA /* TSDestinationSearchViewController.m */,
 				C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */,
 				C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */,
+				C501CC3B18F22751005A0B98 /* TSNotifySelectionViewController.h */,
+				C501CC3C18F22751005A0B98 /* TSNotifySelectionViewController.m */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -3870,6 +3877,7 @@
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C501CC3D18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
 				C556478418E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
 				C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C5391EA018C7D17700C23C0A /* TSTransitionDelegate.m in Sources */,
@@ -3973,6 +3981,7 @@
 				B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */,
 				B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C5662BF518DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
+				C501CC3F18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C5CB078618C6851D00BC9425 /* TSCircularButton.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
@@ -4103,6 +4112,7 @@
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
 				C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
+				C501CC3E18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
 				C5391EBE18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C57C48E418BBDB1900DFFBCE /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */,

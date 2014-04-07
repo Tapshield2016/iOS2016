@@ -164,7 +164,7 @@
         [((TSPageViewController *)self.parentViewController).toolbar setAlpha:0.5f];
         
         [self dismissViewControllerAnimated:YES completion:^{
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
             [parentNavigationController setNavigationBarHidden:NO animated:YES];
         }];
     }

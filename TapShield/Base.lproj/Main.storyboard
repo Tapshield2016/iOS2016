@@ -2796,17 +2796,47 @@ Last Updated: 12/12/13
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="3FT-6n-aB4">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="lCF-k3-3an">
+                            <connections>
+                                <action selector="nextViewController:" destination="GTK-a7-ESV" id="hYB-ik-Byl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="addressLabel" destination="wQl-OT-QPc" id="FYD-XS-b0S"/>
                         <outlet property="etaLabel" destination="gIf-WA-DEI" id="al8-FU-Vkj"/>
                         <outlet property="hitTestView" destination="umI-fa-4nR" id="gG5-Rt-irc"/>
+                        <outlet property="nextButton" destination="lCF-k3-3an" id="Jbp-XJ-s5r"/>
                         <outlet property="routeInfoView" destination="6cJ-xl-oGK" id="V0A-BT-7cm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0QV-ac-n5c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1918" y="1339"/>
+        </scene>
+        <!--Notify Selection View Controller-->
+        <scene sceneID="ObZ-OU-9rh">
+            <objects>
+                <viewController storyboardIdentifier="TSNotifySelectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6vl-xP-Mpq" customClass="TSNotifySelectionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="15g-9b-86J"/>
+                        <viewControllerLayoutGuide type="bottom" id="R1r-tL-cQQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b5O-Js-xfV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Z7S-aV-dJY">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="4XX-gF-CT7"/>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pO8-ty-5mm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2326" y="1339"/>
         </scene>
     </scenes>
     <resources>

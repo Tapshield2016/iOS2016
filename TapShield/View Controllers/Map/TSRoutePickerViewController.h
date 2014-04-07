@@ -21,5 +21,8 @@
 @property (weak, nonatomic) IBOutlet TSBaseLabel *addressLabel;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *etaLabel;
 @property (weak, nonatomic) IBOutlet TSHitTestForwardingView *hitTestView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+
+- (IBAction)nextViewController:(id)sender;
 
 @end

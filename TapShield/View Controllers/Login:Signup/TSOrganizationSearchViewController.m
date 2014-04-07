@@ -322,7 +322,7 @@
 - (IBAction)dismissRegistration:(id)sender {
     
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }];
 }
 @end

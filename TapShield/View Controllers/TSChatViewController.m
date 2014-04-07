@@ -100,7 +100,7 @@
     }
     
     [self dismissViewControllerAnimated:YES completion:^{
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         [parentNavigationController setNavigationBarHidden:NO animated:YES];
     }];
 }

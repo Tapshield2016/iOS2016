@@ -7,6 +7,7 @@
 //
 
 #import "TSRoutePickerViewController.h"
+#import "TSNotifySelectionViewController.h"
 #import "TSUtilities.h"
 
 @interface TSRoutePickerViewController ()
@@ -31,6 +32,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [_homeViewController.entourageManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
+    
     _hitTestView.sendToView = _homeViewController.view;
     
     _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Car", @"Walk"]];
@@ -44,17 +47,10 @@
     
     [self.navigationItem setTitleView:_directionsTypeSegmentedControl];
     
-    [_homeViewController.entourageManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
-    
     _etaLabel.textColor = [TSColorPalette tapshieldBlue];
     _addressLabel.textColor = [TSColorPalette tapshieldBlue];
     [_addressLabel setAdjustsFontSizeToFitWidth:YES];
     [_etaLabel setAdjustsFontSizeToFitWidth:YES];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
     
     [_homeViewController.entourageManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     
@@ -65,11 +61,25 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
     
-    [_homeViewController.entourageManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
+}
+
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    
+    [super willMoveToParentViewController:parent];
+    
+    if (!parent) {
+        [_homeViewController.entourageManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -199,7 +209,10 @@
 }
 
 
-
-
-
+- (IBAction)nextViewController:(id)sender {
+    
+    [self transitionNavigationBarAnimatedLeft];
+    [self blackNavigationBar];
+    [self pushViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+}
 @end

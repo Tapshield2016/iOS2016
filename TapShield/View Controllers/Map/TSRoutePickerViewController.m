@@ -32,6 +32,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _nextButton.enabled = NO;
+    
     [_homeViewController.entourageManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
     
     _hitTestView.sendToView = _homeViewController.view;
@@ -162,6 +164,8 @@
 
 - (void)requestAndDisplayRoutesForSelectedDestination {
     
+    _nextButton.enabled = NO;
+    
     if (!_homeViewController.mapView.userLocationAnnotation || !_homeViewController.entourageManager.destinationAnnotation) {
         return;
     }
@@ -186,6 +190,7 @@
             _homeViewController.entourageManager.routes = [response routes];
             [_homeViewController.entourageManager addRouteOverlaysToMapViewAndAnnotations];
             [self showAnnotationsWithPadding:_homeViewController.entourageManager.routingAnnotations];
+            _nextButton.enabled = YES;
         }
         else {
             _addressLabel.text = error.localizedDescription;
@@ -211,8 +216,14 @@
 
 - (IBAction)nextViewController:(id)sender {
     
+    if (!_homeViewController.entourageManager.selectedRoute) {
+        return;
+    }
+    
     [self transitionNavigationBarAnimatedLeft];
     [self blackNavigationBar];
-    [self pushViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    UIViewController *viewController = [self pushViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    ((TSNotifySelectionViewController *)viewController).etaString = _etaLabel.text;
+    ((TSNotifySelectionViewController *)viewController).addressString = _addressLabel.text;
 }
 @end

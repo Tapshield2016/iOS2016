@@ -38,7 +38,7 @@
     _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
     _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
     
-    self.pageViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
+    _pageViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
     
     [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -65,6 +65,17 @@
 - (void)showChatViewController {
     
     [self setViewControllers:@[_chatViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+}
+
+- (void)showDisarmViewController {
+    
+    [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+    
+}
+
+- (void)showAlertScreen {
+    
+    [self setViewControllers:@[_emergencyAlertViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
 #pragma mark - Background Animation

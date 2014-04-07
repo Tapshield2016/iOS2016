@@ -7,11 +7,13 @@
 //
 
 #import "TSNavigationViewController.h"
+#import "TSHomeViewController.h"
 
-@interface TSNotifySelectionViewController : TSNavigationViewController
+@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 
+@property (nonatomic, strong) TSHomeViewController *homeViewController;
 @property (strong, nonatomic) NSString *addressString;
 @property (strong, nonatomic) NSString *etaString;
 @property (strong, nonatomic) TSBaseLabel *addressLabel;

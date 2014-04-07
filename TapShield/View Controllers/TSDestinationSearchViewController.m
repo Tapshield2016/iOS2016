@@ -240,6 +240,10 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     if (_search.isSearching) {
         [_search cancel];
     }
+    
+    _searchResults = nil;
+    [_tableView reloadData];
+    
     _search = [[MKLocalSearch alloc] initWithRequest:request];
     [_search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
         if ([response.mapItems count] > 0) {
@@ -310,6 +314,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
         [self searchForLocation:searchText];
     }
     else {
+        [_search cancel];
         [self showPreviousSelections];
     }
 }

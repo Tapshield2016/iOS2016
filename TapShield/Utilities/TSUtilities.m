@@ -112,14 +112,14 @@
 
 + (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline {
     
-    MKMapPoint pointClosest = [TSUtilities closestPoint:point toPoly:polyline];
+    MKMapPoint pointClosest = pointClosest = [TSUtilities closestPoint:point toPoly:polyline];
     
     return MKMetersBetweenMapPoints(pointClosest, point);
 }
 
 + (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline {
     double distance = MAXFLOAT;
-    MKMapPoint returnPoint;
+    MKMapPoint returnPoint = MKMapPointMake(0, 0);
     for (int n = 0; n < polyline.pointCount - 1; n++) {
         
         MKMapPoint ptA = polyline.points[n];

@@ -23,5 +23,7 @@
 @property (nonatomic) BOOL isFirstTimeViewed;
 
 - (void)showChatViewController;
+- (void)showAlertScreen;
+- (void)showDisarmViewController;
 
 @end

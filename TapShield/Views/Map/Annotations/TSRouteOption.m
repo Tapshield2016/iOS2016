@@ -28,8 +28,8 @@
     if (!_route) {
         if (completion) {
             completion(MKMapPointMake(0, 0));
-            return;
         }
+        return;
     }
     
     //Make sure route isn't comparing against itself
@@ -47,7 +47,7 @@
         return;
     }
     
-    MKMapPoint uniquePointFromSet = _route.polyline.points[_route.polyline.pointCount/2];
+    MKMapPoint uniquePointFromSet;
     NSMutableSet *filteredSet = [[NSMutableSet alloc] initWithCapacity:_route.polyline.pointCount];
     
     //Convert point structs to values

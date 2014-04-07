@@ -26,6 +26,9 @@
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
 @property (nonatomic, assign) MKDirectionsTransportType destinationTransportType;
 
+// Notification Recipients
+@property (nonatomic, strong) NSArray *contactRecipients;
+
 - (instancetype)initWithMapView:(MKMapView *)mapView;
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint;

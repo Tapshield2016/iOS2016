@@ -64,8 +64,6 @@
     
     [self.circleLayer removeFromSuperlayer];
     
-    [self setTitleColor:[TSColorPalette whiteColor] forState:UIControlStateNormal];
-    
     self.circleLayer = [CAShapeLayer layer];
     
     [self.circleLayer setBounds:CGRectMake(0.0f, 0.0f, [self bounds].size.width,

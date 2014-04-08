@@ -7,6 +7,11 @@
 //
 
 #import "TSBaseViewController.h"
+#import "TSGeofence.h"
+
+static NSString * const kBigTapShieldLogo = @"splash_logo_small";
+static NSString * const kBigAlternateTapShieldLogo = @"tapshield_icon";
+static NSString * const kSmallTapShieldLogo = @"tapshield_icon";
 
 @interface TSBaseViewController ()
 
@@ -65,6 +70,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,6 +96,109 @@
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.view insertSubview:_toolbar atIndex:0];
     }
+}
+
+#pragma mark - Agency UI Updates
+
+- (void)setShowLargeLogo:(BOOL)showLargeLogo {
+    _showLargeLogo = showLargeLogo;
+    
+    if (showLargeLogo) {
+        
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyLogo;
+        if (!image) {
+            image = [UIImage imageNamed:kBigTapShieldLogo];
+        }
+        
+        _largeLogoImageView = [[UIImageView alloc] initWithImage:image];
+        _largeLogoImageView.contentMode = UIViewContentModeCenter;
+        
+        CGPoint center = _largeLogoImageView.center;
+        center.x = self.view.bounds.size.width/2;
+        center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
+        
+        _largeLogoImageView.center = center;
+        
+        [self.view addSubview:_largeLogoImageView];
+    }
+    else {
+        [_largeLogoImageView removeFromSuperview];
+    }
+    
+    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
+}
+
+- (void)setShowAlternateLogo:(BOOL)showAlternateLogo {
+    
+    _showAlternateLogo = showAlternateLogo;
+    
+    if (showAlternateLogo) {
+        
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyAlternateLogo;
+        if (!image) {
+            image = [UIImage imageNamed:kBigAlternateTapShieldLogo];
+        }
+        
+        _alternateLogoImageView = [[UIImageView alloc] initWithImage:image];
+        _alternateLogoImageView.contentMode = UIViewContentModeCenter;
+        
+        CGPoint center = _alternateLogoImageView.center;
+        center.x = self.view.bounds.size.width/2;
+        center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
+        
+        _alternateLogoImageView.center = center;
+        
+        [self.view addSubview:_alternateLogoImageView];
+    }
+    else {
+        [_alternateLogoImageView removeFromSuperview];
+    }
+    
+    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
+}
+
+- (void)setShowSmallLogoInNavBar:(BOOL)showSmallLogo {
+    
+    _showSmallLogoInNavBar = showSmallLogo;
+    
+    if (showSmallLogo) {
+        
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
+        if (!image) {
+            image = [UIImage imageNamed:kSmallTapShieldLogo];
+        }
+        
+        _smallLogoImageView = [[UIImageView alloc] initWithImage:image];
+        _smallLogoImageView.contentMode = UIViewContentModeCenter;
+        self.navigationItem.titleView = _smallLogoImageView;
+    }
+    
+    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
+}
+
+- (void)updateLogoImages {
+    
+    UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyLogo;
+    if (!image) {
+        image = [UIImage imageNamed:kBigTapShieldLogo];
+    }
+    _largeLogoImageView.image = image;
+    
+    image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyAlternateLogo;
+    if (!image) {
+        image = [UIImage imageNamed:kBigAlternateTapShieldLogo];
+    }
+    _alternateLogoImageView.image = image;
+    
+    image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
+    if (!image) {
+        image = [UIImage imageNamed:kSmallTapShieldLogo];
+    }
+    _smallLogoImageView.image = image;
+    
+    [_largeLogoImageView setNeedsDisplay];
+    [_alternateLogoImageView setNeedsDisplay];
+    [_smallLogoImageView setNeedsDisplay];
 }
 
 #pragma mark - Table View Customization

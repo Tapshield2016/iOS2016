@@ -14,6 +14,7 @@ NSString * const TSGeofenceUserIsOutsideBoundariesWithOverhang = @"TSGeofenceUse
 NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang";
 
 NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
+NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 
 @implementation TSGeofence
@@ -110,7 +111,7 @@ NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
     return shortestDistanceInMeters;
 }
 
-+ (bool)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency
++ (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency
 {
     
     double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:agency.agencyBoundaries];
@@ -138,7 +139,7 @@ NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
     return NO;
 }
 
-+ (bool)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location
++ (BOOL)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location
 {
     double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
     bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
@@ -167,6 +168,7 @@ NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
 }
 
 
+#pragma mark - Geofence Proximity
 
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation {
     
@@ -239,9 +241,21 @@ NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
         }
     }
     
+    if (_currentAgency) {
+        _currentAgency = nil;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidLeaveAgency object:nil userInfo:nil];
+    }
+    
     if (completion) {
         completion(nil);
     }
+}
+
++ (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSGeofenceUserDidEnterAgency object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSGeofenceUserDidLeaveAgency object:nil];
 }
 
 

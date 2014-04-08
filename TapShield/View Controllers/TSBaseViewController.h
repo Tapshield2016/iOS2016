@@ -38,4 +38,12 @@
 @property (strong, nonatomic) UIToolbar *toolbar;
 @property (strong, nonatomic) UIImage *clearButtonImage;
 
+@property (strong, nonatomic) UIImageView *smallLogoImageView;
+@property (strong, nonatomic) UIImageView *largeLogoImageView;
+@property (strong, nonatomic) UIImageView *alternateLogoImageView;
+
+@property (assign, nonatomic) BOOL showSmallLogoInNavBar;
+@property (assign, nonatomic) BOOL showLargeLogo;
+@property (assign, nonatomic) BOOL showAlternateLogo;
+
 @end

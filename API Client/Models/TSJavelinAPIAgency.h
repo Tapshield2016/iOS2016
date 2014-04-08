@@ -18,12 +18,21 @@
 @property (readonly) NSString *dispatcherScheduleStart;
 @property (readonly) NSString *dispatcherScheduleEnd;
 @property (readonly) NSString *alertCompletedMessage;
+
 @property (readonly) NSArray *agencyBoundaries;
+
 @property (readonly) BOOL requireDomainEmails;
+@property (readonly) BOOL launchCallToDispatcherOnAlert;
 @property (readonly) BOOL displayCommandAlert;
 @property (readonly) BOOL showAgencyNameInAppNavbar;
 
-
 @property (readonly) CLLocationCoordinate2D agencyCenter;
+
+@property (readonly) NSDictionary *agencyTheme;
+
+@property (readonly) UIImage *agencyLogo;
+@property (readonly) UIImage *agencyAlternateLogo;
+@property (readonly) UIImage *agencySmallLogo;
+
 
 @end

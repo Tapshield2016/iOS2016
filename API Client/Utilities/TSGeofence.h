@@ -19,11 +19,12 @@
 
 + (double) distanceFromPoint:(CLLocation *)location toGeofencePolygon:(NSArray *)geofencePolygon;
 + (BOOL)isLocation:(CLLocation *)location insideGeofence:(NSArray *)geofencePolygon;
-+ (bool)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency;
-+ (bool)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location;
++ (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency;
++ (BOOL)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location;
 
 //Roaming Organization
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation;
++ (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector;
 
 extern NSString * const TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang;
 extern NSString * const TSGeofenceUserIsWithinBoundariesWithOverhang;

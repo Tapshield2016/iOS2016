@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [_smallLogoImageView setHidden:YES];
+    [_smallSplashLogoImageView setHidden:YES];
     
     self.view.backgroundColor = [UIColor clearColor];
     _swipeLabelView.alpha = 0.0f;
@@ -60,7 +60,7 @@
 
 - (void)animation {
     
-    CGRect frame = _smallLogoImageView.frame;
+    CGRect frame = _smallSplashLogoImageView.frame;
     
     [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         _splashLargeLogoImageView.frame = frame;
@@ -68,7 +68,7 @@
         
         TSIntroPageViewController *pageView = (TSIntroPageViewController *)self.parentViewController;
         [pageView.logoImage setHidden:NO];
-        pageView.logoImage.frame = _smallLogoImageView.frame;
+        pageView.logoImage.frame = _smallSplashLogoImageView.frame;
         
         [_splashLargeLogoImageView setHidden:YES];
     }];

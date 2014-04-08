@@ -11,7 +11,7 @@
 
 @interface TSWelcomeViewController : TSBaseViewController
 @property (weak, nonatomic) IBOutlet UIImageView *splashLargeLogoImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *smallLogoImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *smallSplashLogoImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 @property (weak, nonatomic) IBOutlet UIView *swipeLabelView;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;

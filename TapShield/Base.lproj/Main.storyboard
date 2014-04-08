@@ -727,7 +727,7 @@
                     </view>
                     <connections>
                         <outlet property="arrowImageView" destination="Nnt-Rg-b6c" id="35e-Uq-69Z"/>
-                        <outlet property="smallLogoImageView" destination="4Mz-rg-3WC" id="Ndn-f7-7Oe"/>
+                        <outlet property="smallSplashLogoImageView" destination="4Mz-rg-3WC" id="tak-Qi-TiN"/>
                         <outlet property="splashLargeLogoImageView" destination="tMT-fg-WfF" id="zak-dl-qIu"/>
                         <outlet property="swipeLabelView" destination="VU8-ER-WyG" id="SdB-3f-fmf"/>
                         <outlet property="welcomeLabel" destination="PvD-Ph-Qb9" id="0Bj-vm-Bo1"/>

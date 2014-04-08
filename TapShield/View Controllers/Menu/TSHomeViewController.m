@@ -50,13 +50,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.showSmallLogoInNavBar = YES;
+    
     _entourageManager = [[TSVirtualEntourageManager alloc] initWithMapView:_mapView];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tapshield_icon"]];
-    imageView.contentMode = UIViewContentModeCenter;
     _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:nil action:nil];
-    
-    self.navigationItem.titleView = imageView;
     self.navigationItem.rightBarButtonItem = _yankBarButton;
     
     _transitionController = [[TSTransitionDelegate alloc] init];

@@ -20,6 +20,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.showLargeLogo = YES;
+    
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     _codeCircleArray = @[_codeCircle1, _codeCircle2, _codeCircle3, _codeCircle4];

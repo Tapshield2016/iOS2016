@@ -7,6 +7,16 @@
 //
 
 #import "TSJavelinAPIAgency.h"
+#import "UIImageView+AFNetworking.h"
+
+@interface TSJavelinAPIAgency ()
+
+//UI Customization
+@property (strong, nonatomic) NSString *agencyLogoUrl;
+@property (strong, nonatomic) NSString *agencyAlternateLogoUrl;
+@property (strong, nonatomic) NSString *agencySmallLogoUrl;
+
+@end
 
 @implementation TSJavelinAPIAgency
 
@@ -28,7 +38,22 @@
     _requireDomainEmails = [[attributes objectForKey:@"require_domain_emails"] boolValue];
     _displayCommandAlert = [[attributes objectForKey:@"display_command_alert"] boolValue];
     _showAgencyNameInAppNavbar = [[attributes objectForKey:@"show_agency_name_in_app_navbar"] boolValue];
+    _launchCallToDispatcherOnAlert = [[attributes objectForKey:@"launch_call_to_dispatcher_on_alert"] boolValue];
+    
+    self.agencyLogoUrl = [attributes objectForKey:@"agency_logo"];
+    self.agencyAlternateLogoUrl = [attributes objectForKey:@"agency_alternate_logo"];
+    self.agencySmallLogoUrl = [attributes objectForKey:@"agency_small_logo"];
+    _agencyTheme = [attributes objectForKey:@"agency_theme"];
+    
     [self setAgencyBoundaries:[attributes objectForKey:@"agency_boundaries"]];
+    
+    
+    
+//    "launch_call_to_dispatcher_on_alert": false,
+//    "agency_logo": null,
+//    "agency_alternate_logo": null,
+//    "agency_small_logo": null,
+//    "agency_theme": "{}"
     
     return self;
 }
@@ -104,7 +129,71 @@
     return self;
 }
 
+- (void)setAgencyLogoUrl:(NSString *)agencyLogoUrl {
+    
+    if ([agencyLogoUrl isKindOfClass:[NSNull class]]) {
+        return;
+    }
+    
+    _agencyLogoUrl = agencyLogoUrl;
+    
+    NSURL *url = [NSURL URLWithString:agencyLogoUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    [imageView setImageWithURLRequest:request
+                          placeholderImage:[UIImage imageNamed:@""]
+                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                       _agencyLogo = image;
+                                   } failure:nil];
+}
+
+- (void)setAgencySmallLogoUrl:(NSString *)agencySmallLogoUrl {
+    
+    if ([agencySmallLogoUrl isKindOfClass:[NSNull class]]) {
+        return;
+    }
+    
+    _agencySmallLogoUrl = agencySmallLogoUrl;
+    
+    NSURL *url = [NSURL URLWithString:agencySmallLogoUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    [imageView setImageWithURLRequest:request
+                     placeholderImage:[UIImage imageNamed:@""]
+                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                  _agencySmallLogo = image;
+                              } failure:nil];
+}
+
+- (void)setAgencyAlternateLogoUrl:(NSString *)agencyAlternateLogoUrl {
+    
+    if ([agencyAlternateLogoUrl isKindOfClass:[NSNull class]]) {
+        return;
+    }
+    
+    _agencyAlternateLogoUrl = agencyAlternateLogoUrl;
+    
+    NSURL *url = [NSURL URLWithString:agencyAlternateLogoUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    [imageView setImageWithURLRequest:request
+                     placeholderImage:[UIImage imageNamed:@""]
+                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                  _agencyAlternateLogo = image;
+                              } failure:nil];
+}
+
 - (void)setAgencyBoundaries:(NSString *)agencyBoundariesString {
+    
+    if ([agencyBoundariesString isKindOfClass:[NSNull class]]) {
+        return;
+    }
 
     if ([agencyBoundariesString rangeOfString:@","].location == NSNotFound) {
         return;

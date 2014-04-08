@@ -1340,12 +1340,12 @@
 		C520C8E318A974C100D1D2E9 /* TSJavelinAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSJavelinAPIClient.m; path = "API Client/TSJavelinAPIClient.m"; sourceTree = SOURCE_ROOT; };
 		C520C8E618A974C100D1D2E9 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		C520C8E718A974C100D1D2E9 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
-		C520C8E818A974C100D1D2E9 /* TSGeofence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGeofence.h; sourceTree = "<group>"; };
-		C520C8E918A974C100D1D2E9 /* TSGeofence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGeofence.m; sourceTree = "<group>"; };
+		C520C8E818A974C100D1D2E9 /* TSGeofence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSGeofence.h; path = "../API Client/Utilities/TSGeofence.h"; sourceTree = "<group>"; };
+		C520C8E918A974C100D1D2E9 /* TSGeofence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSGeofence.m; path = "../API Client/Utilities/TSGeofence.m"; sourceTree = "<group>"; };
 		C520C8EA18A974C100D1D2E9 /* TSJavelinAPIUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIUtilities.h; sourceTree = "<group>"; };
 		C520C8EB18A974C100D1D2E9 /* TSJavelinAPIUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIUtilities.m; sourceTree = "<group>"; };
-		C520C8EC18A974C100D1D2E9 /* TSLocationGeofenceTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLocationGeofenceTestView.h; sourceTree = "<group>"; };
-		C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocationGeofenceTestView.m; sourceTree = "<group>"; };
+		C520C8EC18A974C100D1D2E9 /* TSLocationGeofenceTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLocationGeofenceTestView.h; path = "../API Client/Utilities/TSLocationGeofenceTestView.h"; sourceTree = "<group>"; };
+		C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLocationGeofenceTestView.m; path = "../API Client/Utilities/TSLocationGeofenceTestView.m"; sourceTree = "<group>"; };
 		C520C91618A98E4400D1D2E9 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapView.h; path = TapShield/Views/Map/TSMapView.h; sourceTree = SOURCE_ROOT; };
 		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapView.m; path = TapShield/Views/Map/TSMapView.m; sourceTree = SOURCE_ROOT; };
@@ -1866,6 +1866,7 @@
 		B53BBCF618980FDA006A27E0 /* TapShield */ = {
 			isa = PBXGroup;
 			children = (
+				C501CC9B18F36E6D005A0B98 /* Location */,
 				C585F2E818DB6E2E009EEF16 /* Font */,
 				C532E8E118BD44F400FC111A /* Main.storyboard */,
 				B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */,
@@ -1953,22 +1954,20 @@
 		B5F2DCE518B3E6E1009A7CA4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C501CC2718F1D12E005A0B98 /* MKMapItem+EncodeDecode.h */,
+				C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */,
 				C532E62918BBF1E900FC111A /* TSColorPalette.h */,
 				C532E62A18BBF1E900FC111A /* TSColorPalette.m */,
 				C532E62B18BBF1E900FC111A /* TSConstants.h */,
 				C532E62C18BBF1E900FC111A /* TSConstants.m */,
+				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
+				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
+				B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */,
+				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
 				C532E62D18BBF1E900FC111A /* UIImage+Color.h */,
 				C532E62E18BBF1E900FC111A /* UIImage+Color.m */,
 				C532E62F18BBF1E900FC111A /* UIView+FirstResponder.h */,
 				C532E63018BBF1E900FC111A /* UIView+FirstResponder.m */,
-				B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */,
-				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
-				C532E8DC18BCF85D00FC111A /* TSLocationController.h */,
-				C532E8DD18BCF85E00FC111A /* TSLocationController.m */,
-				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
-				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
-				C501CC2718F1D12E005A0B98 /* MKMapItem+EncodeDecode.h */,
-				C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1999,6 +1998,19 @@
 			);
 			name = TapShield_alert_code_iPhone_assets;
 			path = Images/TapShield_alert_code_iPhone_assets;
+			sourceTree = "<group>";
+		};
+		C501CC9B18F36E6D005A0B98 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				C520C8E818A974C100D1D2E9 /* TSGeofence.h */,
+				C520C8E918A974C100D1D2E9 /* TSGeofence.m */,
+				C520C8EC18A974C100D1D2E9 /* TSLocationGeofenceTestView.h */,
+				C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */,
+				C532E8DC18BCF85D00FC111A /* TSLocationController.h */,
+				C532E8DD18BCF85E00FC111A /* TSLocationController.m */,
+			);
+			name = Location;
 			sourceTree = "<group>";
 		};
 		C51A40A018CBCF40007D7884 /* Keyboard */ = {
@@ -2115,12 +2127,8 @@
 			isa = PBXGroup;
 			children = (
 				C520C8E518A974C100D1D2E9 /* Categories */,
-				C520C8E818A974C100D1D2E9 /* TSGeofence.h */,
-				C520C8E918A974C100D1D2E9 /* TSGeofence.m */,
 				C520C8EA18A974C100D1D2E9 /* TSJavelinAPIUtilities.h */,
 				C520C8EB18A974C100D1D2E9 /* TSJavelinAPIUtilities.m */,
-				C520C8EC18A974C100D1D2E9 /* TSLocationGeofenceTestView.h */,
-				C520C8ED18A974C100D1D2E9 /* TSLocationGeofenceTestView.m */,
 			);
 			name = Utilities;
 			path = "API Client/Utilities";

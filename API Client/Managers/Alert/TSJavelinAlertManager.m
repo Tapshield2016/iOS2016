@@ -111,7 +111,7 @@ static dispatch_once_t onceToken;
         NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:4];
         alertInfo[@"user"] = alert.agencyUser.email;
         
-        if ([TSGeofence isWithinBoundariesWithOverhang:location]) {
+        if ([TSGeofence isWithinBoundariesWithOverhang:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency]) {
             alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
             alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
             alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];

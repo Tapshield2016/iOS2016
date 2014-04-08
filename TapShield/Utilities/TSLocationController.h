@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "TSJavelinAPIClient.h"
+#import "TSGeofence.h"
 
 @protocol TSLocationControllerDelegate <NSObject>
 
@@ -28,6 +29,7 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 
 @interface TSLocationController : NSObject <CLLocationManagerDelegate>
 
+@property (nonatomic, strong) TSGeofence *geofence;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, weak) id <TSLocationControllerDelegate> delegate;

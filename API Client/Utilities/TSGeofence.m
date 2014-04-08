@@ -8,17 +8,12 @@
 
 #import "TSGeofence.h"
 
-#import "TSJavelinAlertManager.h"
-#import "TSJavelinAPIClient.h"
-
-//#import "TSLocalNotifications.h"
-//#import "TSWarningViewController.h"
-//#import "TSNotificationView.h"
-
 NSString * const TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang = @"TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang";
 NSString * const TSGeofenceUserIsWithinBoundariesWithOverhang = @"TSGeofenceUserIsWithinBoundariesWithOverhang";
 NSString * const TSGeofenceUserIsOutsideBoundariesWithOverhang = @"TSGeofenceUserIsOutsideBoundariesWithOverhang";
 NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang";
+
+NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
 
 
 @implementation TSGeofence
@@ -115,11 +110,11 @@ NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGe
     return shortestDistanceInMeters;
 }
 
-+ (bool)isWithinBoundariesWithOverhang:(CLLocation *)location
++ (bool)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency
 {
     
-    double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
-    bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
+    double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:agency.agencyBoundaries];
+    bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:agency.agencyBoundaries];
     
     NSLog(@"%fm From Boundary", metersFromBoundary);
     NSLog(@"%fm Accuracy", location.horizontalAccuracy);
@@ -172,6 +167,82 @@ NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGe
 }
 
 
+
+- (void)updateProximityToAgencies:(CLLocation *)currentLocation {
+    
+    if (!_lastAgencyUpdate) {
+        [self updateNearbyAgencies:currentLocation];
+        return;
+    }
+   
+    
+    if ([_lastAgencyUpdate distanceFromLocation:currentLocation] > _distanceToNearestAgencyBoundary) {
+        [self updateNearbyAgencies:currentLocation];
+    }
+}
+
+- (void)updateNearbyAgencies:(CLLocation *)currentLocation {
+    
+    [self checkInsideNearbyAgencies:currentLocation completion:^(TSJavelinAPIAgency *insideAgency) {
+        
+        if (!insideAgency && !_nearbyAgencies) {
+            
+            [[TSJavelinAPIClient sharedClient] getAgenciesNearby:currentLocation radius:5.0 completion:^(NSArray *agencies) {
+                _nearbyAgencies = agencies;
+                [self checkInsideNearbyAgencies:currentLocation completion:nil];
+            }];
+        }
+    }];
+}
+
+- (void)updateDistanceToNearestBoundary:(CLLocation *)currentLocation {
+    
+    double distance = -1;
+    
+    if (_nearbyAgencies) {
+        for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
+            
+            if (distance < 0) {
+                distance = [TSGeofence distanceFromPoint:currentLocation toGeofencePolygon:agency.agencyBoundaries];
+            }
+            else if ([TSGeofence distanceFromPoint:currentLocation toGeofencePolygon:agency.agencyBoundaries] < distance) {
+                distance = [TSGeofence distanceFromPoint:currentLocation toGeofencePolygon:agency.agencyBoundaries];
+            }
+        }
+    }
+    else {
+        distance = 1000;
+    }
+    
+    _distanceToNearestAgencyBoundary = distance;
+}
+
+
+- (void)checkInsideNearbyAgencies:(CLLocation *)currentLocation completion:(void(^)(TSJavelinAPIAgency *insideAgency))completion {
+    
+    _lastAgencyUpdate = currentLocation;
+    
+    [self updateDistanceToNearestBoundary:currentLocation];
+    
+    for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
+        
+        if ([TSGeofence isWithinBoundariesWithOverhang:currentLocation agency:agency]) {
+            _currentAgency = agency;
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:agency userInfo:nil];
+            
+            if (completion) {
+                completion(agency);
+            }
+            
+            return;
+        }
+    }
+    
+    if (completion) {
+        completion(nil);
+    }
+}
 
 
 @end

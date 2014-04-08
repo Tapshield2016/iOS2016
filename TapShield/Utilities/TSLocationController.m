@@ -32,6 +32,7 @@ static dispatch_once_t predicate;
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.geofence = [[TSGeofence alloc] init];
     }
     return self;
 }
@@ -118,6 +119,8 @@ static dispatch_once_t predicate;
     if ([_delegate respondsToSelector:@selector(locationDidUpdate:)]) {
         [_delegate locationDidUpdate:_location];
     }
+    
+    [_geofence updateProximityToAgencies:_location];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {

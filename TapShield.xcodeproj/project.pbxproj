@@ -122,6 +122,9 @@
 		C501CC9818F337A0005A0B98 /* TSRoundRectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9718F337A0005A0B98 /* TSRoundRectButton.m */; };
 		C501CC9918F337A0005A0B98 /* TSRoundRectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9718F337A0005A0B98 /* TSRoundRectButton.m */; };
 		C501CC9A18F337A0005A0B98 /* TSRoundRectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9718F337A0005A0B98 /* TSRoundRectButton.m */; };
+		C501CC9E18F48E40005A0B98 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
+		C501CC9F18F48E40005A0B98 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
+		C501CCA018F48E40005A0B98 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
 		C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918918E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
@@ -1302,6 +1305,8 @@
 		C501CC5918F3042F005A0B98 /* number_9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "number_9@2x.png"; sourceTree = "<group>"; };
 		C501CC9618F337A0005A0B98 /* TSRoundRectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRoundRectButton.h; sourceTree = "<group>"; };
 		C501CC9718F337A0005A0B98 /* TSRoundRectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRoundRectButton.m; sourceTree = "<group>"; };
+		C501CC9C18F48E40005A0B98 /* TSLogoImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLogoImageView.h; path = Views/TSLogoImageView.h; sourceTree = "<group>"; };
+		C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLogoImageView.m; path = Views/TSLogoImageView.m; sourceTree = "<group>"; };
 		C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRoutePickerViewController.h; path = "View Controllers/Map/TSRoutePickerViewController.h"; sourceTree = "<group>"; };
 		C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoutePickerViewController.m; path = "View Controllers/Map/TSRoutePickerViewController.m"; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
@@ -1946,6 +1951,8 @@
 				C5B5634A18E8EA900013AF69 /* TSToolBarView.m */,
 				C5B5634E18E926C70013AF69 /* TSHitTestForwardingView.h */,
 				C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */,
+				C501CC9C18F48E40005A0B98 /* TSLogoImageView.h */,
+				C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -4044,6 +4051,7 @@
 				C56356F118EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C556477F18E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
+				C501CC9E18F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C563571018ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
@@ -4127,6 +4135,7 @@
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
+				C501CCA018F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C585F2E718DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C556478118E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C56356F818EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
@@ -4281,6 +4290,7 @@
 				C56356F218EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
 				C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */,
 				C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */,
+				C501CC9F18F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C5662BDA18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C563571118ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,

@@ -21,6 +21,7 @@
 #import "TSCircularButton.h"
 #import "TSRalewayFont.h"
 #import "TSBaseLabel.h"
+#import "TSLogoImageView.h"
 
 @interface TSBaseViewController : UIViewController
 
@@ -38,9 +39,9 @@
 @property (strong, nonatomic) UIToolbar *toolbar;
 @property (strong, nonatomic) UIImage *clearButtonImage;
 
-@property (strong, nonatomic) UIImageView *smallLogoImageView;
-@property (strong, nonatomic) UIImageView *largeLogoImageView;
-@property (strong, nonatomic) UIImageView *alternateLogoImageView;
+@property (strong, nonatomic) TSLogoImageView *smallLogoImageView;
+@property (strong, nonatomic) TSLogoImageView *largeLogoImageView;
+@property (strong, nonatomic) TSLogoImageView *alternateLogoImageView;
 
 @property (assign, nonatomic) BOOL showSmallLogoInNavBar;
 @property (assign, nonatomic) BOOL showLargeLogo;

@@ -9,10 +9,6 @@
 #import "TSBaseViewController.h"
 #import "TSGeofence.h"
 
-static NSString * const kBigTapShieldLogo = @"splash_logo_small";
-static NSString * const kBigAlternateTapShieldLogo = @"tapshield_icon";
-static NSString * const kSmallTapShieldLogo = @"tapshield_icon";
-
 @interface TSBaseViewController ()
 
 @end
@@ -106,17 +102,12 @@ static NSString * const kSmallTapShieldLogo = @"tapshield_icon";
     if (showLargeLogo) {
         
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyLogo;
-        if (!image) {
-            image = [UIImage imageNamed:kBigTapShieldLogo];
-        }
-        
-        _largeLogoImageView = [[UIImageView alloc] initWithImage:image];
-        _largeLogoImageView.contentMode = UIViewContentModeCenter;
+        _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
+        _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
         CGPoint center = _largeLogoImageView.center;
         center.x = self.view.bounds.size.width/2;
         center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
-        
         _largeLogoImageView.center = center;
         
         [self.view addSubview:_largeLogoImageView];
@@ -135,12 +126,8 @@ static NSString * const kSmallTapShieldLogo = @"tapshield_icon";
     if (showAlternateLogo) {
         
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyAlternateLogo;
-        if (!image) {
-            image = [UIImage imageNamed:kBigAlternateTapShieldLogo];
-        }
-        
-        _alternateLogoImageView = [[UIImageView alloc] initWithImage:image];
-        _alternateLogoImageView.contentMode = UIViewContentModeCenter;
+        _alternateLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
+        _alternateLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
         CGPoint center = _alternateLogoImageView.center;
         center.x = self.view.bounds.size.width/2;
@@ -164,12 +151,8 @@ static NSString * const kSmallTapShieldLogo = @"tapshield_icon";
     if (showSmallLogo) {
         
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
-        if (!image) {
-            image = [UIImage imageNamed:kSmallTapShieldLogo];
-        }
-        
-        _smallLogoImageView = [[UIImageView alloc] initWithImage:image];
-        _smallLogoImageView.contentMode = UIViewContentModeCenter;
+        _smallLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
+        _smallLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         self.navigationItem.titleView = _smallLogoImageView;
     }
     
@@ -179,26 +162,13 @@ static NSString * const kSmallTapShieldLogo = @"tapshield_icon";
 - (void)updateLogoImages {
     
     UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyLogo;
-    if (!image) {
-        image = [UIImage imageNamed:kBigTapShieldLogo];
-    }
-    _largeLogoImageView.image = image;
+    [_largeLogoImageView setImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
     
     image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyAlternateLogo;
-    if (!image) {
-        image = [UIImage imageNamed:kBigAlternateTapShieldLogo];
-    }
-    _alternateLogoImageView.image = image;
+    [_alternateLogoImageView setImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
     
     image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
-    if (!image) {
-        image = [UIImage imageNamed:kSmallTapShieldLogo];
-    }
-    _smallLogoImageView.image = image;
-    
-    [_largeLogoImageView setNeedsDisplay];
-    [_alternateLogoImageView setNeedsDisplay];
-    [_smallLogoImageView setNeedsDisplay];
+    [_smallLogoImageView setImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
 }
 
 #pragma mark - Table View Customization

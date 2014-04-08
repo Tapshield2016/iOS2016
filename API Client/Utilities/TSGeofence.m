@@ -201,7 +201,7 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     
     double distance = -1;
     
-    if (_nearbyAgencies) {
+    if (_nearbyAgencies.count > 0) {
         for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
             
             if (distance < 0) {
@@ -229,7 +229,7 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
         
         if ([TSGeofence isWithinBoundariesWithOverhang:currentLocation agency:agency]) {
-            _currentAgency = agency;
+            self.currentAgency = agency;
             
             [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:agency userInfo:nil];
             
@@ -249,6 +249,31 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     
     if (completion) {
         completion(nil);
+    }
+}
+
+
+#pragma mark - Agency Updates
+
+- (void)setCurrentAgency:(TSJavelinAPIAgency *)currentAgency {
+    _currentAgency = currentAgency;
+    
+    if (!_currentAgency.agencyLogo) {
+        [_currentAgency addObserver:self forKeyPath:@"agencyLogo" options: 0  context: NULL];
+    }
+    if (!_currentAgency.agencyAlternateLogo) {
+        [_currentAgency addObserver:self forKeyPath:@"agencyAlternateLogo" options: 0  context: NULL];
+    }
+    if (!_currentAgency.agencySmallLogo) {
+        [_currentAgency addObserver:self forKeyPath:@"agencySmallLogo" options: 0  context: NULL];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+//    [object removeObserver:self forKeyPath:keyPath];
+    if (_currentAgency) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:object userInfo:nil];
     }
 }
 

@@ -145,7 +145,7 @@
     [imageView setImageWithURLRequest:request
                           placeholderImage:[UIImage imageNamed:@""]
                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                       _agencyLogo = image;
+                                       self.agencyLogo = image;
                                    } failure:nil];
 }
 
@@ -165,7 +165,7 @@
     [imageView setImageWithURLRequest:request
                      placeholderImage:[UIImage imageNamed:@""]
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                  _agencySmallLogo = image;
+                                  self.agencySmallLogo = image;
                               } failure:nil];
 }
 
@@ -185,7 +185,7 @@
     [imageView setImageWithURLRequest:request
                      placeholderImage:[UIImage imageNamed:@""]
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                  _agencyAlternateLogo = image;
+                                  self.agencyAlternateLogo = image;
                               } failure:nil];
 }
 

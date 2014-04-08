@@ -20,6 +20,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor clearColor]];
+    
+    self.showLargeLogo = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

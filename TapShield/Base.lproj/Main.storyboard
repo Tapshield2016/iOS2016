@@ -2483,7 +2483,7 @@ Last Updated: 12/12/13
                                     <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="sendEmergency:" destination="b9r-js-Ebz" eventType="touchUpInside" id="Y2f-aQ-9i5"/>
+                                    <action selector="showAlertScreen:" destination="b9r-js-Ebz" eventType="touchUpInside" id="boc-2H-sp4"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2497,6 +2497,7 @@ Last Updated: 12/12/13
                         <outlet property="codeCircle4" destination="T24-kI-ike" id="2tS-8K-KTD"/>
                         <outlet property="codeCircleContainerView" destination="Ygi-1j-xgJ" id="eWr-I2-3pD"/>
                         <outlet property="disarmTextField" destination="WPv-8p-cbI" id="M1J-l9-Bse"/>
+                        <outlet property="emergencyButton" destination="h6o-QC-7yl" id="ZP7-Vs-yBL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyT-m2-bpk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2555,7 +2556,7 @@ Last Updated: 12/12/13
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="PII-uM-BPN" customClass="TSRoundRectButton">
-                                <rect key="frame" x="60" y="340" width="200" height="40"/>
+                                <rect key="frame" x="60" y="350" width="200" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Add alert details">
@@ -2593,10 +2594,24 @@ Last Updated: 12/12/13
                                 <rect key="frame" x="121" y="186" width="9" height="10"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTo-qy-jXh" customClass="TSBaseButton">
+                                <rect key="frame" x="0.0" y="20" width="75" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Disarm">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="showAlertScreen:" destination="b9r-js-Ebz" eventType="touchUpInside" id="Fek-Dz-ibv"/>
+                                    <action selector="showDisarmView:" destination="cif-Vi-G9b" eventType="touchUpInside" id="ykl-yb-18T"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
                         <outlet property="alertInfoLabel" destination="QSq-fJ-zTK" id="wWZ-qB-nNt"/>
                         <outlet property="callTimeLabel" destination="8kF-K0-9yM" id="oQv-2s-dzA"/>

@@ -62,7 +62,6 @@
 - (void)scheduleSendEmergencyTimer {
     
     if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
-        _emergencyButton.hidden = YES;
         return;
     }
     
@@ -81,25 +80,27 @@
     
     if ([(NSDate *)timer.userInfo timeIntervalSinceNow] <= -10) {
         [_sendEmergencyTimer invalidate];
-        [self performSelector:@selector(sendEmergency:) withObject:timer];
+        [self performSelector:@selector(showAlertScreen:) withObject:timer];
     }
 }
 
-- (IBAction)sendEmergency:(id)sender {
+- (IBAction)showAlertScreen:(id)sender {
     
     [(TSPageViewController *)self.parentViewController showAlertScreen];
+}
+
+- (void)sendEmergency {
     
-    _isSendingAlert = YES;
+    [_sendEmergencyTimer invalidate];
+    [_emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
     
-    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
-        [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:location completion:^(BOOL success) {
-            if (success) {
-                
-            }
-            else {
-                
-            }
-        }];
+    [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL success) {
+        if (success) {
+            
+        }
+        else {
+            
+        }
     }];
 }
 

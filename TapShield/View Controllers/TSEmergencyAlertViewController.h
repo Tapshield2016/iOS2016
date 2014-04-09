@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *redialButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *chatButton;
 
+- (IBAction)showDisarmView:(id)sender;
 - (IBAction)speakerPhoneToggle:(id)sender;
 - (IBAction)redialPhoneNumber:(id)sender;
 - (IBAction)showChatViewController:(id)sender;

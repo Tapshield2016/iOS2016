@@ -40,6 +40,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)showDisarmView:(id)sender {
+    
+    [(TSPageViewController *)self.parentViewController showDisarmViewController];
+}
+
 - (IBAction)speakerPhoneToggle:(id)sender {
 }
 

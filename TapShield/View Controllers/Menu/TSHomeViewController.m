@@ -17,6 +17,7 @@
 #import "TSOrganizationAnnotationView.h"
 #import "TSUserAnnotationView.h"
 #import "TSDestinationAnnotation.h"
+#import "TSPageViewController.h"
 
 @interface TSHomeViewController ()
 
@@ -126,7 +127,12 @@
 
 - (IBAction)sendAlert:(id)sender {
     
-    [self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+    TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+    pageview.homeViewController = self;
+    
+    self.isTrackingUser = YES;
+    
+    [self showOnlyMap];
 }
 
 - (IBAction)openChatWindow:(id)sender {
@@ -136,8 +142,8 @@
 
 - (IBAction)displayVirtualEntourage:(id)sender {
     
-    UIViewController *viewController = [self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
-    ((TSDestinationSearchViewController *)viewController).homeViewController = self;
+    TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
+    viewController.homeViewController = self;
     
     [self showOnlyMap];
 }

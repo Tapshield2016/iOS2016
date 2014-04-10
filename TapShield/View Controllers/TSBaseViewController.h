@@ -29,6 +29,9 @@
 
 - (UIViewController *)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated;
 
+- (void)whiteNavigationBar;
+- (void)blackNavigationBar;
+
 - (void)customizeSearchBarAppearance:(UISearchBar *)searchBar;
 - (void)changeClearButtonStyle:(UISearchBar *)searchBar;
 - (void)customizeTableView:(UITableView *)tableView;

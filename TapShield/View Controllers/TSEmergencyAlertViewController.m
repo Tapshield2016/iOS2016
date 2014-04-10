@@ -8,8 +8,15 @@
 
 #import "TSEmergencyAlertViewController.h"
 #import "TSPageViewController.h"
+#import "TSVoipViewController.h"
+
+static NSString * const kAlertSent = @"Alert was sent";
+static NSString * const kAlertReceived = @"The authorities have been notified";
 
 @interface TSEmergencyAlertViewController ()
+
+@property (strong, nonatomic) TSVoipViewController *voipController;
+@property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
 
 @end
 
@@ -22,16 +29,38 @@
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.showLargeLogo = YES;
+    self.translucentBackground = YES;
+    
+    CGRect frame = self.view.frame;
+    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.toolbar.frame = frame;
+    
+    [self.view bringSubviewToFront:self.toolbar];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertRecieved:) name:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:nil];
+    
+    [self.view addSubview:_voipController.view];
+    
+    _alertInfoLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0, 64, 320, 44)];
+    _alertInfoLabel.textColor = [UIColor whiteColor];
+    _alertInfoLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    _alertInfoLabel.textAlignment = NSTextAlignmentCenter;
+    [_alertInfoLabel setAdjustsFontSizeToFitWidth:YES];
+    
+    [self.view addSubview: _alertInfoLabel];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
-    if (!self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-    }
-    self.navigationController.navigationBar.topItem.title = self.title;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [self revealBottomButtons];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,20 +69,141 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)showDisarmView:(id)sender {
+- (void)revealBottomButtons {
     
-    [(TSPageViewController *)self.parentViewController showDisarmViewController];
+    if (self.toolbar.frame.size.height != self.view.frame.size.height) {
+        return;
+    }
+    
+    [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.toolbar.frame = CGRectMake(0.0, self.toolbar.frame.origin.y, self.view.frame.size.width*2, self.navigationController.navigationBar.frame.size.height);
+    } completion:nil];
 }
 
-- (IBAction)speakerPhoneToggle:(id)sender {
+#pragma mark - Alert Methods
+
+- (void)scheduleSendEmergencyTimer {
+    
+    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
+        return;
+    }
+    
+    if (!_sendEmergencyTimer) {
+        _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                               target:self
+                                                             selector:@selector(emergencyTimerCountdown:)
+                                                             userInfo:[NSDate date]
+                                                              repeats:YES];
+    }
 }
 
-- (IBAction)redialPhoneNumber:(id)sender {
+- (void)emergencyTimerCountdown:(NSTimer *)timer {
+    
+    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+    
+    
+    
+    if ([(NSDate *)timer.userInfo timeIntervalSinceNow] <= -10) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_sendEmergencyTimer invalidate];
+            [(TSPageViewController *)_pageViewController showAlertViewController];
+        });
+    }
 }
+
+- (void)sendEmergency {
+    
+    [_sendEmergencyTimer invalidate];
+    
+    [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
+    
+    [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL success) {
+        if (success) {
+            [self updateAlertInfoLabel:kAlertSent];
+            [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
+        }
+        else {
+            
+        }
+    }];
+}
+
+- (void)alertRecieved:(NSNotification *)notification {
+    
+    [self updateAlertInfoLabel:kAlertReceived];
+}
+
+- (void)updateAlertInfoLabel:(NSString *)string {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view bringSubviewToFront:_alertInfoLabel];
+        [_alertInfoLabel setText:string withAnimationType:kCATransitionPush direction:kCATransitionFromBottom duration:0.3];
+    });
+}
+
+
+#pragma mark - Button Actions
 
 - (IBAction)showChatViewController:(id)sender {
     
-    UIViewController *viewController = ((TSPageViewController *)self.parentViewController).chatViewController;
-    [self.navigationController pushViewController:viewController animated:YES];
+    UIViewController *viewController = ((TSPageViewController *)_pageViewController).chatViewController;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
+
+
+- (IBAction)addAlertDetails:(id)sender {
+    
+    
+}
+
+- (IBAction)callDispatcher:(id)sender {
+    
+//    [self presentViewControllerWithClass:[TSVoipViewController class] transitionDelegate:nil animated:YES];
+    
+    _voipController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSVoipViewController class])];
+    _voipController.emergencyView = self;
+    [self.view addSubview:_voipController.view];
+    
+    CGRect frame = self.view.frame;
+    frame.origin.y = frame.size.height;
+    _voipController.view.frame = frame;
+    
+    CGRect toolbarFrame = self.toolbar.frame;
+    toolbarFrame.size.height *= 3;
+    
+    CGRect infoLabelFrame = _alertInfoLabel.frame;
+    infoLabelFrame.origin.y += 88;
+
+    [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.toolbar.frame = toolbarFrame;
+        _alertInfoLabel.frame = infoLabelFrame;
+        _voipController.view.frame = self.view.frame;
+
+    } completion:^(BOOL finished) {
+        [self hideRedButtons];
+    }];
+}
+
+- (void)hideRedButtons {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        _alertButtonView.alpha = 0.0f;
+        _detailsButtonView.alpha = 0.0f;
+        _chatButtonView.alpha = 0.0f;
+        
+        _voipController.timeView .alpha = 1.0f;
+        _voipController.phoneNumberLabel .alpha = 1.0f;
+        _voipController.dispatcherLabel .alpha = 1.0f;
+    }];
+}
+
+- (void)showRedButtons {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        _alertButtonView.alpha = 1.0f;
+        _detailsButtonView.alpha = 1.0f;
+        _chatButtonView.alpha = 1.0f;
+    }];
+}
+
 @end

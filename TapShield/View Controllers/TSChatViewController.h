@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSTextMessageBarView.h"
 #import "TSObservingInputAccessoryView.h"
 

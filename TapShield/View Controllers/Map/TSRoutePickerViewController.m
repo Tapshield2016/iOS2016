@@ -101,8 +101,11 @@
         return;
     }
     
-    _addressLabel.text = selectedRouteOption.route.name;
-    _etaLabel.text = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:selectedRouteOption.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:selectedRouteOption.route.distance]];
+    
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:selectedRouteOption.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:selectedRouteOption.route.distance]];
+    
+    [_addressLabel setText:selectedRouteOption.route.name withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+    [_etaLabel setText:formattedText withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
 }
 
 
@@ -110,8 +113,8 @@
 
 - (void)transportTypeSegmentedControlValueChanged:(id)sender {
     
-    _addressLabel.text = @"Re-routing";
-    _etaLabel.text = @"";
+    [_addressLabel setText:@"Re-routing" withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+    [_etaLabel setText:@"" withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
     
     switch ([_directionsTypeSegmentedControl selectedSegmentIndex]) {
             
@@ -147,6 +150,7 @@
     
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+        
         if (!error) {
             NSLog(@"%@", response);
             completion(response.expectedTravelTime);
@@ -172,6 +176,8 @@
         return;
     }
     
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     [self showAnnotationsWithPadding:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.entourageManager.destinationAnnotation]];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
@@ -188,6 +194,8 @@
     
     _directions = [[MKDirections alloc] initWithRequest:request];
     [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
         if (!error) {
             _homeViewController.entourageManager.routes = [response routes];
             [_homeViewController.entourageManager addRouteOverlaysToMapViewAndAnnotations];
@@ -195,8 +203,8 @@
             _nextButton.enabled = YES;
         }
         else {
-            _addressLabel.text = error.localizedDescription;
-            _etaLabel.text = error.localizedFailureReason;
+            [_addressLabel setText:error.localizedDescription withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+            [_etaLabel setText:error.localizedFailureReason withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
         }
     }];
 }

@@ -24,15 +24,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 @implementation TSDestinationSearchViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -243,8 +234,16 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     _searchResults = nil;
     [_tableView reloadData];
     
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     _search = [[MKLocalSearch alloc] initWithRequest:request];
     [_search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        if (error) {
+            NSLog(@"%@ - %@", error.localizedFailureReason, error.localizedDescription);
+        }
         if ([response.mapItems count] > 0) {
             _searchResults = response.mapItems;
             [_tableView reloadData];
@@ -263,6 +262,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
     [cell showDetailsForMapItem:mapItem];
+    [cell boldSearchString:(NSString *)_searchBar.text];
     
     return cell;
 }
@@ -315,6 +315,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     else {
         [_search cancel];
         [self showPreviousSelections];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     }
 }
 

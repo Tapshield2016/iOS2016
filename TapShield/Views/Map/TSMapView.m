@@ -110,8 +110,8 @@
     
     MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     circleRenderer.lineWidth = 1.0;
-    circleRenderer.strokeColor = [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.1f];
-    circleRenderer.fillColor = [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.1f];
+    circleRenderer.strokeColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
+    circleRenderer.fillColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
     
     return circleRenderer;
 }
@@ -168,20 +168,10 @@
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation {
     //get a frame around the annotation
     CLLocation *location = [TSLocationController sharedLocationController].location;
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, location.horizontalAccuracy*2, location.horizontalAccuracy*2);
-    CGRect rect = [self  convertRegion:region toRectToView:self];
-    //set up the animated overlay
-    if(!_animatedOverlay){
-        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
-    }
-    else{
-        [_animatedOverlay setFrame:rect];
-    }
+    
+    [self resetAnimatedOverlayAt:location];
     //add to the map and start the animation
     [self addSubview:_animatedOverlay];
-    [_animatedOverlay startAnimatingWithColor:[UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f]
-                                    andFrame:rect];
-    [_animatedOverlay setUserInteractionEnabled:NO];
 }
 
 - (void)removeAnimatedOverlay {
@@ -194,14 +184,24 @@
 - (void)resetAnimatedOverlayAt:(CLLocation *)location {
     
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, location.horizontalAccuracy*2, location.horizontalAccuracy*2);
+    UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
+    
+    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
+        color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
+        region = MKCoordinateRegionMakeWithDistance(location.coordinate, 5000, 5000);
+    }
     CGRect rect = [self  convertRegion:region toRectToView:self];
     //set up the animated overlay
-    if(_animatedOverlay){
+    if(!_animatedOverlay){
+        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
+    }
+    else{
         [_animatedOverlay setFrame:rect];
     }
     [_animatedOverlay stopAnimating];
-    [_animatedOverlay startAnimatingWithColor:[UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:0.35f]
+    [_animatedOverlay startAnimatingWithColor:color
                                     andFrame:rect];
+    [_animatedOverlay setUserInteractionEnabled:NO];
 }
 
 @end

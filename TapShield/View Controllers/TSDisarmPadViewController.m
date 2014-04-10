@@ -20,19 +20,19 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.showLargeLogo = YES;
+    
+    self.translucentBackground = YES;
+    CGRect frame = self.view.frame;
+    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    frame.origin.x -= frame.size.width;
+    frame.size.width += frame.size.width;
+    self.toolbar.frame = frame;
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     _codeCircleArray = @[_codeCircle1, _codeCircle2, _codeCircle3, _codeCircle4];
     
     _disarmTextField.text = @"";
-    
-//    _swipeViewController = [[TSGradientSwipeViewController alloc] initWithTitleText:@"send alert"];
-//    _swipeViewController.view.frame = _swipeLabelView.bounds;
-//    _swipeViewController.label.frame = _swipeLabelView.bounds;
-//    _swipeViewController.imageView.frame = _swipeLabelView.bounds;
-//    [_swipeLabelView addSubview:_swipeViewController.view];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,64 +44,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    if (!self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    [self scheduleSendEmergencyTimer];
-}
-
-#pragma mark - Emergency Alert
-
-- (void)scheduleSendEmergencyTimer {
-    
-    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
-        return;
-    }
-    
-    if (!_sendEmergencyTimer) {
-        _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
-                                                               target:self
-                                                             selector:@selector(emergencyTimerCountdown:)
-                                                             userInfo:[NSDate date]
-                                                              repeats:YES];
-    }
-}
-
-- (void)emergencyTimerCountdown:(NSTimer *)timer {
-    
-    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
-    
-    if ([(NSDate *)timer.userInfo timeIntervalSinceNow] <= -10) {
-        [_sendEmergencyTimer invalidate];
-        [self performSelector:@selector(showAlertScreen:) withObject:timer];
-    }
-}
-
-- (IBAction)showAlertScreen:(id)sender {
-    
-    [(TSPageViewController *)self.parentViewController showAlertScreen];
-}
-
-- (void)sendEmergency {
-    
-    [_sendEmergencyTimer invalidate];
-    [_emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
-    
-    [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL success) {
-        if (success) {
-            
-        }
-        else {
-            
-        }
-    }];
 }
 
 #pragma mark - Disarm Code
@@ -156,7 +104,7 @@
     }
     
     if ([_disarmTextField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [_sendEmergencyTimer invalidate];
+        [((TSPageViewController *)self.parentViewController).emergencyAlertViewController.sendEmergencyTimer invalidate];
         [[TSJavelinAPIClient sharedClient] disarmAlert];
         [[TSJavelinAPIClient sharedClient] cancelAlert];
         
@@ -167,11 +115,11 @@
         
         [((TSPageViewController *)self.parentViewController).toolbar setTranslucent:NO];
         [((TSPageViewController *)self.parentViewController).toolbar setAlpha:0.5f];
-        
-        [self dismissViewControllerAnimated:YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-            [parentNavigationController setNavigationBarHidden:NO animated:YES];
-        }];
+        [((TSPageViewController *)self.parentViewController).homeViewController viewWillAppear:NO];
+        [((TSPageViewController *)self.parentViewController).homeViewController viewDidAppear:NO];
+        [((TSPageViewController *)self.parentViewController).homeViewController whiteNavigationBar];
+        [((TSPageViewController *)self.parentViewController).homeViewController clearEntourageAndResetMap];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     else {
         [self shakeDisarmCircles];

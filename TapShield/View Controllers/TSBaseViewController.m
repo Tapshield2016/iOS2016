@@ -108,9 +108,10 @@
         CGPoint center = _largeLogoImageView.center;
         center.x = self.view.bounds.size.width/2;
         center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
-        _largeLogoImageView.center = center;
+//        _largeLogoImageView.center = center;
         
-        [self.view addSubview:_largeLogoImageView];
+//        [self.view addSubview:_largeLogoImageView];
+        self.navigationItem.titleView = _largeLogoImageView;
     }
     else {
         [_largeLogoImageView removeFromSuperview];
@@ -135,7 +136,8 @@
         
         _alternateLogoImageView.center = center;
         
-        [self.view addSubview:_alternateLogoImageView];
+//        [self.view addSubview:_alternateLogoImageView];
+        self.navigationItem.titleView = _alternateLogoImageView;
     }
     else {
         [_alternateLogoImageView removeFromSuperview];
@@ -169,6 +171,30 @@
     
     image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
     [_smallLogoImageView setImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
+}
+
+#pragma mark - Nav Bars
+
+- (void)whiteNavigationBar {
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
+    [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
+}
+
+- (void)blackNavigationBar {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    [UINavigationBar appearance].tintColor = [TSColorPalette whiteColor];
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette whiteColor], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette whiteColor], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.5] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
 }
 
 #pragma mark - Table View Customization

@@ -98,7 +98,7 @@
     if (_identicalAccessoryViewShown) {
         //pass hit test on to the identical view attached to keyboard
         point = CGPointMake(point.x, point.y + Keyboard_Height);
-        hitView = [_identicalAccessoryView hitTest:point withEvent:event];
+        hitView = [_identicalAccessoryView.superview hitTest:point withEvent:event];
     }
     
     return hitView;

@@ -9,7 +9,6 @@
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
 #import "TSNavigationViewController.h"
-#import "TSPageViewController.h"
 #import "TSVirtualEntourageManager.h"
 
 

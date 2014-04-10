@@ -32,4 +32,15 @@
     return self;
 }
 
+- (void)setTitle:(NSString *)title forState:(UIControlState)state {
+        
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.75;
+    [self.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    
+    [super setTitle:title forState:state];
+}
+
 @end

@@ -100,6 +100,57 @@
     _pinImageView.frame = pinFrame;
 }
 
+- (void)boldSearchString:(NSString *)searchString {
+    
+    CGFloat fontSize = _nameLabel.font.pointSize;
+    UIFont *boldFont = [TSRalewayFont fontWithName:kFontRalewayBold size:fontSize];
+    UIFont *regularFont = _nameLabel.font;
+    UIColor *foregroundColor = _nameLabel.textColor;
+    
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                           regularFont, NSFontAttributeName,
+                           foregroundColor, NSForegroundColorAttributeName, nil];
+    NSDictionary *subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                              boldFont, NSFontAttributeName,
+                              foregroundColor, NSForegroundColorAttributeName, nil];
+    NSMutableAttributedString *attributedText =
+    [[NSMutableAttributedString alloc] initWithString:_nameLabel.text
+                                           attributes:attrs];
+    
+    for (NSString *string in [searchString componentsSeparatedByString:@" "]) {
+        if (string.length == 0) {
+            continue;
+        }
+        NSRange range = [[_nameLabel.text lowercaseString] rangeOfString:[string lowercaseString]];
+        [attributedText setAttributes:subAttrs range:range];
+    }
+    [_nameLabel setAttributedText:attributedText];
+    
+    fontSize = _addressLabel.font.pointSize;
+    boldFont = [TSRalewayFont fontWithName:kFontRalewayBold size:fontSize];
+    regularFont = _addressLabel.font;
+    foregroundColor = _addressLabel.textColor;
+    
+    attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                           regularFont, NSFontAttributeName,
+                           foregroundColor, NSForegroundColorAttributeName, nil];
+    subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                              boldFont, NSFontAttributeName,
+                              foregroundColor, NSForegroundColorAttributeName, nil];
+    attributedText =
+    [[NSMutableAttributedString alloc] initWithString:_addressLabel.text
+                                           attributes:attrs];
+    
+    for (NSString *string in [searchString componentsSeparatedByString:@" "]) {
+        if (string.length == 0) {
+            continue;
+        }
+        NSRange range = [[_addressLabel.text lowercaseString] rangeOfString:[string lowercaseString]];
+        [attributedText setAttributes:subAttrs range:range];
+    }
+    [_addressLabel setAttributedText:attributedText];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

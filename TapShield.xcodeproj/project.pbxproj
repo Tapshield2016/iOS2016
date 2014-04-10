@@ -1155,6 +1155,36 @@
 		C5B5635018E926C70013AF69 /* TSHitTestForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */; };
 		C5B5635118E926C70013AF69 /* TSHitTestForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */; };
 		C5B5635218E926C70013AF69 /* TSHitTestForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */; };
+		C5BBF30118F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF30018F63EBE008B5CB2 /* TSBottomMapAlertButton.m */; };
+		C5BBF30218F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF30018F63EBE008B5CB2 /* TSBottomMapAlertButton.m */; };
+		C5BBF30318F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF30018F63EBE008B5CB2 /* TSBottomMapAlertButton.m */; };
+		C5BBF30618F66A44008B5CB2 /* TSVoipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */; };
+		C5BBF30718F66A44008B5CB2 /* TSVoipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */; };
+		C5BBF30818F66A44008B5CB2 /* TSVoipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */; };
+		C5BBF31218F6FCD7008B5CB2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30A18F6FCD6008B5CB2 /* Icon-40.png */; };
+		C5BBF31318F6FCD7008B5CB2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30A18F6FCD6008B5CB2 /* Icon-40.png */; };
+		C5BBF31418F6FCD7008B5CB2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30A18F6FCD6008B5CB2 /* Icon-40.png */; };
+		C5BBF31518F6FCD7008B5CB2 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30B18F6FCD6008B5CB2 /* Icon-40@2x.png */; };
+		C5BBF31618F6FCD7008B5CB2 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30B18F6FCD6008B5CB2 /* Icon-40@2x.png */; };
+		C5BBF31718F6FCD7008B5CB2 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30B18F6FCD6008B5CB2 /* Icon-40@2x.png */; };
+		C5BBF31818F6FCD7008B5CB2 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30C18F6FCD6008B5CB2 /* Icon-60.png */; };
+		C5BBF31918F6FCD7008B5CB2 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30C18F6FCD6008B5CB2 /* Icon-60.png */; };
+		C5BBF31A18F6FCD7008B5CB2 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30C18F6FCD6008B5CB2 /* Icon-60.png */; };
+		C5BBF31B18F6FCD7008B5CB2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30D18F6FCD6008B5CB2 /* Icon-60@2x.png */; };
+		C5BBF31C18F6FCD7008B5CB2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30D18F6FCD6008B5CB2 /* Icon-60@2x.png */; };
+		C5BBF31D18F6FCD7008B5CB2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30D18F6FCD6008B5CB2 /* Icon-60@2x.png */; };
+		C5BBF31E18F6FCD7008B5CB2 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30E18F6FCD7008B5CB2 /* Icon-76.png */; };
+		C5BBF31F18F6FCD7008B5CB2 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30E18F6FCD7008B5CB2 /* Icon-76.png */; };
+		C5BBF32018F6FCD7008B5CB2 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30E18F6FCD7008B5CB2 /* Icon-76.png */; };
+		C5BBF32118F6FCD7008B5CB2 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30F18F6FCD7008B5CB2 /* Icon-76@2x.png */; };
+		C5BBF32218F6FCD7008B5CB2 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30F18F6FCD7008B5CB2 /* Icon-76@2x.png */; };
+		C5BBF32318F6FCD7008B5CB2 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF30F18F6FCD7008B5CB2 /* Icon-76@2x.png */; };
+		C5BBF32418F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF31018F6FCD7008B5CB2 /* iTunesArtwork.png */; };
+		C5BBF32518F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF31018F6FCD7008B5CB2 /* iTunesArtwork.png */; };
+		C5BBF32618F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF31018F6FCD7008B5CB2 /* iTunesArtwork.png */; };
+		C5BBF32718F6FCD7008B5CB2 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF31118F6FCD7008B5CB2 /* iTunesArtwork@2x.png */; };
+		C5BBF32818F6FCD7008B5CB2 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF31118F6FCD7008B5CB2 /* iTunesArtwork@2x.png */; };
+		C5BBF32918F6FCD7008B5CB2 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5BBF31118F6FCD7008B5CB2 /* iTunesArtwork@2x.png */; };
 		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C1706918ABEFFC00EEFBD6 /* location1.png */; };
@@ -1726,6 +1756,18 @@
 		C5B5634A18E8EA900013AF69 /* TSToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSToolBarView.m; path = Views/TSToolBarView.m; sourceTree = "<group>"; };
 		C5B5634E18E926C70013AF69 /* TSHitTestForwardingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSHitTestForwardingView.h; sourceTree = "<group>"; };
 		C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSHitTestForwardingView.m; sourceTree = "<group>"; };
+		C5BBF2FF18F63EBE008B5CB2 /* TSBottomMapAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBottomMapAlertButton.h; path = Views/Map/Buttons/TSBottomMapAlertButton.h; sourceTree = "<group>"; };
+		C5BBF30018F63EBE008B5CB2 /* TSBottomMapAlertButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBottomMapAlertButton.m; path = Views/Map/Buttons/TSBottomMapAlertButton.m; sourceTree = "<group>"; };
+		C5BBF30418F66A44008B5CB2 /* TSVoipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSVoipViewController.h; sourceTree = "<group>"; };
+		C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSVoipViewController.m; sourceTree = "<group>"; };
+		C5BBF30A18F6FCD6008B5CB2 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
+		C5BBF30B18F6FCD6008B5CB2 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
+		C5BBF30C18F6FCD6008B5CB2 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
+		C5BBF30D18F6FCD6008B5CB2 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
+		C5BBF30E18F6FCD7008B5CB2 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		C5BBF30F18F6FCD7008B5CB2 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		C5BBF31018F6FCD7008B5CB2 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		C5BBF31118F6FCD7008B5CB2 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1706918ABEFFC00EEFBD6 /* location1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location1.png; path = Images/location1.png; sourceTree = "<group>"; };
@@ -2634,10 +2676,12 @@
 		C585F1CE18D0B2E6009EEF16 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */,
-				C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */,
+				C5BBF2FF18F63EBE008B5CB2 /* TSBottomMapAlertButton.h */,
+				C5BBF30018F63EBE008B5CB2 /* TSBottomMapAlertButton.m */,
 				C556477D18E3B1A300D29B0D /* TSBottomMapButton.h */,
 				C556477E18E3B1A300D29B0D /* TSBottomMapButton.m */,
+				C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */,
+				C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -2841,9 +2885,26 @@
 			name = SpotCrime;
 			sourceTree = "<group>";
 		};
+		C5BBF30918F6FCD6008B5CB2 /* ios_icon_tapshield */ = {
+			isa = PBXGroup;
+			children = (
+				C5BBF30A18F6FCD6008B5CB2 /* Icon-40.png */,
+				C5BBF30B18F6FCD6008B5CB2 /* Icon-40@2x.png */,
+				C5BBF30C18F6FCD6008B5CB2 /* Icon-60.png */,
+				C5BBF30D18F6FCD6008B5CB2 /* Icon-60@2x.png */,
+				C5BBF30E18F6FCD7008B5CB2 /* Icon-76.png */,
+				C5BBF30F18F6FCD7008B5CB2 /* Icon-76@2x.png */,
+				C5BBF31018F6FCD7008B5CB2 /* iTunesArtwork.png */,
+				C5BBF31118F6FCD7008B5CB2 /* iTunesArtwork@2x.png */,
+			);
+			name = ios_icon_tapshield;
+			path = Images/ios_icon_tapshield;
+			sourceTree = "<group>";
+		};
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5BBF30918F6FCD6008B5CB2 /* ios_icon_tapshield */,
 				C501CC4518F3042E005A0B98 /* TapShield_alert_code_iPhone_assets */,
 				C556477C18E3790C00D29B0D /* Old */,
 				C55644FE18E378DE00D29B0D /* 07_arrivaltime_view_iPhone_assets */,
@@ -2897,6 +2958,8 @@
 				C5391EBC18CA238D00C23C0A /* TSPageViewController.m */,
 				C5391EC018CA34F800C23C0A /* TSChatViewController.h */,
 				C5391EC118CA34F800C23C0A /* TSChatViewController.m */,
+				C5BBF30418F66A44008B5CB2 /* TSVoipViewController.h */,
+				C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */,
 			);
 			name = Alert;
 			sourceTree = "<group>";
@@ -3041,6 +3104,7 @@
 				C55645FC18E378DF00D29B0D /* avatar_icon.png in Resources */,
 				C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C55645A518E378DF00D29B0D /* user_default_icon@2x.png in Resources */,
+				C5BBF31218F6FCD7008B5CB2 /* Icon-40.png in Resources */,
 				C55645E418E378DF00D29B0D /* route_car_icon_active.png in Resources */,
 				C55645AB18E378DF00D29B0D /* user_new_icon@2x.png in Resources */,
 				C556465C18E378DF00D29B0D /* bubble_other_icon.png in Resources */,
@@ -3073,6 +3137,7 @@
 				C501CC7518F3042F005A0B98 /* number_4@2x.png in Resources */,
 				C55646CB18E378DF00D29B0D /* pins_brokenbone_icon@2x.png in Resources */,
 				C5372DEB18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
+				C5BBF31E18F6FCD7008B5CB2 /* Icon-76.png in Resources */,
 				C585F22C18DA2A3B009EEF16 /* input_phone_icon@2x.png in Resources */,
 				C55645CF18E378DF00D29B0D /* bubble_time_LB_icon@2x.png in Resources */,
 				C556467718E378DF00D29B0D /* pin_details_bg@2x.png in Resources */,
@@ -3087,6 +3152,7 @@
 				C585F26E18DA2A3B009EEF16 /* email_icon@2x.png in Resources */,
 				C501CC6018F3042F005A0B98 /* number_1.png in Resources */,
 				C501CC6318F3042F005A0B98 /* number_1@2x.png in Resources */,
+				C5BBF32418F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */,
 				C556466818E378DF00D29B0D /* bubble_theft_icon.png in Resources */,
 				C585F23E18DA2A3B009EEF16 /* pag_dot_active@2x.png in Resources */,
 				C55646EF18E378DF00D29B0D /* pins_heartattack_icon@2x.png in Resources */,
@@ -3226,6 +3292,7 @@
 				C585F23B18DA2A3B009EEF16 /* pag_dot_active.png in Resources */,
 				C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */,
 				C55645DE18E378DF00D29B0D /* bubble_time_RT_icon.png in Resources */,
+				C5BBF31B18F6FCD7008B5CB2 /* Icon-60@2x.png in Resources */,
 				C556471018E378DF00D29B0D /* pins_theft_icon.png in Resources */,
 				C556468318E378DF00D29B0D /* time_icon@2x.png in Resources */,
 				C585F24118DA2A3B009EEF16 /* pag_dot_inactive.png in Resources */,
@@ -3258,6 +3325,7 @@
 				C556472218E378DF00D29B0D /* tapshield_icon.png in Resources */,
 				C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */,
 				C55646D418E378DF00D29B0D /* pins_chocking_icon.png in Resources */,
+				C5BBF31818F6FCD7008B5CB2 /* Icon-60.png in Resources */,
 				C585F30C18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C585F24D18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C585F2A118DA2A3B009EEF16 /* btn_yes_no_normal.png in Resources */,
@@ -3281,6 +3349,7 @@
 				C556465918E378DF00D29B0D /* bubble_highfever_icon@2x.png in Resources */,
 				C556475E18E378DF00D29B0D /* profile_menu_icon_active.png in Resources */,
 				C585F25918DA2A3B009EEF16 /* btn_big_circle_pressed.png in Resources */,
+				C5BBF32118F6FCD7008B5CB2 /* Icon-76@2x.png in Resources */,
 				C5372DD318B2CD8A00D22682 /* twitterIcon.png in Resources */,
 				C585F2BC18DA2A3B009EEF16 /* progress_bar_s2@2x.png in Resources */,
 				C55646DA18E378DF00D29B0D /* pins_cpr1_icon.png in Resources */,
@@ -3293,7 +3362,9 @@
 				C556465618E378DF00D29B0D /* bubble_highfever_icon.png in Resources */,
 				C55646EC18E378DF00D29B0D /* pins_heartattack_icon.png in Resources */,
 				C57C48AD18BBC32100DFFBCE /* no_image.png in Resources */,
+				C5BBF32718F6FCD7008B5CB2 /* iTunesArtwork@2x.png in Resources */,
 				C585F26218DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
+				C5BBF31518F6FCD7008B5CB2 /* Icon-40@2x.png in Resources */,
 				C55645AE18E378DF00D29B0D /* user_tick_icon.png in Resources */,
 				C5372E0718B3126000D22682 /* EmailEnvelope.png in Resources */,
 			);
@@ -3371,6 +3442,7 @@
 				C55645CB18E378DF00D29B0D /* bubble_time2_RT_icon@2x.png in Resources */,
 				C556471218E378DF00D29B0D /* pins_theft_icon.png in Resources */,
 				C556468B18E378DF00D29B0D /* alert_icon@2x.png in Resources */,
+				C5BBF32018F6FCD7008B5CB2 /* Icon-76.png in Resources */,
 				C556472118E378DF00D29B0D /* report_icon@2x.png in Resources */,
 				C585F2C118DA2A3B009EEF16 /* progress_bar_s3.png in Resources */,
 				C556466A18E378DF00D29B0D /* bubble_theft_icon.png in Resources */,
@@ -3403,6 +3475,7 @@
 				C5FD5E8418B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
 				C532E8E918BD583200FC111A /* logo.png in Resources */,
 				C556473318E378DF00D29B0D /* WARNING@2x.png in Resources */,
+				C5BBF32918F6FCD7008B5CB2 /* iTunesArtwork@2x.png in Resources */,
 				C585F2CA18DA2A3B009EEF16 /* progress_bar_s4@2x.png in Resources */,
 				C585F24318DA2A3B009EEF16 /* pag_dot_inactive.png in Resources */,
 				C556465E18E378DF00D29B0D /* bubble_other_icon.png in Resources */,
@@ -3412,6 +3485,7 @@
 				C55646CA18E378DF00D29B0D /* pins_brokenbone_icon.png in Resources */,
 				C585F30218DB6E2E009EEF16 /* Raleway-Light.otf in Resources */,
 				C55645CE18E378DF00D29B0D /* bubble_time_LB_icon.png in Resources */,
+				C5BBF31718F6FCD7008B5CB2 /* Icon-40@2x.png in Resources */,
 				C556466718E378DF00D29B0D /* bubble_stroke_icon@2x.png in Resources */,
 				C585F25B18DA2A3B009EEF16 /* btn_big_circle_pressed.png in Resources */,
 				C5372E0818B3126000D22682 /* EmailEnvelope.png in Resources */,
@@ -3424,6 +3498,7 @@
 				C585F22B18DA2A3B009EEF16 /* input_phone_icon.png in Resources */,
 				C501CC9218F3042F005A0B98 /* number_9.png in Resources */,
 				C585F2C718DA2A3B009EEF16 /* progress_bar_s4.png in Resources */,
+				C5BBF32618F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */,
 				C5372DF218B3126000D22682 /* Agency.png in Resources */,
 				C501CC7118F3042F005A0B98 /* number_3@2x.png in Resources */,
 				C585F2BB18DA2A3B009EEF16 /* progress_bar_s2.png in Resources */,
@@ -3473,6 +3548,7 @@
 				C55646C118E378DF00D29B0D /* pins_assault_icon@2x.png in Resources */,
 				C556476318E378DF00D29B0D /* profile_menu_icon_active@2x.png in Resources */,
 				C501CC6B18F3042F005A0B98 /* number_2@2x.png in Resources */,
+				C5BBF31418F6FCD7008B5CB2 /* Icon-40.png in Resources */,
 				C556475418E378DF00D29B0D /* notifications_menu_icon_active.png in Resources */,
 				C556472418E378DF00D29B0D /* tapshield_icon.png in Resources */,
 				C501CC7718F3042F005A0B98 /* number_4@2x.png in Resources */,
@@ -3522,6 +3598,7 @@
 				C55646A618E378DF00D29B0D /* nav_bar_bg.png in Resources */,
 				C55645FB18E378DF00D29B0D /* route_walk_icon_inactive@2x.png in Resources */,
 				C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */,
+				C5BBF31D18F6FCD7008B5CB2 /* Icon-60@2x.png in Resources */,
 				C556468818E378DF00D29B0D /* alert_icon.png in Resources */,
 				C585F2F618DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */,
 				C585F30E18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
@@ -3529,6 +3606,7 @@
 				C55646F718E378DF00D29B0D /* pins_highfever_icon@2x.png in Resources */,
 				C556465218E378DF00D29B0D /* bubble_heartattack_icon.png in Resources */,
 				C585F2A618DA2A3B009EEF16 /* btn_yes_no_normal@2x.png in Resources */,
+				C5BBF32318F6FCD7008B5CB2 /* Icon-76@2x.png in Resources */,
 				C556477B18E378DF00D29B0D /* side_menu_bg@2x.png in Resources */,
 				C585F28E18DA2A3B009EEF16 /* btn_login_normal@2x.png in Resources */,
 				C585F23A18DA2A3B009EEF16 /* btn_user_badge_pressed@2x.png in Resources */,
@@ -3565,6 +3643,7 @@
 				C57C48AE18BBC32100DFFBCE /* no_image.png in Resources */,
 				C585F24C18DA2A3B009EEF16 /* splash_logo_small@2x.png in Resources */,
 				C55646DC18E378DF00D29B0D /* pins_cpr1_icon.png in Resources */,
+				C5BBF31A18F6FCD7008B5CB2 /* Icon-60.png in Resources */,
 				C55645D718E378DF00D29B0D /* bubble_time_LT_icon@2x.png in Resources */,
 				C585F26418DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
 				C556467018E378DF00D29B0D /* bubble_vandalism_icon.png in Resources */,
@@ -3656,6 +3735,7 @@
 				C55645CA18E378DF00D29B0D /* bubble_time2_RT_icon@2x.png in Resources */,
 				C556471118E378DF00D29B0D /* pins_theft_icon.png in Resources */,
 				C556468A18E378DF00D29B0D /* alert_icon@2x.png in Resources */,
+				C5BBF31F18F6FCD7008B5CB2 /* Icon-76.png in Resources */,
 				C556472018E378DF00D29B0D /* report_icon@2x.png in Resources */,
 				C585F2C018DA2A3B009EEF16 /* progress_bar_s3.png in Resources */,
 				C556466918E378DF00D29B0D /* bubble_theft_icon.png in Resources */,
@@ -3688,6 +3768,7 @@
 				C57C48FD18BBDB1900DFFBCE /* CheckBox_Unselected@2x.png in Resources */,
 				C57C48FE18BBDB1900DFFBCE /* EmailEnvelope@2x.png in Resources */,
 				C556473218E378DF00D29B0D /* WARNING@2x.png in Resources */,
+				C5BBF32818F6FCD7008B5CB2 /* iTunesArtwork@2x.png in Resources */,
 				C585F2C918DA2A3B009EEF16 /* progress_bar_s4@2x.png in Resources */,
 				C585F24218DA2A3B009EEF16 /* pag_dot_inactive.png in Resources */,
 				C556465D18E378DF00D29B0D /* bubble_other_icon.png in Resources */,
@@ -3697,6 +3778,7 @@
 				C55646C918E378DF00D29B0D /* pins_brokenbone_icon.png in Resources */,
 				C585F30118DB6E2E009EEF16 /* Raleway-Light.otf in Resources */,
 				C55645CD18E378DF00D29B0D /* bubble_time_LB_icon.png in Resources */,
+				C5BBF31618F6FCD7008B5CB2 /* Icon-40@2x.png in Resources */,
 				C556466618E378DF00D29B0D /* bubble_stroke_icon@2x.png in Resources */,
 				C585F25A18DA2A3B009EEF16 /* btn_big_circle_pressed.png in Resources */,
 				C57C48FF18BBDB1900DFFBCE /* iphoneIcon.png in Resources */,
@@ -3709,6 +3791,7 @@
 				C585F22A18DA2A3B009EEF16 /* input_phone_icon.png in Resources */,
 				C501CC9118F3042F005A0B98 /* number_9.png in Resources */,
 				C585F2C618DA2A3B009EEF16 /* progress_bar_s4.png in Resources */,
+				C5BBF32518F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */,
 				C57C490118BBDB1900DFFBCE /* googlePlus.png in Resources */,
 				C501CC7018F3042F005A0B98 /* number_3@2x.png in Resources */,
 				C585F2BA18DA2A3B009EEF16 /* progress_bar_s2.png in Resources */,
@@ -3758,6 +3841,7 @@
 				C55646C018E378DF00D29B0D /* pins_assault_icon@2x.png in Resources */,
 				C556476218E378DF00D29B0D /* profile_menu_icon_active@2x.png in Resources */,
 				C501CC6A18F3042F005A0B98 /* number_2@2x.png in Resources */,
+				C5BBF31318F6FCD7008B5CB2 /* Icon-40.png in Resources */,
 				C556475318E378DF00D29B0D /* notifications_menu_icon_active.png in Resources */,
 				C556472318E378DF00D29B0D /* tapshield_icon.png in Resources */,
 				C501CC7618F3042F005A0B98 /* number_4@2x.png in Resources */,
@@ -3807,6 +3891,7 @@
 				C55646A518E378DF00D29B0D /* nav_bar_bg.png in Resources */,
 				C55645FA18E378DF00D29B0D /* route_walk_icon_inactive@2x.png in Resources */,
 				C57C490D18BBDB1900DFFBCE /* LockIcon@2x.png in Resources */,
+				C5BBF31C18F6FCD7008B5CB2 /* Icon-60@2x.png in Resources */,
 				C556468718E378DF00D29B0D /* alert_icon.png in Resources */,
 				C585F2F518DB6E2E009EEF16 /* Raleway-Bold.otf in Resources */,
 				C585F30D18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
@@ -3814,6 +3899,7 @@
 				C55646F618E378DF00D29B0D /* pins_highfever_icon@2x.png in Resources */,
 				C556465118E378DF00D29B0D /* bubble_heartattack_icon.png in Resources */,
 				C585F2A518DA2A3B009EEF16 /* btn_yes_no_normal@2x.png in Resources */,
+				C5BBF32218F6FCD7008B5CB2 /* Icon-76@2x.png in Resources */,
 				C556477A18E378DF00D29B0D /* side_menu_bg@2x.png in Resources */,
 				C585F28D18DA2A3B009EEF16 /* btn_login_normal@2x.png in Resources */,
 				C585F23918DA2A3B009EEF16 /* btn_user_badge_pressed@2x.png in Resources */,
@@ -3850,6 +3936,7 @@
 				C57C491218BBDB1900DFFBCE /* no_image.png in Resources */,
 				C585F24B18DA2A3B009EEF16 /* splash_logo_small@2x.png in Resources */,
 				C55646DB18E378DF00D29B0D /* pins_cpr1_icon.png in Resources */,
+				C5BBF31918F6FCD7008B5CB2 /* Icon-60.png in Resources */,
 				C55645D618E378DF00D29B0D /* bubble_time_LT_icon@2x.png in Resources */,
 				C585F26318DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
 				C556466F18E378DF00D29B0D /* bubble_vandalism_icon.png in Resources */,
@@ -4053,7 +4140,9 @@
 				C556477F18E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C501CC9E18F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
+				C5BBF30618F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
 				C563571018ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
+				C5BBF30118F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
@@ -4106,7 +4195,9 @@
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
+				C5BBF30818F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
 				C501CC3018F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
+				C5BBF30318F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
@@ -4292,7 +4383,9 @@
 				C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */,
 				C501CC9F18F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C5662BDA18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
+				C5BBF30718F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
 				C563571118ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
+				C5BBF30218F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
 				C532E63B18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,

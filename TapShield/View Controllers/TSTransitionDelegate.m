@@ -8,6 +8,7 @@
 
 #import "TSTransitionDelegate.h"
 #import "TSDestinationSearchViewController.h"
+#import "TSChatViewController.h"
 
 @implementation TSTransitionDelegate
 

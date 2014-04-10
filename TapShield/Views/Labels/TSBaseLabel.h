@@ -12,4 +12,6 @@
 
 @interface TSBaseLabel : UILabel
 
+- (void)setText:(NSString *)text withAnimationType:(NSString *)type direction:(NSString *)direction duration:(float)duration;
+
 @end

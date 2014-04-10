@@ -64,22 +64,25 @@
     
     [super viewWillAppear:animated];
     
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    if (self.navigationController.navigationBarHidden) {
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self whiteNavigationBar];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
         
+    if (self.navigationController.isBeingPresented) {
         UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
                                                                         style:UIBarButtonItemStyleDone
                                                                        target:self
                                                                        action:@selector(dismissViewController)];
         self.navigationItem.rightBarButtonItem = rightButton;
     }
+    
     self.navigationController.navigationBar.topItem.title = self.title;
     
     [self showKeyboard];
@@ -88,6 +91,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [_textMessageBarAccessoryView.textView resignFirstResponder];
 }
@@ -100,8 +105,8 @@
     }
     
     [self dismissViewControllerAnimated:YES completion:^{
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        [parentNavigationController setNavigationBarHidden:NO animated:YES];
+        [parentNavigationController.topViewController viewWillAppear:NO];
+        [parentNavigationController.topViewController viewDidAppear:NO];
     }];
 }
 

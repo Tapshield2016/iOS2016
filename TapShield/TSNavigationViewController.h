@@ -15,8 +15,6 @@
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (assign, nonatomic) BOOL removeNavigationShadow;
 
-- (void)whiteNavigationBar;
-- (void)blackNavigationBar;
 - (void)transitionNavigationBarAnimatedLeft;
 - (void)transitionNavigationBarAnimatedRight;
 

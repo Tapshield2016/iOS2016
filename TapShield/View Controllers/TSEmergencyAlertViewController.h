@@ -6,22 +6,26 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface TSEmergencyAlertViewController : TSBaseViewController
+@interface TSEmergencyAlertViewController : TSNavigationViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dispatcherLabel;
-@property (weak, nonatomic) IBOutlet UILabel *callTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *alertInfoLabel;
-@property (weak, nonatomic) IBOutlet TSCircularButton *speakerButton;
-@property (weak, nonatomic) IBOutlet TSCircularButton *redialButton;
-@property (weak, nonatomic) IBOutlet TSCircularButton *chatButton;
 
-- (IBAction)showDisarmView:(id)sender;
-- (IBAction)speakerPhoneToggle:(id)sender;
-- (IBAction)redialPhoneNumber:(id)sender;
+@property (strong, nonatomic) TSBaseLabel *alertInfoLabel;
+@property (weak, nonatomic) IBOutlet UIView *detailsButtonView;
+@property (weak, nonatomic) IBOutlet UIView *alertButtonView;
+@property (weak, nonatomic) IBOutlet UIView *chatButtonView;
+
+
+@property (strong, nonatomic) UIViewController *pageViewController;
+@property (strong, nonatomic) NSTimer *sendEmergencyTimer;
+
+- (IBAction)addAlertDetails:(id)sender;
+- (IBAction)callDispatcher:(id)sender;
 - (IBAction)showChatViewController:(id)sender;
 
+- (void)scheduleSendEmergencyTimer;
+- (void)sendEmergency;
 
 @end

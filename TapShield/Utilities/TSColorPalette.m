@@ -137,5 +137,15 @@
     return UIColorFromRGB(0x0d669f);
 }
 
++ (UIColor *)alertRed {
+    
+    return UIColorFromRGB(0xff534e);
+}
+
++ (UIColor *)darkAlertRed {
+    
+    return UIColorFromRGB(0xff534e);
+}
+
 
 @end

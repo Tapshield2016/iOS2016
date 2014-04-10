@@ -22,33 +22,14 @@
     
     _isFirstTimeViewed = YES;
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    
-    _countdownTintView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _countdownTintView.opaque = NO;
-    _countdownTintView.userInteractionEnabled = NO;
-    CGRect frame = _countdownTintView.frame;
-    frame.origin.y = self.view.frame.size.height - 10.0f;
-    _countdownTintView.frame = frame;
-    _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:1.0];
-    
-    [self setTranslucentBackground:YES];
-    [self.view insertSubview:_countdownTintView atIndex:0];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
-    _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-    _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
-    _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
-    
-    _pageViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
-    
-    [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
-    _currentViewController = _disarmPadViewController;
+//    [self createSplitTranslucentBackground];
+    [self createCountdownView];
+    [self initPages];
     
     self.delegate = self;
     self.dataSource = self;
     
+    //Delegate for ScrollView
     for (UIView *view in self.view.subviews) {
         if ([view isKindOfClass:[UIScrollView class]]) {
             NSLog(@"%@", view.subviews);
@@ -58,18 +39,26 @@
         }
     }
     
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    self.showLargeLogo = YES;
+    
+    [self sendBarButton];
+    [self setRemoveNavigationShadow:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self blackNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    if (_isFirstTimeViewed) {
-        [UIView animateWithDuration:10.0f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
-            _countdownTintView.frame = self.view.frame;
-            _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:1.0f];
-        } completion:nil];
-    }
+    [self startTintViewAnimation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,6 +66,127 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)sendBarButton {
+    
+    if (self.navigationItem.rightBarButtonItem) {
+        return;
+    }
+    
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleBordered target:self action:@selector(showAlertViewController)];
+    barButton.tintColor = [UIColor whiteColor];
+    [self.navigationItem setRightBarButtonItem:barButton];
+}
+
+- (void)alertBarButton {
+    
+    if (self.navigationItem.rightBarButtonItem) {
+        return;
+    }
+    
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStyleBordered target:self action:@selector(showAlertViewController)];
+    barButton.tintColor = [UIColor whiteColor];
+    [self.navigationItem setRightBarButtonItem:barButton animated:YES];
+}
+
+- (void)disarmBarButton {
+    
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+    
+    if (self.navigationItem.leftBarButtonItem) {
+        return;
+    }
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Disarm" style:UIBarButtonItemStyleBordered target:self action:@selector(showDisarmViewController)];
+    barButton.tintColor = [UIColor whiteColor];
+    [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
+}
+
+#pragma mark - Init UI Features
+
+- (void)createSplitTranslucentBackground {
+    
+    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2);
+    _topToolbar = [[UIToolbar alloc] initWithFrame:frame];
+    _bottomToolbar = [[UIToolbar alloc] initWithFrame:frame];
+    _topTintView = [[UIView alloc] initWithFrame:frame];
+    frame.origin.y = frame.size.height;
+    _bottomTintView = [[UIView alloc] initWithFrame:frame];
+    
+    _topTintView.backgroundColor = [UIColor clearColor];
+    _bottomTintView.backgroundColor = [UIColor clearColor];
+    
+    _topToolbar.barStyle = UIBarStyleBlack;
+    _bottomToolbar.barStyle = UIBarStyleBlack;
+    
+    [_topTintView addSubview:_topToolbar];
+    [_bottomTintView addSubview:_bottomToolbar];
+    [self.view insertSubview:_topTintView atIndex:0];
+    [self.view insertSubview:_bottomTintView atIndex:0];
+}
+
+- (void)createCountdownView {
+    
+    _countdownTintView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _countdownTintView.opaque = NO;
+    _countdownTintView.userInteractionEnabled = NO;
+    CGRect frame = _countdownTintView.frame;
+    frame.origin.y = self.view.frame.size.height - 10.0f;
+    _countdownTintView.frame = frame;
+    _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:1.0];
+    [self.view insertSubview:_countdownTintView atIndex:0];
+    
+}
+
+- (void)initPages {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
+    _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    _disarmPadViewController.pageViewController = self;
+    _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
+    _emergencyAlertViewController.pageViewController = self;
+    
+    _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
+    
+    _pageViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
+    
+    [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    
+    _currentViewController = _disarmPadViewController;
+}
+
+#pragma mark - Background Animation
+
+
+- (void)startTintViewAnimation {
+    
+    if (_isFirstTimeViewed) {
+        
+        [_emergencyAlertViewController scheduleSendEmergencyTimer];
+        
+        [UIView animateWithDuration:10.0f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            _countdownTintView.frame = self.view.frame;
+            _countdownTintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.5f];
+        } completion:nil];
+    }
+}
+
+- (void)stopTintViewAnimation {
+    
+    [_countdownTintView.layer removeAllAnimations];
+    
+    //|UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionTransitionCrossDissolve  animations:^{
+        _countdownTintView.frame = self.view.frame;
+        _countdownTintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
+        
+    } completion:nil];
+}
+
+
+#pragma mark - Change Pages
 
 - (void)showChatViewController {
     
@@ -89,47 +199,42 @@
 
 - (void)showDisarmViewController {
     
+    [self alertBarButton];
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    
     _transitioningViewController = nil;
     __weak TSPageViewController *weakSelf = self;
     [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
         weakSelf.currentViewController = weakSelf.disarmPadViewController;
     }];
-    
 }
 
-- (void)showAlertScreen {
+- (void)showAlertViewController {
+    
+    [self disarmBarButton];
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
     
     _transitioningViewController = nil;
     __weak TSPageViewController *weakSelf = self;
     [self setViewControllers:@[_emergencyAlertViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        weakSelf.currentViewController = weakSelf.emergencyAlertViewController;
+        
+        TSPageViewController *viewController = weakSelf;
+        viewController.currentViewController = viewController.emergencyAlertViewController;
+        [viewController showingAlertView];
     }];
-    
-    [self showingAlertView];
 }
 
 
 - (void)showingAlertView {
     
     if (_isFirstTimeViewed) {
-        [_disarmPadViewController sendEmergency];
-        [self stopTintViewAmination];
+        [_emergencyAlertViewController sendEmergency];
+        [self stopTintViewAnimation];
         _isFirstTimeViewed = NO;
     }
-}
-
-#pragma mark - Background Animation
-
-- (void)stopTintViewAmination {
     
-    [_countdownTintView.layer removeAllAnimations];
-    
-    
-    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-        _countdownTintView.frame = self.view.frame;
-        _countdownTintView.backgroundColor = [TSColorPalette colorWithRed:255/255 green:153/255 blue:153/255 alpha:0.3f];
-        
-    } completion:nil];
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+    [self disarmBarButton];
 }
 
 
@@ -155,6 +260,13 @@
             
         case 1:
             
+            if (!completed) {
+                [self showingAlertView];
+            }
+            else {
+                [self alertBarButton];
+            }
+            
             break;
             
         case 2:
@@ -170,6 +282,7 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     
     _transitioningViewController = [pendingViewControllers firstObject];
+    
 }
 
 - (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {
@@ -222,7 +335,7 @@
 #pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
+    /*
     float correctedOffset = fabsf(scrollView.contentOffset.x - 320);
     float transformOffset = correctedOffset/320;
     float inverseOffset = 1 - transformOffset;
@@ -262,5 +375,6 @@
     _transitioningViewController.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.8-transformOffset];
     _transitioningViewController.view.transform = CGAffineTransformMakeScale(transformOffset, transformOffset);
     _transitioningViewController.view.alpha = transformOffset;
+     */
 }
 @end

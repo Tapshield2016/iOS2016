@@ -32,5 +32,28 @@
     return self;
 }
 
+- (void)setText:(NSString *)text {
+    
+    [super setText:text];
+}
+
+- (void)setText:(NSString *)text withAnimationType:(NSString *)type direction:(NSString *)direction duration:(float)duration {
+    
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    if (type) {
+        animation.type = type;
+    }
+    
+    if (direction) {
+        animation.subtype = direction;
+    }
+    animation.duration = duration;
+    [self.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    
+    [super setText:text];
+}
+
 
 @end

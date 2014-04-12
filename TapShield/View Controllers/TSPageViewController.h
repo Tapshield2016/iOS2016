@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSBasePageViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSDisarmPadViewController.h"
 #import "TSEmergencyAlertViewController.h"
 #import "TSChatViewController.h"
 #import "TSHomeViewController.h"
 
-@interface TSPageViewController : TSBasePageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate>
+@interface TSPageViewController : TSNavigationViewController <UIScrollViewDelegate>
 
 //Pages
+@property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSArray *pageViewControllers;
 @property (strong, nonatomic) TSDisarmPadViewController *disarmPadViewController;
 @property (strong, nonatomic) TSEmergencyAlertViewController *emergencyAlertViewController;
@@ -35,11 +36,9 @@
 @property (nonatomic) BOOL isFirstTimeViewed;
 
 //Transition
-@property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIViewController *transitioningViewController;
 @property (strong, nonatomic) UIViewController *currentViewController;
 
-- (void)showChatViewController;
 - (void)showAlertViewController;
 - (void)showDisarmViewController;
 

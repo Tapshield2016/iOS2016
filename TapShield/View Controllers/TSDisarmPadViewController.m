@@ -11,6 +11,8 @@
 
 @interface TSDisarmPadViewController ()
 
+@property (strong, nonatomic) TSPageViewController *pageViewController;
+
 @end
 
 @implementation TSDisarmPadViewController
@@ -21,12 +23,12 @@
 	// Do any additional setup after loading the view.
     
     
-    self.translucentBackground = YES;
-    CGRect frame = self.view.frame;
-    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-    frame.origin.x -= frame.size.width;
-    frame.size.width += frame.size.width;
-    self.toolbar.frame = frame;
+//    self.translucentBackground = YES;
+//    CGRect frame = self.view.frame;
+//    frame.origin.y += 45 + [UIApplication sharedApplication].statusBarFrame.size.height;
+//    frame.origin.x -= frame.size.width;
+//    frame.size.width += frame.size.width;
+//    self.toolbar.frame = frame;
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     
@@ -44,12 +46,22 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
+}
+
+- (void)setSuperviewViewController:(UIViewController *)superviewViewController {
+    
+    _superviewViewController = superviewViewController;
+    
+    if ([superviewViewController isKindOfClass:[TSPageViewController class]]) {
+        _pageViewController = (TSPageViewController *)superviewViewController;
+    }
 }
 
 #pragma mark - Disarm Code
@@ -104,22 +116,17 @@
     }
     
     if ([_disarmTextField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [((TSPageViewController *)self.parentViewController).emergencyAlertViewController.sendEmergencyTimer invalidate];
+        [_pageViewController.emergencyAlertViewController.sendEmergencyTimer invalidate];
         [[TSJavelinAPIClient sharedClient] disarmAlert];
         [[TSJavelinAPIClient sharedClient] cancelAlert];
         
-        UINavigationController *parentNavigationController;
-        if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
-            parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
-        }
-        
-        [((TSPageViewController *)self.parentViewController).toolbar setTranslucent:NO];
-        [((TSPageViewController *)self.parentViewController).toolbar setAlpha:0.5f];
-        [((TSPageViewController *)self.parentViewController).homeViewController viewWillAppear:NO];
-        [((TSPageViewController *)self.parentViewController).homeViewController viewDidAppear:NO];
-        [((TSPageViewController *)self.parentViewController).homeViewController whiteNavigationBar];
-        [((TSPageViewController *)self.parentViewController).homeViewController clearEntourageAndResetMap];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [_pageViewController.toolbar setTranslucent:NO];
+        [_pageViewController.toolbar setAlpha:0.5f];
+        [_pageViewController.homeViewController viewWillAppear:NO];
+        [_pageViewController.homeViewController viewDidAppear:NO];
+        [_pageViewController.homeViewController whiteNavigationBar];
+        [_pageViewController.homeViewController clearEntourageAndResetMap];
+        [_pageViewController dismissViewControllerAnimated:YES completion:nil];
     }
     else {
         [self shakeDisarmCircles];

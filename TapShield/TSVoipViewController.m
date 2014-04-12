@@ -44,5 +44,9 @@
     [emergencyView performSelectorOnMainThread:@selector(showChatViewController:) withObject:self waitUntilDone:YES];
 }
 
+- (IBAction)addAlertDetails:(id)sender {
+    
+}
+
 
 @end

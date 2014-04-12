@@ -37,6 +37,8 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedClient = [[TSJavelinAPIClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
         });
+        
+        [AmazonErrorHandler shouldNotThrowExceptions];
 
         // Enable the network activity manager
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -519,7 +521,17 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Chat Message Methods
 
-- (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(TSJavelinAPIChatMessage *sentChatMessage))completion {
+- (void)startChatForActiveAlert {
+    
+    [_chatManager startChatForActiveAlert];
+}
+
+- (void)sendChatMessage:(NSString *)message {
+    
+    [_chatManager sendChatMessage:message];
+}
+
+- (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(ChatMessageStatus status))completion {
     [_chatManager sendChatMessageForActiveAlert:chatMessage completion:completion];
 }
 

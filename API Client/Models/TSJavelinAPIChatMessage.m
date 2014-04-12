@@ -26,6 +26,7 @@
     chatMessage.senderID = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].identifier;
     chatMessage.timestamp = [NSDate date];
     chatMessage.messageID = [TSJavelinAPIUtilities uuidString];
+    chatMessage.status = kSending;
     
     return chatMessage;
 }

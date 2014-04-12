@@ -8,13 +8,20 @@
 
 #import "TSJavelinAPIBaseModel.h"
 
+typedef enum {
+    kReceived = 0,
+    kSending,
+    kDelivered,
+    kError,
+}ChatMessageStatus;
+
 @interface TSJavelinAPIChatMessage : TSJavelinAPIBaseModel
 
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSString *messageID;
 @property (nonatomic, assign) NSUInteger alertID;
 @property (nonatomic, assign) NSUInteger senderID;
-@property (nonatomic, assign) NSInteger status;
+@property (nonatomic, assign) ChatMessageStatus status;
 @property (nonatomic, assign) NSString *senderName;
 @property (nonatomic, strong) NSDate *timestamp;
 

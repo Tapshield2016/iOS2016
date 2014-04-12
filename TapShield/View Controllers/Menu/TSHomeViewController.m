@@ -249,7 +249,11 @@
     }
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
-        [_mapView setCenterCoordinate:location.coordinate animated:YES];
+        //avoid loop from negligible differences in region change
+        if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
+            fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
+            [_mapView setCenterCoordinate:location.coordinate animated:YES];
+        }
     }
     
     if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 15 && _mapView.shouldUpdateCallOut) {

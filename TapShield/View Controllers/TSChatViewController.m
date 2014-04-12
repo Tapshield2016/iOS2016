@@ -7,6 +7,8 @@
 //
 
 #import "TSChatViewController.h"
+#import "TSJavelinChatManager.h"
+#import "TSChatMessageCell.h"
 
 @interface TSChatViewController ()
 
@@ -21,6 +23,9 @@
 	// Do any additional setup after loading the view.
     
     [self setTranslucentBackground:YES];
+    
+    _tableView.backgroundColor = [UIColor clearColor];
+    [_tableView setContentInset:UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, self.navigationController.navigationBar.frame.size.height, 0.0f)];
     
     CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = -frame.size.height;
@@ -39,6 +44,9 @@
     
     _textMessageBarAccessoryView.textView.inputAccessoryView = _inputAccessoryView;
     [_inputAccessoryView addSubview:_textMessageBarAccessoryView];
+    
+    [_textMessageBarAccessoryView setSendButtonTarget:self action:@selector(sendMessage)];
+    [_textMessageBarBaseView setSendButtonTarget:self action:@selector(sendMessage)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow:)
@@ -65,6 +73,8 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    [_tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -115,6 +125,18 @@
     [_textMessageBarBaseView.textView becomeFirstResponder];
 }
 
+#pragma mark - Chat Manager Methods
+
+- (void)sendMessage {
+    
+    if (_textMessageBarBaseView.textView.text.length < 1) {
+        return;
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] chatManager] sendChatMessage:_textMessageBarBaseView.textView.text];
+    [_tableView reloadData];
+}
+
 #pragma mark - Keyboard Notifications
 
 - (void)keyboardDidShow:(NSNotification *)notification {
@@ -144,7 +166,56 @@
 }
 
 
-#pragma mark - Table View Delegate Methods 
+#pragma mark - Table View Data Source Methods
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSString *identifier = TSChatMessageCellIdentifierDispatcher;
+    TSJavelinAPIChatMessage *chatMessage = [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages[indexPath.row];
+    if (chatMessage.senderID == [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].identifier) {
+        identifier = TSChatMessageCellIdentifierUser;
+    }
+    
+    TSChatMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if (!cell) {
+        cell = [[TSChatMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    
+    cell.chatMessage = chatMessage;
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count;
+}
+
+#pragma mark - Table View Delegate 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return [TSChatMessageCell heightForChatCellAtIndexPath:indexPath];
+}
+
+#pragma mark - Scroll View Delegate
+
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    [self setRealAccessoryView];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+//    [self performSelectorOnMainThread:@selector(setDecoyAccessoryView) withObject:nil waitUntilDone:YES];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+    
+}
+
 
 - (void)setRealAccessoryView {
     CGRect frame = _inputAccessoryView.frame;
@@ -163,19 +234,6 @@
     frame = _textMessageBarAccessoryView.frame;
     frame.origin.y = -_textMessageBarAccessoryView.frame.size.height;
     _textMessageBarAccessoryView.frame = frame;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    [self setRealAccessoryView];
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-//    [self performSelectorOnMainThread:@selector(setDecoyAccessoryView) withObject:nil waitUntilDone:YES];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-    
 }
 
 @end

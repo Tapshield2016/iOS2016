@@ -22,8 +22,10 @@
 @property (assign, nonatomic) int originalBarOriginY;
 @property (assign, nonatomic) int originalTextViewHeight;
 
+- (void)setupSubview;
 - (void)addCameraButtonWithTarget:(id)target action:(SEL)action;
 - (void)addButtonCoveringTextViewWithTarget:(id)target action:(SEL)action;
+- (void)setSendButtonTarget:(id)target action:(SEL)action;
 
 - (void)refreshBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar;
 - (void)resizeBarToReflect:(TSTextMessageBarView *)barView ;

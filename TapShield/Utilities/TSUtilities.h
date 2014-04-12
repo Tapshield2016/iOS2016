@@ -12,6 +12,8 @@
 
 @interface TSUtilities : NSObject
 
++ (CGSize)text:(NSString *)text sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
+
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
 + (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration;
 + (NSString *)fromattedStringForDistanceInUSStandard:(CLLocationDistance)meters;

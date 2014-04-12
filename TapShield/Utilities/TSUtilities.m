@@ -10,6 +10,18 @@
 
 @implementation TSUtilities
 
+#pragma mark - Frame Size
+
++ (CGSize)text:(NSString *)text sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
+    CGRect frame = [text boundingRectWithSize:size
+                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                   attributes:@{NSFontAttributeName:font}
+                                      context:nil];
+    return frame.size;
+}
+
+#pragma mark - String Formatting
+
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration {
     long durationInSeconds = lroundf(duration);
     NSInteger hours = durationInSeconds / 3600;
@@ -18,16 +30,16 @@
 
     if (hours > 0) {
         if (minutes == 0) {
-            return [NSString stringWithFormat:@"%ih", hours];
+            return [NSString stringWithFormat:@"%lih", (long)hours];
         }
-        return [NSString stringWithFormat:@"%ih %imin", hours, minutes];
+        return [NSString stringWithFormat:@"%lih %imin", (long)hours, minutes];
     }
     else {
         if (minutes == 0) {
-            return [NSString stringWithFormat:@"%isec", seconds];
+            return [NSString stringWithFormat:@"%lisec", (long)seconds];
         }
         
-        return [NSString stringWithFormat:@"%imin", minutes];
+        return [NSString stringWithFormat:@"%limin", (long)minutes];
     }
 }
 
@@ -52,16 +64,16 @@
     
     if (hours > 0) {
         if (minutes == 0) {
-            return [NSString stringWithFormat:@"%i %@", hours, hourString];
+            return [NSString stringWithFormat:@"%li %@", (long)hours, hourString];
         }
-        return [NSString stringWithFormat:@"%i %@ %i %@", hours, hourString, minutes, minutesString];
+        return [NSString stringWithFormat:@"%li %@ %i %@", (long)hours, hourString, minutes, minutesString];
     }
     else {
         if (minutes == 0) {
-            return [NSString stringWithFormat:@"%i %@", seconds, secondsString];
+            return [NSString stringWithFormat:@"%li %@", (long)seconds, secondsString];
         }
         
-        return [NSString stringWithFormat:@"%i %@", minutes, minutesString];
+        return [NSString stringWithFormat:@"%li %@", (long)minutes, minutesString];
     }
 }
 

@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *swipeLabelView;
 
 @property (strong, nonatomic) NSArray *codeCircleArray;
-@property (strong, nonatomic) UIViewController *pageViewController;
+@property (strong, nonatomic) UIViewController *superviewViewController;
 
 - (IBAction)numberPressed:(id)sender;
 - (IBAction)clearDisarmText:(id)sender;

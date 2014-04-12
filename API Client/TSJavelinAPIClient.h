@@ -131,7 +131,9 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)locationUpdated:(CLLocation *)location;
 
 // Message actions
-- (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(TSJavelinAPIChatMessage *sentChatMessage))completion;
+- (void)startChatForActiveAlert;
+- (void)sendChatMessage:(NSString *)message;
+- (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(ChatMessageStatus status))completion;
 - (void)getChatMessagesForActiveAlert:(void (^)(NSArray *chatMessages))completion;
 - (void)getChatMessagesForActiveAlertSinceTime:(NSDate *)dateTime completion:(void (^)(NSArray *chatMessages))completion;
 - (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(NSDictionary *)notification;

@@ -30,7 +30,7 @@
     return self;
 }
 
--(void) startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame{
+- (void)startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame{
     //create the image
     self.image = [UIImage imageNamed:@"circle.png"];
     

@@ -129,12 +129,10 @@ static dispatch_once_t onceToken;
         });
         
         SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
-        SQSGetQueueUrlResponse *getQueueURLResponse;
+        SQSGetQueueUrlResponse *getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
         
-        @try {
-            getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
-        }
-        @catch (NSException *exception) {
+        if (getQueueURLResponse.error != nil) {
+            NSLog(@"Error: %@", getQueueURLResponse.error);
             if (completion) {
                 completion(NO);
             }
@@ -143,18 +141,8 @@ static dispatch_once_t onceToken;
         
         SQSSendMessageRequest *sendMessageRequest = [[SQSSendMessageRequest alloc] initWithQueueUrl:getQueueURLResponse.queueUrl
                                                                                      andMessageBody:alertJson];
-        SQSSendMessageResponse *sendMessageResponse;
-        @try {
-            sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
-        }
-        @catch (NSException *exception) {
-            if (completion) {
-                completion(NO);
-            }
-            return;
-        }
-        
-        
+        SQSSendMessageResponse *sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
+
         if (sendMessageResponse.error != nil) {
             NSLog(@"Error: %@", sendMessageResponse.error);
             if (completion) {
@@ -178,6 +166,7 @@ static dispatch_once_t onceToken;
                 }
             }];
         }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         });
@@ -218,8 +207,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)sendActiveAlertNotification {
-    [_findActiveAlertTimer invalidate];
     [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:_activeAlert];
+    [_findActiveAlertTimer invalidate];
+    [[TSJavelinAPIClient sharedClient] startChatForActiveAlert];
 }
 
 - (void)stopAlertUpdates {

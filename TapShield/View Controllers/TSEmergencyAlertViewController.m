@@ -10,6 +10,8 @@
 #import "TSPageViewController.h"
 #import "TSVoipViewController.h"
 
+static NSString * const kAlertSend = @"Send alert";
+static NSString * const kAlertSending = @"Sending alert";
 static NSString * const kAlertSent = @"Alert was sent";
 static NSString * const kAlertReceived = @"The authorities have been notified";
 
@@ -17,6 +19,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 @property (strong, nonatomic) TSVoipViewController *voipController;
 @property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
+@property (strong, nonatomic) TSPageViewController *pageViewController;
 
 @end
 
@@ -29,13 +32,12 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.showLargeLogo = YES;
-    self.translucentBackground = YES;
-    
-    CGRect frame = self.view.frame;
-    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.toolbar.frame = frame;
-    
-    [self.view bringSubviewToFront:self.toolbar];
+//    self.translucentBackground = YES;
+//    
+//    CGRect frame = self.view.frame;
+//    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+//    self.toolbar.frame = frame;
+//    [self.view bringSubviewToFront:self.toolbar];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertRecieved:) name:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:nil];
     
@@ -45,6 +47,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     _alertInfoLabel.textColor = [UIColor whiteColor];
     _alertInfoLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
     _alertInfoLabel.textAlignment = NSTextAlignmentCenter;
+    _alertInfoLabel.text = kAlertSend;
     [_alertInfoLabel setAdjustsFontSizeToFitWidth:YES];
     
     [self.view addSubview: _alertInfoLabel];
@@ -67,6 +70,15 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setSuperviewViewController:(UIViewController *)superviewViewController {
+    
+    _superviewViewController = superviewViewController;
+    
+    if ([superviewViewController isKindOfClass:[TSPageViewController class]]) {
+        _pageViewController = (TSPageViewController *)superviewViewController;
+    }
 }
 
 - (void)revealBottomButtons {
@@ -117,6 +129,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     
     [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
     
+    [self updateAlertInfoLabel:kAlertSending];
     [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL success) {
         if (success) {
             [self updateAlertInfoLabel:kAlertSent];
@@ -136,7 +149,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 - (void)updateAlertInfoLabel:(NSString *)string {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view bringSubviewToFront:_alertInfoLabel];
-        [_alertInfoLabel setText:string withAnimationType:kCATransitionPush direction:kCATransitionFromBottom duration:0.3];
+        [_alertInfoLabel setText:string withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
     });
 }
 
@@ -145,9 +158,9 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (IBAction)showChatViewController:(id)sender {
     
-    UIViewController *viewController = ((TSPageViewController *)_pageViewController).chatViewController;
+    UIViewController *viewController = _pageViewController.chatViewController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
+    [_pageViewController.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 
@@ -158,8 +171,6 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (IBAction)callDispatcher:(id)sender {
     
-//    [self presentViewControllerWithClass:[TSVoipViewController class] transitionDelegate:nil animated:YES];
-    
     _voipController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSVoipViewController class])];
     _voipController.emergencyView = self;
     [self.view addSubview:_voipController.view];
@@ -168,14 +179,10 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     frame.origin.y = frame.size.height;
     _voipController.view.frame = frame;
     
-    CGRect toolbarFrame = self.toolbar.frame;
-    toolbarFrame.size.height *= 3;
-    
     CGRect infoLabelFrame = _alertInfoLabel.frame;
     infoLabelFrame.origin.y += 88;
 
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.toolbar.frame = toolbarFrame;
         _alertInfoLabel.frame = infoLabelFrame;
         _voipController.view.frame = self.view.frame;
 
@@ -204,6 +211,36 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
         _detailsButtonView.alpha = 1.0f;
         _chatButtonView.alpha = 1.0f;
     }];
+}
+
+- (void)parentScrollViewOffset:(float)offsetX {
+    
+    NSUInteger page = (int)ceilf(offsetX/self.view.frame.size.width);
+    NSUInteger halfPage = (int)roundf(offsetX/self.view.frame.size.width);
+//    float ratio = offsetX/self.view.frame.size.width;
+//    float ratioChange = 1 - offsetX/self.view.frame.size.width;
+    
+    float labelOffset = 0;
+    float bottomOffset = 0;
+    
+    if (halfPage == 0) {
+        labelOffset = -offsetX;
+        bottomOffset = self.view.frame.size.width/2;
+    }
+    
+    if (halfPage == 1) {
+        labelOffset = -self.view.frame.size.width/2;
+        labelOffset -= self.view.frame.size.width/2 - offsetX;
+        bottomOffset = self.view.frame.size.width/2 - (offsetX - self.view.frame.size.width/2);
+    }
+    
+    CGRect frame = _alertInfoLabel.frame;
+    frame.origin.x = labelOffset;
+    _alertInfoLabel.frame = frame;
+    
+    frame = _bottomButtonContainerView.frame;
+    frame.origin.x = bottomOffset;
+    _bottomButtonContainerView.frame = frame;
 }
 
 @end

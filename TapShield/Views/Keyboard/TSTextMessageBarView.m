@@ -8,6 +8,7 @@
 
 #import "TSTextMessageBarView.h"
 #import "TSColorPalette.h"
+#import "TSUtilities.h"
 
 #define Keyboard_Height 216
 #define Inset_Side 5
@@ -63,10 +64,16 @@
     [self.sendButton setTitleColor:[TSColorPalette tapshieldDarkBlue] forState:UIControlStateHighlighted];
     [self addSubview:self.sendButton];
     
-    self.originalBarHeight = self.frame.size.height;
-    self.originalBarOriginY = self.frame.origin.y;
-    self.originalTextViewHeight = self.textView.frame.size.height;
+    _originalBarHeight = self.frame.size.height;
+    _originalBarOriginY = self.frame.origin.y;
+    _originalTextViewHeight = self.textView.frame.size.height;
+}
+
+- (void)setIdenticalAccessoryView:(UIView *)identicalAccessoryView {
     
+    _identicalAccessoryView = identicalAccessoryView;
+    
+    _originalBarOriginY = [UIScreen mainScreen].bounds.size.height - self.frame.size.height;
 }
 
 - (void)setSendButtonTarget:(id)target action:(SEL)action {
@@ -98,7 +105,7 @@
     if (_identicalAccessoryViewShown) {
         //pass hit test on to the identical view attached to keyboard
         point = CGPointMake(point.x, point.y + Keyboard_Height);
-        hitView = [_identicalAccessoryView.superview hitTest:point withEvent:event];
+        hitView = [_identicalAccessoryView hitTest:point withEvent:event];
     }
     
     return hitView;
@@ -107,17 +114,9 @@
 
 #pragma mark - Resizing Bar
 
-- (CGSize)text:(NSString *)text sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
-    CGRect frame = [text boundingRectWithSize:size
-                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                   attributes:@{NSFontAttributeName:font}
-                                      context:nil];
-    return frame.size;
-}
-
 - (void)refreshBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar {
     
-    CGSize textSize = [self text:@"test" sizeWithFont:_textView.font constrainedToSize:_textView.frame.size];
+    CGSize textSize = [TSUtilities text:@"test" sizeWithFont:_textView.font constrainedToSize:_textView.frame.size];
     
     int height = _textView.contentSize.height - Inset_Top - 1;
     int rows = height/roundf(textSize.height);
@@ -138,9 +137,6 @@
     
     CGRect newTextViewFrame = _textView.frame;
     newTextViewFrame.size.height = (rows * textSize.height) + (_originalTextViewHeight - textSize.height);
-    
-    
-    NSLog(@"%i, %i", height, rows);
 	
     [UIView animateWithDuration:0.1f
                           delay:0

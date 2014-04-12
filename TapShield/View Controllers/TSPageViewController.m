@@ -11,6 +11,10 @@
 
 @interface TSPageViewController ()
 
+@property (assign, nonatomic) NSUInteger page;
+@property (assign, nonatomic) NSUInteger halfPage;
+@property (strong, nonatomic) UIView *animatedView;
+
 @end
 
 @implementation TSPageViewController
@@ -18,26 +22,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
+    self.translucentBackground = YES;
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    _scrollView.backgroundColor = [UIColor clearColor];
+    _scrollView.delegate = self;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.bounces = NO;
+    _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*2, self.view.bounds.size.height);
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:_scrollView];
     _isFirstTimeViewed = YES;
     
-//    [self createSplitTranslucentBackground];
-    [self createCountdownView];
     [self initPages];
     
-    self.delegate = self;
-    self.dataSource = self;
+    _animatedView = [[UIView alloc] initWithFrame:self.view.frame];
+    _animatedView.backgroundColor = [UIColor clearColor];
+    _animatedView.opaque = NO;
+    _animatedView.clipsToBounds = YES;
     
-    //Delegate for ScrollView
-    for (UIView *view in self.view.subviews) {
-        if ([view isKindOfClass:[UIScrollView class]]) {
-            NSLog(@"%@", view.subviews);
-            ((UIScrollView *)view).delegate = self;
-            self.scrollView = (UIScrollView *)view;
-            break;
-        }
-    }
+    CGRect frame = self.view.frame;
+    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.toolbar.frame = frame;
+    [_animatedView addSubview:self.toolbar];
+    [self.view insertSubview:_animatedView atIndex:0];
+    [self createCountdownView];
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
@@ -75,8 +85,9 @@
     
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleBordered target:self action:@selector(showAlertViewController)];
-    barButton.tintColor = [UIColor whiteColor];
-    [self.navigationItem setRightBarButtonItem:barButton];
+    [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
+                                        NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+    [self.navigationItem setRightBarButtonItem:barButton animated:YES];
 }
 
 - (void)alertBarButton {
@@ -87,7 +98,8 @@
     
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStyleBordered target:self action:@selector(showAlertViewController)];
-    barButton.tintColor = [UIColor whiteColor];
+    [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
+    NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:barButton animated:YES];
 }
 
@@ -100,7 +112,8 @@
     }
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Disarm" style:UIBarButtonItemStyleBordered target:self action:@selector(showDisarmViewController)];
-    barButton.tintColor = [UIColor whiteColor];
+    [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
+                                        NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
 }
 
@@ -136,7 +149,7 @@
     frame.origin.y = self.view.frame.size.height - 10.0f;
     _countdownTintView.frame = frame;
     _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:1.0];
-    [self.view insertSubview:_countdownTintView atIndex:0];
+    [_animatedView insertSubview:_countdownTintView atIndex:0];
     
 }
 
@@ -144,17 +157,17 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
     _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
-    _disarmPadViewController.pageViewController = self;
+    _disarmPadViewController.superviewViewController = self;
     _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
-    _emergencyAlertViewController.pageViewController = self;
-    
+    _emergencyAlertViewController.superviewViewController = self;
+
     _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
     
-    _pageViewControllers = @[_disarmPadViewController, _emergencyAlertViewController];
-    
-    [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
-    _currentViewController = _disarmPadViewController;
+    CGRect frame = _emergencyAlertViewController.view.frame;
+    frame.origin.x += frame.size.width;
+    _emergencyAlertViewController.view.frame = frame;
+    [_scrollView addSubview:_emergencyAlertViewController.view];
+    [_scrollView addSubview:_disarmPadViewController.view];
 }
 
 #pragma mark - Background Animation
@@ -188,40 +201,18 @@
 
 #pragma mark - Change Pages
 
-- (void)showChatViewController {
-    
-    _transitioningViewController = nil;
-    __weak TSPageViewController *weakSelf = self;
-    [self setViewControllers:@[_chatViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        weakSelf.currentViewController = weakSelf.chatViewController;
-    }];
-}
-
 - (void)showDisarmViewController {
-    
-    [self alertBarButton];
+
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    
-    _transitioningViewController = nil;
-    __weak TSPageViewController *weakSelf = self;
-    [self setViewControllers:@[_disarmPadViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
-        weakSelf.currentViewController = weakSelf.disarmPadViewController;
-    }];
+ 
+    [_scrollView setContentOffset:CGPointMake(0.0, 0.0) animated:YES];
 }
 
 - (void)showAlertViewController {
     
-    [self disarmBarButton];
     [self.navigationItem setRightBarButtonItem:nil animated:YES];
     
-    _transitioningViewController = nil;
-    __weak TSPageViewController *weakSelf = self;
-    [self setViewControllers:@[_emergencyAlertViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        
-        TSPageViewController *viewController = weakSelf;
-        viewController.currentViewController = viewController.emergencyAlertViewController;
-        [viewController showingAlertView];
-    }];
+    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0.0) animated:YES];
 }
 
 
@@ -233,111 +224,19 @@
         _isFirstTimeViewed = NO;
     }
     
-    [self.navigationItem setRightBarButtonItem:nil animated:YES];
     [self disarmBarButton];
 }
 
 
-#pragma mark - Page View Delegate
-
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
-    
-    NSUInteger index = [self.pageViewControllers indexOfObject:[previousViewControllers lastObject]];
-    
-    if (completed) {
-        if (_transitioningViewController) {
-            _currentViewController = _transitioningViewController;
-        }
-    }
-    
-    switch (index) {
-        case 0:
-            if (completed) {
-                [self showingAlertView];
-            }
-            
-            break;
-            
-        case 1:
-            
-            if (!completed) {
-                [self showingAlertView];
-            }
-            else {
-                [self alertBarButton];
-            }
-            
-            break;
-            
-        case 2:
-            
-            break;
-            
-        default:
-            
-            break;
-    }
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
-    
-    _transitioningViewController = [pendingViewControllers firstObject];
-    
-}
-
-- (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {
-    
-    return UIPageViewControllerSpineLocationNone;
-}
-
-- (NSUInteger)pageViewControllerSupportedInterfaceOrientations:(UIPageViewController *)pageViewController {
-    
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-- (UIInterfaceOrientation)pageViewControllerPreferredInterfaceOrientationForPresentation:(UIPageViewController *)pageViewController {
-    
-    return UIInterfaceOrientationPortrait;
-}
-
-#pragma mark - Page View DataSource
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
-    
-    NSUInteger index = [self.pageViewControllers indexOfObject:viewController];
-    if (index == 0 || index == NSNotFound) {
-        return nil;
-    }
-    
-    return self.pageViewControllers[index - 1];
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
-    
-    NSUInteger index = [self.pageViewControllers indexOfObject:viewController];
-    if (index == self.pageViewControllers.count - 1 || index == NSNotFound) {
-        return nil;
-    }
-    
-    return self.pageViewControllers[index + 1];
-}
-
-- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    
-    return 0;
-}
-
-- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
-    
-    return 0;
-}
-
 #pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    /*
-    float correctedOffset = fabsf(scrollView.contentOffset.x - 320);
-    float transformOffset = correctedOffset/320;
+    
+    
+    _page = (int)ceilf(scrollView.contentOffset.x/scrollView.frame.size.width);
+    _halfPage = (int)roundf(scrollView.contentOffset.x/scrollView.frame.size.width);
+    
+    float transformOffset = scrollView.contentOffset.x/320;
     float inverseOffset = 1 - transformOffset;
     
     if (transformOffset > 0) {
@@ -352,29 +251,71 @@
         inverseOffset = 1.0;
     }
     
-    if (transformOffset >= 1) {
-        transformOffset = 1;
+    _disarmPadViewController.view.alpha = inverseOffset;
+    _disarmPadViewController.view.transform = CGAffineTransformMakeScale(inverseOffset, inverseOffset);
+    
+    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
+    float minimumHeight = self.navigationController.navigationBar.frame.size.height + topBarHeight;
+    float animationHeight = self.view.frame.size.height;
+    float toolbarFrameHeight = minimumHeight;
+    float disarmOffset = 0;
+    
+    float ratio = scrollView.contentOffset.x/self.view.frame.size.width;
+    float ratioChange = 1 - scrollView.contentOffset.x/self.view.frame.size.width;
+    
+    
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:ratioChange],
+                                                                     NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]}
+                                                          forState:UIControlStateNormal];
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:ratio],
+                                                                     NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]}
+                                                          forState:UIControlStateNormal];
+    
+    switch (_page) {
+        case 1:
+            toolbarFrameHeight += animationHeight * ratioChange;
+            disarmOffset -= scrollView.contentOffset.x/2;
+            break;
+            
+        case 2:
+            toolbarFrameHeight = minimumHeight;
+            break;
+            
+        default:
+            toolbarFrameHeight = self.view.frame.size.height;
+            break;
     }
     
-    if (_currentViewController == _transitioningViewController) {
-        _transitioningViewController = nil;
-    }
+    CGRect frame = _animatedView.frame;
+    frame.size.height = toolbarFrameHeight;
+    _animatedView.frame = frame;
     
-    _currentViewController.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.8-inverseOffset];
-    _currentViewController.view.alpha = inverseOffset;
-    _currentViewController.view.transform = CGAffineTransformMakeScale(inverseOffset, inverseOffset);
+    frame = _disarmPadViewController.view.frame;
+    frame.origin.x = disarmOffset;
+    _disarmPadViewController.view.frame = frame;
     
-    if (transformOffset <= 0.0) {
-        transformOffset = 1.0;
-    }
-    
-    if (!_transitioningViewController) {
-        return;
-    }
-    
-    _transitioningViewController.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.8-transformOffset];
-    _transitioningViewController.view.transform = CGAffineTransformMakeScale(transformOffset, transformOffset);
-    _transitioningViewController.view.alpha = transformOffset;
-     */
+    [_emergencyAlertViewController parentScrollViewOffset:scrollView.contentOffset.x];
 }
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    
+    [self checkPage];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    [self checkPage];
+}
+
+
+- (void)checkPage {
+    
+    if (_halfPage == 1) {
+        [self showingAlertView];
+    }
+    else if (_halfPage == 0) {
+        [self alertBarButton];
+    }
+}
+
 @end

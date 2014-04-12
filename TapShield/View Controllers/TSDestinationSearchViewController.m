@@ -12,6 +12,8 @@
 #import "TSRoutePickerViewController.h"
 #import "TSMapItemCell.h"
 
+#define CELL_HEIGHT 50
+
 static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
 
 @interface TSDestinationSearchViewController ()
@@ -278,7 +280,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return _tableView.bounds.size.height/10;
+    return CELL_HEIGHT;
 }
 
 #pragma mark - UITableViewDelegate methods

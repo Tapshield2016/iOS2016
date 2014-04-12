@@ -16,9 +16,10 @@
 @property (weak, nonatomic) IBOutlet UIView *detailsButtonView;
 @property (weak, nonatomic) IBOutlet UIView *alertButtonView;
 @property (weak, nonatomic) IBOutlet UIView *chatButtonView;
+@property (weak, nonatomic) IBOutlet UIView *bottomButtonContainerView;
 
 
-@property (strong, nonatomic) UIViewController *pageViewController;
+@property (strong, nonatomic) UIViewController *superviewViewController;
 @property (strong, nonatomic) NSTimer *sendEmergencyTimer;
 
 - (IBAction)addAlertDetails:(id)sender;
@@ -27,5 +28,6 @@
 
 - (void)scheduleSendEmergencyTimer;
 - (void)sendEmergency;
+- (void)parentScrollViewOffset:(float)offsetX;
 
 @end

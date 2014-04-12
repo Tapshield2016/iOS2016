@@ -169,9 +169,9 @@
     //get a frame around the annotation
     CLLocation *location = [TSLocationController sharedLocationController].location;
     
+    
+    [_animatedOverlay removeFromSuperview];
     [self resetAnimatedOverlayAt:location];
-    //add to the map and start the animation
-    [self addSubview:_animatedOverlay];
 }
 
 - (void)removeAnimatedOverlay {
@@ -188,20 +188,31 @@
     
     if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
-        region = MKCoordinateRegionMakeWithDistance(location.coordinate, 5000, 5000);
+        region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
     }
     CGRect rect = [self  convertRegion:region toRectToView:self];
     //set up the animated overlay
+    rect.size.width = rect.size.height;
+    
     if(!_animatedOverlay){
         _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
+        [_animatedOverlay stopAnimating];
+        [_animatedOverlay startAnimatingWithColor:color
+                                         andFrame:rect];
+        [_animatedOverlay setUserInteractionEnabled:NO];
     }
-    else{
+    else if (_animatedOverlay.frame.size.width != rect.size.width ||
+             _animatedOverlay.frame.origin.y != rect.origin.y ||
+             _animatedOverlay.frame.origin.x != rect.origin.x) {
         [_animatedOverlay setFrame:rect];
+        [_animatedOverlay stopAnimating];
+        [_animatedOverlay startAnimatingWithColor:color
+                                         andFrame:rect];
     }
-    [_animatedOverlay stopAnimating];
-    [_animatedOverlay startAnimatingWithColor:color
-                                    andFrame:rect];
-    [_animatedOverlay setUserInteractionEnabled:NO];
+    
+    if (!_animatedOverlay.superview) {
+        [self addSubview:_animatedOverlay];
+    }
 }
 
 @end

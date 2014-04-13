@@ -18,6 +18,7 @@
 #import "TSUserAnnotationView.h"
 #import "TSDestinationAnnotation.h"
 #import "TSPageViewController.h"
+#import "TSAlertDetailsTableViewController.h"
 
 @interface TSHomeViewController ()
 
@@ -153,6 +154,11 @@
 - (IBAction)openChatWindow:(id)sender {
     
     [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController animated:YES];
+}
+
+- (IBAction)reportAlert:(id)sender {
+    
+    [self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
 }
 
 - (IBAction)displayVirtualEntourage:(id)sender {

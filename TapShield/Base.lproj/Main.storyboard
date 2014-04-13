@@ -139,14 +139,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Flq-iw-b8J">
-                                                    <rect key="frame" x="84" y="0.0" width="221" height="80"/>
+                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="help_menu_icon_active.png" id="rrM-8M-AzA">
-                                                    <rect key="frame" x="15" y="13" width="54" height="54"/>
+                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -414,6 +414,9 @@
                                         <state key="normal" image="report_icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="reportAlert:" destination="qEG-az-7FP" eventType="touchUpInside" id="kq8-wz-6lq"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Report" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYt-nV-0XB">
                                         <rect key="frame" x="9" y="31" width="42" height="21"/>
@@ -2679,13 +2682,13 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7cm-V0-Ywa">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="30" sectionFooterHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="7cm-V0-Ywa">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Type" textLabel="rNB-oc-9Fn" detailTextLabel="XOg-L2-Ty0" rowHeight="50" style="IBUITableViewCellStyleSubtitle" id="7Ny-jg-rxP">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="94" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Ny-jg-rxP" id="oZS-EC-hYm">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -2717,6 +2720,12 @@ Last Updated: 12/12/13
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="7cm-V0-Ywa" secondAttribute="trailing" id="2is-Mv-SYd"/>
+                            <constraint firstItem="7cm-V0-Ywa" firstAttribute="top" secondItem="Fu4-g9-nd9" secondAttribute="top" id="Fh0-MJ-sWb"/>
+                            <constraint firstItem="7cm-V0-Ywa" firstAttribute="leading" secondItem="Fu4-g9-nd9" secondAttribute="leading" id="N25-9k-zGn"/>
+                            <constraint firstItem="fSr-TP-EMg" firstAttribute="top" secondItem="7cm-V0-Ywa" secondAttribute="bottom" id="nYc-QJ-NL9"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Alert Type" id="XjY-Gb-pLj">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="NiO-JB-ddH">
@@ -2764,7 +2773,7 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GTd-dL-Tr4">
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GTd-dL-Tr4">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="114"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>

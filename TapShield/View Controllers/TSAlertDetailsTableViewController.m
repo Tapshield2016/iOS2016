@@ -25,13 +25,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
     
     [self whiteNavigationBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,10 +87,6 @@
         cell.imageView.image = [UIImage imageNamed:@"bubble_other_icon"];
     }
     
-    CGRect frame = cell.imageView.frame;
-    frame.size.width = 50;
-    cell.imageView.frame = frame;
-    
     cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:18.0f];
     cell.textLabel.textColor = [TSColorPalette listCellTextColor];
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
@@ -97,6 +94,35 @@
     return cell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return @"Medical";
+    }
+    
+    return @"Police";
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    
+    headerView.backgroundColor = [TSColorPalette tableViewHeaderColor];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width - 10, headerView.frame.size.height)];
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0f];
+    [headerView addSubview:label];
+    
+    label.text = @"Police";
+    
+    if (section == 0) {
+        label.text = @"Medical";
+    }
+    
+    return headerView;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     

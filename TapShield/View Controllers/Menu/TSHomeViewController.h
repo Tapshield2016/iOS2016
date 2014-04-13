@@ -11,7 +11,6 @@
 #import "TSNavigationViewController.h"
 #import "TSVirtualEntourageManager.h"
 
-
 @interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
@@ -28,6 +27,7 @@
 - (IBAction)displayVirtualEntourage:(id)sender;
 - (IBAction)sendAlert:(id)sender;
 - (IBAction)openChatWindow:(id)sender;
+- (IBAction)reportAlert:(id)sender;
 
 - (void)clearEntourageAndResetMap;
 

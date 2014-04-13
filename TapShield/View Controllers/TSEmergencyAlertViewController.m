@@ -263,7 +263,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (void)parentScrollViewOffset:(float)offsetX {
     
-    NSUInteger page = (int)ceilf(offsetX/self.view.frame.size.width);
+//    NSUInteger page = (int)ceilf(offsetX/self.view.frame.size.width);
     NSUInteger halfPage = (int)roundf(offsetX/self.view.frame.size.width);
 //    float ratio = offsetX/self.view.frame.size.width;
 //    float ratioChange = 1 - offsetX/self.view.frame.size.width;

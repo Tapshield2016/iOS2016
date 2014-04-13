@@ -13,7 +13,7 @@
 static NSString * const kCallEnded = @"Call Ended";
 static NSString * const kCallFailed = @"Call Failed";
 static NSString * const kCallRetrying = @"Call Retrying";
-static NSString * const kCallConnecting = @"Connecting...";
+static NSString * const kCallConnecting = @"Calling";
 static NSString * const kCallRedialing = @"Redialing";
 
 @interface TSVoipViewController ()
@@ -94,6 +94,19 @@ static NSString * const kCallRedialing = @"Redialing";
 }
 
 
+#pragma mark - UI Updates 
+
+- (void)updatePhoneNumberWithMessage:(NSString *)string {
+    dispatch_async(dispatch_get_main_queue(), ^{
+    [((TSEmergencyAlertViewController *)_emergencyView).phoneNumberLabel setText:string withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+    });
+}
+
+- (void)showPhoneNumber {
+    
+    [self updatePhoneNumberWithMessage:[TSUtilities formatPhoneNumber:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber]];
+}
+
 #pragma mark - Twilio Setup
 
 - (BOOL)capabilityTokenValid
@@ -130,7 +143,10 @@ static NSString * const kCallRedialing = @"Redialing";
     [self voipDisconnect];
     _redialButton.enabled = NO;
     
+    [self updatePhoneNumberWithMessage:kCallConnecting];
+    
     [self getTwilioCallToken:^(NSString *callToken) {
+        _callToken = callToken;
         _twilioDevice = [[TCDevice alloc] initWithCapabilityToken:callToken delegate:self];
         _twilioDevice.outgoingSoundEnabled = YES;
         _twilioDevice.incomingSoundEnabled = YES;
@@ -224,17 +240,21 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (void)connectionDidConnect:(TCConnection *)connection {
     [self startCallTimer];
+    [self showPhoneNumber];
 }
 
 
 - (void)connectionDidDisconnect:(TCConnection *)connection {
     [self stopCallTimer];
     _redialButton.enabled = YES;
+    
+    [self updatePhoneNumberWithMessage:kCallEnded];
 }
 
 - (void)connection:(TCConnection *)connection didFailWithError:(NSError *)error {
     [self stopCallTimer];
     _redialButton.enabled = YES;
+    [self updatePhoneNumberWithMessage:kCallFailed];
 }
 
 #pragma mark - Twilio Device Delegate

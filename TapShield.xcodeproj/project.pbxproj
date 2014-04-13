@@ -267,6 +267,18 @@
 		C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
+		C54CE50618FA6DA90077350E /* bubble_robbery_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50218FA6DA90077350E /* bubble_robbery_icon.png */; };
+		C54CE50718FA6DA90077350E /* bubble_robbery_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50218FA6DA90077350E /* bubble_robbery_icon.png */; };
+		C54CE50818FA6DA90077350E /* bubble_robbery_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50218FA6DA90077350E /* bubble_robbery_icon.png */; };
+		C54CE50918FA6DA90077350E /* bubble_robbery_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50318FA6DA90077350E /* bubble_robbery_icon@2x.png */; };
+		C54CE50A18FA6DA90077350E /* bubble_robbery_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50318FA6DA90077350E /* bubble_robbery_icon@2x.png */; };
+		C54CE50B18FA6DA90077350E /* bubble_robbery_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50318FA6DA90077350E /* bubble_robbery_icon@2x.png */; };
+		C54CE50C18FA6DA90077350E /* bubble_shooting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50418FA6DA90077350E /* bubble_shooting_icon.png */; };
+		C54CE50D18FA6DA90077350E /* bubble_shooting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50418FA6DA90077350E /* bubble_shooting_icon.png */; };
+		C54CE50E18FA6DA90077350E /* bubble_shooting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50418FA6DA90077350E /* bubble_shooting_icon.png */; };
+		C54CE50F18FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */; };
+		C54CE51018FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */; };
+		C54CE51118FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */; };
 		C55644F218DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
 		C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
 		C55644F418DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
@@ -583,12 +595,12 @@
 		C55646D118E378DF00D29B0D /* pins_burglary_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456818E378DE00D29B0D /* pins_burglary_icon@2x.png */; };
 		C55646D218E378DF00D29B0D /* pins_burglary_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456818E378DE00D29B0D /* pins_burglary_icon@2x.png */; };
 		C55646D318E378DF00D29B0D /* pins_burglary_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456818E378DE00D29B0D /* pins_burglary_icon@2x.png */; };
-		C55646D418E378DF00D29B0D /* pins_chocking_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456918E378DE00D29B0D /* pins_chocking_icon.png */; };
-		C55646D518E378DF00D29B0D /* pins_chocking_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456918E378DE00D29B0D /* pins_chocking_icon.png */; };
-		C55646D618E378DF00D29B0D /* pins_chocking_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456918E378DE00D29B0D /* pins_chocking_icon.png */; };
-		C55646D718E378DF00D29B0D /* pins_chocking_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456A18E378DE00D29B0D /* pins_chocking_icon@2x.png */; };
-		C55646D818E378DF00D29B0D /* pins_chocking_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456A18E378DE00D29B0D /* pins_chocking_icon@2x.png */; };
-		C55646D918E378DF00D29B0D /* pins_chocking_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456A18E378DE00D29B0D /* pins_chocking_icon@2x.png */; };
+		C55646D418E378DF00D29B0D /* pins_choking_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456918E378DE00D29B0D /* pins_choking_icon.png */; };
+		C55646D518E378DF00D29B0D /* pins_choking_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456918E378DE00D29B0D /* pins_choking_icon.png */; };
+		C55646D618E378DF00D29B0D /* pins_choking_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456918E378DE00D29B0D /* pins_choking_icon.png */; };
+		C55646D718E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456A18E378DE00D29B0D /* pins_choking_icon@2x.png */; };
+		C55646D818E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456A18E378DE00D29B0D /* pins_choking_icon@2x.png */; };
+		C55646D918E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456A18E378DE00D29B0D /* pins_choking_icon@2x.png */; };
 		C55646DA18E378DF00D29B0D /* pins_cpr1_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456B18E378DE00D29B0D /* pins_cpr1_icon.png */; };
 		C55646DB18E378DF00D29B0D /* pins_cpr1_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456B18E378DE00D29B0D /* pins_cpr1_icon.png */; };
 		C55646DC18E378DF00D29B0D /* pins_cpr1_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C556456B18E378DE00D29B0D /* pins_cpr1_icon.png */; };
@@ -1630,6 +1642,10 @@
 		C5391EBC18CA238D00C23C0A /* TSPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPageViewController.m; path = "View Controllers/TSPageViewController.m"; sourceTree = "<group>"; };
 		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
 		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
+		C54CE50218FA6DA90077350E /* bubble_robbery_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_robbery_icon.png; sourceTree = "<group>"; };
+		C54CE50318FA6DA90077350E /* bubble_robbery_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_robbery_icon@2x.png"; sourceTree = "<group>"; };
+		C54CE50418FA6DA90077350E /* bubble_shooting_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_shooting_icon.png; sourceTree = "<group>"; };
+		C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_shooting_icon@2x.png"; sourceTree = "<group>"; };
 		C55644F018DF770D00D29B0D /* TSGradientSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGradientSwipeViewController.h; sourceTree = "<group>"; };
 		C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGradientSwipeViewController.m; sourceTree = "<group>"; };
 		C55644F518E2048000D29B0D /* TSRegistrationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationButton.h; path = Views/Buttons/TSRegistrationButton.h; sourceTree = "<group>"; };
@@ -1736,8 +1752,8 @@
 		C556456618E378DE00D29B0D /* pins_brokenbone_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_brokenbone_icon@2x.png"; sourceTree = "<group>"; };
 		C556456718E378DE00D29B0D /* pins_burglary_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_burglary_icon.png; sourceTree = "<group>"; };
 		C556456818E378DE00D29B0D /* pins_burglary_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_burglary_icon@2x.png"; sourceTree = "<group>"; };
-		C556456918E378DE00D29B0D /* pins_chocking_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_chocking_icon.png; sourceTree = "<group>"; };
-		C556456A18E378DE00D29B0D /* pins_chocking_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_chocking_icon@2x.png"; sourceTree = "<group>"; };
+		C556456918E378DE00D29B0D /* pins_choking_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_choking_icon.png; sourceTree = "<group>"; };
+		C556456A18E378DE00D29B0D /* pins_choking_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_choking_icon@2x.png"; sourceTree = "<group>"; };
 		C556456B18E378DE00D29B0D /* pins_cpr1_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_cpr1_icon.png; sourceTree = "<group>"; };
 		C556456C18E378DE00D29B0D /* pins_cpr1_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_cpr1_icon@2x.png"; sourceTree = "<group>"; };
 		C556456D18E378DE00D29B0D /* pins_cpr2_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_cpr2_icon.png; sourceTree = "<group>"; };
@@ -2647,6 +2663,10 @@
 				C556453E18E378DE00D29B0D /* bubble_highfever_icon.png */,
 				C556453F18E378DE00D29B0D /* bubble_highfever_icon@2x.png */,
 				C556454018E378DE00D29B0D /* bubble_other_icon.png */,
+				C54CE50218FA6DA90077350E /* bubble_robbery_icon.png */,
+				C54CE50318FA6DA90077350E /* bubble_robbery_icon@2x.png */,
+				C54CE50418FA6DA90077350E /* bubble_shooting_icon.png */,
+				C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */,
 				C556454118E378DE00D29B0D /* bubble_other_icon@2x.png */,
 				C556454218E378DE00D29B0D /* bubble_stroke_icon.png */,
 				C556454318E378DE00D29B0D /* bubble_stroke_icon@2x.png */,
@@ -2694,8 +2714,8 @@
 				C556456618E378DE00D29B0D /* pins_brokenbone_icon@2x.png */,
 				C556456718E378DE00D29B0D /* pins_burglary_icon.png */,
 				C556456818E378DE00D29B0D /* pins_burglary_icon@2x.png */,
-				C556456918E378DE00D29B0D /* pins_chocking_icon.png */,
-				C556456A18E378DE00D29B0D /* pins_chocking_icon@2x.png */,
+				C556456918E378DE00D29B0D /* pins_choking_icon.png */,
+				C556456A18E378DE00D29B0D /* pins_choking_icon@2x.png */,
 				C556456B18E378DE00D29B0D /* pins_cpr1_icon.png */,
 				C556456C18E378DE00D29B0D /* pins_cpr1_icon@2x.png */,
 				C556456D18E378DE00D29B0D /* pins_cpr2_icon.png */,
@@ -3511,6 +3531,7 @@
 				C5BBF38318F8FCA3008B5CB2 /* chat_time_icon.png in Resources */,
 				C55645FC18E378DF00D29B0D /* avatar_icon.png in Resources */,
 				C5BBF37D18F8FCA3008B5CB2 /* chat_bg.png in Resources */,
+				C54CE50F18FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */,
 				C5C1706D18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C55645A518E378DF00D29B0D /* user_default_icon@2x.png in Resources */,
 				C5BBF31218F6FCD7008B5CB2 /* Icon-40.png in Resources */,
@@ -3527,6 +3548,7 @@
 				C556475218E378DF00D29B0D /* notifications_menu_icon_active.png in Resources */,
 				C501CC6F18F3042F005A0B98 /* number_3@2x.png in Resources */,
 				C556476D18E378DF00D29B0D /* settings_menu_icon_active@2x.png in Resources */,
+				C54CE50618FA6DA90077350E /* bubble_robbery_icon.png in Resources */,
 				C55645BD18E378DF00D29B0D /* bubble_time2_LT_icon@2x.png in Resources */,
 				C556471318E378DF00D29B0D /* pins_theft_icon@2x.png in Resources */,
 				C55646B318E378DF00D29B0D /* pins_arrest_icon@2x.png in Resources */,
@@ -3553,6 +3575,7 @@
 				C55645CF18E378DF00D29B0D /* bubble_time_LB_icon@2x.png in Resources */,
 				C556467718E378DF00D29B0D /* pin_details_bg@2x.png in Resources */,
 				C5372DED18B3126000D22682 /* AddPhotoButton.png in Resources */,
+				C54CE50C18FA6DA90077350E /* bubble_shooting_icon.png in Resources */,
 				C556470A18E378DF00D29B0D /* pins_stroke_icon.png in Resources */,
 				C55645B718E378DF00D29B0D /* bubble_time2_LB_icon@2x.png in Resources */,
 				C501CC5A18F3042F005A0B98 /* number_0.png in Resources */,
@@ -3771,6 +3794,7 @@
 				C5FD5E8F18B3141800E27EE9 /* circle.png in Resources */,
 				C585F2FD18DB6E2E009EEF16 /* Raleway-Heavy.otf in Resources */,
 				C5BBF3F218F8FCA3008B5CB2 /* change_photo_bg@2x.png in Resources */,
+				C54CE50918FA6DA90077350E /* bubble_robbery_icon@2x.png in Resources */,
 				C556470118E378DF00D29B0D /* pins_robbery@2x.png in Resources */,
 				C55645A818E378DF00D29B0D /* user_new_icon.png in Resources */,
 				C585F30018DB6E2E009EEF16 /* Raleway-Light.otf in Resources */,
@@ -3780,7 +3804,7 @@
 				C5BBF41618F8FCA3008B5CB2 /* settings_female_ico@2x.png in Resources */,
 				C556472218E378DF00D29B0D /* tapshield_icon.png in Resources */,
 				C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */,
-				C55646D418E378DF00D29B0D /* pins_chocking_icon.png in Resources */,
+				C55646D418E378DF00D29B0D /* pins_choking_icon.png in Resources */,
 				C5BBF31818F6FCD7008B5CB2 /* Icon-60.png in Resources */,
 				C585F30C18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C585F24D18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
@@ -3818,7 +3842,7 @@
 				C585F23518DA2A3B009EEF16 /* btn_user_badge_pressed.png in Resources */,
 				C556467D18E378DF00D29B0D /* pointer_icon@2x.png in Resources */,
 				C585F2A718DA2A3B009EEF16 /* btn_yes_no_pressed.png in Resources */,
-				C55646D718E378DF00D29B0D /* pins_chocking_icon@2x.png in Resources */,
+				C55646D718E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */,
 				C585F26518DA2A3B009EEF16 /* btn_small_circle_pressed.png in Resources */,
 				C5BBF3F818F8FCA3008B5CB2 /* profile_appearance_ico@2x.png in Resources */,
 				C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */,
@@ -3837,7 +3861,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C55646D618E378DF00D29B0D /* pins_chocking_icon.png in Resources */,
+				C55646D618E378DF00D29B0D /* pins_choking_icon.png in Resources */,
 				C5BBF38E18F8FCA3008B5CB2 /* error_ico@2x.png in Resources */,
 				C585F24F18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C55646B818E378DF00D29B0D /* pins_arson_icon.png in Resources */,
@@ -3863,6 +3887,7 @@
 				C585F2A318DA2A3B009EEF16 /* btn_yes_no_normal.png in Resources */,
 				C5372E0418B3126000D22682 /* DisarmIcon_keypad.png in Resources */,
 				C5BBF3A018F8FCA3008B5CB2 /* default_user_icon@2x.png in Resources */,
+				C54CE50818FA6DA90077350E /* bubble_robbery_icon.png in Resources */,
 				C55646C718E378DF00D29B0D /* pins_bleeding_icon@2x.png in Resources */,
 				C585F29118DA2A3B009EEF16 /* btn_login_pressed.png in Resources */,
 				C556462E18E378DF00D29B0D /* bubble_brokenbone_icon.png in Resources */,
@@ -3881,7 +3906,7 @@
 				C5BBF3A318F8FCA3008B5CB2 /* code_disarm_fill.png in Resources */,
 				C501CC6818F3042F005A0B98 /* number_2.png in Resources */,
 				C585F24618DA2A3B009EEF16 /* pag_dot_inactive@2x.png in Resources */,
-				C55646D918E378DF00D29B0D /* pins_chocking_icon@2x.png in Resources */,
+				C55646D918E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */,
 				C5BBF3B818F8FCA3008B5CB2 /* alert_mute_icon@2x.png in Resources */,
 				C5372DD218B2CD8A00D22682 /* googlePlus.png in Resources */,
 				C556473C18E378DF00D29B0D /* help_menu_icon_active.png in Resources */,
@@ -3955,6 +3980,7 @@
 				C5BBF40C18F8FCA3008B5CB2 /* profile_ice_ico@2x.png in Resources */,
 				C585F24918DA2A3B009EEF16 /* splash_logo_small.png in Resources */,
 				C55645DD18E378DF00D29B0D /* bubble_time_RB_icon@2x.png in Resources */,
+				C54CE50B18FA6DA90077350E /* bubble_robbery_icon@2x.png in Resources */,
 				C55646BE18E378DF00D29B0D /* pins_assault_icon.png in Resources */,
 				C5FD5E8418B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
 				C532E8E918BD583200FC111A /* logo.png in Resources */,
@@ -4100,6 +4126,7 @@
 				C556460718E378DF00D29B0D /* chevron_icon@2x.png in Resources */,
 				C556471518E378DF00D29B0D /* pins_theft_icon@2x.png in Resources */,
 				C55646A618E378DF00D29B0D /* nav_bar_bg.png in Resources */,
+				C54CE50E18FA6DA90077350E /* bubble_shooting_icon.png in Resources */,
 				C55645FB18E378DF00D29B0D /* route_walk_icon_inactive@2x.png in Resources */,
 				C5FD5E9C18B3143100E27EE9 /* PhoneIcon.png in Resources */,
 				C5BBF37F18F8FCA3008B5CB2 /* chat_bg.png in Resources */,
@@ -4164,6 +4191,7 @@
 				C585F26418DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
 				C556467018E378DF00D29B0D /* bubble_vandalism_icon.png in Resources */,
 				C532E65518BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
+				C54CE51118FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */,
 				C585F30818DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C55645E618E378DF00D29B0D /* route_car_icon_active.png in Resources */,
 				C585F2D918DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */,
@@ -4188,7 +4216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C55646D518E378DF00D29B0D /* pins_chocking_icon.png in Resources */,
+				C55646D518E378DF00D29B0D /* pins_choking_icon.png in Resources */,
 				C5BBF38D18F8FCA3008B5CB2 /* error_ico@2x.png in Resources */,
 				C585F24E18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C55646B718E378DF00D29B0D /* pins_arson_icon.png in Resources */,
@@ -4214,6 +4242,7 @@
 				C585F2A218DA2A3B009EEF16 /* btn_yes_no_normal.png in Resources */,
 				C57C48F318BBDB1900DFFBCE /* Agency@2x.png in Resources */,
 				C5BBF39F18F8FCA3008B5CB2 /* default_user_icon@2x.png in Resources */,
+				C54CE50718FA6DA90077350E /* bubble_robbery_icon.png in Resources */,
 				C55646C618E378DF00D29B0D /* pins_bleeding_icon@2x.png in Resources */,
 				C585F29018DA2A3B009EEF16 /* btn_login_pressed.png in Resources */,
 				C556462D18E378DF00D29B0D /* bubble_brokenbone_icon.png in Resources */,
@@ -4232,7 +4261,7 @@
 				C5BBF3A218F8FCA3008B5CB2 /* code_disarm_fill.png in Resources */,
 				C501CC6718F3042F005A0B98 /* number_2.png in Resources */,
 				C585F24518DA2A3B009EEF16 /* pag_dot_inactive@2x.png in Resources */,
-				C55646D818E378DF00D29B0D /* pins_chocking_icon@2x.png in Resources */,
+				C55646D818E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */,
 				C5BBF3B718F8FCA3008B5CB2 /* alert_mute_icon@2x.png in Resources */,
 				C57C48F418BBDB1900DFFBCE /* location2.png in Resources */,
 				C556473B18E378DF00D29B0D /* help_menu_icon_active.png in Resources */,
@@ -4306,6 +4335,7 @@
 				C5BBF40B18F8FCA3008B5CB2 /* profile_ice_ico@2x.png in Resources */,
 				C585F24818DA2A3B009EEF16 /* splash_logo_small.png in Resources */,
 				C55645DC18E378DF00D29B0D /* bubble_time_RB_icon@2x.png in Resources */,
+				C54CE50A18FA6DA90077350E /* bubble_robbery_icon@2x.png in Resources */,
 				C55646BD18E378DF00D29B0D /* pins_assault_icon.png in Resources */,
 				C57C48FD18BBDB1900DFFBCE /* CheckBox_Unselected@2x.png in Resources */,
 				C57C48FE18BBDB1900DFFBCE /* EmailEnvelope@2x.png in Resources */,
@@ -4451,6 +4481,7 @@
 				C556460618E378DF00D29B0D /* chevron_icon@2x.png in Resources */,
 				C556471418E378DF00D29B0D /* pins_theft_icon@2x.png in Resources */,
 				C55646A518E378DF00D29B0D /* nav_bar_bg.png in Resources */,
+				C54CE50D18FA6DA90077350E /* bubble_shooting_icon.png in Resources */,
 				C55645FA18E378DF00D29B0D /* route_walk_icon_inactive@2x.png in Resources */,
 				C57C490D18BBDB1900DFFBCE /* LockIcon@2x.png in Resources */,
 				C5BBF37E18F8FCA3008B5CB2 /* chat_bg.png in Resources */,
@@ -4515,6 +4546,7 @@
 				C585F26318DA2A3B009EEF16 /* btn_small_circle_normal@2x.png in Resources */,
 				C556466F18E378DF00D29B0D /* bubble_vandalism_icon.png in Resources */,
 				C532E65418BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
+				C54CE51018FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */,
 				C585F30718DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C55645E518E378DF00D29B0D /* route_car_icon_active.png in Resources */,
 				C585F2D818DA2A3B009EEF16 /* splash_logo_big@2x.png in Resources */,

@@ -50,6 +50,8 @@
         [self performSelector:@selector(animation) withObject:nil afterDelay:1.0f];
     }
     _isFirstTimeViewed = NO;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -20,6 +20,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
     [self.navigationController setNavigationBarHidden:YES];
     
     _isFirstTimeViewed = YES;

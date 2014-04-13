@@ -45,6 +45,8 @@
     self.toolbar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
     [self insertSubview:self.toolbar atIndex:0];
     
+    
+    
     CGRect textViewFrame = CGRectMake(self.frame.size.width/10 + 5, self.frame.size.height/10 * 2, self.frame.size.width/10 * 7, self.frame.size.height/10 * 6);
     
     _textView = [[UITextView alloc] initWithFrame:textViewFrame];
@@ -146,6 +148,43 @@
                          _toolbar.frame = newToolbarFrame;
                          _textView.frame = newTextViewFrame;
                          self.frame = newBarFrame;
+                         [self adjustTableView:newBarFrame.size.height];
+                     } completion:nil];
+}
+
+- (void)resetBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar {
+    
+    CGSize textSize = [TSUtilities text:@"test" sizeWithFont:_textView.font constrainedToSize:_textView.frame.size];
+    
+    int height = floorf(textSize.height);
+    int rows = height/roundf(textSize.height);
+    
+    
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    int maxRows = (screenBounds.size.height - keyboard.frame.size.height - navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height) / roundf(textSize.height);
+    
+    if (rows > maxRows - 2) {
+        return;
+    }
+    
+    CGRect newBarFrame = self.frame;
+    newBarFrame.size.height = (rows * textSize.height) + (_originalBarHeight - textSize.height);
+    CGRect newToolbarFrame = newBarFrame;
+    newToolbarFrame.origin.y = 0;
+    newBarFrame.origin.y =  _originalBarOriginY - (rows - 1) * textSize.height;
+    
+    CGRect newTextViewFrame = _textView.frame;
+    newTextViewFrame.size.height = (rows * textSize.height) + (_originalTextViewHeight - textSize.height);
+	
+    [UIView animateWithDuration:0.1f
+                          delay:0
+                        options:(UIViewAnimationOptionAllowUserInteraction|
+                                 UIViewAnimationOptionBeginFromCurrentState)
+                     animations:^(void) {
+                         _toolbar.frame = newToolbarFrame;
+                         _textView.frame = newTextViewFrame;
+                         self.frame = newBarFrame;
+                         [self adjustTableView:newBarFrame.size.height];
                      } completion:nil];
 }
 
@@ -169,7 +208,24 @@
                          _toolbar.frame = newToolbarFrame;
                          _textView.frame = newTextViewFrame;
                          self.frame = newBarFrame;
+                         [self adjustTableView:newBarFrame.size.height];
                      } completion:nil];
+}
+
+- (void)adjustTableView:(float)newBarHeight {
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(44 + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, newBarHeight + Keyboard_Height, 0.0f);
+    
+    if (_adjustedTableView.contentInset.bottom == contentInsets.bottom) {
+        return;
+    }
+    _adjustedTableView.contentInset = contentInsets;
+    _adjustedTableView.scrollIndicatorInsets = contentInsets;
+    
+    if (_adjustedTableView.visibleCells.count > 1) {
+        NSIndexPath *indexPath = [_adjustedTableView indexPathForCell:[_adjustedTableView.visibleCells lastObject]];
+        [_adjustedTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
 }
 
 @end

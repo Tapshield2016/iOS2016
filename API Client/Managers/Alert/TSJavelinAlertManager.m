@@ -41,7 +41,7 @@ static NSString * const TSJavelinAlertManagerRemoteHostName = @"dev.tapshield.co
 #endif
 
 NSString * const TSJavelinAlertManagerDidRecieveActiveAlertNotification = @"TSJavelinAlertManagerDidRecieveActiveAlertNotification";
-NSString * const TSJavelinAlertManagerDidCancelNotification = @"TSJavelinAlertManagerDidCancelNotification";
+NSString * const TSJavelinAlertManagerDidDisarmNotification = @"TSJavelinAlertManagerDidDisarmNotification";
 NSString * const TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification = @"TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification";
 
 NSString * const kTSJavelinAlertManagerSentActiveAlert = @"kTSJavelinAlertManagerSentActiveAlert";
@@ -220,6 +220,8 @@ static dispatch_once_t onceToken;
 {
     if (!activeAlert) {
         _activeAlert = nil;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidDisarmNotification object:nil];
     }
     
     if (!activeAlert.url) {

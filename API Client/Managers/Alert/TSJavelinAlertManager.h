@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 extern NSString * const TSJavelinAlertManagerDidRecieveActiveAlertNotification;
-extern NSString * const TSJavelinAlertManagerDidCancelNotification;
+extern NSString * const TSJavelinAlertManagerDidDisarmNotification;
 extern NSString * const TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification;
 
 extern NSString * const kTSJavelinAlertManagerSentActiveAlert;

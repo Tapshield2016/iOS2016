@@ -59,4 +59,9 @@
     return self;
 }
 
+- (NSString*)chatMessageStatusToString:(ChatMessageStatus)enumValue {
+    NSArray *orderArray = [[NSArray alloc] initWithObjects:kChatMessageStatusArray];
+    return [orderArray objectAtIndex:enumValue];
+}
+
 @end

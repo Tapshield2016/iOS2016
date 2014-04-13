@@ -22,6 +22,48 @@
 
 #pragma mark - String Formatting
 
++ (NSString *)removeNonNumericalCharacters:(NSString *)phoneNumber {
+    
+    if (!phoneNumber) {
+        return nil;
+    }
+    
+    NSCharacterSet *charactersToRemove = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
+    return phoneNumber;
+}
+
++ (NSString *)formatPhoneNumber:(NSString *)rawString {
+    
+    if (!rawString) {
+        return nil;
+    }
+    
+    NSMutableString *mutableNumber = [NSMutableString stringWithString:[self removeNonNumericalCharacters:rawString]];
+    [mutableNumber insertString:@"-" atIndex:6];
+    [mutableNumber insertString:@") " atIndex:3];
+    [mutableNumber insertString:@"(" atIndex:0];
+    return mutableNumber;
+}
+
++ (NSString *)formattedStringForTime:(NSTimeInterval)duration {
+    long durationInSeconds = lroundf(duration);
+    NSInteger hours = durationInSeconds / 3600;
+    NSInteger minutes = (durationInSeconds % 3600) / 60;
+    NSInteger seconds = durationInSeconds % 60;
+    
+    if (hours > 0) {
+        return [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
+    }
+    else {
+//        if (minutes == 0) {
+//            return [NSString stringWithFormat:@":%02d", seconds];
+//        }
+        
+        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    }
+}
+
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration {
     long durationInSeconds = lroundf(duration);
     NSInteger hours = durationInSeconds / 3600;
@@ -170,5 +212,7 @@
     
     return returnPoint;
 }
+
+
 
 @end

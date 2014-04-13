@@ -10,7 +10,7 @@
 #import "TSJavelinChatMessageOrganizer.h"
 #import "TSJavelinAPIChatMessage.h"
 
-extern NSString * const TSJavelinChatManagerDidReceiveNotificationOfNewChatMessageNotification;
+extern NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification;
 
 @interface TSJavelinChatManager : NSObject
 
@@ -21,6 +21,7 @@ extern NSString * const TSJavelinChatManagerDidReceiveNotificationOfNewChatMessa
 + (instancetype)sharedManager;
 
 - (void)startChatForActiveAlert;
+- (void)clearChatMessages;
 
 - (void)sendChatMessage:(NSString *)message;
 - (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(ChatMessageStatus status))completion;

@@ -23,6 +23,8 @@
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (nonatomic) BOOL isTrackingUser;
 
+- (void)mapAlertModeToggle;
+
 - (IBAction)displayVirtualEntourage:(id)sender;
 - (IBAction)sendAlert:(id)sender;
 - (IBAction)openChatWindow:(id)sender;

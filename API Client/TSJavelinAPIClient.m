@@ -460,6 +460,7 @@ static dispatch_once_t onceToken;
     [_locationPostTimer invalidate];
     _locationPostTimer = nil;
     [[TSJavelinAlertManager sharedManager] stopAlertUpdates];
+    [[TSJavelinAPIClient sharedClient] clearChatMessages];
 }
 
 - (void)disarmAlert {
@@ -501,6 +502,7 @@ static dispatch_once_t onceToken;
            [_timerForFailedFindActiveAlertURL invalidate];
            [_disarmRetryTimer invalidate];
            [[TSJavelinAlertManager sharedManager] resetArchivedAlertBools];
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"FAILED TO DISARM ALERT: %@", error);
            [self startTimerForFailedDisarmOfURL:activeAlertURL];
@@ -524,6 +526,11 @@ static dispatch_once_t onceToken;
 - (void)startChatForActiveAlert {
     
     [_chatManager startChatForActiveAlert];
+}
+
+- (void)clearChatMessages {
+    
+    [_chatManager clearChatMessages];
 }
 
 - (void)sendChatMessage:(NSString *)message {

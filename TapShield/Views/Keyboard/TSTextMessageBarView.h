@@ -10,6 +10,7 @@
 
 @interface TSTextMessageBarView : UIView
 
+@property (strong, nonatomic) UITableView *adjustedTableView;
 @property (strong, nonatomic) UIView *identicalAccessoryView;
 @property (strong, nonatomic) UITextView *textView;
 @property (strong, nonatomic) UIButton *sendButton;
@@ -28,6 +29,7 @@
 - (void)setSendButtonTarget:(id)target action:(SEL)action;
 
 - (void)refreshBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar;
-- (void)resizeBarToReflect:(TSTextMessageBarView *)barView ;
+- (void)resetBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar;
+- (void)resizeBarToReflect:(TSTextMessageBarView *)barView;
 
 @end

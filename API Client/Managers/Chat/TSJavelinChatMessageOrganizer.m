@@ -57,7 +57,7 @@
         TSJavelinAPIChatMessage *chatMessage = (TSJavelinAPIChatMessage *)obj;
         
         for (TSJavelinAPIChatMessage *oldMessage in messageArray) {
-            if (chatMessage.messageID == oldMessage.messageID) {
+            if ([chatMessage.messageID isEqualToString:oldMessage.messageID]) {
                 return YES;
             }
         }

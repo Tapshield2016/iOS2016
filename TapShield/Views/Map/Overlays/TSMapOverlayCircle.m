@@ -24,7 +24,6 @@
     if (self) {
         // Initialization code
         
-        //change if animating over an MKOverlay!!
         self.circle = nil;
     }
     return self;

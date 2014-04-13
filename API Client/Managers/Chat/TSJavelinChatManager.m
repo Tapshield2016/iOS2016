@@ -28,7 +28,7 @@ static NSString * const kTSJavelinAPIChatManagerDynamoDBProductionTableName = @"
 static NSString * const kTSJavelinAPIChatManagerArchivedChatMessages = @"kTSJavelinAPIChatManagerArchivedChatMessages";
 
 // Notifications
-NSString * const TSJavelinChatManagerDidReceiveNotificationOfNewChatMessageNotification = @"TSJavelinChatManagerDidReceiveNotificationOfNewChatMessageNotification";
+NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification = @"TSJavelinChatManagerDidReceiveNewChatMessageNotification";
 
 @interface TSJavelinChatManager ()
 
@@ -75,6 +75,18 @@ static dispatch_once_t onceToken;
     return _sharedManager;
 }
 
+
+
+- (void)setQuickGetTimerInterval:(BOOL)quickGetTimerInterval {
+    
+    _quickGetTimerInterval = quickGetTimerInterval;
+    
+    if (quickGetTimerInterval) {
+        if ([[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier) {
+            [self checkForChatMessages];
+        }
+    }
+}
 
 #pragma mark - Sending
 
@@ -145,6 +157,7 @@ static dispatch_once_t onceToken;
             if (chatMessages) {
                 _didReceivedAll = YES;
                 [_chatMessages addChatMessages:chatMessages];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:[chatMessages lastObject]];
             }
             else {
                 _didReceivedAll = NO;
@@ -156,6 +169,7 @@ static dispatch_once_t onceToken;
         [self getChatMessagesForActiveAlertSinceTime:[_chatMessages lastReceivedTimeStamp] completion:^(NSArray *chatMessages) {
             if (chatMessages) {
                 [_chatMessages addChatMessages:chatMessages];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:[chatMessages lastObject]];
             }
         }];
     }
@@ -236,6 +250,8 @@ static dispatch_once_t onceToken;
     }
 }
 
+#pragma mark - Helper Methods
+
 - (void)scheduleCheckMessagesTimer {
     
     NSTimeInterval time = LONG_TIMER;
@@ -267,9 +283,22 @@ static dispatch_once_t onceToken;
 }
 
 - (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(NSDictionary *)notification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNotificationOfNewChatMessageNotification object:notification];
     
     [self checkForChatMessages];
+}
+
+- (void)clearChatMessages {
+    
+    [self stopCheckMessagesTimer];
+    
+    if (_chatMessages.messagesAwaitingSend) {
+        [_chatMessages.messagesAwaitingSend removeAllObjects];
+    }
+    if (_chatMessages.allMessages) {
+        [_chatMessages.allMessages removeAllObjects];
+    }
+    
+    _didReceivedAll = NO;
 }
 
 @end

@@ -32,12 +32,6 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.showLargeLogo = YES;
-//    self.translucentBackground = YES;
-//    
-//    CGRect frame = self.view.frame;
-//    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-//    self.toolbar.frame = frame;
-//    [self.view bringSubviewToFront:self.toolbar];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertRecieved:) name:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:nil];
     
@@ -51,6 +45,16 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     [_alertInfoLabel setAdjustsFontSizeToFitWidth:YES];
     
     [self.view addSubview: _alertInfoLabel];
+    
+    if ([[TSLocationController sharedLocationController] geofence].currentAgency) {
+        _phoneNumberLabel.text = [TSUtilities formatPhoneNumber:[[TSLocationController sharedLocationController] geofence].currentAgency.dispatcherPhoneNumber];
+        _dispatcherNameLabel.text = [NSString stringWithFormat:@"%@ Dispatcher", [[TSLocationController sharedLocationController] geofence].currentAgency.name];
+    }
+    else {
+        _phoneNumberLabel.text = [TSUtilities formatPhoneNumber:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber];
+        _dispatcherNameLabel.text = [NSString stringWithFormat:@"%@ Dispatcher", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,6 +93,21 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.toolbar.frame = CGRectMake(0.0, self.toolbar.frame.origin.y, self.view.frame.size.width*2, self.navigationController.navigationBar.frame.size.height);
+    } completion:nil];
+}
+
+- (void)showCallTimer {
+    
+    [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _callTimerView.alpha = 1.0f;
+    } completion:nil];
+}
+
+- (void)hideCallTimer {
+    
+    [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _callTimerView.alpha = 0.0f;
+        _callTimeLabel.text = @"00:00";
     } completion:nil];
 }
 
@@ -134,6 +153,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
         if (success) {
             [self updateAlertInfoLabel:kAlertSent];
             [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
+            [_pageViewController.homeViewController mapAlertModeToggle];
         }
         else {
             
@@ -160,31 +180,50 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     
     UIViewController *viewController = _pageViewController.chatViewController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    if (!_transitionDelegate) {
+        _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    }
+    navigationController.transitioningDelegate = _transitionDelegate;
+    navigationController.modalPresentationStyle = UIModalPresentationCustom;
+    
     [_pageViewController.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 
 - (IBAction)addAlertDetails:(id)sender {
     
-    
+    [_pageViewController presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
 }
 
 - (IBAction)callDispatcher:(id)sender {
+    
+    _pageViewController.isPhoneView = YES;
     
     _voipController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSVoipViewController class])];
     _voipController.emergencyView = self;
     [self.view addSubview:_voipController.view];
     
-    CGRect frame = self.view.frame;
+    CGRect frame = self.view.bounds;
     frame.origin.y = frame.size.height;
     _voipController.view.frame = frame;
     
     CGRect infoLabelFrame = _alertInfoLabel.frame;
     infoLabelFrame.origin.y += 88;
+    
+    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + _pageViewController.navigationController.navigationBar.frame.size.height;
+    float minimumHeight = _pageViewController.navigationController.navigationBar.frame.size.height*3 + topBarHeight;
+    CGRect toolbarFrame = _pageViewController.animatedView.frame;
+    toolbarFrame.size.height = minimumHeight;
 
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
-        _voipController.view.frame = self.view.frame;
+        _voipController.view.frame = self.view.bounds;
+        _pageViewController.animatedView.frame = toolbarFrame;
+        
+        _alertButtonView.alpha = 0.0f;
+        _detailsButtonView.alpha = 0.0f;
+        _chatButtonView.alpha = 0.0f;
 
     } completion:^(BOOL finished) {
         [self hideRedButtons];
@@ -194,13 +233,13 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 - (void)hideRedButtons {
     
     [UIView animateWithDuration:0.3 animations:^{
-        _alertButtonView.alpha = 0.0f;
-        _detailsButtonView.alpha = 0.0f;
-        _chatButtonView.alpha = 0.0f;
         
-        _voipController.timeView .alpha = 1.0f;
-        _voipController.phoneNumberLabel .alpha = 1.0f;
-        _voipController.dispatcherLabel .alpha = 1.0f;
+        
+        _phoneInfoLabelsView.alpha = 1.0f;
+        
+//        _voipController.timeView .alpha = 1.0f;
+//        _voipController.phoneNumberLabel .alpha = 1.0f;
+//        _voipController.dispatcherLabel .alpha = 1.0f;
     }];
 }
 
@@ -222,6 +261,9 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     
     float labelOffset = 0;
     float bottomOffset = 0;
+    float voipOffsetY = 0;
+    
+    voipOffsetY = self.view.frame.size.width - offsetX;
     
     if (halfPage == 0) {
         labelOffset = -offsetX;
@@ -237,6 +279,15 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     CGRect frame = _alertInfoLabel.frame;
     frame.origin.x = labelOffset;
     _alertInfoLabel.frame = frame;
+    
+    frame = _phoneInfoLabelsView.frame;
+    frame.origin.x = labelOffset;
+    _phoneInfoLabelsView.frame = frame;
+    
+    frame = _voipController.view.frame;
+    frame.origin.x = labelOffset;
+    frame.origin.y = voipOffsetY;
+    _voipController.view.frame = frame;
     
     frame = _bottomButtonContainerView.frame;
     frame.origin.x = bottomOffset;

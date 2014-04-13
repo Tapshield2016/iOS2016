@@ -8,6 +8,7 @@
 
 #import "TSJavelinAPIBaseModel.h"
 
+#define kChatMessageStatusArray @"Received", @"Sending", @"Delivered", @"Error", nil
 typedef enum {
     kReceived = 0,
     kSending,
@@ -28,5 +29,6 @@ typedef enum {
 + (instancetype)chatMessageWithMessage:(NSString *)message;
 - (instancetype)initWithAttributes:(NSDictionary *)attributes;
 - (instancetype)initWithAttributesFromDynamoDB:(NSDictionary *)attributes;
+- (NSString*)chatMessageStatusToString:(ChatMessageStatus)enumValue;
 
 @end

@@ -12,6 +12,7 @@
 #import "TSEmergencyAlertViewController.h"
 #import "TSChatViewController.h"
 #import "TSHomeViewController.h"
+#import "TSAlertDetailsTableViewController.h"
 
 @interface TSPageViewController : TSNavigationViewController <UIScrollViewDelegate>
 
@@ -24,7 +25,10 @@
 @property (strong, nonatomic) TSHomeViewController *homeViewController;
 
 //UI and animation
+@property (strong, nonatomic) UIView *animatedView;
 @property (strong, nonatomic) UIView *countdownTintView;
+
+
 @property (strong, nonatomic) UIView *topTintView;
 @property (strong, nonatomic) UIView *bottomTintView;
 @property (strong, nonatomic) UIToolbar *bottomToolbar;
@@ -34,6 +38,7 @@
 
 //Alert sending
 @property (nonatomic) BOOL isFirstTimeViewed;
+@property (nonatomic) BOOL isPhoneView;
 
 //Transition
 @property (strong, nonatomic) UIViewController *transitioningViewController;

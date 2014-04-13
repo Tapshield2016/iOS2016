@@ -17,6 +17,13 @@
 @property (weak, nonatomic) IBOutlet UIView *alertButtonView;
 @property (weak, nonatomic) IBOutlet UIView *chatButtonView;
 @property (weak, nonatomic) IBOutlet UIView *bottomButtonContainerView;
+@property (weak, nonatomic) IBOutlet UIView *phoneInfoLabelsView;
+
+@property (weak, nonatomic) IBOutlet TSBaseLabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet TSBaseLabel *dispatcherNameLabel;
+@property (weak, nonatomic) IBOutlet TSBaseLabel *callTimeLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *callTimerView;
 
 
 @property (strong, nonatomic) UIViewController *superviewViewController;
@@ -29,5 +36,8 @@
 - (void)scheduleSendEmergencyTimer;
 - (void)sendEmergency;
 - (void)parentScrollViewOffset:(float)offsetX;
+
+- (void)showCallTimer;
+- (void)hideCallTimer;
 
 @end

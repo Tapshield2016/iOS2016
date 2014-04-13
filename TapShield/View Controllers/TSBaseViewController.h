@@ -22,6 +22,7 @@
 #import "TSRalewayFont.h"
 #import "TSBaseLabel.h"
 #import "TSLogoImageView.h"
+#import "TSUtilities.h"
 
 @interface TSBaseViewController : UIViewController
 

@@ -7,6 +7,7 @@
 //
 
 #import "TSBaseTableViewCell.h"
+#import "TSRoundUserImageView.h"
 
 extern NSString * const TSChatMessageCellIdentifierUser;
 extern NSString * const TSChatMessageCellIdentifierDispatcher;
@@ -17,7 +18,7 @@ extern NSString * const TSChatMessageCellIdentifierDispatcher;
 @property (strong, nonatomic) UILabel *statusLabel;
 @property (strong, nonatomic) UILabel *sideTimeStampLabel;
 @property (strong, nonatomic) UILabel *headerTimeStampLabel;
-@property (strong, nonatomic) UIImageView *userImageView;
+@property (strong, nonatomic) TSRoundUserImageView *userImageView;
 @property (strong, nonatomic) TSJavelinAPIChatMessage *chatMessage;
 
 @property (strong, nonatomic) UIView *roundRectView;

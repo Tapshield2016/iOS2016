@@ -147,5 +147,9 @@
     return UIColorFromRGB(0xff534e);
 }
 
++ (UIColor *)lightChatRectGray {
+    
+    return UIColorFromRGB(0xCCCFD1);
+}
 
 @end

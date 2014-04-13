@@ -14,6 +14,9 @@
 
 + (CGSize)text:(NSString *)text sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
 
++ (NSString *)formatPhoneNumber:(NSString *)rawString;
+
++ (NSString *)formattedStringForTime:(NSTimeInterval)duration;
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
 + (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration;
 + (NSString *)fromattedStringForDistanceInUSStandard:(CLLocationDistance)meters;

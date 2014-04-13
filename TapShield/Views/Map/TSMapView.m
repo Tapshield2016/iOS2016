@@ -108,10 +108,15 @@
 
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay {
     
+    UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
+    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
+        color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
+    }
+    
     MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     circleRenderer.lineWidth = 1.0;
-    circleRenderer.strokeColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
-    circleRenderer.fillColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
+    circleRenderer.strokeColor = color;
+    circleRenderer.fillColor = color;
     
     return circleRenderer;
 }

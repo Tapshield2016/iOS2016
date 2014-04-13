@@ -90,6 +90,15 @@
             [_mapView updateAccuracyCircleWithLocation:location];
         }
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mapAlertModeToggle)
+                                                 name:TSJavelinAlertManagerDidDisarmNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mapAlertModeToggle)
+                                                 name:TSJavelinAlertManagerDidRecieveActiveAlertNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -119,6 +128,12 @@
     [_entourageManager removeRouteOverlaysAndAnnotations];
     [_entourageManager removeCurrentDestinationAnnotation];
     self.isTrackingUser = YES;
+}
+
+- (void)mapAlertModeToggle {
+    
+    [_mapView updateAccuracyCircleWithLocation:[TSLocationController sharedLocationController].location];
+    [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
 }
 
 

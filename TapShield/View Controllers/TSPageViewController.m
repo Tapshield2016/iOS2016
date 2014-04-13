@@ -13,7 +13,6 @@
 
 @property (assign, nonatomic) NSUInteger page;
 @property (assign, nonatomic) NSUInteger halfPage;
-@property (strong, nonatomic) UIView *animatedView;
 
 @end
 
@@ -55,6 +54,8 @@
     
     [self sendBarButton];
     [self setRemoveNavigationShadow:YES];
+    
+    _isPhoneView = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -256,6 +257,9 @@
     
     float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
     float minimumHeight = self.navigationController.navigationBar.frame.size.height + topBarHeight;
+    if (_isPhoneView) {
+        minimumHeight = self.navigationController.navigationBar.frame.size.height*3 + topBarHeight;
+    }
     float animationHeight = self.view.frame.size.height;
     float toolbarFrameHeight = minimumHeight;
     float disarmOffset = 0;

@@ -113,6 +113,9 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 + (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency
 {
+    if (!location || !agency) {
+        return NO;
+    }
     
     double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:agency.agencyBoundaries];
     bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:agency.agencyBoundaries];
@@ -141,6 +144,7 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 + (BOOL)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location
 {
+    
     double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
     bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
     

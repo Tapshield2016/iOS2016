@@ -22,16 +22,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self setTranslucentBackground:YES];
-    
-    _tableView.backgroundColor = [UIColor clearColor];
-    [_tableView setContentInset:UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, self.navigationController.navigationBar.frame.size.height, 0.0f)];
-    
     CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = -frame.size.height;
     
     _textMessageBarAccessoryView = [[TSTextMessageBarView alloc] initWithFrame:frame];
     _textMessageBarAccessoryView.textView.delegate = self;
+    _textMessageBarAccessoryView.adjustedTableView = _tableView;
     
     _textMessageBarBaseView.textView.delegate = self;
     _textMessageBarBaseView.identicalAccessoryView = _textMessageBarAccessoryView;
@@ -48,9 +44,20 @@
     [_textMessageBarAccessoryView setSendButtonTarget:self action:@selector(sendMessage)];
     [_textMessageBarBaseView setSendButtonTarget:self action:@selector(sendMessage)];
     
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableViewCells)
+                                                 name:TSJavelinChatManagerDidReceiveNewChatMessageNotification
+                                               object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow:)
                                                  name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidHide:)
@@ -60,6 +67,9 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    _tableView.backgroundColor = [UIColor clearColor];
+    [_tableView setContentInset:UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, _textMessageBarBaseView.frame.size.height, 0.0f)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,7 +84,9 @@
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-    [_tableView reloadData];
+    [self updateTableViewCells];
+    
+    [[TSJavelinAPIClient sharedClient] chatManager].quickGetTimerInterval = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -102,6 +114,8 @@
     
     [super viewWillDisappear:animated];
     
+    [[TSJavelinAPIClient sharedClient] chatManager].quickGetTimerInterval = NO;
+    
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [_textMessageBarAccessoryView.textView resignFirstResponder];
@@ -125,6 +139,17 @@
     [_textMessageBarBaseView.textView becomeFirstResponder];
 }
 
+- (void)updateTableViewCells {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [_tableView reloadData];
+        if ([[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count > 1) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count - 1 inSection:0];
+            [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    } completion:nil];
+}
+
 #pragma mark - Chat Manager Methods
 
 - (void)sendMessage {
@@ -134,10 +159,50 @@
     }
     
     [[[TSJavelinAPIClient sharedClient] chatManager] sendChatMessage:_textMessageBarBaseView.textView.text];
-    [_tableView reloadData];
+    [self updateTableViewCells];
+    
+    [self resetMessageBars];
+}
+
+- (void)resetMessageBars {
+    _textMessageBarAccessoryView.textView.text = @"";
+    _textMessageBarBaseView.textView.text = @"";
+    [_textMessageBarAccessoryView resetBarHeightWithKeyboard:_inputAccessoryView.superview navigationBar:self.navigationController.navigationBar];
+    [_textMessageBarBaseView resizeBarToReflect:_textMessageBarAccessoryView];
 }
 
 #pragma mark - Keyboard Notifications
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    
+    // get keyboard size and loctaion
+    CGRect keyboardBounds;
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+    // get a rect for the textView frame
+    
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, _textMessageBarBaseView.frame.size.height + keyboardBounds.size.height, 0.0f);
+    _tableView.contentInset = contentInsets;
+    _tableView.scrollIndicatorInsets = contentInsets;
+    
+    if ([[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count > 1) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count - 1 inSection:0];
+        [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
+    
+    [UIView commitAnimations];
+}
 
 - (void)keyboardDidShow:(NSNotification *)notification {
     
@@ -159,7 +224,6 @@
 #pragma mark - Text View Delegate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    
     _textMessageBarBaseView.textView.text = textView.text;
     [_textMessageBarAccessoryView refreshBarHeightWithKeyboard:_inputAccessoryView.superview navigationBar:self.navigationController.navigationBar];
     [_textMessageBarBaseView resizeBarToReflect:_textMessageBarAccessoryView];
@@ -195,7 +259,6 @@
 #pragma mark - Table View Delegate 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return [TSChatMessageCell heightForChatCellAtIndexPath:indexPath];
 }
 

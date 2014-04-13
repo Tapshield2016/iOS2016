@@ -26,5 +26,6 @@
 + (UIColor *)searchFieldBackgroundColor;
 + (UIColor *)registrationButtonTextColor;
 + (UIColor *)alertRed;
++ (UIColor *)lightChatRectGray;
 
 @end

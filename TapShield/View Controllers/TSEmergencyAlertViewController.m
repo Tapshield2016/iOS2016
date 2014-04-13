@@ -193,7 +193,16 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (IBAction)addAlertDetails:(id)sender {
     
-    [_pageViewController presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    if (!_transitionDelegate) {
+        _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    }
+    navigationController.transitioningDelegate = _transitionDelegate;
+    navigationController.modalPresentationStyle = UIModalPresentationCustom;
+    
+    [_pageViewController.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (IBAction)callDispatcher:(id)sender {

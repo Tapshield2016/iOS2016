@@ -53,14 +53,14 @@
     NSInteger seconds = durationInSeconds % 60;
     
     if (hours > 0) {
-        return [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
+        return [NSString stringWithFormat:@"%02ld:%02d:%02d", (long)hours, minutes, seconds];
     }
     else {
 //        if (minutes == 0) {
 //            return [NSString stringWithFormat:@":%02d", seconds];
 //        }
         
-        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+        return [NSString stringWithFormat:@"%02ld:%02d", (long)minutes, seconds];
     }
 }
 
@@ -74,7 +74,7 @@
         if (minutes == 0) {
             return [NSString stringWithFormat:@"%lih", (long)hours];
         }
-        return [NSString stringWithFormat:@"%lih %imin", (long)hours, minutes];
+        return [NSString stringWithFormat:@"%lih %limin", (long)hours, (long)minutes];
     }
     else {
         if (minutes == 0) {
@@ -108,7 +108,7 @@
         if (minutes == 0) {
             return [NSString stringWithFormat:@"%li %@", (long)hours, hourString];
         }
-        return [NSString stringWithFormat:@"%li %@ %i %@", (long)hours, hourString, minutes, minutesString];
+        return [NSString stringWithFormat:@"%li %@ %li %@", (long)hours, hourString, (long)minutes, minutesString];
     }
     else {
         if (minutes == 0) {

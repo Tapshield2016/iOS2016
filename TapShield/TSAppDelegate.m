@@ -8,6 +8,7 @@
 
 #import "TSAppDelegate.h"
 #import "TSJavelinAPIClient.h"
+#import "TSJavelinPushNotificationManager.h"
 #import "MSDynamicsDrawerViewController.h"
 #import "MSDynamicsDrawerStyler.h"
 #import "TSMenuViewController.h"
@@ -39,8 +40,6 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";
-    _isFirstMainViewLoad = YES;
-    _isDemoVersion = YES;
     
 #elif APP_STORE
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIProductionBaseURL];
@@ -116,6 +115,50 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+    NSString *name = @"Notification Center";
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
+        name = @"Notifications";
+    }
+    NSString *message = [NSString stringWithFormat:@"Push Notifications are used during real-time chat and to recieve Mass Alerts from your agency. \n \n Go to Settings->%@->TapShield  to turn TapShield Push Notifications on", name];
+    
+    UIAlertView *enablePushNotificationsAlert = [[UIAlertView alloc] initWithTitle:@"Push Notifications enhance the functionality of TapShield.\n"
+                                                                           message:message
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:@"OK"
+                                                                 otherButtonTitles: nil];
+    [enablePushNotificationsAlert show];
+}
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLatestAPNSDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, NSString *message) {
+        if (!matchFound) {
+            // Do something else here, we didn't find a match for any action we need to be aware of...
+        }
+    }];
+    
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, NSString *message) {
+        if (!matchFound) {
+            // Do something else here, we didn't find a match for any action we need to be aware of...
+        }
+    }];
+}
+
 
 - (void)drawerCanDragForMenu:(BOOL)enabled; {
     

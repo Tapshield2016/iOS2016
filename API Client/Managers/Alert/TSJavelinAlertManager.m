@@ -119,6 +119,10 @@ static dispatch_once_t onceToken;
             alertInfo[@"alert_type"] = type;
         }
         else {
+            NSLog(@"Out of bounds or no agency");
+            if (completion) {
+                completion(NO);
+            }
             return;
         }
         

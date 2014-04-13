@@ -127,6 +127,9 @@
     if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
         parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
     }
+    else if ([self.presentingViewController isKindOfClass:[UINavigationController class]]) {
+        parentNavigationController = (UINavigationController *)self.presentingViewController;
+    }
     
     [self dismissViewControllerAnimated:YES completion:^{
         [parentNavigationController.topViewController viewWillAppear:NO];

@@ -64,10 +64,6 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Type" forIndexPath:indexPath];
     
-    // Configure the cell...
-    
-    
-    
     NSString *string;
     
     if (indexPath.section == 0) {

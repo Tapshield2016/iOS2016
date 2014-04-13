@@ -279,6 +279,63 @@
 		C54CE50F18FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */; };
 		C54CE51018FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */; };
 		C54CE51118FA6DA90077350E /* bubble_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */; };
+		C54CE53C18FAD9030077350E /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52818FAD9030077350E /* libcrypto.a */; };
+		C54CE53D18FAD9030077350E /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52818FAD9030077350E /* libcrypto.a */; };
+		C54CE53E18FAD9030077350E /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52818FAD9030077350E /* libcrypto.a */; };
+		C54CE53F18FAD9030077350E /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52918FAD9030077350E /* libssl.a */; };
+		C54CE54018FAD9030077350E /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52918FAD9030077350E /* libssl.a */; };
+		C54CE54118FAD9040077350E /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52918FAD9030077350E /* libssl.a */; };
+		C54CE54218FAD9040077350E /* libTwilioClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52A18FAD9030077350E /* libTwilioClient.a */; };
+		C54CE54318FAD9040077350E /* libTwilioClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52A18FAD9030077350E /* libTwilioClient.a */; };
+		C54CE54418FAD9040077350E /* libTwilioClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C54CE52A18FAD9030077350E /* libTwilioClient.a */; };
+		C54CE54518FAD9040077350E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52B18FAD9030077350E /* README.txt */; };
+		C54CE54618FAD9040077350E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52B18FAD9030077350E /* README.txt */; };
+		C54CE54718FAD9040077350E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52B18FAD9030077350E /* README.txt */; };
+		C54CE54818FAD9040077350E /* disconnect.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52D18FAD9030077350E /* disconnect.wav */; };
+		C54CE54918FAD9040077350E /* disconnect.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52D18FAD9030077350E /* disconnect.wav */; };
+		C54CE54A18FAD9040077350E /* disconnect.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52D18FAD9030077350E /* disconnect.wav */; };
+		C54CE54B18FAD9040077350E /* dtmf_0.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52E18FAD9030077350E /* dtmf_0.wav */; };
+		C54CE54C18FAD9040077350E /* dtmf_0.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52E18FAD9030077350E /* dtmf_0.wav */; };
+		C54CE54D18FAD9040077350E /* dtmf_0.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52E18FAD9030077350E /* dtmf_0.wav */; };
+		C54CE54E18FAD9040077350E /* dtmf_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52F18FAD9030077350E /* dtmf_1.wav */; };
+		C54CE54F18FAD9040077350E /* dtmf_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52F18FAD9030077350E /* dtmf_1.wav */; };
+		C54CE55018FAD9040077350E /* dtmf_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE52F18FAD9030077350E /* dtmf_1.wav */; };
+		C54CE55118FAD9040077350E /* dtmf_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53018FAD9030077350E /* dtmf_2.wav */; };
+		C54CE55218FAD9040077350E /* dtmf_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53018FAD9030077350E /* dtmf_2.wav */; };
+		C54CE55318FAD9040077350E /* dtmf_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53018FAD9030077350E /* dtmf_2.wav */; };
+		C54CE55418FAD9040077350E /* dtmf_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53118FAD9030077350E /* dtmf_3.wav */; };
+		C54CE55518FAD9040077350E /* dtmf_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53118FAD9030077350E /* dtmf_3.wav */; };
+		C54CE55618FAD9040077350E /* dtmf_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53118FAD9030077350E /* dtmf_3.wav */; };
+		C54CE55718FAD9040077350E /* dtmf_4.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53218FAD9030077350E /* dtmf_4.wav */; };
+		C54CE55818FAD9040077350E /* dtmf_4.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53218FAD9030077350E /* dtmf_4.wav */; };
+		C54CE55918FAD9040077350E /* dtmf_4.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53218FAD9030077350E /* dtmf_4.wav */; };
+		C54CE55A18FAD9040077350E /* dtmf_5.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53318FAD9030077350E /* dtmf_5.wav */; };
+		C54CE55B18FAD9040077350E /* dtmf_5.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53318FAD9030077350E /* dtmf_5.wav */; };
+		C54CE55C18FAD9040077350E /* dtmf_5.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53318FAD9030077350E /* dtmf_5.wav */; };
+		C54CE55D18FAD9040077350E /* dtmf_6.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53418FAD9030077350E /* dtmf_6.wav */; };
+		C54CE55E18FAD9040077350E /* dtmf_6.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53418FAD9030077350E /* dtmf_6.wav */; };
+		C54CE55F18FAD9040077350E /* dtmf_6.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53418FAD9030077350E /* dtmf_6.wav */; };
+		C54CE56018FAD9040077350E /* dtmf_7.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53518FAD9030077350E /* dtmf_7.wav */; };
+		C54CE56118FAD9040077350E /* dtmf_7.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53518FAD9030077350E /* dtmf_7.wav */; };
+		C54CE56218FAD9040077350E /* dtmf_7.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53518FAD9030077350E /* dtmf_7.wav */; };
+		C54CE56318FAD9040077350E /* dtmf_8.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53618FAD9030077350E /* dtmf_8.wav */; };
+		C54CE56418FAD9040077350E /* dtmf_8.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53618FAD9030077350E /* dtmf_8.wav */; };
+		C54CE56518FAD9040077350E /* dtmf_8.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53618FAD9030077350E /* dtmf_8.wav */; };
+		C54CE56618FAD9040077350E /* dtmf_9.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53718FAD9030077350E /* dtmf_9.wav */; };
+		C54CE56718FAD9040077350E /* dtmf_9.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53718FAD9030077350E /* dtmf_9.wav */; };
+		C54CE56818FAD9040077350E /* dtmf_9.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53718FAD9030077350E /* dtmf_9.wav */; };
+		C54CE56918FAD9040077350E /* dtmf_hash.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53818FAD9030077350E /* dtmf_hash.wav */; };
+		C54CE56A18FAD9040077350E /* dtmf_hash.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53818FAD9030077350E /* dtmf_hash.wav */; };
+		C54CE56B18FAD9040077350E /* dtmf_hash.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53818FAD9030077350E /* dtmf_hash.wav */; };
+		C54CE56C18FAD9040077350E /* dtmf_star.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53918FAD9030077350E /* dtmf_star.wav */; };
+		C54CE56D18FAD9040077350E /* dtmf_star.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53918FAD9030077350E /* dtmf_star.wav */; };
+		C54CE56E18FAD9040077350E /* dtmf_star.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53918FAD9030077350E /* dtmf_star.wav */; };
+		C54CE56F18FAD9040077350E /* incoming.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53A18FAD9030077350E /* incoming.wav */; };
+		C54CE57018FAD9040077350E /* incoming.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53A18FAD9030077350E /* incoming.wav */; };
+		C54CE57118FAD9040077350E /* incoming.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53A18FAD9030077350E /* incoming.wav */; };
+		C54CE57218FAD9040077350E /* outgoing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53B18FAD9030077350E /* outgoing.wav */; };
+		C54CE57318FAD9040077350E /* outgoing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53B18FAD9030077350E /* outgoing.wav */; };
+		C54CE57418FAD9040077350E /* outgoing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C54CE53B18FAD9030077350E /* outgoing.wav */; };
 		C55644F218DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
 		C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
 		C55644F418DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
@@ -1646,6 +1703,31 @@
 		C54CE50318FA6DA90077350E /* bubble_robbery_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_robbery_icon@2x.png"; sourceTree = "<group>"; };
 		C54CE50418FA6DA90077350E /* bubble_shooting_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_shooting_icon.png; sourceTree = "<group>"; };
 		C54CE50518FA6DA90077350E /* bubble_shooting_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_shooting_icon@2x.png"; sourceTree = "<group>"; };
+		C54CE52118FAD9030077350E /* TCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCConnection.h; sourceTree = "<group>"; };
+		C54CE52218FAD9030077350E /* TCConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCConnectionDelegate.h; sourceTree = "<group>"; };
+		C54CE52318FAD9030077350E /* TCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDevice.h; sourceTree = "<group>"; };
+		C54CE52418FAD9030077350E /* TCDeviceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDeviceDelegate.h; sourceTree = "<group>"; };
+		C54CE52518FAD9030077350E /* TCPresenceEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPresenceEvent.h; sourceTree = "<group>"; };
+		C54CE52618FAD9030077350E /* TwilioClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwilioClient.h; sourceTree = "<group>"; };
+		C54CE52818FAD9030077350E /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		C54CE52918FAD9030077350E /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		C54CE52A18FAD9030077350E /* libTwilioClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTwilioClient.a; sourceTree = "<group>"; };
+		C54CE52B18FAD9030077350E /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = "External Frameworks/TwilioSDK/README.txt"; sourceTree = "<group>"; };
+		C54CE52D18FAD9030077350E /* disconnect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = disconnect.wav; sourceTree = "<group>"; };
+		C54CE52E18FAD9030077350E /* dtmf_0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_0.wav; sourceTree = "<group>"; };
+		C54CE52F18FAD9030077350E /* dtmf_1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_1.wav; sourceTree = "<group>"; };
+		C54CE53018FAD9030077350E /* dtmf_2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_2.wav; sourceTree = "<group>"; };
+		C54CE53118FAD9030077350E /* dtmf_3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_3.wav; sourceTree = "<group>"; };
+		C54CE53218FAD9030077350E /* dtmf_4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_4.wav; sourceTree = "<group>"; };
+		C54CE53318FAD9030077350E /* dtmf_5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_5.wav; sourceTree = "<group>"; };
+		C54CE53418FAD9030077350E /* dtmf_6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_6.wav; sourceTree = "<group>"; };
+		C54CE53518FAD9030077350E /* dtmf_7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_7.wav; sourceTree = "<group>"; };
+		C54CE53618FAD9030077350E /* dtmf_8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_8.wav; sourceTree = "<group>"; };
+		C54CE53718FAD9030077350E /* dtmf_9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_9.wav; sourceTree = "<group>"; };
+		C54CE53818FAD9030077350E /* dtmf_hash.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_hash.wav; sourceTree = "<group>"; };
+		C54CE53918FAD9030077350E /* dtmf_star.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dtmf_star.wav; sourceTree = "<group>"; };
+		C54CE53A18FAD9030077350E /* incoming.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = incoming.wav; sourceTree = "<group>"; };
+		C54CE53B18FAD9030077350E /* outgoing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = outgoing.wav; sourceTree = "<group>"; };
 		C55644F018DF770D00D29B0D /* TSGradientSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGradientSwipeViewController.h; sourceTree = "<group>"; };
 		C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGradientSwipeViewController.m; sourceTree = "<group>"; };
 		C55644F518E2048000D29B0D /* TSRegistrationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationButton.h; path = Views/Buttons/TSRegistrationButton.h; sourceTree = "<group>"; };
@@ -2083,7 +2165,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5FC0A6F18CF726500AB787F /* Accounts.framework in Frameworks */,
+				C54CE54218FAD9040077350E /* libTwilioClient.a in Frameworks */,
 				C5FC0A6B18CF721B00AB787F /* Twitter.framework in Frameworks */,
+				C54CE53F18FAD9030077350E /* libssl.a in Frameworks */,
 				C5FC0A6718CF706E00AB787F /* Security.framework in Frameworks */,
 				C5FC0A6318CF704F00AB787F /* Social.framework in Frameworks */,
 				C5391EAA18C7F44400C23C0A /* AVFoundation.framework in Frameworks */,
@@ -2092,6 +2176,7 @@
 				B53BBD2F1898195F006A27E0 /* MapKit.framework in Frameworks */,
 				B53BBCF318980FDA006A27E0 /* CoreGraphics.framework in Frameworks */,
 				B53BBCF518980FDA006A27E0 /* UIKit.framework in Frameworks */,
+				C54CE53C18FAD9030077350E /* libcrypto.a in Frameworks */,
 				B53BBCF118980FDA006A27E0 /* Foundation.framework in Frameworks */,
 				1575E15D858D44DC990FE313 /* libPods.a in Frameworks */,
 			);
@@ -2102,7 +2187,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5FC0A7118CF727000AB787F /* Accounts.framework in Frameworks */,
+				C54CE54418FAD9040077350E /* libTwilioClient.a in Frameworks */,
 				C5FC0A6D18CF723400AB787F /* Twitter.framework in Frameworks */,
+				C54CE54118FAD9040077350E /* libssl.a in Frameworks */,
 				C5FC0A6918CF707A00AB787F /* Security.framework in Frameworks */,
 				C5FC0A6518CF705C00AB787F /* Social.framework in Frameworks */,
 				C556598518CC180F00288AD3 /* libPods.a in Frameworks */,
@@ -2111,6 +2198,7 @@
 				C520C91A18A98E6E00D1D2E9 /* MapKit.framework in Frameworks */,
 				C520C91918A98E6400D1D2E9 /* CoreLocation.framework in Frameworks */,
 				C520C91818A98E5700D1D2E9 /* libresolv.dylib in Frameworks */,
+				C54CE53E18FAD9030077350E /* libcrypto.a in Frameworks */,
 				B53BBD1218980FDA006A27E0 /* UIKit.framework in Frameworks */,
 				B53BBD1118980FDA006A27E0 /* Foundation.framework in Frameworks */,
 			);
@@ -2121,7 +2209,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5FC0A7018CF726B00AB787F /* Accounts.framework in Frameworks */,
+				C54CE54318FAD9040077350E /* libTwilioClient.a in Frameworks */,
 				C5FC0A6C18CF722600AB787F /* Twitter.framework in Frameworks */,
+				C54CE54018FAD9030077350E /* libssl.a in Frameworks */,
 				C5FC0A6818CF707400AB787F /* Security.framework in Frameworks */,
 				C5FC0A6418CF705600AB787F /* Social.framework in Frameworks */,
 				C5391EAB18C7F44900C23C0A /* AVFoundation.framework in Frameworks */,
@@ -2130,6 +2220,7 @@
 				C57C48EC18BBDB1900DFFBCE /* MapKit.framework in Frameworks */,
 				C57C48ED18BBDB1900DFFBCE /* CoreGraphics.framework in Frameworks */,
 				C57C48EE18BBDB1900DFFBCE /* UIKit.framework in Frameworks */,
+				C54CE53D18FAD9030077350E /* libcrypto.a in Frameworks */,
 				C57C48EF18BBDB1900DFFBCE /* Foundation.framework in Frameworks */,
 				C57C48F018BBDB1900DFFBCE /* libPods.a in Frameworks */,
 			);
@@ -2165,6 +2256,7 @@
 		B53BBCEF18980FDA006A27E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C54CE51F18FAD9030077350E /* TwilioSDK */,
 				C5FC0A6E18CF726500AB787F /* Accounts.framework */,
 				C5FC0A6A18CF721B00AB787F /* Twitter.framework */,
 				C5391EA918C7F44400C23C0A /* AVFoundation.framework */,
@@ -2561,6 +2653,66 @@
 				C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */,
 			);
 			name = Transitions;
+			sourceTree = "<group>";
+		};
+		C54CE51F18FAD9030077350E /* TwilioSDK */ = {
+			isa = PBXGroup;
+			children = (
+				C54CE52018FAD9030077350E /* Headers */,
+				C54CE52718FAD9030077350E /* Libraries */,
+				C54CE52B18FAD9030077350E /* README.txt */,
+				C54CE52C18FAD9030077350E /* Resources */,
+			);
+			name = TwilioSDK;
+			path = "External Frameworks/TwilioSDK/TwilioSDK";
+			sourceTree = "<group>";
+		};
+		C54CE52018FAD9030077350E /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				C54CE52118FAD9030077350E /* TCConnection.h */,
+				C54CE52218FAD9030077350E /* TCConnectionDelegate.h */,
+				C54CE52318FAD9030077350E /* TCDevice.h */,
+				C54CE52418FAD9030077350E /* TCDeviceDelegate.h */,
+				C54CE52518FAD9030077350E /* TCPresenceEvent.h */,
+				C54CE52618FAD9030077350E /* TwilioClient.h */,
+			);
+			name = Headers;
+			path = "External Frameworks/TwilioSDK/Headers";
+			sourceTree = "<group>";
+		};
+		C54CE52718FAD9030077350E /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				C54CE52818FAD9030077350E /* libcrypto.a */,
+				C54CE52918FAD9030077350E /* libssl.a */,
+				C54CE52A18FAD9030077350E /* libTwilioClient.a */,
+			);
+			name = Libraries;
+			path = "External Frameworks/TwilioSDK/Libraries";
+			sourceTree = "<group>";
+		};
+		C54CE52C18FAD9030077350E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C54CE52D18FAD9030077350E /* disconnect.wav */,
+				C54CE52E18FAD9030077350E /* dtmf_0.wav */,
+				C54CE52F18FAD9030077350E /* dtmf_1.wav */,
+				C54CE53018FAD9030077350E /* dtmf_2.wav */,
+				C54CE53118FAD9030077350E /* dtmf_3.wav */,
+				C54CE53218FAD9030077350E /* dtmf_4.wav */,
+				C54CE53318FAD9030077350E /* dtmf_5.wav */,
+				C54CE53418FAD9030077350E /* dtmf_6.wav */,
+				C54CE53518FAD9030077350E /* dtmf_7.wav */,
+				C54CE53618FAD9030077350E /* dtmf_8.wav */,
+				C54CE53718FAD9030077350E /* dtmf_9.wav */,
+				C54CE53818FAD9030077350E /* dtmf_hash.wav */,
+				C54CE53918FAD9030077350E /* dtmf_star.wav */,
+				C54CE53A18FAD9030077350E /* incoming.wav */,
+				C54CE53B18FAD9030077350E /* outgoing.wav */,
+			);
+			name = Resources;
+			path = "External Frameworks/TwilioSDK/Resources";
 			sourceTree = "<group>";
 		};
 		C55644EF18DF770D00D29B0D /* Animation */ = {
@@ -3545,9 +3697,11 @@
 				C55645D218E378DF00D29B0D /* bubble_time_LT_icon.png in Resources */,
 				C556464A18E378DF00D29B0D /* bubble_cpr3_icon.png in Resources */,
 				C556470418E378DF00D29B0D /* pins_shooting.png in Resources */,
+				C54CE56018FAD9040077350E /* dtmf_7.wav in Resources */,
 				C556475218E378DF00D29B0D /* notifications_menu_icon_active.png in Resources */,
 				C501CC6F18F3042F005A0B98 /* number_3@2x.png in Resources */,
 				C556476D18E378DF00D29B0D /* settings_menu_icon_active@2x.png in Resources */,
+				C54CE56F18FAD9040077350E /* incoming.wav in Resources */,
 				C54CE50618FA6DA90077350E /* bubble_robbery_icon.png in Resources */,
 				C55645BD18E378DF00D29B0D /* bubble_time2_LT_icon@2x.png in Resources */,
 				C556471318E378DF00D29B0D /* pins_theft_icon@2x.png in Resources */,
@@ -3569,7 +3723,9 @@
 				C585F2B318DA2A3B009EEF16 /* progress_bar_s1.png in Resources */,
 				C501CC7518F3042F005A0B98 /* number_4@2x.png in Resources */,
 				C55646CB18E378DF00D29B0D /* pins_brokenbone_icon@2x.png in Resources */,
+				C54CE54B18FAD9040077350E /* dtmf_0.wav in Resources */,
 				C5372DEB18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
+				C54CE54E18FAD9040077350E /* dtmf_1.wav in Resources */,
 				C5BBF31E18F6FCD7008B5CB2 /* Icon-76.png in Resources */,
 				C585F22C18DA2A3B009EEF16 /* input_phone_icon@2x.png in Resources */,
 				C55645CF18E378DF00D29B0D /* bubble_time_LB_icon@2x.png in Resources */,
@@ -3600,6 +3756,7 @@
 				C5BBF39218F8FCA3008B5CB2 /* check_icon@2x.png in Resources */,
 				C556473718E378DF00D29B0D /* Yank_icon@2x.png in Resources */,
 				C55646BF18E378DF00D29B0D /* pins_assault_icon@2x.png in Resources */,
+				C54CE56618FAD9040077350E /* dtmf_9.wav in Resources */,
 				C5BBF3C818F8FCA3008B5CB2 /* count_bg@2x.png in Resources */,
 				C556463B18E378DF00D29B0D /* bubble_choking_icon@2x.png in Resources */,
 				C5BBF3A718F8FCA3008B5CB2 /* code_disarm_not_fill.png in Resources */,
@@ -3615,6 +3772,7 @@
 				C556473D18E378DF00D29B0D /* help_menu_icon_active@2x.png in Resources */,
 				C585F21D18DA2A3B009EEF16 /* input_email_icon.png in Resources */,
 				C585F25F18DA2A3B009EEF16 /* btn_small_circle_normal.png in Resources */,
+				C54CE55118FAD9040077350E /* dtmf_2.wav in Resources */,
 				C55645ED18E378DF00D29B0D /* route_car_icon_inactive@2x.png in Resources */,
 				C585F29B18DA2A3B009EEF16 /* password_input_icon.png in Resources */,
 				C585F23818DA2A3B009EEF16 /* btn_user_badge_pressed@2x.png in Resources */,
@@ -3630,6 +3788,7 @@
 				C585F30618DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C556462618E378DF00D29B0D /* bubble_bleeding_icon.png in Resources */,
 				C556463818E378DF00D29B0D /* bubble_choking_icon.png in Resources */,
+				C54CE55718FAD9040077350E /* dtmf_4.wav in Resources */,
 				C556463E18E378DF00D29B0D /* bubble_cpr_icon.png in Resources */,
 				C556465018E378DF00D29B0D /* bubble_heartattack_icon.png in Resources */,
 				C55645C918E378DF00D29B0D /* bubble_time2_RT_icon@2x.png in Resources */,
@@ -3650,6 +3809,7 @@
 				C556469B18E378DF00D29B0D /* locate_me_icon@2x.png in Resources */,
 				C556471C18E378DF00D29B0D /* report_icon.png in Resources */,
 				C556473118E378DF00D29B0D /* WARNING@2x.png in Resources */,
+				C54CE56C18FAD9040077350E /* dtmf_star.wav in Resources */,
 				C556598718CC51A900288AD3 /* redial.png in Resources */,
 				C556464718E378DF00D29B0D /* bubble_cpr2_icon@2x.png in Resources */,
 				C556460E18E378DF00D29B0D /* bubble_arrest_icon.png in Resources */,
@@ -3661,6 +3821,7 @@
 				C585F2BF18DA2A3B009EEF16 /* progress_bar_s3.png in Resources */,
 				C5BBF3B918F8FCA3008B5CB2 /* alert_view_time_icon.png in Resources */,
 				C585F2C518DA2A3B009EEF16 /* progress_bar_s4.png in Resources */,
+				C54CE57218FAD9040077350E /* outgoing.wav in Resources */,
 				C501CC7E18F3042F005A0B98 /* number_6.png in Resources */,
 				C585F28918DA2A3B009EEF16 /* btn_login_normal.png in Resources */,
 				C5372E0918B3126000D22682 /* EmailEnvelope@2x.png in Resources */,
@@ -3679,6 +3840,7 @@
 				C585F2C818DA2A3B009EEF16 /* progress_bar_s4@2x.png in Resources */,
 				C556466518E378DF00D29B0D /* bubble_stroke_icon@2x.png in Resources */,
 				C5BBF3EC18F8FCA3008B5CB2 /* about_logo@2x.png in Resources */,
+				C54CE55A18FAD9040077350E /* dtmf_5.wav in Resources */,
 				C585F25618DA2A3B009EEF16 /* btn_big_circle_normal@2x.png in Resources */,
 				C556468F18E378DF00D29B0D /* chat_icon@2x.png in Resources */,
 				C585F2AD18DA2A3B009EEF16 /* logo_placeholder.png in Resources */,
@@ -3731,6 +3893,7 @@
 				C5BBF39818F8FCA3008B5CB2 /* plus_icon@2x.png in Resources */,
 				C5BBF3C518F8FCA3008B5CB2 /* count_bg.png in Resources */,
 				C55646B018E378DF00D29B0D /* pins_arrest_icon.png in Resources */,
+				C54CE56318FAD9040077350E /* dtmf_8.wav in Resources */,
 				C556467418E378DF00D29B0D /* pin_details_bg.png in Resources */,
 				C556462C18E378DF00D29B0D /* bubble_brokenbone_icon.png in Resources */,
 				C556460B18E378DF00D29B0D /* bubble_arrest2_icon@2x.png in Resources */,
@@ -3742,9 +3905,11 @@
 				C556464D18E378DF00D29B0D /* bubble_cpr3_icon@2x.png in Resources */,
 				C5BBF39B18F8FCA3008B5CB2 /* default_user_icon.png in Resources */,
 				C5BBF39518F8FCA3008B5CB2 /* plus_icon.png in Resources */,
+				C54CE55D18FAD9040077350E /* dtmf_6.wav in Resources */,
 				C55646E318E378DF00D29B0D /* pins_cpr2_icon@2x.png in Resources */,
 				C556466218E378DF00D29B0D /* bubble_stroke_icon.png in Resources */,
 				C585F28C18DA2A3B009EEF16 /* btn_login_normal@2x.png in Resources */,
+				C54CE56918FAD9040077350E /* dtmf_hash.wav in Resources */,
 				C5372DF118B3126000D22682 /* Agency.png in Resources */,
 				C585F26818DA2A3B009EEF16 /* btn_small_circle_pressed@2x.png in Resources */,
 				C585F22F18DA2A3B009EEF16 /* btn_user_badge_normal.png in Resources */,
@@ -3769,6 +3934,7 @@
 				C556471918E378DF00D29B0D /* pins_vandalism_icon@2x.png in Resources */,
 				C585F28618DA2A3B009EEF16 /* twitter_icon@2x.png in Resources */,
 				C556460818E378DF00D29B0D /* bubble_arrest2_icon.png in Resources */,
+				C54CE54518FAD9040077350E /* README.txt in Resources */,
 				C556467A18E378DF00D29B0D /* pointer_icon.png in Resources */,
 				C556472B18E378DF00D29B0D /* user_icon@2x.png in Resources */,
 				C585F23218DA2A3B009EEF16 /* btn_user_badge_normal@2x.png in Resources */,
@@ -3788,6 +3954,7 @@
 				C55646C818E378DF00D29B0D /* pins_brokenbone_icon.png in Resources */,
 				C5BBF3AA18F8FCA3008B5CB2 /* code_disarm_not_fill@2x.png in Resources */,
 				C501CC8D18F3042F005A0B98 /* number_8@2x.png in Resources */,
+				C54CE54818FAD9040077350E /* disconnect.wav in Resources */,
 				C55645E718E378DF00D29B0D /* route_car_icon_active@2x.png in Resources */,
 				C501CC6618F3042F005A0B98 /* number_2.png in Resources */,
 				C5BBF40418F8FCA3008B5CB2 /* profile_contact_ico@2x.png in Resources */,
@@ -3807,6 +3974,7 @@
 				C55646D418E378DF00D29B0D /* pins_choking_icon.png in Resources */,
 				C5BBF31818F6FCD7008B5CB2 /* Icon-60.png in Resources */,
 				C585F30C18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
+				C54CE55418FAD9040077350E /* dtmf_3.wav in Resources */,
 				C585F24D18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C5BBF38C18F8FCA3008B5CB2 /* error_ico@2x.png in Resources */,
 				C585F2A118DA2A3B009EEF16 /* btn_yes_no_normal.png in Resources */,
@@ -3866,6 +4034,7 @@
 				C585F24F18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C55646B818E378DF00D29B0D /* pins_arson_icon.png in Resources */,
 				C55645EF18E378DF00D29B0D /* route_car_icon_inactive@2x.png in Resources */,
+				C54CE56518FAD9040077350E /* dtmf_8.wav in Resources */,
 				C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C5BBF3EB18F8FCA3008B5CB2 /* about_logo.png in Resources */,
 				C5BBF41518F8FCA3008B5CB2 /* settings_female_ico.png in Resources */,
@@ -3895,15 +4064,20 @@
 				C556462218E378DF00D29B0D /* bubble_assault_icon.png in Resources */,
 				C55646CD18E378DF00D29B0D /* pins_brokenbone_icon@2x.png in Resources */,
 				C55646AC18E378DF00D29B0D /* pins_arrest1_icon.png in Resources */,
+				C54CE54A18FAD9040077350E /* disconnect.wav in Resources */,
+				C54CE57418FAD9040077350E /* outgoing.wav in Resources */,
 				C556473918E378DF00D29B0D /* Yank_icon@2x.png in Resources */,
 				C5BBF3CD18F8FCA3008B5CB2 /* settings_chevron.png in Resources */,
+				C54CE55318FAD9040077350E /* dtmf_2.wav in Resources */,
 				C556466418E378DF00D29B0D /* bubble_stroke_icon.png in Resources */,
 				C556477818E378DF00D29B0D /* side_menu_bg.png in Resources */,
+				C54CE54D18FAD9040077350E /* dtmf_0.wav in Resources */,
 				C556464918E378DF00D29B0D /* bubble_cpr2_icon@2x.png in Resources */,
 				C585F2B218DA2A3B009EEF16 /* logo_placeholder@2x.png in Resources */,
 				C556470F18E378DF00D29B0D /* pins_stroke_icon@2x.png in Resources */,
 				C556460418E378DF00D29B0D /* chevron_icon.png in Resources */,
 				C5BBF3A318F8FCA3008B5CB2 /* code_disarm_fill.png in Resources */,
+				C54CE54718FAD9040077350E /* README.txt in Resources */,
 				C501CC6818F3042F005A0B98 /* number_2.png in Resources */,
 				C585F24618DA2A3B009EEF16 /* pag_dot_inactive@2x.png in Resources */,
 				C55646D918E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */,
@@ -3913,17 +4087,20 @@
 				C556470618E378DF00D29B0D /* pins_shooting.png in Resources */,
 				C55645C518E378DF00D29B0D /* bubble_time2_RB_icon@2x.png in Resources */,
 				C585F2D318DA2A3B009EEF16 /* splash_bg@2x in Resources */,
+				C54CE56818FAD9040077350E /* dtmf_9.wav in Resources */,
 				C5BBF3F718F8FCA3008B5CB2 /* profile_appearance_ico.png in Resources */,
 				C5BBF3B218F8FCA3008B5CB2 /* alert_chat_icon@2x.png in Resources */,
 				C5BBF3AF18F8FCA3008B5CB2 /* alert_chat_icon.png in Resources */,
 				C55645F518E378DF00D29B0D /* route_walk_icon_active@2x.png in Resources */,
 				C55645C218E378DF00D29B0D /* bubble_time2_RB_icon.png in Resources */,
+				C54CE56B18FAD9040077350E /* dtmf_hash.wav in Resources */,
 				C5C1706E18ABEFFC00EEFBD6 /* location2.png in Resources */,
 				C585F27318DA2A3B009EEF16 /* facebook_icon.png in Resources */,
 				C556461C18E378DF00D29B0D /* bubble_assault2_icon.png in Resources */,
 				C556467318E378DF00D29B0D /* bubble_vandalism_icon@2x.png in Resources */,
 				C585F22518DA2A3B009EEF16 /* input_password_icon.png in Resources */,
 				C501CC8918F3042F005A0B98 /* number_7@2x.png in Resources */,
+				C54CE55918FAD9040077350E /* dtmf_4.wav in Resources */,
 				C585F2B818DA2A3B009EEF16 /* progress_bar_s1@2x.png in Resources */,
 				C501CC6E18F3042F005A0B98 /* number_3.png in Resources */,
 				C585F28218DA2A3B009EEF16 /* linkedin_icon@2x.png in Resources */,
@@ -4012,6 +4189,7 @@
 				C501CC9218F3042F005A0B98 /* number_9.png in Resources */,
 				C585F2C718DA2A3B009EEF16 /* progress_bar_s4.png in Resources */,
 				C5BBF3D618F8FCA3008B5CB2 /* settings_signout@2x.png in Resources */,
+				C54CE55F18FAD9040077350E /* dtmf_6.wav in Resources */,
 				C5BBF38818F8FCA3008B5CB2 /* chat_time_icon@2x.png in Resources */,
 				C5BBF32618F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */,
 				C5BBF3F118F8FCA3008B5CB2 /* change_photo_bg.png in Resources */,
@@ -4037,6 +4215,7 @@
 				C556468E18E378DF00D29B0D /* chat_icon.png in Resources */,
 				C556464318E378DF00D29B0D /* bubble_cpr_icon@2x.png in Resources */,
 				C501CC7D18F3042F005A0B98 /* number_5@2x.png in Resources */,
+				C54CE56E18FAD9040077350E /* dtmf_star.wav in Resources */,
 				C556476F18E378DF00D29B0D /* settings_menu_icon_active@2x.png in Resources */,
 				C55646BB18E378DF00D29B0D /* pins_arson_icon@2x.png in Resources */,
 				C556467F18E378DF00D29B0D /* pointer_icon@2x.png in Resources */,
@@ -4074,12 +4253,14 @@
 				C501CC6B18F3042F005A0B98 /* number_2@2x.png in Resources */,
 				C5BBF31418F6FCD7008B5CB2 /* Icon-40.png in Resources */,
 				C556475418E378DF00D29B0D /* notifications_menu_icon_active.png in Resources */,
+				C54CE57118FAD9040077350E /* incoming.wav in Resources */,
 				C556472418E378DF00D29B0D /* tapshield_icon.png in Resources */,
 				C501CC7718F3042F005A0B98 /* number_4@2x.png in Resources */,
 				C55645D118E378DF00D29B0D /* bubble_time_LB_icon@2x.png in Resources */,
 				C585F27618DA2A3B009EEF16 /* facebook_icon@2x.png in Resources */,
 				C585F29718DA2A3B009EEF16 /* email_input_icon.png in Resources */,
 				C556471E18E378DF00D29B0D /* report_icon.png in Resources */,
+				C54CE56218FAD9040077350E /* dtmf_7.wav in Resources */,
 				C556465B18E378DF00D29B0D /* bubble_highfever_icon@2x.png in Resources */,
 				C5372DEA18B3126000D22682 /* AddPhotoButton_Down.png in Resources */,
 				C556468518E378DF00D29B0D /* time_icon@2x.png in Resources */,
@@ -4115,11 +4296,13 @@
 				C556461318E378DF00D29B0D /* bubble_arrest_icon@2x.png in Resources */,
 				C5FD5E8A18B3141800E27EE9 /* CheckBox_UnselectedDown.png in Resources */,
 				C55645C818E378DF00D29B0D /* bubble_time2_RT_icon.png in Resources */,
+				C54CE55018FAD9040077350E /* dtmf_1.wav in Resources */,
 				C5372DEC18B3126000D22682 /* AddPhotoButton_Down@2x.png in Resources */,
 				C57C491D18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
 				C5372DD418B2CD8A00D22682 /* twitterIcon.png in Resources */,
 				C556466118E378DF00D29B0D /* bubble_other_icon@2x.png in Resources */,
 				C585F2F918DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */,
+				C54CE55C18FAD9040077350E /* dtmf_5.wav in Resources */,
 				C556476018E378DF00D29B0D /* profile_menu_icon_active.png in Resources */,
 				C501CC8018F3042F005A0B98 /* number_6.png in Resources */,
 				C5BBF3A918F8FCA3008B5CB2 /* code_disarm_not_fill.png in Resources */,
@@ -4165,6 +4348,7 @@
 				C556471B18E378DF00D29B0D /* pins_vandalism_icon@2x.png in Resources */,
 				C556461918E378DF00D29B0D /* bubble_arson_icon@2x.png in Resources */,
 				C556598918CC51A900288AD3 /* redial.png in Resources */,
+				C54CE55618FAD9040077350E /* dtmf_3.wav in Resources */,
 				C585F23718DA2A3B009EEF16 /* btn_user_badge_pressed.png in Resources */,
 				C585F25E18DA2A3B009EEF16 /* btn_big_circle_pressed@2x.png in Resources */,
 				C57C48A718B7B17400DFFBCE /* XIcon.png in Resources */,
@@ -4221,6 +4405,7 @@
 				C585F24E18DA2A3B009EEF16 /* swipe_arrows_icon.png in Resources */,
 				C55646B718E378DF00D29B0D /* pins_arson_icon.png in Resources */,
 				C55645EE18E378DF00D29B0D /* route_car_icon_inactive@2x.png in Resources */,
+				C54CE56418FAD9040077350E /* dtmf_8.wav in Resources */,
 				C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C5BBF3EA18F8FCA3008B5CB2 /* about_logo.png in Resources */,
 				C5BBF41418F8FCA3008B5CB2 /* settings_female_ico.png in Resources */,
@@ -4250,15 +4435,20 @@
 				C556462118E378DF00D29B0D /* bubble_assault_icon.png in Resources */,
 				C55646CC18E378DF00D29B0D /* pins_brokenbone_icon@2x.png in Resources */,
 				C55646AB18E378DF00D29B0D /* pins_arrest1_icon.png in Resources */,
+				C54CE54918FAD9040077350E /* disconnect.wav in Resources */,
+				C54CE57318FAD9040077350E /* outgoing.wav in Resources */,
 				C556473818E378DF00D29B0D /* Yank_icon@2x.png in Resources */,
 				C5BBF3CC18F8FCA3008B5CB2 /* settings_chevron.png in Resources */,
+				C54CE55218FAD9040077350E /* dtmf_2.wav in Resources */,
 				C556466318E378DF00D29B0D /* bubble_stroke_icon.png in Resources */,
 				C556477718E378DF00D29B0D /* side_menu_bg.png in Resources */,
+				C54CE54C18FAD9040077350E /* dtmf_0.wav in Resources */,
 				C556464818E378DF00D29B0D /* bubble_cpr2_icon@2x.png in Resources */,
 				C585F2B118DA2A3B009EEF16 /* logo_placeholder@2x.png in Resources */,
 				C556470E18E378DF00D29B0D /* pins_stroke_icon@2x.png in Resources */,
 				C556460318E378DF00D29B0D /* chevron_icon.png in Resources */,
 				C5BBF3A218F8FCA3008B5CB2 /* code_disarm_fill.png in Resources */,
+				C54CE54618FAD9040077350E /* README.txt in Resources */,
 				C501CC6718F3042F005A0B98 /* number_2.png in Resources */,
 				C585F24518DA2A3B009EEF16 /* pag_dot_inactive@2x.png in Resources */,
 				C55646D818E378DF00D29B0D /* pins_choking_icon@2x.png in Resources */,
@@ -4268,17 +4458,20 @@
 				C556470518E378DF00D29B0D /* pins_shooting.png in Resources */,
 				C55645C418E378DF00D29B0D /* bubble_time2_RB_icon@2x.png in Resources */,
 				C585F2D218DA2A3B009EEF16 /* splash_bg@2x in Resources */,
+				C54CE56718FAD9040077350E /* dtmf_9.wav in Resources */,
 				C5BBF3F618F8FCA3008B5CB2 /* profile_appearance_ico.png in Resources */,
 				C5BBF3B118F8FCA3008B5CB2 /* alert_chat_icon@2x.png in Resources */,
 				C5BBF3AE18F8FCA3008B5CB2 /* alert_chat_icon.png in Resources */,
 				C55645F418E378DF00D29B0D /* route_walk_icon_active@2x.png in Resources */,
 				C55645C118E378DF00D29B0D /* bubble_time2_RB_icon.png in Resources */,
+				C54CE56A18FAD9040077350E /* dtmf_hash.wav in Resources */,
 				C57C48F518BBDB1900DFFBCE /* DisarmIcon_keypad.png in Resources */,
 				C585F27218DA2A3B009EEF16 /* facebook_icon.png in Resources */,
 				C556461B18E378DF00D29B0D /* bubble_assault2_icon.png in Resources */,
 				C556467218E378DF00D29B0D /* bubble_vandalism_icon@2x.png in Resources */,
 				C585F22418DA2A3B009EEF16 /* input_password_icon.png in Resources */,
 				C501CC8818F3042F005A0B98 /* number_7@2x.png in Resources */,
+				C54CE55818FAD9040077350E /* dtmf_4.wav in Resources */,
 				C585F2B718DA2A3B009EEF16 /* progress_bar_s1@2x.png in Resources */,
 				C501CC6D18F3042F005A0B98 /* number_3.png in Resources */,
 				C585F28118DA2A3B009EEF16 /* linkedin_icon@2x.png in Resources */,
@@ -4367,6 +4560,7 @@
 				C501CC9118F3042F005A0B98 /* number_9.png in Resources */,
 				C585F2C618DA2A3B009EEF16 /* progress_bar_s4.png in Resources */,
 				C5BBF3D518F8FCA3008B5CB2 /* settings_signout@2x.png in Resources */,
+				C54CE55E18FAD9040077350E /* dtmf_6.wav in Resources */,
 				C5BBF38718F8FCA3008B5CB2 /* chat_time_icon@2x.png in Resources */,
 				C5BBF32518F6FCD7008B5CB2 /* iTunesArtwork.png in Resources */,
 				C5BBF3F018F8FCA3008B5CB2 /* change_photo_bg.png in Resources */,
@@ -4392,6 +4586,7 @@
 				C556468D18E378DF00D29B0D /* chat_icon.png in Resources */,
 				C556464218E378DF00D29B0D /* bubble_cpr_icon@2x.png in Resources */,
 				C501CC7C18F3042F005A0B98 /* number_5@2x.png in Resources */,
+				C54CE56D18FAD9040077350E /* dtmf_star.wav in Resources */,
 				C556476E18E378DF00D29B0D /* settings_menu_icon_active@2x.png in Resources */,
 				C55646BA18E378DF00D29B0D /* pins_arson_icon@2x.png in Resources */,
 				C556467E18E378DF00D29B0D /* pointer_icon@2x.png in Resources */,
@@ -4429,12 +4624,14 @@
 				C501CC6A18F3042F005A0B98 /* number_2@2x.png in Resources */,
 				C5BBF31318F6FCD7008B5CB2 /* Icon-40.png in Resources */,
 				C556475318E378DF00D29B0D /* notifications_menu_icon_active.png in Resources */,
+				C54CE57018FAD9040077350E /* incoming.wav in Resources */,
 				C556472318E378DF00D29B0D /* tapshield_icon.png in Resources */,
 				C501CC7618F3042F005A0B98 /* number_4@2x.png in Resources */,
 				C55645D018E378DF00D29B0D /* bubble_time_LB_icon@2x.png in Resources */,
 				C585F27518DA2A3B009EEF16 /* facebook_icon@2x.png in Resources */,
 				C585F29618DA2A3B009EEF16 /* email_input_icon.png in Resources */,
 				C556471D18E378DF00D29B0D /* report_icon.png in Resources */,
+				C54CE56118FAD9040077350E /* dtmf_7.wav in Resources */,
 				C556465A18E378DF00D29B0D /* bubble_highfever_icon@2x.png in Resources */,
 				C532E8E818BD583200FC111A /* logo.png in Resources */,
 				C556468418E378DF00D29B0D /* time_icon@2x.png in Resources */,
@@ -4470,11 +4667,13 @@
 				C556461218E378DF00D29B0D /* bubble_arrest_icon@2x.png in Resources */,
 				C57C490818BBDB1900DFFBCE /* AddPhotoButton@2x.png in Resources */,
 				C55645C718E378DF00D29B0D /* bubble_time2_RT_icon.png in Resources */,
+				C54CE54F18FAD9040077350E /* dtmf_1.wav in Resources */,
 				C57C490A18BBDB1900DFFBCE /* circle.png in Resources */,
 				C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */,
 				C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */,
 				C556466018E378DF00D29B0D /* bubble_other_icon@2x.png in Resources */,
 				C585F2F818DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */,
+				C54CE55B18FAD9040077350E /* dtmf_5.wav in Resources */,
 				C556475F18E378DF00D29B0D /* profile_menu_icon_active.png in Resources */,
 				C501CC7F18F3042F005A0B98 /* number_6.png in Resources */,
 				C5BBF3A818F8FCA3008B5CB2 /* code_disarm_not_fill.png in Resources */,
@@ -4520,6 +4719,7 @@
 				C556471A18E378DF00D29B0D /* pins_vandalism_icon@2x.png in Resources */,
 				C556461818E378DF00D29B0D /* bubble_arson_icon@2x.png in Resources */,
 				C556598818CC51A900288AD3 /* redial.png in Resources */,
+				C54CE55518FAD9040077350E /* dtmf_3.wav in Resources */,
 				C585F23618DA2A3B009EEF16 /* btn_user_badge_pressed.png in Resources */,
 				C585F25D18DA2A3B009EEF16 /* btn_big_circle_pressed@2x.png in Resources */,
 				C57C491018BBDB1900DFFBCE /* twitterIcon.png in Resources */,
@@ -5170,6 +5370,10 @@
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "TapShield/TapShield-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/TwilioSDK/Libraries",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5190,6 +5394,10 @@
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "TapShield/TapShield-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/TwilioSDK/Libraries",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5211,6 +5419,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "TapShieldTests/TapShieldTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/TwilioSDK/Libraries",
+				);
 				OTHER_CFLAGS = "\"-isystem${PODS_ROOT}/Headers/AFNetworking\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -5230,6 +5442,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				INFOPLIST_FILE = "TapShieldTests/TapShieldTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/TwilioSDK/Libraries",
+				);
 				OTHER_CFLAGS = "\"-isystem${PODS_ROOT}/Headers/AFNetworking\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -5249,10 +5465,14 @@
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"DEV=1",
+					"DEMO=1",
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/TapShield/TapShield copy-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/TwilioSDK/Libraries",
+				);
 				PRODUCT_NAME = TapShield;
 				PROVISIONING_PROFILE = "377AFA49-0711-4732-BA4E-2AED9136531F";
 				WRAPPER_EXTENSION = app;
@@ -5271,10 +5491,15 @@
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"DEV=1",
+					"DEMO=1",
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/TapShield/TapShield copy-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/TwilioSDK/Libraries",
+				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = TapShield;
 				PROVISIONING_PROFILE = "377AFA49-0711-4732-BA4E-2AED9136531F";
 				WRAPPER_EXTENSION = app;

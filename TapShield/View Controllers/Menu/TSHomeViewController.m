@@ -89,6 +89,7 @@
             
             [_mapView addAnnotation:_mapView.userLocationAnnotation];
             [_mapView updateAccuracyCircleWithLocation:location];
+            [_mapView addAnimatedOverlayToAnnotation:_mapView.userLocationAnnotation];
         }
     }];
     
@@ -222,6 +223,7 @@
 #pragma mark - Gesture handlers
 
 - (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+    
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
         _isTrackingUser = NO;
     }
@@ -416,7 +418,7 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
     
-    [_mapView addAnimatedOverlayToAnnotation:_mapView.userLocationAnnotation];
+    [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
     
     CLLocation *location = [TSLocationController sharedLocationController].location;
     if (_isTrackingUser) {

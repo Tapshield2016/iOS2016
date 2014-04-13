@@ -173,16 +173,12 @@
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation {
     //get a frame around the annotation
     CLLocation *location = [TSLocationController sharedLocationController].location;
-    
-    
-    [_animatedOverlay removeFromSuperview];
     [self resetAnimatedOverlayAt:location];
 }
 
 - (void)removeAnimatedOverlay {
     if(_animatedOverlay){
         [_animatedOverlay stopAnimating];
-        [_animatedOverlay removeFromSuperview];
     }
 }
 
@@ -200,19 +196,23 @@
     rect.size.width = rect.size.height;
     
     if(!_animatedOverlay){
+        dispatch_async(dispatch_get_main_queue(), ^{
         _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
-        [_animatedOverlay stopAnimating];
         [_animatedOverlay startAnimatingWithColor:color
                                          andFrame:rect];
         [_animatedOverlay setUserInteractionEnabled:NO];
+            });
     }
-    else if (_animatedOverlay.frame.size.width != rect.size.width ||
-             _animatedOverlay.frame.origin.y != rect.origin.y ||
-             _animatedOverlay.frame.origin.x != rect.origin.x) {
-        [_animatedOverlay setFrame:rect];
-        [_animatedOverlay stopAnimating];
-        [_animatedOverlay startAnimatingWithColor:color
-                                         andFrame:rect];
+    else if (ceilf(_animatedOverlay.frame.size.width)  != ceilf(rect.size.width) ||
+             ceilf(_animatedOverlay.frame.origin.y) != ceilf(rect.origin.y) ||
+             ceilf(_animatedOverlay.frame.origin.x) != ceilf(rect.origin.x)) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_animatedOverlay setFrame:rect];
+            [_animatedOverlay stopAnimating];
+            [_animatedOverlay startAnimatingWithColor:color
+                                             andFrame:rect];
+        });
     }
     
     if (!_animatedOverlay.superview) {

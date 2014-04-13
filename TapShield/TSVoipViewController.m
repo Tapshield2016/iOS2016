@@ -142,6 +142,7 @@ static NSString * const kCallRedialing = @"Redialing";
     
     [self voipDisconnect];
     _redialButton.enabled = NO;
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     
     [self updatePhoneNumberWithMessage:kCallConnecting];
     
@@ -245,6 +246,7 @@ static NSString * const kCallRedialing = @"Redialing";
 
 
 - (void)connectionDidDisconnect:(TCConnection *)connection {
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [self stopCallTimer];
     _redialButton.enabled = YES;
     
@@ -252,6 +254,7 @@ static NSString * const kCallRedialing = @"Redialing";
 }
 
 - (void)connection:(TCConnection *)connection didFailWithError:(NSError *)error {
+    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [self stopCallTimer];
     _redialButton.enabled = YES;
     [self updatePhoneNumberWithMessage:kCallFailed];

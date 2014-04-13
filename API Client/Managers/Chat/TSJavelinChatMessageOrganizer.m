@@ -8,6 +8,7 @@
 
 #import "TSJavelinChatMessageOrganizer.h"
 #import "TSJavelinAPIClient.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation TSJavelinChatMessageOrganizer
 
@@ -63,6 +64,10 @@
         }
         return NO;
     }];
+    
+    if (indexSet.count < messageArray.count) {
+        AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+    }
     
     if (indexSet.count != 0) {
         [_allMessages removeObjectsAtIndexes:indexSet];

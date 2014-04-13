@@ -7,7 +7,7 @@
 //
 
 #import "TSNavigationViewController.h"
-#import <TwilioSDK/TwilioClient.h>
+#import "TwilioClient.h"
 #import "TSRoundRectButton.h"
 
 

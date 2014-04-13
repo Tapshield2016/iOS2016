@@ -23,7 +23,7 @@
     if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
     }
-    else if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
     }
     _phoneNumber = [attributes valueForKey:@"phone_number"];

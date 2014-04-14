@@ -25,5 +25,7 @@
                     interpolationQuality:(CGInterpolationQuality)quality;
 
 - (UIImage *)imageWithAlpha:(CGFloat) alpha;
+- (UIImage *)imageWithGaussianBlur;
+- (UIImage *)imageWithGaussianBlurLevel:(int)level;
 
 @end

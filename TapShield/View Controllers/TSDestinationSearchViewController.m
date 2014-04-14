@@ -324,8 +324,9 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
     if (searchText && searchText.length > 0) {
-        [NSObject cancelPreviousPerformRequestsWithTarget:self];
         [self performSelector:@selector(searchForLocation:) withObject:searchText afterDelay:0.5];
 
     }

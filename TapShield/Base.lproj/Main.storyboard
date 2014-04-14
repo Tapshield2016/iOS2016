@@ -34,7 +34,7 @@
                         <sections>
                             <tableViewSection id="UsI-ep-Xz4">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="i37-H6-cwR">
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="i37-H6-cwR">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i37-H6-cwR" id="N5a-pI-IeF">
@@ -283,9 +283,25 @@
                     <view key="view" contentMode="scaleToFill" id="ayx-Z7-4SR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="IEK-Fn-BqZ">
+                                <rect key="frame" x="0.0" y="64" width="320" height="180"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="g5X-Ga-QbO" customClass="TSRoundImageView">
+                                <rect key="frame" x="100" y="84" width="120" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="b9Y-gV-dmw"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="blurredUserImage" destination="IEK-Fn-BqZ" id="DL8-SO-dGC"/>
+                        <outlet property="userImageView" destination="g5X-Ga-QbO" id="Ypd-l5-0j6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rWQ-Ny-iHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3283,6 +3299,7 @@ Last Updated: 12/12/13
         <image name="iphoneIcon.png" width="139" height="255"/>
         <image name="linkedin_icon.png" width="30" height="30"/>
         <image name="locate_me_icon.png" width="17" height="20"/>
+        <image name="no_image.png" width="362" height="359"/>
         <image name="notifications_menu_icon_active.png" width="52" height="52"/>
         <image name="number_0.png" width="75" height="75"/>
         <image name="number_1.png" width="75" height="75"/>

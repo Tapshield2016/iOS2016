@@ -16,10 +16,20 @@
     if (self) {
         // Initialization code
         
-        self.layer.borderColor = [[UIColor whiteColor] CGColor];
         self.layer.cornerRadius = frame.size.height/2;
         self.layer.masksToBounds = YES;
-        self.layer.borderWidth = 1.0f;
+        
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        
+        self.layer.cornerRadius = self.frame.size.height/2;
+        self.layer.masksToBounds = YES;
     }
     return self;
 }

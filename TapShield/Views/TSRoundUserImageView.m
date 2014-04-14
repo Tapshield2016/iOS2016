@@ -16,6 +16,9 @@
     if (self) {
         // Initialization code
         self.image = [UIImage imageNamed:@"default_user_icon"];
+        
+        self.layer.borderColor = [[UIColor whiteColor] CGColor];
+        self.layer.borderWidth = 1.0f;
     }
     return self;
 }

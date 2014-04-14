@@ -210,28 +210,28 @@
 
 #pragma mark - Search Bar Customization
 
-- (void)changeClearButtonStyle:(UISearchBar *)searchBar {
-    
-    if (!_clearButtonImage) {
-        
-        for (UIView *view in ((UITextField *)[searchBar.subviews firstObject]).subviews) {
-            
-            if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-                
-                for (UIButton *button in ((UITextField *)view).subviews) {
-                    
-                    if ([button isKindOfClass:[UIButton class]]) {
-                        
-                        _clearButtonImage = [button.imageView.image fillImageWithColor:[UIColor whiteColor]];
-                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor lightTextColor]] forState:UIControlStateHighlighted];
-                        
-                    }
-                }
-            }
-        }
-    }
-}
+//- (void)changeClearButtonStyle:(UISearchBar *)searchBar {
+//    
+//    if (!_clearButtonImage) {
+//        
+//        for (UIView *view in ((UITextField *)[searchBar.subviews firstObject]).subviews) {
+//            
+//            if ([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+//                
+//                for (UIButton *button in ((UITextField *)view).subviews) {
+//                    
+//                    if ([button isKindOfClass:[UIButton class]]) {
+//                        
+//                        _clearButtonImage = [button.imageView.image fillImageWithColor:[UIColor whiteColor]];
+//                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+//                        [button setImage:[button.imageView.image fillImageWithColor:[UIColor lightTextColor]] forState:UIControlStateHighlighted];
+//                        
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 - (void)customizeSearchBarAppearance:(UISearchBar *)searchBar {
     
@@ -268,6 +268,13 @@
     
     UIImage *leftViewImage = ((UIImageView *)textField.leftView).image;
     [searchBar setImage:[leftViewImage fillImageWithColor:[UIColor whiteColor]] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    
+    UIImage *clearImage = [UIImage imageNamed:@"switch_off"];
+    clearImage = [clearImage resizeToSize:CGSizeMake(clearImage.size.width/2, clearImage.size.height/2)];
+    [searchBar setImage:clearImage forSearchBarIcon:UISearchBarIconClear state:UIControlStateNormal];
+    
+    clearImage = [clearImage imageWithAlpha:0.5];
+    [searchBar setImage:clearImage forSearchBarIcon:UISearchBarIconClear state:UIControlStateHighlighted];
 }
 
 

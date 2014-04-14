@@ -76,6 +76,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     
     [super viewWillDisappear:animated];
     
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -322,8 +323,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
-    [self performSelector:@selector(changeClearButtonStyle:) withObject:searchBar afterDelay:0.01];
     
     if (searchText && searchText.length > 0) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self];

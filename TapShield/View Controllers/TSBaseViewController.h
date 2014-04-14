@@ -23,6 +23,7 @@
 #import "TSBaseLabel.h"
 #import "TSLogoImageView.h"
 #import "TSUtilities.h"
+#import "UIImage+Resize.h"
 
 @interface TSBaseViewController : UIViewController
 
@@ -34,7 +35,6 @@
 - (void)blackNavigationBar;
 
 - (void)customizeSearchBarAppearance:(UISearchBar *)searchBar;
-- (void)changeClearButtonStyle:(UISearchBar *)searchBar;
 - (void)customizeTableView:(UITableView *)tableView;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;

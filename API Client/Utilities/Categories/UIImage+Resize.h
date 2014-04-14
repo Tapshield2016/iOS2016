@@ -10,6 +10,7 @@
 
 @interface UIImage (Resize)
 
+- (UIImage *)resizeToSize:(CGSize)newSize;
 - (UIImage *)resizeAndCropToSize:(CGSize)targetSize;
 
 - (UIImage *)croppedImage:(CGRect)bounds;
@@ -22,5 +23,7 @@
 - (UIImage *)resizedImageWithContentMode:(UIViewContentMode)contentMode
                                   bounds:(CGSize)bounds
                     interpolationQuality:(CGInterpolationQuality)quality;
+
+- (UIImage *)imageWithAlpha:(CGFloat) alpha;
 
 @end

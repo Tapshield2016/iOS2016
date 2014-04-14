@@ -139,7 +139,6 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    [self performSelector:@selector(changeClearButtonStyle:) withObject:_searchBar afterDelay:0.01];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {

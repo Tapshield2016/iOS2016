@@ -21,7 +21,7 @@
         
         UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
         if (image) {
-            self.image = [image resizeToSize:self.image.size];
+            self.image = [[image resizeToSize:self.image.size] imageWithCornerRadius:self.image.size.height/2];
             self.layer.cornerRadius = self.image.size.height/2;
             self.layer.borderColor = [UIColor whiteColor].CGColor;
             self.layer.borderWidth = 2.0f;

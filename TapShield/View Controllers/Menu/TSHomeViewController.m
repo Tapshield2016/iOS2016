@@ -19,6 +19,7 @@
 #import "TSDestinationAnnotation.h"
 #import "TSPageViewController.h"
 #import "TSAlertDetailsTableViewController.h"
+#import "TSYankManager.h"
 
 @interface TSHomeViewController ()
 
@@ -56,7 +57,7 @@
     
     _entourageManager = [[TSVirtualEntourageManager alloc] initWithMapView:_mapView];
     
-    _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:nil action:nil];
+    _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleYank:)];
     self.navigationItem.rightBarButtonItem = _yankBarButton;
     
     _transitionController = [[TSTransitionDelegate alloc] init];
@@ -101,6 +102,10 @@
                                              selector:@selector(mapAlertModeToggle)
                                                  name:TSJavelinAlertManagerDidRecieveActiveAlertNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sendAlert:)
+                                                 name:TSYankManagerDidYankHeadphonesNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,6 +122,10 @@
     
     //To determine animation of first region
     _viewDidAppear = YES;
+    
+    if (_shouldSendAlert) {
+        [self performSelector:@selector(sendAlert:) withObject:self];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -141,8 +150,30 @@
 
 #pragma mark - Home Screen Buttons
 
+- (void)toggleYank:(id)sender {
+    
+    [[TSYankManager sharedYankManager] enableYank:^(BOOL enabled) {
+        if (enabled) {
+            
+        }
+        else {
+            
+        }
+    }];
+}
 
 - (IBAction)sendAlert:(id)sender {
+    
+    _shouldSendAlert = NO;
+    
+    if (self.presentedViewController) {
+        if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *nav = (UINavigationController *)self.presentedViewController;
+            if ([nav.topViewController isKindOfClass:[TSPageViewController class]]) {
+                return;
+            }
+        }
+    }
     
     TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
     pageview.homeViewController = self;

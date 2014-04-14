@@ -140,6 +140,9 @@ static dispatch_once_t onceToken;
             if (completion) {
                 completion(NO);
             }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            });
             return;
         }
         

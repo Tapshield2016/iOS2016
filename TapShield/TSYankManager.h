@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+
+extern NSString * const TSYankManagerDidYankHeadphonesNotification;
+
+typedef void (^TSYankManagerYankEnabled)(BOOL enabled);
+
 @interface TSYankManager : NSObject
+
++ (instancetype)sharedYankManager;
+
+- (void)enableYank:(TSYankManagerYankEnabled)completion;
+- (void)disableYank;
 
 @end

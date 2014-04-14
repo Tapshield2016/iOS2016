@@ -8,7 +8,8 @@
 
 #import "TSSettingsViewController.h"
 #import "TSIntroPageViewController.h"
-#import "TSHomeViewController.h"
+
+NSString * const TSSettingsViewControllerLoggedOut = @"TSSettingsViewControllerLoggedOut";
 
 @interface TSSettingsViewController ()
 
@@ -53,7 +54,8 @@
 
     [[TSSocialAccountsManager sharedSocialAccountsManager] logoutAllUserTypesCompletion:^(BOOL loggedOut) {
         if (loggedOut) {
-            [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:YES];
+//            [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSSettingsViewControllerLoggedOut object:nil];
         }
     }];
 }

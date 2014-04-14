@@ -244,9 +244,10 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         if (error) {
-            NSLog(@"%@ - %@", error.localizedFailureReason, error.localizedDescription);
+            _searchResults = @[error];
+            [_tableView reloadData];
         }
-        if ([response.mapItems count] > 0) {
+        else if ([response.mapItems count] > 0) {
             _searchResults = response.mapItems;
             [_tableView reloadData];
         }
@@ -260,6 +261,13 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     TSMapItemCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[TSMapItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    if ([_searchResults[indexPath.row] isKindOfClass:[NSError class]]) {
+        
+        [cell showDetailsForErrorMessage:(NSError *)_searchResults[indexPath.row]];
+        
+        return cell;
     }
 
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
@@ -286,6 +294,12 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 #pragma mark - UITableViewDelegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([_searchResults[indexPath.row] isKindOfClass:[NSError class]]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        return;
+    }
+    
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
     [self addMapItemToSavedSelections:mapItem];
     
@@ -312,7 +326,9 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     [self performSelector:@selector(changeClearButtonStyle:) withObject:searchBar afterDelay:0.01];
     
     if (searchText && searchText.length > 0) {
-        [self searchForLocation:searchText];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self performSelector:@selector(searchForLocation:) withObject:searchText afterDelay:0.5];
+
     }
     else {
         [_search cancel];

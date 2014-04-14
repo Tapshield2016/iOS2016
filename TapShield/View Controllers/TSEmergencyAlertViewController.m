@@ -205,13 +205,17 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     [_pageViewController.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
+#pragma mark - Phone View Transition Animations
+
 - (IBAction)callDispatcher:(id)sender {
     
     _pageViewController.isPhoneView = YES;
     
-    _voipController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSVoipViewController class])];
-    _voipController.emergencyView = self;
-    [self.view addSubview:_voipController.view];
+    if (!_voipController) {
+        _voipController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSVoipViewController class])];
+        _voipController.emergencyView = self;
+        [self.view addSubview:_voipController.view];
+    }
     
     CGRect frame = self.view.bounds;
     frame.origin.y = frame.size.height;
@@ -235,31 +239,56 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
         _chatButtonView.alpha = 0.0f;
 
     } completion:^(BOOL finished) {
-        [self hideRedButtons];
+        [self showPhoneInfoView];
     }];
+    
+    [_voipController startTwilioCall];
 }
 
-- (void)hideRedButtons {
+- (void)showPhoneInfoView {
     
     [UIView animateWithDuration:0.3 animations:^{
-        
-        
         _phoneInfoLabelsView.alpha = 1.0f;
-        
-//        _voipController.timeView .alpha = 1.0f;
-//        _voipController.phoneNumberLabel .alpha = 1.0f;
-//        _voipController.dispatcherLabel .alpha = 1.0f;
     }];
 }
 
-- (void)showRedButtons {
+- (void)dismissPhoneView {
     
-    [UIView animateWithDuration:0.3 animations:^{
+    _pageViewController.isPhoneView = NO;
+    
+    [self returnToAlertView];
+}
+
+- (void)returnToAlertView {
+    
+    CGRect frame = self.view.bounds;
+    frame.origin.y = frame.size.height;
+    
+    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + _pageViewController.navigationController.navigationBar.frame.size.height;
+    
+    CGRect infoLabelFrame = _alertInfoLabel.frame;
+    infoLabelFrame.origin.y = topBarHeight;
+    
+    float minimumHeight = _pageViewController.navigationController.navigationBar.frame.size.height + topBarHeight;
+    CGRect toolbarFrame = _pageViewController.animatedView.frame;
+    toolbarFrame.size.height = minimumHeight;
+    
+    [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _alertInfoLabel.frame = infoLabelFrame;
+        _voipController.view.frame = frame;
+        _pageViewController.animatedView.frame = toolbarFrame;
+        
         _alertButtonView.alpha = 1.0f;
         _detailsButtonView.alpha = 1.0f;
         _chatButtonView.alpha = 1.0f;
-    }];
+        
+        _phoneInfoLabelsView.alpha = 0.0f;
+        
+    } completion:nil];
 }
+
+
+#pragma mark - Scroll View offsets
 
 - (void)parentScrollViewOffset:(float)offsetX {
     
@@ -293,10 +322,13 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     frame.origin.x = labelOffset;
     _phoneInfoLabelsView.frame = frame;
     
-    frame = _voipController.view.frame;
-    frame.origin.x = labelOffset;
-    frame.origin.y = voipOffsetY;
-    _voipController.view.frame = frame;
+    
+    if (_pageViewController.isPhoneView) {
+        frame = _voipController.view.frame;
+        frame.origin.x = labelOffset;
+        frame.origin.y = voipOffsetY;
+        _voipController.view.frame = frame;
+    }
     
     frame = _bottomButtonContainerView.frame;
     frame.origin.x = bottomOffset;

@@ -20,7 +20,8 @@
 @property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
 @property (strong, nonatomic) UIBarButtonItem *yankBarButton;
 @property (strong, nonatomic) CLGeocoder *geocoder;
-@property (nonatomic) BOOL isTrackingUser;
+@property (assign, nonatomic) BOOL isTrackingUser;
+@property (assign, nonatomic) BOOL shouldSendAlert;
 
 - (void)mapAlertModeToggle;
 

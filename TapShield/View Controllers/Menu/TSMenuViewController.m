@@ -8,6 +8,9 @@
 
 #import "TSMenuViewController.h"
 #import "MSDynamicsDrawerViewController.h"
+#import "TSHomeViewController.h"
+#import "TSYankManager.h"
+#import "TSSettingsViewController.h"
 
 #define MENU_CELL_SIZE 80
 
@@ -35,11 +38,15 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(returnToMapViewForYankAlert)
+                                                 name:TSYankManagerDidYankHeadphonesNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(returnToMapViewForLogOut)
+                                                 name:TSSettingsViewControllerLoggedOut
+                                               object:nil];
+    
 
     _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
                                                                     @"Home",
@@ -57,7 +64,6 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor clearColor];
-    [self.tableView registerClass:[TSUserProfileCell class]  forCellReuseIdentifier:@"ProfileCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,18 +72,44 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)transitionToViewController:(NSString *)storyBoardIdentifier {
+- (void)returnToMapViewForYankAlert {
     
-    if (storyBoardIdentifier == _currentPanelStoryBoardIdentifier) {
-        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:YES completion:nil];
+    if ([NSStringFromClass([TSHomeViewController class]) isEqualToString:_currentPanelStoryBoardIdentifier]) {
         return;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        TSHomeViewController *homeView = (TSHomeViewController *)[self transitionToViewController:NSStringFromClass([TSHomeViewController class])];
+        homeView.shouldSendAlert = YES;
+        [self.tableView reloadData];
+    });
+}
+
+- (void)returnToMapViewForLogOut {
+    
+    if ([NSStringFromClass([TSHomeViewController class]) isEqualToString:_currentPanelStoryBoardIdentifier]) {
+        return;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self transitionToViewController:NSStringFromClass([TSHomeViewController class])];
+        [self.tableView reloadData];
+    });
+}
+
+- (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier {
+    
+    if ([storyBoardIdentifier isEqualToString:_currentPanelStoryBoardIdentifier]) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:YES completion:nil];
+        return nil;
     }
     
     if (!_leftBarButtonItem) {
         _leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
-                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];    }
+                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    }
 
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
@@ -88,6 +120,8 @@
     paneViewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
 
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;
+    
+    return paneViewController;
 }
 
 - (void)dynamicsDrawerRevealLeftBarButtonItemTapped:(id)sender {

@@ -40,19 +40,6 @@ static NSString * const kCallRedialing = @"Redialing";
     
     [_buttonView insertSubview:self.toolbar atIndex:0];
     _buttonView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
-    
-    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-        if (!granted) {
-            // Microphone disabled code
-                UIAlertView *microphoneAccessDeniedAlert = [[UIAlertView alloc] initWithTitle:@"Microphone Access Was Denied."
-                                                                          message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone"
-                                                                         delegate:nil
-                                                                cancelButtonTitle:@"OK"
-                                                                otherButtonTitles:nil];
-                [microphoneAccessDeniedAlert show];
-        }
-        [self startTwilioCall];
-    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,6 +126,22 @@ static NSString * const kCallRedialing = @"Redialing";
 }
 
 - (void)startTwilioCall {
+    
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (!granted) {
+            // Microphone disabled code
+            UIAlertView *microphoneAccessDeniedAlert = [[UIAlertView alloc] initWithTitle:@"Microphone Access Was Denied."
+                                                                                  message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone"
+                                                                                 delegate:nil
+                                                                        cancelButtonTitle:@"OK"
+                                                                        otherButtonTitles:nil];
+            [microphoneAccessDeniedAlert show];
+        }
+        [self connectToDispatcher];
+    }];
+}
+
+- (void)connectToDispatcher {
     
     [self voipDisconnect];
     _redialButton.enabled = NO;
@@ -249,8 +252,11 @@ static NSString * const kCallRedialing = @"Redialing";
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [self stopCallTimer];
     _redialButton.enabled = YES;
-    
     [self updatePhoneNumberWithMessage:kCallEnded];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [(TSEmergencyAlertViewController *)_emergencyView performSelector:@selector(dismissPhoneView) withObject:self afterDelay:2.0];
+    });
 }
 
 - (void)connection:(TCConnection *)connection didFailWithError:(NSError *)error {

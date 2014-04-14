@@ -16,6 +16,8 @@
 @property (strong, nonatomic) UIImageView *pinImageView;
 
 - (void)showDetailsForMapItem:(MKMapItem *)mapItem;
+- (void)showDetailsForErrorMessage:(NSError *)error;
+
 - (void)boldSearchString:(NSString *)searchString;
 
 @end

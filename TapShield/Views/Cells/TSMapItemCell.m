@@ -39,6 +39,26 @@
     return self;
 }
 
+- (void)showDetailsForErrorMessage:(NSError *)error {
+    
+    _nameLabel.text = @"";
+    _addressLabel.text = @"";
+    [_pinImageView setHidden:YES];
+    
+    if (error.code == MKErrorUnknown) {
+        _nameLabel.text = @"Unkown error occured.";
+    }
+    else if (error.code == MKErrorServerFailure) {
+        _nameLabel.text = @"Server failed to respond, try again.";
+    }
+    else if (error.code == MKErrorLoadingThrottled) {
+        _nameLabel.text = @"Server throttled requests";
+    }
+    else if (error.code == MKErrorPlacemarkNotFound) {
+        _nameLabel.text = @"No results found.";
+    }
+}
+
 - (void)showDetailsForMapItem:(MKMapItem *)mapItem {
     
     _nameLabel.text = @"";
@@ -67,6 +87,11 @@
     
     _nameLabel.text = mapItem.name;
     _addressLabel.text = address;
+    
+    [_pinImageView setHidden:NO];
+    if (!address || address.length == 0) {
+        [_pinImageView setHidden:YES];
+    }
     
     CGRect nameFrame;
     NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -137,6 +162,11 @@
     subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
                               boldFont, NSFontAttributeName,
                               foregroundColor, NSForegroundColorAttributeName, nil];
+    
+    if (!_addressLabel.text) {
+        return;
+    }
+    
     attributedText =
     [[NSMutableAttributedString alloc] initWithString:_addressLabel.text
                                            attributes:attrs];

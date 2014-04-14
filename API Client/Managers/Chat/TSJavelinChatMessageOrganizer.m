@@ -54,7 +54,7 @@
         return;
     }
     
-    NSIndexSet *indexSet = [_allMessages indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+    NSIndexSet *indexSet = [[_allMessages copy]indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSJavelinAPIChatMessage *chatMessage = (TSJavelinAPIChatMessage *)obj;
         
         for (TSJavelinAPIChatMessage *oldMessage in messageArray) {
@@ -110,8 +110,8 @@
         }
         return NO;
     }];
-    NSMutableOrderedSet *messagesNeedingUpdate = [NSMutableOrderedSet orderedSetWithOrderedSet:[_allMessages filteredOrderedSetUsingPredicate:removeReceived]];
-    NSMutableOrderedSet *messagesFromDispatcher = [NSMutableOrderedSet orderedSetWithOrderedSet:[_allMessages filteredOrderedSetUsingPredicate:onlyDispatcherMessages]];
+    NSMutableOrderedSet *messagesNeedingUpdate = [NSMutableOrderedSet orderedSetWithOrderedSet:[[_allMessages copy] filteredOrderedSetUsingPredicate:removeReceived]];
+    NSMutableOrderedSet *messagesFromDispatcher = [NSMutableOrderedSet orderedSetWithOrderedSet:[[_allMessages copy] filteredOrderedSetUsingPredicate:onlyDispatcherMessages]];
     
     messagesNeedingUpdate = [self sortByTimestamp:messagesNeedingUpdate];
     messagesFromDispatcher = [self sortByTimestamp:messagesFromDispatcher];

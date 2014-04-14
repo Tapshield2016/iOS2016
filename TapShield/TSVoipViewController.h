@@ -29,6 +29,8 @@
 @property (strong, nonatomic) TCDevice *twilioDevice;
 @property (strong, nonatomic) TCConnection *twilioConnection;
 
+- (void)startTwilioCall;
+
 - (IBAction)addAlertDetails:(id)sender;
 - (IBAction)showChatViewController:(id)sender;
 - (IBAction)redialTwilio:(id)sender;

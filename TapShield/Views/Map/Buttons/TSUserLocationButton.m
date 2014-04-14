@@ -26,8 +26,8 @@
         // Initialization code
         
         [self setCircleColors:[TSColorPalette tapshieldBlue]
-                    fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5f]
-         highlightedFillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2f]
+                    fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8f]
+         highlightedFillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.4f]
             selectedFillColor:nil];
         
         [self drawCircleButtonHighlighted:NO selected:NO];

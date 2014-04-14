@@ -130,6 +130,8 @@ static dispatch_once_t predicate;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    NSLog(@"didEnterRegion %@", region.description);
+    
     if ([_delegate respondsToSelector:@selector(didEnterRegion:)]) {
         [_delegate didEnterRegion:region];
     }
@@ -148,12 +150,16 @@ static dispatch_once_t predicate;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"%@", error.localizedDescription);
+    
     if ([_delegate respondsToSelector:@selector(didFailWithError:)]) {
         [_delegate didFailWithError:error];
     }
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
+    NSLog(@"%@", error.localizedDescription);
+    
     if ([_delegate respondsToSelector:@selector(monitoringDidFailForRegion:withError:)]) {
         [_delegate monitoringDidFailForRegion:region withError:error];
     }

@@ -107,7 +107,7 @@ static dispatch_once_t onceToken;
 
 - (void)sendAwaitingChatMessages {
     
-    for (TSJavelinAPIChatMessage *chatMessage in _chatMessages.messagesAwaitingSend) {
+    for (TSJavelinAPIChatMessage *chatMessage in [_chatMessages.messagesAwaitingSend copy]) {
         chatMessage.alertID = [[TSJavelinAPIClient sharedClient] alertManager].activeAlert.identifier;
         [self sendChatMessageForActiveAlert:chatMessage completion:^(ChatMessageStatus status) {
             [_chatMessages updateChatMessage:chatMessage withStatus:status];

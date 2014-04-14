@@ -13,6 +13,7 @@
 #import "MSDynamicsDrawerStyler.h"
 #import "TSMenuViewController.h"
 #import "TSSocialAccountsManager.h"
+#import "TSYankManager.h"
 #import <TestFlightSDK/TestFlight.h>
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
@@ -47,6 +48,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 #endif
     
     [TSSocialAccountsManager initializeShareSocialAccountsManager];
+    [TSYankManager sharedYankManager];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     

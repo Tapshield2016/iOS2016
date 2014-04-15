@@ -9,7 +9,7 @@
 #import "TSNavigationViewController.h"
 #import "TSRoundImageView.h"
 
-@interface TSProfileViewController : TSNavigationViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface TSProfileViewController : TSNavigationViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet TSRoundImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *blurredUserImage;

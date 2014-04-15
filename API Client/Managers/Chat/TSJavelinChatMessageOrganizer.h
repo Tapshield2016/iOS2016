@@ -14,7 +14,6 @@
 @property (strong, nonatomic) NSMutableOrderedSet *allMessages;
 @property (strong, nonatomic) NSMutableArray *messagesAwaitingSend;
 
-- (void)clearChatMessage;
 - (void)addChatMessage:(TSJavelinAPIChatMessage *)chatMessage;
 - (void)addChatMessageAwaitingSend:(TSJavelinAPIChatMessage *)chatMessage;
 - (void)addChatMessages:(NSArray *)messageArray;

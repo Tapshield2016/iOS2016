@@ -15,6 +15,7 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 @interface TSProfileViewController ()
 
 @property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
+@property (strong, nonatomic) NSArray *cellIdentifiers;
 
 @end
 
@@ -24,6 +25,14 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _cellIdentifiers = @[@"TSBasicInfoViewController",
+                         @"TSContactDataViewController",
+                         @"TSAppearanceViewController",
+                         @"TSMedicalInformationViewController",
+                         @"TSEmergencyContactViewController"];
+    
+    self.view.backgroundColor = [TSColorPalette listBackgroundColor];
     
     _userProfile = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile;
     if (!_userProfile) {
@@ -115,7 +124,7 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 }
 
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     // Get the selected image.
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
@@ -135,9 +144,45 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+#pragma mark - Table view delegate
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+}
+
+#pragma mark - Table view data source
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSString *cellIdentifier = _cellIdentifiers[indexPath.row];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    cell.textLabel.textColor = [TSColorPalette listCellTextColor];
+    cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:18];
+    cell.backgroundColor = [TSColorPalette cellBackgroundColor];
+    cell.separatorInset = UIEdgeInsetsMake(0.0, cell.textLabel.frame.origin.x, 0.0, 0.0);
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return _cellIdentifiers.count;
+}
+
 
 
 @end

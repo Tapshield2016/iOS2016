@@ -73,13 +73,6 @@
 
     _geocoder = [[CLGeocoder alloc] init];
     
-    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:NO];
-    }
-    else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
-        [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
-    }
-    
     [TSLocationController sharedLocationController].delegate = self;
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
         [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
@@ -140,6 +133,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)checkLoggedInUser {
+    
+    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
+        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:NO];
+    }
+    else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
+        [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
+    }
 }
 
 - (void)clearEntourageAndResetMap {

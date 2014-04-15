@@ -9,12 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "TSNavigationViewController.h"
 #import "TSSocialAccountsManager.h"
+#import "TSSettingsSwitch.h"
 
-extern NSString * const TSSettingsViewControllerLoggedOut;
+extern NSString * const TSSettingsViewControllerDidLogOut;
 
-@interface TSSettingsViewController : TSNavigationViewController
+@interface TSSettingsViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;
+
+@property (weak, nonatomic) IBOutlet TSSettingsSwitch *iCloudSwitch;
+@property (weak, nonatomic) IBOutlet TSSettingsSwitch *pushNotificationsSwitch;
+@property (weak, nonatomic) IBOutlet TSSettingsSwitch *autoYankSwitch;
+
+- (IBAction)iCloudToggle:(id)sender;
+- (IBAction)notificationsToggle:(id)sender;
+- (IBAction)autoYankToggle:(id)sender;
 
 - (IBAction)logOutUser:(id)sender;
 

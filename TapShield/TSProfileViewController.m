@@ -62,6 +62,13 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [_tableView reloadData];
+}
+
 - (void)saveUserProfile {
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile = _userProfile;
@@ -151,10 +158,10 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 
 #pragma mark - Table view delegate
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:_cellIdentifiers[indexPath.row]];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -168,14 +175,14 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     cell.textLabel.textColor = [TSColorPalette listCellTextColor];
     cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:18];
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.textLabel.frame.origin.x, 0.0, 0.0);
     
+    if (indexPath.row == _cellIdentifiers.count - 1) {
+        cell.separatorInset = UIEdgeInsetsZero;
+    }
+    
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

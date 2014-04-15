@@ -44,7 +44,7 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(returnToMapViewForLogOut)
-                                                 name:TSSettingsViewControllerLoggedOut
+                                                 name:TSSettingsViewControllerDidLogOut
                                                object:nil];
     
 

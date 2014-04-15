@@ -1196,6 +1196,24 @@
 		C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
 		C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
 		C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
+		C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */; };
+		C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */; };
+		C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */; };
+		C56B3D5118FD759200324FE8 /* TSContactDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5018FD759200324FE8 /* TSContactDataViewController.m */; };
+		C56B3D5218FD759200324FE8 /* TSContactDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5018FD759200324FE8 /* TSContactDataViewController.m */; };
+		C56B3D5318FD759200324FE8 /* TSContactDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5018FD759200324FE8 /* TSContactDataViewController.m */; };
+		C56B3D5618FD75A000324FE8 /* TSAppearanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5518FD75A000324FE8 /* TSAppearanceViewController.m */; };
+		C56B3D5718FD75A000324FE8 /* TSAppearanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5518FD75A000324FE8 /* TSAppearanceViewController.m */; };
+		C56B3D5818FD75A000324FE8 /* TSAppearanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5518FD75A000324FE8 /* TSAppearanceViewController.m */; };
+		C56B3D5B18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5A18FD75B700324FE8 /* TSMedicalInformationViewController.m */; };
+		C56B3D5C18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5A18FD75B700324FE8 /* TSMedicalInformationViewController.m */; };
+		C56B3D5D18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5A18FD75B700324FE8 /* TSMedicalInformationViewController.m */; };
+		C56B3D6018FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5F18FD75C700324FE8 /* TSEmergencyContactViewController.m */; };
+		C56B3D6118FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5F18FD75C700324FE8 /* TSEmergencyContactViewController.m */; };
+		C56B3D6218FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5F18FD75C700324FE8 /* TSEmergencyContactViewController.m */; };
+		C56B3D6618FD902900324FE8 /* TSSettingsSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D6518FD902900324FE8 /* TSSettingsSwitch.m */; };
+		C56B3D6718FD902900324FE8 /* TSSettingsSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D6518FD902900324FE8 /* TSSettingsSwitch.m */; };
+		C56B3D6818FD902900324FE8 /* TSSettingsSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D6518FD902900324FE8 /* TSSettingsSwitch.m */; };
 		C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */; };
 		C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
@@ -1983,6 +2001,18 @@
 		C5662BF218DD0C8B00FD4F44 /* TSRegistrationTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegistrationTextField.m; path = Views/TextFields/TSRegistrationTextField.m; sourceTree = "<group>"; };
 		C5662BF618DD144800FD4F44 /* TSRegistrationLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationLabel.h; path = Views/Labels/TSRegistrationLabel.h; sourceTree = "<group>"; };
 		C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegistrationLabel.m; path = Views/Labels/TSRegistrationLabel.m; sourceTree = "<group>"; };
+		C56B3D4A18FD753D00324FE8 /* TSBasicInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBasicInfoViewController.h; sourceTree = "<group>"; };
+		C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBasicInfoViewController.m; sourceTree = "<group>"; };
+		C56B3D4F18FD759200324FE8 /* TSContactDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSContactDataViewController.h; sourceTree = "<group>"; };
+		C56B3D5018FD759200324FE8 /* TSContactDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSContactDataViewController.m; sourceTree = "<group>"; };
+		C56B3D5418FD75A000324FE8 /* TSAppearanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAppearanceViewController.h; sourceTree = "<group>"; };
+		C56B3D5518FD75A000324FE8 /* TSAppearanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAppearanceViewController.m; sourceTree = "<group>"; };
+		C56B3D5918FD75B700324FE8 /* TSMedicalInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMedicalInformationViewController.h; sourceTree = "<group>"; };
+		C56B3D5A18FD75B700324FE8 /* TSMedicalInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMedicalInformationViewController.m; sourceTree = "<group>"; };
+		C56B3D5E18FD75C700324FE8 /* TSEmergencyContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEmergencyContactViewController.h; sourceTree = "<group>"; };
+		C56B3D5F18FD75C700324FE8 /* TSEmergencyContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEmergencyContactViewController.m; sourceTree = "<group>"; };
+		C56B3D6418FD902900324FE8 /* TSSettingsSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSettingsSwitch.h; sourceTree = "<group>"; };
+		C56B3D6518FD902900324FE8 /* TSSettingsSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSettingsSwitch.m; sourceTree = "<group>"; };
 		C57C48A118B6B32F00DFFBCE /* TSOrganizationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSOrganizationCell.h; path = Views/Cells/TSOrganizationCell.h; sourceTree = "<group>"; };
 		C57C48A218B6B32F00DFFBCE /* TSOrganizationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationCell.m; path = Views/Cells/TSOrganizationCell.m; sourceTree = "<group>"; };
 		C57C48A518B7B17400DFFBCE /* XIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = XIcon.png; path = Images/XIcon.png; sourceTree = "<group>"; };
@@ -2268,6 +2298,7 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C56B3D6318FD900000324FE8 /* Switch */,
 				C5662BD118DBA6D400FD4F44 /* TextFields */,
 				C5662BC618DB886000FD4F44 /* Labels */,
 				C51A40A018CBCF40007D7884 /* Keyboard */,
@@ -2489,6 +2520,7 @@
 		C5372D9F18AEABA600D22682 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				C56B3D4918FD74C600324FE8 /* Profile */,
 				B53BBD2A1898158A006A27E0 /* TSMenuViewController.h */,
 				B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */,
 				C57C48AF18BBC6F100DFFBCE /* TSProfileViewController.h */,
@@ -3172,6 +3204,32 @@
 				C5372DAB18B270E100D22682 /* TSAgreementViewController.m */,
 			);
 			name = Signup;
+			sourceTree = "<group>";
+		};
+		C56B3D4918FD74C600324FE8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C56B3D4A18FD753D00324FE8 /* TSBasicInfoViewController.h */,
+				C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */,
+				C56B3D4F18FD759200324FE8 /* TSContactDataViewController.h */,
+				C56B3D5018FD759200324FE8 /* TSContactDataViewController.m */,
+				C56B3D5418FD75A000324FE8 /* TSAppearanceViewController.h */,
+				C56B3D5518FD75A000324FE8 /* TSAppearanceViewController.m */,
+				C56B3D5918FD75B700324FE8 /* TSMedicalInformationViewController.h */,
+				C56B3D5A18FD75B700324FE8 /* TSMedicalInformationViewController.m */,
+				C56B3D5E18FD75C700324FE8 /* TSEmergencyContactViewController.h */,
+				C56B3D5F18FD75C700324FE8 /* TSEmergencyContactViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		C56B3D6318FD900000324FE8 /* Switch */ = {
+			isa = PBXGroup;
+			children = (
+				C56B3D6418FD902900324FE8 /* TSSettingsSwitch.h */,
+				C56B3D6518FD902900324FE8 /* TSSettingsSwitch.m */,
+			);
+			name = Switch;
 			sourceTree = "<group>";
 		};
 		C57C48A018B6B2DA00DFFBCE /* Cells */ = {
@@ -4687,6 +4745,7 @@
 				C532E65018BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C563570018ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
+				C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C55644F718E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C5662BF318DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
@@ -4698,6 +4757,7 @@
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C520C8FC18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
+				C56B3D6618FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C585F1B018CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
 				C585F19018CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
@@ -4707,6 +4767,7 @@
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
 				C585F1AB18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C57C48B118BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
+				C56B3D5118FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5FD5EA318B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
@@ -4714,6 +4775,7 @@
 				C501CC2E18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C532E64918BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */,
+				C56B3D5618FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C5BBF42B18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
 				C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */,
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
@@ -4747,6 +4809,7 @@
 				C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				C56356EB18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
+				C56B3D5B18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
@@ -4786,6 +4849,7 @@
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
+				C56B3D6018FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
@@ -4813,6 +4877,7 @@
 				C5BBF42D18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				C501CC3A18F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
+				C56B3D6218FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DB118B27C1F00D22682 /* TSAskOrganizationViewController.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
@@ -4875,6 +4940,7 @@
 				C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
+				C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C532E64518BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1B218CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
@@ -4898,6 +4964,7 @@
 				C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
+				C56B3D5D18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C532E63C18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5662BDB18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C585F1A718CF88CF009EEF16 /* OAuthCore.m in Sources */,
@@ -4905,7 +4972,9 @@
 				B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */,
 				B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C5662BF518DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
+				C56B3D5818FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C501CC3F18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C56B3D5318FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C5CB078618C6851D00BC9425 /* TSCircularButton.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
@@ -4923,6 +4992,7 @@
 				C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
 				C532E64B18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C56356ED18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
+				C56B3D6818FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */,
@@ -4944,6 +5014,7 @@
 				C57C48BA18BBDB1900DFFBCE /* UIImage+Resize.m in Sources */,
 				C532E63518BBF1E900FC111A /* TSConstants.m in Sources */,
 				C563570118ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
+				C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
@@ -4955,6 +5026,7 @@
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
 				C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */,
+				C56B3D6718FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
 				C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */,
 				C57C48C318BBDB1900DFFBCE /* TSOrganizationCell.m in Sources */,
@@ -4964,6 +5036,7 @@
 				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
 				C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
+				C56B3D5218FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
@@ -4971,6 +5044,7 @@
 				C501CC2F18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */,
+				C56B3D5718FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C5BBF42C18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
 				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,
@@ -5004,6 +5078,7 @@
 				C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */,
 				C585F2DD18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
 				C56356EC18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
+				C56B3D5C18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
 				C55644F818E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
@@ -5043,6 +5118,7 @@
 				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1A318CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
+				C56B3D6118FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
 				C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,

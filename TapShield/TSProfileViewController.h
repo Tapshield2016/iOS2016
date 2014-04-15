@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet TSRoundImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *blurredUserImage;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) UIImagePickerController *mediaPicker;
 

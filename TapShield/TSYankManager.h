@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+extern NSString * const TSYankManagerSettingAutoEnableYank;
 extern NSString * const TSYankManagerDidYankHeadphonesNotification;
 
 typedef void (^TSYankManagerYankEnabled)(BOOL enabled);

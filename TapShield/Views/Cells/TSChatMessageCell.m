@@ -9,6 +9,8 @@
 #import "TSChatMessageCell.h"
 #import "TSJavelinChatManager.h"
 #import "TSUtilities.h"
+#import "TSLogoImageView.h"
+#import "UIImage+Resize.h"
 
 #define MESSAGE_FONT_SIZE 17
 #define MESSAGE_INSET_HORIZONTAL 5
@@ -160,6 +162,7 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
     imageViewFrame.origin.y = ROUND_RECT_Y_MIN;
     _userImageView.frame = imageViewFrame;
     
+    
 //Status Label
     
     _statusLabel = [[UILabel alloc] initWithFrame:_roundRectView.frame];
@@ -235,14 +238,19 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
     //ImageView
     
     _userImageView = [[TSRoundUserImageView alloc] initWithFrame:CGRectMake(0, 0, IMAGE_SIZE, IMAGE_SIZE)];
-    UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
+    UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.smallLogo;
     if (image) {
         _userImageView.image = image;
+    }
+    else {
+        _userImageView.image = [[UIImage imageNamed:TSLogoImageViewSmallTapShieldLogo] resizeToSize:CGSizeMake(_userImageView.frame.size.width*.75, _userImageView.frame.size.height*.75)];
+        _userImageView.contentMode = UIViewContentModeCenter;
     }
     CGRect imageViewFrame = _userImageView.frame;
     imageViewFrame.origin.x = (_roundRectView.frame.origin.x - imageViewFrame.size.width)/2;
     imageViewFrame.origin.y = ROUND_RECT_Y_MIN;
     _userImageView.frame = imageViewFrame;
+    _userImageView.backgroundColor = [UIColor whiteColor];
     
     //Subview Hierarchy
     

@@ -49,7 +49,7 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedManager = [[TSJavelinChatManager alloc] init];
             _sharedManager.chatMessages = [[TSJavelinChatMessageOrganizer alloc] init];
-            _sharedManager.didReceivedAll = NO;
+            _sharedManager.didReceiveAll = NO;
             _sharedManager.quickGetTimerInterval = NO;
             
             AmazonCredentials *credentials;
@@ -152,15 +152,15 @@ static dispatch_once_t onceToken;
     
     [self scheduleCheckMessagesTimer];
     
-    if (!_didReceivedAll) {
+    if (!_didReceiveAll) {
         [self getChatMessagesForActiveAlert:^(NSArray *chatMessages) {
             if (chatMessages) {
-                _didReceivedAll = YES;
+                _didReceiveAll = YES;
                 [_chatMessages addChatMessages:chatMessages];
                 [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:[chatMessages lastObject]];
             }
             else {
-                _didReceivedAll = NO;
+                _didReceiveAll = NO;
             }
             
         }];
@@ -298,7 +298,7 @@ static dispatch_once_t onceToken;
         [_chatMessages.allMessages removeAllObjects];
     }
     
-    _didReceivedAll = NO;
+    _didReceiveAll = NO;
 }
 
 @end

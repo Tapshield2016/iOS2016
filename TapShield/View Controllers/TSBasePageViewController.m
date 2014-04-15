@@ -52,7 +52,7 @@
     
     if (showLargeLogo) {
         
-        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyLogo;
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.largeLogo;
         _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
         _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
@@ -77,7 +77,7 @@
     
     if (showAlternateLogo) {
         
-        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyAlternateLogo;
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.alternateLogo;
         _alternateLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
         _alternateLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
@@ -103,7 +103,7 @@
     
     if (showSmallLogo) {
         
-        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.smallLogo;
         _smallLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
         _smallLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         self.navigationItem.titleView = _smallLogoImageView;
@@ -114,13 +114,13 @@
 
 - (void)updateLogoImages {
     
-    UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyLogo;
+    UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.largeLogo;
     [_largeLogoImageView setImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
     
-    image = [TSLocationController sharedLocationController].geofence.currentAgency.agencyAlternateLogo;
+    image = [TSLocationController sharedLocationController].geofence.currentAgency.alternateLogo;
     [_alternateLogoImageView setImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
     
-    image = [TSLocationController sharedLocationController].geofence.currentAgency.agencySmallLogo;
+    image = [TSLocationController sharedLocationController].geofence.currentAgency.smallLogo;
     [_smallLogoImageView setImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
 }
 

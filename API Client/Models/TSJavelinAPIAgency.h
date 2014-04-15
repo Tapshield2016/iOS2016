@@ -30,9 +30,9 @@
 
 @property (readonly) NSDictionary *agencyTheme;
 
-@property (strong, nonatomic) UIImage *agencyLogo;
-@property (strong, nonatomic) UIImage *agencyAlternateLogo;
-@property (strong, nonatomic) UIImage *agencySmallLogo;
+@property (strong, nonatomic) UIImage *largeLogo;
+@property (strong, nonatomic) UIImage *alternateLogo;
+@property (strong, nonatomic) UIImage *smallLogo;
 
 
 @end

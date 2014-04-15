@@ -15,7 +15,7 @@ extern NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification
 @interface TSJavelinChatManager : NSObject
 
 @property (strong, nonatomic) TSJavelinChatMessageOrganizer *chatMessages;
-@property (assign, nonatomic) BOOL didReceivedAll;
+@property (assign, nonatomic) BOOL didReceiveAll;
 @property (assign, nonatomic) BOOL quickGetTimerInterval;
 
 + (instancetype)sharedManager;

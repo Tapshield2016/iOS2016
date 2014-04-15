@@ -25,9 +25,6 @@
     self.allMessages = [[NSMutableOrderedSet alloc] initWithCapacity:10];
 }
 
-- (void)clearChatMessage {
-    [self initAllMessage];
-}
 
 - (void)addChatMessage:(TSJavelinAPIChatMessage *)chatMessage {
     
@@ -54,7 +51,9 @@
         return;
     }
     
-    NSIndexSet *indexSet = [[_allMessages copy]indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+    NSMutableOrderedSet *allMessagesCopy = [[NSMutableOrderedSet alloc] initWithOrderedSet:_allMessages];
+    
+    NSIndexSet *indexSet = [allMessagesCopy indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSJavelinAPIChatMessage *chatMessage = (TSJavelinAPIChatMessage *)obj;
         
         for (TSJavelinAPIChatMessage *oldMessage in messageArray) {
@@ -70,10 +69,11 @@
     }
     
     if (indexSet.count != 0) {
-        [_allMessages removeObjectsAtIndexes:indexSet];
+        [allMessagesCopy removeObjectsAtIndexes:indexSet];
     }
     
-    [_allMessages addObjectsFromArray:messageArray];
+    [allMessagesCopy addObjectsFromArray:messageArray];
+    _allMessages = allMessagesCopy;
     [self sortByTimestamp:_allMessages];
 }
 

@@ -12,6 +12,8 @@
 
 @interface TSChatViewController ()
 
+@property (assign) NSUInteger previousCount;
+
 @end
 
 @implementation TSChatViewController
@@ -144,9 +146,16 @@
 
 - (void)updateTableViewCells {
     
+    BOOL shouldScroll = YES;
+    if (_previousCount == [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count) {
+        shouldScroll = NO;
+    }
+    _previousCount = [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count;
+    
+    
     [UIView animateWithDuration:0.3 animations:^{
         [_tableView reloadData];
-        if ([[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count > 1) {
+        if ([[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count > 1 && shouldScroll) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count - 1 inSection:0];
             [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }

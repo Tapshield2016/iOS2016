@@ -197,7 +197,7 @@
     if (radius > 500) {
         radius = 500;
     }
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, location.horizontalAccuracy*2, location.horizontalAccuracy*2);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, radius*2, radius*2);
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
     
     if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
@@ -213,7 +213,8 @@
     if (ceilf(_animatedOverlay.frame.size.width)  == ceilf(rect.size.width) &&
         ceilf(_animatedOverlay.frame.origin.y) == ceilf(rect.origin.y) &&
         ceilf(_animatedOverlay.frame.origin.x) == ceilf(rect.origin.x) &&
-        _animatedOverlay.isBlueColor == isBlueColor) {
+        _animatedOverlay.isBlueColor == isBlueColor &&
+        _animatedOverlay.superview) {
         
         return;
     }

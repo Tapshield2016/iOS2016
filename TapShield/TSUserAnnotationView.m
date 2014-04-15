@@ -21,10 +21,17 @@
         
         UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
         if (image) {
-            self.image = [[image resizeToSize:self.image.size] imageWithCornerRadius:self.image.size.height/2];
+            CGSize size = self.image.size;
+            size.height = size.height * 1.5;
+            size.width = size.height;
+            self.image = [[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size];
             self.layer.cornerRadius = self.image.size.height/2;
             self.layer.borderColor = [UIColor whiteColor].CGColor;
             self.layer.borderWidth = 2.0f;
+            self.layer.shadowColor = [UIColor blackColor].CGColor;
+            self.layer.shadowRadius = 1.0f;
+            self.layer.shadowOpacity = 1;
+            self.layer.shadowOffset = CGSizeZero;
         }
         
         [self setCanShowCallout:YES];

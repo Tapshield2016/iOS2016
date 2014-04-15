@@ -137,8 +137,6 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsOutsideBoundariesWithOverhang
                                                         object:nil];
     
-    [[TSJavelinAPIClient sharedClient] cancelAlert];
-    
     return NO;
 }
 
@@ -165,8 +163,6 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang
                                                         object:nil];
-    
-    [[TSJavelinAPIClient sharedClient] cancelAlert];
     
     return NO;
 }
@@ -262,14 +258,14 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 - (void)setCurrentAgency:(TSJavelinAPIAgency *)currentAgency {
     _currentAgency = currentAgency;
     
-    if (!_currentAgency.agencyLogo) {
-        [_currentAgency addObserver:self forKeyPath:@"agencyLogo" options: 0  context: NULL];
+    if (!_currentAgency.largeLogo) {
+        [_currentAgency addObserver:self forKeyPath:@"largeLogo" options: 0  context: NULL];
     }
-    if (!_currentAgency.agencyAlternateLogo) {
-        [_currentAgency addObserver:self forKeyPath:@"agencyAlternateLogo" options: 0  context: NULL];
+    if (!_currentAgency.alternateLogo) {
+        [_currentAgency addObserver:self forKeyPath:@"alternateLogo" options: 0  context: NULL];
     }
-    if (!_currentAgency.agencySmallLogo) {
-        [_currentAgency addObserver:self forKeyPath:@"agencySmallLogo" options: 0  context: NULL];
+    if (!_currentAgency.smallLogo) {
+        [_currentAgency addObserver:self forKeyPath:@"smallLogo" options: 0  context: NULL];
     }
 }
 

@@ -106,9 +106,9 @@
                                  thumbnailSize);
     UIImage *croppedImage = [resizedImage croppedImage:cropRect];
     return croppedImage;
-    //UIImage *transparentBorderImage = borderSize ? [croppedImage transparentBorderImage:borderSize] : croppedImage;
+//    UIImage *transparentBorderImage = borderSize ? [croppedImage transparentBorderImage:borderSize] : croppedImage;
     
-    //return [transparentBorderImage roundedCornerImage:cornerRadius borderSize:borderSize];
+//    return [transparentBorderImage roundedCornerImage:cornerRadius borderSize:borderSize];
 }
 
 // Returns a rescaled copy of the image, taking into account its orientation
@@ -305,17 +305,22 @@
     return image;
 }
 
-- (UIImage *)imageWithCornerRadius:(float)radius {
-    CALayer *imageLayer = [CALayer layer];
-    imageLayer.frame = CGRectMake(0, 0, self.size.width, self.size.height);
-    imageLayer.contents = (id) self.CGImage;
+- (UIImage *)imageWithRoundedCornersRadius:(float)radius {
     
-    imageLayer.masksToBounds = YES;
-    imageLayer.cornerRadius = radius;
+    // Begin a new image that will be the new image with the rounded corners
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0);
     
-    UIGraphicsBeginImageContext(self.size);
-    [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
+    // Add a clip before drawing anything, in the shape of an rounded rect
+    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    [[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius] addClip];
+    
+    // Draw your image
+    [self drawInRect:rect];
+    
+    // Get the image, here setting the UIImageView image
     UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // Lets forget about that we were drawing
     UIGraphicsEndImageContext();
     
     return roundedImage;

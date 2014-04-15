@@ -54,6 +54,7 @@
 	// Do any additional setup after loading the view.
     
     self.showSmallLogoInNavBar = YES;
+    _mapView.isAnimatingToRegion = YES;
     
     _entourageManager = [[TSVirtualEntourageManager alloc] initWithMapView:_mapView];
     
@@ -90,7 +91,6 @@
             
             [_mapView addAnnotation:_mapView.userLocationAnnotation];
             [_mapView updateAccuracyCircleWithLocation:location];
-            [_mapView addAnimatedOverlayToAnnotation:_mapView.userLocationAnnotation];
         }
     }];
     
@@ -111,12 +111,20 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-
+    
+    _mapView.isAnimatingToRegion = YES;
+    [_mapView removeAnimatedOverlay];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+    
+    [self whiteNavigationBar];
+    
+    _mapView.isAnimatingToRegion = NO;
+    
+    [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
     
     [self showAllSubviews];
     
@@ -178,7 +186,8 @@
     TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
     pageview.homeViewController = self;
     
-    self.isTrackingUser = YES;
+    _isTrackingUser = YES;
+    [_mapView setRegionAtAppearanceAnimated:YES];
     
     [self showOnlyMap];
 }

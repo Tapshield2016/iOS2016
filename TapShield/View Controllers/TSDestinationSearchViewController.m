@@ -162,11 +162,76 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (IBAction)searchContacts:(id)sender {
     
-    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
-    picker.displayedProperties = @[@(kABPersonAddressProperty)];
-    [self presentViewController:picker animated:YES completion:nil];
+    CFErrorRef *error = nil;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+    if (error) {
+        NSLog(@"error");
+    }
+    
+    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
+        CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
+        
+        for( CFIndex index = 0; index < nPeople; index++ ) {
+            ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
+            ABMutableMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
+            int addressCount = ABMultiValueGetCount(addressRef);
+            
+            if (!addressCount) {
+                CFErrorRef error = nil;
+                ABAddressBookRemoveRecord(addressBook, person, &error);
+                if (error) {
+                    NSLog(@"Error: %@", error);
+                }
+            }
+            else {
+                ABMultiValueRef addressMultiValue = ABRecordCopyValue(person, kABPersonAddressProperty);
+                NSDictionary *address = (__bridge_transfer NSDictionary *)ABMultiValueCopyValueAtIndex(addressMultiValue, 0);
+                CFRelease(addressMultiValue);
+                
+                if (![address objectForKey:@"Street"]) {
+                    CFErrorRef error = nil;
+                    ABAddressBookRemoveRecord(addressBook, person, &error);
+                    if (error) {
+                        NSLog(@"Error: %@", error);
+                    }
+                }
+            }
+            
+            CFRelease(person);
+            CFRelease(addressRef);
+        }
+        
+        nPeople = ABAddressBookGetPersonCount( addressBook );
+        
+        if (nPeople == 0) {
+            NSLog(@"No contacts with street addresses");
+            CFRelease(allPeople);
+            CFRelease(addressBook);
+            return;
+        }
+        
+        ABAddressBookSave(addressBook, &error);
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+            picker.addressBook = addressBook;
+            picker.title = @"Contacts";
+            picker.peoplePickerDelegate = self;
+            picker.displayedProperties = @[@(kABPersonAddressProperty)];
+            [self presentViewController:picker animated:YES completion:nil];
+            
+            CFRelease(addressBook);
+        });
+        
+        CFRelease(allPeople);
+    });
 }
+
+
 
 #pragma mark - Keyboard Notifications
 
@@ -292,6 +357,19 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     return CELL_HEIGHT;
 }
 
+- (void)pushRoutePickerWithMapItem:(MKMapItem *)mapItem {
+    
+    [self addMapItemToSavedSelections:mapItem];
+    
+    [_searchBar resignFirstResponder];
+    
+    _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    
+    UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
+    ((TSRoutePickerViewController *)destinationViewController).homeViewController = _homeViewController;
+    ((TSRoutePickerViewController *)destinationViewController).destinationMapItem = mapItem;
+}
+
 #pragma mark - UITableViewDelegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -302,15 +380,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     }
     
     MKMapItem *mapItem = (MKMapItem *)_searchResults[indexPath.row];
-    [self addMapItemToSavedSelections:mapItem];
-    
-    [_searchBar resignFirstResponder];
-    
-    _transitionDelegate = [[TSTransitionDelegate alloc] init];
-    
-    UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
-    ((TSRoutePickerViewController *)destinationViewController).homeViewController = _homeViewController;
-    ((TSRoutePickerViewController *)destinationViewController).destinationMapItem = mapItem;
+    [self pushRoutePickerWithMapItem:mapItem];
 }
 
 #pragma mark - UISearchBarDelegate methods
@@ -360,13 +430,12 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
             MKPlacemark *placemark = [[MKPlacemark alloc] initWithPlacemark:placemarks[0]];
             MKMapItem *contactMapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
             contactMapItem.name = placeName;
-#warning destination
-//            [_homeViewController.mapView userSelectedDestination:contactMapItem forTransportType:_directionsTransportType];
+            [self pushRoutePickerWithMapItem:contactMapItem];
         }
-        [self dismissViewControllerAnimated:NO completion:^{
-            [self dismissViewController:nil];
-        }];
+        [self dismissViewControllerAnimated:NO completion:nil];
     }];
+    
+    
 
     return NO;
 }

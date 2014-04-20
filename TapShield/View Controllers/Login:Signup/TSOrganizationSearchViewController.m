@@ -88,7 +88,7 @@
 - (void)getLocationAndSearchForNearbyAgencies {
     
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
-        [[TSLocationController sharedLocationController] stopLocationUpdates];
+//        [[TSLocationController sharedLocationController] stopLocationUpdates];
         [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
             if (agencies) {
                 self.nearbyOrganizationArray = agencies;

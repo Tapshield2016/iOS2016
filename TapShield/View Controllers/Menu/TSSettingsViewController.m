@@ -88,6 +88,10 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
     cell.backgroundColor = [TSColorPalette listBackgroundColor];
     tableView.separatorColor = [TSColorPalette tapshieldBlue];
     tableView.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    
+    if (indexPath.row == 3) {
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

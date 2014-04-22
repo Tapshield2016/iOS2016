@@ -15,6 +15,7 @@
 #import "TSSocialAccountsManager.h"
 #import "TSYankManager.h"
 #import <TestFlightSDK/TestFlight.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -58,10 +59,11 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
     
     [UITableView appearance].separatorInset = UIEdgeInsetsZero;
+    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     [UITableView appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UITableView appearance].separatorColor = [TSColorPalette cellSeparatorColor];
     [UITableView appearance].backgroundColor = [TSColorPalette listBackgroundColor];
-    [UITableView appearance].sectionIndexTrackingBackgroundColor = [TSColorPalette tableViewHeaderColor];
+//    [UITableView appearance].sectionIndexTrackingBackgroundColor = [TSColorPalette tableViewHeaderColor];
     
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;

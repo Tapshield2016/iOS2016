@@ -10,4 +10,6 @@
 
 @interface TSMedicalInformationViewController : TSBaseViewController
 
+@property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
+
 @end

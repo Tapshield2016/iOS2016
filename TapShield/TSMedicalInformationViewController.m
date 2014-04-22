@@ -7,8 +7,11 @@
 //
 
 #import "TSMedicalInformationViewController.h"
+#import "TSMedicalTableViewController.h"
 
 @interface TSMedicalInformationViewController ()
+
+@property (strong, nonatomic) TSMedicalTableViewController *tableViewController;
 
 @end
 

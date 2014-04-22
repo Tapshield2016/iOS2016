@@ -198,15 +198,15 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
                 }
             }
             
-            CFRelease(person);
             CFRelease(addressRef);
         }
         
         nPeople = ABAddressBookGetPersonCount( addressBook );
         
+        CFRelease(allPeople);
+        
         if (nPeople == 0) {
             NSLog(@"No contacts with street addresses");
-            CFRelease(allPeople);
             CFRelease(addressBook);
             return;
         }
@@ -219,15 +219,13 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
         dispatch_async(dispatch_get_main_queue(), ^{
             ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
             picker.addressBook = addressBook;
-            picker.title = @"Contacts";
+            picker.topViewController.navigationItem.title = @"Contacts";
             picker.peoplePickerDelegate = self;
             picker.displayedProperties = @[@(kABPersonAddressProperty)];
             [self presentViewController:picker animated:YES completion:nil];
             
             CFRelease(addressBook);
         });
-        
-        CFRelease(allPeople);
     });
 }
 
@@ -419,7 +417,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
 
     ABMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
-    NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
+    NSDictionary *addressDict = (__bridge_transfer NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
     CFRelease(addressRef);
     NSString *placeName = [TSUtilities getTitleForABRecordRef:person];
 
@@ -443,5 +441,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 @end

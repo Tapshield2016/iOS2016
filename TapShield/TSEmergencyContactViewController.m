@@ -7,8 +7,11 @@
 //
 
 #import "TSEmergencyContactViewController.h"
+#import "TSEmergencyContactTableViewController.h"
 
 @interface TSEmergencyContactViewController ()
+
+@property (strong, nonatomic) TSEmergencyContactTableViewController *tableViewController;
 
 @end
 

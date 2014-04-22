@@ -13,7 +13,11 @@
 @property (nonatomic, assign) NSUInteger identifier;
 @property (nonatomic, strong) NSString *url;
 
+- (id)initWithCoder:(NSCoder *)decoder;
 - (id)initWithAttributes:(NSDictionary *)attributes;
 - (instancetype)initWithOnlyURLAttribute:(NSDictionary *)attributes forKey:(NSString *)key;
+
+- (void)encodeWithCoder:(NSCoder *)encoder;
+
 
 @end

@@ -8,8 +8,9 @@
 
 #import "TSNavigationViewController.h"
 #import "TSHomeViewController.h"
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 

@@ -8,6 +8,10 @@
 
 #import "TSBaseViewController.h"
 
-@interface TSBasicInfoViewController : TSBaseViewController
+@interface TSBasicInfoViewController : TSBaseViewController <UIScrollViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
 
 @end

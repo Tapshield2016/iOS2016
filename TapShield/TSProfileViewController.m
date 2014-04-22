@@ -7,6 +7,7 @@
 //
 
 #import "TSProfileViewController.h"
+#import "TSBasicInfoViewController.h"
 
 static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfileViewControllerBlurredProfileImage";
 
@@ -67,6 +68,13 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     [super viewDidAppear:animated];
     
     [_tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [self saveUserProfile];
 }
 
 - (void)saveUserProfile {
@@ -160,7 +168,10 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:_cellIdentifiers[indexPath.row]];
+    TSBasicInfoViewController *viewController = (TSBasicInfoViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:_cellIdentifiers[indexPath.row]];
+    
+    viewController.userProfile = _userProfile;
+    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

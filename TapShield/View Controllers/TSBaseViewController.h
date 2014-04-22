@@ -24,6 +24,7 @@
 #import "TSLogoImageView.h"
 #import "TSUtilities.h"
 #import "UIImage+Resize.h"
+#import "TSBaseTextField.h"
 
 @interface TSBaseViewController : UIViewController
 

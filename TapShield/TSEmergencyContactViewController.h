@@ -10,4 +10,6 @@
 
 @interface TSEmergencyContactViewController : TSBaseViewController
 
+@property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
+
 @end

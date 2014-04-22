@@ -183,4 +183,31 @@
     return _homeViewController.entourageManager.contactRecipients.count + 1;
 }
 
+
+
+#pragma mark - ABPeoplePickerNavigationControllerDelegate methods
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    
+    return YES;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
+    
+    TSJavelinAPIUser *entourageUser = [[TSJavelinAPIUser alloc] init];
+    
+    ABMultiValueRef selectedRef = ABRecordCopyValue(person, property);
+    NSString *contactPhoneNumber = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(selectedRef, 0);
+    CFRelease(selectedRef);
+    NSString *name = [TSUtilities getTitleForABRecordRef:person];
+    
+    
+    return NO;
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

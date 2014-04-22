@@ -77,8 +77,7 @@
     
     // get a rect for the textView frame
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0f, 0.0f, keyboardBounds.size.height, 0.0f);
-    _scrollView.contentInset = contentInsets;
-    _scrollView.scrollIndicatorInsets = contentInsets;
+    
     
     
     // animations settings
@@ -93,6 +92,9 @@
         CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
         [_scrollView setContentOffset:scrollPoint];
     }
+    
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
     
     [UIView commitAnimations];
     

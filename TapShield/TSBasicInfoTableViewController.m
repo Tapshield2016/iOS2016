@@ -46,6 +46,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Text Field Delegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if (_birthdayTextField == textField) {
+        NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
+        if ([string isEqualToString:@""]) {
+            if ([alphaNumericTextField length] == 3) {
+                textField.text = [TSUtilities removeNonNumericalCharacters:textField.text];
+            }
+            if ([alphaNumericTextField length] == 5) {
+                textField.text = [textField.text substringToIndex:[textField.text length]-1];
+            }
+            return YES;
+        }
+        if ([alphaNumericTextField length] == 2) {
+            textField.text = [NSString stringWithFormat:@"%@-",textField.text];
+        }
+        
+        if ([alphaNumericTextField length] == 4) {
+            textField.text = [NSString stringWithFormat:@"%@-",textField.text];
+        }
+        NSUInteger newTextFieldTextLength = [alphaNumericTextField length] + [string length] - range.length;
+        if (newTextFieldTextLength > 8) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

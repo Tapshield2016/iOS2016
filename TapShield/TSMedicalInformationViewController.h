@@ -10,6 +10,7 @@
 
 @interface TSMedicalInformationViewController : TSBaseViewController
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
 
 @end

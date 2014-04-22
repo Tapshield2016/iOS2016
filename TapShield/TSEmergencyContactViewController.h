@@ -11,5 +11,6 @@
 @interface TSEmergencyContactViewController : TSBaseViewController
 
 @property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end

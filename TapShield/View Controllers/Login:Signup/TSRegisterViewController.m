@@ -267,10 +267,10 @@
 //        }
 //    }
     if (_phoneNumberTextField == textField) {
-        NSString *alphaNumericTextField = [self removeNonNumericalCharacters:textField.text];
+        NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
         if ([string isEqualToString:@""]) {
             if ([alphaNumericTextField length] == 4) {
-                textField.text = [self removeNonNumericalCharacters:textField.text];
+                textField.text = [TSUtilities removeNonNumericalCharacters:textField.text];
             }
             if ([alphaNumericTextField length] == 7) {
                 textField.text = [textField.text substringToIndex:[textField.text length]-1];
@@ -297,13 +297,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     
     if (_phoneNumberTextField == textField) {
-        if ([self removeNonNumericalCharacters:textField.text].length == 10) {
-            NSMutableString *mutableNumber = [NSMutableString stringWithString:[self removeNonNumericalCharacters:textField.text]];
-            [mutableNumber insertString:@"-" atIndex:6];
-            [mutableNumber insertString:@") " atIndex:3];
-            [mutableNumber insertString:@"(" atIndex:0];
-            textField.text = mutableNumber;
-        }
+        textField.text = [TSUtilities formatPhoneNumber:textField.text];
     }
     
     _user.email = _emailTextField.text;
@@ -313,13 +307,6 @@
 
 
 #pragma mark - TextField Utilities
-
-- (NSString *)removeNonNumericalCharacters:(NSString *)phoneNumber {
-    
-    NSCharacterSet *charactersToRemove = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-    phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
-    return phoneNumber;
-}
 
 - (void)checkEmailTextfieldForValidEmail {
     
@@ -342,7 +329,7 @@
         isValid = NO;
         _passwordView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
     }
-    if ([[self removeNonNumericalCharacters:_phoneNumberTextField.text] length] != 10) {
+    if ([[TSUtilities removeNonNumericalCharacters:_phoneNumberTextField.text] length] != 10) {
         isValid = NO;
         _phoneView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
     }

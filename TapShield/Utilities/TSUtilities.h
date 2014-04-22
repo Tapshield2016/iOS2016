@@ -14,6 +14,7 @@
 
 + (CGSize)text:(NSString *)text sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
 
++ (NSString *)removeNonNumericalCharacters:(NSString *)phoneNumber;
 + (NSString *)formatPhoneNumber:(NSString *)rawString;
 
 + (NSString *)formattedStringForTime:(NSTimeInterval)duration;

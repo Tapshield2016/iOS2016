@@ -48,6 +48,8 @@
     
     [super viewWillDisappear:animated];
     
+    _userProfile.height = _tableViewController.heightTextField.text;
+    _userProfile.weight = [_tableViewController.weightTextField.text integerValue];
 }
 
 - (void)didReceiveMemoryWarning

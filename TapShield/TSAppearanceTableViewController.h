@@ -10,4 +10,10 @@
 
 @interface TSAppearanceTableViewController : TSBaseTableViewController
 
+@property (nonatomic, assign) ProfileHairColor hairColor;
+@property (nonatomic, assign) ProfileRace race;
+
+@property (weak, nonatomic) IBOutlet TSBaseTextField *heightTextField;
+@property (weak, nonatomic) IBOutlet TSBaseTextField *weightTextField;
+
 @end

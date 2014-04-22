@@ -26,7 +26,7 @@
 #import "UIImage+Resize.h"
 #import "TSBaseTextField.h"
 
-@interface TSBaseTableViewController : UITableViewController
+@interface TSBaseTableViewController : UITableViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) TSJavelinAPIUserProfile *userProfile;
 

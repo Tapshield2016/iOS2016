@@ -22,9 +22,9 @@
     _birthday = [attributes valueForKey:@"birthday"];
     _address = [attributes valueForKey:@"address"];
     _addressDictionary = [attributes valueForKey:@"address_dictionary"];
-    _hairColor = [[attributes valueForKey:@"hair_color"] integerValue];
-    _gender = [[attributes valueForKey:@"gender"] integerValue];
-    _race = [[attributes valueForKey:@"race"] integerValue];
+    _hairColor = [TSJavelinAPIUserProfile indexOfShortHairColorString:[attributes valueForKey:@"hair_color"]];
+    _gender = [TSJavelinAPIUserProfile indexOfShortGenderString:[attributes valueForKey:@"gender"]];
+    _race = [TSJavelinAPIUserProfile indexOfShortRaceString:[attributes valueForKey:@"race"]];
     _height = [attributes valueForKey:@"height"];
     _weight = [[attributes objectForKey:@"weight"] integerValue];
     _knownAllergies = [attributes valueForKey:@"known_allergies"];
@@ -32,7 +32,7 @@
     _emergencyContactFirstName = [attributes valueForKey:@"emergency_contact_first_name"];
     _emergencyContactLastName = [attributes valueForKey:@"emergency_contact_last_name"];
     _emergencyContactPhoneNumber = [attributes valueForKey:@"emergency_contact_phone_number"];
-    _emergencyContactRelationship = [[attributes valueForKey:@"emergency_contact_relationship"] integerValue];
+    _emergencyContactRelationship = [TSJavelinAPIUserProfile indexOfShortRelationshipString:[attributes valueForKey:@"emergency_contact_relationship"]];
     
     return self;
 }
@@ -121,8 +121,8 @@
     if (_user) {
         attributes[@"user"] = _user.url;
     }
-    if (_birthday) {
-        attributes[@"birthday"] = _birthday;
+    if ([TSJavelinAPIUserProfile formattedBirthday:_birthday]) {
+        attributes[@"birthday"] = [TSJavelinAPIUserProfile formattedBirthday:_birthday];
     }
     
     if (_address) {
@@ -206,6 +206,10 @@
 
 + (int)indexOfShortGenderString:(NSString *)shortString {
     
+    if ([shortString isKindOfClass:[NSNull class]]) {
+        return 0;
+    }
+    
     if (!shortString) {
         return 0;
     }
@@ -232,6 +236,10 @@
 }
 
 + (int)indexOfShortHairColorString:(NSString *)shortString {
+    
+    if ([shortString isKindOfClass:[NSNull class]]) {
+        return 0;
+    }
     
     NSArray *orderArray = kHairColorShortArray;
     return [orderArray indexOfObject:shortString];
@@ -260,6 +268,10 @@
 }
 
 + (int)indexOfShortRaceString:(NSString *)shortString {
+    
+    if ([shortString isKindOfClass:[NSNull class]]) {
+        return 0;
+    }
     
     NSArray *orderArray = kRaceShortArray;
     return [orderArray indexOfObject:shortString];
@@ -290,6 +302,10 @@
 }
 
 + (int)indexOfShortRelationshipString:(NSString *)shortString {
+    
+    if ([shortString isKindOfClass:[NSNull class]]) {
+        return 0;
+    }
     
     NSArray *orderArray = kRelationshipShortArray;
     return [orderArray indexOfObject:shortString];
@@ -349,6 +365,25 @@
     }
     
     return address;
+}
+
+
++ (NSString *)formattedBirthday:(NSString *)birthday {
+    
+    NSString *formattedBirthday;
+    
+    NSArray *array = [birthday componentsSeparatedByString:@"-"];
+    if (array.count == 3) {
+        NSString *year = [array lastObject];
+        NSString *month = [array firstObject];
+        NSString *day = array[1];
+        
+        if (year.length == 4 && month.length == 2 && day.length == 2) {
+            formattedBirthday = [NSString stringWithFormat:@"%@-%@-%@", year, month, day];
+        }
+    }
+    
+    return formattedBirthday;
 }
 
 @end

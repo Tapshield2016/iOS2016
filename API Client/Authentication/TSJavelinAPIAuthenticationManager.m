@@ -110,6 +110,11 @@ static dispatch_once_t onceToken;
 #pragma mark - Social Authentication Methods
 
 - (void)socialLoggedInUserWithAttributes:(NSDictionary *)attributes {
+    
+    if (_loggedInUser) {
+        return;
+    }
+    
     [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:attributes]];
     
     if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {

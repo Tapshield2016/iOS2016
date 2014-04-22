@@ -28,6 +28,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _firstNameTextField.text = self.userProfile.emergencyContactFirstName;
+    _lastNameTextField.text = self.userProfile.emergencyContactLastName;
+    _phoneNumberTextField.text = self.userProfile.emergencyContactPhoneNumber;
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,6 +39,45 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Text Field Delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
+    if (_phoneNumberTextField == textField) {
+        textField.text = [TSUtilities formatPhoneNumber:textField.text];
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if (_phoneNumberTextField == textField) {
+        NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
+        if ([string isEqualToString:@""]) {
+            if ([alphaNumericTextField length] == 4) {
+                textField.text = [TSUtilities removeNonNumericalCharacters:textField.text];
+            }
+            if ([alphaNumericTextField length] == 7) {
+                textField.text = [textField.text substringToIndex:[textField.text length]-1];
+            }
+            return YES;
+        }
+        if ([alphaNumericTextField length] == 3) {
+            textField.text = [NSString stringWithFormat:@"(%@) ",textField.text];
+        }
+        
+        if ([alphaNumericTextField length] == 6) {
+            textField.text = [NSString stringWithFormat:@"%@-",textField.text];
+        }
+        NSUInteger newTextFieldTextLength = [alphaNumericTextField length] + [string length] - range.length;
+        if (newTextFieldTextLength > 10) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 
 #pragma mark - Table view data source
 
@@ -61,6 +104,7 @@
     cell.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     
     if (indexPath.row == 3) {
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
         cell.separatorInset = UIEdgeInsetsZero;
     }
 }

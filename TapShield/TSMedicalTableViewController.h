@@ -9,5 +9,7 @@
 #import "TSBaseTableViewController.h"
 
 @interface TSMedicalTableViewController : TSBaseTableViewController
+@property (weak, nonatomic) IBOutlet UITextView *allergiesTextView;
+@property (weak, nonatomic) IBOutlet UITextView *medicationsTextView;
 
 @end

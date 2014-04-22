@@ -39,6 +39,10 @@
         return nil;
     }
     
+    if ([self removeNonNumericalCharacters:rawString].length < 7) {
+        return rawString;
+    }
+    
     NSMutableString *mutableNumber = [NSMutableString stringWithString:[self removeNonNumericalCharacters:rawString]];
     [mutableNumber insertString:@"-" atIndex:6];
     [mutableNumber insertString:@") " atIndex:3];

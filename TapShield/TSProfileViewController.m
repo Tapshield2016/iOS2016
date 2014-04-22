@@ -39,6 +39,7 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     if (!_userProfile) {
         _userProfile = [[TSJavelinAPIUserProfile alloc] init];
     }
+    _userProfile.user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addProfileImage:)];
     [_userImageView addGestureRecognizer:tap];

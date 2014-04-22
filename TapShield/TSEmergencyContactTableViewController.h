@@ -9,5 +9,8 @@
 #import "TSBaseTableViewController.h"
 
 @interface TSEmergencyContactTableViewController : TSBaseTableViewController
+@property (weak, nonatomic) IBOutlet TSBaseTextField *firstNameTextField;
+@property (weak, nonatomic) IBOutlet TSBaseTextField *lastNameTextField;
+@property (weak, nonatomic) IBOutlet TSBaseTextField *phoneNumberTextField;
 
 @end

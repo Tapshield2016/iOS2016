@@ -7,6 +7,7 @@
 //
 
 #import "TSNotifySelectionViewController.h"
+#import "TSAddMemberCell.h"
 
 @interface TSNotifySelectionViewController ()
 
@@ -19,6 +20,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _savedContacts = [[NSMutableArray alloc] initWithCapacity:5];
+    _entourageMembers = [[NSMutableSet alloc] initWithCapacity:5];
+    
     self.translucentBackground = YES;
     CGRect frame = self.view.frame;
     frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -128,7 +132,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,33 +163,120 @@
     return YES;
 }
 
+- (void)addOrRemoveMember:(TSEntourageMemberCell *)memberCell {
+    
+    if ([_entourageMembers containsObject:memberCell.member]) {
+        if (!memberCell.button.selected) {
+            [_entourageMembers removeObject:memberCell.member];
+        }
+    }
+    else {
+        if (memberCell.button.selected) {
+            [_entourageMembers addObject:memberCell.member];
+        }
+    }
+}
 
 #pragma mark - Collection View Data Source
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
      NSString *cellIdentifier = @"ContactCell";
+    
     if (indexPath.item == 0) {
          cellIdentifier = @"AddCell";
+        
+        TSAddMemberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        [cell addButtonTarget:self action:@selector(showPeoplePickerNavigationController)];
+        
+        return cell;
     }
 
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    TSEntourageMemberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    if (indexPath.item <= _savedContacts.count && indexPath.item != 0) {
+        cell.member = _savedContacts[indexPath.item - 1];
+        [cell addButtonTarget:self action:@selector(addOrRemoveMember:)];
+        
+        if (![_entourageMembers containsObject:cell.member]) {
+            cell.button.selected = NO;
+        }
+    }
     
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if (_homeViewController.entourageManager.contactRecipients.count < 3) {
+    if (_savedContacts.count < 3) {
         return 3;
     }
     
-    return _homeViewController.entourageManager.contactRecipients.count + 1;
+    return _savedContacts.count + 1;
 }
 
 
 
 #pragma mark - ABPeoplePickerNavigationControllerDelegate methods
+
+- (void)showPeoplePickerNavigationController {
+    
+    CFErrorRef *error = nil;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+    if (error) {
+        NSLog(@"error");
+    }
+    
+    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
+        CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
+        
+        for( CFIndex index = 0; index < nPeople; index++ ) {
+            ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
+            ABMutableMultiValueRef phoneRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
+            ABMutableMultiValueRef emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
+            int phoneCount = ABMultiValueGetCount(phoneRef);
+            int emailCount = ABMultiValueGetCount(emailRef);
+            
+            if (!phoneCount && !emailCount) {
+                CFErrorRef error = nil;
+                ABAddressBookRemoveRecord(addressBook, person, &error);
+                if (error) {
+                    NSLog(@"Error: %@", error);
+                }
+            }
+            
+            CFRelease(phoneRef);
+            CFRelease(emailRef);
+        }
+        
+        nPeople = ABAddressBookGetPersonCount( addressBook );
+        
+        CFRelease(allPeople);
+        
+        if (nPeople == 0) {
+            NSLog(@"No contacts with Phone Numbers or Email");
+            CFRelease(addressBook);
+            return;
+        }
+        
+        ABAddressBookSave(addressBook, &error);
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+            picker.addressBook = addressBook;
+            picker.topViewController.navigationItem.title = @"Contacts";
+            picker.peoplePickerDelegate = self;
+            picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
+            [self presentViewController:picker animated:YES completion:nil];
+            
+            CFRelease(addressBook);
+        });
+    });
+    
+}
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
       shouldContinueAfterSelectingPerson:(ABRecordRef)person {
@@ -195,13 +286,14 @@
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
     
-    TSJavelinAPIUser *entourageUser = [[TSJavelinAPIUser alloc] init];
+    TSJavelinAPIEntourageMember *entourageUser = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
     
-    ABMultiValueRef selectedRef = ABRecordCopyValue(person, property);
-    NSString *contactPhoneNumber = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(selectedRef, 0);
-    CFRelease(selectedRef);
-    NSString *name = [TSUtilities getTitleForABRecordRef:person];
+    [_savedContacts insertObject:entourageUser atIndex:0];
+    [_entourageMembers addObject:entourageUser];
     
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [_collectionView reloadData];
     
     return NO;
 }

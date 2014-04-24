@@ -56,6 +56,11 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     self.translucentBackground = YES;
     self.toolbar.frame = _blurredUserImage.bounds;
     [_blurredUserImage addSubview:self.toolbar];
+    
+    _mediaPicker = [[UIImagePickerController alloc] init];
+    [_mediaPicker setDelegate:self];
+    _mediaPicker.allowsEditing = YES;
+    _mediaPicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,11 +92,6 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 #pragma mark - Camera
 
 - (IBAction)addProfileImage:(id)sender {
-    
-    _mediaPicker = [[UIImagePickerController alloc] init];
-    [_mediaPicker setDelegate:self];
-    _mediaPicker.allowsEditing = YES;
-    _mediaPicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil

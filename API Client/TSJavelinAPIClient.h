@@ -12,6 +12,7 @@
 #import "TSJavelinAPIChatMessage.h"
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIUser.h"
+#import "TSJavelinAPIEntourageMember.h"
 
 @class TSJavelinAPIUser;
 @class TSJavelinAPIAlert;

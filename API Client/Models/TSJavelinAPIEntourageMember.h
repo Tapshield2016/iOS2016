@@ -7,11 +7,15 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
+#import <AddressBook/AddressBook.h>
 
 @interface TSJavelinAPIEntourageMember : TSJavelinAPIBaseModel
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *phoneNumber;
 @property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) UIImage *image;
+
+- (instancetype)initWithPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier;
 
 @end

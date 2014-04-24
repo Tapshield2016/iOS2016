@@ -352,10 +352,9 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
     
-    TSJavelinAPIEntourageMember *entourageUser = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
+    TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
     
-    [_savedContacts insertObject:entourageUser atIndex:0];
-    [_entourageMembers addObject:entourageUser];
+    [self addEntourageMember:member];
     
     [self archiveUsersPicked];
     
@@ -374,6 +373,24 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_entourageMembers];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kPastUserSelections];
+}
+
+- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        if (sortingMember.recordID == member.recordID) {
+            return YES;
+        }
+        return NO;
+    }];
+    NSArray *filtered = [_savedContacts filteredArrayUsingPredicate:predicate];
+    
+    [_savedContacts removeObjectsInArray:filtered];
+    [_entourageMembers minusSet:[NSSet setWithArray:filtered]];
+    
+    [_savedContacts insertObject:member atIndex:0];
+    [_entourageMembers addObject:member];
 }
 
 @end

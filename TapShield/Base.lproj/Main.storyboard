@@ -3707,10 +3707,14 @@ Last Updated: 12/12/13
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" indicatorStyle="white" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mlK-ye-eiI">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mlK-ye-eiI">
                                 <rect key="frame" x="0.0" y="318" width="320" height="250"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="6Gj-x5-gem"/>
+                                    <constraint firstAttribute="height" constant="250" id="cgj-mc-qPq"/>
+                                </constraints>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="60" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="Rc0-JE-UhE">
                                     <size key="itemSize" width="100" height="97"/>
@@ -3799,6 +3803,11 @@ Last Updated: 12/12/13
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="mlK-ye-eiI" secondAttribute="trailing" id="dHD-SS-xQo"/>
+                            <constraint firstItem="mlK-ye-eiI" firstAttribute="leading" secondItem="b5O-Js-xfV" secondAttribute="leading" id="gXM-PC-Pqq"/>
+                            <constraint firstItem="R1r-tL-cQQ" firstAttribute="top" secondItem="mlK-ye-eiI" secondAttribute="bottom" id="pUW-Ip-ueD"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Z7S-aV-dJY">
                         <barButtonItem key="rightBarButtonItem" title="Start" id="4XX-gF-CT7"/>

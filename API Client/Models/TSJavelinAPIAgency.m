@@ -143,7 +143,7 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     
     [imageView setImageWithURLRequest:request
-                          placeholderImage:[UIImage imageNamed:@""]
+                          placeholderImage:nil
                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                        self.largeLogo = image;
                                    } failure:nil];
@@ -163,7 +163,7 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     
     [imageView setImageWithURLRequest:request
-                     placeholderImage:[UIImage imageNamed:@""]
+                     placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                   self.smallLogo = image;
                               } failure:nil];
@@ -183,7 +183,7 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     
     [imageView setImageWithURLRequest:request
-                     placeholderImage:[UIImage imageNamed:@""]
+                     placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                   self.alternateLogo = image;
                               } failure:nil];

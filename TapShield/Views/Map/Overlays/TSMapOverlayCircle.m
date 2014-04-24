@@ -32,7 +32,7 @@
 - (void)startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame{
     
     //create the image
-    self.image = [UIImage imageNamed:@"circle.png"];
+    self.image = [UIImage imageNamed:@"circle"];
     
     UIColor *colorForAnimation = color;
     

@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         
+        self.recordID = ABRecordGetRecordID(person);
         [self getChosenContactInfoFromPerson:person property:property identifier:identifier];
     }
     return self;

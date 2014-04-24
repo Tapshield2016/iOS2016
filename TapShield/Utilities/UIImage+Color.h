@@ -12,6 +12,9 @@
 
 + (UIImage *)imageFromColor:(UIColor *)color;
 + (UIImage *)imageHighlightedFromColor:(UIColor *)color;
+
 - (UIImage *)fillImageWithColor:(UIColor *)color;
+- (UIImage *)reduceBrightness;
+- (UIImage *)gaussianBlur;
 
 @end

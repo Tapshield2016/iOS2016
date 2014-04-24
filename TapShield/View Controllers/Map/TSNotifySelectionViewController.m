@@ -9,6 +9,10 @@
 #import "TSNotifySelectionViewController.h"
 #import "TSAddMemberCell.h"
 
+#define INSET 50
+
+static NSString * const kPastUserSelections = @"kPastUserSelections";
+
 @interface TSNotifySelectionViewController ()
 
 @end
@@ -20,8 +24,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _savedContacts = [[NSMutableArray alloc] initWithCapacity:5];
-    _entourageMembers = [[NSMutableSet alloc] initWithCapacity:5];
+    _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 0, 0);
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kPastUserSelections];
+    NSSet *set = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    _savedContacts = [[NSMutableArray alloc] initWithArray:[set allObjects]];
+    _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
     
     self.translucentBackground = YES;
     CGRect frame = self.view.frame;
@@ -163,6 +172,26 @@
     return YES;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    float cellHeight = 107;
+    float offset = scrollView.contentOffset.y + INSET;
+    int page = offset/cellHeight;
+    offset -= cellHeight * page;
+    
+    if (offset < 0) {
+        return;
+    }
+    
+    NSArray *array = [_collectionView.visibleCells copy];
+    for (UICollectionViewCell *cell in array) {
+        NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
+        
+        UICollectionViewCell *cellAtIndex = (UICollectionViewCell *)[_collectionView cellForItemAtIndexPath:indexPath];
+        [self adjustCell:cellAtIndex forOffset:scrollView.contentOffset.y];
+    }
+}
+
 - (void)addOrRemoveMember:(TSEntourageMemberCell *)memberCell {
     
     if ([_entourageMembers containsObject:memberCell.member]) {
@@ -174,6 +203,37 @@
         if (memberCell.button.selected) {
             [_entourageMembers addObject:memberCell.member];
         }
+    }
+    
+    [self archiveUsersPicked];
+}
+
+- (void)adjustCell:(UICollectionViewCell *)cell forOffset:(float)offset {
+    
+    float cellHeight = 107;
+    
+    offset = offset + INSET;
+    int page = offset/cellHeight;
+    
+    offset -= cellHeight * page;
+    float ratio = offset/cellHeight;
+    float ratioChange = 1 - ratio;
+    
+    if (offset < 0) {
+        return;
+    }
+    
+    if (cell.frame.origin.y < (page + 1) * cellHeight) {
+        cell.alpha = ratioChange;
+        cell.transform = CGAffineTransformMakeScale(ratioChange, ratioChange);
+    }
+    else {
+        cell.alpha = 1.0;
+        cell.transform = CGAffineTransformMakeScale(1.0, 1.0);
+    }
+    
+    if (cell.frame.origin.y < page * cellHeight) {
+        cell.alpha = 0.0;
     }
 }
 
@@ -189,6 +249,8 @@
         TSAddMemberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         [cell addButtonTarget:self action:@selector(showPeoplePickerNavigationController)];
         
+        [self adjustCell:cell forOffset:_collectionView.contentOffset.y];
+        
         return cell;
     }
 
@@ -202,8 +264,12 @@
         }
     }
     
+    [self adjustCell:cell forOffset:_collectionView.contentOffset.y];
+    
     return cell;
 }
+
+
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
@@ -291,6 +357,8 @@
     [_savedContacts insertObject:entourageUser atIndex:0];
     [_entourageMembers addObject:entourageUser];
     
+    [self archiveUsersPicked];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [_collectionView reloadData];
@@ -300,6 +368,12 @@
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)archiveUsersPicked {
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_entourageMembers];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kPastUserSelections];
 }
 
 @end

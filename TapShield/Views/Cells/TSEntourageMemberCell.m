@@ -9,6 +9,7 @@
 #import "TSEntourageMemberCell.h"
 #import "TSNotifySelectionViewController.h"
 #import "UIImage+Resize.h"
+#import "UIImage+Color.h"
 
 static NSString * const kSelectedImage = @"user_tick_icon";
 static NSString * const kDefaultImage = @"user_default_icon";
@@ -34,13 +35,23 @@ static NSString * const kDefaultImage = @"user_default_icon";
     _button.frame = frame;
     
     UIImage *userImage = [UIImage imageNamed:kDefaultImage];
+    UIImage *blurredImage = [UIImage imageNamed:kDefaultImage];
     if (member.image) {
-        userImage = [member.image imageWithRoundedCornersRadius:member.image.size.height/2];
+        userImage = member.image;
+        blurredImage = member.alternateImage;
     }
+    
     [_button setBackgroundImage:userImage forState:UIControlStateNormal];
+    [_button setBackgroundImage:blurredImage forState:UIControlStateSelected];
     [_button setImage:[UIImage imageNamed:kSelectedImage] forState:UIControlStateSelected];
     [_button addTarget:self action:@selector(buttonSelected) forControlEvents:UIControlEventTouchUpInside];
     _button.selected = YES;
+    _button.layer.cornerRadius = _button.bounds.size.height/2;
+    _button.layer.masksToBounds = NO;
+    _button.layer.shadowColor = [UIColor blackColor].CGColor;
+    _button.layer.shadowRadius = 1.0f;
+    _button.layer.shadowOpacity = 1;
+    _button.layer.shadowOffset = CGSizeZero;
     [self addSubview:_button];
     
     _label.text = member.name;

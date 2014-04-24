@@ -11,7 +11,7 @@
 #import "TSEntourageMemberCell.h"
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

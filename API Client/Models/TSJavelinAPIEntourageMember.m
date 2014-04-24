@@ -7,6 +7,8 @@
 //
 
 #import "TSJavelinAPIEntourageMember.h"
+#import "UIImage+Color.h"
+#import "UIImage+Resize.h"
 
 @implementation TSJavelinAPIEntourageMember
 
@@ -28,6 +30,7 @@
         _email = [coder decodeObjectForKey:@"email"];
         _phoneNumber = [coder decodeObjectForKey:@"phoneNumber"];
         _image = [coder decodeObjectForKey:@"image"];
+        _alternateImage = [coder decodeObjectForKey:@"alternateImage"];
     }
     return self;
 }
@@ -38,6 +41,7 @@
     [encoder encodeObject: _email forKey: @"email"];
     [encoder encodeObject: _phoneNumber forKey: @"phoneNumber"];
     [encoder encodeObject: _image forKey: @"image"];
+    [encoder encodeObject: _alternateImage forKey: @"alternateImage"];
 }
 
 
@@ -82,7 +86,10 @@
     
     NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(person, kABPersonImageFormatThumbnail);
     
-    self.image = [UIImage imageWithData:data];
+    UIImage *image = [UIImage imageWithData:data];
+    
+    self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
+    self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
 }
 
 

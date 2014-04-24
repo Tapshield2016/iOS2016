@@ -68,4 +68,31 @@
     return flippedImage;
 }
 
+
+- (UIImage *)reduceBrightness {
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *inputImage = [[CIImage alloc] initWithImage:self]; //your input image
+    
+    CIFilter *filter= [CIFilter filterWithName:@"CIColorControls"];
+    [filter setValue:inputImage forKey:@"inputImage"];
+    [filter setValue:[NSNumber numberWithFloat:0.5] forKey:@"inputBrightness"];
+    
+    // Your output image
+    UIImage *outputImage = [UIImage imageWithCGImage:[context createCGImage:filter.outputImage fromRect:filter.outputImage.extent]];
+    return outputImage;
+}
+
+- (UIImage *)gaussianBlur {
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *inputImage = [[CIImage alloc] initWithImage:self]; //your input image
+    
+    CIFilter *filter= [CIFilter filterWithName:@"CIGaussianBlur"];
+    [filter setValue:inputImage forKey:@"inputImage"];
+    [filter setValue:[NSNumber numberWithFloat:5] forKey:@"inputRadius"];
+    
+    // Your output image
+    UIImage *outputImage = [UIImage imageWithCGImage:[context createCGImage:filter.outputImage fromRect:inputImage.extent]];
+    return outputImage;
+}
+
 @end

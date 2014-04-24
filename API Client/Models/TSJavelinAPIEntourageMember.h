@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSString *phoneNumber;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) UIImage *image;
+@property (strong, nonatomic) UIImage *alternateImage;
 
 - (instancetype)initWithPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier;
 

@@ -19,5 +19,6 @@
 @property (assign, nonatomic) ABRecordID recordID;
 
 - (instancetype)initWithPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier;
+- (NSDictionary *)parametersFromMember;
 
 @end

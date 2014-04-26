@@ -11,6 +11,7 @@
 #import "TSHomeViewController.h"
 #import "TSYankManager.h"
 #import "TSSettingsViewController.h"
+#import "TSVirtualEntourageManager.h"
 
 #define MENU_CELL_SIZE 80
 
@@ -45,6 +46,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(returnToMapViewForLogOut)
                                                  name:TSSettingsViewControllerDidLogOut
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showMenuButton:)
+                                                 name:TSVirtualEntourageManagerTimerDidEnd
                                                object:nil];
     
 
@@ -103,13 +108,6 @@
         [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:YES completion:nil];
         return nil;
     }
-    
-    if (!_leftBarButtonItem) {
-        _leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"]
-                                                              style:UIBarButtonItemStylePlain
-                                                             target:self
-                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
-    }
 
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
@@ -117,7 +115,7 @@
     [paneNavigationViewController setNavigationBarHidden:YES];
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
 
-    paneViewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
+    [self showMenuButton:paneViewController];
 
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;
     
@@ -126,6 +124,25 @@
 
 - (void)dynamicsDrawerRevealLeftBarButtonItemTapped:(id)sender {
     [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
+}
+
+- (void)showMenuButton:(UIViewController *)viewController {
+    
+    if (!_leftBarButtonItem) {
+        _leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"]
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    }
+    
+    if (viewController) {
+        viewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [((UINavigationController *)self.dynamicsDrawerViewController.paneViewController).topViewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:YES];
+        });
+    }
 }
 
 #pragma mark - Table view delegate

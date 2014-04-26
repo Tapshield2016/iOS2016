@@ -9,6 +9,8 @@
 #import "TSJavelinAPIEntourageMember.h"
 #import "UIImage+Color.h"
 #import "UIImage+Resize.h"
+#import "TSJavelinAPIClient.h"
+#import "TSUtilities.h"
 
 @implementation TSJavelinAPIEntourageMember
 
@@ -19,6 +21,17 @@
         
         self.recordID = ABRecordGetRecordID(person);
         [self getChosenContactInfoFromPerson:person property:property identifier:identifier];
+    }
+    return self;
+}
+
+- (id)initWithAttributes:(NSDictionary *)attributes {
+    
+    self = [super initWithAttributes:attributes];
+    if (self) {
+        _name = [attributes objectForKey:@"name"];
+        _email = [attributes objectForKey:@"email_address"];
+        _phoneNumber = [attributes objectForKey:@"phone_number"];
     }
     return self;
 }
@@ -38,11 +51,46 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
+    [super encodeWithCoder:encoder];
+    
     [encoder encodeObject: _name forKey: @"name"];
     [encoder encodeObject: _email forKey: @"email"];
     [encoder encodeObject: _phoneNumber forKey: @"phoneNumber"];
     [encoder encodeObject: _image forKey: @"image"];
     [encoder encodeObject: _alternateImage forKey: @"alternateImage"];
+}
+
+- (NSDictionary *)parametersFromMember {
+    
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:5];
+    
+    if (!_email && !_phoneNumber) {
+        return nil;
+    }
+    
+    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].url) {
+        [dictionary setObject:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].url forKey:@"user"];
+    }
+    else {
+        return nil;
+    }
+    
+    if (_name) {
+        [dictionary setObject:_name forKey:@"name"];
+    }
+    else {
+        return nil;
+    }
+    
+    if (_phoneNumber) {
+        [dictionary setObject:[TSUtilities removeNonNumericalCharacters:_phoneNumber] forKey:@"phone_number"];
+    }
+    
+    if (_email) {
+        [dictionary setObject:_email forKey:@"email_address"];
+    }
+    
+    return dictionary;
 }
 
 

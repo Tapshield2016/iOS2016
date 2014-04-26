@@ -7,36 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TSSelectedDestinationAnnotation.h"
-#import "TSRouteOption.h"
-#import "TSMapView.h"
-#import "TSRouteTimeAnnotationView.h"
-#import <MapKit/MapKit.h>
+#import "TSRouteManager.h"
+
+extern NSString * const TSVirtualEntourageManagerTimerDidStart;
+extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
 
 @interface TSVirtualEntourageManager : NSObject
 
-@property (nonatomic, strong) TSMapView *mapView;
-@property (nonatomic, strong) TSRouteOption *selectedRoute;
-@property (nonatomic, strong) NSArray *routes;
-@property (nonatomic, strong) NSArray *routeOptions;
-@property (nonatomic, strong) NSArray *routingAnnotations;
+- (instancetype)initWithHomeView:(id)homeView;
 
-// Virtual Entourage selected destination
-@property (nonatomic, strong) TSSelectedDestinationAnnotation *destinationAnnotation;
-@property (nonatomic, strong) MKMapItem *destinationMapItem;
-@property (nonatomic, assign) MKDirectionsTransportType destinationTransportType;
+- (void)startEntourageWithMembers:(NSSet *)members;
+- (void)stopEntourage;
+- (void)recalculateEntourageTimerETA;
 
-// Notification Recipients
-@property (nonatomic, strong) NSArray *contactRecipients;
++ (NSMutableSet *)unArchiveEntourageMembersPosted;
 
-- (instancetype)initWithMapView:(MKMapView *)mapView;
+@property (nonatomic, strong) TSRouteManager *routeManager;
 
-- (void)selectRouteClosestTo:(MKMapPoint)mapPoint;
-- (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView;
-- (void)addRouteOverlaysToMapViewAndAnnotations;
-- (void)removeRouteOverlaysAndAnnotations;
-- (void)removeCurrentDestinationAnnotation;
+@property (nonatomic, assign) NSTimeInterval selectedETA;
 
-- (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType;
+@property (readonly) BOOL isEnabled;
 
 @end

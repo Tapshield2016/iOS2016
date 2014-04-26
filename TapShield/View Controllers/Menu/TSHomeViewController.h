@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *entourageButton;
 
+
 @property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
 @property (strong, nonatomic) UIBarButtonItem *yankBarButton;
 @property (strong, nonatomic) CLGeocoder *geocoder;

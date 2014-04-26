@@ -150,6 +150,12 @@ static NSString * const kCallRedialing = @"Redialing";
     [self updatePhoneNumberWithMessage:kCallConnecting];
     
     [self getTwilioCallToken:^(NSString *callToken) {
+        
+        if (!callToken) {
+            [self connection:nil didFailWithError:nil];
+            return;
+        }
+        
         _callToken = callToken;
         _twilioDevice = [[TCDevice alloc] initWithCapabilityToken:callToken delegate:self];
         _twilioDevice.outgoingSoundEnabled = YES;

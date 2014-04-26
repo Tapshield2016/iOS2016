@@ -10,7 +10,7 @@
 
 @interface TSJavelinAPIBaseModel : NSObject
 
-@property (nonatomic, assign) NSUInteger identifier;
+@property (nonatomic, assign, readonly) NSUInteger identifier;
 @property (nonatomic, strong) NSString *url;
 
 - (id)initWithCoder:(NSCoder *)decoder;

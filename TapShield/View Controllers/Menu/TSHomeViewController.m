@@ -40,7 +40,7 @@
     self.showSmallLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
-    _entourageManager = [[TSVirtualEntourageManager alloc] initWithMapView:_mapView];
+    _entourageManager = [[TSVirtualEntourageManager alloc] initWithHomeView:self];
     
     _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleYank:)];
     self.navigationItem.rightBarButtonItem = _yankBarButton;
@@ -129,17 +129,23 @@
     }
 }
 
-- (void)clearEntourageAndResetMap {
-    
-    [_entourageManager removeRouteOverlaysAndAnnotations];
-    [_entourageManager removeCurrentDestinationAnnotation];
-    self.isTrackingUser = YES;
-}
+#pragma mark - UI Changes
 
 - (void)mapAlertModeToggle {
     
     [_mapView updateAccuracyCircleWithLocation:[TSLocationController sharedLocationController].location];
     [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
+}
+
+- (void)entourageModeOn {
+    
+    
+}
+
+- (void)clearEntourageAndResetMap {
+    
+    [_entourageManager stopEntourage];
+    self.isTrackingUser = YES;
 }
 
 
@@ -191,10 +197,13 @@
 
 - (IBAction)displayVirtualEntourage:(id)sender {
     
-    TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
-    viewController.homeViewController = self;
+    if (!_entourageManager.isEnabled) {
+        TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
+        viewController.homeViewController = self;
+        
+        [self showOnlyMap];
+    }
     
-    [self showOnlyMap];
 }
 
 - (IBAction)userLocationTUI:(id)sender {
@@ -270,7 +279,7 @@
 
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-            [_entourageManager selectRouteClosestTo:mapPoint];
+            [_entourageManager.routeManager selectRouteClosestTo:mapPoint];
         }
     }
 }
@@ -372,13 +381,13 @@
     [renderer setLineWidth:6.0];
     [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
-    if (!_entourageManager.selectedRoute) {
-        _entourageManager.selectedRoute = [_entourageManager.routeOptions firstObject];
+    if (!_entourageManager.routeManager.selectedRoute) {
+        _entourageManager.routeManager.selectedRoute = [_entourageManager.routeManager.routeOptions firstObject];
     }
     
-    if (_entourageManager.selectedRoute) {
-        for (TSRouteOption *routeOption in _entourageManager.routeOptions) {
-            if (routeOption == _entourageManager.selectedRoute) {
+    if (_entourageManager.routeManager.selectedRoute) {
+        for (TSRouteOption *routeOption in _entourageManager.routeManager.routeOptions) {
+            if (routeOption == _entourageManager.routeManager.selectedRoute) {
                 if (routeOption.route.polyline == overlay) {
                     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
@@ -466,7 +475,7 @@
     }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
-        [_entourageManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
+        [_entourageManager.routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
         [self flipIntersectingRouteAnnotation];
     }
     
@@ -500,7 +509,7 @@
                 for (UIView *annotationView in subview.subviews) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
-                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:_entourageManager.selectedRoute.routeTimeAnnotation]) {
+                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:_entourageManager.routeManager.selectedRoute.routeTimeAnnotation]) {
                             [subview bringSubviewToFront:annotationView];
                         }
                     }

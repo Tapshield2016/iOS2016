@@ -1427,6 +1427,9 @@
 		C5C1C9A419085CEA0087F622 /* TSAddMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9A319085CEA0087F622 /* TSAddMemberCell.m */; };
 		C5C1C9A519085CEA0087F622 /* TSAddMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9A319085CEA0087F622 /* TSAddMemberCell.m */; };
 		C5C1C9A619085CEA0087F622 /* TSAddMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9A319085CEA0087F622 /* TSAddMemberCell.m */; };
+		C5C1C9AE1909B9220087F622 /* TSCircularControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9AD1909B9220087F622 /* TSCircularControl.m */; };
+		C5C1C9AF1909B9220087F622 /* TSCircularControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9AD1909B9220087F622 /* TSCircularControl.m */; };
+		C5C1C9B01909B9220087F622 /* TSCircularControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9AD1909B9220087F622 /* TSCircularControl.m */; };
 		C5C5E4D218EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
 		C5C5E4D318EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
 		C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
@@ -2122,6 +2125,8 @@
 		C5C1C99E190853860087F622 /* TSEntourageMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEntourageMemberCell.m; path = Views/Cells/TSEntourageMemberCell.m; sourceTree = "<group>"; };
 		C5C1C9A219085CEA0087F622 /* TSAddMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAddMemberCell.h; sourceTree = "<group>"; };
 		C5C1C9A319085CEA0087F622 /* TSAddMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAddMemberCell.m; sourceTree = "<group>"; };
+		C5C1C9AC1909B9220087F622 /* TSCircularControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCircularControl.h; path = Views/TSCircularControl.h; sourceTree = "<group>"; };
+		C5C1C9AD1909B9220087F622 /* TSCircularControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularControl.m; path = Views/TSCircularControl.m; sourceTree = "<group>"; };
 		C5C5E4D018EC58F000E1D868 /* TSRouteTimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteTimeAnnotation.h; path = Views/Map/Annotations/TSRouteTimeAnnotation.h; sourceTree = "<group>"; };
 		C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteTimeAnnotation.m; path = Views/Map/Annotations/TSRouteTimeAnnotation.m; sourceTree = "<group>"; };
 		C5CB078218C6851D00BC9425 /* TSCircularButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCircularButton.h; path = Views/Buttons/TSCircularButton.h; sourceTree = "<group>"; };
@@ -2359,6 +2364,8 @@
 				C5B5634A18E8EA900013AF69 /* TSToolBarView.m */,
 				C5B5634E18E926C70013AF69 /* TSHitTestForwardingView.h */,
 				C5B5634F18E926C70013AF69 /* TSHitTestForwardingView.m */,
+				C5C1C9AC1909B9220087F622 /* TSCircularControl.h */,
+				C5C1C9AD1909B9220087F622 /* TSCircularControl.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -4826,6 +4833,7 @@
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5EAABF719066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C56356F618EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
+				C5C1C9AE1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C585F2E518DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C532E63118BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
@@ -5041,6 +5049,7 @@
 				C585F1A118CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C585F19218CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
+				C5C1C9B01909B9220087F622 /* TSCircularControl.m in Sources */,
 				B583B9BD18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
@@ -5113,6 +5122,7 @@
 				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
 				C5EAABF819066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C56356F718EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
+				C5C1C9AF1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C5662BCF18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5391EAF18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,

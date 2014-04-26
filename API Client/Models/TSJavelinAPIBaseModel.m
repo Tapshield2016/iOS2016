@@ -35,7 +35,7 @@
     if((self = [super init])) {
         //decode properties, other class vars
         self.url = [decoder decodeObjectForKey:@"url"];
-        self.identifier = [[decoder decodeObjectForKey:@"identifier"] unsignedIntegerValue];
+        _identifier = [[decoder decodeObjectForKey:@"identifier"] unsignedIntegerValue];
     }
     return self;
 }

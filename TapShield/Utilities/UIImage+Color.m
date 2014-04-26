@@ -78,7 +78,9 @@
     [filter setValue:[NSNumber numberWithFloat:0.5] forKey:@"inputBrightness"];
     
     // Your output image
-    UIImage *outputImage = [UIImage imageWithCGImage:[context createCGImage:filter.outputImage fromRect:filter.outputImage.extent]];
+    CGImageRef imageRef = [context createCGImage:filter.outputImage fromRect:filter.outputImage.extent];
+    UIImage *outputImage = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
     return outputImage;
 }
 
@@ -91,8 +93,42 @@
     [filter setValue:[NSNumber numberWithFloat:5] forKey:@"inputRadius"];
     
     // Your output image
-    UIImage *outputImage = [UIImage imageWithCGImage:[context createCGImage:filter.outputImage fromRect:inputImage.extent]];
+    CGImageRef imageRef = [context createCGImage:filter.outputImage fromRect:inputImage.extent];
+    UIImage *outputImage = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
     return outputImage;
+}
+
+- (UIImage*)imageWithShadowOfSize:(CGFloat)shadowSize {
+    
+	CGFloat scale = [[UIScreen mainScreen] scale];
+    
+	CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef shadowContext = CGBitmapContextCreate(NULL,
+													   (self.size.width + (shadowSize * 2)) * scale,
+													   (self.size.height + (shadowSize * 2)) * scale,
+													   CGImageGetBitsPerComponent(self.CGImage),
+													   0,
+													   colourSpace,
+													   (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+    
+	CGColorSpaceRelease(colourSpace);
+	CGContextSetShadowWithColor(shadowContext,
+								CGSizeMake( 0 * scale, 0 * scale),
+								shadowSize * scale,
+								[UIColor blackColor].CGColor);
+    
+	CGContextDrawImage(shadowContext,
+					   CGRectMake(shadowSize * scale, shadowSize * scale, self.size.width * scale, self.size.height * scale),
+					   self.CGImage);
+    
+	CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
+	CGContextRelease(shadowContext);
+    
+	UIImage *shadowedImage = [UIImage imageWithCGImage:shadowedCGImage scale:scale orientation:UIImageOrientationUp];
+	CGImageRelease(shadowedCGImage);
+    
+	return shadowedImage;
 }
 
 @end

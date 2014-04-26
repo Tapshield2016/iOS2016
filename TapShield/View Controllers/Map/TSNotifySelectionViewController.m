@@ -8,6 +8,7 @@
 
 #import "TSNotifySelectionViewController.h"
 #import "TSAddMemberCell.h"
+#import "TSCircularControl.h"
 
 #define INSET 50
 
@@ -26,11 +27,10 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     // Do any additional setup after loading the view.
     _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 0, 0);
     
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kPastUserSelections];
-    NSSet *set = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
+    NSSet *set = [TSVirtualEntourageManager unArchiveEntourageMembersPosted];
     _savedContacts = [[NSMutableArray alloc] initWithArray:[set allObjects]];
     _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
+    [self mergeRecentPicksWithCurrentMembers];
     
     self.translucentBackground = YES;
     CGRect frame = self.view.frame;
@@ -38,6 +38,22 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     self.toolbar.frame = frame;
     
     [self addDescriptionToNavBar];
+    //Create the Circular Slider
+    TSCircularControl *slider = [[TSCircularControl alloc]initWithFrame:CGRectMake(0, 0, 230, 230)];
+    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
+    
+    _estimatedTimeInterval = _homeViewController.entourageManager.routeManager.selectedRoute.route.expectedTravelTime;
+    _timeAdjusted = _estimatedTimeInterval;
+    _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:slider.frame];
+    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
+    _timeAdjustLabel.textAlignment = NSTextAlignmentCenter;
+    _timeAdjustLabel.textColor = [UIColor whiteColor];
+    
+    //Define Target-Action behaviour
+    [slider addTarget:self action:@selector(newValue:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:slider];
+    [self.view addSubview:_timeAdjustLabel];
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,6 +131,26 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     [UIView animateWithDuration:0.3f animations:^{
         _containerView.alpha = 0.0f;
     }];
+}
+
+#pragma mark - Circular Control 
+
+/** This function is called when Circular slider value changes **/
+- (void)newValue:(TSCircularControl *)slider {
+    int adjustedAngle;
+    if (slider.angle <= 90) {
+        adjustedAngle = 90 - slider.angle;
+    }
+    else {
+        adjustedAngle = 360 - slider.angle + 90;
+    }
+    
+    NSTimeInterval addedTime = adjustedAngle - 180;
+    float timeRatio = _estimatedTimeInterval/180;
+    
+    addedTime = _estimatedTimeInterval + addedTime * timeRatio;
+    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:addedTime];
+    _timeAdjusted = addedTime;
 }
 
 #pragma mark - Collection View Delegate
@@ -205,7 +241,6 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
         }
     }
     
-    [self archiveUsersPicked];
 }
 
 - (void)adjustCell:(UICollectionViewCell *)cell forOffset:(float)offset {
@@ -284,6 +319,22 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
 
 #pragma mark - ABPeoplePickerNavigationControllerDelegate methods
 
+- (void)setNavigationBarStyle:(UIViewController *)picker {
+    
+    picker.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    picker.navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
+    [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
+    
+    [picker.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [picker.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    picker.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+}
+
 - (void)showPeoplePickerNavigationController {
     
     CFErrorRef *error = nil;
@@ -332,6 +383,7 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
         
         dispatch_async(dispatch_get_main_queue(), ^{
             ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+            [self setNavigationBarStyle:picker];
             picker.addressBook = addressBook;
             picker.topViewController.navigationItem.title = @"Contacts";
             picker.peoplePickerDelegate = self;
@@ -358,6 +410,7 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     
     [self archiveUsersPicked];
     
+    [self blackNavigationBar];
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [_collectionView reloadData];
@@ -366,14 +419,49 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
 }
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
+    
+    [self blackNavigationBar];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)archiveUsersPicked {
     
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_entourageMembers];
+    NSArray *array = _savedContacts;
+    if (_savedContacts.count > 11) {
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 11)];
+        array = [_savedContacts objectsAtIndexes:indexSet];
+    }
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:array];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kPastUserSelections];
 }
+
++ (NSArray *)unarchiveRecentPicks {
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kPastUserSelections];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
+
+- (void)mergeRecentPicksWithCurrentMembers {
+    
+    NSArray *recentPicks = [TSNotifySelectionViewController unarchiveRecentPicks];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        
+        for (TSJavelinAPIEntourageMember *member in [_savedContacts copy]) {
+            if (sortingMember.recordID == member.recordID) {
+                return NO;
+            }
+        }
+        
+        return YES;
+    }];
+    
+    NSArray *filtered = [recentPicks filteredArrayUsingPredicate:predicate];
+    [_savedContacts addObjectsFromArray:filtered];
+}
+
 
 - (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member {
     

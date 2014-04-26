@@ -43,7 +43,7 @@ static NSString * const kDefaultImage = @"user_default_icon";
     
     [_button setBackgroundImage:userImage forState:UIControlStateNormal];
     [_button setBackgroundImage:blurredImage forState:UIControlStateSelected];
-    [_button setImage:[UIImage imageNamed:kSelectedImage] forState:UIControlStateSelected];
+    [_button setImage:[[UIImage imageNamed:kSelectedImage] imageWithShadowOfSize:5] forState:UIControlStateSelected];
     [_button addTarget:self action:@selector(buttonSelected) forControlEvents:UIControlEventTouchUpInside];
     _button.selected = YES;
     _button.layer.cornerRadius = _button.bounds.size.height/2;

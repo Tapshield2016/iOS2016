@@ -42,7 +42,6 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
     [encoder encodeObject:self.url forKey:@"url"];
-    [encoder encodeObject:[NSNumber numberWithUnsignedInteger:self.identifier] forKey:@"identifier"];
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_email forKey:@"email"];
     [encoder encodeObject:_agency forKey:@"agency"];
@@ -66,7 +65,6 @@
     if((self = [super init])) {
         //decode properties, other class vars
         self.url = [decoder decodeObjectForKey:@"url"];
-        self.identifier = [[decoder decodeObjectForKey:@"identifier"] unsignedIntegerValue];
         _username = [decoder decodeObjectForKey:@"username"];
         _email = [decoder decodeObjectForKey:@"email"];
         _agency = [decoder decodeObjectForKey:@"agency"];

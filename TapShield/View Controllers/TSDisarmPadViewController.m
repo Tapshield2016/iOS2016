@@ -125,7 +125,6 @@
         [_pageViewController.homeViewController viewWillAppear:NO];
         [_pageViewController.homeViewController viewDidAppear:NO];
         [_pageViewController.homeViewController whiteNavigationBar];
-        [_pageViewController.homeViewController clearEntourageAndResetMap];
         [_pageViewController dismissViewControllerAnimated:YES completion:nil];
     }
     else {

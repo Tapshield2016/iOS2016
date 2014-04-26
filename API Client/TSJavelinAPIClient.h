@@ -146,4 +146,8 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 // Twilio Voip
 - (void)getTwilioCallToken:(void (^)(NSString *callToken))completion;
 
+//Entourage
+- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)removeEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion;
+
 @end

@@ -37,7 +37,6 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedClient = [[TSJavelinAPIClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
         });
-        
         [AmazonErrorHandler shouldNotThrowExceptions];
 
         // Enable the network activity manager
@@ -568,8 +567,168 @@ static dispatch_once_t onceToken;
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
+          if (completion) {
+              completion(nil);
+          }
       }];
     
+}
+
+#pragma mark - Entourage Methods
+
+/*
+Associating a new Entourage Member with a User (via POST method):
+curl https://dev.tapshield.com/api/v1/entourage-members/ -d "user=/api/v1/users/1/&name=Test Member&phone_number=5435435454" -H "Authorization: Token 35204055c8518dd538f563ee729e70acef71cfeb"
+
+Edit
+Deleting an Entourage Member from a User's entourage group (via DELETE method):
+curl -XDELETE https://dev.tapshield.com/api/v1/entourage-members/5/ -H "Authorization: Token 35204055c8518dd538f563ee729e70acef71cfeb"
+
+Edit
+Messaging a User's entourage (via POST method):
+curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message=Ben arrived at this destination." -H "Authorization: Token e9e9df293943bee2a9c7dd96fa88b95bd352acf5"
+ */
+
+- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion {
+    
+    if (member.identifier) {
+        NSLog(@"Entourage member already has a url");
+        return;
+    }
+    
+    NSDictionary *parameters = [member parametersFromMember];
+    if (!parameters) {
+        NSLog(@"Entourage Member missing parameters");
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"entourage-members/"
+   parameters:parameters
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          
+          member.url = [responseObject objectForKey:@"url"];
+          
+          if (completion) {
+              completion(member, nil);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          
+          if ([self shouldRetry:error]) {
+              // Delay execution of my block for 10 seconds.
+              dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+              dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                  [self addEntourageMember:member completion:completion];
+              });
+          }
+          else {
+              if (completion) {
+                  completion(nil, error);
+              }
+          }
+      }];
+}
+
+
+- (void)removeEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion {
+    
+    if (!member.url) {
+        NSLog(@"Entourage Member missing url");
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self DELETE:member.url
+    parameters:nil
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           if (completion) {
+               completion(member, nil);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self removeEntourageMember:member completion:completion];
+               });
+           }
+           else {
+               if (completion) {
+                   completion(nil, error);
+               }
+           }
+       }];
+}
+
+- (BOOL)shouldRetry:(NSError *)error {
+    
+    /*
+     No Connection errors
+     
+     NSURLErrorCannotFindHost = -1003,
+     
+     NSURLErrorCannotConnectToHost = -1004,
+     
+     NSURLErrorNetworkConnectionLost = -1005,
+     
+     NSURLErrorDNSLookupFailed = -1006,
+     
+     NSURLErrorHTTPTooManyRedirects = -1007,
+     
+     NSURLErrorResourceUnavailable = -1008,
+     
+     NSURLErrorNotConnectedToInternet = -1009,
+     
+     NSURLErrorRedirectToNonExistentLocation = -1010,
+     
+     NSURLErrorInternationalRoamingOff = -1018,
+     
+     NSURLErrorCallIsActive = -1019,
+     
+     NSURLErrorDataNotAllowed = -1020,
+     
+     NSURLErrorSecureConnectionFailed = -1200,
+     
+     NSURLErrorCannotLoadFromNetwork = -2000,
+     */
+    
+    NSArray *networkFailureCodes = @[@(NSURLErrorCannotFindHost),
+                                     @(NSURLErrorCannotConnectToHost),
+                                     @(NSURLErrorNetworkConnectionLost),
+                                     @(NSURLErrorDNSLookupFailed),
+                                     @(NSURLErrorHTTPTooManyRedirects),
+                                     @(NSURLErrorResourceUnavailable),
+                                     @(NSURLErrorNotConnectedToInternet),
+                                     @(NSURLErrorRedirectToNonExistentLocation),
+                                     @(NSURLErrorInternationalRoamingOff),
+                                     @(NSURLErrorCallIsActive),
+                                     @(NSURLErrorDataNotAllowed),
+                                     @(NSURLErrorSecureConnectionFailed),
+                                     @(NSURLErrorCannotLoadFromNetwork)];
+    
+    BOOL networkError = NO;
+    if (error) {
+        for (NSNumber *number in networkFailureCodes) {
+            if (error.code == [number integerValue]) {
+                NSLog(@"%i", error.code);
+                networkError = YES;
+            }
+        }
+    }
+    
+    if (!networkError) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

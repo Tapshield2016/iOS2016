@@ -18,10 +18,14 @@
 
 @property (nonatomic, strong) TSHomeViewController *homeViewController;
 
+@property (assign, nonatomic) NSTimeInterval estimatedTimeInterval;
+@property (assign, nonatomic) NSTimeInterval timeAdjusted;
+
 @property (strong, nonatomic) NSString *addressString;
 @property (strong, nonatomic) NSString *etaString;
 @property (strong, nonatomic) TSBaseLabel *addressLabel;
 @property (strong, nonatomic) TSBaseLabel *etaLabel;
+@property (strong, nonatomic) TSBaseLabel *timeAdjustLabel;
 @property (strong, nonatomic) UIView *containerView;
 
 @property (strong, nonatomic) NSMutableArray *savedContacts;

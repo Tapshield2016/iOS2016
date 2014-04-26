@@ -8,286 +8,191 @@
 
 #import "TSVirtualEntourageManager.h"
 #import "TSUtilities.h"
+#import "TSHomeViewController.h"
 #import "MKMapItem+EncodeDecode.h"
+
+static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
+
+NSString * const TSVirtualEntourageManagerTimerDidStart = @"TSVirtualEntourageManagerTimerDidStart";
+NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageManagerTimerDidStart";
+
+@interface TSVirtualEntourageManager ()
+
+@property (strong, nonatomic) TSHomeViewController *homeView;
+@property (strong, nonatomic) NSTimer *endTimer;
+
+@property (nonatomic, strong) NSMutableSet *entourageMembersPosted;
+
+@end
 
 @implementation TSVirtualEntourageManager
 
-- (instancetype)initWithMapView:(TSMapView *)mapView
+- (instancetype)initWithHomeView:(TSHomeViewController *)homeView
 {
     self = [super init];
     if (self) {
-        self.mapView = mapView;
+        _isEnabled = NO;
+        self.homeView = homeView;
+        self.routeManager = [[TSRouteManager alloc] initWithMapView:homeView.mapView];
+        self.entourageMembersPosted = [TSVirtualEntourageManager unArchiveEntourageMembersPosted];
     }
     return self;
 }
 
-#pragma mark - Routing Methods
 
-- (void)setRoutes:(NSArray *)routes {
+- (void)startEntourageWithMembers:(NSSet *)members {
     
-    _routes = routes;
+    [self findMembersToDelete:members];
+    [self postEntourageMembers:members];
     
-    NSMutableArray *mutableRouteOptions = [[NSMutableArray alloc] initWithCapacity:4];
-    
-    for (MKRoute *route in _routes) {
-        TSRouteOption *routeOption = [[TSRouteOption alloc] initWithRoute:route];
-        [mutableRouteOptions addObject:routeOption];
-    }
-    
-    self.routeOptions = mutableRouteOptions;
+    [self resetTimerWithTimeInterval:_selectedETA];
 }
 
-
-- (void)setRouteOptions:(NSArray *)routeOptions {
+- (void)stopEntourage {
     
-    _routeOptions = routeOptions;
-    
-    [self creatRouteAnnotations];
+    _isEnabled = NO;
+    [self resetEndTimer];
+    [_routeManager removeRouteOverlaysAndAnnotations];
+    [_routeManager removeCurrentDestinationAnnotation];
 }
 
-- (void)creatRouteAnnotations {
+#pragma mark - Timer
+
+- (void)resetTimerWithTimeInterval:(NSTimeInterval)interval {
     
-    NSMutableArray *annotationCoordinates = [[NSMutableArray alloc] initWithArray:@[_mapView.userLocationAnnotation, _destinationAnnotation]];
+    _isEnabled = YES;
+    [self resetEndTimer];
     
-    for (TSRouteOption *routeOption in _routeOptions) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _endTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                     target:self
+                                                   selector:@selector(timerEnded)
+                                                   userInfo:nil
+                                                    repeats:NO];
+    });
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:_selectedETA]];
+}
+
+- (void)timerEnded {
+    _isEnabled = NO;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:nil];
+}
+
+- (void)resetEndTimer {
+    
+    [_endTimer invalidate];
+    _endTimer = nil;
+    
+}
+
+- (void)recalculateEntourageTimerETA {
+    
+    [_routeManager calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
+        [self resetTimerWithTimeInterval:expectedTravelTime];
+    }];
+}
+
+#pragma mark - Add Remove Members
+
+- (void)findMembersToDelete:(NSSet *)newMembers {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         
-            [routeOption findUniqueMapPointComparingRoutes:_routes completion:^(MKMapPoint uniquePointFromSet) {
-                routeOption.routeTimeAnnotation = [[TSRouteTimeAnnotation alloc] initWithCoordinates:MKCoordinateForMapPoint(uniquePointFromSet) placeName:[TSUtilities formattedStringForDuration:routeOption.route.expectedTravelTime] description:@""];
-                [annotationCoordinates addObject:routeOption.routeTimeAnnotation];
-            }];
-    }
-    _routingAnnotations = annotationCoordinates;
-    [self adjustAnnotationImageDirections];
-}
-
-- (void)adjustAnnotationImageDirections {
-    
-    for (TSRouteOption *routeOption in _routeOptions) {
-        
-        if (routeOption.routeTimeAnnotation) {
-            [routeOption.routeTimeAnnotation setImageDirectionRelativeToStartingPoint:_mapView.userLocationAnnotation endingPoint:_destinationAnnotation];
-            
-            NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:_routeOptions];
-            [mutableArray removeObject:routeOption];
-            
-            [routeOption.routeTimeAnnotation setImageDirectionRelativeToRouteOptions:mutableArray];
-        }
-    }
-}
-
-- (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView {
-    
-    for (TSRouteOption *routeOption in _routeOptions) {
-        if (routeAnnotationView.annotation == routeOption.routeTimeAnnotation) {
-            
-            if (self.selectedRoute != routeOption) {
-                [self setSelectedRouteFromStruckRoutes:@[routeOption]];
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        for (TSJavelinAPIEntourageMember *member in newMembers) {
+            if (sortingMember.identifier == member.identifier) {
+                return NO;
             }
-            
-            break;
         }
+        
+        return YES;
+    }];
+    
+    NSSet *filtered = [_entourageMembersPosted filteredSetUsingPredicate:predicate];
+    [self deleteEntourageMembers:filtered];
+}
+
+- (void)postedMember:(TSJavelinAPIEntourageMember *)member {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        if (sortingMember.identifier == member.identifier) {
+            return YES;
+        }
+        return NO;
+    }];
+    NSSet *filtered = [_entourageMembersPosted filteredSetUsingPredicate:predicate];
+    
+    if (filtered.count == 0) {
+        [_entourageMembersPosted addObject:member];
     }
 }
 
-- (void)setSelectedRoute:(TSRouteOption *)selectedRoute {
-
-    _selectedRoute.routeTimeAnnotation.isSelected = NO;
-    _selectedRoute = selectedRoute;
-    _selectedRoute.routeTimeAnnotation.isSelected = YES;
+- (void)deletedMember:(TSJavelinAPIEntourageMember *)member {
+    
+    [_entourageMembersPosted removeObject:member];
 }
 
-- (void)selectRouteClosestTo:(MKMapPoint)mapPoint {
+
+- (void)failedToPostMember:(TSJavelinAPIEntourageMember *)member error:(NSError *)error {
     
-    double shortestDistance = INFINITY;
+    NSLog(@"failedToPostMember:%@", member.name);
+}
+
+- (void)failedToDeletedMember:(TSJavelinAPIEntourageMember *)member error:(NSError *)error{
     
-    // Capture multiple routes in case of overlap
-    NSMutableArray *struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
-    for (id overlay in _mapView.overlays) {
-        if ([overlay isKindOfClass:[MKPolyline class]]) {
-            MKPolyline *poly = (MKPolyline *) overlay;
-            id view = [_mapView rendererForOverlay:poly];
-            
-            if ([view isKindOfClass:[MKPolylineRenderer class]]) {
+    NSLog(@"failedToDeleteMember:%@ id:%i", member.name, member.identifier);
+    
+    if (error.code == NSURLErrorBadServerResponse) {
+        [self deletedMember:member];
+    }
+}
+
+#pragma mark Network Requests
+
+- (void)postEntourageMembers:(NSSet *)members {
+    
+    for (TSJavelinAPIEntourageMember *member in members) {
+        
+        [[TSJavelinAPIClient sharedClient] addEntourageMember:member completion:^(id responseObject, NSError *error) {
+            if (!error) {
+                [self postedMember:member];
+            }
+            else {
+                [self failedToPostMember:member error:error];
+            }
+        }];
+    }
+}
+
+- (void)deleteEntourageMembers:(NSSet *)members {
+    
+    for (TSJavelinAPIEntourageMember *member in members) {
+        [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:^(id responseObject, NSError *error) {
+            if (!error) {
                 
-                double distanceToPolyline = [TSUtilities distanceOfPoint:mapPoint toPoly:poly];
-                if (distanceToPolyline < shortestDistance) {
-                    
-                    //Reset array to only include closest polyline
-                    struckRoutes = [[NSMutableArray alloc] initWithCapacity:4];
-                    shortestDistance = distanceToPolyline;
-                    
-                    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
-                        if (routeOption.route.polyline == poly) {
-                            [struckRoutes addObject:routeOption];
-                        }
-                    }
-                }
-                else if (distanceToPolyline == shortestDistance) {
-                    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
-                        if (routeOption.route.polyline == poly) {
-                            [struckRoutes addObject:routeOption];
-                        }
-                    }
-                }
             }
-        }
-    }
-    [self setSelectedRouteFromStruckRoutes:struckRoutes];
-}
-
-- (void)setSelectedRouteFromStruckRoutes:(NSArray *)struckRoutes {
-    
-    if ([struckRoutes count] > 0) {
-        // If only one route, just take that one
-        if ([struckRoutes count] == 1) {
-            self.selectedRoute = (TSRouteOption *)struckRoutes[0];
-        }
-        else {
-            // If multiple overlapping routes, alternate if one is already selected
-            BOOL previouslySelectedRouteWasStruck = NO;
-            for (TSRouteOption *routeOption in struckRoutes) {
-                if (self.selectedRoute == routeOption) {
-                    NSUInteger selectedIndex = [struckRoutes indexOfObject:routeOption];
-                    self.selectedRoute = (TSRouteOption *)struckRoutes[(selectedIndex + 1) % struckRoutes.count];
-                    previouslySelectedRouteWasStruck = YES;
-                    break;
-                }
+            else {
+                [self failedToDeletedMember:member error:error];
             }
-            // Otherwise, just take the first one
-            if (!previouslySelectedRouteWasStruck) {
-                self.selectedRoute = (TSRouteOption *)struckRoutes[0];
-            }
-        }
-        [self refreshOverlays];
+        }];
     }
 }
 
-- (void)addRouteOverlaysToMapViewAndAnnotations {
+#pragma mark Archive Members
+
+- (void)archiveEntourageMembersPosted {
     
-    [self addRouteOverlaysToMapView];
-    [self addRouteAnnotations];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_entourageMembersPosted];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:TSVirtualEntourageManagerMembersPosted];
 }
 
-- (void)addRouteAnnotations {
++ (NSMutableSet *)unArchiveEntourageMembersPosted {
     
-    for (TSRouteOption *routeOption in _routeOptions) {
-        
-        if (routeOption.routeTimeAnnotation == _selectedRoute.routeTimeAnnotation) {
-            // skip selected route so we can add it last, on top of others
-            // this handles when two routes overlap
-            continue;
-        }
-        
-        [_mapView addAnnotation:routeOption.routeTimeAnnotation];
-    }
-    
-    if (_selectedRoute) {
-        // Add last to counter possible overlap preventing display
-        [_mapView addAnnotation:_selectedRoute.routeTimeAnnotation];
-    }
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:TSVirtualEntourageManagerMembersPosted];
+    return [[NSMutableSet alloc] initWithSet:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
 }
-
-- (void)addRouteOverlaysToMapView {
-    
-    for (TSRouteOption *routeOption in _routeOptions) {
-        
-        if (routeOption.route == _selectedRoute.route) {
-            // skip selected route so we can add it last, on top of others
-            // this handles when two routes overlap
-            continue;
-        }
-        [_mapView addOverlay:[routeOption.route polyline] level:MKOverlayLevelAboveRoads]; // Draws the route above roads, but below labels.
-        // You can also get turn-by-turn steps, distance, advisory notices, ETA, etc by accessing various route properties.
-        //        NSLog(@"%f minutes", ceil(route.expectedTravelTime / 60));
-        //        NSLog(@"%.02f miles", route.distance * 0.000621371);
-    }
-    
-    if (_selectedRoute) {
-        // Add last to counter possible overlap preventing display
-        [_mapView addOverlay:[_selectedRoute.route polyline] level:MKOverlayLevelAboveRoads];
-    }
-}
-
-- (void)removeRouteOverlaysAndAnnotations {
-    [self removeRouteOverlays];
-    [self removeAnnotations];
-}
-
-- (void)removeAnnotations {
-    
-    NSMutableArray *annotations = [[NSMutableArray alloc] initWithCapacity:[_routeOptions count]];
-    
-    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
-        
-        if (routeOption.routeTimeAnnotation) {
-            [annotations addObject:routeOption.routeTimeAnnotation];
-        }
-    }
-    
-    [_mapView removeAnnotations:annotations];
-}
-
-- (void)removeRouteOverlays{
-    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
-    
-    for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
-        [overlays addObject:routeOption.route.polyline];
-    }
-    
-    [_mapView removeOverlays:overlays];
-}
-
-- (void)refreshOverlays {
-    [self removeRouteOverlaysAndAnnotations];
-    [self addRouteOverlaysToMapViewAndAnnotations];
-}
-
-
-#pragma mark - Destination methods
-
-- (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType {
-    
-    _destinationTransportType = transportType;
-    
-    if (_destinationMapItem == mapItem) {
-        return;
-    }
-    
-    _destinationMapItem = mapItem;
-    
-    if (_destinationAnnotation) {
-        [_mapView removeAnnotation:_destinationAnnotation];
-    }
-    
-    _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
-                                                                                placeName:_destinationMapItem.name
-                                                                              description:_destinationMapItem.placemark.addressDictionary[@"Street"]];
-    _destinationAnnotation.title = _destinationMapItem.name;
-    
-    // Ensure we have a title so callout will always come up
-    if (!_destinationAnnotation.title || [_destinationAnnotation.title isEqualToString:@""]) {
-        _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
-    }
-    else {
-        _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[@"Street"];
-    }
-    [_mapView addAnnotation:_destinationAnnotation];
-}
-
-- (void)removeCurrentDestinationAnnotation {
-    
-    if (_destinationAnnotation) {
-        [_mapView removeAnnotation:_destinationAnnotation];
-    }
-}
-
-- (void)centerMapOnSelectedDestination {
-    [_mapView showAnnotations:@[_destinationAnnotation] animated:NO];
-}
-
-- (void)selectDestinationAnnotation {
-    [_mapView selectAnnotation:_destinationAnnotation animated:YES];
-}
-
 
 @end

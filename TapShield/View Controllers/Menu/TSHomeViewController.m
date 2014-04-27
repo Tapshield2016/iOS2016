@@ -8,6 +8,7 @@
 
 #import "TSHomeViewController.h"
 #import "TSDestinationSearchViewController.h"
+#import "TSNotifySelectionViewController.h"
 #import <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 #import "TSUtilities.h"
@@ -83,6 +84,10 @@
                                              selector:@selector(sendAlert:)
                                                  name:TSYankManagerDidYankHeadphonesNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sendAlert:)
+                                                 name:TSVirtualEntourageManagerTimerDidEnd
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -139,17 +144,29 @@
 
 - (void)entourageModeOn {
     
+    [self setIsTrackingUser:YES];
+    [self drawerCanDragForMenu:NO];
     
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(showDisarmEntourage)];
+    [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
+                                        NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+    [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
 }
 
 - (void)clearEntourageAndResetMap {
     
+    [_menuViewController showMenuButton:self];
     [_entourageManager stopEntourage];
     self.isTrackingUser = YES;
 }
 
 
 #pragma mark - Home Screen Buttons
+
+- (void)showDisarmEntourage {
+    
+
+}
 
 - (void)toggleYank:(id)sender {
     
@@ -170,7 +187,16 @@
     if (self.presentedViewController) {
         if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
             UINavigationController *nav = (UINavigationController *)self.presentedViewController;
+            
+            //already presented
             if ([nav.topViewController isKindOfClass:[TSPageViewController class]]) {
+                return;
+            }
+            //dismiss any view presented first
+            else {
+                [nav.topViewController dismissViewControllerAnimated:YES completion:^{
+                    [self performSelectorOnMainThread:@selector(sendAlert:) withObject:nil waitUntilDone:NO];
+                }];
                 return;
             }
         }
@@ -203,7 +229,14 @@
         
         [self showOnlyMap];
     }
-    
+    else {
+        if (!_transitionController) {
+            _transitionController = [[TSTransitionDelegate alloc] init];
+        }
+        
+        TSNotifySelectionViewController *viewController = (TSNotifySelectionViewController *)[self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_transitionController animated:YES];
+        viewController.homeViewController = self;
+    }
 }
 
 - (IBAction)userLocationTUI:(id)sender {
@@ -266,6 +299,10 @@
 }
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
+    
+    if (_entourageManager.isEnabled ) {
+        return;
+    }
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         for (int i = 0; i < recognizer.numberOfTouches; i++) {
@@ -503,10 +540,10 @@
 - (void)flipIntersectingRouteAnnotation {
     
     NSMutableArray *annotationViewArray = [[NSMutableArray alloc] initWithCapacity:5];
-    for (UIView *view in _mapView.subviews) {
-        for (UIView *subview in view.subviews) {
+    for (UIView *view in [_mapView.subviews copy]) {
+        for (UIView *subview in [view.subviews copy]) {
             if ([subview isKindOfClass:NSClassFromString(@"MKNewAnnotationContainerView")]) {
-                for (UIView *annotationView in subview.subviews) {
+                for (UIView *annotationView in [subview.subviews copy]) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
                         if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:_entourageManager.routeManager.selectedRoute.routeTimeAnnotation]) {

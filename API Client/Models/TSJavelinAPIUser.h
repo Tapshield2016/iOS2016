@@ -25,9 +25,12 @@
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) TSJavelinAPIUserProfile *userProfile;
+@property (nonatomic, strong) NSArray *entourageMembers;
 
 @property (assign) BOOL isEmailVerified;
 @property (assign) BOOL phoneNumberVerified;
 @property (nonatomic, strong) NSString *apiToken;
+
+- (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 
 @end

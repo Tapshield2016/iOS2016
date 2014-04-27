@@ -204,8 +204,8 @@
     [self transitionNavigationBarAnimatedLeft];
     [self blackNavigationBar];
     UIViewController *viewController = [self pushViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
-    ((TSNotifySelectionViewController *)viewController).etaString = _etaLabel.text;
-    ((TSNotifySelectionViewController *)viewController).addressString = _addressLabel.text;
+    
+    ((TSNotifySelectionViewController *)viewController).keyValueObserver = self;
     ((TSNotifySelectionViewController *)viewController).homeViewController = _homeViewController;
 }
 @end

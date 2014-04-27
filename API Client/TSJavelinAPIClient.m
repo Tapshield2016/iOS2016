@@ -144,8 +144,18 @@ static dispatch_once_t onceToken;
           }
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
-          if (completion) {
-              completion(nil);
+          
+          if ([self shouldRetry:error]) {
+              // Delay execution of my block for 10 seconds.
+              dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+              dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                  [self getAgencyForLoggedInUser:completion];
+              });
+          }
+          else {
+              if (completion) {
+                  completion(nil);
+              }
           }
       }];
 }

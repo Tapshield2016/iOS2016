@@ -11,18 +11,18 @@
 #import "TSEntourageMemberCell.h"
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate>
+@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIView *circleContainerView;
 
 @property (nonatomic, strong) TSHomeViewController *homeViewController;
+@property (nonatomic, strong) id keyValueObserver;
 
 @property (assign, nonatomic) NSTimeInterval estimatedTimeInterval;
 @property (assign, nonatomic) NSTimeInterval timeAdjusted;
 
-@property (strong, nonatomic) NSString *addressString;
-@property (strong, nonatomic) NSString *etaString;
 @property (strong, nonatomic) TSBaseLabel *addressLabel;
 @property (strong, nonatomic) TSBaseLabel *etaLabel;
 @property (strong, nonatomic) TSBaseLabel *timeAdjustLabel;
@@ -32,5 +32,7 @@
 @property (strong, nonatomic) NSMutableSet *entourageMembers;
 
 - (void)addOrRemoveMember:(TSEntourageMemberCell *)memberCell;
+- (IBAction)startEntourage:(id)sender;
+
 
 @end

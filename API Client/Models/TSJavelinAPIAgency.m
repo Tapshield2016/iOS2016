@@ -7,6 +7,7 @@
 //
 
 #import "TSJavelinAPIAgency.h"
+#import "TSJavelinAPIClient.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface TSJavelinAPIAgency ()

@@ -45,6 +45,7 @@
         _phoneNumber = [coder decodeObjectForKey:@"phoneNumber"];
         _image = [coder decodeObjectForKey:@"image"];
         _alternateImage = [coder decodeObjectForKey:@"alternateImage"];
+        _recordID = [[coder decodeObjectForKey:@"record_id"] intValue];
     }
     return self;
 }
@@ -58,6 +59,7 @@
     [encoder encodeObject: _phoneNumber forKey: @"phoneNumber"];
     [encoder encodeObject: _image forKey: @"image"];
     [encoder encodeObject: _alternateImage forKey: @"alternateImage"];
+    [encoder encodeObject: @(_recordID) forKey: @"record_id"];
 }
 
 - (NSDictionary *)parametersFromMember {

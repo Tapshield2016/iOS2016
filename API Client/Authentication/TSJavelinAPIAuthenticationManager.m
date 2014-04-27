@@ -329,6 +329,31 @@ static dispatch_once_t onceToken;
     }
 }
 
+- (void)getLoggedInUser:(TSJavelinAPIUserBlock)completion {
+    
+    // Set default Authorization token for allowing access to register API method
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:_loggedInUser.url
+   parameters:nil
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          
+          [_loggedInUser updateWithAttributes:responseObject];
+          [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+          
+          if (completion) {
+              completion(_loggedInUser);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          if (completion) {
+              completion(nil);
+          }
+      }
+     ];
+}
+
 - (void)isLoggedInUserEmailVerified:(void (^)(BOOL success))completion {
     if (!_loggedInUser && !_emailAddress) {
         if (completion) {

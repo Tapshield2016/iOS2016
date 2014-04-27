@@ -8,6 +8,7 @@
 
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIAgency.h"
+#import "TSJavelinAPIEntourageMember.h"
 
 @implementation TSJavelinAPIUser
 
@@ -17,23 +18,7 @@
         return nil;
     }
 
-    _username = [attributes valueForKey:@"username"];
-    _email = [attributes valueForKey:@"email"];
-    
-    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
-        _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
-    }
-    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
-        _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
-    }
-    _phoneNumber = [attributes valueForKey:@"phone_number"];
-    _disarmCode = [attributes valueForKey:@"disarm_code"];
-    _firstName = [attributes valueForKey:@"first_name"];
-    _lastName = [attributes valueForKey:@"last_name"];
-    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
-    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
-    
-    //@property (nonatomic, strong) NSArray *groups;
+    [self updateWithAttributes:attributes];
         
     return self;
 }
@@ -59,6 +44,10 @@
     if (_userProfile) {
         [encoder encodeObject:_userProfile forKey:@"userProfile"];
     }
+    
+    if (_entourageMembers) {
+        [encoder encodeObject:_entourageMembers forKey:@"entourage_members"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -82,8 +71,45 @@
         if ([decoder containsValueForKey:@"userProfile"]) {
             _userProfile = [decoder decodeObjectForKey:@"userProfile"];
         }
+        
+        if ([decoder containsValueForKey:@"entourage_members"]) {
+            _entourageMembers = [decoder decodeObjectForKey:@"entourage_members"];
+        }
     }
     return self;
+}
+
+- (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes {
+    
+    _username = [attributes valueForKey:@"username"];
+    _email = [attributes valueForKey:@"email"];
+    
+    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
+    }
+    _phoneNumber = [attributes valueForKey:@"phone_number"];
+    _disarmCode = [attributes valueForKey:@"disarm_code"];
+    _firstName = [attributes valueForKey:@"first_name"];
+    _lastName = [attributes valueForKey:@"last_name"];
+    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
+    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
+    self.entourageMembers = [attributes valueForKey:@"entourage_members"];
+    
+    return self;
+}
+
+- (void)setEntourageMembers:(NSArray *)entourageMembers {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:entourageMembers.count];
+    for (NSDictionary *dictionary in entourageMembers) {
+        TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithAttributes:dictionary];
+        [mutableArray addObject:member];
+    }
+    
+    _entourageMembers = mutableArray;
 }
 
 @end

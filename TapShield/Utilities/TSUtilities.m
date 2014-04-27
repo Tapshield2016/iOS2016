@@ -51,6 +51,11 @@
 }
 
 + (NSString *)formattedStringForTime:(NSTimeInterval)duration {
+    
+    if (duration < 0) {
+        return @"00:00";
+    }
+    
     long durationInSeconds = lroundf(duration);
     NSInteger hours = durationInSeconds / 3600;
     NSInteger minutes = (durationInSeconds % 3600) / 60;

@@ -36,6 +36,7 @@
 - (void)addRouteOverlaysToMapViewAndAnnotations;
 - (void)removeRouteOverlaysAndAnnotations;
 - (void)removeCurrentDestinationAnnotation;
+- (void)showOnlySelectedRoute;
 
 - (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType;
 - (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion;

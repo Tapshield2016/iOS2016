@@ -16,13 +16,17 @@ extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
 
 - (instancetype)initWithHomeView:(id)homeView;
 
-- (void)startEntourageWithMembers:(NSSet *)members;
+- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta;
 - (void)stopEntourage;
 - (void)recalculateEntourageTimerETA;
 
 + (NSMutableSet *)unArchiveEntourageMembersPosted;
 
 @property (nonatomic, strong) TSRouteManager *routeManager;
+
+@property (nonatomic, strong) NSMutableSet *entourageMembersPosted;
+
+@property (strong, nonatomic) NSTimer *endTimer;
 
 @property (nonatomic, assign) NSTimeInterval selectedETA;
 

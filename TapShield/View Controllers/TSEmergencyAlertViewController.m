@@ -144,6 +144,8 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (void)sendEmergency {
     
+    [((TSPageViewController *)_pageViewController).homeViewController clearEntourageAndResetMap];
+    
     [_sendEmergencyTimer invalidate];
     
     [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
@@ -157,6 +159,10 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
         }
         else {
             
+        }
+        
+        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.launchCallToDispatcherOnAlert) {
+            [self performSelectorOnMainThread:@selector(callDispatcher:) withObject:nil waitUntilDone:NO];
         }
     }];
 }

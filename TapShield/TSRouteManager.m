@@ -89,9 +89,15 @@
 
 - (void)setSelectedRoute:(TSRouteOption *)selectedRoute {
     
-    _selectedRoute.routeTimeAnnotation.isSelected = NO;
+    if (_selectedRoute.routeTimeAnnotation) {
+        _selectedRoute.routeTimeAnnotation.isSelected = NO;
+    }
+    
     _selectedRoute = selectedRoute;
-    _selectedRoute.routeTimeAnnotation.isSelected = YES;
+    
+    if (_selectedRoute.routeTimeAnnotation) {
+        _selectedRoute.routeTimeAnnotation.isSelected = NO;
+    }
 }
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint {
@@ -238,6 +244,13 @@
 - (void)refreshOverlays {
     [self removeRouteOverlaysAndAnnotations];
     [self addRouteOverlaysToMapViewAndAnnotations];
+}
+
+
+- (void)showOnlySelectedRoute {
+    
+    [self removeRouteOverlaysAndAnnotations];
+    [_mapView addOverlay:[_selectedRoute.route polyline] level:MKOverlayLevelAboveRoads];
 }
 
 

@@ -162,13 +162,30 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (IBAction)searchContacts:(id)sender {
     
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
     if (error) {
         NSLog(@"error");
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        return;
     }
     
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+        
+        if (error) {
+            NSLog(@"error");
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            return;
+        }
+        
+        if (!granted) {
+            NSLog(@"Denied access");
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            return;
+        }
+        
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
         CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
         
@@ -225,6 +242,8 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
             [self presentViewController:picker animated:YES completion:nil];
             
             CFRelease(addressBook);
+            
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         });
     });
 }

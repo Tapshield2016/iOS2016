@@ -14,6 +14,8 @@
 
 @interface TSCircularControl : UIControl
 
-@property (assign, nonatomic) int angle;
+@property (assign, nonatomic) float angle;
+
+- (void)setDegreeForStartTime:(NSTimeInterval)startTime currentTime:(NSTimeInterval)currentTime;
 
 @end

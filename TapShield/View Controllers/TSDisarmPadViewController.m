@@ -126,6 +126,11 @@
         [_pageViewController.homeViewController viewDidAppear:NO];
         [_pageViewController.homeViewController whiteNavigationBar];
         [_pageViewController dismissViewControllerAnimated:YES completion:nil];
+        
+        if (_pageViewController.homeViewController.entourageManager.isEnabled &&
+            !_pageViewController.homeViewController.entourageManager.endTimer) {
+            [_pageViewController.homeViewController.entourageManager recalculateEntourageTimerETA];
+        }
     }
     else {
         [self shakeDisarmCircles];

@@ -69,6 +69,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)isUserLoggedIn:(TSJavelinAPIUserBlock)completion;
 - (void)isLoggedInUserEmailVerified:(void (^)(BOOL success))completion;
 - (void)resendVerificationEmailForEmailAddress:(NSString *)email completion:(void (^)(BOOL success))completion;
+- (void)getLoggedInUser:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUser:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;

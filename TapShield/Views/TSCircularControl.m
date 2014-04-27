@@ -15,7 +15,7 @@
 #define SQR(x)			( (x) * (x) )
 
 /** Parameters **/
-#define TB_SAFEAREA_PADDING 60
+#define TB_SAFEAREA_PADDING 40
 
 
 #pragma mark - Private -
@@ -46,6 +46,18 @@
     }
     
     return self;
+}
+
+
+#pragma mark - Time Adjust
+
+- (void)setDegreeForStartTime:(NSTimeInterval)startTime currentTime:(NSTimeInterval)currentTime {
+    
+    float percentDone = currentTime/startTime;
+    float rawAngle = percentDone * 180;
+    self.angle = [self relativeAngle:rawAngle];;
+    
+    [self setNeedsDisplay];
 }
 
 
@@ -81,6 +93,15 @@
     
 }
 
+- (float)relativeAngle:(float)angle {
+    
+    if (angle <= 90) {
+        return 90 - angle;
+    }
+    else {
+        return 360 - angle + 90;
+    }
+}
 
 #pragma mark - Drawing Functions -
 
@@ -89,12 +110,20 @@
     
     [super drawRect:rect];
     
-    float adjustedAngle;
-    if (self.angle <= 90) {
-        adjustedAngle = 90 - self.angle;
+    float adjustedAngle = [self relativeAngle:self.angle];
+    
+    
+    float plusMinus = adjustedAngle - 180;
+    float absPlusMinus = fabsf(plusMinus);
+    float plusMinusRatio = absPlusMinus/180;
+    
+    float red = 0;
+    float green = 0;
+    if (plusMinus < 0) {
+        red = plusMinusRatio;
     }
     else {
-        adjustedAngle = 360 - self.angle + 90;
+        green = plusMinusRatio;
     }
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -152,14 +181,14 @@
     
     //list of components
     CGFloat components[8] = {
+        tapshieldDarkBlue[0] + red,
+        tapshieldDarkBlue[1] - red,
+        tapshieldDarkBlue[2] - red,
+        tapshieldDarkBlue[3],
         tapshieldBlue[0],
-        tapshieldBlue[1],
+        tapshieldBlue[1] + green,
         tapshieldBlue[2],
-        tapshieldBlue[3],
-        tapshieldDarkBlue[0],
-        tapshieldDarkBlue[1],
-        tapshieldDarkBlue[2],
-        tapshieldDarkBlue[3]};
+        tapshieldBlue[3]};
     
     CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
     CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, components, NULL, 2);
@@ -238,7 +267,7 @@
 }
 
 /** Given the angle, get the point position on circumference **/
-- (CGPoint)originPointFromAngle:(int)angleInt{
+- (CGPoint)originPointFromAngle:(float)angleInt{
     
     //Circle bounds origin
     CGPoint originPoint = CGPointMake(self.frame.size.width/2  - SELECTOR_SIZE/2 + LINE_WIDTH/2, self.frame.size.height/2 - SELECTOR_SIZE/2 + LINE_WIDTH/2);

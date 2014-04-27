@@ -47,10 +47,6 @@
                                              selector:@selector(returnToMapViewForLogOut)
                                                  name:TSSettingsViewControllerDidLogOut
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showMenuButton:)
-                                                 name:TSVirtualEntourageManagerTimerDidEnd
-                                               object:nil];
     
 
     _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
@@ -116,6 +112,10 @@
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
 
     [self showMenuButton:paneViewController];
+    
+    if ([paneViewController isKindOfClass:[TSHomeViewController class]]) {
+        ((TSHomeViewController *)paneViewController).menuViewController = self;
+    }
 
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;
     
@@ -135,14 +135,7 @@
                                                              action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
     }
     
-    if (viewController) {
-        viewController.navigationItem.leftBarButtonItem = _leftBarButtonItem;
-    }
-    else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [((UINavigationController *)self.dynamicsDrawerViewController.paneViewController).topViewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:YES];
-        });
-    }
+    [viewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:NO];
 }
 
 #pragma mark - Table view delegate

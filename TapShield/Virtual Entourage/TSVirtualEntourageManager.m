@@ -14,14 +14,12 @@
 static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
 
 NSString * const TSVirtualEntourageManagerTimerDidStart = @"TSVirtualEntourageManagerTimerDidStart";
-NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageManagerTimerDidStart";
+NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageManagerTimerDidEnd";
 
 @interface TSVirtualEntourageManager ()
 
 @property (strong, nonatomic) TSHomeViewController *homeView;
-@property (strong, nonatomic) NSTimer *endTimer;
 
-@property (nonatomic, strong) NSMutableSet *entourageMembersPosted;
 
 @end
 
@@ -40,12 +38,16 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 }
 
 
-- (void)startEntourageWithMembers:(NSSet *)members {
+- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta {
     
-    [self findMembersToDelete:members];
+    _selectedETA = eta;
+    
+    [self findMembersToDelete:_entourageMembersPosted newMembers:members];
     [self postEntourageMembers:members];
-    
-    [self resetTimerWithTimeInterval:_selectedETA];
+    [self resetTimerWithTimeInterval:eta];
+    [_routeManager showOnlySelectedRoute];
+    [_homeView entourageModeOn];
+    [self getAllPreviousMembersFromUserAndDeleteMissing];
 }
 
 - (void)stopEntourage {
@@ -71,12 +73,12 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
                                                     repeats:NO];
     });
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:_selectedETA]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
 }
 
 - (void)timerEnded {
-    _isEnabled = NO;
     
+    [self resetEndTimer];
     [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:nil];
 }
 
@@ -96,7 +98,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 #pragma mark - Add Remove Members
 
-- (void)findMembersToDelete:(NSSet *)newMembers {
+- (void)findMembersToDelete:(NSSet *)oldMembers newMembers:(NSSet *)newMembers{
     
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         
@@ -110,7 +112,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
         return YES;
     }];
     
-    NSSet *filtered = [_entourageMembersPosted filteredSetUsingPredicate:predicate];
+    NSSet *filtered = [oldMembers filteredSetUsingPredicate:predicate];
     [self deleteEntourageMembers:filtered];
 }
 
@@ -128,11 +130,15 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
     if (filtered.count == 0) {
         [_entourageMembersPosted addObject:member];
     }
+    
+    [self archiveEntourageMembersPosted];
 }
 
 - (void)deletedMember:(TSJavelinAPIEntourageMember *)member {
     
+    NSLog(@"deletedMember:%@", member.name);
     [_entourageMembersPosted removeObject:member];
+    [self archiveEntourageMembersPosted];
 }
 
 
@@ -143,7 +149,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 - (void)failedToDeletedMember:(TSJavelinAPIEntourageMember *)member error:(NSError *)error{
     
-    NSLog(@"failedToDeleteMember:%@ id:%i", member.name, member.identifier);
+    NSLog(@"failedToDeleteMember:%@ id:%i error:%@ %i", member.name, member.identifier, error.localizedDescription, error.code);
     
     if (error.code == NSURLErrorBadServerResponse) {
         [self deletedMember:member];
@@ -172,13 +178,20 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
     for (TSJavelinAPIEntourageMember *member in members) {
         [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:^(id responseObject, NSError *error) {
             if (!error) {
-                
+                [self deletedMember:member];
             }
             else {
                 [self failedToDeletedMember:member error:error];
             }
         }];
     }
+}
+
+- (void)getAllPreviousMembersFromUserAndDeleteMissing {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
+        [self findMembersToDelete:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted];
+    }];
 }
 
 #pragma mark Archive Members

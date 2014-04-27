@@ -12,9 +12,14 @@
 
 #define INSET 50
 
-static NSString * const kPastUserSelections = @"kPastUserSelections";
+static NSString * const kRecentSelections = @"kRecentSelections";
 
 @interface TSNotifySelectionViewController ()
+
+@property (strong, nonatomic) NSTimer *clockTimer;
+@property (strong, nonatomic) UIAlertView *saveChangesAlertView;
+@property (assign, nonatomic) BOOL changedTime;
+@property (strong, nonatomic) TSCircularControl *slider;
 
 @end
 
@@ -25,7 +30,9 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 0, 0);
+    _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 20.0, 0);
+    
+    _changedTime = NO;
     
     NSSet *set = [TSVirtualEntourageManager unArchiveEntourageMembersPosted];
     _savedContacts = [[NSMutableArray alloc] initWithArray:[set allObjects]];
@@ -39,21 +46,35 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     
     [self addDescriptionToNavBar];
     //Create the Circular Slider
-    TSCircularControl *slider = [[TSCircularControl alloc]initWithFrame:CGRectMake(0, 0, 230, 230)];
-    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
+    _slider = [[TSCircularControl alloc]initWithFrame:_circleContainerView.frame];
+//    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
     
     _estimatedTimeInterval = _homeViewController.entourageManager.routeManager.selectedRoute.route.expectedTravelTime;
     _timeAdjusted = _estimatedTimeInterval;
-    _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:slider.frame];
+    _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
+    _timeAdjustLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:25.0];
     _timeAdjustLabel.textAlignment = NSTextAlignmentCenter;
     _timeAdjustLabel.textColor = [UIColor whiteColor];
     
     //Define Target-Action behaviour
-    [slider addTarget:self action:@selector(newValue:) forControlEvents:UIControlEventValueChanged];
+    [_slider addTarget:self action:@selector(newValue:) forControlEvents:UIControlEventValueChanged];
     
-    [self.view addSubview:slider];
+    [self.view addSubview:_slider];
     [self.view addSubview:_timeAdjustLabel];
+    
+    if (_homeViewController.entourageManager.isEnabled) {
+        [self blackNavigationBar];
+        self.removeNavigationShadow = YES;
+        
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneEditingEntourage)];
+        [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette whiteColor],
+                                            NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+        [self.navigationItem setRightBarButtonItem:barButton];
+        
+        [self adjustViewableTime];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,6 +105,19 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     [self hideContainerView];
 }
 
+- (void)dismissViewController {
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (_keyValueObserver) {
+            [_homeViewController.entourageManager.routeManager removeObserver:_keyValueObserver
+                                                                   forKeyPath:@"selectedRoute"
+                                                                      context: NULL];
+        }
+        [_homeViewController viewWillAppear:NO];
+        [_homeViewController viewDidAppear:NO];
+    }];
+}
+
 - (void)willMoveToParentViewController:(UIViewController *)parent {
     
     [super willMoveToParentViewController:parent];
@@ -96,8 +130,10 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
 
 - (void)addDescriptionToNavBar {
     
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:_homeViewController.entourageManager.routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:_homeViewController.entourageManager.routeManager.selectedRoute.route.distance]];
+    
     _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
-    _addressLabel.text = _addressString;
+    _addressLabel.text = _homeViewController.entourageManager.routeManager.selectedRoute.route.name;
     _addressLabel.textColor = [TSColorPalette whiteColor];
     _addressLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:13.0f];
     _addressLabel.textAlignment = NSTextAlignmentCenter;
@@ -105,7 +141,7 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     
     _etaLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 20.0f, _routeInfoView.frame.size.width, 16.0f)];
     _etaLabel.textColor = [TSColorPalette whiteColor];
-    _etaLabel.text = _etaString;
+    _etaLabel.text = formattedText;
     _etaLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:12.0f];
     _etaLabel.textAlignment = NSTextAlignmentCenter;
     [_etaLabel setAdjustsFontSizeToFitWidth:YES];
@@ -137,6 +173,9 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
 
 /** This function is called when Circular slider value changes **/
 - (void)newValue:(TSCircularControl *)slider {
+    
+    [self stopClockTimer];
+    
     int adjustedAngle;
     if (slider.angle <= 90) {
         adjustedAngle = 90 - slider.angle;
@@ -145,68 +184,47 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
         adjustedAngle = 360 - slider.angle + 90;
     }
     
-    NSTimeInterval addedTime = adjustedAngle - 180;
+    NSTimeInterval addedTime = (int)adjustedAngle - 180;
     float timeRatio = _estimatedTimeInterval/180;
     
     addedTime = _estimatedTimeInterval + addedTime * timeRatio;
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:addedTime];
-    _timeAdjusted = addedTime;
-}
-
-#pragma mark - Collection View Delegate
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    _timeAdjusted = (int)addedTime;
     
-    return YES;
+    _changedTime = YES;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)adjustViewableTime {
     
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSTimeInterval interval = 1;
+    if (_estimatedTimeInterval < 320) {
+        interval = .1;
+    }
     
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
+    if (!_clockTimer) {
+        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                       target:self
+                                                     selector:@selector(adjustViewableTime)
+                                                     userInfo:nil
+                                                      repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
+    }
     
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDate *fireDate = _homeViewController.entourageManager.endTimer.fireDate;
     
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    _timeAdjusted = [fireDate timeIntervalSinceDate:[NSDate date]];
+    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
     
+    [_slider setDegreeForStartTime:_estimatedTimeInterval currentTime:_timeAdjusted];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+- (void)stopClockTimer {
     
+    [_clockTimer invalidate];
+    _clockTimer = nil;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return YES;
-}
+#pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
@@ -228,21 +246,6 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     }
 }
 
-- (void)addOrRemoveMember:(TSEntourageMemberCell *)memberCell {
-    
-    if ([_entourageMembers containsObject:memberCell.member]) {
-        if (!memberCell.button.selected) {
-            [_entourageMembers removeObject:memberCell.member];
-        }
-    }
-    else {
-        if (memberCell.button.selected) {
-            [_entourageMembers addObject:memberCell.member];
-        }
-    }
-    
-}
-
 - (void)adjustCell:(UICollectionViewCell *)cell forOffset:(float)offset {
     
     float cellHeight = 107;
@@ -253,13 +256,14 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     offset -= cellHeight * page;
     float ratio = offset/cellHeight;
     float ratioChange = 1 - ratio;
+    float acceleratedAlpha = 1 - (ratio * 1.5);
     
     if (offset < 0) {
         return;
     }
     
     if (cell.frame.origin.y < (page + 1) * cellHeight) {
-        cell.alpha = ratioChange;
+        cell.alpha = acceleratedAlpha;
         cell.transform = CGAffineTransformMakeScale(ratioChange, ratioChange);
     }
     else {
@@ -313,6 +317,144 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     }
     
     return _savedContacts.count + 1;
+}
+
+
+#pragma mark - Entourage
+
+- (IBAction)startEntourage:(id)sender {
+    
+    [_homeViewController.entourageManager startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted];
+    
+    [self dismissViewController];
+}
+
+- (void)doneEditingEntourage {
+    
+    if ([self changesWereMade]) {
+        _saveChangesAlertView = [[UIAlertView alloc] initWithTitle:@"Enter passcode to confirm changes" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        _saveChangesAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+        UITextField *textField = [_saveChangesAlertView textFieldAtIndex:0];
+        [textField setPlaceholder:@"1234"];
+        [textField setTextAlignment:NSTextAlignmentCenter];
+        [textField setSecureTextEntry:YES];
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [textField setDelegate:self];
+        
+        [_saveChangesAlertView show];
+    }
+    else {
+        [self dismissViewController];
+    }
+}
+
+- (BOOL)changesWereMade {
+    
+    if (_entourageMembers.count != _homeViewController.entourageManager.entourageMembersPosted.count) {
+        return YES;
+    }
+    
+    if (_entourageMembers) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+            
+            if (!sortingMember.identifier) {
+                return YES;
+            }
+            
+            for (TSJavelinAPIEntourageMember *member in [_homeViewController.entourageManager.entourageMembersPosted copy]) {
+                if (sortingMember.identifier == member.identifier) {
+                    return NO;
+                }
+            }
+            
+            return YES;
+        }];
+        
+        NSSet *filtered = [_entourageMembers filteredSetUsingPredicate:predicate];
+        
+        if (filtered.count) {
+            NSLog(@"changed users");
+            return YES;
+        }
+    }
+    
+    
+    
+    return _changedTime;
+}
+
+- (void)addOrRemoveMember:(TSEntourageMemberCell *)memberCell {
+    
+    if ([_entourageMembers containsObject:memberCell.member]) {
+        if (!memberCell.button.selected) {
+            [_entourageMembers removeObject:memberCell.member];
+        }
+    }
+    else {
+        if (memberCell.button.selected) {
+            [_entourageMembers addObject:memberCell.member];
+        }
+    }
+    
+}
+
+- (void)archiveUsersPicked {
+    
+    NSArray *array = _savedContacts;
+    if (_savedContacts.count > 11) {
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 11)];
+        array = [_savedContacts objectsAtIndexes:indexSet];
+    }
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:array];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kRecentSelections];
+}
+
++ (NSArray *)unarchiveRecentPicks {
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kRecentSelections];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
+
+- (void)mergeRecentPicksWithCurrentMembers {
+    
+    NSArray *recentPicks = [TSNotifySelectionViewController unarchiveRecentPicks];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        
+        for (TSJavelinAPIEntourageMember *member in [_savedContacts copy]) {
+            if (sortingMember.recordID == member.recordID) {
+                return NO;
+            }
+        }
+        
+        return YES;
+    }];
+    
+    NSArray *filtered = [recentPicks filteredArrayUsingPredicate:predicate];
+    [_savedContacts addObjectsFromArray:filtered];
+}
+
+
+- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member {
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        if (sortingMember.recordID == member.recordID) {
+            return YES;
+        }
+        return NO;
+    }];
+    NSArray *filtered = [_savedContacts filteredArrayUsingPredicate:predicate];
+    
+    [_savedContacts removeObjectsInArray:filtered];
+    [_entourageMembers minusSet:[NSSet setWithArray:filtered]];
+    
+    [_savedContacts insertObject:member atIndex:0];
+    [_entourageMembers addObject:member];
 }
 
 
@@ -424,61 +566,62 @@ static NSString * const kPastUserSelections = @"kPastUserSelections";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)archiveUsersPicked {
+#pragma mark - Alert View Delegate 
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
-    NSArray *array = _savedContacts;
-    if (_savedContacts.count > 11) {
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 11)];
-        array = [_savedContacts objectsAtIndexes:indexSet];
+    if (buttonIndex == 0) {
+        [self dismissViewController];
+    }
+    if (buttonIndex == 1) {
+        [self performSelector:@selector(startEntourage:) withObject:nil];
+    }
+}
+
+#pragma mark - Text Field Delegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    textField.backgroundColor = [TSColorPalette whiteColor];
+    
+    if ([textField.text length] + [string length] - range.length == 4) {
+        textField.text = [textField.text stringByAppendingString:string];
+        [self checkDisarmCode:textField];
+        return NO;
+    }
+    else if ([textField.text length] + [string length] - range.length > 4) {
+        [self checkDisarmCode:textField];
+        return NO;
     }
     
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:array];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kPastUserSelections];
+    return YES;
 }
 
-+ (NSArray *)unarchiveRecentPicks {
+- (void)checkDisarmCode:(UITextField *)textField {
     
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kPastUserSelections];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-}
-
-- (void)mergeRecentPicksWithCurrentMembers {
+    if (textField.text.length != 4) {
+        textField.text = @"";
+        textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
+        return;
+    }
     
-    NSArray *recentPicks = [TSNotifySelectionViewController unarchiveRecentPicks];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        
-        for (TSJavelinAPIEntourageMember *member in [_savedContacts copy]) {
-            if (sortingMember.recordID == member.recordID) {
-                return NO;
-            }
-        }
-        
-        return YES;
-    }];
-    
-    NSArray *filtered = [recentPicks filteredArrayUsingPredicate:predicate];
-    [_savedContacts addObjectsFromArray:filtered];
+    if ([textField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
+        [_saveChangesAlertView dismissWithClickedButtonIndex:1 animated:YES];
+    }
+    else {
+        textField.text = @"";
+        textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
+    }
 }
 
 
-- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member {
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
     
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        if (sortingMember.recordID == member.recordID) {
-            return YES;
-        }
-        return NO;
-    }];
-    NSArray *filtered = [_savedContacts filteredArrayUsingPredicate:predicate];
+    [super dismissViewControllerAnimated:flag completion:completion];
     
-    [_savedContacts removeObjectsInArray:filtered];
-    [_entourageMembers minusSet:[NSSet setWithArray:filtered]];
-    
-    [_savedContacts insertObject:member atIndex:0];
-    [_entourageMembers addObject:member];
+    if (_saveChangesAlertView) {
+        [_saveChangesAlertView dismissWithClickedButtonIndex:-1 animated:YES];
+    }
 }
 
 @end

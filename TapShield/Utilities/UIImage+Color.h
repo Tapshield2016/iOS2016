@@ -16,7 +16,6 @@
 - (UIImage *)fillImageWithColor:(UIColor *)color;
 - (UIImage *)reduceBrightness;
 - (UIImage *)gaussianBlur;
-- (UIImage *)addBorderAndShadow;
 
 - (UIImage *)imageWithShadowOfSize:(CGFloat)shadowSize;
 

@@ -8,6 +8,7 @@
 
 #import "TSTransitionDelegate.h"
 #import "TSDestinationSearchViewController.h"
+#import "TSNotifySelectionViewController.h"
 #import "TSChatViewController.h"
 
 @implementation TSTransitionDelegate
@@ -20,7 +21,8 @@
         presented = ((UINavigationController *)presented).topViewController;
     }
     
-    if ([presented isKindOfClass:[TSDestinationSearchViewController class]]) {
+    if ([presented isKindOfClass:[TSDestinationSearchViewController class]] ||
+        [presented isKindOfClass:[TSNotifySelectionViewController class]]) {
         controller.isTopDownPresentation = YES;
     }
     
@@ -36,7 +38,8 @@
         dismissed = ((UINavigationController *)dismissed).topViewController;
     }
     
-    if ([dismissed isKindOfClass:[TSDestinationSearchViewController class]]) {
+    if ([dismissed isKindOfClass:[TSDestinationSearchViewController class]] ||
+        [dismissed isKindOfClass:[TSNotifySelectionViewController class]]) {
         controller.isTopDownPresentation = YES;
     }
     

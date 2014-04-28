@@ -599,16 +599,57 @@ Messaging a User's entourage (via POST method):
 curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message=Ben arrived at this destination." -H "Authorization: Token e9e9df293943bee2a9c7dd96fa88b95bd352acf5"
  */
 
+
+- (void)postToEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion {
+    
+    if (!message) {
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:[NSString stringWithFormat:@"%@/message_entourage/", [[self authenticationManager] loggedInUser].agency.url]
+    parameters:@{@"message": message}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           if (completion) {
+               completion(responseObject, nil);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self postToEntourageMembers:message completion:completion];
+               });
+           }
+           else {
+               if (completion) {
+                   completion(nil, error);
+               }
+           }
+       }];
+}
+
 - (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion {
     
     if (member.identifier) {
         NSLog(@"Entourage member already has a url");
+        if (completion) {
+            completion(member, nil);
+        }
         return;
     }
     
     NSDictionary *parameters = [member parametersFromMember];
     if (!parameters) {
         NSLog(@"Entourage Member missing parameters");
+        if (completion) {
+            completion(member, nil);
+        }
         return;
     }
     

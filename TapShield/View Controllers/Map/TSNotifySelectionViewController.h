@@ -11,6 +11,8 @@
 #import "TSEntourageMemberCell.h"
 #import <AddressBookUI/AddressBookUI.h>
 
+#define INSET 50
+
 @interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;

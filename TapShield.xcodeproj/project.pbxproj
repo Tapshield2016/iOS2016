@@ -207,6 +207,21 @@
 		C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
+		C53A663B190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
+		C53A663C190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
+		C53A663D190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
+		C53A6641190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
+		C53A6642190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
+		C53A6643190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
+		C53A6649190E803700760656 /* EndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6648190E803700760656 /* EndPoint@2x.png */; };
+		C53A664A190E803700760656 /* EndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6648190E803700760656 /* EndPoint@2x.png */; };
+		C53A664B190E803700760656 /* EndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6648190E803700760656 /* EndPoint@2x.png */; };
+		C53A664E190E827300760656 /* Car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664C190E827300760656 /* Car@2x.png */; };
+		C53A664F190E827300760656 /* Car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664C190E827300760656 /* Car@2x.png */; };
+		C53A6650190E827300760656 /* Car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664C190E827300760656 /* Car@2x.png */; };
+		C53A6651190E827300760656 /* Walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664D190E827300760656 /* Walk@2x.png */; };
+		C53A6652190E827300760656 /* Walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664D190E827300760656 /* Walk@2x.png */; };
+		C53A6653190E827300760656 /* Walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664D190E827300760656 /* Walk@2x.png */; };
 		C54CE5D318FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D418FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D518FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
@@ -1679,6 +1694,13 @@
 		C5391EBC18CA238D00C23C0A /* TSPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPageViewController.m; path = "View Controllers/TSPageViewController.m"; sourceTree = "<group>"; };
 		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
 		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
+		C53A6639190E527000760656 /* TSMemberCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayout.h; path = Views/TSMemberCollectionViewLayout.h; sourceTree = "<group>"; };
+		C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayout.m; path = Views/TSMemberCollectionViewLayout.m; sourceTree = "<group>"; };
+		C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayoutAttributes.h; path = Views/TSMemberCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
+		C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayoutAttributes.m; path = Views/TSMemberCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
+		C53A6648190E803700760656 /* EndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EndPoint@2x.png"; sourceTree = "<group>"; };
+		C53A664C190E827300760656 /* Car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Car@2x.png"; sourceTree = "<group>"; };
+		C53A664D190E827300760656 /* Walk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Walk@2x.png"; sourceTree = "<group>"; };
 		C54CE5D118FAE1240077350E /* TSYankManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSYankManager.h; sourceTree = "<group>"; };
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CE64418FB19990077350E /* help_menu_icon_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help_menu_icon_active.png; sourceTree = "<group>"; };
@@ -2348,6 +2370,7 @@
 		B53BBD351898364C006A27E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C53A663E190E562000760656 /* Collection */,
 				C56B3D6318FD900000324FE8 /* Switch */,
 				C5662BD118DBA6D400FD4F44 /* TextFields */,
 				C5662BC618DB886000FD4F44 /* Labels */,
@@ -2639,6 +2662,17 @@
 			name = Transitions;
 			sourceTree = "<group>";
 		};
+		C53A663E190E562000760656 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				C53A6639190E527000760656 /* TSMemberCollectionViewLayout.h */,
+				C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */,
+				C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */,
+				C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */,
+			);
+			name = Collection;
+			sourceTree = "<group>";
+		};
 		C54CE64318FB19990077350E /* 01_Menu.psb_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -2827,6 +2861,9 @@
 		C54CE70E18FB199A0077350E /* 06_Entourage_PickingRoute_view_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C53A6648190E803700760656 /* EndPoint@2x.png */,
+				C53A664C190E827300760656 /* Car@2x.png */,
+				C53A664D190E827300760656 /* Walk@2x.png */,
 				C54CE70F18FB199A0077350E /* bubble_time2_LB_icon.png */,
 				C54CE71018FB199A0077350E /* bubble_time2_LB_icon@2x.png */,
 				C54CE71118FB199A0077350E /* bubble_time2_LT_icon.png */,
@@ -3813,6 +3850,7 @@
 				C54CE95618FB199A0077350E /* Yank_icon.png in Resources */,
 				C54CEBA718FC77150077350E /* btn_user_badge_pressed@2x.png in Resources */,
 				C585F30F18DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
+				C53A6649190E803700760656 /* EndPoint@2x.png in Resources */,
 				C54CE8F618FB199A0077350E /* pins_choking_icon.png in Resources */,
 				C54CEAAC18FB199A0077350E /* count_bg.png in Resources */,
 				C54CEAF718FB199A0077350E /* profile_med_ico@2x.png in Resources */,
@@ -3860,6 +3898,7 @@
 				C54CE8C318FB199A0077350E /* menu_icon@2x.png in Resources */,
 				C54CE94A18FB199A0077350E /* user_icon.png in Resources */,
 				C54CEBC818FC77150077350E /* pag_dot_inactive@2x.png in Resources */,
+				C53A6651190E827300760656 /* Walk@2x.png in Resources */,
 				C54CE8C618FB199A0077350E /* nav_bar_bg.png in Resources */,
 				C54CEAF118FB199A0077350E /* profile_ice_ico@2x.png in Resources */,
 				C54CEC2B18FC77150077350E /* btn_yes_no_pressed.png in Resources */,
@@ -3954,6 +3993,7 @@
 				C54CE98618FB199A0077350E /* bubble_burglary_icon.png in Resources */,
 				C54CEC1018FC77150077350E /* btn_login_normal@2x.png in Resources */,
 				C54CE7C118FB199A0077350E /* home_menu_icon_active@2x.png in Resources */,
+				C53A664E190E827300760656 /* Car@2x.png in Resources */,
 				C54CEBE618FC77150077350E /* btn_small_circle_normal@2x.png in Resources */,
 				C5372DD318B2CD8A00D22682 /* twitterIcon.png in Resources */,
 				C54CEAB818FB199A0077350E /* settings_signout.png in Resources */,
@@ -4076,6 +4116,7 @@
 				C54CE7EA18FB199A0077350E /* settings_menu_icon_inactive.png in Resources */,
 				C54CEAB118FB199A0077350E /* count_bg@2x.png in Resources */,
 				C54CE9F718FB199A0077350E /* avatar_icon@2x.png in Resources */,
+				C53A664B190E803700760656 /* EndPoint@2x.png in Resources */,
 				C54CE9A618FB199A0077350E /* bubble_heartattack_icon.png in Resources */,
 				C54CEAF618FB199A0077350E /* profile_med_ico.png in Resources */,
 				C54CE97C18FB199A0077350E /* bubble_bleeding_icon.png in Resources */,
@@ -4292,6 +4333,7 @@
 				C54CE9BE18FB199A0077350E /* bubble_shooting_icon.png in Resources */,
 				C54CEACF18FB199A0077350E /* switch_on@2x.png in Resources */,
 				C54CE98518FB199A0077350E /* bubble_brokenbone_icon@2x.png in Resources */,
+				C53A6650190E827300760656 /* Car@2x.png in Resources */,
 				C54CEA9C18FB199A0077350E /* alert_mute_icon.png in Resources */,
 				C585F30E18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C54CEAA518FB199A0077350E /* alert_view_time_icon@2x.png in Resources */,
@@ -4336,6 +4378,7 @@
 				C532E65518BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
 				C54CEC1818FC77150077350E /* btn_login_pressed@2x.png in Resources */,
 				C54CEBE218FC77150077350E /* btn_big_circle_pressed@2x.png in Resources */,
+				C53A6653190E827300760656 /* Walk@2x.png in Resources */,
 				C54CE7BD18FB199A0077350E /* help_menu_icon_inactive@2x.png in Resources */,
 				C54CEA9918FB199A0077350E /* alert_chat_icon@2x.png in Resources */,
 				C54CEA6C18FB199A0077350E /* chat_time_icon.png in Resources */,
@@ -4432,6 +4475,7 @@
 				C54CE7E918FB199A0077350E /* settings_menu_icon_inactive.png in Resources */,
 				C54CEAB018FB199A0077350E /* count_bg@2x.png in Resources */,
 				C54CE9F618FB199A0077350E /* avatar_icon@2x.png in Resources */,
+				C53A664A190E803700760656 /* EndPoint@2x.png in Resources */,
 				C54CE9A518FB199A0077350E /* bubble_heartattack_icon.png in Resources */,
 				C54CEAF518FB199A0077350E /* profile_med_ico.png in Resources */,
 				C54CE97B18FB199A0077350E /* bubble_bleeding_icon.png in Resources */,
@@ -4648,6 +4692,7 @@
 				C54CE9BD18FB199A0077350E /* bubble_shooting_icon.png in Resources */,
 				C54CEACE18FB199A0077350E /* switch_on@2x.png in Resources */,
 				C54CE98418FB199A0077350E /* bubble_brokenbone_icon@2x.png in Resources */,
+				C53A664F190E827300760656 /* Car@2x.png in Resources */,
 				C54CEA9B18FB199A0077350E /* alert_mute_icon.png in Resources */,
 				C585F30D18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C54CEAA418FB199A0077350E /* alert_view_time_icon@2x.png in Resources */,
@@ -4692,6 +4737,7 @@
 				C532E65418BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
 				C54CEC1718FC77150077350E /* btn_login_pressed@2x.png in Resources */,
 				C54CEBE118FC77150077350E /* btn_big_circle_pressed@2x.png in Resources */,
+				C53A6652190E827300760656 /* Walk@2x.png in Resources */,
 				C54CE7BC18FB199A0077350E /* help_menu_icon_inactive@2x.png in Resources */,
 				C54CEA9818FB199A0077350E /* alert_chat_icon@2x.png in Resources */,
 				C54CEA6B18FB199A0077350E /* chat_time_icon.png in Resources */,
@@ -4928,11 +4974,13 @@
 				C5B5635018E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C51A40A818CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
+				C53A663B190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */,
 				C54CEB0818FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C5C1C99F190853860087F622 /* TSEntourageMemberCell.m in Sources */,
 				C520C90818A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				B543F08018AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
 				C585F1A818CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C53A6641190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */,
 				C5B5634618E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
@@ -5052,9 +5100,11 @@
 				C5C1C9B01909B9220087F622 /* TSCircularControl.m in Sources */,
 				B583B9BD18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
+				C53A663D190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				C5662BF018DD091500FD4F44 /* TSBorderedView.m in Sources */,
 				C501CC3518F1DE7D005A0B98 /* TSContactsCell.m in Sources */,
+				C53A6643190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C5BBF32E18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
 				C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
@@ -5217,11 +5267,13 @@
 				C5B5635118E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5662BF418DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C57C48DF18BBDB1900DFFBCE /* TSJavelinAPIUtilities.m in Sources */,
+				C53A663C190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */,
 				C54CEB0918FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C5C1C9A0190853860087F622 /* TSEntourageMemberCell.m in Sources */,
 				C5CB078518C6851D00BC9425 /* TSCircularButton.m in Sources */,
 				C532E63818BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C57C48E018BBDB1900DFFBCE /* TSOrganizationSearchViewController.m in Sources */,
+				C53A6642190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */,
 				C5B5634718E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
 				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,

@@ -157,7 +157,14 @@
 - (void)initPages {
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
-    _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    
+    if ([UIScreen mainScreen].bounds.size.height < 500) {
+        _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController3.5"];
+    }
+    else {
+        _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
+    }
+    
     _disarmPadViewController.superviewViewController = self;
     _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
     _emergencyAlertViewController.superviewViewController = self;

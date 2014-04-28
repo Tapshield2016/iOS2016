@@ -12,11 +12,13 @@
 extern NSString * const TSVirtualEntourageManagerTimerDidStart;
 extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
 
+typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
+
 @interface TSVirtualEntourageManager : NSObject
 
 - (instancetype)initWithHomeView:(id)homeView;
 
-- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta;
+- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion;
 - (void)stopEntourage;
 - (void)recalculateEntourageTimerETA;
 
@@ -31,5 +33,9 @@ extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
 @property (nonatomic, assign) NSTimeInterval selectedETA;
 
 @property (readonly) BOOL isEnabled;
+
+@property (nonatomic, strong) TSVirtualEntourageManagerPostCompletion finishedPosting;
+
+@property (nonatomic, strong) TSVirtualEntourageManagerPostCompletion finishedDeleting;
 
 @end

@@ -2845,8 +2845,8 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBs-rZ-hGQ" customClass="TSCircularButton">
-                                <rect key="frame" x="20" y="170" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBs-rZ-hGQ" customClass="TSCircularButton">
+                                <rect key="frame" x="20" y="170" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="1" backgroundImage="number_1.png">
@@ -2859,8 +2859,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="5Nh-2z-Lvz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixX-I1-74f" customClass="TSCircularButton">
-                                <rect key="frame" x="123" y="170" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixX-I1-74f" customClass="TSCircularButton">
+                                <rect key="frame" x="123" y="170" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="2" backgroundImage="number_2.png">
@@ -2871,8 +2871,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="V7k-Db-HWz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19S-0Y-ewY" customClass="TSCircularButton">
-                                <rect key="frame" x="225" y="170" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19S-0Y-ewY" customClass="TSCircularButton">
+                                <rect key="frame" x="225" y="170" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="3" backgroundImage="number_3.png">
@@ -2883,8 +2883,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="zz3-DK-6l3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irN-Cs-I6f" customClass="TSCircularButton">
-                                <rect key="frame" x="20" y="271" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irN-Cs-I6f" customClass="TSCircularButton">
+                                <rect key="frame" x="20" y="271" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="4" backgroundImage="number_4.png">
@@ -2895,8 +2895,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="d5Z-CX-7iI"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nip-CZ-EoM" customClass="TSCircularButton">
-                                <rect key="frame" x="123" y="271" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nip-CZ-EoM" customClass="TSCircularButton">
+                                <rect key="frame" x="123" y="271" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="5" backgroundImage="number_5.png">
@@ -2907,8 +2907,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="SsD-wp-2LO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nbk-ul-tKS" customClass="TSCircularButton">
-                                <rect key="frame" x="225" y="271" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nbk-ul-tKS" customClass="TSCircularButton">
+                                <rect key="frame" x="225" y="271" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="6" backgroundImage="number_6.png">
@@ -2919,8 +2919,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="P4w-MH-kXx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9v-ag-W5j" customClass="TSCircularButton">
-                                <rect key="frame" x="20" y="372" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9v-ag-W5j" customClass="TSCircularButton">
+                                <rect key="frame" x="20" y="372" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="7" backgroundImage="number_7.png">
@@ -2931,7 +2931,7 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="VFz-Oz-hiT"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5m-Vm-1Af" customClass="TSCircularButton">
+                            <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5m-Vm-1Af" customClass="TSCircularButton">
                                 <rect key="frame" x="123" y="372" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
@@ -2943,7 +2943,7 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="sYz-Gj-fjK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6C-eV-lZ3" customClass="TSCircularButton">
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6C-eV-lZ3" customClass="TSCircularButton">
                                 <rect key="frame" x="225" y="372" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
@@ -2955,8 +2955,8 @@ Last Updated: 12/12/13
                                     <action selector="numberPressed:" destination="b9r-js-Ebz" eventType="touchUpInside" id="pTA-Y6-eLb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCX-a5-fPl" customClass="TSCircularButton">
-                                <rect key="frame" x="123" y="472" width="75" height="76"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCX-a5-fPl" customClass="TSCircularButton">
+                                <rect key="frame" x="123" y="473" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
                                 <state key="normal" title="0" backgroundImage="number_0.png">
@@ -3016,7 +3016,7 @@ Last Updated: 12/12/13
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XpJ-vL-fCN">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XpJ-vL-fCN">
                                 <rect key="frame" x="225" y="473" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -3028,7 +3028,7 @@ Last Updated: 12/12/13
                                     <action selector="deleteDisarmText:" destination="b9r-js-Ebz" eventType="touchUpInside" id="0Ca-yn-mAJ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uQv-2L-9wD">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uQv-2L-9wD">
                                 <rect key="frame" x="20" y="473" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -3049,57 +3049,6 @@ Last Updated: 12/12/13
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="xBs-rZ-hGQ" firstAttribute="height" secondItem="ixX-I1-74f" secondAttribute="height" id="1OU-MW-VQO"/>
-                            <constraint firstItem="b6C-eV-lZ3" firstAttribute="width" secondItem="l5m-Vm-1Af" secondAttribute="height" multiplier="1:1" id="1UB-r0-FR1"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="width" secondItem="ixX-I1-74f" secondAttribute="width" id="2Jm-5Y-IKX"/>
-                            <constraint firstItem="b6C-eV-lZ3" firstAttribute="width" secondItem="l5m-Vm-1Af" secondAttribute="width" id="4G3-7Q-Y2y"/>
-                            <constraint firstItem="b6C-eV-lZ3" firstAttribute="height" secondItem="l5m-Vm-1Af" secondAttribute="height" id="7Re-9l-zPe"/>
-                            <constraint firstItem="l5m-Vm-1Af" firstAttribute="width" secondItem="nip-CZ-EoM" secondAttribute="height" multiplier="75:76" id="A6l-Ig-0zu"/>
-                            <constraint firstItem="b6C-eV-lZ3" firstAttribute="leading" secondItem="l5m-Vm-1Af" secondAttribute="trailing" constant="27" id="BNE-Nx-6eH"/>
-                            <constraint firstItem="19S-0Y-ewY" firstAttribute="leading" secondItem="ixX-I1-74f" secondAttribute="trailing" constant="27" id="Bu1-Ha-WCN"/>
-                            <constraint firstItem="yCX-a5-fPl" firstAttribute="leading" secondItem="uQv-2L-9wD" secondAttribute="trailing" constant="28" id="CDr-4d-WgK"/>
-                            <constraint firstItem="l5m-Vm-1Af" firstAttribute="height" secondItem="nip-CZ-EoM" secondAttribute="height" id="Caf-Bt-4SA"/>
-                            <constraint firstItem="yCX-a5-fPl" firstAttribute="width" secondItem="l5m-Vm-1Af" secondAttribute="width" id="Eug-s2-jLv"/>
-                            <constraint firstItem="uQv-2L-9wD" firstAttribute="height" secondItem="yCX-a5-fPl" secondAttribute="height" id="FPd-5l-mAc"/>
-                            <constraint firstItem="uQv-2L-9wD" firstAttribute="width" secondItem="yCX-a5-fPl" secondAttribute="width" id="HfN-G0-qY7"/>
-                            <constraint firstItem="XpJ-vL-fCN" firstAttribute="height" secondItem="yCX-a5-fPl" secondAttribute="height" id="JdT-zL-wHC"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="height" secondItem="ixX-I1-74f" secondAttribute="height" id="Kgc-JX-Uad"/>
-                            <constraint firstItem="l5m-Vm-1Af" firstAttribute="top" secondItem="nip-CZ-EoM" secondAttribute="bottom" constant="25" id="Kp8-ad-Yaq"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="centerY" secondItem="Nbk-ul-tKS" secondAttribute="centerY" id="L7o-uj-YUI"/>
-                            <constraint firstItem="l5m-Vm-1Af" firstAttribute="width" secondItem="nip-CZ-EoM" secondAttribute="width" id="LZX-JZ-f3O"/>
-                            <constraint firstItem="uQv-2L-9wD" firstAttribute="width" secondItem="yCX-a5-fPl" secondAttribute="height" multiplier="75:76" id="MUn-R4-sUc"/>
-                            <constraint firstItem="l5m-Vm-1Af" firstAttribute="leading" secondItem="H9v-ag-W5j" secondAttribute="trailing" constant="28" id="OUe-id-2Ef"/>
-                            <constraint firstItem="irN-Cs-I6f" firstAttribute="height" secondItem="nip-CZ-EoM" secondAttribute="height" id="P6r-IZ-eDo"/>
-                            <constraint firstItem="XpJ-vL-fCN" firstAttribute="leading" secondItem="yCX-a5-fPl" secondAttribute="trailing" constant="27" id="PFz-ex-gl8"/>
-                            <constraint firstItem="yCX-a5-fPl" firstAttribute="top" secondItem="l5m-Vm-1Af" secondAttribute="bottom" constant="25" id="QYr-sG-z7o"/>
-                            <constraint firstItem="H9v-ag-W5j" firstAttribute="centerY" secondItem="l5m-Vm-1Af" secondAttribute="centerY" constant="0.5" id="Rwl-HO-fwY"/>
-                            <constraint firstItem="yCX-a5-fPl" firstAttribute="height" secondItem="l5m-Vm-1Af" secondAttribute="height" id="T8a-In-Xt6"/>
-                            <constraint firstItem="ixX-I1-74f" firstAttribute="width" secondItem="19S-0Y-ewY" secondAttribute="height" multiplier="75:76" id="TAi-nO-xQm"/>
-                            <constraint firstItem="xBs-rZ-hGQ" firstAttribute="width" secondItem="ixX-I1-74f" secondAttribute="height" multiplier="75:76" id="Tbt-ep-KgQ"/>
-                            <constraint firstItem="ixX-I1-74f" firstAttribute="leading" secondItem="xBs-rZ-hGQ" secondAttribute="trailing" constant="28" id="Unr-TL-tyb"/>
-                            <constraint firstItem="xBs-rZ-hGQ" firstAttribute="centerY" secondItem="ixX-I1-74f" secondAttribute="centerY" id="VCc-9s-oTg"/>
-                            <constraint firstItem="uQv-2L-9wD" firstAttribute="centerY" secondItem="yCX-a5-fPl" secondAttribute="centerY" constant="0.5" id="VPa-k4-ctS"/>
-                            <constraint firstItem="b6C-eV-lZ3" firstAttribute="centerY" secondItem="l5m-Vm-1Af" secondAttribute="centerY" id="YPV-nZ-5dj"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="width" secondItem="ixX-I1-74f" secondAttribute="height" multiplier="75:76" id="a4w-xm-7hu"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="width" secondItem="Nbk-ul-tKS" secondAttribute="width" id="aQR-FM-OEV"/>
-                            <constraint firstItem="irN-Cs-I6f" firstAttribute="centerY" secondItem="nip-CZ-EoM" secondAttribute="centerY" id="bKu-w4-KQi"/>
-                            <constraint firstItem="XpJ-vL-fCN" firstAttribute="centerY" secondItem="yCX-a5-fPl" secondAttribute="centerY" constant="0.5" id="cXL-h2-VBz"/>
-                            <constraint firstItem="ixX-I1-74f" firstAttribute="width" secondItem="19S-0Y-ewY" secondAttribute="width" id="dI9-eN-Ptt"/>
-                            <constraint firstItem="ixX-I1-74f" firstAttribute="height" secondItem="19S-0Y-ewY" secondAttribute="height" id="dcr-9k-Kz4"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="width" secondItem="Nbk-ul-tKS" secondAttribute="height" multiplier="75:76" id="jAf-u2-2st"/>
-                            <constraint firstItem="yCX-a5-fPl" firstAttribute="width" secondItem="l5m-Vm-1Af" secondAttribute="height" multiplier="1:1" id="kNB-Ee-kYH"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="height" secondItem="Nbk-ul-tKS" secondAttribute="height" id="nqe-wa-Tu1"/>
-                            <constraint firstItem="irN-Cs-I6f" firstAttribute="width" secondItem="nip-CZ-EoM" secondAttribute="height" multiplier="75:76" id="obT-ba-QZC"/>
-                            <constraint firstItem="xBs-rZ-hGQ" firstAttribute="width" secondItem="ixX-I1-74f" secondAttribute="width" id="p9U-dv-TN2"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="leading" secondItem="irN-Cs-I6f" secondAttribute="trailing" constant="28" id="pwW-yM-4QR"/>
-                            <constraint firstItem="XpJ-vL-fCN" firstAttribute="width" secondItem="yCX-a5-fPl" secondAttribute="height" multiplier="75:76" id="qj8-9N-Gag"/>
-                            <constraint firstItem="irN-Cs-I6f" firstAttribute="width" secondItem="nip-CZ-EoM" secondAttribute="width" id="uU5-oC-Hl2"/>
-                            <constraint firstItem="Nbk-ul-tKS" firstAttribute="leading" secondItem="nip-CZ-EoM" secondAttribute="trailing" constant="27" id="yZ6-M8-AR9"/>
-                            <constraint firstItem="ixX-I1-74f" firstAttribute="centerY" secondItem="19S-0Y-ewY" secondAttribute="centerY" id="z1L-C2-YZK"/>
-                            <constraint firstItem="nip-CZ-EoM" firstAttribute="top" secondItem="ixX-I1-74f" secondAttribute="bottom" constant="25" id="zao-uU-s4j"/>
-                            <constraint firstItem="XpJ-vL-fCN" firstAttribute="width" secondItem="yCX-a5-fPl" secondAttribute="width" id="zcB-GV-C7l"/>
-                        </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
@@ -3113,7 +3062,7 @@ Last Updated: 12/12/13
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyT-m2-bpk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2019" y="2195"/>
+            <point key="canvasLocation" x="2004" y="2189"/>
         </scene>
         <!--Emergency Alert View Controller - Phone-->
         <scene sceneID="8vV-ne-SaL">
@@ -4361,6 +4310,237 @@ Last Updated: 12/12/13
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rQC-3m-9qa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2321" y="5712"/>
+        </scene>
+        <!--Disarm Pad View Controller-->
+        <scene sceneID="bwe-0W-eLb">
+            <objects>
+                <viewController storyboardIdentifier="TSDisarmPadViewController3.5" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K1A-eC-Imq" customClass="TSDisarmPadViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Vb-oG-SL1"/>
+                        <viewControllerLayoutGuide type="bottom" id="6i1-IK-9uW"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="0yf-bO-8fH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOK-62-DMP" customClass="TSCircularButton">
+                                <rect key="frame" x="40" y="160" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="1" backgroundImage="number_1.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="hwE-Va-nYW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOh-e6-tLI" customClass="TSCircularButton">
+                                <rect key="frame" x="128" y="160" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="2" backgroundImage="number_2.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="0zY-1F-PNk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbY-xH-aib" customClass="TSCircularButton">
+                                <rect key="frame" x="215" y="160" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="3" backgroundImage="number_3.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="Rc5-01-n7g"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9V-sp-Ewk" customClass="TSCircularButton">
+                                <rect key="frame" x="40" y="240" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="4" backgroundImage="number_4.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="wsE-bd-cKs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H07-lF-crj" customClass="TSCircularButton">
+                                <rect key="frame" x="128" y="240" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="5" backgroundImage="number_5.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="7ES-OW-hBw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-FS-CLz" customClass="TSCircularButton">
+                                <rect key="frame" x="215" y="240" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="6" backgroundImage="number_6.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="RNT-X6-9iu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Guo-V5-Qxg" customClass="TSCircularButton">
+                                <rect key="frame" x="40" y="320" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="7" backgroundImage="number_7.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="fVj-wL-iL6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nOb-hY-OWm" customClass="TSCircularButton">
+                                <rect key="frame" x="128" y="320" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="8" backgroundImage="number_8.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="hDF-mM-i84"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqv-Ob-6eQ" customClass="TSCircularButton">
+                                <rect key="frame" x="215" y="320" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="9" backgroundImage="number_9.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="4Qy-ne-KNn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KrU-r8-jyy" customClass="TSCircularButton">
+                                <rect key="frame" x="128" y="400" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="0" backgroundImage="number_0.png">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="numberPressed:" destination="K1A-eC-Imq" eventType="touchUpInside" id="U7v-Xp-mtv"/>
+                                </connections>
+                            </button>
+                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="crc-Sf-If7">
+                                <rect key="frame" x="0.0" y="117" width="320" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DLo-xf-8MX" customClass="TSCircularButton">
+                                        <rect key="frame" x="90" y="7" width="14" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGR-7L-dhd" customClass="TSCircularButton">
+                                        <rect key="frame" x="133" y="7" width="14" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NM8-mK-Jbf" customClass="TSCircularButton">
+                                        <rect key="frame" x="176" y="7" width="14" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcg-ED-2ny" customClass="TSCircularButton">
+                                        <rect key="frame" x="219" y="7" width="14" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <textField hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="xxxx" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X5z-Eg-MY1">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="K1A-eC-Imq" id="MaE-yW-jiu"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6CS-GW-0e0">
+                                <rect key="frame" x="215" y="400" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="delete">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteDisarmText:" destination="K1A-eC-Imq" eventType="touchUpInside" id="mSh-BJ-LBT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgI-Hp-KbE">
+                                <rect key="frame" x="40" y="400" width="65" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="clear">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearDisarmText:" destination="K1A-eC-Imq" eventType="touchUpInside" id="JI1-HH-Opf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter passcode to disarm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WL4-XY-s7p">
+                                <rect key="frame" x="0.0" y="90" width="320" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="codeCircle1" destination="DLo-xf-8MX" id="Slt-Hc-x6j"/>
+                        <outlet property="codeCircle2" destination="wGR-7L-dhd" id="xzy-53-9n4"/>
+                        <outlet property="codeCircle3" destination="NM8-mK-Jbf" id="yR1-ye-ANm"/>
+                        <outlet property="codeCircle4" destination="kcg-ED-2ny" id="oqE-0F-hB7"/>
+                        <outlet property="codeCircleContainerView" destination="crc-Sf-If7" id="kyR-7A-L8T"/>
+                        <outlet property="disarmTextField" destination="X5z-Eg-MY1" id="OoL-Sq-2Ue"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vGb-GV-EpT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1634" y="2189"/>
         </scene>
     </scenes>
     <resources>

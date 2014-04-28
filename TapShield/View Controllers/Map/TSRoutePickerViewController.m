@@ -38,7 +38,9 @@
     
     _hitTestView.sendToView = _homeViewController.view;
     
-    _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Car", @"Walk"]];
+    _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[[UIImage imageNamed:@"Car"], [UIImage imageNamed:@"Walk"]]];
+    _directionsTypeSegmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width/3, self.navigationController.navigationBar.frame.size.height - 10);
+    [_directionsTypeSegmentedControl setApportionsSegmentWidthsByContent:NO];
     _directionsTypeSegmentedControl.tintColor = [TSColorPalette tapshieldBlue];
     [_directionsTypeSegmentedControl setSelectedSegmentIndex:0];
     

@@ -16,7 +16,7 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.image = [UIImage imageNamed:@"pins_other_icon"];
+        self.image = [UIImage imageNamed:@"EndPoint"];
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
     }

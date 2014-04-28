@@ -89,15 +89,11 @@
 
 - (void)setSelectedRoute:(TSRouteOption *)selectedRoute {
     
-    if (_selectedRoute.routeTimeAnnotation) {
-        _selectedRoute.routeTimeAnnotation.isSelected = NO;
-    }
-    
+    _selectedRoute.routeTimeAnnotation.isSelected = NO;
+
     _selectedRoute = selectedRoute;
     
-    if (_selectedRoute.routeTimeAnnotation) {
-        _selectedRoute.routeTimeAnnotation.isSelected = NO;
-    }
+    _selectedRoute.routeTimeAnnotation.isSelected = YES;
 }
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint {

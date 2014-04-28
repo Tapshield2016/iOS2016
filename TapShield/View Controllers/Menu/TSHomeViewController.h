@@ -12,7 +12,7 @@
 #import "TSVirtualEntourageManager.h"
 #import "TSMenuViewController.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;

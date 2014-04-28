@@ -26,6 +26,7 @@
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
 @property (nonatomic) BOOL viewDidAppear;
+@property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
 
 @end
 
@@ -147,7 +148,7 @@
     [self setIsTrackingUser:YES];
     [self drawerCanDragForMenu:NO];
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(showDisarmEntourage)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
                                         NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
@@ -157,15 +158,30 @@
     
     [_menuViewController showMenuButton:self];
     [_entourageManager stopEntourage];
+    [self drawerCanDragForMenu:YES];
     self.isTrackingUser = YES;
 }
 
 
 #pragma mark - Home Screen Buttons
 
-- (void)showDisarmEntourage {
+- (void)cancelEntourage {
     
-
+    _cancelEntourageAlertView = [[UIAlertView alloc] initWithTitle:@"Stop Entourage"
+                                                       message:@"Please enter passcode"
+                                                      delegate:self
+                                             cancelButtonTitle:@"Cancel"
+                                             otherButtonTitles:nil];
+    _cancelEntourageAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [_cancelEntourageAlertView textFieldAtIndex:0];
+    [textField setPlaceholder:@"1234"];
+    [textField setTextAlignment:NSTextAlignmentCenter];
+    [textField setSecureTextEntry:YES];
+    [textField setKeyboardType:UIKeyboardTypeNumberPad];
+    [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+    [textField setDelegate:self];
+    
+    [_cancelEntourageAlertView show];
 }
 
 - (void)toggleYank:(id)sender {
@@ -522,7 +538,10 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
-    _mapView.shouldUpdateCallOut = NO;
+    
+    if ([view isKindOfClass:[TSUserAnnotationView class]]) {
+        _mapView.shouldUpdateCallOut = NO;
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
@@ -564,6 +583,55 @@
                 [routeView flipViewAwayfromView:otherView];
             }
         }
+    }
+}
+
+
+#pragma mark - Alert View Delegate 
+
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (alertView == _cancelEntourageAlertView) {
+        if (buttonIndex == 1) {
+            [self clearEntourageAndResetMap];
+        }
+    }
+}
+
+#pragma mark - Text Field Delegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    textField.backgroundColor = [TSColorPalette whiteColor];
+    
+    if ([textField.text length] + [string length] - range.length == 4) {
+        textField.text = [textField.text stringByAppendingString:string];
+        [self checkDisarmCode:textField];
+        return NO;
+    }
+    else if ([textField.text length] + [string length] - range.length > 4) {
+        [self checkDisarmCode:textField];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)checkDisarmCode:(UITextField *)textField {
+    
+    if (textField.text.length != 4) {
+        textField.text = @"";
+        textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
+        return;
+    }
+    
+    if ([textField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
+        [_cancelEntourageAlertView dismissWithClickedButtonIndex:1 animated:YES];
+    }
+    else {
+        textField.text = @"";
+        textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
     }
 }
 

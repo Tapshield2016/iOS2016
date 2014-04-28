@@ -44,6 +44,7 @@
     _url = url;
 
     if (!url || [url isKindOfClass:[NSNull class]]) {
+        _identifier = 0;
         return;
     }
     

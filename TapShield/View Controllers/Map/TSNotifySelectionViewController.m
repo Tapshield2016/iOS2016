@@ -9,8 +9,9 @@
 #import "TSNotifySelectionViewController.h"
 #import "TSAddMemberCell.h"
 #import "TSCircularControl.h"
+#import "TSMemberCollectionViewLayout.h"
 
-#define INSET 50
+
 
 static NSString * const kRecentSelections = @"kRecentSelections";
 
@@ -20,6 +21,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 @property (strong, nonatomic) UIAlertView *saveChangesAlertView;
 @property (assign, nonatomic) BOOL changedTime;
 @property (strong, nonatomic) TSCircularControl *slider;
+@property (strong, nonatomic) TSMemberCollectionViewLayout *collectionLayout;
 
 @end
 
@@ -30,12 +32,15 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _collectionLayout = [[TSMemberCollectionViewLayout alloc] init];
     _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 20.0, 0);
+    [_collectionView setCollectionViewLayout:_collectionLayout];
     
     _changedTime = NO;
     
-    NSSet *set = [TSVirtualEntourageManager unArchiveEntourageMembersPosted];
-    _savedContacts = [[NSMutableArray alloc] initWithArray:[set allObjects]];
+    NSSet *set = _homeViewController.entourageManager.entourageMembersPosted;
+    _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:[set allObjects]]];
     _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
     [self mergeRecentPicksWithCurrentMembers];
     
@@ -53,7 +58,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _timeAdjusted = _estimatedTimeInterval;
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
-    _timeAdjustLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:25.0];
+    _timeAdjustLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:30.0];
     _timeAdjustLabel.textAlignment = NSTextAlignmentCenter;
     _timeAdjustLabel.textColor = [UIColor whiteColor];
     
@@ -233,10 +238,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     int page = offset/cellHeight;
     offset -= cellHeight * page;
     
-    if (offset < 0) {
-        return;
-    }
-    
     NSArray *array = [_collectionView.visibleCells copy];
     for (UICollectionViewCell *cell in array) {
         NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
@@ -259,6 +260,8 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     float acceleratedAlpha = 1 - (ratio * 1.5);
     
     if (offset < 0) {
+        cell.alpha = 1.0;
+        cell.transform = CGAffineTransformMakeScale(1.0, 1.0);
         return;
     }
     
@@ -324,7 +327,11 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (IBAction)startEntourage:(id)sender {
     
-    [_homeViewController.entourageManager startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted];
+    UIWindow *window = [self showSyncingWindow];
+   
+    [_homeViewController.entourageManager startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
+        [self hideWindow:window];
+    }];
     
     [self dismissViewController];
 }
@@ -332,7 +339,11 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 - (void)doneEditingEntourage {
     
     if ([self changesWereMade]) {
-        _saveChangesAlertView = [[UIAlertView alloc] initWithTitle:@"Enter passcode to confirm changes" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        _saveChangesAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm Changes"
+                                                           message:@"Please enter passcode"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                                 otherButtonTitles:nil];
         _saveChangesAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
         UITextField *textField = [_saveChangesAlertView textFieldAtIndex:0];
         [textField setPlaceholder:@"1234"];
@@ -390,26 +401,53 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     if ([_entourageMembers containsObject:memberCell.member]) {
         if (!memberCell.button.selected) {
             [_entourageMembers removeObject:memberCell.member];
+            [self reorderSavedUsersMovingCell:memberCell];
         }
     }
     else {
         if (memberCell.button.selected) {
             [_entourageMembers addObject:memberCell.member];
+            [self reorderSavedUsersMovingCell:memberCell];
         }
     }
     
 }
 
+- (void)reorderSavedUsersMovingCell:(TSEntourageMemberCell *)cell {
+    NSIndexPath *from = [_collectionView indexPathForCell:cell];
+    
+    [self reorderSavedUsers];
+    
+    NSIndexPath *to = [NSIndexPath indexPathForItem:[_savedContacts indexOfObject:cell.member]+1 inSection:0];
+    
+    [_collectionView performBatchUpdates:^{
+        [_collectionView moveItemAtIndexPath:from toIndexPath:to];
+         } completion:^(BOOL finished) {
+             [_collectionView reloadData];
+         }];
+}
+
+- (void)reorderSavedUsers {
+    
+    [_savedContacts removeObjectsInArray:[_entourageMembers allObjects]];
+    _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:_savedContacts]];
+    [_savedContacts insertObjects:[self alphabeticalMembers:[_entourageMembers allObjects]] atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _entourageMembers.count)]];
+}
+
 - (void)archiveUsersPicked {
     
-    NSArray *array = _savedContacts;
-    if (_savedContacts.count > 11) {
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 11)];
-        array = [_savedContacts objectsAtIndexes:indexSet];
-    }
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:array];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kRecentSelections];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        NSArray *array = _savedContacts;
+        if (_savedContacts.count > 11) {
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 11)];
+            array = [_savedContacts objectsAtIndexes:indexSet];
+        }
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:array];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kRecentSelections];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    });
 }
 
 + (NSArray *)unarchiveRecentPicks {
@@ -431,13 +469,22 @@ static NSString * const kRecentSelections = @"kRecentSelections";
             }
         }
         
+        sortingMember.url = nil;
+        
         return YES;
     }];
     
+    
     NSArray *filtered = [recentPicks filteredArrayUsingPredicate:predicate];
+    filtered = [self alphabeticalMembers:filtered];
     [_savedContacts addObjectsFromArray:filtered];
 }
 
+- (NSArray *)alphabeticalMembers:(NSArray *)rawArray {
+    
+    NSSortDescriptor *sorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    return [rawArray sortedArrayUsingDescriptors:@[sorter]];
+}
 
 - (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member {
     
@@ -546,16 +593,14 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
     
+    [self blackNavigationBar];
     TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
-    
     [self addEntourageMember:member];
-    
+    [self reorderSavedUsers];
+    [_collectionView reloadData];
     [self archiveUsersPicked];
     
-    [self blackNavigationBar];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    [_collectionView reloadData];
     
     return NO;
 }
@@ -622,6 +667,61 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     if (_saveChangesAlertView) {
         [_saveChangesAlertView dismissWithClickedButtonIndex:-1 animated:YES];
     }
+}
+
+#pragma mark - Syncing Window
+
+- (UIWindow *)showSyncingWindow {
+    
+    CGRect frame = CGRectMake(0.0f, 0.0f, 260, 100);
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    window.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+    window.alpha = 0.0f;
+    
+    UIView *view = [[UIView alloc] initWithFrame:frame];
+    view.center = window.center;
+    view.layer.cornerRadius = 10;
+    view.layer.masksToBounds = YES;
+    view.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
+    toolbar.barStyle = UIBarStyleBlack;
+    [view addSubview:toolbar];
+    
+    UIActivityIndicatorView *indicatoryView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [indicatoryView startAnimating];
+    indicatoryView.center = CGPointMake(frame.size.width/2, frame.size.height*.75 - 5);
+    [view addSubview:indicatoryView];
+    
+    float inset = 10;
+    TSBaseLabel *windowMessage = [[TSBaseLabel alloc] initWithFrame:CGRectMake(inset, 0, frame.size.width - inset*2, frame.size.height/2)];
+    windowMessage.numberOfLines = 0;
+    windowMessage.backgroundColor = [UIColor clearColor];
+    windowMessage.text = @"Syncing entourage members with Javelin server";
+    windowMessage.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    windowMessage.textColor = [UIColor whiteColor];
+    windowMessage.textAlignment = NSTextAlignmentCenter;
+    
+    [view addSubview:windowMessage];
+    
+    [window addSubview:view];
+    [window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        window.alpha = 1.0f;
+        view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+    } completion:nil];
+    
+    return window;
+}
+
+- (void)hideWindow:(UIWindow *)window {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3f animations:^{
+            window.alpha = 0.0f;
+        } completion:nil];
+    });
 }
 
 @end

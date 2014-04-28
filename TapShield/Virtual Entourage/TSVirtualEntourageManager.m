@@ -38,16 +38,33 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 }
 
 
-- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta {
+- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion {
     
     _selectedETA = eta;
-    
-    [self findMembersToDelete:_entourageMembersPosted newMembers:members];
-    [self postEntourageMembers:members];
-    [self resetTimerWithTimeInterval:eta];
-    [_routeManager showOnlySelectedRoute];
     [_homeView entourageModeOn];
-    [self getAllPreviousMembersFromUserAndDeleteMissing];
+    [_routeManager showOnlySelectedRoute];
+    [self resetTimerWithTimeInterval:eta];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        
+        [self findMembersToDelete:_entourageMembersPosted newMembers:members];
+        
+        if (members.count) {
+            if (completion) {
+                _finishedPosting = completion;
+            }
+            
+            [self postEntourageMembers:members];
+        }
+        else {
+            if (completion) {
+                _finishedDeleting = completion;
+            }
+            
+            [self getAllPreviousMembersFromUserAndDeleteMissing];
+        }
+    });
 }
 
 - (void)stopEntourage {
@@ -160,6 +177,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 - (void)postEntourageMembers:(NSSet *)members {
     
+    int i = 1;
     for (TSJavelinAPIEntourageMember *member in members) {
         
         [[TSJavelinAPIClient sharedClient] addEntourageMember:member completion:^(id responseObject, NSError *error) {
@@ -169,7 +187,16 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
             else {
                 [self failedToPostMember:member error:error];
             }
+            
+            if (i == members.count) {
+                if (_finishedPosting) {
+                    _finishedPosting(YES);
+                    _finishedPosting = nil;
+                }
+                [self getAllPreviousMembersFromUserAndDeleteMissing];
+            }
         }];
+        i++;
     }
 }
 
@@ -191,15 +218,23 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
         [self findMembersToDelete:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted];
+        
+        if (_finishedDeleting) {
+            _finishedDeleting(YES);
+            _finishedDeleting = nil;
+        }
     }];
 }
 
 #pragma mark Archive Members
 
 - (void)archiveEntourageMembersPosted {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_entourageMembersPosted];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:TSVirtualEntourageManagerMembersPosted];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    });
 }
 
 + (NSMutableSet *)unArchiveEntourageMembersPosted {

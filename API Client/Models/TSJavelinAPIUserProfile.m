@@ -130,7 +130,9 @@
     }
     
     if (_addressDictionary) {
-        attributes[@"address"] = [TSJavelinAPIUserProfile stringFromAddressDictionary:_addressDictionary];
+        if ([TSJavelinAPIUserProfile stringFromAddressDictionary:_addressDictionary]) {
+            attributes[@"address"] = [TSJavelinAPIUserProfile stringFromAddressDictionary:_addressDictionary];
+        }
     }
 
     if (_hairColor) {
@@ -328,6 +330,10 @@
 + (NSString *)stringFromAddressDictionary:(NSDictionary *)addressDictionary {
     
     NSString *address;
+    
+    if ([addressDictionary isMemberOfClass:[NSNull class]]) {
+        return nil;
+    }
     
     NSString *street = [addressDictionary objectForKey:@"Street"];
     if (street) {

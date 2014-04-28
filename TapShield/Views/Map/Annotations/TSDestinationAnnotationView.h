@@ -8,6 +8,6 @@
 
 #import "TSBaseAnnotationView.h"
 
-@interface TSDestinationAnnotation : TSBaseAnnotationView
+@interface TSDestinationAnnotationView : TSBaseAnnotationView
 
 @end

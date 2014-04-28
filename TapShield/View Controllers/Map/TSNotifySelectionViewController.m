@@ -233,11 +233,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    float cellHeight = 107;
-    float offset = scrollView.contentOffset.y + INSET;
-    int page = offset/cellHeight;
-    offset -= cellHeight * page;
-    
     NSArray *array = [_collectionView.visibleCells copy];
     for (UICollectionViewCell *cell in array) {
         NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
@@ -575,6 +570,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
             [self setNavigationBarStyle:picker];
             picker.addressBook = addressBook;
             picker.topViewController.navigationItem.title = @"Contacts";
+            picker.navigationBar.topItem.prompt = @"Select an email or SMS capable phone number";
             picker.peoplePickerDelegate = self;
             picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
             [self presentViewController:picker animated:YES completion:nil];

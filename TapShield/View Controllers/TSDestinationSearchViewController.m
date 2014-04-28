@@ -237,6 +237,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
             ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
             picker.addressBook = addressBook;
             picker.topViewController.navigationItem.title = @"Contacts";
+            picker.navigationBar.topItem.prompt = @"Choose a saved address";
             picker.peoplePickerDelegate = self;
             picker.displayedProperties = @[@(kABPersonAddressProperty)];
             [self presentViewController:picker animated:YES completion:nil];

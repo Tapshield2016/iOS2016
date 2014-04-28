@@ -254,9 +254,10 @@
 
 - (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType {
     
+    MKDirectionsTransportType previousType = _destinationTransportType;
     _destinationTransportType = transportType;
     
-    if (_destinationMapItem == mapItem) {
+    if (_destinationMapItem == mapItem && previousType == transportType) {
         return;
     }
     
@@ -268,7 +269,8 @@
     
     _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
                                                                                 placeName:_destinationMapItem.name
-                                                                              description:_destinationMapItem.placemark.addressDictionary[@"Street"]];
+                                                                              description:_destinationMapItem.placemark.addressDictionary[@"Street"]
+                                                                               travelType:transportType];
     _destinationAnnotation.title = _destinationMapItem.name;
     
     // Ensure we have a title so callout will always come up

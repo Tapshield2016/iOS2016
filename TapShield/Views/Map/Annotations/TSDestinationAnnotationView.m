@@ -6,17 +6,28 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSDestinationAnnotation.h"
+#import "TSDestinationAnnotationView.h"
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
+#import "TSSelectedDestinationAnnotation.h"
 
-@implementation TSDestinationAnnotation
+@implementation TSDestinationAnnotationView
 
 - (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.image = [UIImage imageNamed:@"EndPoint"];
+        
+        self.image = [UIImage imageNamed:@"CarEndPoint"];
+        
+        if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
+            TSSelectedDestinationAnnotation *selectedAnnotation = (TSSelectedDestinationAnnotation *)annotation;
+            
+            if (selectedAnnotation.transportType == MKDirectionsTransportTypeWalking) {
+                self.image = [UIImage imageNamed:@"WalkEndPoint"];
+            }
+        }
+        
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
     }

@@ -222,6 +222,12 @@
 		C53A6651190E827300760656 /* Walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664D190E827300760656 /* Walk@2x.png */; };
 		C53A6652190E827300760656 /* Walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664D190E827300760656 /* Walk@2x.png */; };
 		C53A6653190E827300760656 /* Walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A664D190E827300760656 /* Walk@2x.png */; };
+		C53A6656190EF17100760656 /* CarEndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6654190EF17100760656 /* CarEndPoint@2x.png */; };
+		C53A6657190EF17100760656 /* CarEndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6654190EF17100760656 /* CarEndPoint@2x.png */; };
+		C53A6658190EF17100760656 /* CarEndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6654190EF17100760656 /* CarEndPoint@2x.png */; };
+		C53A6659190EF17100760656 /* WalkEndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6655190EF17100760656 /* WalkEndPoint@2x.png */; };
+		C53A665A190EF17100760656 /* WalkEndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6655190EF17100760656 /* WalkEndPoint@2x.png */; };
+		C53A665B190EF17100760656 /* WalkEndPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6655190EF17100760656 /* WalkEndPoint@2x.png */; };
 		C54CE5D318FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D418FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D518FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
@@ -1178,9 +1184,9 @@
 		C563570B18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */; };
 		C563570C18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */; };
 		C563570D18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */; };
-		C563571018ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */; };
-		C563571118ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */; };
-		C563571218ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */; };
+		C563571018ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotationView.m */; };
+		C563571118ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotationView.m */; };
+		C563571218ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotationView.m */; };
 		C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
 		C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
 		C5662BCB18DB88C000FD4F44 /* TSBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */; };
@@ -1701,6 +1707,8 @@
 		C53A6648190E803700760656 /* EndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EndPoint@2x.png"; sourceTree = "<group>"; };
 		C53A664C190E827300760656 /* Car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Car@2x.png"; sourceTree = "<group>"; };
 		C53A664D190E827300760656 /* Walk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Walk@2x.png"; sourceTree = "<group>"; };
+		C53A6654190EF17100760656 /* CarEndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CarEndPoint@2x.png"; sourceTree = "<group>"; };
+		C53A6655190EF17100760656 /* WalkEndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalkEndPoint@2x.png"; sourceTree = "<group>"; };
 		C54CE5D118FAE1240077350E /* TSYankManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSYankManager.h; sourceTree = "<group>"; };
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CE64418FB19990077350E /* help_menu_icon_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help_menu_icon_active.png; sourceTree = "<group>"; };
@@ -2031,8 +2039,8 @@
 		C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSOrganizationAnnotationView.m; path = Views/Map/Annotations/TSOrganizationAnnotationView.m; sourceTree = "<group>"; };
 		C563570918ED160800BAA5D7 /* TSUserAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUserAnnotationView.h; sourceTree = "<group>"; };
 		C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUserAnnotationView.m; sourceTree = "<group>"; };
-		C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDestinationAnnotation.h; path = Views/Map/Annotations/TSDestinationAnnotation.h; sourceTree = "<group>"; };
-		C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDestinationAnnotation.m; path = Views/Map/Annotations/TSDestinationAnnotation.m; sourceTree = "<group>"; };
+		C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDestinationAnnotationView.h; path = Views/Map/Annotations/TSDestinationAnnotationView.h; sourceTree = "<group>"; };
+		C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDestinationAnnotationView.m; path = Views/Map/Annotations/TSDestinationAnnotationView.m; sourceTree = "<group>"; };
 		C5662BC718DB88C000FD4F44 /* TSBaseLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseLabel.h; path = Views/Labels/TSBaseLabel.h; sourceTree = "<group>"; };
 		C5662BC818DB88C000FD4F44 /* TSBaseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseLabel.m; path = Views/Labels/TSBaseLabel.m; sourceTree = "<group>"; };
 		C5662BCC18DB8A3C00FD4F44 /* TSButtonLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSButtonLabel.h; sourceTree = "<group>"; };
@@ -2861,6 +2869,8 @@
 		C54CE70E18FB199A0077350E /* 06_Entourage_PickingRoute_view_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C53A6654190EF17100760656 /* CarEndPoint@2x.png */,
+				C53A6655190EF17100760656 /* WalkEndPoint@2x.png */,
 				C53A6648190E803700760656 /* EndPoint@2x.png */,
 				C53A664C190E827300760656 /* Car@2x.png */,
 				C53A664D190E827300760656 /* Walk@2x.png */,
@@ -3242,8 +3252,8 @@
 				C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */,
 				C563570918ED160800BAA5D7 /* TSUserAnnotationView.h */,
 				C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */,
-				C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotation.h */,
-				C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotation.m */,
+				C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotationView.h */,
+				C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotationView.m */,
 			);
 			name = "Annotation Views";
 			sourceTree = "<group>";
@@ -3730,6 +3740,7 @@
 				B53BBD0918980FDA006A27E0 /* Images.xcassets in Resources */,
 				C54CE7EB18FB199A0077350E /* settings_menu_icon_inactive@2x.png in Resources */,
 				C54CE94718FB199A0077350E /* tapshield_icon@2x.png in Resources */,
+				C53A6659190EF17100760656 /* WalkEndPoint@2x.png in Resources */,
 				C54CE7C718FB199A0077350E /* home_menu_icon_inactive@2x.png in Resources */,
 				C54CEC2E18FC77150077350E /* btn_yes_no_pressed@2x.png in Resources */,
 				C57C491C18BBDB7D00DFFBCE /* TapShield copy-Info.plist in Resources */,
@@ -3970,6 +3981,7 @@
 				C54CE93518FB199A0077350E /* pins_theft_icon@2x.png in Resources */,
 				C54CE9EF18FB199A0077350E /* image_deafult@2x.png in Resources */,
 				C54CEBCE18FC77150077350E /* splash_logo_small@2x.png in Resources */,
+				C53A6656190EF17100760656 /* CarEndPoint@2x.png in Resources */,
 				C54CE7F118FB199A0077350E /* side_menu_bg@2x.png in Resources */,
 				C54CEBB018FC77150077350E /* splash_bg.png in Resources */,
 				C54CE8F018FB199A0077350E /* pins_burglary_icon.png in Resources */,
@@ -4210,6 +4222,7 @@
 				C54CE93A18FB199A0077350E /* pins_vandalism_icon.png in Resources */,
 				C54CEB0518FB199A0077350E /* settings_male_icon@2x.png in Resources */,
 				C54CE8EF18FB199A0077350E /* pins_brokenbone_icon@2x.png in Resources */,
+				C53A665B190EF17100760656 /* WalkEndPoint@2x.png in Resources */,
 				C5372E0618B3126000D22682 /* DisarmIcon_KeyPad@2x.png in Resources */,
 				C54CEB3918FC76620077350E /* number_4.png in Resources */,
 				C54CE7C918FB199A0077350E /* home_menu_icon_inactive@2x.png in Resources */,
@@ -4343,6 +4356,7 @@
 				C54CE95B18FB199A0077350E /* Yank_icon@2x.png in Resources */,
 				C54CE8C818FB199A0077350E /* nav_bar_bg.png in Resources */,
 				C54CEC3618FC77150077350E /* logo_placeholder@2x.png in Resources */,
+				C53A6658190EF17100760656 /* CarEndPoint@2x.png in Resources */,
 				C54CE7BA18FB199A0077350E /* help_menu_icon_inactive.png in Resources */,
 				C54CE7B718FB199A0077350E /* help_menu_icon_active@2x.png in Resources */,
 				C54CE99118FB199A0077350E /* bubble_choking_icon@2x.png in Resources */,
@@ -4569,6 +4583,7 @@
 				C54CE93918FB199A0077350E /* pins_vandalism_icon.png in Resources */,
 				C54CEB0418FB199A0077350E /* settings_male_icon@2x.png in Resources */,
 				C54CE8EE18FB199A0077350E /* pins_brokenbone_icon@2x.png in Resources */,
+				C53A665A190EF17100760656 /* WalkEndPoint@2x.png in Resources */,
 				C57C48FC18BBDB1900DFFBCE /* CheckBox_Selected.png in Resources */,
 				C54CEB3818FC76620077350E /* number_4.png in Resources */,
 				C54CE7C818FB199A0077350E /* home_menu_icon_inactive@2x.png in Resources */,
@@ -4702,6 +4717,7 @@
 				C54CE95A18FB199A0077350E /* Yank_icon@2x.png in Resources */,
 				C54CE8C718FB199A0077350E /* nav_bar_bg.png in Resources */,
 				C54CEC3518FC77150077350E /* logo_placeholder@2x.png in Resources */,
+				C53A6657190EF17100760656 /* CarEndPoint@2x.png in Resources */,
 				C54CE7B918FB199A0077350E /* help_menu_icon_inactive.png in Resources */,
 				C54CE7B618FB199A0077350E /* help_menu_icon_active@2x.png in Resources */,
 				C54CE99018FB199A0077350E /* bubble_choking_icon@2x.png in Resources */,
@@ -4966,7 +4982,7 @@
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C5BBF30618F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
 				C5EAABFC19066018005EDD7B /* TSMedicalTableViewController.m in Sources */,
-				C563571018ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
+				C563571018ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				C5BBF30118F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
@@ -5039,7 +5055,7 @@
 				C5BBF30318F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C520C91518A974C100D1D2E9 /* TSLocationGeofenceTestView.m in Sources */,
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
-				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
+				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				C532E63618BBF1E900FC111A /* TSConstants.m in Sources */,
 				C5FD5EA818B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
@@ -5259,7 +5275,7 @@
 				C5662BDA18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C5BBF30718F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
 				C5EAABFD19066018005EDD7B /* TSMedicalTableViewController.m in Sources */,
-				C563571118ED1B4000BAA5D7 /* TSDestinationAnnotation.m in Sources */,
+				C563571118ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				C5BBF30218F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,

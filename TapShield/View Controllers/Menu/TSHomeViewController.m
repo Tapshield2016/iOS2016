@@ -17,7 +17,7 @@
 #import "TSRouteTimeAnnotationView.h"
 #import "TSOrganizationAnnotationView.h"
 #import "TSUserAnnotationView.h"
-#import "TSDestinationAnnotation.h"
+#import "TSDestinationAnnotationView.h"
 #import "TSPageViewController.h"
 #import "TSAlertDetailsTableViewController.h"
 #import "TSYankManager.h"
@@ -474,9 +474,9 @@
         ((TSOrganizationAnnotationView *)annotationView).label.text = ((TSAgencyAnnotation *)annotation).title;
     }
     else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
-        annotationView = (TSDestinationAnnotation *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
+        annotationView = (TSDestinationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
         if (!annotationView) {
-            annotationView = [[TSDestinationAnnotation alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
+            annotationView = [[TSDestinationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
         }
     }
     else if ([annotation isKindOfClass:[TSRouteTimeAnnotation class]]) {

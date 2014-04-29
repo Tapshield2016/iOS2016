@@ -10,4 +10,6 @@
 
 @interface TSDestinationAnnotationView : TSBaseAnnotationView
 
+- (void)displayTransportationType:(id<MKAnnotation>)annotation;
+
 @end

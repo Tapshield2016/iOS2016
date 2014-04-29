@@ -700,7 +700,9 @@ static dispatch_once_t onceToken;
 - (void)removeArchivedLoggedInUser {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+//    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
     [defaults synchronize];
 }
 

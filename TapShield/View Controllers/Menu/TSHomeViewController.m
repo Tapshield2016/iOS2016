@@ -475,6 +475,7 @@
     }
     else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
         annotationView = (TSDestinationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
+        [annotationView displayTransportationType:annotation];
         if (!annotationView) {
             annotationView = [[TSDestinationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
         }

@@ -7,6 +7,7 @@
 //
 
 #import "TSIntroPageViewController.h"
+#import "TSIntroSlideViewController.h"
 
 @interface TSIntroPageViewController ()
 
@@ -40,16 +41,7 @@
     _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, self.view.frame.size.height/14 * 13, self.view.frame.size.width/10 * 2, self.view.frame.size.height/14);
     [self.view addSubview:_skipButton];
     
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
-    
-    _welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSWelcomeViewController class])];
-    
-    _logInOrSignUpViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginOrSignUpViewController class])];
-    
-    _pageViewControllers = @[_welcomeViewController, _logInOrSignUpViewController];
-    
-    NSLog(@"%@", _welcomeViewController.smallLogoImageView);
+    _pageViewControllers = [self pages];
     
     [self setViewControllers:@[_welcomeViewController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -73,6 +65,26 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSArray *)pages {
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
+    
+    _welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSWelcomeViewController class])];
+    [mutableArray addObject:_welcomeViewController];
+    
+    for (int i = INTRO_PAGESTART; i <= INTRO_PAGECOUNT; i++) {
+        TSIntroSlideViewController *viewController = (TSIntroSlideViewController *)[storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSIntroSlideViewController class])];
+        viewController.pageNumber = i;
+        [mutableArray addObject:viewController];
+    }
+    
+    _logInOrSignUpViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginOrSignUpViewController class])];
+    [mutableArray addObject:_logInOrSignUpViewController];
+    
+    return mutableArray;
 }
 
 

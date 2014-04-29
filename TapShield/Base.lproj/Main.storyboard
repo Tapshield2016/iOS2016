@@ -1312,6 +1312,41 @@
             </objects>
             <point key="canvasLocation" x="-287" y="-637"/>
         </scene>
+        <!--Intro Slide View Controller-->
+        <scene sceneID="oFz-Ta-CLu">
+            <objects>
+                <viewController storyboardIdentifier="TSIntroSlideViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4pm-nB-azJ" customClass="TSIntroSlideViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BZK-jj-c08"/>
+                        <viewControllerLayoutGuide type="bottom" id="8zd-uc-lhS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UOh-2z-bTD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="slide_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="utb-YG-UXe">
+                                <rect key="frame" x="0.0" y="125" width="320" height="165"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JzL-wh-ftt" customClass="TSBaseLabel">
+                                <rect key="frame" x="20" y="359" width="280" height="110"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="utb-YG-UXe" id="2ft-Uo-tTU"/>
+                        <outlet property="label" destination="JzL-wh-ftt" id="5ZU-0h-ndd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BHH-qz-0CR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="118" y="-1375"/>
+        </scene>
         <!--Login Or Sign Up View Controller - TapShield-->
         <scene sceneID="UDG-nM-ZIw">
             <objects>
@@ -4589,6 +4624,7 @@ Last Updated: 12/12/13
         <image name="report_icon.png" width="30" height="18"/>
         <image name="settings_menu_icon_active.png" width="52" height="52"/>
         <image name="settings_signout.png" width="20" height="18"/>
+        <image name="slide_2.png" width="320" height="165"/>
         <image name="splash_logo_big.png" width="292" height="175"/>
         <image name="splash_logo_small.png" width="146" height="87"/>
         <image name="swipe_arrows_icon.png" width="16" height="15"/>

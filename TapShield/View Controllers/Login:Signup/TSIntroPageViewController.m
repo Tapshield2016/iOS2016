@@ -37,9 +37,10 @@
     
     _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_skipButton setTitle:@"Skip" forState:UIControlStateNormal];
+    [_skipButton addTarget:self action:@selector(skipSlides:) forControlEvents:UIControlEventTouchUpInside];
     _skipButton.titleLabel.font = [TSRalewayFont customFontFromStandardFont:[UIFont systemFontOfSize:18]];
-    _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, self.view.frame.size.height/14 * 13, self.view.frame.size.width/10 * 2, self.view.frame.size.height/14);
-    [self.view addSubview:_skipButton];
+    _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, [UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width/10 * 2, self.navigationController.navigationBar.frame.size.height);
+//    [self.view addSubview:_skipButton];
     
     _pageViewControllers = [self pages];
     
@@ -75,7 +76,7 @@
     _welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSWelcomeViewController class])];
     [mutableArray addObject:_welcomeViewController];
     
-    for (int i = INTRO_PAGESTART; i <= INTRO_PAGECOUNT; i++) {
+    for (int i = INTRO_PAGESTART; i <= INTRO_PAGEEND; i++) {
         TSIntroSlideViewController *viewController = (TSIntroSlideViewController *)[storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([TSIntroSlideViewController class])];
         viewController.pageNumber = i;
         [mutableArray addObject:viewController];
@@ -87,18 +88,19 @@
     return mutableArray;
 }
 
+- (IBAction)skipSlides:(id)sender {
+    
+    [self setViewControllers:@[_logInOrSignUpViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    [_skipButton setHidden:YES];
+}
+
 
 #pragma mark - Page View Delegate
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     if (completed) {
-        if ([[previousViewControllers lastObject] isEqual:_pageViewControllers[_pageViewControllers.count - 2]]) {
-            [_skipButton setHidden:YES];
-        }
-        else {
-            [_skipButton setHidden:NO];
-        }
+        [_skipButton setHidden:YES];
     }
 }
 
@@ -150,16 +152,8 @@
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
     
-    [self setupPageControlAppearance];
     
     return 0;
-}
-
-
-- (void)setupPageControlAppearance {
-    
-//    UIPageControl * pageControl = [[self.view.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(class = %@)", [UIPageControl class]]] lastObject];
-    
 }
 
 @end

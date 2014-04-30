@@ -8,7 +8,7 @@
 
 #import "TSBaseViewController.h"
 
-#define INTRO_PAGECOUNT 5
+#define INTRO_PAGEEND 6
 #define INTRO_PAGESTART 2
 
 @interface TSIntroSlideViewController : TSBaseViewController

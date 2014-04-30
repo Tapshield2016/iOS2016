@@ -16,6 +16,7 @@
 #import "TSYankManager.h"
 #import <TestFlightSDK/TestFlight.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import <AFNetworking/AFNetworkReachabilityManager.h>
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -47,6 +48,32 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIProductionBaseURL];
     NSString *remoteHostName = @"api.tapshield.com";
 #endif
+    
+    
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"%@", AFStringFromNetworkReachabilityStatus(status));
+        
+        switch (status) {
+                
+            case AFNetworkReachabilityStatusNotReachable:
+                
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                
+                break;
+            case AFNetworkReachabilityStatusUnknown:
+                
+                break;
+            default:
+                
+                break;
+        }
+    }];
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
     
     [TSSocialAccountsManager initializeShareSocialAccountsManager];
     [TSYankManager sharedYankManager];

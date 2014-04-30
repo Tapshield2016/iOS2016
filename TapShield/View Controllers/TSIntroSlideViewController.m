@@ -18,6 +18,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self pageNumber:_pageNumber];
 }
 
 - (void)didReceiveMemoryWarning
@@ -28,8 +30,6 @@
 
 - (void)setPageNumber:(NSUInteger)pageNumber {
     _pageNumber = pageNumber;
-    
-    [self pageNumber:pageNumber];
 }
 
 - (void)pageNumber:(int)page {

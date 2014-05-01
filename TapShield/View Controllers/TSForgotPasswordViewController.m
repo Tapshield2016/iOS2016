@@ -90,4 +90,26 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
+- (IBAction)sendPasswordReset:(id)sender {
+    
+    if (self.emailTextField.text) {
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPasswordResetEmail:[self.emailTextField.text lowercaseString] completion:^(BOOL sent) {
+            
+            NSString *message;
+            if (sent) {
+                message = @"Reset email sent to:";
+            }
+            else {
+                message = @"Failed sending reset email to:";
+            }
+            
+            UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:message
+                                                                     message:self.emailTextField.text
+                                                                    delegate:nil
+                                                           cancelButtonTitle:@"OK"
+                                                           otherButtonTitles:nil];
+            [emailSentAlert show];
+        }];
+    }
+}
 @end

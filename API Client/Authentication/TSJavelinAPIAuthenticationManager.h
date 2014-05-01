@@ -69,7 +69,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserA
 - (NSString *)loggedInUserTokenAuthorizationHeader;
 
 - (void)retrieveAPITokenForLoggedInUser:(void (^)(NSString *token))completion;
-- (void)sendPasswordResetEmail:(NSString *)emailAddress;
+- (void)sendPasswordResetEmail:(NSString *)emailAddress completion:(void(^)(BOOL sent))completion;
 
 // Push notification methods
 - (void)archiveLatestAPNSDeviceToken:(NSData *)deviceToken;

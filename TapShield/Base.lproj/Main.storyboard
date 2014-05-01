@@ -4644,6 +4644,9 @@ Last Updated: 12/12/13
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="highlighted" backgroundImage="btn_login_pressed.png"/>
+                                        <connections>
+                                            <action selector="sendPasswordReset:" destination="Wl2-AH-zte" eventType="touchUpInside" id="y6S-1a-h8g"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

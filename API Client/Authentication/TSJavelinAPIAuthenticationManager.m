@@ -453,7 +453,7 @@ static dispatch_once_t onceToken;
 }
 
 
-- (void)sendPasswordResetEmail:(NSString *)emailAddress {
+- (void)sendPasswordResetEmail:(NSString *)emailAddress completion:(void(^)(BOOL sent))completion {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:self.baseURL];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     
@@ -478,12 +478,24 @@ static dispatch_once_t onceToken;
         parameters:@{ @"email": emailAddress }
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSLog(@"Reset sent: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+               
+               if (completion) {
+                   completion(YES);
+               }
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error during password reset POST: %@", error);
+             
+             if (completion) {
+                 completion(NO);
+             }
          }];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error during password reset GET: %@", error);
+        
+        if (completion) {
+            completion(NO);
+        }
     }];
 
 }

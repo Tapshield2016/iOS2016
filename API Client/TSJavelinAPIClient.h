@@ -83,7 +83,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (NSString *)loggedInUserTokenAuthorizationHeader;
 
 - (void)retrieveAPITokenForLoggedInUser:(void (^)(NSString *token))completion;
-- (void)sendPasswordResetEmail:(NSString *)emailAddress;
+- (void)sendPasswordResetEmail:(NSString *)emailAddress completion:(void(^)(BOOL sent))completion;
 
 - (void)archiveLatestAPNSDeviceToken:(NSData *)deviceToken;
 - (NSData *)retrieveLastArchivedAPNSDeviceToken;

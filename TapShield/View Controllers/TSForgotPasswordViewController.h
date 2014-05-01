@@ -16,4 +16,6 @@
 
 @property (strong, nonatomic) NSString *email;
 
+- (IBAction)sendPasswordReset:(id)sender;
+
 @end

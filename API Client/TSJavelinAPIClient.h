@@ -124,7 +124,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 // Alert actions
 // Valid alert types are 'C' (Chat), 'E' (Emergency), and 'T' (Timer)
-- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL success))completion;
+- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL sent, BOOL inside))completion;
 - (void)findActiveAlertForLoggedinUser:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 - (void)cancelAlert;
 - (void)disarmAlert;

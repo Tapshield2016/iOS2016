@@ -151,8 +151,8 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
     
     [self updateAlertInfoLabel:kAlertSending];
-    [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL success) {
-        if (success) {
+    [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
+        if (sent) {
             [self updateAlertInfoLabel:kAlertSent];
             [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
             [_pageViewController.homeViewController mapAlertModeToggle];
@@ -161,9 +161,15 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
             
         }
         
-        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.launchCallToDispatcherOnAlert) {
-            [self performSelectorOnMainThread:@selector(callDispatcher:) withObject:nil waitUntilDone:NO];
+        if (inside) {
+            if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.launchCallToDispatcherOnAlert) {
+                [self performSelectorOnMainThread:@selector(callDispatcher:) withObject:nil waitUntilDone:NO];
+            }
         }
+        else {
+#warning Call 911
+        }
+        
     }];
 }
 

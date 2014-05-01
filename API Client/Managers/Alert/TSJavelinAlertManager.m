@@ -102,6 +102,10 @@ static dispatch_once_t onceToken;
     if (!type || [type isEqualToString:@""]) {
         type = @"E";
     }
+    
+    if (![TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+        return;
+    }
 
     _activeAlert = alert;
     
@@ -121,7 +125,7 @@ static dispatch_once_t onceToken;
         else {
             NSLog(@"Out of bounds or no agency");
             if (completion) {
-                completion(NO);
+                completion(NO, NO);
             }
             return;
         }
@@ -138,7 +142,7 @@ static dispatch_once_t onceToken;
         if (getQueueURLResponse.error != nil) {
             NSLog(@"Error: %@", getQueueURLResponse.error);
             if (completion) {
-                completion(NO);
+                completion(NO, YES);
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -153,14 +157,14 @@ static dispatch_once_t onceToken;
         if (sendMessageResponse.error != nil) {
             NSLog(@"Error: %@", sendMessageResponse.error);
             if (completion) {
-                completion(NO);
+                completion(NO, YES);
             }
         }
         else {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
             
             if (completion) {
-                completion(YES);
+                completion(YES, YES);
                 [self scheduleFindActiveAlertTimer];
             }
             // Send user profile using API client method

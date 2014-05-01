@@ -11,6 +11,9 @@
 #import "TSHomeViewController.h"
 #import "MKMapItem+EncodeDecode.h"
 
+#define WALKING_RADIUS 50
+#define DRIVING_RADIUS 200
+
 static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
 
 NSString * const TSVirtualEntourageManagerTimerDidStart = @"TSVirtualEntourageManagerTimerDidStart";
@@ -37,13 +40,70 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
     return self;
 }
 
+- (void)setEndRegion:(CLCircularRegion *)endRegion {
+    
+    [[TSLocationController sharedLocationController] stopMonitoringForRegion:_endRegion];
+    
+    _endRegion = endRegion;
+    
+    [[TSLocationController sharedLocationController] startMonitoringForRegion:endRegion];
+}
 
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion {
     
     _selectedETA = eta;
     [_homeView entourageModeOn];
     [_routeManager showOnlySelectedRoute];
-    [self resetTimerWithTimeInterval:eta];
+    
+    CLCircularRegion *region = [self regionForEndPoint];
+    _endRegion = region;
+    
+    __weak typeof(self) weakSelf = self;
+    [self addOrRemoveMembers:members completion:^(BOOL finished) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf resetTimerWithTimeInterval:eta];
+            
+            [[TSLocationController sharedLocationController] startMonitoringForRegion:region];
+            
+            if (completion) {
+                completion(finished);
+            }
+        }
+    }];
+}
+
+- (CLCircularRegion *)regionForEndPoint {
+    
+    float radius;
+    if (_routeManager.destinationTransportType == MKDirectionsTransportTypeWalking) {
+        radius = WALKING_RADIUS;
+    }
+    else {
+        radius = DRIVING_RADIUS;
+    }
+    
+    MKMapItem *destination = _routeManager.destinationMapItem;
+    return [[CLCircularRegion alloc] initWithCenter:destination.placemark.location.coordinate
+                                             radius:radius
+                                         identifier:destination.name];
+}
+
+- (void)checkRegion:(CLRegion *)region {
+    
+    if (region.identifier == _endRegion.identifier) {
+        
+        [self arrivedAtDestination];
+    }
+}
+
+- (void)arrivedAtDestination {
+    
+    [self stopEntourage];
+#pragma mark Notify Members
+}
+
+- (void)addOrRemoveMembers:(NSSet *)members completion:(TSVirtualEntourageManagerPostCompletion)completion {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
                                              (unsigned long)NULL), ^(void) {
@@ -65,6 +125,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
             [self getAllPreviousMembersFromUserAndDeleteMissing];
         }
     });
+    
 }
 
 - (void)stopEntourage {

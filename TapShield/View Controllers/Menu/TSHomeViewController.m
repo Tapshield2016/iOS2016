@@ -376,6 +376,13 @@
     [_mapView resetAnimatedOverlayAt:location];
 }
 
+- (void)didEnterRegion:(CLRegion *)region {
+    
+    [_entourageManager checkRegion:region];
+}
+
+#pragma mark - User Callout
+
 - (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
     
     _mapView.lastReverseGeocodeLocation = location;

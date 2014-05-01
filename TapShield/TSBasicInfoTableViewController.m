@@ -91,16 +91,6 @@
     return 4;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    
-    if (indexPath.row == 3) {
-        
-    }
-}
-
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     tableView.separatorColor = [TSColorPalette cellSeparatorColor];

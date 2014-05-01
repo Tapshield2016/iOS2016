@@ -1182,6 +1182,9 @@
 		C55568E31910082000685FB0 /* TSIntroSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E21910082000685FB0 /* TSIntroSlideViewController.m */; };
 		C55568E41910082000685FB0 /* TSIntroSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E21910082000685FB0 /* TSIntroSlideViewController.m */; };
 		C55568E51910082000685FB0 /* TSIntroSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E21910082000685FB0 /* TSIntroSlideViewController.m */; };
+		C55568E81911809300685FB0 /* TSForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */; };
+		C55568E91911809300685FB0 /* TSForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */; };
+		C55568EA1911809300685FB0 /* TSForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */; };
 		C55644F218DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
 		C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
 		C55644F418DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */; };
@@ -2069,6 +2072,8 @@
 		C55568BC1910066B00685FB0 /* welcome_screens_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome_screens_bg@2x.png"; sourceTree = "<group>"; };
 		C55568E11910082000685FB0 /* TSIntroSlideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSIntroSlideViewController.h; path = "View Controllers/TSIntroSlideViewController.h"; sourceTree = "<group>"; };
 		C55568E21910082000685FB0 /* TSIntroSlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSIntroSlideViewController.m; path = "View Controllers/TSIntroSlideViewController.m"; sourceTree = "<group>"; };
+		C55568E61911809300685FB0 /* TSForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSForgotPasswordViewController.h; path = "View Controllers/TSForgotPasswordViewController.h"; sourceTree = "<group>"; };
+		C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSForgotPasswordViewController.m; path = "View Controllers/TSForgotPasswordViewController.m"; sourceTree = "<group>"; };
 		C55644F018DF770D00D29B0D /* TSGradientSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGradientSwipeViewController.h; sourceTree = "<group>"; };
 		C55644F118DF770D00D29B0D /* TSGradientSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGradientSwipeViewController.m; sourceTree = "<group>"; };
 		C55644F518E2048000D29B0D /* TSRegistrationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationButton.h; path = Views/Buttons/TSRegistrationButton.h; sourceTree = "<group>"; };
@@ -2646,6 +2651,8 @@
 				B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */,
 				C5372DA218AEC99900D22682 /* TSLoginViewController.h */,
 				C5372DA318AEC99900D22682 /* TSLoginViewController.m */,
+				C55568E61911809300685FB0 /* TSForgotPasswordViewController.h */,
+				C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */,
 				C585F18E18CF7E73009EEF16 /* TSIntroPageViewController.h */,
 				C585F18F18CF7E73009EEF16 /* TSIntroPageViewController.m */,
 				C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */,
@@ -5098,6 +5105,7 @@
 				C5BBF30118F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
+				C55568E81911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C5B5635018E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
@@ -5269,6 +5277,7 @@
 				C57C48B218BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
 				C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
 				C532E64B18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
+				C55568EA1911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
 				C56356ED18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
 				C56B3D6818FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
@@ -5393,6 +5402,7 @@
 				C5BBF30218F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
+				C55568E91911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
 				C532E63B18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5B5635118E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5662BF418DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "TSLoginViewController.h"
+#import "TSForgotPasswordViewController.h"
 
 @interface TSLoginViewController ()
 
@@ -28,19 +29,64 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    CGRect forgotFrame = CGRectZero;
+    CGRect noAccountframe = CGRectZero;
+    
+    _forgotPasswordButton = [[TSBaseButton alloc] initWithFrame:forgotFrame fontSize:17];
+    [_forgotPasswordButton addTarget:self action:@selector(forgotPassword:) forControlEvents:UIControlEventTouchUpInside];
+    [_forgotPasswordButton setTitle:@"Forgot password?" forState:UIControlStateNormal];
+    [_forgotPasswordButton sizeToFit];
+    
+    _noAccountButton = [[TSBaseButton alloc] initWithFrame:noAccountframe fontSize:17];
+    [_noAccountButton addTarget:self action:@selector(backToSignUp:) forControlEvents:UIControlEventTouchUpInside];
+    [_noAccountButton setTitle:@"No account?" forState:UIControlStateNormal];
+    [_noAccountButton sizeToFit];
+    
+    forgotFrame = _forgotPasswordButton.frame;
+    forgotFrame.origin.y = [UIScreen mainScreen].bounds.size.height - 1.25*forgotFrame.size.height;
+    forgotFrame.origin.x = _scrollView.frame.size.width - forgotFrame.size.width - 20;
+    _forgotPasswordButton.frame = forgotFrame;
+    
+    noAccountframe = _noAccountButton.frame;
+    noAccountframe.origin.y = forgotFrame.origin.y;
+    noAccountframe.origin.x = 20;
+    _noAccountButton.frame = noAccountframe;
+    
+    [_scrollView addSubview:_forgotPasswordButton];
+    [_scrollView addSubview:_noAccountButton];
+    _scrollView.contentSize = [UIScreen mainScreen].bounds.size;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    //[_emailTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)backToSignUp:(id)sender {
+    
+    [self dismissViewControllerAnimated:NO completion:nil];
+    //    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)forgotPassword:(id)sender {
+    
+    TSForgotPasswordViewController *viewcontroller = (TSForgotPasswordViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSForgotPasswordViewController class])];
+    [self.navigationController pushViewController:viewcontroller animated:YES];
 }
 
 - (void)shakeButton {
@@ -206,10 +252,4 @@
     [self logInFailedWithMessage:message];
 }
 
-
-- (IBAction)backToSignUp:(id)sender {
-    
-    [self dismissViewControllerAnimated:NO completion:nil];
-//    [self.navigationController popViewControllerAnimated:YES];
-}
 @end

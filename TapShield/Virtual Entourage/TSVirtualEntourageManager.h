@@ -21,6 +21,7 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion;
 - (void)stopEntourage;
 - (void)recalculateEntourageTimerETA;
+- (void)checkRegion:(CLRegion *)region;
 
 + (NSMutableSet *)unArchiveEntourageMembersPosted;
 
@@ -31,6 +32,8 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 @property (strong, nonatomic) NSTimer *endTimer;
 
 @property (nonatomic, assign) NSTimeInterval selectedETA;
+
+@property (nonatomic, strong) CLCircularRegion *endRegion;
 
 @property (readonly) BOOL isEnabled;
 

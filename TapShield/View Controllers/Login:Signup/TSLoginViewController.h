@@ -12,11 +12,17 @@
 #import "TSJavelinAPIAuthenticationResult.h"
 
 @interface TSLoginViewController : TSBaseViewController <UITextFieldDelegate, TSJavelinAuthenticationManagerDelegate>
+
+@property (strong, nonatomic) IBOutlet TSBaseButton *noAccountButton;
+@property (strong, nonatomic) IBOutlet TSBaseButton *forgotPasswordButton;
+
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+
 - (IBAction)backToSignUp:(id)sender;
 
 @end

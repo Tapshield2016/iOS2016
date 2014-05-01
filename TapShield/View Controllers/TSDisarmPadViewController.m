@@ -22,14 +22,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    
-//    self.translucentBackground = YES;
-//    CGRect frame = self.view.frame;
-//    frame.origin.y += 45 + [UIApplication sharedApplication].statusBarFrame.size.height;
-//    frame.origin.x -= frame.size.width;
-//    frame.size.width += frame.size.width;
-//    self.toolbar.frame = frame;
-    
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     _codeCircleArray = @[_codeCircle1, _codeCircle2, _codeCircle3, _codeCircle4];

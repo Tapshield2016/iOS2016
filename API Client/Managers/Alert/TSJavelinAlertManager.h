@@ -18,7 +18,7 @@ extern NSString * const kTSJavelinAlertManagerAwaitingDisarm;
 
 @class TSJavelinAPIAlert;
 
-typedef void (^TSJavelinAlertManagerAlertQueuedBlock)(BOOL success);
+typedef void (^TSJavelinAlertManagerAlertQueuedBlock)(BOOL sent, BOOL inside);
 typedef void (^TSJavelinAPIAlertManagerLocationReceived)(CLLocation *location);
 
 @interface TSJavelinAlertManager : NSObject

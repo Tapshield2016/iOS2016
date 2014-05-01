@@ -37,6 +37,19 @@ static dispatch_once_t predicate;
     return self;
 }
 
+#pragma mark - Region Methods
+
+- (void)startMonitoringForRegion:(CLRegion *)region {
+    
+    [_locationManager startMonitoringForRegion:region];
+}
+
+- (void)stopMonitoringForRegion:(CLRegion *)region {
+    
+    [_locationManager stopMonitoringForRegion:region];
+}
+
+
 #pragma mark - Location Methods
 
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion {

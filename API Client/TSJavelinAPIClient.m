@@ -186,23 +186,29 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Alert Methods
 
-- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL success))completion {
+- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL sent, BOOL inside))completion {
     _isStillActiveAlert = YES;
     TSJavelinAPIAlert *alert = [[TSJavelinAPIAlert alloc] init];
     alert.agencyUser = [[TSJavelinAPIAuthenticationManager sharedManager] loggedInUser];
 
     if (!alert.agencyUser) {
-        completion(NO);
+        completion(NO, NO);
         return;
     }
     
-    [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type location:location completion:^(BOOL success) {
-        if (success) {
-            NSLog(@"Success!");
-            completion(success);
+    [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type location:location completion:^(BOOL sent, BOOL inside) {
+        
+        if (!sent && inside) {
+            // Delay execution of my block for 5 seconds.
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type location:location completion:completion];
+            });
         }
         else {
-            completion(NO);
+            if (completion) {
+                completion(sent, inside);
+            }
         }
     }];
 }

@@ -14,4 +14,6 @@
 
 @interface TSBaseButton : UIButton
 
+- (id)initWithFrame:(CGRect)frame fontSize:(float)fontSize;
+
 @end

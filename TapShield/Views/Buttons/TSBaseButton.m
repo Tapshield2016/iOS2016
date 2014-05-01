@@ -10,13 +10,15 @@
 
 @implementation TSBaseButton
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame fontSize:(float)fontSize
 {
-    self = [super initWithFrame:frame];
+    self = [TSBaseButton buttonWithType:UIButtonTypeCustom];
     if (self) {
         // Initialization code
-        
-        self.titleLabel.font = [TSRalewayFont customFontFromStandardFont:self.titleLabel.font];
+        self.frame = frame;
+        self.titleLabel.font = [TSRalewayFont customFontFromStandardFont:[UIFont systemFontOfSize:fontSize]];
+        self.backgroundColor = [UIColor clearColor];
+        self.titleLabel.textColor = [UIColor whiteColor];
     }
     return self;
 }

@@ -4618,6 +4618,9 @@ Last Updated: 12/12/13
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Wl2-AH-zte" id="YhH-OI-NGf"/>
+                                                </connections>
                                             </textField>
                                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_input_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="4ZS-oH-Bl8">
                                                 <rect key="frame" x="7" y="0.0" width="25" height="40"/>
@@ -4666,6 +4669,10 @@ Last Updated: 12/12/13
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Log In" id="S6f-aQ-A7H"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="6Lj-An-aDb" id="tFx-hI-ptZ"/>
+                        <outlet property="scrollView" destination="uB8-I8-7yJ" id="14R-J5-Lpc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="09a-9p-SJg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

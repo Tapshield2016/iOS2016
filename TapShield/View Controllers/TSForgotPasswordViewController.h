@@ -7,7 +7,13 @@
 //
 
 #import "TSNavigationViewController.h"
+#import "TSLoginTextField.h"
 
-@interface TSForgotPasswordViewController : TSNavigationViewController
+@interface TSForgotPasswordViewController : TSNavigationViewController <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet TSLoginTextField *emailTextField;
+
+@property (strong, nonatomic) NSString *email;
 
 @end

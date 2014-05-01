@@ -29,33 +29,7 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    
-    CGRect forgotFrame = CGRectZero;
-    CGRect noAccountframe = CGRectZero;
-    
-    _forgotPasswordButton = [[TSBaseButton alloc] initWithFrame:forgotFrame fontSize:17];
-    [_forgotPasswordButton addTarget:self action:@selector(forgotPassword:) forControlEvents:UIControlEventTouchUpInside];
-    [_forgotPasswordButton setTitle:@"Forgot password?" forState:UIControlStateNormal];
-    [_forgotPasswordButton sizeToFit];
-    
-    _noAccountButton = [[TSBaseButton alloc] initWithFrame:noAccountframe fontSize:17];
-    [_noAccountButton addTarget:self action:@selector(backToSignUp:) forControlEvents:UIControlEventTouchUpInside];
-    [_noAccountButton setTitle:@"No account?" forState:UIControlStateNormal];
-    [_noAccountButton sizeToFit];
-    
-    forgotFrame = _forgotPasswordButton.frame;
-    forgotFrame.origin.y = [UIScreen mainScreen].bounds.size.height - 1.25*forgotFrame.size.height;
-    forgotFrame.origin.x = _scrollView.frame.size.width - forgotFrame.size.width - 20;
-    _forgotPasswordButton.frame = forgotFrame;
-    
-    noAccountframe = _noAccountButton.frame;
-    noAccountframe.origin.y = forgotFrame.origin.y;
-    noAccountframe.origin.x = 20;
-    _noAccountButton.frame = noAccountframe;
-    
-    [_scrollView addSubview:_forgotPasswordButton];
-    [_scrollView addSubview:_noAccountButton];
-    _scrollView.contentSize = [UIScreen mainScreen].bounds.size;
+    [self addBottomButtons];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,15 +51,47 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)addBottomButtons {
+    
+    _forgotPasswordButton = [self buttonWithTitle:@"Forgot password?" selector:@selector(forgotPassword:)];
+    _noAccountButton = [self buttonWithTitle:@"No account?" selector:@selector(backToSignUp:)];
+    
+    CGRect forgotFrame = _forgotPasswordButton.frame;
+    forgotFrame.origin.x = _scrollView.frame.size.width - forgotFrame.size.width - 20;
+    _forgotPasswordButton.frame = forgotFrame;
+    
+    CGRect noAccountframe = _noAccountButton.frame;
+    noAccountframe.origin.x = 20;
+    _noAccountButton.frame = noAccountframe;
+    
+    [_scrollView addSubview:_forgotPasswordButton];
+    [_scrollView addSubview:_noAccountButton];
+    _scrollView.contentSize = [UIScreen mainScreen].bounds.size;
+}
+
+- (TSBaseButton *)buttonWithTitle:(NSString *)name selector:(SEL)selector {
+    
+    TSBaseButton *button = [[TSBaseButton alloc] initWithFrame:CGRectZero fontSize:17];
+    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:name forState:UIControlStateNormal];
+    [button sizeToFit];
+    
+    CGRect frame = button.frame;
+    frame.origin.y = [UIScreen mainScreen].bounds.size.height - 1.25*frame.size.height;
+    button.frame = frame;
+    
+    return button;
+}
+
 - (IBAction)backToSignUp:(id)sender {
     
     [self dismissViewControllerAnimated:NO completion:nil];
-    //    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)forgotPassword:(id)sender {
     
     TSForgotPasswordViewController *viewcontroller = (TSForgotPasswordViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSForgotPasswordViewController class])];
+    viewcontroller.email = _emailTextField.text;
     [self.navigationController pushViewController:viewcontroller animated:YES];
 }
 

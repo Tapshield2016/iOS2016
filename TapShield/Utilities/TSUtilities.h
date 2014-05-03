@@ -24,6 +24,8 @@
 
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
 
++ (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem;
+
 //distance
 + (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
 + (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;

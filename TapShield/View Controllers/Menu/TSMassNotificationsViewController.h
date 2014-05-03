@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "TSNavigationViewController.h"
 
-@interface TSMassNotificationsViewController : TSNavigationViewController
+@interface TSMassNotificationsViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

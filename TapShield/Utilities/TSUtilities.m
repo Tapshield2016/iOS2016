@@ -222,6 +222,31 @@
     return returnPoint;
 }
 
++ (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem {
+    
+    NSArray *formattedAddressLines = mapItem.placemark.addressDictionary[@"FormattedAddressLines"];
+    NSString *address;
+    
+    for (NSString *string in formattedAddressLines) {
+        
+        if ([string isEqualToString:mapItem.name]) {
+            continue;
+        }
+        
+        if (!address) {
+            address = string;
+            continue;
+        }
+        
+        if ([string isEqualToString:mapItem.placemark.country]) {
+            continue;
+        }
+        
+        address = [NSString stringWithFormat:@"%@ %@", address, string];
+    }
+    
+    return address;
+}
 
 
 @end

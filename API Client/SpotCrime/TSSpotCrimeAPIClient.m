@@ -17,7 +17,7 @@ static NSString * const TSSpotCrimeAPIKey = @"2be4edd6ebd10379d1a1eb660074772665
 static TSSpotCrimeAPIClient *_sharedClient = nil;
 static dispatch_once_t onceToken;
 
-+ (instancetype)initializeSharedClient {
++ (instancetype)sharedClient {
     
     if (!_sharedClient) {
         dispatch_once(&onceToken, ^{
@@ -41,16 +41,6 @@ static dispatch_once_t onceToken;
     
     return _sharedClient;
 }
-
-+ (instancetype)sharedClient {
-    if (_sharedClient == nil) {
-        [NSException raise:@"Shared Client Not Initialized"
-                    format:@"Before calling [TSSpotCrimeAPIClient sharedClient] you must first initialize the shared client"];
-    }
-    
-    return _sharedClient;
-}
-
 
 
 - (void)getSpotCrimeAtLocation:(CLLocation *)currentLocation radiusMiles:(float)radius since:(NSDate *)date maxReturned:(int)maxNumber sortBy:(SpotCrimeSorting)sorting order:(SpotCrimeOrder)order type:(SpotCrimeTypes)type completion:(void (^)(NSArray *crimes))completion {

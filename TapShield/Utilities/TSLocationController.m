@@ -49,6 +49,18 @@ static dispatch_once_t predicate;
     [_locationManager stopMonitoringForRegion:region];
 }
 
+- (void)stopMonitoringAllRegions {
+    
+    for (CLRegion *region in _locationManager.monitoredRegions) {
+        [_locationManager stopMonitoringForRegion:region];
+    }
+}
+
+- (void)requestStateForRegion:(CLRegion *)region {
+    
+    [_locationManager requestStateForRegion:region];
+}
+
 
 #pragma mark - Location Methods
 
@@ -143,7 +155,7 @@ static dispatch_once_t predicate;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    NSLog(@"didEnterRegion %@", region.description);
+    NSLog(@"didEnterRegion %@ - %@", region.identifier, region.description);
     
     if ([_delegate respondsToSelector:@selector(didEnterRegion:)]) {
         [_delegate didEnterRegion:region];
@@ -154,6 +166,10 @@ static dispatch_once_t predicate;
     if ([_delegate respondsToSelector:@selector(didExitRegion:)]) {
         [_delegate didExitRegion:region];
     }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
+    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {

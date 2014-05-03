@@ -45,6 +45,8 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 
 - (void)startMonitoringForRegion:(CLRegion *)region;
 - (void)stopMonitoringForRegion:(CLRegion *)region;
+- (void)stopMonitoringAllRegions;
+- (void)requestStateForRegion:(CLRegion *)region;
 
 - (void)stopLocationUpdates;
 

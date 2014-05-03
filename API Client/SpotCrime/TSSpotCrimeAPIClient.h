@@ -40,6 +40,10 @@ typedef enum {
 
 @interface TSSpotCrimeAPIClient : AFHTTPRequestOperationManager
 
++ (instancetype)sharedClient;
+
+- (void)getSpotCrimeAtLocation:(CLLocation *)currentLocation radiusMiles:(float)radius since:(NSDate *)date maxReturned:(int)maxNumber sortBy:(SpotCrimeSorting)sorting order:(SpotCrimeOrder)order type:(SpotCrimeTypes)type completion:(void (^)(NSArray *crimes))completion;
+
 @property (nonatomic, strong) NSString *baseAuthURL;
 
 @end

@@ -111,6 +111,11 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     } completion:nil];
 }
 
+- (void)endCall {
+    
+    [_voipController.twilioConnection disconnect];
+}
+
 #pragma mark - Alert Methods
 
 - (void)scheduleSendEmergencyTimer {
@@ -144,7 +149,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (void)sendEmergency {
     
-    [((TSPageViewController *)_pageViewController).homeViewController clearEntourageAndResetMap];
+    [((TSPageViewController *)_pageViewController).homeViewController.entourageManager failedToArriveAtDestination];
     
     [_sendEmergencyTimer invalidate];
     

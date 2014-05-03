@@ -14,15 +14,6 @@
 
 @implementation TSPhoneVerificationViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,6 +30,8 @@
     
     _phoneNumberTextField.text = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumber;
     [self sendVerificationCodeTo:_phoneNumberTextField.text];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

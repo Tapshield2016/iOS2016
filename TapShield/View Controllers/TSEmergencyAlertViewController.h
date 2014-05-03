@@ -39,6 +39,7 @@
 
 - (void)showCallTimer;
 - (void)hideCallTimer;
+- (void)endCall;
 
 -(void)dismissPhoneView;
 

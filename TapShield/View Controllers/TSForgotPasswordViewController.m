@@ -14,15 +14,6 @@
 
 @implementation TSForgotPasswordViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,6 +24,13 @@
     [self addBottomButtons];
     
     [self.navigationController setNavigationBarHidden:YES];
+    
+    if (_emailTextField.text.length > 1) {
+        [_resetButton setEnabled:YES];
+    }
+    else {
+        [_resetButton setEnabled:NO];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -40,6 +38,13 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    _scrollView.contentSize = self.view.bounds.size;
 }
 
 - (void)didReceiveMemoryWarning
@@ -111,5 +116,33 @@
             [emailSentAlert show];
         }];
     }
+}
+
+
+#pragma mark - TextField Delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (_resetButton.enabled){
+        [self performSelector:@selector(sendPasswordReset:) withObject:nil];
+    }
+    
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if (_emailTextField.text.length > 1) {
+        [_resetButton setEnabled:YES];
+    }
+    else {
+        [_resetButton setEnabled:NO];
+    }
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    [_resetButton setEnabled:NO];
+    return YES;
 }
 @end

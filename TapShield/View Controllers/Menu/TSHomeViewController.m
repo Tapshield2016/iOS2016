@@ -21,6 +21,7 @@
 #import "TSPageViewController.h"
 #import "TSAlertDetailsTableViewController.h"
 #import "TSYankManager.h"
+#import "TSSpotCrimeAPIClient.h"
 
 @interface TSHomeViewController ()
 
@@ -62,6 +63,10 @@
     [TSLocationController sharedLocationController].delegate = self;
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
         [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
+        
+        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:1.0 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:0 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+            
+        }];
         
         if (!_mapView.userLocationAnnotation) {
             _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
@@ -344,6 +349,10 @@
 
 - (void)locationDidUpdate:(CLLocation *)location {
     
+    if ([_entourageManager.endRegion containsCoordinate:location.coordinate]) {
+        [_entourageManager checkRegion:location];
+    }
+    
     if (!_mapView.userLocationAnnotation) {
         _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
                                                                                        placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
@@ -378,7 +387,6 @@
 
 - (void)didEnterRegion:(CLRegion *)region {
     
-    [_entourageManager checkRegion:region];
 }
 
 #pragma mark - User Callout

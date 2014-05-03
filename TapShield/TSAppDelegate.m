@@ -25,6 +25,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *windowBackground;
+@property (strong, nonatomic) AFNetworkReachabilityManager *manager;
 
 @end
 
@@ -50,7 +51,9 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 #endif
     
     
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+    _manager = [AFNetworkReachabilityManager managerForDomain:remoteHostName];
+                
+    [_manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         NSLog(@"%@", AFStringFromNetworkReachabilityStatus(status));
         
         switch (status) {
@@ -72,7 +75,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
                 break;
         }
     }];
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    [_manager startMonitoring];
     
     
     [TSSocialAccountsManager initializeShareSocialAccountsManager];

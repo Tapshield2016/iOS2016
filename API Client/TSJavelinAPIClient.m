@@ -606,7 +606,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
  */
 
 
-- (void)postToEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion {
+- (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion {
     
     if (!message) {
         return;
@@ -614,7 +614,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
-    [self POST:[NSString stringWithFormat:@"%@/message_entourage/", [[self authenticationManager] loggedInUser].agency.url]
+    [self POST:[NSString stringWithFormat:@"%@message_entourage/", [[self authenticationManager] loggedInUser].url]
     parameters:@{@"message": message}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
@@ -629,7 +629,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                // Delay execution of my block for 10 seconds.
                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
                dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                   [self postToEntourageMembers:message completion:completion];
+                   [self notifyEntourageMembers:message completion:completion];
                });
            }
            else {
@@ -724,6 +724,9 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
        }];
 }
+
+
+#pragma mark - Error Codes
 
 - (BOOL)shouldRetry:(NSError *)error {
     

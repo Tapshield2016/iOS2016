@@ -12,7 +12,10 @@
 #import "MKMapItem+EncodeDecode.h"
 
 #define WALKING_RADIUS 50
-#define DRIVING_RADIUS 200
+#define DRIVING_RADIUS 100
+
+#define ARRIVAL_MESSAGE @"%@ has arrived at %@, %@."
+#define NON_ARRIVAL_MESSAGE @"Please be advised, %@ has not made it to %@, %@, within the estimated time of arrival."
 
 static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
 
@@ -40,31 +43,20 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
     return self;
 }
 
-- (void)setEndRegion:(CLCircularRegion *)endRegion {
-    
-    [[TSLocationController sharedLocationController] stopMonitoringForRegion:_endRegion];
-    
-    _endRegion = endRegion;
-    
-    [[TSLocationController sharedLocationController] startMonitoringForRegion:endRegion];
-}
-
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion {
     
     _selectedETA = eta;
     [_homeView entourageModeOn];
     [_routeManager showOnlySelectedRoute];
     
-    CLCircularRegion *region = [self regionForEndPoint];
-    _endRegion = region;
+    NSLog(@"%@", _routeManager.destinationMapItem.placemark.region);
+    _endRegion = [self regionForEndPoint];
     
     __weak typeof(self) weakSelf = self;
     [self addOrRemoveMembers:members completion:^(BOOL finished) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
             [strongSelf resetTimerWithTimeInterval:eta];
-            
-            [[TSLocationController sharedLocationController] startMonitoringForRegion:region];
             
             if (completion) {
                 completion(finished);
@@ -89,18 +81,47 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
                                          identifier:destination.name];
 }
 
-- (void)checkRegion:(CLRegion *)region {
+- (void)checkRegion:(CLLocation *)userLocation {
     
-    if (region.identifier == _endRegion.identifier) {
+    if ([_endRegion containsCoordinate:userLocation.coordinate]) {
         
+        _endRegion = nil;
         [self arrivedAtDestination];
     }
 }
 
 - (void)arrivedAtDestination {
     
-    [self stopEntourage];
-#pragma mark Notify Members
+    if (!_isEnabled) {
+        return;
+    }
+    
+    [_homeView clearEntourageAndResetMap];
+    
+    NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName];
+    NSString *destinationName = _routeManager.destinationMapItem.name;
+    NSString *message = [NSString stringWithFormat:ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
+    
+        [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {
+            
+        }];
+}
+
+- (void)failedToArriveAtDestination {
+    
+    if (!_isEnabled) {
+        return;
+    }
+    
+    [_homeView clearEntourageAndResetMap];
+    
+    NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName];
+    NSString *destinationName = _routeManager.destinationMapItem.name;
+    NSString *message = [NSString stringWithFormat:NON_ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
+    
+    [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {
+        
+    }];
 }
 
 - (void)addOrRemoveMembers:(NSSet *)members completion:(TSVirtualEntourageManagerPostCompletion)completion {

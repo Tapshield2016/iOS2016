@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
+#import "TSUtilities.h"
 #import "TSMapItemCell.h"
 
 @implementation TSMapItemCell
@@ -64,26 +65,7 @@
     _nameLabel.text = @"";
     _addressLabel.text = @"";
     
-    NSArray *formattedAddressLines = mapItem.placemark.addressDictionary[@"FormattedAddressLines"];
-    NSString *address;
-    
-    for (NSString *string in formattedAddressLines) {
-        
-        if ([string isEqualToString:mapItem.name]) {
-            continue;
-        }
-        
-        if (!address) {
-            address = string;
-            continue;
-        }
-        
-        if ([string isEqualToString:mapItem.placemark.country]) {
-            continue;
-        }
-        
-        address = [NSString stringWithFormat:@"%@ %@", address, string];
-    }
+    NSString *address = [TSUtilities formattedAddressWithoutNameFromMapItem:mapItem];
     
     _nameLabel.text = mapItem.name;
     _addressLabel.text = address;

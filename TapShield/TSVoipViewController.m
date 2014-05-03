@@ -80,7 +80,6 @@ static NSString * const kCallRedialing = @"Redialing";
     [_emergencyView performSelectorOnMainThread:@selector(addAlertDetails:) withObject:self waitUntilDone:NO];
 }
 
-
 #pragma mark - UI Updates 
 
 - (void)updatePhoneNumberWithMessage:(NSString *)string {

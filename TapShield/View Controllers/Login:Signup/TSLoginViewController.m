@@ -43,6 +43,7 @@
     
     [super viewDidAppear:animated];
     
+    _scrollView.contentSize = self.view.bounds.size;
 }
 
 - (void)didReceiveMemoryWarning

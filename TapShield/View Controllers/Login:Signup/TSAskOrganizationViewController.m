@@ -15,15 +15,6 @@
 
 @implementation TSAskOrganizationViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -34,6 +25,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,6 +37,8 @@
 
 
 - (IBAction)noOrganization:(id)sender {
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     if (!_navigationDelegate) {
         _navigationDelegate = [[TSRegistrationNavigationDelegate alloc] init];
@@ -59,6 +54,8 @@
 }
 
 - (IBAction)yesOrganization:(id)sender {
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     if (!_navigationDelegate) {
         _navigationDelegate = [[TSRegistrationNavigationDelegate alloc] init];

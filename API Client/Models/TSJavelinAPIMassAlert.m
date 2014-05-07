@@ -24,6 +24,24 @@
     return self;
 }
 
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [super encodeWithCoder:coder];
+    
+    [coder encodeObject:_message forKey:@"message"];
+    [coder encodeObject:_timeStamp forKey:@"timeStamp"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        _message = [coder decodeObjectForKey:@"message"];
+        _timeStamp = [coder decodeObjectForKey:@"timeStamp"];
+    }
+    return self;
+}
+
 - (NSDate *)reformattedTimeStamp:(NSDictionary *)attributes
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];

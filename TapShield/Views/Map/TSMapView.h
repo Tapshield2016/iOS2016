@@ -16,6 +16,7 @@
 #import "TSSelectedDestinationAnnotation.h"
 #import "TSRouteTimeAnnotation.h"
 #import "TSRouteOption.h"
+#import "TSSpotCrimeAnnotation.h"
 
 @interface TSMapView : MKMapView
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 @property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
+@property (nonatomic, strong) NSArray *spotCrimes;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;

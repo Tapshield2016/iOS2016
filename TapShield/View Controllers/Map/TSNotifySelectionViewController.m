@@ -39,7 +39,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     _changedTime = NO;
     
-    NSSet *set = _homeViewController.entourageManager.entourageMembersPosted;
+    NSSet *set = [TSVirtualEntourageManager sharedManager].entourageMembersPosted;
     _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:[set allObjects]]];
     _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
     [self mergeRecentPicksWithCurrentMembers];
@@ -54,7 +54,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _slider = [[TSCircularControl alloc]initWithFrame:_circleContainerView.frame];
 //    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
     
-    _estimatedTimeInterval = _homeViewController.entourageManager.routeManager.selectedRoute.route.expectedTravelTime;
+    _estimatedTimeInterval = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime;
     _timeAdjusted = _estimatedTimeInterval;
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
@@ -68,7 +68,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self.view addSubview:_slider];
     [self.view addSubview:_timeAdjustLabel];
     
-    if (_homeViewController.entourageManager.isEnabled) {
+    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
         [self blackNavigationBar];
         self.removeNavigationShadow = YES;
         
@@ -114,7 +114,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     [self dismissViewControllerAnimated:YES completion:^{
         if (_keyValueObserver) {
-            [_homeViewController.entourageManager.routeManager removeObserver:_keyValueObserver
+            [[TSVirtualEntourageManager sharedManager].routeManager removeObserver:_keyValueObserver
                                                                    forKeyPath:@"selectedRoute"
                                                                       context: NULL];
         }
@@ -135,10 +135,10 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)addDescriptionToNavBar {
     
-    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:_homeViewController.entourageManager.routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:_homeViewController.entourageManager.routeManager.selectedRoute.route.distance]];
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.distance]];
     
     _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
-    _addressLabel.text = _homeViewController.entourageManager.routeManager.selectedRoute.route.name;
+    _addressLabel.text = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.name;
     _addressLabel.textColor = [TSColorPalette whiteColor];
     _addressLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:13.0f];
     _addressLabel.textAlignment = NSTextAlignmentCenter;
@@ -215,7 +215,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
     }
     
-    NSDate *fireDate = _homeViewController.entourageManager.endTimer.fireDate;
+    NSDate *fireDate = [TSVirtualEntourageManager sharedManager].endTimer.fireDate;
     
     _timeAdjusted = [fireDate timeIntervalSinceDate:[NSDate date]];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
@@ -324,7 +324,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     UIWindow *window = [self showSyncingWindow];
    
-    [_homeViewController.entourageManager startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
+    [[TSVirtualEntourageManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
         [self hideWindow:window];
     }];
     
@@ -357,7 +357,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (BOOL)changesWereMade {
     
-    if (_entourageMembers.count != _homeViewController.entourageManager.entourageMembersPosted.count) {
+    if (_entourageMembers.count != [TSVirtualEntourageManager sharedManager].entourageMembersPosted.count) {
         return YES;
     }
     
@@ -369,7 +369,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
                 return YES;
             }
             
-            for (TSJavelinAPIEntourageMember *member in [_homeViewController.entourageManager.entourageMembersPosted copy]) {
+            for (TSJavelinAPIEntourageMember *member in [[TSVirtualEntourageManager sharedManager].entourageMembersPosted copy]) {
                 if (sortingMember.identifier == member.identifier) {
                     return NO;
                 }
@@ -558,11 +558,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
             NSLog(@"No contacts with Phone Numbers or Email");
             CFRelease(addressBook);
             return;
-        }
-        
-        ABAddressBookSave(addressBook, &error);
-        if (error) {
-            NSLog(@"Error: %@", error);
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{

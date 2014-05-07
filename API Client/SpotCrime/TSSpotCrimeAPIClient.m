@@ -9,7 +9,7 @@
 #import "TSSpotCrimeAPIClient.h"
 
 static NSString * const TSSpotCrimeAPIClientUrl = @"http://api.spotcrime.com/";
-static NSString * const TSSpotCrimeAPIKey = @"2be4edd6ebd10379d1a1eb6600747726654fc81645ecae386a9a9a440329";
+static NSString * const TSSpotCrimeAPIKey = @"246c313f9889be187cfbca0c3f5a09f9e4a5d8224edbf86ad795c72b0561";
 
 
 @implementation TSSpotCrimeAPIClient
@@ -56,25 +56,24 @@ static dispatch_once_t onceToken;
     [parameters setObject:[@(currentLocation.coordinate.latitude) stringValue] forKey:@"lat"];
     [parameters setObject:[@(currentLocation.coordinate.longitude) stringValue] forKey:@"lon"];
     [parameters setObject:[NSString stringWithFormat:@"%f", radius] forKey:@"radius"];
+    [parameters setObject:TSSpotCrimeAPIKey forKey:@"key"];
     
     if (date) {
-        [parameters setObject:[self dateToString:date] forKey:@"since"];
+        [parameters setObject:[TSSpotCrimeAPIClient dateToString:date] forKey:@"since"];
     }
     if (maxNumber) {
         [parameters setObject:[@(maxNumber) stringValue] forKey:@"max_records"];
     }
     if (sorting) {
-        [parameters setObject:[self spotCrimeSortingToString:sorting] forKey:@"sort_by"];
+        [parameters setObject:[TSSpotCrimeAPIClient spotCrimeSortingToString:sorting] forKey:@"sort_by"];
     }
     if (order) {
-        [parameters setObject:[self spotCrimeOrderToString:order] forKey:@"sort_order"];
+        [parameters setObject:[TSSpotCrimeAPIClient spotCrimeOrderToString:order] forKey:@"sort_order"];
     }
     if (type) {
-        [parameters setObject:[self spotCrimeTypesToString:type] forKey:@"types"];
+        [parameters setObject:[TSSpotCrimeAPIClient spotCrimeTypesToString:type] forKey:@"types"];
     }
     
-    [self.requestSerializer setValue:TSSpotCrimeAPIKey
-                  forHTTPHeaderField:@"key"];
     [self GET:[NSString stringWithFormat:@"%@crimes.json", _baseAuthURL]
    parameters:parameters
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -105,7 +104,7 @@ static dispatch_once_t onceToken;
     return mutableArray;
 }
 
-- (NSString *)dateToString:(NSDate *)date {
++ (NSString *)dateToString:(NSDate *)date {
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
@@ -117,17 +116,17 @@ static dispatch_once_t onceToken;
 }
 
 
-- (NSString*)spotCrimeOrderToString:(SpotCrimeOrder)enumValue {
++ (NSString*)spotCrimeOrderToString:(SpotCrimeOrder)enumValue {
     NSArray *orderArray = [[NSArray alloc] initWithObjects:kSpotCrimeOrderArray];
     return [orderArray objectAtIndex:enumValue];
 }
 
-- (NSString*)spotCrimeSortingToString:(SpotCrimeSorting)enumValue {
++ (NSString*)spotCrimeSortingToString:(SpotCrimeSorting)enumValue {
     NSArray *sortingArray = [[NSArray alloc] initWithObjects:kSpotCrimeSortingArray];
     return [sortingArray objectAtIndex:enumValue];
 }
 
-- (NSString*)spotCrimeTypesToString:(SpotCrimeTypes)enumValue {
++ (NSString*)spotCrimeTypesToString:(SpotCrimeTypes)enumValue {
     NSArray *typesArray = [[NSArray alloc] initWithObjects:kSpotCrimeTypesArray];
     return [typesArray objectAtIndex:enumValue];
 }

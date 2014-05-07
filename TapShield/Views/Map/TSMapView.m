@@ -94,6 +94,21 @@
 
 #pragma mark - Overlays
 
+- (void)setSpotCrimes:(NSArray *)spotCrimes {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
+    for (TSSpotCrimeLocation *location in spotCrimes) {
+        TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
+        if (![[location.type lowercaseString] isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
+            [mutableArray addObject:annotation];
+        }
+    }
+    
+    _spotCrimes = mutableArray;
+    
+    [self addAnnotations:mutableArray];
+}
+
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay {
     
     MKPolygonRenderer *renderer = [[MKPolygonRenderer alloc] initWithPolygon:(MKPolygon *)overlay];

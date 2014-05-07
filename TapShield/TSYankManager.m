@@ -20,7 +20,6 @@ static NSString * const kRemoveHeadphones = @"Yank disabled.\nRemove headphone j
 
 @interface TSYankManager ()
 
-@property (assign, nonatomic) BOOL isEnabled;
 @property (assign, nonatomic) BOOL shouldEnable;
 @property (strong, nonatomic) TSYankManagerYankEnabled yankEnabledBlock;
 @property (strong, nonatomic) UIWindow *yankWindow;

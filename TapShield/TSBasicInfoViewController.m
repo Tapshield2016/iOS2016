@@ -32,6 +32,8 @@
                                                object:nil];
     
     _tableViewController = (TSBasicInfoTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSBasicInfoTableViewController class])];
+    [self addChildViewController:_tableViewController];
+    [_tableViewController didMoveToParentViewController:self];
     _tableViewController.userProfile = _userProfile;
     
     CGRect frame = _tableViewController.view.frame;

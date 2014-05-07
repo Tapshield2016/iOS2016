@@ -17,6 +17,7 @@
 #import <TestFlightSDK/TestFlight.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <AFNetworking/AFNetworkReachabilityManager.h>
+#import "TSVirtualEntourageManager.h"
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -133,6 +134,14 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    if ([[TSJavelinAPIClient sharedClient] isStillActiveAlert] ||
+        [TSYankManager sharedYankManager].isEnabled ||
+        [TSVirtualEntourageManager sharedManager].isEnabled) {
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            NSLog(@"BackgroundTaskExpirationHandler");
+        }];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

@@ -31,8 +31,34 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 @implementation TSVirtualEntourageManager
 
-- (instancetype)initWithHomeView:(TSHomeViewController *)homeView
-{
+static TSVirtualEntourageManager *_sharedEntourageManagerInstance = nil;
+static dispatch_once_t predicate;
+
++ (instancetype)initSharedEntourageManagerWithHomeView:(TSHomeViewController *)homeView {
+    
+    if (_sharedEntourageManagerInstance == nil) {
+        dispatch_once(&predicate, ^{
+            _sharedEntourageManagerInstance = [[self alloc] initWithHomeView:homeView];
+        });
+    }
+    else {
+        _sharedEntourageManagerInstance.homeView = homeView;
+        _sharedEntourageManagerInstance.routeManager.mapView = homeView.mapView;
+    }
+    
+    return _sharedEntourageManagerInstance;
+}
+
++ (instancetype)sharedManager {
+    if (_sharedEntourageManagerInstance == nil) {
+        [NSException raise:@"Shared Manager Not Initialized"
+                    format:@"Before calling [TSVirtualEntourageManager sharedManager] you must first initialize the shared manager"];
+    }
+    
+    return _sharedEntourageManagerInstance;
+}
+
+- (instancetype)initWithHomeView:(TSHomeViewController *)homeView {
     self = [super init];
     if (self) {
         _isEnabled = NO;

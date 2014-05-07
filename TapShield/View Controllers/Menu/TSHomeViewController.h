@@ -36,6 +36,7 @@
 
 //Entourage
 @property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
+@property (strong, nonatomic) NSTimer *clockTimer;
 
 - (void)clearEntourageAndResetMap;
 - (void)entourageModeOn;

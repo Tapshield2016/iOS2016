@@ -16,8 +16,9 @@ typedef void (^TSYankManagerYankEnabled)(BOOL enabled);
 @interface TSYankManager : NSObject
 
 + (instancetype)sharedYankManager;
-
 - (void)enableYank:(TSYankManagerYankEnabled)completion;
 - (void)disableYank;
+
+@property (assign, nonatomic) BOOL isEnabled;
 
 @end

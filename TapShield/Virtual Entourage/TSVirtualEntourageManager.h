@@ -16,6 +16,8 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 @interface TSVirtualEntourageManager : NSObject
 
++ (instancetype)initSharedEntourageManagerWithHomeView:(id)homeView;
++ (instancetype)sharedManager;
 - (instancetype)initWithHomeView:(id)homeView;
 
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion;

@@ -100,6 +100,10 @@
 
 - (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier {
     
+    if (!storyBoardIdentifier) {
+        return nil;
+    }
+    
     if ([storyBoardIdentifier isEqualToString:_currentPanelStoryBoardIdentifier]) {
         [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:YES completion:nil];
         return nil;

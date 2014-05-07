@@ -34,7 +34,7 @@
     
     _nextButton.enabled = NO;
     
-    [_homeViewController.entourageManager.routeManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
+    [[TSVirtualEntourageManager sharedManager].routeManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
     
     _hitTestView.sendToView = _homeViewController.view;
     
@@ -56,10 +56,10 @@
     [_addressLabel setAdjustsFontSizeToFitWidth:YES];
     [_etaLabel setAdjustsFontSizeToFitWidth:YES];
     
-    [_homeViewController.entourageManager.routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [[TSVirtualEntourageManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     
     // Display user location and selected destination if present
-    if (_homeViewController.entourageManager.routeManager.destinationMapItem) {
+    if ([TSVirtualEntourageManager sharedManager].routeManager.destinationMapItem) {
         _homeViewController.isTrackingUser = NO;
         [self requestAndDisplayRoutesForSelectedDestination];
     }
@@ -84,7 +84,7 @@
     [super willMoveToParentViewController:parent];
     
     if (!parent) {
-        [_homeViewController.entourageManager.routeManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
+        [[TSVirtualEntourageManager sharedManager].routeManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
     }
 }
 
@@ -133,7 +133,7 @@
             break;
     }
     
-    [_homeViewController.entourageManager.routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [[TSVirtualEntourageManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     [self requestAndDisplayRoutesForSelectedDestination];
 }
 
@@ -146,34 +146,34 @@
     
     _nextButton.enabled = NO;
     
-    if (!_homeViewController.mapView.userLocationAnnotation || !_homeViewController.entourageManager.routeManager.destinationAnnotation) {
+    if (!_homeViewController.mapView.userLocationAnnotation || ![TSVirtualEntourageManager sharedManager].routeManager.destinationAnnotation) {
         return;
     }
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
-    [self showAnnotationsWithPadding:@[_homeViewController.mapView.userLocationAnnotation, _homeViewController.entourageManager.routeManager.destinationAnnotation]];
+    [self showAnnotationsWithPadding:@[_homeViewController.mapView.userLocationAnnotation, [TSVirtualEntourageManager sharedManager].routeManager.destinationAnnotation]];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:_homeViewController.entourageManager.routeManager.destinationMapItem];
-    [request setTransportType:_homeViewController.entourageManager.routeManager.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setDestination:[TSVirtualEntourageManager sharedManager].routeManager.destinationMapItem];
+    [request setTransportType:[TSVirtualEntourageManager sharedManager].routeManager.destinationTransportType]; // This can be limited to automobile and walking directions.
     [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
     
     if (_directions.isCalculating) {
         [_directions cancel];
     }
     
-    _homeViewController.entourageManager.routeManager.selectedRoute = nil;
-    [_homeViewController.entourageManager.routeManager removeRouteOverlaysAndAnnotations];
+    [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute = nil;
+    [[TSVirtualEntourageManager sharedManager].routeManager removeRouteOverlaysAndAnnotations];
     
     _directions = [[MKDirections alloc] initWithRequest:request];
     [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         if (!error) {
-            _homeViewController.entourageManager.routeManager.routes = [response routes];
-            [_homeViewController.entourageManager.routeManager addRouteOverlaysToMapViewAndAnnotations];
-            [self showAnnotationsWithPadding:_homeViewController.entourageManager.routeManager.routingAnnotations];
+            [TSVirtualEntourageManager sharedManager].routeManager.routes = [response routes];
+            [[TSVirtualEntourageManager sharedManager].routeManager addRouteOverlaysToMapViewAndAnnotations];
+            [self showAnnotationsWithPadding:[TSVirtualEntourageManager sharedManager].routeManager.routingAnnotations];
             _nextButton.enabled = YES;
         }
         else {
@@ -199,7 +199,7 @@
 
 - (IBAction)nextViewController:(id)sender {
     
-    if (!_homeViewController.entourageManager.routeManager.selectedRoute) {
+    if (![TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
         return;
     }
     

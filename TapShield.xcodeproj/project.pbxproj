@@ -1479,6 +1479,12 @@
 		C585F30F18DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
+		C5AFB9231919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
+		C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
+		C5AFB9251919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
+		C5AFB9281919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */; };
+		C5AFB9291919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */; };
+		C5AFB92A1919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -1569,6 +1575,9 @@
 		C5EAAC0119066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
 		C5EAAC0219066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
 		C5EAAC0319066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
+		C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
+		C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
+		C5FB6DFB191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
 		C5FC0A6318CF704F00AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
 		C5FC0A6418CF705600AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
 		C5FC0A6518CF705C00AB787F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5FC0A6218CF704F00AB787F /* Social.framework */; };
@@ -2233,6 +2242,10 @@
 		C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-SemiBold.otf"; sourceTree = "<group>"; };
 		C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Thin.otf"; sourceTree = "<group>"; };
 		C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
+		C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotation.h; path = Views/Map/Annotations/TSSpotCrimeAnnotation.h; sourceTree = "<group>"; };
+		C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotation.m; path = Views/Map/Annotations/TSSpotCrimeAnnotation.m; sourceTree = "<group>"; };
+		C5AFB9261919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotationView.h; path = Views/TSSpotCrimeAnnotationView.h; sourceTree = "<group>"; };
+		C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotationView.m; path = Views/TSSpotCrimeAnnotationView.m; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -2293,6 +2306,8 @@
 		C5EAABFB19066018005EDD7B /* TSMedicalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMedicalTableViewController.m; sourceTree = "<group>"; };
 		C5EAABFF19066035005EDD7B /* TSEmergencyContactTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEmergencyContactTableViewController.h; sourceTree = "<group>"; };
 		C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEmergencyContactTableViewController.m; sourceTree = "<group>"; };
+		C5FB6DF7191774DD008E1185 /* TSGenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSGenderViewController.h; path = "View Controllers/TSGenderViewController.h"; sourceTree = "<group>"; };
+		C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSGenderViewController.m; path = "View Controllers/TSGenderViewController.m"; sourceTree = "<group>"; };
 		C5FC0A6218CF704F00AB787F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C5FC0A6618CF706E00AB787F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C5FC0A6A18CF721B00AB787F /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -2773,6 +2788,8 @@
 				C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */,
 				B53BBD3218983648006A27E0 /* TSUserLocationAnnotation.h */,
 				B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */,
+				C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */,
+				C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */,
 			);
 			name = Annotations;
 			sourceTree = "<group>";
@@ -3422,6 +3439,8 @@
 				C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */,
 				C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotationView.h */,
 				C563570F18ED1B4000BAA5D7 /* TSDestinationAnnotationView.m */,
+				C5AFB9261919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.h */,
+				C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */,
 			);
 			name = "Annotation Views";
 			sourceTree = "<group>";
@@ -3739,6 +3758,8 @@
 			children = (
 				C5EAABE61905AF1C005EDD7B /* TSBaseTableViewController.h */,
 				C5EAABE71905AF1C005EDD7B /* TSBaseTableViewController.m */,
+				C5FB6DF7191774DD008E1185 /* TSGenderViewController.h */,
+				C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */,
 				C5EAABEB1905AF53005EDD7B /* TSBasicInfoTableViewController.h */,
 				C5EAABEC1905AF53005EDD7B /* TSBasicInfoTableViewController.m */,
 				C5EAABF019063B75005EDD7B /* TSContactDataTableViewController.h */,
@@ -5165,6 +5186,7 @@
 				C585F1B018CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
 				C585F19018CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
+				C5AFB9281919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
 				C501CC3818F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */,
@@ -5175,6 +5197,7 @@
 				C56B3D5118FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5FD5EA318B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
+				C5AFB9231919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C501CC2E18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
@@ -5221,6 +5244,7 @@
 				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C5D484F218E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
+				C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				C5BBF43118FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
@@ -5288,6 +5312,7 @@
 				C556478618E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
 				C5C1C9A619085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				C5EAABE41904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m in Sources */,
+				C5AFB9251919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5662BD618DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
 				C5BBF42D18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
@@ -5306,6 +5331,7 @@
 				C501CC2B18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5EAABEF1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
+				C5AFB92A1919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
 				C5B5635218E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
@@ -5338,6 +5364,7 @@
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C563570D18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				C5EAABF419063B75005EDD7B /* TSContactDataTableViewController.m in Sources */,
+				C5FB6DFB191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C5EAABFE19066018005EDD7B /* TSMedicalTableViewController.m in Sources */,
@@ -5462,6 +5489,7 @@
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
 				C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */,
 				C57C48C318BBDB1900DFFBCE /* TSOrganizationCell.m in Sources */,
+				C5AFB9291919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
 				C501CC3918F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */,
 				C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */,
@@ -5472,6 +5500,7 @@
 				C56B3D5218FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
+				C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C501CC2F18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
@@ -5518,6 +5547,7 @@
 				C55644F818E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
 				C5D484F318E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
+				C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				C5BBF43218FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
 				C585F1A018CF88CF009EEF16 /* NSData+Base64.m in Sources */,

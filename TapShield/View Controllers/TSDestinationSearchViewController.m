@@ -228,11 +228,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
             return;
         }
         
-        ABAddressBookSave(addressBook, &error);
-        if (error) {
-            NSLog(@"Error: %@", error);
-        }
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
             picker.addressBook = addressBook;

@@ -29,7 +29,7 @@ static NSString * const IconImageSuffix = @"_icon";
 
 + (UIImage *)imageFromSpotCrimeType:(NSString *)type {
     
-    NSString *imageName = [NSString stringWithFormat:@"%@%@%@", IconImagePrefix, type, IconImageSuffix];
+    NSString *imageName = [NSString stringWithFormat:@"%@%@%@", IconImagePrefix, [type lowercaseString], IconImageSuffix];
     UIImage *image = [UIImage imageNamed:imageName];
     
     return image;

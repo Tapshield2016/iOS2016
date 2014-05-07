@@ -149,7 +149,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (void)sendEmergency {
     
-    [((TSPageViewController *)_pageViewController).homeViewController.entourageManager failedToArriveAtDestination];
+    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
     
     [_sendEmergencyTimer invalidate];
     

@@ -22,12 +22,14 @@
 #import "TSAlertDetailsTableViewController.h"
 #import "TSYankManager.h"
 #import "TSSpotCrimeAPIClient.h"
+#import "TSSpotCrimeAnnotationView.h"
 
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
 @property (nonatomic) BOOL viewDidAppear;
 @property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
+@property (strong, nonatomic) TSBaseLabel *timerLabel;
 
 @end
 
@@ -43,7 +45,7 @@
     self.showSmallLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
-    _entourageManager = [[TSVirtualEntourageManager alloc] initWithHomeView:self];
+    [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:self];
     
     _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleYank:)];
     self.navigationItem.rightBarButtonItem = _yankBarButton;
@@ -64,8 +66,8 @@
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
         [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
         
-        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:1.0 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:0 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
-            
+        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:.25 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:0 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+            _mapView.spotCrimes = crimes;
         }];
         
         if (!_mapView.userLocationAnnotation) {
@@ -140,6 +142,47 @@
     }
 }
 
+#pragma mark - Entourage Timer
+
+- (void)adjustViewableTime {
+    
+    if (!_clockTimer) {
+        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                       target:self
+                                                     selector:@selector(adjustViewableTime)
+                                                     userInfo:nil
+                                                      repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
+    }
+    
+    NSDate *fireDate = [TSVirtualEntourageManager sharedManager].endTimer.fireDate;
+    
+    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
+    
+    if (!_timerLabel) {
+        [self.navigationItem setPrompt:@""];
+        _timerLabel = [[TSBaseLabel alloc] init];
+        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
+        _timerLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 30);
+        _timerLabel.textAlignment = NSTextAlignmentCenter;
+        [self.navigationController.navigationBar addSubview:_timerLabel];
+    }
+    
+    _timerLabel.text = [TSUtilities formattedStringForTime:time];
+    [_timerLabel setNeedsDisplay];
+}
+
+- (void)stopClockTimer {
+    
+    [_clockTimer invalidate];
+    _clockTimer = nil;
+    
+    self.navigationController.navigationBar.topItem.prompt = nil;
+    
+    [_timerLabel removeFromSuperview];
+    _timerLabel = nil;
+}
+
 #pragma mark - UI Changes
 
 - (void)mapAlertModeToggle {
@@ -152,6 +195,7 @@
     
     [self setIsTrackingUser:YES];
     [self drawerCanDragForMenu:NO];
+    [self adjustViewableTime];
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
@@ -162,9 +206,11 @@
 - (void)clearEntourageAndResetMap {
     
     [_menuViewController showMenuButton:self];
-    [_entourageManager stopEntourage];
+    [[TSVirtualEntourageManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
     self.isTrackingUser = YES;
+    
+    [self stopClockTimer];
 }
 
 
@@ -244,7 +290,7 @@
 
 - (IBAction)displayVirtualEntourage:(id)sender {
     
-    if (!_entourageManager.isEnabled) {
+    if (![TSVirtualEntourageManager sharedManager].isEnabled) {
         TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
         viewController.homeViewController = self;
         
@@ -321,7 +367,7 @@
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
     
-    if (_entourageManager.isEnabled ) {
+    if ([TSVirtualEntourageManager sharedManager].isEnabled ) {
         return;
     }
     
@@ -337,7 +383,7 @@
 
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-            [_entourageManager.routeManager selectRouteClosestTo:mapPoint];
+            [[TSVirtualEntourageManager sharedManager].routeManager selectRouteClosestTo:mapPoint];
         }
     }
 }
@@ -349,8 +395,8 @@
 
 - (void)locationDidUpdate:(CLLocation *)location {
     
-    if ([_entourageManager.endRegion containsCoordinate:location.coordinate]) {
-        [_entourageManager checkRegion:location];
+    if ([[TSVirtualEntourageManager sharedManager].endRegion containsCoordinate:location.coordinate]) {
+        [[TSVirtualEntourageManager sharedManager] checkRegion:location];
     }
     
     if (!_mapView.userLocationAnnotation) {
@@ -449,13 +495,13 @@
     [renderer setLineWidth:6.0];
     [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
-    if (!_entourageManager.routeManager.selectedRoute) {
-        _entourageManager.routeManager.selectedRoute = [_entourageManager.routeManager.routeOptions firstObject];
+    if (![TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
+        [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute = [[TSVirtualEntourageManager sharedManager].routeManager.routeOptions firstObject];
     }
     
-    if (_entourageManager.routeManager.selectedRoute) {
-        for (TSRouteOption *routeOption in _entourageManager.routeManager.routeOptions) {
-            if (routeOption == _entourageManager.routeManager.selectedRoute) {
+    if ([TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
+        for (TSRouteOption *routeOption in [TSVirtualEntourageManager sharedManager].routeManager.routeOptions) {
+            if (routeOption == [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
                 if (routeOption.route.polyline == overlay) {
                     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
@@ -503,6 +549,14 @@
         }
         [annotationView setupViewForAnnotation:annotation];
     }
+    else if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
+        
+        annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSpotCrimeAnnotation class])];
+        [annotationView setImageForType:annotation];
+        if (!annotationView) {
+            annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSpotCrimeAnnotation class])];
+        }
+    }
     
     return annotationView;
 }
@@ -544,7 +598,7 @@
     }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
-        [_entourageManager.routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
+        [[TSVirtualEntourageManager sharedManager].routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
         [self flipIntersectingRouteAnnotation];
     }
     
@@ -581,7 +635,7 @@
                 for (UIView *annotationView in [subview.subviews copy]) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
-                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:_entourageManager.routeManager.selectedRoute.routeTimeAnnotation]) {
+                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.routeTimeAnnotation]) {
                             [subview bringSubviewToFront:annotationView];
                         }
                     }

@@ -7,6 +7,7 @@
 //
 
 #import "TSBasicInfoTableViewController.h"
+#import "TSGenderViewController.h"
 
 @interface TSBasicInfoTableViewController ()
 
@@ -44,6 +45,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Text Field Delegate
@@ -109,10 +117,27 @@
             
             _genderTextField.leftView = imageView;
             _genderTextField.leftViewMode = UITextFieldViewModeAlways;
+            _genderTextField.text = [TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender];
         }
+        else {
+            _genderTextField.leftView = nil;
+            _genderTextField.text = @"";
+            _genderTextField.placeholder = [TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender];
+        }
+        
+        
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
         cell.separatorInset = UIEdgeInsetsZero;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == tableView.visibleCells.count - 1) {
+        TSGenderViewController *viewController = (TSGenderViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSGenderViewController class])];
+        viewController.userProfile = self.userProfile;
+        [self.parentViewController.navigationController pushViewController:viewController animated:YES];
     }
 }
 

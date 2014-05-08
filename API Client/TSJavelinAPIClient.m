@@ -725,6 +725,89 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        }];
 }
 
+#pragma mark - Social Reporting 
+
+//Given a latitude, longitude, and a distance radius, you can get a list of socially-reported crimes/suspicious incidents that surround the user. These are reported by other users of the app.
+//
+//Example:
+//
+//https://dev.tapshield.com/api/v1/social-crime-reports/?latitude=28.54242&longitude=-81.375586&distance_within=10
+//
+//All 3 parameters are required if you wish to perform this type of search - omitting any of the three parameters will end in an empty result. Providing a non-numerical value for any of the three will result in a 500 error from the server.
+//
+//Results will be ordered from nearest to farthest from the location provided and will include a distance field in miles that represents the distance to the organization.
+//
+//The distance_within parameter is a value in miles and can be specified as a float if desired, e.g. 0.3, 97.8, etc.
+
+- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius completion:(void (^)(NSArray *reports))completion {
+    
+    if (!location || !radius) {
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:@"social-crime-reports/"
+   parameters:@{ @"latitude": @(location.coordinate.latitude),
+                 @"longitude": @(location.coordinate.longitude),
+                 @"distance_within": @(radius)}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if (completion) {
+              completion(responseObject);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          if (completion) {
+              completion(nil);
+          }
+      }];
+    
+}
+
+
+//
+//You may also POST new crime reports as you do other objects in the API. Note that report_point is created automatically when the object is saved, so you only need to supply report_latitude and report_longitude.
+//
+//reporter, body, report_type, report_latitude and report_longitude are required fields. report_image_url will be unused for now but preserved for future use (clients will be responsible for uploading image assets to S3 and supplying the resulting URL to the API).
+
+- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL posted))completion {
+    
+    if (!body || !type || !location) {
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"social-crime-reports/"
+    parameters:@{@"reporter": [[self authenticationManager] loggedInUser].url,
+                 @"body": body,
+                 @"report_type": type,
+                 @"report_latitude": @(location.coordinate.latitude),
+                 @"report_longitude": @(location.coordinate.longitude)}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           if (completion) {
+               completion(YES);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+               });
+           }
+           else {
+               if (completion) {
+                   completion(NO);
+               }
+           }
+       }];
+}
+
 
 #pragma mark - Error Codes
 

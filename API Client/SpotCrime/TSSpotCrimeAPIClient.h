@@ -25,7 +25,9 @@ typedef enum {
 } SpotCrimeOrder;
 
 
-#define kSpotCrimeTypesArray @"arrest", @"arson", @"assault", @"burglary", @"other", @"robbery", @"shooting", @"theft", @"vandalism", nil
+#define kSpotCrimeTypesArray @"Arrest", @"Arson", @"Assault", @"Burglary", @"Other", @"Robbery", @"Shooting", @"Theft", @"Vandalism", nil
+
+#define kSpotCrimeTypesShortArray @"A", @"AR", @"AS", @"B", @"O", @"R", @"S", @"T", @"V", nil
 typedef enum {
     arrest,
     arson,
@@ -43,6 +45,8 @@ typedef enum {
 + (instancetype)sharedClient;
 
 - (void)getSpotCrimeAtLocation:(CLLocation *)currentLocation radiusMiles:(float)radius since:(NSDate *)date maxReturned:(int)maxNumber sortBy:(SpotCrimeSorting)sorting order:(SpotCrimeOrder)order type:(SpotCrimeTypes)type completion:(void (^)(NSArray *crimes))completion;
+
+- (void)getSpotCrimeDescription:(TSSpotCrimeLocation *)location completion:(void(^)(TSSpotCrimeLocation *location))completion;
 
 + (NSString *)spotCrimeTypesToString:(SpotCrimeTypes)enumValue;
 

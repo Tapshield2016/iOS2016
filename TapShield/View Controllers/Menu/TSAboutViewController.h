@@ -8,7 +8,7 @@
 
 #import "TSNavigationViewController.h"
 
-@interface TSAboutViewController : TSNavigationViewController
+@interface TSAboutViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *versionBuildLabel;
 
 @end

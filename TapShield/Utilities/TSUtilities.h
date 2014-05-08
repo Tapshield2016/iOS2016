@@ -17,6 +17,8 @@
 + (NSString *)removeNonNumericalCharacters:(NSString *)phoneNumber;
 + (NSString *)formatPhoneNumber:(NSString *)rawString;
 
++ (NSString *)formattedViewableDate:(NSDate *)date;
++ (NSString *)formattedDateTime:(NSDate *)date;
 + (NSString *)formattedStringForTime:(NSTimeInterval)duration;
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
 + (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration;

@@ -83,8 +83,31 @@ static dispatch_once_t onceToken;
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
+          if (completion) {
+              completion(nil);
+          }
       }];
     
+}
+
+- (void)getSpotCrimeDescription:(TSSpotCrimeLocation *)location completion:(void(^)(TSSpotCrimeLocation *location))completion {
+    
+//    http://api.spotcrime.com/crimes/<CDID>.json?key=<API_KEY>
+    
+    [self GET:[NSString stringWithFormat:@"%@crimes/%@.json", _baseAuthURL, location.cdid]
+   parameters:@{@"key": TSSpotCrimeAPIKey}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          location.eventDescription = [responseObject objectForKey:@"description"];
+          if (completion) {
+              completion(location);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          if (completion) {
+              completion(nil);
+          }
+      }];
 }
 
 

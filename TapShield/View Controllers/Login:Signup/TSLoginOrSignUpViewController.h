@@ -16,6 +16,7 @@
 
 - (IBAction)showLoginView:(id)sender;
 - (IBAction)showSignUpView:(id)sender;
+- (IBAction)requestDemo:(id)sender;
 
 
 @end

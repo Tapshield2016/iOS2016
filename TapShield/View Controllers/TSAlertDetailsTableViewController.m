@@ -7,6 +7,8 @@
 //
 
 #import "TSAlertDetailsTableViewController.h"
+#import "TSReportDescriptionViewController.h"
+#import "TSSpotCrimeAPIClient.h"
 
 
 #define kCriminalArray @"Arrest", @"Arson", @"Assault", @"Burglary", @"Robbery", @"Shooting", @"Theft", @"Vandalism", nil
@@ -46,17 +48,17 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 0) {
-        return [NSArray arrayWithObjects:kMedicalArray].count;
-    }
+//    if (section == 0) {
+//        return [NSArray arrayWithObjects:kMedicalArray].count;
+//    }
     
-    return [NSArray arrayWithObjects:kCriminalArray].count;
+    return [NSArray arrayWithObjects:kSpotCrimeTypesArray].count;
 }
 
 
@@ -66,15 +68,15 @@
     
     NSString *string;
     
-    if (indexPath.section == 0) {
-        cell.textLabel.text = [[NSArray arrayWithObjects:kMedicalArray] objectAtIndex:indexPath.row];
-        string = [[NSArray arrayWithObjects:kMedicalArray] objectAtIndex:indexPath.row];
-        
-    }
-    else {
-        cell.textLabel.text = [[NSArray arrayWithObjects:kCriminalArray] objectAtIndex:indexPath.row];
-        string = [[NSArray arrayWithObjects:kCriminalArray] objectAtIndex:indexPath.row];
-    }
+//    if (indexPath.section == 0) {
+//        cell.textLabel.text = [[NSArray arrayWithObjects:kMedicalArray] objectAtIndex:indexPath.row];
+//        string = [[NSArray arrayWithObjects:kMedicalArray] objectAtIndex:indexPath.row];
+//        
+//    }
+//    else {
+        cell.textLabel.text = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:indexPath.row];
+        string = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:indexPath.row];
+//    }
     
     string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *imageName = [NSString stringWithFormat:@"bubble_%@_icon", [string lowercaseString]];
@@ -92,9 +94,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    if (section == 0) {
-        return @"Medical";
-    }
+//    if (section == 0) {
+//        return @"Medical";
+//    }
     
     return @"Police";
 }
@@ -113,16 +115,21 @@
     
     label.text = @"Police";
     
-    if (section == 0) {
-        label.text = @"Medical";
-    }
+//    if (section == 0) {
+//        label.text = @"Medical";
+//    }
     
     return headerView;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    TSReportDescriptionViewController *viewController = (TSReportDescriptionViewController *)[self pushViewControllerWithClass:[TSReportDescriptionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    viewController.type = cell.textLabel.text;
+    viewController.image = cell.imageView.image;
+    viewController.mapView = _mapView;
 }
 
 - (IBAction)dismissViewController:(id)sender {

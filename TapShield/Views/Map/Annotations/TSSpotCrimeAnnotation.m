@@ -15,6 +15,7 @@
     self = [super initWithCoordinates:location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", location.type, location.date] description:location.address];
     if (self) {
         
+        _spotCrime = location;
         _type = location.type;
     }
     return self;

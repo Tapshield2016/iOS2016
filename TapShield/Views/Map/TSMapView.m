@@ -94,12 +94,23 @@
 
 #pragma mark - Overlays
 
+- (void)hideSpotCrimes {
+    
+    [self removeAnnotations:_spotCrimes];
+}
+
+- (void)showSpotCrimes {
+    
+    [self addAnnotations:_spotCrimes];
+    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
+}
+
 - (void)setSpotCrimes:(NSArray *)spotCrimes {
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     for (TSSpotCrimeLocation *location in spotCrimes) {
         TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
-        if (![[location.type lowercaseString] isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
+        if (![location.type isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
             [mutableArray addObject:annotation];
         }
     }
@@ -107,6 +118,7 @@
     _spotCrimes = mutableArray;
     
     [self addAnnotations:mutableArray];
+    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
 }
 
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay {

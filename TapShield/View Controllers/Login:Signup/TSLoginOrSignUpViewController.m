@@ -45,6 +45,13 @@
     [self socialLogInView:NO];
 }
 
+- (IBAction)requestDemo:(id)sender {
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://tapshield.com/demo-landing-page/"]] ;
+//    [_webView loadRequest: request];
+//    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://tapshield.com/demo-landing-page/"]];
+}
+
 - (void)socialLogInView:(BOOL)login {
     
     TSSocialAuthorizationViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSSocialAuthorizationViewController class])];

@@ -24,6 +24,9 @@
 #import "TSSpotCrimeAPIClient.h"
 #import "TSSpotCrimeAnnotationView.h"
 
+
+#define CRIME_ALPHA 0.5
+
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
@@ -66,7 +69,7 @@
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
         [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
         
-        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:.25 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:0 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:.25 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:500 sortBy:sortByDistance order:orderAscending type:0 completion:^(NSArray *crimes) {
             _mapView.spotCrimes = crimes;
         }];
         
@@ -193,6 +196,7 @@
 
 - (void)entourageModeOn {
     
+    [_mapView showSpotCrimes];
     [self setIsTrackingUser:YES];
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
@@ -205,6 +209,7 @@
 
 - (void)clearEntourageAndResetMap {
     
+    [_mapView showSpotCrimes];
     [_menuViewController showMenuButton:self];
     [[TSVirtualEntourageManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
@@ -285,10 +290,14 @@
 
 - (IBAction)reportAlert:(id)sender {
     
-    [self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
+    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
+    
+    viewController.mapView = _mapView;
 }
 
 - (IBAction)displayVirtualEntourage:(id)sender {
+    
+    [_mapView hideSpotCrimes];
     
     if (![TSVirtualEntourageManager sharedManager].isEnabled) {
         TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
@@ -525,6 +534,8 @@
         if (!annotationView) {
             annotationView = [[TSUserAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSUserAnnotationView class])];
         }
+        
+        _mapView.userLocationAnnotationView = (TSUserAnnotationView *)annotationView;
     }
     else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
 
@@ -556,6 +567,8 @@
         if (!annotationView) {
             annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSpotCrimeAnnotation class])];
         }
+        
+        ((TSSpotCrimeAnnotationView *)annotationView).alpha = CRIME_ALPHA;
     }
     
     return annotationView;
@@ -564,6 +577,23 @@
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
     
     [self flipIntersectingRouteAnnotation];
+    
+//    if (views.count == 1) {
+        CGRect visibleRect = [mapView annotationVisibleRect];
+        for (UIView *view in views) {
+            CGRect endFrame = view.frame;
+            
+            CGRect startFrame = endFrame; startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
+            view.frame = startFrame;
+            
+            [UIView beginAnimations:@"drop" context:NULL];
+            [UIView setAnimationDuration:0.3];
+            
+            view.frame = endFrame;
+            
+            [UIView commitAnimations];
+        }
+//    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
@@ -597,6 +627,10 @@
         _mapView.shouldUpdateCallOut = YES;
     }
     
+    if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
+        view.alpha = 1.0;
+    }
+    
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
         [[TSVirtualEntourageManager sharedManager].routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
         [self flipIntersectingRouteAnnotation];
@@ -612,11 +646,34 @@
     if ([view isKindOfClass:[TSUserAnnotationView class]]) {
         _mapView.shouldUpdateCallOut = NO;
     }
+    
+    if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
+        view.alpha = CRIME_ALPHA;
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    [mapView deselectAnnotation:view.annotation animated:YES];
-//    [self requestAndDisplayRoutesForSelectedDestination];
+    
+    
+    if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
+        TSSpotCrimeLocation *location = ((TSSpotCrimeAnnotation *)view.annotation).spotCrime;
+        
+        if (!location.eventDescription) {
+            [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeDescription:location completion:^(TSSpotCrimeLocation *location) {
+                
+                ((TSSpotCrimeAnnotation *)view.annotation).spotCrime = location;
+                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.eventDescription;
+            }];
+        }
+        else {
+            if ([((TSSpotCrimeAnnotation *)view.annotation).subtitle isEqualToString:location.address]) {
+                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.eventDescription;
+            }
+            else {
+                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.address;
+            }
+        }
+    }
 }
 
 

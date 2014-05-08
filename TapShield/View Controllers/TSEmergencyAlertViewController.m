@@ -210,7 +210,8 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (IBAction)addAlertDetails:(id)sender {
     
-    UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
+    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
+    viewController.mapView = _pageViewController.homeViewController.mapView;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     if (!_transitionDelegate) {

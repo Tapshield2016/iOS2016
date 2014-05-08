@@ -21,19 +21,11 @@
 @property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
 @property (nonatomic, strong) NSMutableArray *viewControllerTitles;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
+@property (nonatomic, strong) UIWindow *mailWindow;
 
 @end
 
 @implementation TSMenuViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -141,6 +133,66 @@
     
     [viewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:NO];
 }
+
+- (IBAction)showAbout:(id)sender {
+    
+    [self.tableView reloadData];
+    [self transitionToViewController:@"TSAboutViewController"];
+}
+
+- (IBAction)sendFeedback:(id)sender {
+    NSString *emailTitle = @"TapShield iOS App Feedback";
+    // Email Content
+    NSString *messageBody = @"";
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"hello@tapshield.com"];
+    
+    _mailWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [_mailWindow setWindowLevel:UIWindowLevelAlert];
+    _mailWindow.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height*1.5);
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:NO];
+    [mc setToRecipients:toRecipents];
+    // Present mail view controller on screen
+    
+    [_mailWindow setRootViewController:mc];
+    [_mailWindow makeKeyAndVisible];
+    _mailWindow.transform = CGAffineTransformMakeScale(0.25, 0.25);
+    [UIView animateWithDuration:0.3f animations:^{
+        _mailWindow.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        _mailWindow.center = self.view.center;
+    }];
+//    [self presentViewController:mc animated:YES completion:nil];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            break;
+        case MFMailComposeResultSaved:
+            break;
+        case MFMailComposeResultSent:
+            break;
+        case MFMailComposeResultFailed:
+            break;
+        default:
+            break;
+    }
+    // Close the Mail Interface
+//    [controller dismissViewControllerAnimated:YES completion:nil];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        _mailWindow.transform = CGAffineTransformMakeScale(0.25, 0.25);
+        _mailWindow.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height*1.5);
+    } completion:^(BOOL finished) {
+        _mailWindow = nil;
+    }];
+}
+
 
 #pragma mark - Table view delegate
 

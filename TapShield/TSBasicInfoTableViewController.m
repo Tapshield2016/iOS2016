@@ -36,7 +36,7 @@
         _genderTextField.text = [TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender];
     }
     else {
-        _genderTextField.placeholder = [TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender];
+        _genderTextField.placeholder = @"Choose one";
     }
     
 }
@@ -122,7 +122,7 @@
         else {
             _genderTextField.leftView = nil;
             _genderTextField.text = @"";
-            _genderTextField.placeholder = [TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender];
+            _genderTextField.placeholder = @"Choose one";
         }
         
         

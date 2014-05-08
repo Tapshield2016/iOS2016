@@ -248,5 +248,21 @@
     return address;
 }
 
++ (NSString *)formattedViewableDate:(NSDate *)date {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"d MMM yyyy h:mm:ss a"];
+    NSString *dateString = [dateFormat stringFromDate:date];
+    
+    return dateString;
+}
+
++ (NSString *)formattedDateTime:(NSDate *)date {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd/MM/yy h:mm a"];
+    NSString *dateString = [dateFormat stringFromDate:date];
+    
+    return dateString;
+}
+
 
 @end

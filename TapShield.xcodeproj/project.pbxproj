@@ -417,18 +417,18 @@
 		C54CE91D18FB199A0077350E /* pins_other_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6BF18FB19990077350E /* pins_other_icon@2x.png */; };
 		C54CE91E18FB199A0077350E /* pins_other_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6BF18FB19990077350E /* pins_other_icon@2x.png */; };
 		C54CE91F18FB199A0077350E /* pins_other_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6BF18FB19990077350E /* pins_other_icon@2x.png */; };
-		C54CE92018FB199A0077350E /* pins_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C018FB19990077350E /* pins_robbery.png */; };
-		C54CE92118FB199A0077350E /* pins_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C018FB19990077350E /* pins_robbery.png */; };
-		C54CE92218FB199A0077350E /* pins_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C018FB19990077350E /* pins_robbery.png */; };
-		C54CE92318FB199A0077350E /* pins_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C118FB19990077350E /* pins_robbery@2x.png */; };
-		C54CE92418FB199A0077350E /* pins_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C118FB19990077350E /* pins_robbery@2x.png */; };
-		C54CE92518FB199A0077350E /* pins_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C118FB19990077350E /* pins_robbery@2x.png */; };
-		C54CE92618FB199A0077350E /* pins_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C218FB199A0077350E /* pins_shooting.png */; };
-		C54CE92718FB199A0077350E /* pins_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C218FB199A0077350E /* pins_shooting.png */; };
-		C54CE92818FB199A0077350E /* pins_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C218FB199A0077350E /* pins_shooting.png */; };
-		C54CE92918FB199A0077350E /* pins_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C318FB199A0077350E /* pins_shooting@2x.png */; };
-		C54CE92A18FB199A0077350E /* pins_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C318FB199A0077350E /* pins_shooting@2x.png */; };
-		C54CE92B18FB199A0077350E /* pins_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C318FB199A0077350E /* pins_shooting@2x.png */; };
+		C54CE92018FB199A0077350E /* pins_robbery_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C018FB19990077350E /* pins_robbery_icon.png */; };
+		C54CE92118FB199A0077350E /* pins_robbery_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C018FB19990077350E /* pins_robbery_icon.png */; };
+		C54CE92218FB199A0077350E /* pins_robbery_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C018FB19990077350E /* pins_robbery_icon.png */; };
+		C54CE92318FB199A0077350E /* pins_robbery_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C118FB19990077350E /* pins_robbery_icon@2x.png */; };
+		C54CE92418FB199A0077350E /* pins_robbery_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C118FB19990077350E /* pins_robbery_icon@2x.png */; };
+		C54CE92518FB199A0077350E /* pins_robbery_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C118FB19990077350E /* pins_robbery_icon@2x.png */; };
+		C54CE92618FB199A0077350E /* pins_shooting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C218FB199A0077350E /* pins_shooting_icon.png */; };
+		C54CE92718FB199A0077350E /* pins_shooting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C218FB199A0077350E /* pins_shooting_icon.png */; };
+		C54CE92818FB199A0077350E /* pins_shooting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C218FB199A0077350E /* pins_shooting_icon.png */; };
+		C54CE92918FB199A0077350E /* pins_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C318FB199A0077350E /* pins_shooting_icon@2x.png */; };
+		C54CE92A18FB199A0077350E /* pins_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C318FB199A0077350E /* pins_shooting_icon@2x.png */; };
+		C54CE92B18FB199A0077350E /* pins_shooting_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C318FB199A0077350E /* pins_shooting_icon@2x.png */; };
 		C54CE92C18FB199A0077350E /* pins_stroke_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C418FB199A0077350E /* pins_stroke_icon.png */; };
 		C54CE92D18FB199A0077350E /* pins_stroke_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C418FB199A0077350E /* pins_stroke_icon.png */; };
 		C54CE92E18FB199A0077350E /* pins_stroke_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C54CE6C418FB199A0077350E /* pins_stroke_icon.png */; };
@@ -1485,6 +1485,9 @@
 		C5AFB9281919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */; };
 		C5AFB9291919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */; };
 		C5AFB92A1919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */; };
+		C5AFB92D191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */; };
+		C5AFB92E191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */; };
+		C5AFB92F191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -1866,10 +1869,10 @@
 		C54CE6BD18FB19990077350E /* pins_highfever_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_highfever_icon@2x.png"; sourceTree = "<group>"; };
 		C54CE6BE18FB19990077350E /* pins_other_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_other_icon.png; sourceTree = "<group>"; };
 		C54CE6BF18FB19990077350E /* pins_other_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_other_icon@2x.png"; sourceTree = "<group>"; };
-		C54CE6C018FB19990077350E /* pins_robbery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_robbery.png; sourceTree = "<group>"; };
-		C54CE6C118FB19990077350E /* pins_robbery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_robbery@2x.png"; sourceTree = "<group>"; };
-		C54CE6C218FB199A0077350E /* pins_shooting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_shooting.png; sourceTree = "<group>"; };
-		C54CE6C318FB199A0077350E /* pins_shooting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_shooting@2x.png"; sourceTree = "<group>"; };
+		C54CE6C018FB19990077350E /* pins_robbery_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_robbery_icon.png; sourceTree = "<group>"; };
+		C54CE6C118FB19990077350E /* pins_robbery_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_robbery_icon@2x.png"; sourceTree = "<group>"; };
+		C54CE6C218FB199A0077350E /* pins_shooting_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_shooting_icon.png; sourceTree = "<group>"; };
+		C54CE6C318FB199A0077350E /* pins_shooting_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_shooting_icon@2x.png"; sourceTree = "<group>"; };
 		C54CE6C418FB199A0077350E /* pins_stroke_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_stroke_icon.png; sourceTree = "<group>"; };
 		C54CE6C518FB199A0077350E /* pins_stroke_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_stroke_icon@2x.png"; sourceTree = "<group>"; };
 		C54CE6C618FB199A0077350E /* pins_theft_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_theft_icon.png; sourceTree = "<group>"; };
@@ -2246,6 +2249,8 @@
 		C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotation.m; path = Views/Map/Annotations/TSSpotCrimeAnnotation.m; sourceTree = "<group>"; };
 		C5AFB9261919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotationView.h; path = Views/TSSpotCrimeAnnotationView.h; sourceTree = "<group>"; };
 		C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotationView.m; path = Views/TSSpotCrimeAnnotationView.m; sourceTree = "<group>"; };
+		C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSReportDescriptionViewController.h; path = "View Controllers/TSReportDescriptionViewController.h"; sourceTree = "<group>"; };
+		C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSReportDescriptionViewController.m; path = "View Controllers/TSReportDescriptionViewController.m"; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -2499,6 +2504,8 @@
 				C556478218E48DD200D29B0D /* TSNavigationViewController.h */,
 				C556478318E48DD200D29B0D /* TSNavigationViewController.m */,
 				C55644EF18DF770D00D29B0D /* Animation */,
+				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
+				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
 			);
 			name = "View Controllers";
 			path = TapShield;
@@ -2890,10 +2897,10 @@
 				C54CE6BD18FB19990077350E /* pins_highfever_icon@2x.png */,
 				C54CE6BE18FB19990077350E /* pins_other_icon.png */,
 				C54CE6BF18FB19990077350E /* pins_other_icon@2x.png */,
-				C54CE6C018FB19990077350E /* pins_robbery.png */,
-				C54CE6C118FB19990077350E /* pins_robbery@2x.png */,
-				C54CE6C218FB199A0077350E /* pins_shooting.png */,
-				C54CE6C318FB199A0077350E /* pins_shooting@2x.png */,
+				C54CE6C018FB19990077350E /* pins_robbery_icon.png */,
+				C54CE6C118FB19990077350E /* pins_robbery_icon@2x.png */,
+				C54CE6C218FB199A0077350E /* pins_shooting_icon.png */,
+				C54CE6C318FB199A0077350E /* pins_shooting_icon@2x.png */,
 				C54CE6C418FB199A0077350E /* pins_stroke_icon.png */,
 				C54CE6C518FB199A0077350E /* pins_stroke_icon@2x.png */,
 				C54CE6C618FB199A0077350E /* pins_theft_icon.png */,
@@ -3911,7 +3918,7 @@
 				C532E65318BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
 				C54CE96818FB199A0077350E /* bubble_arson_icon.png in Resources */,
 				C54CE90E18FB199A0077350E /* pins_heartattack_icon.png in Resources */,
-				C54CE92318FB199A0077350E /* pins_robbery@2x.png in Resources */,
+				C54CE92318FB199A0077350E /* pins_robbery_icon@2x.png in Resources */,
 				C54CEA5818FB199A0077350E /* bubble_me.png in Resources */,
 				C54CE93B18FB199A0077350E /* pins_vandalism_icon@2x.png in Resources */,
 				C54CEAAF18FB199A0077350E /* count_bg@2x.png in Resources */,
@@ -4187,14 +4194,14 @@
 				C585F30C18DB6E2E009EEF16 /* Raleway-Thin.otf in Resources */,
 				C55568CF1910066B00685FB0 /* slide_5.png in Resources */,
 				C54CEC4918FC77150077350E /* progress_bar_s4.png in Resources */,
-				C54CE92018FB199A0077350E /* pins_robbery.png in Resources */,
+				C54CE92018FB199A0077350E /* pins_robbery_icon.png in Resources */,
 				C55568D81910066B00685FB0 /* slide_6@2x.png in Resources */,
 				C5FD5E8318B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
-				C54CE92918FB199A0077350E /* pins_shooting@2x.png in Resources */,
+				C54CE92918FB199A0077350E /* pins_shooting_icon@2x.png in Resources */,
 				C54CE7E818FB199A0077350E /* settings_menu_icon_inactive.png in Resources */,
 				C54CE8B118FB199A0077350E /* chat_icon@2x.png in Resources */,
 				C54CE8F318FB199A0077350E /* pins_burglary_icon@2x.png in Resources */,
-				C54CE92618FB199A0077350E /* pins_shooting.png in Resources */,
+				C54CE92618FB199A0077350E /* pins_shooting_icon.png in Resources */,
 				C54CE8C018FB199A0077350E /* menu_icon.png in Resources */,
 				C54CEBF518FC77150077350E /* facebook_icon.png in Resources */,
 				C54CEA7C18FB199A0077350E /* default_user_icon.png in Resources */,
@@ -4423,7 +4430,7 @@
 				C54CEBD318FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C54CEB3318FC76620077350E /* number_3.png in Resources */,
 				C54CEA8A18FB199A0077350E /* code_disarm_fill.png in Resources */,
-				C54CE92818FB199A0077350E /* pins_shooting.png in Resources */,
+				C54CE92818FB199A0077350E /* pins_shooting_icon.png in Resources */,
 				C54CEA3618FB199A0077350E /* route_car_icon_inactive.png in Resources */,
 				C54CE95818FB199A0077350E /* Yank_icon.png in Resources */,
 				C54CE9E818FB199A0077350E /* alert_yank_icon.png in Resources */,
@@ -4453,7 +4460,7 @@
 				C54CE96A18FB199A0077350E /* bubble_arson_icon.png in Resources */,
 				C54CE91F18FB199A0077350E /* pins_other_icon@2x.png in Resources */,
 				C55569061912171A00685FB0 /* Icon-60@2x.png in Resources */,
-				C54CE92218FB199A0077350E /* pins_robbery.png in Resources */,
+				C54CE92218FB199A0077350E /* pins_robbery_icon.png in Resources */,
 				C54CEBD918FC77150077350E /* btn_big_circle_normal.png in Resources */,
 				B53BBD1A18980FDA006A27E0 /* InfoPlist.strings in Resources */,
 				C54CE93A18FB199A0077350E /* pins_vandalism_icon.png in Resources */,
@@ -4658,11 +4665,11 @@
 				C54CEA3C18FB199A0077350E /* route_walk_icon_active.png in Resources */,
 				C585F30818DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C54CE94918FB199A0077350E /* tapshield_icon@2x.png in Resources */,
-				C54CE92B18FB199A0077350E /* pins_shooting@2x.png in Resources */,
+				C54CE92B18FB199A0077350E /* pins_shooting_icon@2x.png in Resources */,
 				C54CE90418FB199A0077350E /* pins_cpr2_icon.png in Resources */,
 				C5C1706C18ABEFFC00EEFBD6 /* location1.png in Resources */,
 				C54CEA6018FB199A0077350E /* bubble_someone.png in Resources */,
-				C54CE92518FB199A0077350E /* pins_robbery@2x.png in Resources */,
+				C54CE92518FB199A0077350E /* pins_robbery_icon@2x.png in Resources */,
 				C54CE9AC18FB199A0077350E /* bubble_highfever_icon.png in Resources */,
 				C54CEBD618FC77150077350E /* swipe_arrows_icon@2x.png in Resources */,
 				C54CEBF118FC77150077350E /* email_icon.png in Resources */,
@@ -4810,7 +4817,7 @@
 				C54CEBD218FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C54CEB3218FC76620077350E /* number_3.png in Resources */,
 				C54CEA8918FB199A0077350E /* code_disarm_fill.png in Resources */,
-				C54CE92718FB199A0077350E /* pins_shooting.png in Resources */,
+				C54CE92718FB199A0077350E /* pins_shooting_icon.png in Resources */,
 				C54CEA3518FB199A0077350E /* route_car_icon_inactive.png in Resources */,
 				C54CE95718FB199A0077350E /* Yank_icon.png in Resources */,
 				C54CE9E718FB199A0077350E /* alert_yank_icon.png in Resources */,
@@ -4840,7 +4847,7 @@
 				C54CE96918FB199A0077350E /* bubble_arson_icon.png in Resources */,
 				C54CE91E18FB199A0077350E /* pins_other_icon@2x.png in Resources */,
 				C55569051912171A00685FB0 /* Icon-60@2x.png in Resources */,
-				C54CE92118FB199A0077350E /* pins_robbery.png in Resources */,
+				C54CE92118FB199A0077350E /* pins_robbery_icon.png in Resources */,
 				C54CEBD818FC77150077350E /* btn_big_circle_normal.png in Resources */,
 				C57C48FB18BBDB1900DFFBCE /* LockIcon.png in Resources */,
 				C54CE93918FB199A0077350E /* pins_vandalism_icon.png in Resources */,
@@ -5045,11 +5052,11 @@
 				C54CEA3B18FB199A0077350E /* route_walk_icon_active.png in Resources */,
 				C585F30718DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C54CE94818FB199A0077350E /* tapshield_icon@2x.png in Resources */,
-				C54CE92A18FB199A0077350E /* pins_shooting@2x.png in Resources */,
+				C54CE92A18FB199A0077350E /* pins_shooting_icon@2x.png in Resources */,
 				C54CE90318FB199A0077350E /* pins_cpr2_icon.png in Resources */,
 				C57C491318BBDB1900DFFBCE /* EmailEnvelope.png in Resources */,
 				C54CEA5F18FB199A0077350E /* bubble_someone.png in Resources */,
-				C54CE92418FB199A0077350E /* pins_robbery@2x.png in Resources */,
+				C54CE92418FB199A0077350E /* pins_robbery_icon@2x.png in Resources */,
 				C54CE9AB18FB199A0077350E /* bubble_highfever_icon.png in Resources */,
 				C54CEBD518FC77150077350E /* swipe_arrows_icon@2x.png in Resources */,
 				C54CEBF018FC77150077350E /* email_icon.png in Resources */,
@@ -5178,6 +5185,7 @@
 				C5C1C9AE1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C585F2E518DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C532E63118BBF1E900FC111A /* TSColorPalette.m in Sources */,
+				C5AFB92D191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */,
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C5C1C9A419085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
@@ -5412,6 +5420,7 @@
 				C53A6643190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */,
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C5BBF32E18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
+				C5AFB92F191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */,
 				C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
@@ -5481,6 +5490,7 @@
 				C5C1C9AF1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C5662BCF18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5391EAF18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
+				C5AFB92E191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */,
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
 				C5C1C9A519085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,

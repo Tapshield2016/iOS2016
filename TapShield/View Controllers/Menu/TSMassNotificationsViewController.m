@@ -102,7 +102,7 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
     }
     
     cell.textLabel.text = ((TSJavelinAPIMassAlert *)_notifications[indexPath.row]).message;
-    cell.detailTextLabel.text = [self formatViewableDate:((TSJavelinAPIMassAlert *)_notifications[indexPath.row]).timeStamp];
+    cell.detailTextLabel.text = [TSUtilities formattedViewableDate:((TSJavelinAPIMassAlert *)_notifications[indexPath.row]).timeStamp];
     
     return cell;
 }
@@ -147,14 +147,6 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
         [_activityIndicator stopAnimating];
         [_activityIndicator setHidden:YES];
     }];
-}
-
-- (NSString *)formatViewableDate:(NSDate *)date {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"d MMM yyyy h:mm:ss a"];
-    NSString *dateString = [dateFormat stringFromDate:date];
-    
-    return dateString;
 }
 
 

@@ -10,14 +10,17 @@
 #import "TSColorPalette.h"
 #import "TSUserProfileCell.h"
 #import "TSRalewayFont.h"
+#import <MessageUI/MessageUI.h>
 
 @class MSDynamicsDrawerViewController;
 
-@interface TSMenuViewController : UITableViewController
+@interface TSMenuViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, weak) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
 
 - (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier;
 - (void)showMenuButton:(UIViewController *)viewController;
+
+- (IBAction)showAbout:(id)sender;
 
 @end

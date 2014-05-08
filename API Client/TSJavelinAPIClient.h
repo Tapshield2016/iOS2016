@@ -152,4 +152,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)removeEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion;
 - (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion;
 
+//Report
+- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL posted))completion;
+
 @end

@@ -12,6 +12,7 @@
 @interface TSSpotCrimeAnnotation : TSBaseMapAnnotation
 
 @property (strong, nonatomic) NSString *type;
+@property (strong, nonatomic) TSSpotCrimeLocation *spotCrime;
 
 - (instancetype)initWithSpotCrime:(TSSpotCrimeLocation *)location;
 

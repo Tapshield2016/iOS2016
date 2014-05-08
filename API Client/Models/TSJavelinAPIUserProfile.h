@@ -8,7 +8,7 @@
 
 #import "TSJavelinAPIBaseModel.h"
 
-#define kGenderLongArray @[@"Choose one", @"Male", @"Female"]
+#define kGenderLongArray @[@"Not now", @"Male", @"Female"]
 #define kGenderShortArray @[@"", @"M", @"F"]
 
 typedef enum {

@@ -17,6 +17,7 @@
 #import "TSRouteTimeAnnotation.h"
 #import "TSRouteOption.h"
 #import "TSSpotCrimeAnnotation.h"
+#import "TSUserAnnotationView.h"
 
 @interface TSMapView : MKMapView
 
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) MKCircle *accuracyCircle;
 @property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
+@property (nonatomic, strong) TSUserAnnotationView *userLocationAnnotationView;
 @property (nonatomic, strong) NSArray *spotCrimes;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
@@ -37,6 +39,9 @@
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)adjustAnnotationAlphaForPan;
+
+- (void)hideSpotCrimes;
+- (void)showSpotCrimes;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

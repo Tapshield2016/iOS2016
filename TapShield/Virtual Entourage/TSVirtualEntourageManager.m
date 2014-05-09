@@ -25,7 +25,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 @interface TSVirtualEntourageManager ()
 
 @property (strong, nonatomic) TSHomeViewController *homeView;
-
+@property (strong, nonatomic) UIAlertView *recalculateAlertView;
 
 @end
 
@@ -216,6 +216,16 @@ static dispatch_once_t predicate;
 
 - (void)recalculateEntourageTimerETA {
     
+    _recalculateAlertView = [[UIAlertView alloc] initWithTitle:@"Alert Disarmed"
+                                                       message:@"Would you like to continue entourage or end route?"
+                                                      delegate:self
+                                             cancelButtonTitle:@"End Route"
+                                             otherButtonTitles:@"Update ETA", nil];
+    [_recalculateAlertView show];
+}
+
+- (void)newMapsETA {
+    
     [_routeManager calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
         [self resetTimerWithTimeInterval:expectedTravelTime];
     }];
@@ -349,6 +359,20 @@ static dispatch_once_t predicate;
     
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:TSVirtualEntourageManagerMembersPosted];
     return [[NSMutableSet alloc] initWithSet:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
+}
+
+#pragma mark - Alert View Delegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (alertView == _recalculateAlertView) {
+        if (buttonIndex == 0) {
+             [self.homeView clearEntourageAndResetMap];
+        }
+        else if (buttonIndex == 1) {
+            [self newMapsETA];
+        }
+    }
 }
 
 @end

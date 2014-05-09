@@ -91,9 +91,16 @@
 
 - (IBAction)forgotPassword:(id)sender {
     
-    TSForgotPasswordViewController *viewcontroller = (TSForgotPasswordViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSForgotPasswordViewController class])];
+    _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    
+    TSForgotPasswordViewController *viewcontroller = (TSForgotPasswordViewController *)[self pushViewControllerWithClass:[TSForgotPasswordViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
+    
+    
+//    TSForgotPasswordViewController *viewcontroller = (TSForgotPasswordViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSForgotPasswordViewController class])];
+    
     viewcontroller.email = _emailTextField.text;
-    [self.navigationController pushViewController:viewcontroller animated:YES];
+
+//    [self.navigationController pushViewController:viewcontroller animated:YES];
 }
 
 - (void)shakeButton {

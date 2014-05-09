@@ -80,7 +80,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     [_manager startMonitoring];
     
     
-    [TSSocialAccountsManager initializeShareSocialAccountsManager];
+//    [TSSocialAccountsManager initializeShareSocialAccountsManager];
     [TSYankManager sharedYankManager];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];

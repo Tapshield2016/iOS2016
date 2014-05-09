@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+@property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
 
 - (IBAction)backToSignUp:(id)sender;
 

@@ -170,7 +170,12 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 #pragma mark - Geofence Proximity
 
+//start here
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation {
+    
+    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
+        return;
+    }
     
     if (!_lastAgencyUpdate) {
         [self updateNearbyAgencies:currentLocation];
@@ -185,15 +190,18 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 - (void)updateNearbyAgencies:(CLLocation *)currentLocation {
     
+    _nearbyAgencies = @[[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency];
+    
     [self checkInsideNearbyAgencies:currentLocation completion:^(TSJavelinAPIAgency *insideAgency) {
         
-        if (!insideAgency && !_nearbyAgencies) {
-            
-            [[TSJavelinAPIClient sharedClient] getAgenciesNearby:currentLocation radius:5.0 completion:^(NSArray *agencies) {
-                _nearbyAgencies = agencies;
-                [self checkInsideNearbyAgencies:currentLocation completion:nil];
-            }];
-        }
+#warning Nearby Agency Check Off - Using user agency
+//        if (!insideAgency && !_nearbyAgencies) {
+//            
+//            [[TSJavelinAPIClient sharedClient] getAgenciesNearby:currentLocation radius:5.0 completion:^(NSArray *agencies) {
+//                _nearbyAgencies = agencies;
+//                [self checkInsideNearbyAgencies:currentLocation completion:nil];
+//            }];
+//        }
     }];
 }
 

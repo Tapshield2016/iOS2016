@@ -26,7 +26,7 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [[TSSocialAccountsManager sharedSocialAccountsManager] addSocialViewsTo:self.view];
+//    [[TSSocialAccountsManager sharedSocialAccountsManager] addSocialViewsTo:self.view];
     
     _autoYankSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:TSYankManagerSettingAutoEnableYank];
 }

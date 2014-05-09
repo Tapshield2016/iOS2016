@@ -1488,6 +1488,9 @@
 		C5AFB92D191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */; };
 		C5AFB92E191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */; };
 		C5AFB92F191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */; };
+		C5AFB932191C1D2000EC62A5 /* TSAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */; };
+		C5AFB933191C1D2000EC62A5 /* TSAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */; };
+		C5AFB934191C1D2000EC62A5 /* TSAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -2251,6 +2254,8 @@
 		C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotationView.m; path = Views/TSSpotCrimeAnnotationView.m; sourceTree = "<group>"; };
 		C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSReportDescriptionViewController.h; path = "View Controllers/TSReportDescriptionViewController.h"; sourceTree = "<group>"; };
 		C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSReportDescriptionViewController.m; path = "View Controllers/TSReportDescriptionViewController.m"; sourceTree = "<group>"; };
+		C5AFB930191C1D2000EC62A5 /* TSAlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAlertManager.h; sourceTree = "<group>"; };
+		C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAlertManager.m; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -3756,6 +3761,8 @@
 				C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */,
 				C5BBF42F18FA5527008B5CB2 /* TSAlertDetailsTableViewController.h */,
 				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
+				C5AFB930191C1D2000EC62A5 /* TSAlertManager.h */,
+				C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */,
 			);
 			name = Alert;
 			sourceTree = "<group>";
@@ -5290,6 +5297,7 @@
 				C585F1A818CF88CF009EEF16 /* TWAPIManager.m in Sources */,
 				C53A6641190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */,
 				C5B5634618E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
+				C5AFB932191C1D2000EC62A5 /* TSAlertManager.m in Sources */,
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
@@ -5421,6 +5429,7 @@
 				B53BBD28189814F7006A27E0 /* TSHomeViewController.m in Sources */,
 				C5BBF32E18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
 				C5AFB92F191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */,
+				C5AFB934191C1D2000EC62A5 /* TSAlertManager.m in Sources */,
 				C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
@@ -5595,6 +5604,7 @@
 				C57C48E018BBDB1900DFFBCE /* TSOrganizationSearchViewController.m in Sources */,
 				C53A6642190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */,
 				C5B5634718E875200013AF69 /* TSSpotCrimeLocation.m in Sources */,
+				C5AFB933191C1D2000EC62A5 /* TSAlertManager.m in Sources */,
 				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1A318CF88CF009EEF16 /* OAuth+Additions.m in Sources */,

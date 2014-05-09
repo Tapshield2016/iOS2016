@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 
+@property (nonatomic, assign) BOOL firstAdd;
+
 - (id)initWithCoordinates:(CLLocationCoordinate2D)location placeName:(NSString *)placeName description:(NSString *)description;
 
 @end

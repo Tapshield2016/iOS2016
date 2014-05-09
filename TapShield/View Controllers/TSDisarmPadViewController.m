@@ -108,8 +108,7 @@
     }
     
     if ([_disarmTextField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [_pageViewController.emergencyAlertViewController.sendEmergencyTimer invalidate];
-        [_pageViewController.emergencyAlertViewController endCall];
+        [[TSAlertManager sharedManager] disarmAlert];
         [[TSJavelinAPIClient sharedClient] disarmAlert];
         [[TSJavelinAPIClient sharedClient] cancelAlert];
         

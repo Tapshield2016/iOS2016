@@ -21,6 +21,15 @@
     
     _emailTextField.text = _email;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
     [self addBottomButtons];
     
     [self.navigationController setNavigationBarHidden:YES];
@@ -118,6 +127,78 @@
     }
 }
 
+
+#pragma mark - Keyboard
+
+- (void)dismissKeyboard {
+    [[self.view findFirstResponder] resignFirstResponder];
+}
+
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    
+    // get keyboard size and loctaion
+    CGRect keyboardBounds;
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+    // get a rect for the textView frame
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0f, 0.0f, keyboardBounds.size.height, 0.0f);
+    
+    
+    
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= keyboardBounds.size.height;
+    if (!CGRectContainsPoint(aRect, [self.view findFirstResponder].superview.frame.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
+        [_scrollView setContentOffset:scrollPoint];
+    }
+    
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
+    [UIView commitAnimations];
+    
+    [_scrollView setScrollEnabled:YES];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    // get keyboard size and loctaion
+    CGRect keyboardBounds;
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+    // get a rect for the textView frame
+    
+    
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
+    [UIView commitAnimations];
+    
+    [_scrollView setScrollEnabled:NO];
+}
 
 #pragma mark - TextField Delegate
 

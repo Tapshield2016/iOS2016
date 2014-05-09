@@ -13,6 +13,7 @@
 #import "TSChatViewController.h"
 #import "TSHomeViewController.h"
 #import "TSAlertDetailsTableViewController.h"
+#import "TSAlertManager.h"
 
 @interface TSPageViewController : TSNavigationViewController <UIScrollViewDelegate>
 
@@ -27,14 +28,10 @@
 //UI and animation
 @property (strong, nonatomic) UIView *animatedView;
 @property (strong, nonatomic) UIView *countdownTintView;
-
-
 @property (strong, nonatomic) UIView *topTintView;
 @property (strong, nonatomic) UIView *bottomTintView;
 @property (strong, nonatomic) UIToolbar *bottomToolbar;
 @property (strong, nonatomic) UIToolbar *topToolbar;
-
-
 
 //Alert sending
 @property (nonatomic) BOOL isFirstTimeViewed;

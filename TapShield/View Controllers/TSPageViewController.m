@@ -56,6 +56,10 @@
     [self setRemoveNavigationShadow:YES];
     
     _isPhoneView = NO;
+    
+    if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+        [self showAlertViewController];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -183,11 +187,13 @@
 
 - (void)startTintViewAnimation {
     
-    if (_isFirstTimeViewed) {
-        
-        [_emergencyAlertViewController scheduleSendEmergencyTimer];
-        
-        [UIView animateWithDuration:10.0f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+    NSDate *endDate = [TSAlertManager sharedManager].endDate;
+    if (!endDate) {
+        [self stopTintViewAnimation];
+        return;
+    }
+    if ([endDate timeIntervalSinceNow] > 0) {
+        [UIView animateWithDuration:[endDate timeIntervalSinceNow] delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
             _countdownTintView.frame = self.view.frame;
             _countdownTintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.5f];
         } completion:nil];
@@ -198,7 +204,6 @@
     
     [_countdownTintView.layer removeAllAnimations];
     
-    //|UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
     [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionTransitionCrossDissolve  animations:^{
         _countdownTintView.frame = self.view.frame;
         _countdownTintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
@@ -226,8 +231,8 @@
 
 - (void)showingAlertView {
     
-    if (_isFirstTimeViewed) {
-        [_emergencyAlertViewController sendEmergency];
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+        [[TSAlertManager sharedManager] sendAlert:nil];
         [self stopTintViewAnimation];
         _isFirstTimeViewed = NO;
     }

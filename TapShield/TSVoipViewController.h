@@ -9,9 +9,10 @@
 #import "TSNavigationViewController.h"
 #import "TwilioClient.h"
 #import "TSRoundRectButton.h"
+#import "TSAlertManager.h"
 
 
-@interface TSVoipViewController : TSNavigationViewController <TCConnectionDelegate, TCDeviceDelegate>
+@interface TSVoipViewController : TSNavigationViewController <TSCallDelegate>
 
 @property (weak, nonatomic) IBOutlet TSBaseLabel *phoneNumberLabel;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *dispatcherLabel;
@@ -25,11 +26,6 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *chatButton;
 
 @property (strong, nonatomic) UIViewController *emergencyView;
-
-@property (strong, nonatomic) TCDevice *twilioDevice;
-@property (strong, nonatomic) TCConnection *twilioConnection;
-
-- (void)startTwilioCall;
 
 - (IBAction)addAlertDetails:(id)sender;
 - (IBAction)showChatViewController:(id)sender;

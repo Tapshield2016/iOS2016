@@ -28,7 +28,9 @@
     _isFirstTimeViewed = YES;
     
     _backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background568"]];
-    _backgroundImage.frame = self.view.frame;
+    CGRect frame = self.view.frame;
+    frame.size.height = 568.0;
+    _backgroundImage.frame = frame;
     [self.view insertSubview:_backgroundImage atIndex:0];
     
     _logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];

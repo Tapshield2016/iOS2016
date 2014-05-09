@@ -18,6 +18,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import <AFNetworking/AFNetworkReachabilityManager.h>
 #import "TSVirtualEntourageManager.h"
+#import "TSLocationController.h"
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -140,6 +141,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
         [TSVirtualEntourageManager sharedManager].isEnabled) {
         [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             NSLog(@"BackgroundTaskExpirationHandler");
+            [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
         }];
     }
 }

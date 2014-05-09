@@ -16,6 +16,7 @@
         _coordinate = location;
         _title = placeName;
         _subtitle = description;
+        _firstAdd = YES;
     }
     return self;
 }

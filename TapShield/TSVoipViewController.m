@@ -40,6 +40,12 @@ static NSString * const kCallRedialing = @"Redialing";
     
     [_buttonView insertSubview:self.toolbar atIndex:0];
     _buttonView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
+    
+    if ([TSAlertManager sharedManager].callStartTime) {
+        [self connectionDidConnect:nil];
+    }
+    
+    [TSAlertManager sharedManager].callDelegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +64,7 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (IBAction)redialTwilio:(id)sender {
     
-    [self startTwilioCall];
+    [[TSAlertManager sharedManager] startTwilioCall];
 }
 
 - (IBAction)speakerToggle:(id)sender {
@@ -93,116 +99,18 @@ static NSString * const kCallRedialing = @"Redialing";
     [self updatePhoneNumberWithMessage:[TSUtilities formatPhoneNumber:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber]];
 }
 
-#pragma mark - Twilio Setup
-
-- (BOOL)capabilityTokenValid
-{
-	//Check TCDevice's capability token to see if it is still valid
-	BOOL isValid = NO;
-	NSNumber* expirationTimeObject = [_twilioDevice.capabilities objectForKey:@"expiration"];
-	long long expirationTimeValue = [expirationTimeObject longLongValue];
-	long long currentTimeValue = (long long)[[NSDate date] timeIntervalSince1970];
-    
-	if ((expirationTimeValue - currentTimeValue) > 0) {
-        isValid = YES;
-    }
-	
-	return isValid;
-}
-
-- (void)getTwilioCallToken:(void(^)(NSString *callToken))completion {
-    
-    if (_callToken) {
-        if ([self capabilityTokenValid]) {
-            if (completion) {
-                completion(_callToken);
-                return;
-            }
-        }
-    }
-    
-    [[TSJavelinAPIClient sharedClient] getTwilioCallToken:completion];
-}
-
-- (void)startTwilioCall {
-    
-    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-        if (!granted) {
-            // Microphone disabled code
-            UIAlertView *microphoneAccessDeniedAlert = [[UIAlertView alloc] initWithTitle:@"Microphone Access Was Denied."
-                                                                                  message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone"
-                                                                                 delegate:nil
-                                                                        cancelButtonTitle:@"OK"
-                                                                        otherButtonTitles:nil];
-            [microphoneAccessDeniedAlert show];
-        }
-        [self connectToDispatcher];
-    }];
-}
-
-- (void)connectToDispatcher {
-    
-    [self voipDisconnect];
-    _redialButton.enabled = NO;
-    [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
-    
-    [self updatePhoneNumberWithMessage:kCallConnecting];
-    
-    [self getTwilioCallToken:^(NSString *callToken) {
-        
-        if (!callToken) {
-            [self connection:nil didFailWithError:nil];
-            return;
-        }
-        
-        _callToken = callToken;
-        _twilioDevice = [[TCDevice alloc] initWithCapabilityToken:callToken delegate:self];
-        _twilioDevice.outgoingSoundEnabled = YES;
-        _twilioDevice.incomingSoundEnabled = YES;
-        _twilioDevice.disconnectSoundEnabled = YES;
-        
-        
-        NSString *phoneNumber = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber;
-        
-        if (phoneNumber) {
-            _twilioConnection = [_twilioDevice connect:@{@"To": phoneNumber} delegate:self];
-        }
-    }];
-}
 
 #pragma mark - Actions
 
-- (void)voipDisconnect {
-    [_twilioConnection disconnect];
-    [_twilioDevice disconnectAll];
-}
-
-
-- (BOOL)updateAudioRoute:(BOOL)enabled {
-    
-    NSError *error;
-	if (enabled) {
-        return enabled = [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker
-                                                                             error:&error];
-        if (!enabled) {
-            NSLog(@"AVAudioSession error overrideOutputAudioPort:%@",error);
-        }
-	}
-	else {
-        return enabled = ![[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone
-                                                                              error:&error];
-        if (enabled) {
-            NSLog(@"AVAudioSession error overrideOutputAudioPort:%@",error);
-        }
-	}
-}
 
 - (void)setMuteEnabled:(BOOL)enabled {
-    _twilioConnection.muted = enabled;
+    [TSAlertManager sharedManager].twilioConnection.muted = enabled;
+    
+    _muteButton.selected = [TSAlertManager sharedManager].twilioConnection.muted;
 }
 
 - (void)setSpeakerEnabled:(BOOL)enabled {
-	_speakerEnabled = [self updateAudioRoute:enabled];
+	_speakerEnabled = [[TSAlertManager sharedManager] updateAudioRoute:enabled];
     
     _speakerButton.selected = _speakerEnabled;
 }
@@ -235,8 +143,7 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (void)timerCountUp:(NSTimer *)timer {
     
-    NSDate *date = timer.userInfo;
-    NSTimeInterval seconds = abs([date timeIntervalSinceNow]);
+    NSTimeInterval seconds = abs([[TSAlertManager sharedManager].callStartTime timeIntervalSinceNow]);
     
     ((TSEmergencyAlertViewController *)_emergencyView).callTimeLabel.text = [TSUtilities formattedStringForTime:seconds];
 }
@@ -254,7 +161,6 @@ static NSString * const kCallRedialing = @"Redialing";
 
 
 - (void)connectionDidDisconnect:(TCConnection *)connection {
-    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [self stopCallTimer];
     _redialButton.enabled = YES;
     [self updatePhoneNumberWithMessage:kCallEnded];
@@ -265,28 +171,9 @@ static NSString * const kCallRedialing = @"Redialing";
 }
 
 - (void)connection:(TCConnection *)connection didFailWithError:(NSError *)error {
-    [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     [self stopCallTimer];
     _redialButton.enabled = YES;
     [self updatePhoneNumberWithMessage:kCallFailed];
-}
-
-#pragma mark - Twilio Device Delegate
-
-- (void)device:(TCDevice *)device didReceiveIncomingConnection:(TCConnection *)connection {
-    
-}
-
-- (void)device:(TCDevice *)device didReceivePresenceUpdate:(TCPresenceEvent *)presenceEvent {
-    
-}
-
-- (void)device:(TCDevice *)device didStopListeningForIncomingConnections:(NSError *)error {
-    
-}
-
-- (void)deviceDidStartListeningForIncomingConnections:(TCDevice *)device {
-    
 }
 
 @end

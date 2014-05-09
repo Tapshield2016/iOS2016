@@ -10,11 +10,6 @@
 #import "TSPageViewController.h"
 #import "TSVoipViewController.h"
 
-static NSString * const kAlertSend = @"Send alert";
-static NSString * const kAlertSending = @"Sending alert";
-static NSString * const kAlertSent = @"Alert was sent";
-static NSString * const kAlertReceived = @"The authorities have been notified";
-
 @interface TSEmergencyAlertViewController ()
 
 @property (strong, nonatomic) TSVoipViewController *voipController;
@@ -32,8 +27,6 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.showLargeLogo = YES;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertRecieved:) name:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:nil];
     
     [self.view addSubview:_voipController.view];
     
@@ -55,6 +48,7 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
         _dispatcherNameLabel.text = [NSString stringWithFormat:@"%@ Dispatcher", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
     }
     
+    [TSAlertManager sharedManager].alertDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -113,74 +107,31 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
 
 - (void)endCall {
     
-    [_voipController.twilioConnection disconnect];
+    [[TSAlertManager sharedManager] endTwilioCall];
 }
 
 #pragma mark - Alert Methods
 
-- (void)scheduleSendEmergencyTimer {
-    
-    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
-        return;
-    }
-    
-    if (!_sendEmergencyTimer) {
-        _sendEmergencyTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
-                                                               target:self
-                                                             selector:@selector(emergencyTimerCountdown:)
-                                                             userInfo:[NSDate date]
-                                                              repeats:YES];
-    }
-}
 
-- (void)emergencyTimerCountdown:(NSTimer *)timer {
+- (void)alertStatusChanged:(NSString *)status {
+    
+    [self updateAlertInfoLabel:status];
     
     AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
     
-    
-    
-    if ([(NSDate *)timer.userInfo timeIntervalSinceNow] <= -10) {
+    if ([status isEqualToString:kAlertSending]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_sendEmergencyTimer invalidate];
             [(TSPageViewController *)_pageViewController showAlertViewController];
         });
     }
-}
-
-- (void)sendEmergency {
     
-    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
-    
-    [_sendEmergencyTimer invalidate];
+    if ([status isEqualToString:kAlertSent]) {
+        
+        [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
+        [_pageViewController.homeViewController mapAlertModeToggle];
+    }
     
     [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
-    
-    [self updateAlertInfoLabel:kAlertSending];
-    [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:@"E" location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
-        if (sent) {
-            [self updateAlertInfoLabel:kAlertSent];
-            [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
-            [_pageViewController.homeViewController mapAlertModeToggle];
-        }
-        else {
-            
-        }
-        
-        if (inside) {
-            if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.launchCallToDispatcherOnAlert) {
-                [self performSelectorOnMainThread:@selector(callDispatcher:) withObject:nil waitUntilDone:NO];
-            }
-        }
-        else {
-#warning Call 911
-        }
-        
-    }];
-}
-
-- (void)alertRecieved:(NSNotification *)notification {
-    
-    [self updateAlertInfoLabel:kAlertReceived];
 }
 
 - (void)updateAlertInfoLabel:(NSString *)string {
@@ -260,7 +211,9 @@ static NSString * const kAlertReceived = @"The authorities have been notified";
         [self showPhoneInfoView];
     }];
     
-    [_voipController startTwilioCall];
+    if (![TSAlertManager sharedManager].callInProgress) {
+        [[TSAlertManager sharedManager] startTwilioCall];
+    }
 }
 
 - (void)showPhoneInfoView {

@@ -8,8 +8,9 @@
 
 #import "TSNavigationViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "TSAlertManager.h"
 
-@interface TSEmergencyAlertViewController : TSNavigationViewController
+@interface TSEmergencyAlertViewController : TSNavigationViewController <TSAlertDelegate>
 
 
 @property (strong, nonatomic) TSBaseLabel *alertInfoLabel;
@@ -33,8 +34,6 @@
 - (IBAction)callDispatcher:(id)sender;
 - (IBAction)showChatViewController:(id)sender;
 
-- (void)scheduleSendEmergencyTimer;
-- (void)sendEmergency;
 - (void)parentScrollViewOffset:(float)offsetX;
 
 - (void)showCallTimer;

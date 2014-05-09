@@ -201,7 +201,7 @@
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEntourage)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"End Tracking" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
                                         NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
@@ -273,6 +273,15 @@
             }
         }
     }
+    
+    NSString *type;
+    if ([sender isKindOfClass:[NSString class]]) {
+        if (((NSString *)sender).length == 1) {
+            type = sender;
+        }
+    }
+    
+    [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
     
     TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
     pageview.homeViewController = self;
@@ -578,22 +587,27 @@
     
     [self flipIntersectingRouteAnnotation];
     
-//    if (views.count == 1) {
-        CGRect visibleRect = [mapView annotationVisibleRect];
-        for (UIView *view in views) {
-            CGRect endFrame = view.frame;
+    CGRect visibleRect = [mapView annotationVisibleRect];
+    for (TSBaseAnnotationView *view in views) {
+        
+        if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
             
-            CGRect startFrame = endFrame; startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
-            view.frame = startFrame;
-            
-            [UIView beginAnimations:@"drop" context:NULL];
-            [UIView setAnimationDuration:0.3];
-            
-            view.frame = endFrame;
-            
-            [UIView commitAnimations];
+            if (((TSBaseMapAnnotation *)view.annotation).firstAdd) {
+                ((TSBaseMapAnnotation *)view.annotation).firstAdd = NO;
+                CGRect endFrame = view.frame;
+                
+                CGRect startFrame = endFrame; startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
+                view.frame = startFrame;
+                
+                [UIView beginAnimations:@"drop" context:NULL];
+                [UIView setAnimationDuration:0.3];
+                
+                view.frame = endFrame;
+                
+                [UIView commitAnimations];
+            }
         }
-//    }
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {

@@ -204,7 +204,7 @@ static dispatch_once_t predicate;
 - (void)timerEnded {
     
     [self resetEndTimer];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"T"];
 }
 
 - (void)resetEndTimer {

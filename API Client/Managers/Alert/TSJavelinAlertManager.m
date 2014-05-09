@@ -90,7 +90,6 @@ static dispatch_once_t onceToken;
     return _sharedManager;
 }
 
-
 #pragma mark - Alert methods
 
 - (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {

@@ -1491,6 +1491,9 @@
 		C5AFB932191C1D2000EC62A5 /* TSAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */; };
 		C5AFB933191C1D2000EC62A5 /* TSAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */; };
 		C5AFB934191C1D2000EC62A5 /* TSAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */; };
+		C5AFB936191D2F3000EC62A5 /* splash3.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFB935191D2F3000EC62A5 /* splash3.5.png */; };
+		C5AFB937191D2F3000EC62A5 /* splash3.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFB935191D2F3000EC62A5 /* splash3.5.png */; };
+		C5AFB938191D2F3000EC62A5 /* splash3.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFB935191D2F3000EC62A5 /* splash3.5.png */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -2256,6 +2259,7 @@
 		C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSReportDescriptionViewController.m; path = "View Controllers/TSReportDescriptionViewController.m"; sourceTree = "<group>"; };
 		C5AFB930191C1D2000EC62A5 /* TSAlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAlertManager.h; sourceTree = "<group>"; };
 		C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAlertManager.m; sourceTree = "<group>"; };
+		C5AFB935191D2F3000EC62A5 /* splash3.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash3.5.png; path = Images/splash3.5.png; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -3693,6 +3697,7 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5AFB935191D2F3000EC62A5 /* splash3.5.png */,
 				C55568EB1912171A00685FB0 /* ios_icon_tapshield */,
 				C55568F41912171A00685FB0 /* input_icons.psb_iPhone_assets */,
 				C55568B01910066B00685FB0 /* TapShield_welcome_screens_iPhone_assets */,
@@ -4211,6 +4216,7 @@
 				C54CE92618FB199A0077350E /* pins_shooting_icon.png in Resources */,
 				C54CE8C018FB199A0077350E /* menu_icon.png in Resources */,
 				C54CEBF518FC77150077350E /* facebook_icon.png in Resources */,
+				C5AFB936191D2F3000EC62A5 /* splash3.5.png in Resources */,
 				C54CEA7C18FB199A0077350E /* default_user_icon.png in Resources */,
 				C55569041912171A00685FB0 /* Icon-60@2x.png in Resources */,
 				C54CEB4F18FC76620077350E /* number_8.png in Resources */,
@@ -4333,6 +4339,7 @@
 				C54CEC0318FC77150077350E /* linkedin_icon.png in Resources */,
 				C54CEA4B18FB199A0077350E /* user_default_icon@2x.png in Resources */,
 				C54CEBAF18FC77150077350E /* splash_bg-568h@2x in Resources */,
+				C5AFB938191D2F3000EC62A5 /* splash3.5.png in Resources */,
 				C54CEBF418FC77150077350E /* email_icon@2x.png in Resources */,
 				C54CEBEE18FC77150077350E /* btn_small_circle_pressed@2x.png in Resources */,
 				C54CEBC418FC77150077350E /* pag_dot_active@2x.png in Resources */,
@@ -4720,6 +4727,7 @@
 				C54CEC0218FC77150077350E /* linkedin_icon.png in Resources */,
 				C54CEA4A18FB199A0077350E /* user_default_icon@2x.png in Resources */,
 				C54CEBAE18FC77150077350E /* splash_bg-568h@2x in Resources */,
+				C5AFB937191D2F3000EC62A5 /* splash3.5.png in Resources */,
 				C54CEBF318FC77150077350E /* email_icon@2x.png in Resources */,
 				C54CEBED18FC77150077350E /* btn_small_circle_pressed@2x.png in Resources */,
 				C54CEBC318FC77150077350E /* pag_dot_active@2x.png in Resources */,

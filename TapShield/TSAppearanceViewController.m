@@ -52,6 +52,13 @@
     _userProfile.weight = [_tableViewController.weightTextField.text integerValue];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    _scrollView.contentSize = self.view.frame.size;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -83,9 +90,10 @@
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
+    CGRect rect = [[self.view findFirstResponder] convertRect:[self.view findFirstResponder].superview.frame toView:self.view];
     
-    if (!CGRectContainsPoint(aRect, [self.view findFirstResponder].superview.frame.origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
+    if (!CGRectContainsPoint(aRect, rect.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, rect.origin.y - keyboardBounds.size.height);
         [_scrollView setContentOffset:scrollPoint];
     }
     

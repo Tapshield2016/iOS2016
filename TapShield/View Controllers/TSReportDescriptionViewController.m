@@ -22,6 +22,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
     self.navigationItem.title = @"Description";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
@@ -32,6 +41,7 @@
     _location = [TSLocationController sharedLocationController].location;
     
     _detailsTextView.layer.cornerRadius = 5;
+    _detailsTextView.placeholder = @"Enter your non-emergency tip details here (call 911 if this is an emergency)";
     
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -77,9 +87,9 @@
 
 - (void)reportEvent {
     
-    NSArray *array = [NSArray arrayWithObjects:kSpotCrimeTypesArray];
+    NSArray *array = [NSArray arrayWithObjects:kSocialCrimeReportLongArray];
     int index = [array indexOfObject:_type];
-    NSArray *shortArray = [NSArray arrayWithObjects:kSpotCrimeTypesShortArray];
+    NSArray *shortArray = [NSArray arrayWithObjects:kSocialCrimeReportShortArray];
     
     if (!_detailsTextView.text || !_detailsTextView.text.length) {
         _detailsTextView.text = _type;
@@ -100,6 +110,70 @@
             }];
         }
     }];
+}
+
+
+
+#pragma mark - Keyboard Notifications
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    
+    // get keyboard size and loctaion
+    CGRect keyboardBounds;
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+    // get a rect for the textView frame
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= keyboardBounds.size.height;
+    
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0f, keyboardBounds.size.height, 0.0);
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
+    CGRect rect = [[self.view findFirstResponder] convertRect:[self.view findFirstResponder].superview.frame toView:self.view];
+    
+    if (!CGRectContainsPoint(aRect, rect.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, rect.origin.y - keyboardBounds.size.height);
+        [_scrollView setContentOffset:scrollPoint];
+    }
+    
+    [UIView commitAnimations];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    // get keyboard size and loctaion
+    CGRect keyboardBounds;
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+    // get a rect for the textView frame
+    
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
+    [UIView commitAnimations];
 }
 
 @end

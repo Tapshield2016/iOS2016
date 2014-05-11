@@ -22,7 +22,7 @@
 + (NSString *)formattedStringForTime:(NSTimeInterval)duration;
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
 + (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration;
-+ (NSString *)fromattedStringForDistanceInUSStandard:(CLLocationDistance)meters;
++ (NSString *)formattedStringForDistanceInUSStandard:(CLLocationDistance)meters;
 
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
 

@@ -128,7 +128,7 @@
     }
 }
 
-+ (NSString *)fromattedStringForDistanceInUSStandard:(CLLocationDistance)meters {
++ (NSString *)formattedStringForDistanceInUSStandard:(CLLocationDistance)meters {
     
     long distanceInMiles = lroundf(meters * 0.000621371);
     

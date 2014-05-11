@@ -58,7 +58,7 @@
 //        return [NSArray arrayWithObjects:kMedicalArray].count;
 //    }
     
-    return [NSArray arrayWithObjects:kSpotCrimeTypesArray].count;
+    return [NSArray arrayWithObjects:kSocialCrimeReportLongArray].count;
 }
 
 
@@ -74,13 +74,15 @@
 //        
 //    }
 //    else {
-        cell.textLabel.text = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:indexPath.row];
-        string = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:indexPath.row];
+        cell.textLabel.text = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
+        string = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
 //    }
     
     string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+    string = [string stringByReplacingOccurrencesOfString:@"/" withString:@""];
     NSString *imageName = [NSString stringWithFormat:@"bubble_%@_icon", [string lowercaseString]];
-    cell.imageView.image = [UIImage imageNamed:imageName];
+    UIImage *image = [UIImage imageNamed:imageName];
+    cell.imageView.image = image;
     if (!cell.imageView.image) {
         cell.imageView.image = [UIImage imageNamed:@"bubble_other_icon"];
     }
@@ -130,6 +132,8 @@
     viewController.type = cell.textLabel.text;
     viewController.image = cell.imageView.image;
     viewController.mapView = _mapView;
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (IBAction)dismissViewController:(id)sender {

@@ -159,6 +159,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

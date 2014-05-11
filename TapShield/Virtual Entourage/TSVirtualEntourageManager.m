@@ -10,12 +10,14 @@
 #import "TSUtilities.h"
 #import "TSHomeViewController.h"
 #import "MKMapItem+EncodeDecode.h"
+#import "TSLocalNotification.h"
 
-#define WALKING_RADIUS 50
-#define DRIVING_RADIUS 100
+#define WALKING_RADIUS 100
+#define DRIVING_RADIUS 200
 
 #define ARRIVAL_MESSAGE @"%@ has arrived at %@, %@."
 #define NON_ARRIVAL_MESSAGE @"Please be advised, %@ has not made it to %@, %@, within the estimated time of arrival."
+#define NOTIFICATION_TIMES @(60*5), @(60), @(30), @(10), @(5), nil
 
 static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
 
@@ -26,6 +28,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 @property (strong, nonatomic) TSHomeViewController *homeView;
 @property (strong, nonatomic) UIAlertView *recalculateAlertView;
+@property (strong, nonatomic) UIAlertView *notifyEntourageAlertView;
 
 @end
 
@@ -175,6 +178,19 @@ static dispatch_once_t predicate;
     
 }
 
+- (void)manuallyEndTracking {
+    
+    CLLocationDistance distance = [[TSLocationController sharedLocationController].location distanceFromLocation:_routeManager.destinationMapItem.placemark.location] ;
+    if (distance <= 300) {
+        _notifyEntourageAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"You are %@ from your destination", [TSUtilities formattedStringForDistanceInUSStandard:distance]]
+                                                               message:@"Would you like notify entourage members of your arrival?"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"Cancel"
+                                                     otherButtonTitles:@"Arrived", nil];
+        [_notifyEntourageAlertView show];
+    }
+}
+
 - (void)stopEntourage {
     
     _isEnabled = NO;
@@ -188,14 +204,15 @@ static dispatch_once_t predicate;
 - (void)resetTimerWithTimeInterval:(NSTimeInterval)interval {
     
     _isEnabled = YES;
-    [self resetEndTimer];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self resetEndTimer];
         _endTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                      target:self
                                                    selector:@selector(timerEnded)
                                                    userInfo:nil
                                                     repeats:NO];
+        [self scheduleLocalNotifications];
     });
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
@@ -204,11 +221,12 @@ static dispatch_once_t predicate;
 - (void)timerEnded {
     
     [self resetEndTimer];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"T"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"Y"];
 }
 
 - (void)resetEndTimer {
     
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     [_endTimer invalidate];
     _endTimer = nil;
     
@@ -217,7 +235,7 @@ static dispatch_once_t predicate;
 - (void)recalculateEntourageTimerETA {
     
     _recalculateAlertView = [[UIAlertView alloc] initWithTitle:@"Alert Disarmed"
-                                                       message:@"Would you like to continue entourage or end route?"
+                                                       message:@"Would you like to continue Entourage?"
                                                       delegate:self
                                              cancelButtonTitle:@"End Route"
                                              otherButtonTitles:@"Update ETA", nil];
@@ -229,6 +247,16 @@ static dispatch_once_t predicate;
     [_routeManager calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
         [self resetTimerWithTimeInterval:expectedTravelTime];
     }];
+}
+
+- (void)scheduleLocalNotifications {
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    NSArray *times = [NSArray arrayWithObjects:NOTIFICATION_TIMES];
+    for (NSNumber *seconds in times) {
+        NSString *message = [NSString stringWithFormat:@"%@ remaining to reach %@", [TSUtilities formattedDescriptiveStringForDuration:[seconds integerValue]], _routeManager.destinationMapItem.name];
+        [TSLocalNotification presentLocalNotification:message fireDate:[NSDate dateWithTimeInterval:-[seconds integerValue] sinceDate:_endTimer.fireDate]];
+    }
 }
 
 #pragma mark - Add Remove Members
@@ -371,6 +399,14 @@ static dispatch_once_t predicate;
         }
         else if (buttonIndex == 1) {
             [self newMapsETA];
+        }
+    }
+    if (alertView == _notifyEntourageAlertView) {
+        if (buttonIndex == 1) {
+            [self arrivedAtDestination];
+        }
+        else {
+            [_homeView clearEntourageAndResetMap];
         }
     }
 }

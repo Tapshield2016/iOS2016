@@ -135,7 +135,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)addDescriptionToNavBar {
     
-    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities fromattedStringForDistanceInUSStandard:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.distance]];
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.distance]];
     
     _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
     _addressLabel.text = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.name;
@@ -714,5 +714,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         } completion:nil];
     });
 }
+
 
 @end

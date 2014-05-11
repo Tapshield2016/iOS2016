@@ -7,6 +7,7 @@
 //
 
 #import "TSNavigationViewController.h"
+#import "TSBaseTextView.h"
 
 @interface TSReportDescriptionViewController : TSNavigationViewController
 
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
-@property (weak, nonatomic) IBOutlet UITextView *detailsTextView;
+@property (weak, nonatomic) IBOutlet TSBaseTextView *detailsTextView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end

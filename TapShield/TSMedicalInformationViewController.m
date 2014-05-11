@@ -44,6 +44,13 @@
     _scrollView.backgroundColor = [TSColorPalette listBackgroundColor];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    _scrollView.contentSize = self.view.frame.size;
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
@@ -84,8 +91,10 @@
     [UIView setAnimationCurve:[curve intValue]];
     
     
-    if (!CGRectContainsPoint(aRect, [self.view findFirstResponder].superview.frame.origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
+    CGRect rect = [[self.view findFirstResponder] convertRect:[self.view findFirstResponder].superview.frame toView:self.view];
+    
+    if (!CGRectContainsPoint(aRect, rect.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, rect.origin.y - keyboardBounds.size.height);
         [_scrollView setContentOffset:scrollPoint];
     }
     

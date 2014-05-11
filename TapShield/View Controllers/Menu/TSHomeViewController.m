@@ -735,6 +735,9 @@
     
     if (alertView == _cancelEntourageAlertView) {
         if (buttonIndex == 1) {
+            [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+        }
+        else {
             [self clearEntourageAndResetMap];
         }
     }

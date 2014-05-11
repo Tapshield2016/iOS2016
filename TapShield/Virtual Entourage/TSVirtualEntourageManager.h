@@ -22,6 +22,7 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion;
 - (void)stopEntourage;
+- (void)manuallyEndTracking;
 - (void)recalculateEntourageTimerETA;
 - (void)checkRegion:(CLLocation *)userLocation;
 

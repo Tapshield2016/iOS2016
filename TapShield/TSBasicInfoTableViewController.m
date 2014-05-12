@@ -141,4 +141,13 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row < 3) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 @end

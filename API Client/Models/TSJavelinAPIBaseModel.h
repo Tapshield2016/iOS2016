@@ -19,5 +19,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
+- (NSDate *)reformattedTimeStamp:(NSDictionary *)attributes;
 
 @end

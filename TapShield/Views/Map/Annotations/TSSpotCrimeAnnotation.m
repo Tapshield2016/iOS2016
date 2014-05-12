@@ -7,6 +7,7 @@
 //
 
 #import "TSSpotCrimeAnnotation.h"
+#import "TSUtilities.h"
 
 @implementation TSSpotCrimeAnnotation
 
@@ -17,6 +18,17 @@
         
         _spotCrime = location;
         _type = location.type;
+    }
+    return self;
+}
+
+- (instancetype)initWithSpocialReport:(TSJavelinAPISocialCrimeReport *)report
+{
+    self = [super initWithCoordinates:report.location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType], [TSUtilities formattedDateTime:report.creationDate]] description:report.address];
+    if (self) {
+        
+        _socialReport = report;
+        _type = [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType];
     }
     return self;
 }

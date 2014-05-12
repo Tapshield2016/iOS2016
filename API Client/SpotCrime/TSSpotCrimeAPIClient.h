@@ -40,13 +40,6 @@ typedef enum {
     vandalism,
 } SpotCrimeTypes;
 
-
-#define kSocialCrimeReportShortArray @"AB", @"AS", @"CA", @"DI", @"DR", @"H", @"MH", @"O", @"S", @"SA", @"T", @"V", nil
-#define kSocialCrimeReportLongArray @"Abuse", @"Assault", @"Car Accident", @"Disturbance", @"Drugs/Alcohol", @"Harassment", @"Mental Health", @"Other",  @"Suggestion", @"Suspicious Activity", @"Theft", @"Vandalism", nil
-
-//@"RN",
-//@"Repair Needed",
-
 @interface TSSpotCrimeAPIClient : AFHTTPRequestOperationManager
 
 + (instancetype)sharedClient;

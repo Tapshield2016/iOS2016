@@ -15,5 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet TSBaseTextField *heightTextField;
 @property (weak, nonatomic) IBOutlet TSBaseTextField *weightTextField;
+@property (weak, nonatomic) IBOutlet TSBaseTextField *hairColorTextField;
+@property (weak, nonatomic) IBOutlet TSBaseTextField *ethnicityTextField;
 
 @end

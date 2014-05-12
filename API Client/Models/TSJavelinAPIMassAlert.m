@@ -19,7 +19,7 @@
     //@property (readonly) TSJavelinAPIAgency *agency;
     //@property (readonly) TSJavelinAPIUser *agencyDispatcher;
     _message = [attributes valueForKey:@"message"];
-    _timeStamp = [self reformattedTimeStamp:attributes];
+    _timeStamp = [self reformattedTimeStamp:[attributes valueForKey:@"last_modified"]];
     
     return self;
 }
@@ -40,18 +40,6 @@
         _timeStamp = [coder decodeObjectForKey:@"timeStamp"];
     }
     return self;
-}
-
-- (NSDate *)reformattedTimeStamp:(NSDictionary *)attributes
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    [dateFormatter setLocale:[NSLocale systemLocale]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-    NSDate *date = [dateFormatter dateFromString: [attributes valueForKey:@"last_modified"]];
-    NSLog(@"%@", date);
-    
-    return date;
 }
 
 @end

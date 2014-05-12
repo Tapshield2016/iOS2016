@@ -18,6 +18,7 @@
 #import "TSJavelinChatManager.h"
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIUtilities.h"
+#import "TSJavelinAPISocialCrimeReport.h"
 
 @interface TSJavelinAPIClient ()
 
@@ -249,7 +250,14 @@ static dispatch_once_t onceToken;
           }
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
-          [self getActiveAlertWithStatus:statuses fromObject:index + 1 completion:completion];
+          
+          if ([self shouldRetry:error]) {
+              dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+              dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                  [self getActiveAlertWithStatus:statuses fromObject:index completion:completion];
+              });
+          }
+          
       }];
 }
 
@@ -753,7 +761,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                  @"distance_within": @(radius)}
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if (completion) {
-              completion(responseObject);
+              completion([TSJavelinAPISocialCrimeReport socialCrimeReportArray:[responseObject objectForKey:@"results"]]);
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -771,7 +779,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 //
 //reporter, body, report_type, report_latitude and report_longitude are required fields. report_image_url will be unused for now but preserved for future use (clients will be responsible for uploading image assets to S3 and supplying the resulting URL to the API).
 
-- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL posted))completion {
+- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion {
     
     if (!body || !type || !location) {
         return;
@@ -788,7 +796,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            if (completion) {
-               completion(YES);
+               completion([[TSJavelinAPISocialCrimeReport alloc] initWithAttributes:responseObject]);
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -802,7 +810,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
            else {
                if (completion) {
-                   completion(NO);
+                   completion(nil);
                }
            }
        }];

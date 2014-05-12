@@ -33,6 +33,8 @@
                                                object:nil];
     
     _tableViewController = (TSAppearanceTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAppearanceTableViewController class])];
+    [self addChildViewController:_tableViewController];
+    [_tableViewController didMoveToParentViewController:self];
     _tableViewController.userProfile = _userProfile;
     
     CGRect frame = _tableViewController.view.frame;

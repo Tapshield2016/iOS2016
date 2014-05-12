@@ -29,6 +29,7 @@
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
 @property (nonatomic, strong) TSUserAnnotationView *userLocationAnnotationView;
 @property (nonatomic, strong) NSArray *spotCrimes;
+@property (nonatomic, strong) NSMutableArray *socialReports;
 
 @property (nonatomic) BOOL isAnimatingToRegion;
 @property (nonatomic) BOOL shouldUpdateCallOut;
@@ -42,6 +43,7 @@
 
 - (void)hideSpotCrimes;
 - (void)showSpotCrimes;
+- (void)addSocialReports:(NSArray *)socialReports;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

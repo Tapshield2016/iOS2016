@@ -432,6 +432,19 @@ static dispatch_once_t onceToken;
             NSLog(@"updateLoggedInUser: %@", responseObject);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error);
+            
+            if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+                // Delay execution of my block for 10 seconds.
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                    [self updateLoggedInUser:completion];
+                });
+            }
+            else {
+                if (completion) {
+                    completion(nil);
+                }
+            }
     }];
 }
 
@@ -449,6 +462,19 @@ static dispatch_once_t onceToken;
             NSLog(@"updateLoggedInUserDisarmCode: %@", responseObject);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUserDisarmCode: %@", error);
+            
+            if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+                // Delay execution of my block for 10 seconds.
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                    [self updateLoggedInUserDisarmCode:completion];
+                });
+            }
+            else {
+                if (completion) {
+                    completion(nil);
+                }
+            }
         }];
 }
 
@@ -576,8 +602,17 @@ static dispatch_once_t onceToken;
                
            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                NSLog(@"%@", error);
-               if (completion) {
-                   completion(nil);
+               if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+                   // Delay execution of my block for 10 seconds.
+                   dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                   dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                       [self retrieveAPITokenForLoggedInUser:completion];
+                   });
+               }
+               else {
+                   if (completion) {
+                       completion(nil);
+                   }
                }
                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRetrieveAPITokenNotification object:error];
            }

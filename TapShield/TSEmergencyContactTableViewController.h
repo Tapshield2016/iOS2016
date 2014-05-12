@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet TSBaseTextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet TSBaseTextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet TSBaseTextField *phoneNumberTextField;
+@property (weak, nonatomic) IBOutlet TSBaseTextField *relationshipTextField;
 
 @end

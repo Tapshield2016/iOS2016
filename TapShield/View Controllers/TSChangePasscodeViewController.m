@@ -1,21 +1,21 @@
 //
-//  TSBasicInfoViewController.m
+//  TSChangePasscodeViewController.m
 //  TapShield
 //
-//  Created by Adam Share on 4/15/14.
+//  Created by Adam Share on 5/11/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBasicInfoViewController.h"
-#import "TSBasicInfoTableViewController.h"
+#import "TSChangePasscodeViewController.h"
+#import "TSPasscodeTableViewController.h"
 
-@interface TSBasicInfoViewController ()
+@interface TSChangePasscodeViewController ()
 
-@property (strong, nonatomic) TSBasicInfoTableViewController *tableViewController;
+@property (strong, nonatomic) TSPasscodeTableViewController *tableViewController;
 
 @end
 
-@implementation TSBasicInfoViewController
+@implementation TSChangePasscodeViewController
 
 - (void)viewDidLoad
 {
@@ -31,18 +31,23 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    _tableViewController = (TSBasicInfoTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSBasicInfoTableViewController class])];
+    _tableViewController = (TSPasscodeTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPasscodeTableViewController class])];
     [self addChildViewController:_tableViewController];
     [_tableViewController didMoveToParentViewController:self];
-    _tableViewController.userProfile = _userProfile;
     
     CGRect frame = _tableViewController.view.frame;
-    frame.size.height = 60 * 4;
+    frame.size.height = 60 *3;
     frame.origin.y = 100;
     _tableViewController.view.frame = frame;
     [_scrollView addSubview:_tableViewController.view];
     
     _scrollView.backgroundColor = [TSColorPalette listBackgroundColor];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                             style:UIBarButtonItemStyleDone
+                                                            target:self
+                                                            action:@selector(savePasscode:)];
+    [self.navigationItem setRightBarButtonItem:item];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,11 +67,6 @@
     
     [super viewWillDisappear:animated];
     
-    _userProfile.birthday = _tableViewController.birthdayTextField.text;
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName = _tableViewController.firstNameTextField.text;
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName = _tableViewController.lastNameTextField.text;
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] updateLoggedInUser:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,6 +74,31 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)savePasscode:(id)sender {
+    
+    _tableViewController.currentPasscodeTextField.text = [TSUtilities removeNonNumericalCharacters:_tableViewController.currentPasscodeTextField.text];
+    _tableViewController.passcodeTextField.text = [TSUtilities removeNonNumericalCharacters:_tableViewController.passcodeTextField.text];
+    _tableViewController.repeatPasscodeTextField.text = [TSUtilities removeNonNumericalCharacters:_tableViewController.repeatPasscodeTextField.text];
+    
+    BOOL oldText = [[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode isEqualToString:_tableViewController.currentPasscodeTextField.text];
+    if (!oldText) {
+        _tableViewController.currentPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
+    }
+    BOOL newText = [_tableViewController.passcodeTextField.text isEqualToString:_tableViewController.repeatPasscodeTextField.text];
+    if (!newText || _tableViewController.passcodeTextField.text.length != 4) {
+        newText = NO;
+        _tableViewController.passcodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
+        _tableViewController.repeatPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
+    }
+    
+    if (oldText && newText && _tableViewController.passcodeTextField.text.length == 4) {
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode = _tableViewController.passcodeTextField.text;
+        [self.navigationController popViewControllerAnimated:YES];
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] updateLoggedInUserDisarmCode:nil];
+    }
+}
+
 
 #pragma mark - Keyboard
 
@@ -143,5 +168,6 @@
     
     [_scrollView setScrollEnabled:NO];
 }
+
 
 @end

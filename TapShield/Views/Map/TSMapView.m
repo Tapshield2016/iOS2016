@@ -97,11 +97,13 @@
 - (void)hideSpotCrimes {
     
     [self removeAnnotations:_spotCrimes];
+    [self removeAnnotations:_socialReports];
 }
 
 - (void)showSpotCrimes {
     
     [self addAnnotations:_spotCrimes];
+    [self addAnnotations:_socialReports];
     [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
 }
 
@@ -116,6 +118,34 @@
     }
     
     _spotCrimes = mutableArray;
+    
+    [self addAnnotations:mutableArray];
+    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
+}
+
+- (void)setSocialReports:(NSArray *)socialReports {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
+    for (TSJavelinAPISocialCrimeReport *report in socialReports) {
+        TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpocialReport:report];
+        [mutableArray addObject:annotation];
+    }
+    
+    _socialReports = mutableArray;
+    
+    [self addAnnotations:mutableArray];
+    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
+}
+
+- (void)addSocialReports:(NSArray *)socialReports {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
+    for (TSJavelinAPISocialCrimeReport *report in socialReports) {
+        TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpocialReport:report];
+        [mutableArray addObject:annotation];
+    }
+    
+    [_socialReports addObjectsFromArray:mutableArray];
     
     [self addAnnotations:mutableArray];
     [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];

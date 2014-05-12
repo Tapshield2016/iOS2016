@@ -13,6 +13,7 @@
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIEntourageMember.h"
+#import "TSJavelinAPISocialCrimeReport.h"
 
 @class TSJavelinAPIUser;
 @class TSJavelinAPIAlert;
@@ -153,6 +154,9 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion;
 
 //Report
-- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL posted))completion;
+- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius completion:(void (^)(NSArray *reports))completion;
+- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion;
+
+- (BOOL)shouldRetry:(NSError *)error;
 
 @end

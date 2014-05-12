@@ -9,6 +9,7 @@
 #import "TSSettingsViewController.h"
 #import "TSYankManager.h"
 #import "TSIntroPageViewController.h"
+#import "TSChangePasscodeViewController.h"
 
 NSString * const TSSettingsNotificationsEnabled = @"TSSettingsNotificationsEnabled";
 NSString * const TSSettingsICloudSyncEnabled = @"TSSettingsICloudSyncEnabled";
@@ -67,18 +68,37 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
 }
 
 - (IBAction)logOutUser:(id)sender {
-
-    [[TSSocialAccountsManager sharedSocialAccountsManager] logoutAllUserTypesCompletion:^(BOOL loggedOut) {
-        if (loggedOut) {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
+        if (success) {
             [[NSNotificationCenter defaultCenter] postNotificationName:TSSettingsViewControllerDidLogOut object:nil];
         }
     }];
+
+//    [[TSSocialAccountsManager sharedSocialAccountsManager] logoutAllUserTypesCompletion:^(BOOL loggedOut) {
+//        if (loggedOut) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:TSSettingsViewControllerDidLogOut object:nil];
+//        }
+//    }];
 }
 
 #pragma mark - Table view delegate
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 1) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (indexPath.row == 1) {
+        TSChangePasscodeViewController *viewController = (TSChangePasscodeViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSChangePasscodeViewController class])];
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 #pragma mark - Table view data source
@@ -89,7 +109,7 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
     tableView.separatorColor = [TSColorPalette tapshieldBlue];
     tableView.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     
-    if (indexPath.row == 3) {
+    if (indexPath.row == 1) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
     }
 }

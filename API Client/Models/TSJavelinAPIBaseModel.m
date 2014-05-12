@@ -56,4 +56,16 @@
     }
 }
 
+- (NSDate *)reformattedTimeStamp:(NSString *)string
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    [dateFormatter setLocale:[NSLocale systemLocale]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    NSDate *date = [dateFormatter dateFromString:string];
+    NSLog(@"%@", date);
+    
+    return date;
+}
+
 @end

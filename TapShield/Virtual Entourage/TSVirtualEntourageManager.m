@@ -221,7 +221,10 @@ static dispatch_once_t predicate;
 - (void)timerEnded {
     
     [self resetEndTimer];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"Y"];
+    
+    [TSLocalNotification presentLocalNotification:@"Entourage will be notified in 10 seconds, please enter passcode."];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"T"];
 }
 
 - (void)resetEndTimer {

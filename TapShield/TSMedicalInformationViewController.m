@@ -33,6 +33,8 @@
                                                object:nil];
     
     _tableViewController = (TSMedicalTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSMedicalTableViewController class])];
+    [self addChildViewController:_tableViewController];
+    [_tableViewController didMoveToParentViewController:self];
     _tableViewController.userProfile = _userProfile;
     
     CGRect frame = _tableViewController.view.frame;

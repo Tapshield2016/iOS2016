@@ -95,18 +95,23 @@
         _detailsTextView.text = _type;
     }
     
-    [[TSJavelinAPIClient sharedClient] postSocialCrimeReport:_detailsTextView.text type:shortArray[index] location:_location completion:^(BOOL posted) {
+    [[TSJavelinAPIClient sharedClient] postSocialCrimeReport:_detailsTextView.text type:shortArray[index] location:_location completion:^(TSJavelinAPISocialCrimeReport *report) {
         
-        if (posted) {
-            TSSpotCrimeLocation *location = [[TSSpotCrimeLocation alloc] initWithLatitude:_location.coordinate.latitude longitude:_location.coordinate.longitude];
-            location.eventDescription = _detailsTextView.text;
-            location.type = _type;
-            location.date = [TSUtilities formattedDateTime:[NSDate date]];
-            location.address = _addressLabel.text;
-            TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
+        if (report) {
+            report.address = _addressLabel.text;
+            
+            UINavigationController *parentNavigationController;
+            if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
+                parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
+            }
+            else if ([self.presentingViewController isKindOfClass:[UINavigationController class]]) {
+                parentNavigationController = (UINavigationController *)self.presentingViewController;
+            }
             
             [self dismissViewControllerAnimated:YES completion:^{
-                [_mapView addAnnotation:annotation];
+                [_mapView addSocialReports:@[report]];
+                [parentNavigationController.topViewController viewWillAppear:NO];
+                [parentNavigationController.topViewController viewDidAppear:NO];
             }];
         }
     }];

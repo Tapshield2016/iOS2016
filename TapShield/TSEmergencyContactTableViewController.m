@@ -7,6 +7,7 @@
 //
 
 #import "TSEmergencyContactTableViewController.h"
+#import "TSRelationshipViewController.h"
 
 @interface TSEmergencyContactTableViewController ()
 
@@ -32,6 +33,20 @@
     _firstNameTextField.text = self.userProfile.emergencyContactFirstName;
     _lastNameTextField.text = self.userProfile.emergencyContactLastName;
     _phoneNumberTextField.text = self.userProfile.emergencyContactPhoneNumber;
+    
+    if (self.userProfile.hairColor != 0) {
+        _relationshipTextField.text = [TSJavelinAPIUserProfile relationshipToLongString:self.userProfile.emergencyContactRelationship];
+    }
+    else {
+        _relationshipTextField.placeholder = @"Choose one";
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,20 +108,41 @@
     return 4;
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return NO;
-}
-
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     tableView.separatorColor = [TSColorPalette cellSeparatorColor];
     cell.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     
     if (indexPath.row == 3) {
+        if (self.userProfile.emergencyContactRelationship != 0) {
+            _relationshipTextField.text = [TSJavelinAPIUserProfile relationshipToLongString:self.userProfile.emergencyContactRelationship];
+        }
+        else {
+            _relationshipTextField.text = @"";
+            _relationshipTextField.placeholder = @"Choose one";
+        }
+        
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
         cell.separatorInset = UIEdgeInsetsZero;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == tableView.visibleCells.count - 1) {
+        TSRelationshipViewController *viewController = (TSRelationshipViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRelationshipViewController class])];
+        viewController.userProfile = self.userProfile;
+        [self.parentViewController.navigationController pushViewController:viewController animated:YES];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row < 3) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

@@ -8,12 +8,15 @@
 
 #import "TSBaseMapAnnotation.h"
 #import "TSSpotCrimeAPIClient.h"
+#import "TSJavelinAPISocialCrimeReport.h"
 
 @interface TSSpotCrimeAnnotation : TSBaseMapAnnotation
 
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) TSSpotCrimeLocation *spotCrime;
+@property (strong, nonatomic) TSJavelinAPISocialCrimeReport *socialReport;
 
 - (instancetype)initWithSpotCrime:(TSSpotCrimeLocation *)location;
+- (instancetype)initWithSpocialReport:(TSJavelinAPISocialCrimeReport *)report;
 
 @end

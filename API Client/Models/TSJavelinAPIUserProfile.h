@@ -17,7 +17,7 @@ typedef enum {
     kFemale,
 }ProfileGender;
 
-#define kHairColorLongArray @[@"", @"Blonde", @"Brown", @"Black", @"Red", @"Bald", @"Gray", @"Other"]
+#define kHairColorLongArray @[@"Not now", @"Blonde", @"Brown", @"Black", @"Red", @"Bald", @"Gray", @"Other"]
 #define kHairColorShortArray @[@"", @"Y", @"BR", @"BL", @"R", @"BA", @"GR", @"O"];
 
 typedef enum {
@@ -30,7 +30,7 @@ typedef enum {
     kOtherHairType,
 }ProfileHairColor;
 
-#define kRaceLongArray @[@"", @"Black/African Descent", @"White/Caucasian", @"East Indian", @"Asian", @"Latino/Hispanic", @"Middle Eastern", @"Pacific Islander", @"Native American", @"Other"]
+#define kRaceLongArray @[@"Not now", @"Black/African Descent", @"White/Caucasian", @"East Indian", @"Asian", @"Latino/Hispanic", @"Middle Eastern", @"Pacific Islander", @"Native American", @"Other"]
 #define kRaceShortArray @[@"", @"BA", @"WC", @"EI", @"AS", @"LH", @"ME", @"PI", @"NA", @"O"];
 
 typedef enum {
@@ -46,7 +46,7 @@ typedef enum {
 }ProfileRace;
 
 
-#define kRelationshipLongArray @[@"", @"Father", @"Mother", @"Spouse", @"Boyfriend", @"Girlfriend", @"Brother", @"Sister", @"Friend", @"Other"]
+#define kRelationshipLongArray @[@"Not now", @"Father", @"Mother", @"Spouse", @"Boyfriend", @"Girlfriend", @"Brother", @"Sister", @"Friend", @"Other"]
 #define kRelationshipShortArray @[@"", @"F", @"M", @"S", @"BF", @"GF", @"B", @"S", @"FR", @"O"]
 
 typedef enum {

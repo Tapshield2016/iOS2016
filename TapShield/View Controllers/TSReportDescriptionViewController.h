@@ -8,13 +8,14 @@
 
 #import "TSNavigationViewController.h"
 #import "TSBaseTextView.h"
+#import "TSMapView.h"
 
 @interface TSReportDescriptionViewController : TSNavigationViewController
 
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) UIImage *image;
 
-@property (strong, nonatomic) MKMapView *mapView;
+@property (strong, nonatomic) TSMapView *mapView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;

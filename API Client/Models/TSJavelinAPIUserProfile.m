@@ -45,9 +45,9 @@
     [encoder encodeObject: _birthday forKey: @"birthday"];
     [encoder encodeObject: _address forKey:@"address"];
     [encoder encodeObject:_addressDictionary forKey:@"address_dictionary"];
-    [encoder encodeInteger: _hairColor forKey:@"hair_color"];
-    [encoder encodeInteger: _gender forKey:@"gender"];
-    [encoder encodeInteger: _race forKey:@"race"];
+    [encoder encodeObject: @(_hairColor) forKey:@"hair_color"];
+    [encoder encodeObject: @(_gender) forKey:@"gender"];
+    [encoder encodeObject: @(_race) forKey:@"race"];
     [encoder encodeObject: _height forKey:@"height"];
     [encoder encodeObject: @(_weight) forKey:@"weight"];
     [encoder encodeObject: _knownAllergies forKey:@"known_allergies"];
@@ -55,7 +55,7 @@
     [encoder encodeObject: _emergencyContactFirstName forKey:@"emergency_contact_first_name"];
     [encoder encodeObject: _emergencyContactLastName forKey:@"emergency_contact_last_name"];
     [encoder encodeObject: _emergencyContactPhoneNumber forKey:@"emergency_contact_phone_number"];
-    [encoder encodeInteger: _emergencyContactRelationship forKey:@"emergency_contact_relationship"];
+    [encoder encodeObject: @(_emergencyContactRelationship) forKey:@"emergency_contact_relationship"];
     [encoder encodeObject: _user forKey:@"user"];
 }
 

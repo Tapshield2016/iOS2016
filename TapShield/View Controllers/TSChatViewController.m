@@ -209,6 +209,7 @@
     _tableView.scrollIndicatorInsets = contentInsets;
     
     if ([[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count > 1) {
+        [_tableView reloadData];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count - 1 inSection:0];
         [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }

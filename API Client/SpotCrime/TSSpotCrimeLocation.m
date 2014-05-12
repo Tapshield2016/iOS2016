@@ -27,6 +27,20 @@ static NSString * const IconImageSuffix = @"_icon";
     return self;
 }
 
+- (instancetype)initWithSocialCrimeReport:(NSDictionary *)dictionary
+{
+    self = [super init];
+    if (self) {
+        self.type = [dictionary objectForKey:@"type"];
+        self.address = [dictionary objectForKey:@"address"];
+        self.link = [dictionary objectForKey:@"link"];
+        self.cdid = [dictionary objectForKey:@"cdid"];
+        self.date = [dictionary objectForKey:@"date"];
+//        self.eventDescription = 
+    }
+    return self;
+}
+
 + (UIImage *)imageFromSpotCrimeType:(NSString *)type {
     
     

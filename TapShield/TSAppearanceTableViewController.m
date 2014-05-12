@@ -7,6 +7,8 @@
 //
 
 #import "TSAppearanceTableViewController.h"
+#import "TSHairColorViewController.h"
+#import "TSEthnicityViewController.h"
 
 @interface TSAppearanceTableViewController ()
 
@@ -31,6 +33,27 @@
     if (self.userProfile.weight) {
         _weightTextField.text = [NSString stringWithFormat:@"%i", self.userProfile.weight];
     }
+    
+    if (self.userProfile.hairColor != 0) {
+        _hairColorTextField.text = [TSJavelinAPIUserProfile hairColorToLongString:self.userProfile.hairColor];
+    }
+    else {
+        _hairColorTextField.placeholder = @"Choose one";
+    }
+    
+    if (self.userProfile.race != 0) {
+        _ethnicityTextField.text = [TSJavelinAPIUserProfile raceToLongString:self.userProfile.race];
+    }
+    else {
+        _ethnicityTextField.placeholder = @"Choose one";
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +78,11 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return NO;
+    if (indexPath.row < 2) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -66,6 +93,29 @@
     if (indexPath.row >= 2) {
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
+    }
+    
+    if (indexPath.row == 2) {
+        
+        if (self.userProfile.hairColor != 0) {
+            _hairColorTextField.text = [TSJavelinAPIUserProfile hairColorToLongString:self.userProfile.hairColor];
+        }
+        else {
+            _hairColorTextField.text = @"";
+            _hairColorTextField.placeholder = @"Choose one";
+        }
+    }
+    
+    if (indexPath.row == 3) {
+        
+        if (self.userProfile.race != 0) {
+            _ethnicityTextField.text = [TSJavelinAPIUserProfile raceToLongString:self.userProfile.race];
+        }
+        else {
+            _ethnicityTextField.text = @"";
+            _ethnicityTextField.placeholder = @"Choose one";
+        }
+        
         cell.separatorInset = UIEdgeInsetsZero;
     }
 }
@@ -108,6 +158,22 @@
     }
     
     return YES;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == tableView.visibleCells.count - 2) {
+        TSHairColorViewController *viewController = (TSHairColorViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSHairColorViewController class])];
+        viewController.userProfile = self.userProfile;
+        [self.parentViewController.navigationController pushViewController:viewController animated:YES];
+    }
+    
+    if (indexPath.row == tableView.visibleCells.count - 1) {
+        TSEthnicityViewController *viewController = (TSEthnicityViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEthnicityViewController class])];
+        viewController.userProfile = self.userProfile;
+        [self.parentViewController.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 

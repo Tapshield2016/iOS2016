@@ -52,6 +52,14 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     NSString *remoteHostName = @"api.tapshield.com";
 #endif
     
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] retrieveAPITokenForLoggedInUser:nil];
+    [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+    
     
     _manager = [AFNetworkReachabilityManager managerForDomain:remoteHostName];
                 
@@ -154,6 +162,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -186,8 +195,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    [application setApplicationIconBadgeNumber: 0];
+    
     [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, NSString *message) {
         if (!matchFound) {
             // Do something else here, we didn't find a match for any action we need to be aware of...
@@ -197,6 +207,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    [application setApplicationIconBadgeNumber: 0];
     
     [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, NSString *message) {
         if (!matchFound) {

@@ -9,6 +9,9 @@
 #import "TSChatViewController.h"
 #import "TSJavelinChatManager.h"
 #import "TSChatMessageCell.h"
+#import "TSAlertManager.h"
+#import "TSPageViewController.h"
+#import "TSLocationController.h"
 
 @interface TSChatViewController ()
 
@@ -23,6 +26,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(leftAgencyBoundaries) name:TSGeofenceUserDidLeaveAgency object:nil];
+    
+    [self.navigationItem setHidesBackButton:_hideBackButton];
     
     CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = -frame.size.height;
@@ -123,6 +130,14 @@
     [_textMessageBarAccessoryView.textView resignFirstResponder];
 }
 
+- (void)leftAgencyBoundaries {
+    
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+        [self dismissViewController];
+        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
+    }
+}
+
 - (void)dismissViewController {
     
     UINavigationController *parentNavigationController;
@@ -174,6 +189,12 @@
     [self updateTableViewCells];
     
     [self resetMessageBars];
+    
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        [TSAlertManager sharedManager].type = @"C";
+        [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
+    }
 }
 
 - (void)resetMessageBars {

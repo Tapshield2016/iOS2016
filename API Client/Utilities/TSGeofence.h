@@ -26,9 +26,15 @@
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation;
 + (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector;
 
+//Outside
+- (void)showOutsideBoundariesWindow;
+
 extern NSString * const TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang;
 extern NSString * const TSGeofenceUserIsWithinBoundariesWithOverhang;
 extern NSString * const TSGeofenceUserIsOutsideBoundariesWithOverhang;
 extern NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang;
+
+extern NSString * const TSGeofenceUserDidEnterAgency;
+extern NSString * const TSGeofenceUserDidLeaveAgency;
 
 @end

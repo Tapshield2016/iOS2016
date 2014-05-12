@@ -19,6 +19,7 @@
 #import <AFNetworking/AFNetworkReachabilityManager.h>
 #import "TSVirtualEntourageManager.h"
 #import "TSLocationController.h"
+#import "TSAlertManager.h"
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -215,6 +216,25 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             // Do something else here, we didn't find a match for any action we need to be aware of...
         }
     }];
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        if (notification) {
+            [application cancelLocalNotification:notification];
+        }
+        return;
+    }
+    
+    if ([[notification.userInfo objectForKey:@"destination"] isEqualToString:kAlertOutsideGeofence]) {
+        [[TSAlertManager sharedManager] callSecondary];
+    }
+    
+    if (notification) {
+        [application cancelLocalNotification:notification];
+    }
 }
 
 

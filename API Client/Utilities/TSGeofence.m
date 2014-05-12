@@ -7,6 +7,7 @@
 //
 
 #import "TSGeofence.h"
+#import "TSBaseLabel.h"
 
 NSString * const TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang = @"TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang";
 NSString * const TSGeofenceUserIsWithinBoundariesWithOverhang = @"TSGeofenceUserIsWithinBoundariesWithOverhang";
@@ -16,6 +17,11 @@ NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGe
 NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
 NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
+@interface TSGeofence ()
+
+@property (strong, nonatomic) UIWindow *window;
+
+@end
 
 @implementation TSGeofence
 
@@ -289,6 +295,69 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     
     [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSGeofenceUserDidEnterAgency object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSGeofenceUserDidLeaveAgency object:nil];
+}
+
+
+#pragma mark - Out Of Bounds UI
+
+- (void)showOutsideBoundariesWindow {
+    
+    [self performSelector:@selector(hideWindow) withObject:nil afterDelay:3.0];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideWindow)];
+    
+    CGRect frame = CGRectMake(0.0f, 0.0f, 260, 140);
+    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _window.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    _window.alpha = 0.0f;
+    [_window addGestureRecognizer:tap];
+    
+    UIView *view = [[UIView alloc] initWithFrame:frame];
+    view.center = _window.center;
+    view.layer.cornerRadius = 10;
+    view.layer.masksToBounds = YES;
+    view.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
+    toolbar.barStyle = UIBarStyleBlack;
+    [view addSubview:toolbar];
+    
+    float inset = 10;
+    TSBaseLabel *windowMessage = [[TSBaseLabel alloc] initWithFrame:CGRectMake(inset, 0, frame.size.width - inset*2, frame.size.height)];
+    windowMessage.numberOfLines = 0;
+    windowMessage.backgroundColor = [UIColor clearColor];
+    windowMessage.text = [NSString stringWithFormat:@"Chat Unavailable\n\nYou are located outside of the %@ boundaries", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
+    
+    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
+        windowMessage.text = @"Chat Unavailable\n\nYou are located outside the boundaries of an organization that uses TapShield";
+    }
+    
+    windowMessage.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    windowMessage.textColor = [UIColor whiteColor];
+    windowMessage.textAlignment = NSTextAlignmentCenter;
+    
+    [view addSubview:windowMessage];
+    
+    [_window addSubview:view];
+    [_window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        _window.alpha = 1.0f;
+        view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+    } completion:nil];
+}
+
+- (void)hideWindow {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3f animations:^{
+            _window.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            _window = nil;
+        }];
+    });
 }
 
 

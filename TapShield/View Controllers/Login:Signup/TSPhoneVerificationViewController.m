@@ -7,6 +7,7 @@
 //
 
 #import "TSPhoneVerificationViewController.h"
+#import "TSNamePictureViewController.h"
 
 @interface TSPhoneVerificationViewController ()
 
@@ -207,7 +208,7 @@
     [[[TSJavelinAPIClient sharedClient] authenticationManager] checkPhoneVerificationCode:_verificationCodeTextField.text completion:^(id responseObject) {
         if (!responseObject) {
             [self stopCodeVerificationIndicator];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self pushViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
         }
         else {
             [self stopCodeVerificationIndicator];

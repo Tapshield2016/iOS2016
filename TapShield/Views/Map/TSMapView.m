@@ -102,6 +102,7 @@
 
 - (void)showSpotCrimes {
     
+    [self hideSpotCrimes];
     [self addAnnotations:_spotCrimes];
     [self addAnnotations:_socialReports];
     [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];

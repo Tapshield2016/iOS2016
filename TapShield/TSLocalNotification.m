@@ -49,6 +49,18 @@
 }
 
 
++ (void)presentLocalNotification:(NSString *)message  openDestination:(NSString *)storyboardID alertAction:(NSString *)action {
+    
+    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+    
+    UILocalNotification *localNote = [TSLocalNotification localNotificationWithMessage:message date:nil];
+    localNote.userInfo = @{@"destination": storyboardID};
+    localNote.alertAction = action;
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNote];
+}
+
+
+
 
 
 @end

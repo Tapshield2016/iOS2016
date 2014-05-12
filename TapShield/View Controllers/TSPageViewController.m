@@ -155,7 +155,6 @@
     _countdownTintView.frame = frame;
     _countdownTintView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:1.0];
     [_animatedView insertSubview:_countdownTintView atIndex:0];
-    
 }
 
 - (void)initPages {
@@ -169,6 +168,9 @@
         _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
     }
     
+//    [self addChildViewController:_disarmPadViewController];
+//    [_disarmPadViewController didMoveToParentViewController:self];
+    
     _disarmPadViewController.superviewViewController = self;
     _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
     _emergencyAlertViewController.superviewViewController = self;
@@ -180,6 +182,11 @@
     _emergencyAlertViewController.view.frame = frame;
     [_scrollView addSubview:_emergencyAlertViewController.view];
     [_scrollView addSubview:_disarmPadViewController.view];
+    
+    if (_isChatPresentation) {
+        [self.navigationController setViewControllers:@[self, _chatViewController]];
+        _chatViewController.hideBackButton = YES;
+    }
 }
 
 #pragma mark - Background Animation

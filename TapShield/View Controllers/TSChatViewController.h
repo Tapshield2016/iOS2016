@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) TSTextMessageBarView *textMessageBarAccessoryView;
 @property (strong, nonatomic) TSObservingInputAccessoryView *inputAccessoryView;
+@property (assign, nonatomic) BOOL hideBackButton;
 
 @end

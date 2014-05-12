@@ -10,11 +10,13 @@
 #import "TSLocationController.h"
 #import "TSVirtualEntourageManager.h"
 #import <AVFoundation/AVFoundation.h>
+#import "TSLocalNotification.h"
 
 NSString * const kAlertSend = @"Send alert";
 NSString * const kAlertSending = @"Sending alert";
 NSString * const kAlertSent = @"Alert was sent";
 NSString * const kAlertReceived = @"The authorities have been notified";
+NSString * const kAlertOutsideGeofence = @"Outside boundaries";
 
 @implementation TSAlertManager
 
@@ -110,11 +112,11 @@ static dispatch_once_t predicate;
         if (sent) {
             _status = kAlertSent;
             if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
-                [_alertDelegate alertStatusChanged:kAlertSent];
+                [_alertDelegate alertStatusChanged:_status];
             }
         }
         else {
-            
+            NSLog(@"Alert did not send");
         }
         
         if (inside) {
@@ -123,10 +125,46 @@ static dispatch_once_t predicate;
             }
         }
         else {
-#warning Call 911
+            [self alertSentOutsideGeofence];
         }
         
     }];
+}
+
+- (void)alertSentOutsideGeofence {
+    
+    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: You are located outside of your agency's boundaries. Call %@.", [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber]openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+    
+    NSLog(@"Outside geofence");
+    _status = kAlertOutsideGeofence;
+    if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
+        [_alertDelegate alertStatusChanged:_status];
+    }
+    
+    [[TSAlertManager sharedManager] callSecondary];
+}
+
+- (void)callSecondary {
+    
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
+        
+#warning 911
+        NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+        NSString *phoneNumber = [@"tel://" stringByAppendingString:rawPhoneNum];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+        });
+    }
+    else {
+        UIAlertView *phoneServiceUnavailableAlert = [[UIAlertView alloc] initWithTitle:nil
+                                                                               message:@"This device is not setup to make phone calls"
+                                                                              delegate:nil
+                                                                     cancelButtonTitle:@"OK"
+                                                                     otherButtonTitles:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [phoneServiceUnavailableAlert show];
+        });
+    }
 }
 
 - (void)disarmAlert {

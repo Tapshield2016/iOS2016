@@ -126,6 +126,7 @@ static dispatch_once_t onceToken;
             if (completion) {
                 completion(NO, NO);
             }
+            [self setActiveAlert:nil];
             return;
         }
         

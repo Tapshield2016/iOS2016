@@ -300,7 +300,19 @@
 
 - (IBAction)openChatWindow:(id)sender {
     
-    [self presentViewControllerWithClass:[TSChatViewController class] transitionDelegate:_transitionController animated:YES];
+    if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
+        return;
+    }
+    
+    TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+    pageview.homeViewController = self;
+    pageview.isChatPresentation = YES;
+    
+    _isTrackingUser = YES;
+    [_mapView setRegionAtAppearanceAnimated:YES];
+    
+    [self showOnlyMap];
 }
 
 - (IBAction)reportAlert:(id)sender {
@@ -786,9 +798,6 @@
     if (alertView == _cancelEntourageAlertView) {
         if (buttonIndex == 1) {
             [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
-        }
-        else {
-            [self clearEntourageAndResetMap];
         }
     }
 }

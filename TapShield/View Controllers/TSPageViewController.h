@@ -36,6 +36,7 @@
 //Alert sending
 @property (nonatomic) BOOL isFirstTimeViewed;
 @property (nonatomic) BOOL isPhoneView;
+@property (nonatomic) BOOL isChatPresentation;
 
 //Transition
 @property (strong, nonatomic) UIViewController *transitioningViewController;

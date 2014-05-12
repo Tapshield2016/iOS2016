@@ -35,6 +35,7 @@ extern NSString * const kAlertSend;
 extern NSString * const kAlertSending;
 extern NSString * const kAlertSent;
 extern NSString * const kAlertReceived;
+extern NSString * const kAlertOutsideGeofence;
 
 @property (nonatomic, weak) id <TSAlertDelegate> alertDelegate;
 @property (nonatomic, weak) id <TSCallDelegate> callDelegate;
@@ -63,5 +64,7 @@ extern NSString * const kAlertReceived;
 - (void)startTwilioCall;
 - (void)endTwilioCall;
 - (BOOL)updateAudioRoute:(BOOL)enabled;
+
+- (void)callSecondary;
 
 @end

@@ -30,6 +30,15 @@
     
     [self.view addSubview:_voipController.view];
     
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
+        [_detailsButtonView setHidden:YES];
+        [_chatButtonView setHidden:YES];
+    }
+    
+    if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+        [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
+    }
+    
     _alertInfoLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0, 64, 320, 44)];
     _alertInfoLabel.textColor = [UIColor whiteColor];
     _alertInfoLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
@@ -119,19 +128,25 @@
     
     AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
     
-    if ([status isEqualToString:kAlertSending]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if ([status isEqualToString:kAlertSending]) {
             [(TSPageViewController *)_pageViewController showAlertViewController];
-        });
-    }
-    
-    if ([status isEqualToString:kAlertSent]) {
+        }
+        
+        if ([status isEqualToString:kAlertSent]) {
+            [_pageViewController.homeViewController mapAlertModeToggle];
+        }
+        
+        if ([status isEqualToString:kAlertOutsideGeofence]) {
+            [_detailsButtonView setHidden:YES];
+            [_chatButtonView setHidden:YES];
+        }
         
         [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
-        [_pageViewController.homeViewController mapAlertModeToggle];
-    }
-    
-    [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
+        [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
+        
+    });
 }
 
 - (void)updateAlertInfoLabel:(NSString *)string {
@@ -177,6 +192,27 @@
 #pragma mark - Phone View Transition Animations
 
 - (IBAction)callDispatcher:(id)sender {
+    
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
+            
+#warning 911
+            NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+            NSString *phoneNumber = [@"tel://" stringByAppendingString:rawPhoneNum];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+        }
+        else {
+            UIAlertView *phoneServiceUnavailableAlert = [[UIAlertView alloc] initWithTitle:nil
+                                                                                   message:@"This device is not setup to make phone calls"
+                                                                                  delegate:nil
+                                                                         cancelButtonTitle:@"OK"
+                                                                         otherButtonTitles:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [phoneServiceUnavailableAlert show];
+            });
+        }
+        return;
+    }
     
     _pageViewController.isPhoneView = YES;
     

@@ -7,11 +7,12 @@
 //
 
 #import "TSNavigationViewController.h"
+#import "TSMapView.h"
 
 @interface TSAlertDetailsTableViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
-@property (strong, nonatomic) MKMapView *mapView;
+@property (strong, nonatomic) TSMapView *mapView;
 
 - (IBAction)dismissViewController:(id)sender;
 

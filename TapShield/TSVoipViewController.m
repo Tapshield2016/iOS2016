@@ -152,11 +152,14 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (void)connectionDidStartConnecting:(TCConnection *)connection {
     
+    _redialButton.enabled = NO;
 }
 
 - (void)connectionDidConnect:(TCConnection *)connection {
     [self startCallTimer];
     [self showPhoneNumber];
+    
+    _redialButton.enabled = NO;
 }
 
 

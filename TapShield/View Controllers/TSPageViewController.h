@@ -41,6 +41,8 @@
 //Transition
 @property (strong, nonatomic) UIViewController *transitioningViewController;
 @property (strong, nonatomic) UIViewController *currentViewController;
+@property (assign, nonatomic) NSUInteger page;
+@property (assign, nonatomic) NSUInteger halfPage;
 
 - (void)showAlertViewController;
 - (void)showDisarmViewController;

@@ -11,8 +11,6 @@
 
 @interface TSPageViewController ()
 
-@property (assign, nonatomic) NSUInteger page;
-@property (assign, nonatomic) NSUInteger halfPage;
 
 @end
 

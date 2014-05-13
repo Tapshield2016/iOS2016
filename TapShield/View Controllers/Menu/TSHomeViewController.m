@@ -34,6 +34,7 @@
 @property (nonatomic) BOOL viewDidAppear;
 @property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
+@property (assign, nonatomic) BOOL annotationsLoaded;
 
 @end
 
@@ -43,6 +44,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _annotationsLoaded = NO;
     
     [self checkLoggedInUser];
     
@@ -92,7 +95,8 @@
     [_mapView removeAnimatedOverlay];
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        if (![TSLocationController sharedLocationController].delegate) {
+        if (!_annotationsLoaded) {
+            _annotationsLoaded = YES;
             [self addOverlaysAndAnnotations];
         }
     }

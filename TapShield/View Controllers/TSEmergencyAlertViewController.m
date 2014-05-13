@@ -299,7 +299,10 @@
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
         _voipController.view.frame = frame;
-        _pageViewController.animatedView.frame = toolbarFrame;
+        
+        if (_pageViewController.halfPage == 1) {
+            _pageViewController.animatedView.frame = toolbarFrame;
+        }
         
         _alertButtonView.alpha = 1.0f;
         _detailsButtonView.alpha = 1.0f;

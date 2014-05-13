@@ -11,4 +11,6 @@
 
 @interface TSAgencyAnnotation : TSBaseMapAnnotation
 
+@property (strong, nonatomic) UIImage *image;
+
 @end

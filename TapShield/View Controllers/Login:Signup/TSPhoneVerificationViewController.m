@@ -20,6 +20,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [TSColorPalette listBackgroundColor];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationWillEnterForeground)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -168,7 +170,7 @@
                            CGPointMake([view center].x + 20.0f, [view center].y)]];
     [[view layer] addAnimation:animation forKey:@"position"];
     
-    view.superview.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
+    view.superview.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
 }
 
 

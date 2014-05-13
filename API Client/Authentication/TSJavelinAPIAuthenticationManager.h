@@ -28,6 +28,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidResendVerificationE
 extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToResendVerificationEmailNotification;
 extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToSendVerificationPhoneNumberNotification;
 extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserAlreadyExistsNotification;
+extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain;
 
 @class TSJavelinAPIUser;
 

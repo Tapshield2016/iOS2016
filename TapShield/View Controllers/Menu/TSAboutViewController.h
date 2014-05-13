@@ -10,5 +10,6 @@
 
 @interface TSAboutViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *versionBuildLabel;
+- (IBAction)requestDemo:(id)sender;
 
 @end

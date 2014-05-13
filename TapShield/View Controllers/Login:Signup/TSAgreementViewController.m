@@ -14,21 +14,16 @@
 
 @implementation TSAgreementViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [_agreeButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateNormal];
-    [_agreeButton setBackgroundImage:[UIImage imageHighlightedFromColor:[TSColorPalette tapshieldDarkBlue]] forState:UIControlStateHighlighted];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://tapshield.com/eula/"]] ;
+    [_webView loadRequest: request];
+    _webView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,9 +32,27 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (IBAction)dismissViewController:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    
 }
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if ([request.URL.host isEqualToString:@"secure.livechatinc.com"]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+}
+
+
 
 @end

@@ -23,6 +23,7 @@
 #import "TSYankManager.h"
 #import "TSSpotCrimeAPIClient.h"
 #import "TSSpotCrimeAnnotationView.h"
+#import "TSNamePictureViewController.h"
 
 
 #define CRIME_ALPHA 0.5
@@ -65,27 +66,6 @@
 
     _geocoder = [[CLGeocoder alloc] init];
     
-    [TSLocationController sharedLocationController].delegate = self;
-    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
-        [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
-        
-        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:.25 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:500 sortBy:sortByDistance order:orderAscending type:0 completion:^(NSArray *crimes) {
-            _mapView.spotCrimes = crimes;
-            [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:.25 completion:^(NSArray *reports) {
-                _mapView.socialReports = [[NSMutableArray alloc] initWithArray:reports];
-            }];
-        }];
-        
-        if (!_mapView.userLocationAnnotation) {
-            _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                          placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
-                                                                                        description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
-            
-            [_mapView addAnnotation:_mapView.userLocationAnnotation];
-            [_mapView updateAccuracyCircleWithLocation:location];
-        }
-    }];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(mapAlertModeToggle)
                                                  name:TSJavelinAlertManagerDidDisarmNotification
@@ -110,6 +90,12 @@
     
     _mapView.isAnimatingToRegion = YES;
     [_mapView removeAnimatedOverlay];
+    
+    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
+        if (![TSLocationController sharedLocationController].delegate) {
+            [self addOverlaysAndAnnotations];
+        }
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -132,6 +118,12 @@
     }
 }
 
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    if (!parent) {
+        [TSLocationController sharedLocationController].delegate = nil;
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -145,6 +137,36 @@
     }
     else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
         [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
+    }
+    else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode ||
+             ![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode.length) {
+        [self presentViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil animated:NO];
+    }
+}
+
+- (void)addOverlaysAndAnnotations {
+    
+    [TSLocationController sharedLocationController].delegate = self;
+    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
+        [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+            [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
+            
+            [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:.25 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:500 sortBy:sortByDistance order:orderAscending type:0 completion:^(NSArray *crimes) {
+                _mapView.spotCrimes = crimes;
+                [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:.25 completion:^(NSArray *reports) {
+                    _mapView.socialReports = [[NSMutableArray alloc] initWithArray:reports];
+                }];
+            }];
+            
+            if (!_mapView.userLocationAnnotation) {
+                _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
+                                                                                              placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
+                                                                                            description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
+                
+                [_mapView addAnnotation:_mapView.userLocationAnnotation];
+                [_mapView updateAccuracyCircleWithLocation:location];
+            }
+        }];
     }
 }
 
@@ -570,7 +592,9 @@
         if (!annotationView) {
             annotationView = [[TSOrganizationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSAgencyAnnotation class])];
         }
-        ((TSOrganizationAnnotationView *)annotationView).label.text = ((TSAgencyAnnotation *)annotation).title;
+        ((TSOrganizationAnnotationView *)annotationView).image = ((TSAgencyAnnotation *)annotation).image;
+        
+//        ((TSOrganizationAnnotationView *)annotationView).label.text = ((TSAgencyAnnotation *)annotation).title;
     }
     else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
         annotationView = (TSDestinationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];

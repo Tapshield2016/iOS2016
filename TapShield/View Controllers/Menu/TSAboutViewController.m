@@ -7,6 +7,7 @@
 //
 
 #import "TSAboutViewController.h"
+#import "TSAgreementViewController.h"
 
 @interface TSAboutViewController ()
 
@@ -39,7 +40,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -54,9 +55,6 @@
     if (indexPath.row == 0) {
         cell.textLabel.text = @"EULA";
     }
-    else {
-        cell.textLabel.text = @"Privacy Policy";
-    }
     
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     cell.textLabel.textColor = [TSColorPalette listCellTextColor];
@@ -65,6 +63,17 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        [self pushViewControllerWithClass:[TSAgreementViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
-
+- (IBAction)requestDemo:(id)sender {
+    
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://tapshield.com/demo-landing-page/"]];
+}
 @end

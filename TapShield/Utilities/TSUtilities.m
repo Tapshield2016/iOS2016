@@ -7,6 +7,7 @@
 //
 
 #import "TSUtilities.h"
+#import "NSDate+Utilities.h"
 
 @implementation TSUtilities
 
@@ -258,10 +259,30 @@
 
 + (NSString *)formattedDateTime:(NSDate *)date {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd/MM/yy h:mm a"];
+    [dateFormat setDateFormat:@"MM/dd/yy h:mm a"];
     NSString *dateString = [dateFormat stringFromDate:date];
     
     return dateString;
+}
+
++ (NSString *)formattedTime:(NSDate *)date {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"h:mm a"];
+    NSString *dateString = [dateFormat stringFromDate:date];
+    
+    return dateString;
+}
+
++ (NSString *)relativeDateStringForDate:(NSDate *)date {
+
+    if ([date isToday]) {
+        return [NSString stringWithFormat:@"%@", [TSUtilities formattedTime:date]];
+    }
+//    else if ([date isYesterday]) {
+//        return [NSString stringWithFormat:@"%@ Yesterday", [TSUtilities formattedTime:date]];
+//    }
+    
+    return [TSUtilities formattedDateTime:date];
 }
 
 

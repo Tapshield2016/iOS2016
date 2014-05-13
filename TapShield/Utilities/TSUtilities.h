@@ -28,6 +28,8 @@
 
 + (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem;
 
++ (NSString *)relativeDateStringForDate:(NSDate *)date;
+
 //distance
 + (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
 + (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;

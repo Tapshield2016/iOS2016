@@ -25,10 +25,12 @@ static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.com/api/v1/";
 
+NSString * const TSAppDelegateDidFindConnection = @"TSAppDelegateDidFindConnection";
+NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnection";
+
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *windowBackground;
-@property (strong, nonatomic) AFNetworkReachabilityManager *manager;
 
 @end
 
@@ -41,6 +43,7 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDevelopmentBaseURL];
     NSString *remoteHostName = @"dev.tapshield.com";
     [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+
     
 #elif DEMO
     [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
@@ -53,6 +56,14 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     NSString *remoteHostName = @"api.tapshield.com";
 #endif
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    
+    _reachability = [Reachability reachabilityWithHostName:remoteHostName];
+    [_reachability startNotifier];
+    
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
@@ -60,33 +71,6 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] retrieveAPITokenForLoggedInUser:nil];
     [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
-    
-    
-    _manager = [AFNetworkReachabilityManager managerForDomain:remoteHostName];
-                
-    [_manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        NSLog(@"%@", AFStringFromNetworkReachabilityStatus(status));
-        
-        switch (status) {
-                
-            case AFNetworkReachabilityStatusNotReachable:
-                
-                break;
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                
-                break;
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                
-                break;
-            case AFNetworkReachabilityStatusUnknown:
-                
-                break;
-            default:
-                
-                break;
-        }
-    }];
-    [_manager startMonitoring];
     
     
 //    [TSSocialAccountsManager initializeShareSocialAccountsManager];
@@ -147,11 +131,15 @@ static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.
     
     if ([[TSJavelinAPIClient sharedClient] isStillActiveAlert] ||
         [TSYankManager sharedYankManager].isEnabled ||
-        [TSVirtualEntourageManager sharedManager].isEnabled) {
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            NSLog(@"BackgroundTaskExpirationHandler");
-            [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
-        }];
+        [TSVirtualEntourageManager sharedManager].isEnabled ||
+        [TSAlertManager sharedManager].countdownTimer) {
+//        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+//            NSLog(@"BackgroundTaskExpirationHandler");
+//            [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
+//        }];
+    }
+    else {
+        [[TSLocationController sharedLocationController] stopLocationUpdates];
     }
 }
 
@@ -241,6 +229,60 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)drawerCanDragForMenu:(BOOL)enabled; {
     
     [self.dynamicsDrawerViewController setPaneDragRevealEnabled:enabled forDirection:MSDynamicsDrawerDirectionLeft];
+}
+
+
+#pragma mark - Reachability
+
+/*!
+ * Called by Reachability whenever status changes.
+ */
+- (void) reachabilityChanged:(NSNotification *)note
+{
+    Reachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    [self updateInterfaceWithReachability:curReach];
+}
+
+- (void)updateInterfaceWithReachability:(Reachability *)reachability {
+
+    if (reachability == _reachability) {
+        BOOL reachable;
+        NetworkStatus netStatus = [reachability currentReachabilityStatus];
+        
+        switch (netStatus) {
+            case NotReachable: {
+                reachable = NO;
+                break;
+            }
+                
+            case ReachableViaWWAN: {
+                if (reachability.connectionRequired) {
+                    reachable = NO;
+                    break;
+                }
+                reachable = YES;
+                break;
+            }
+                
+            case ReachableViaWiFi: {
+                if (reachability.connectionRequired) {
+                    reachable = NO;
+                    break;
+                }
+                reachable = YES;
+                break;
+            }
+        }
+        if (reachable) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidFindConnection object:nil];
+            NSLog(@"Connected");
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidLoseConnection object:nil];
+            NSLog(@"No Connection");
+        }
+    }
 }
 
 @end

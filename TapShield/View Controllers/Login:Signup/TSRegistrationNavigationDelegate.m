@@ -7,6 +7,7 @@
 //
 
 #import "TSRegistrationNavigationDelegate.h"
+#import "TSNamePictureViewController.h"
 
 NSString * const progress1 = @"progress_bar_s1";
 NSString * const progress2 = @"progress_bar_s2";
@@ -37,7 +38,7 @@ NSString * const progress4 = @"progress_bar_s4";
     
     navigationController.delegate = self;
     
-    _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSRegisterViewController class], [TSEmailVerificationViewController class], [TSPhoneVerificationViewController class]];
+    _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSRegisterViewController class], [TSEmailVerificationViewController class],  [TSNamePictureViewController class]];
     
     navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:-10.0f forBarMetrics:UIBarMetricsDefault];
@@ -85,6 +86,9 @@ NSString * const progress4 = @"progress_bar_s4";
     NSArray *progressArray = @[progress1, progress2, progress3, progress4];
     
     int i = 0;
+    
+    _progressImageView.image = [UIImage imageNamed:progressArray[2]];
+    
     for (Class class in _registrationViewControllers) {
         if ([viewController isKindOfClass:class]) {
             

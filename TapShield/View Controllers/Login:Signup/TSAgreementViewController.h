@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "TSBaseViewController.h"
 
-@interface TSAgreementViewController : TSBaseViewController
+@interface TSAgreementViewController : TSBaseViewController <UIWebViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *agreeButton;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @end

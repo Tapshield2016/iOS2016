@@ -13,7 +13,7 @@
 
 - (instancetype)initWithSpotCrime:(TSSpotCrimeLocation *)location
 {
-    self = [super initWithCoordinates:location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", location.type, location.date] description:location.address];
+    self = [super initWithCoordinates:location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", location.type, [TSUtilities relativeDateStringForDate:location.date]] description:location.address];
     if (self) {
         
         _spotCrime = location;
@@ -24,7 +24,7 @@
 
 - (instancetype)initWithSpocialReport:(TSJavelinAPISocialCrimeReport *)report
 {
-    self = [super initWithCoordinates:report.location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType], [TSUtilities formattedDateTime:report.creationDate]] description:report.address];
+    self = [super initWithCoordinates:report.location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType], [TSUtilities relativeDateStringForDate:report.creationDate]] description:report.address];
     if (self) {
         
         _socialReport = report;

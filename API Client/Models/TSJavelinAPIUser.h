@@ -32,5 +32,6 @@
 @property (nonatomic, strong) NSString *apiToken;
 
 - (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
+- (NSDictionary *)parametersForUpdate;
 
 @end

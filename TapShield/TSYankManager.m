@@ -118,7 +118,8 @@ static dispatch_once_t predicate;
     
     _isEnabled = NO;
     _shouldEnable = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSYankManagerDidYankHeadphonesNotification object:@"Y"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSYankManagerDidYankHeadphonesNotification object:@"T"];
+#warning Eventually Yank = @"Y"
 }
 
 #pragma mark - Enable/Disable Yank

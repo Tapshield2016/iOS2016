@@ -10,12 +10,16 @@
 #import "TSRegistrationTextField.h"
 #import "TSRoundImageView.h"
 
-@interface TSNamePictureViewController : TSNavigationViewController <UIAlertViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate>
+@interface TSNamePictureViewController : TSNavigationViewController <UIAlertViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet TSRoundImageView *imageView;
 @property (weak, nonatomic) IBOutlet TSRegistrationTextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet TSRegistrationTextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UIButton *showAgreement;
+@property (weak, nonatomic) IBOutlet UIButton *checkBox;
 
-- (IBAction)dismissRegistration:(id)sender;
+- (IBAction)done:(id)sender;
+- (IBAction)displayAgreement:(id)sender;
+- (IBAction)selectBox:(id)sender;
 
 @end

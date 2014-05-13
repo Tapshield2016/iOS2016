@@ -21,7 +21,12 @@ static NSString * const IconImageSuffix = @"_icon";
         self.address = [attributes objectForKey:@"address"];
         self.link = [attributes objectForKey:@"link"];
         self.cdid = [attributes objectForKey:@"cdid"];
-        self.date = [attributes objectForKey:@"date"];
+        
+        NSString *dateString = [attributes objectForKey:@"date"];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"MM/dd/yy h:mm a"];
+        NSDate *myDate = [dateFormat dateFromString: dateString];
+        self.date = myDate;
     }
     
     return self;
@@ -35,7 +40,10 @@ static NSString * const IconImageSuffix = @"_icon";
         self.address = [dictionary objectForKey:@"address"];
         self.link = [dictionary objectForKey:@"link"];
         self.cdid = [dictionary objectForKey:@"cdid"];
-        self.date = [dictionary objectForKey:@"date"];
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+        NSDate *myDate = [df dateFromString:[dictionary objectForKey:@"date"]];
+        self.date = myDate;
 //        self.eventDescription = 
     }
     return self;

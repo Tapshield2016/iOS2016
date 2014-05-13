@@ -16,7 +16,7 @@ NSString * const kAlertSend = @"Send alert";
 NSString * const kAlertSending = @"Sending alert";
 NSString * const kAlertSent = @"Alert was sent";
 NSString * const kAlertReceived = @"The authorities have been notified";
-NSString * const kAlertOutsideGeofence = @"Outside boundaries";
+NSString * const kAlertOutsideGeofence = @"Outside boundaries please call";
 
 @implementation TSAlertManager
 
@@ -133,7 +133,11 @@ static dispatch_once_t predicate;
 
 - (void)alertSentOutsideGeofence {
     
-    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: You are located outside of your agency's boundaries. Call %@.", [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber]openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+    NSString *number = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+    if (!number) {
+        number = kEmergencyNumber;
+    }
+    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: You are located outside of your agency's boundaries. Call %@.", kEmergencyNumber]openDestination:kAlertOutsideGeofence alertAction:@"Call"];
     
     NSLog(@"Outside geofence");
     _status = kAlertOutsideGeofence;
@@ -148,8 +152,11 @@ static dispatch_once_t predicate;
     
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
         
-#warning 911
         NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+        if (!rawPhoneNum) {
+#warning 911
+            rawPhoneNum = kEmergencyNumber;
+        }
         NSString *phoneNumber = [@"tel://" stringByAppendingString:rawPhoneNum];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];

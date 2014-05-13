@@ -569,25 +569,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="UnL-fN-c5w" rowHeight="60" style="IBUITableViewCellStyleDefault" id="lx5-IB-BLv">
-                                <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lx5-IB-BLv" id="MY3-Eq-wzw">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UnL-fN-c5w">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="311-n5-1iK" id="t6I-Mq-GPT"/>
                             <outlet property="delegate" destination="311-n5-1iK" id="LHy-zb-OGY"/>
@@ -938,7 +919,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nmi-f3-9h9">
-                                <rect key="frame" x="0.0" y="320" width="320" height="88"/>
+                                <rect key="frame" x="0.0" y="364" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -959,23 +940,6 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Privacy" textLabel="bVC-Sm-7Wu" style="IBUITableViewCellStyleDefault" id="qQ2-Wi-yR0">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qQ2-Wi-yR0" id="0q7-5C-CmT">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bVC-Sm-7Wu">
-                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="Me5-cN-nf1" id="l1w-70-4Hc"/>
@@ -987,10 +951,31 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Tta-bg-b0h">
-                                <rect key="frame" x="20" y="189" width="280" height="106"/>
+                                <rect key="frame" x="20" y="181" width="280" height="106"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">TapShield is the market leader in mobile personal safety. TapShield designs, develops and markets enterprise-grade mobile solutions designed for college campuses and global enterprises that significantly improve emergency alerting and response. Learn more at www.tapshield.com</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5T-Na-Bci">
+                                <rect key="frame" x="20" y="310" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Tap here and request a demo today!">
+                                    <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="requestDemo:" destination="Me5-cN-nf1" eventType="touchUpInside" id="uaM-FR-YwV"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="qlF-fD-y4w">
+                                <rect key="frame" x="0.0" y="288" width="320" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <string key="text">Want to bring TapShield to your campus or corporation?
+</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -1002,6 +987,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="tav-1t-zB3"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="versionBuildLabel" destination="f0h-rG-tkN" id="Wp5-OH-sgd"/>
                     </connections>
@@ -1988,7 +1974,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="We will only use your phone number to contact you in case of emergency." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="Bfd-Ti-MOc" customClass="TSRegistrationLabel">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your phone number is only shared in the event of an emergency to public safety dispatchers." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="Bfd-Ti-MOc" customClass="TSRegistrationLabel">
                                                 <rect key="frame" x="30" y="0.0" width="260" height="80"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -2033,821 +2019,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWF-fk-VEe">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GFc-6V-ayv">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <string key="content">TapShield, LLC
-
-End User Agreement for TapShield Emergency response platform for personal safety
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">This End User License Agreement (this “Agreement”) is between TapShield, LLC (the “TapShield Provider”) and the person or entity (the “User”) that uses the TapShield™ emergency response service and software as more fully described at www.TapShield.com (the “Technology”).  By using the Technology or clicking the “</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="I AGREE">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">” button, the User acknowledges that User has read this Agreement, understands it, and agrees to be bound by it.  If the User does not agree to all of the terms in this Agreement, the User is not authorized to use the Technology and the User should not access or otherwise utilize the Technology.  
-IMPORTANT: NOT A REPLACEMENT FOR EMERGENCY SERVICE or  911. </string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="THIS SYSTEM IS NOT SUPPORTED BY YOUR AGENCY. WHILE THEY RECOMMEND ITS USE THEY ARE NOT DIRECTLY RESPONSIBLE FOR DATA YOU ENTER.">
-                                        <attributes>
-                                            <color key="NSColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">
-The Technology and service are not a replacement for 911. If User is in immediate danger, is suffering a medical emergency or is the victim of a crime, User should CALL 911 and/or the appropriate authorities and should not not rely on the Technology or Service. Even if User’s mobile device and the Technology has connectivity, TapShield does not guarantee and has no control over whether User’s messages will be delivered real-time, promptly accessed by or responded to by any recipient.
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">1.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Use of the Service">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  In consideration of User’s use of the Technology and/or the payment by User or User’s Organization of the purchase price or license fee (which payment may be waived by TapShield Provider in TapShield Provider’s sole and absolute discretion), TapShield Provider grants the User a personal, non-exclusive, non-commercial, non-transferable license to download, install and use the Technology on any mobile device that User owns or have rights to use with such download and use only in accordance with the description in TapShield Provider’s approved use documentation available at: www.TapShield.com/EULA, which approved use documentation may be modified at any time in the TapShield Provider’s sole and absolute discretion without any obligation to provide User with notice thereof.  User’s access and license may be subject to an  agreement between TapShield Provider and User’s Organization (“Organizational Agreement”), and User agrees to be subject to all license and other requirements under User’s Organizational Agreement. 
-2.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Restrictions">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  User may not use the Technology for any purpose other than as set forth in this Agreement.  User may only download and use the Technology on a single mobile device as owned or controlled by User. User may not use, copy, modify, or transfer the Technology to any third party, in whole or in part, except as expressly provided in this Agreement.  User may not reverse engineer, disassemble, decompile, or translate the Technology or any code, including, without limit, source code or object code of the Technology, or otherwise attempt to derive its source code or the source code through which the Technology is accessed, or authorize any third-party to do any of the foregoing. The license granted hereunder is personal to the User, and any attempt by the User to transfer any of the rights, duties or obligations hereunder shall terminate this Agreement and be void.  The User may not rent, lease, loan, resell, or distribute the Technology or any part thereof in any way including, but not limited to, making the Technology or access to the Technology available to others via shared access to a single computer, a computer network, or by sharing access information, which includes the User's username and password, or operate or provide the Technology as a service bureau.  TapShield Provider reserves the right to charge for any upgrades, updated versions, bugs and fixes.  TapShield Provider reserves the right to require payment of periodic or annual fees for use of the TapShield Technology.
-3.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Ownership">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  TapShield Provider’s Technology and all Intellectual Property embodied in, or associated with the Technology are owned by and are the property of TapShield Provider and its licensor(s), if any, and subject to applicable patent, copyright, trade secrets, trademarks and other proprietary rights.  The Technology is licensed, not sold, to the User for use only under the terms of this Agreement.  TapShield Provider reserves all rights not expressly granted to the User.  The Technology and any authorized copies User makes thereof are the intellectual property of TapShield Providers.  The structure, organization, and code of the Technology are the valuable trade secrets and confidential information of TapShied Provider. The Technology is protected by law, including without limitation the copyright laws of the United States and other countries, and by international treaty provisions. Except as expressly stated herein, this End User agreement does not grant User any intellectual property rights in the Technology. The Technology is covered by one or more pending patent applications.
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="b. ">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Third-Party Claims">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">. In the event any claim is brought against User alleging that the Technology or User’s possession and use of the Technology breaches any third-party’s intellectual property rights, User’s sole remedy is to immediately notify TapShield Provider in writing for a refund of the purchase price. TapShield Provider shall not be liable for any defense, settlement, or discharge of such claim, except as provided in the preceding sentence. User agrees that, in the event TapShield Provider notifies you to immediately cease using the Technology due to a third-party claim of infringement, regulatory or legal requirement or for any other reasonable purpose, User shall do so promptly. Notwithstanding anything to the contrary above, TapShield Provider’s total liability shall be limited to the fees paid by User over the preceding twelve (12) month period.
-
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">4.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Username and Password Security">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  During User’s use of the Technology, User may receive or register a username and password that will allow User to access and use the Technology. User is responsible for maintaining the integrity and security of User’s username and password.  Unless otherwise required or permitted by applicable law, User may not share User’s username or password with any third party and User agrees to immediately notify TapShield Provider of any unauthorized use of User’s username or password.  </string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">5.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="DISCLAIMER OF WARRANTIES; EXCLUSION OF WARRANTY">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  USER ACKNOWLEDGES AND AGREES THAT THE USE OF THE TECHNOLOGY IS AT USER’S SOLE RISK AND THAT THE ENTIRE RISK AS TO SATISFACTORY QUALITY, PERFORMANCE, ACCURACY, AND EFFORT IS WITH USER.  USER ASSUMES ANY AND ALL RISK ARISING FROM OR RELATED TO ANY SITUATION, EVENTS OR LOCATION IN WHICH USER PLACES HIMSELF OR HERSELF WHEN USING OR ACCESSING THE TECHNOLOGY. USER ACKNOWLEDGES THAT USE OF THE TECHNOLOGY IS NOT A SUBSTITUTE FOR USER’S PRECAUTIONS AND GOOD JUDGMENT. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE TECHNOLOGY AND ALL SERVICES PROVIDED WITH RESPECT TO USE OR ACCESS TO THE TECHNOLOGY, INCLUDING, WITHOUT LIMITATION, ALL INFORMATION OR DATA PROVIDED, CONTAINED, MAINTAINED OR PROCESSED IN OR THROUGH THE TECHNOLOGY AND ALL GOODS AND MATERIALS PROVIDED TO OR THROUGH THE TECHNOLOGY ARE PROVIDED BY TAPSHIELD PROVIDER ON AN “AS IS” BASIS AND “AS AVAILABLE”, WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND.  TAPSHIELD PROVIDER HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS WITH RESPECT TO TECHNOLOGY AND SERVICES, WHETHER EXPRESS,  IMPLIED OR STATUTORY WARRANTIES OR REPRESENTATIONS OF ANY KIND WITH RESPECT TO THE TECHNOLOGY AND SERVICES, INCLUDING, WITHOUT LIMITATION,  ALL SERVICES, INFORMATION OR DATA PROVIDED, ACCESSED, CONTAINED, MAINTAINED OR PROCESSED IN OR THROUGH THE TECHNOLOGY AND ALL SERVICES, PRODUCTS AND MATERIALS PROVIDED TO OR THROUGH THE TECHNOLOGY.  USER UNDERSTANDS AND AGREES THAT THERE IS NO GUARANTEE THAT THE TAPSHIELD TECHNOLOGY WILL FUNCTION AS INTENDED, THAT ALL THE FUNCTIONALITY OR ANY FUNCTIONALITY WILL BE OPERATIONAL AT ALL TIMES. TAPSHIELD PROVIDER DISCLAIMS ANY LIABILITY FOR DOWNTIME, OPERATIONAL ERRORS, LOSS OF DATA, DELIVERY ERRORS, TRANSMISSION LOSSES OR LACK OF SERVICE.  TAPSHIELD PROVIDER MAKES NO REPRESENTATIONS OR WARRANTIES AS TO THE ACCURACY OR VALIDITY OF ANY SERVICES, INFORMATION OR DATA, INCLUDING THE CORRECTNESS OR APPLICABILITY OF ANY FUNCTION, DATA OR CALCULATION, CONTAINED IN OR PROVIDED BY THE TECHNOLOGY. TAPSHIELD PROVIDER MAKES NO REPRESENTATIONS OR WARRANTIES THAT THE TECHNOLOGY, WILL ALWAYS OR EVER BE OPERATIONALLY OR FUNCTIONALLY AVAILABLE AND USER ACKNOWLEDGES SUCH.  TAPSHIELD PROVIDER DOES NOT WARRANT THAT THE TECHNOLOGY AND ANY SERVICES WILL BE FREE FROM INTERRUPTIONS, ERRORS OR BUGS, OR HARMFUL OR DANGEROUS CODE.  TAPSHIELD PROVIDER MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND WHATSOEVER AND DISCLAIMS ALL SUCH WARRANTIES, INCLUDING EXPRESS, IMPLIED OR STATUTORY, INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS RELATING TO THE TECHNOLOGY.  
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">THE PARTIES ALSO AGREE THAT THE UNIFORM COMPUTER INFORMATION TRANSACTIONS ACT (“UCITA”) AS ENACTED IN ANY STATE SHALL NOT APPLY TO THIS AGREEMENT AND TO THE MAXIMUM EXTENT PERMITTED BY LAW UCITA IS HEREBY EXCLUDED IN ITS ENTIRETY FROM APPLICATION TO THIS AGREEMENT.
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">THE TECHNOLOGY, SOFTWARE AND SERVICES ARE NOT SUITABLE FOR USE IN MISSION CRITICAL APPLICATIONS OR IN HAZARDOUS ENVIRONMENTS REQUIRING FAIL-SAFE CONTROLS. THE TECHNOLOGY AND SERVICES ARE NOT PROVIDED AND SHOULD NOT BE RELIED UPON BY USER AS A SUBSTITUTE FOR USER’S PRECAUTION AND JUDGMENT.
-
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">6.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="LIMITATION OF LIABILITY">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  EXCEPT AS SPECIFICALLY PROVIDED HEREIN AND TO EXTENT ALLOWABLE UNDER THE LAW, USER AGREES TO WAIVE AND NEITHER TAPSHIELD PROVIDER NOR USER’S ORGANIZATION, TAPSHIELD PROVIDER’S AFFILIATES, RESELLERS, AGENTS, LICENSORS (“SAAS PARTIES”) SHALL BE LIABLE FOR ANY CLAIM, DEMAND, ACTION, EXPENSES, COSTS, EXPENSE OR DAMAGES, ARISING FROM OR RELATING TO, (i) THE USER'S USE OF OR ACCESS TO THE TECHNOLOGY (ii), ANY PERSONAL INJURY OR PROPERTY DAMAGE SUFFERED BY USER WHILE USING THE TECHNOLOGY; OR ANY (III) PERFORMANCE OF, FAILURE TO PERFORM BY SAAS PARTIES OR AVAILABILITY OR UNAVAILABILITY OF THE TECHNOLOGY OR SERVICES.  FURTHER,  USER AGREES THAT NO SAAS PARTIES SHALL BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES DUE TO LOST REVENUES OR PROFITS, BUSINESS INTERRUPTION, OR OTHER DAMAGES CAUSED BY USER'S INABILITY TO USE THE TECHNOLOGY, EVEN IF TAPSHIELD PROVIDER, ITS AFFILIATES, RESELLERS, AGENTS, OR LICENSORS HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGES, AND WHETHER OR NOT SUCH LOSS OR DAMAGES IS OR ARE FORESEEABLE. TAPSHIELD PROVIDER ACCEPTS NO LIABILITY OF ANY KIND FOR THE CONSEQUENCES OF USING THE TECHNOLOGY OR THE FAILURE OF THE TECHNOLOGY TO PRODUCE ANY INTENDED BENEFIT.  TAPSHIELD PROVIDER’S TOTAL LIABILITY TO USER UNDER THIS AGREEMENT SHALL BE LIMITED TO THE FEES PAID BY USER TO TAPSHIELD PROVIDER AS SET FORTH IN SECTION 1 OF THIS AGREEMENT DURING THE PRECEDING TWELVE MONTHS OF THE AGREEMENT AT THE TIME OF SUCH CLAIM.
-7.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Indemnification">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  User agrees to indemnify and hold TapShield Provider, its officers, directors, employees, affiliates, subsidiaries, successors, assigns, directors, officers, agents, service providers, suppliers, employees, and representatives harmless from any and all claims, losses, demands, fines penalties, costs, and expenses including reasonable attorney fees and court costs, made by any third party due to or arising out of, or User’s violation of any rights of another made by or on behalf of User or any third party in connection with or arising out of your download, access, and/or use of the Technology, including any content or services provided therein, any information transmitted during User’s use of the Technology, User’s violation of any term or condition of the Terms of Use, User’s breach of any of the representations and warranties herein, and your violation of applicable laws or any rights of another person or entity.
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">8.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Termination">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  This Agreement may be terminated immediately if User breaches any term of this Agreement.  TapShield Provider may terminate this Agreement at any time or restrict or prevent User from accessing or using the Technology at any time, for any reason or no reason at all, in TapShield Provider’s sole and absolute discretion, without providing any notice whatsoever to User.  TapShield Provider may also temporarily suspend the services, in whole or in part, where required by law, in the case of security violations or threats, for service maintenance or repair, or for any other reasons deemed necessary or desirable by TapShield Provider.  TapShield Provider may also terminate the Agreement and License in the event that the Agreement with User’s Organization is terminated.  User may terminate this Agreement at any time by notifying TapShield Provider in writing.  Upon termination of this Agreement, the license granted herein to User and User’s access to the Technology shall immediately cease and User shall immediately cease all use of the Technology and remove all copies of the Technology and any related code from all computer’s and other electronic devices.
-9.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Compliance with Laws and Terms of Use">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  When using the Technology, User shall comply with all laws, rules, regulations and policies applicable to User, TapShield Provider and/or the Technology, including, without limit, all rules and policies of any educational institution, the Family Educational Rights and Privacy Act (“FERPA”) and TapShield Provider’s Terms of Use available at:  </string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="www.TapShield.com/Terms">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <url key="NSLink" string="http://www.TapShield.com/Terms"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.
-10.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Consent to Use of Information">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  By using the Technology, User explicitly consent to TapShield Provider’s use of any personally identifiable information about User collected by TapShield Provider or that User provides to TapShield Provider, in accordance with FERPA and TapShield Provider’s Privacy Policy available at: </string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="www.TapShield.com/Privacy">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <url key="NSLink" string="http://w"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  
-11.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Export Law">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content"> TapShield Provider’s Technology and any Access to the Technology may be subject to U.S. export control laws and may be subject to export or import regulations in other countries.  Unless in compliance with applicable law and specifically authorized in writing by TapShield Provider, User shall not export the Technology under any circumstances whatsoever.  In any case, User will indemnify and hold TapShield Provider harmless from any and all claims, losses, liabilities, damages, fines, penalties, costs and expenses (including reasonable attorney’s fees) arising from, or relating to, any breach by User of User’s obligations under this section.
-12.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Entire Agreement">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  This Agreement contains the entire agreement between TapShield Provider and User with respect to the subject matter hereof and supersedes and replaces any prior agreements between the parties with respect to such subject matter.
-13.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Waive">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="r">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  No failure or delay by either party in exercising any right, power or privilege hereunder shall operate as a waiver thereof, nor shall any single or partial exercise thereof preclude any other or further exercise thereof or the exercise of any other right, power or privilege hereunder.
-14.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Severability">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  In the event that any one or more of the provisions of this Agreement are held to be invalid or otherwise unenforceable, the enforceability of the remaining provisions shall be unimpaired and enforced to the full extent permitted by law.
-15.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Assignment">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  User may not assign this Agreement or any rights or licenses granted to User under this Agreement without TapShield Provider’s prior written consent.  TapShield Provider may assign this Agreement at any time in its sole discretion.  
-16.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Force Majeure">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">.  Neither party will be liable for failure to perform or delay in performance of any obligation under this Agreement if such failure or delay is due to fire, flood, earthquake, strike, war (declared or undeclared), commercial impracticability, embargo, blockade, legal prohibition, governmental action, riot, insurrection, damage, destruction or any other cause beyond the reasonable control of such party.
-17.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Attorney’s Fees">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  In any action or proceeding between the parties concerning this Agreement or its enforcement, the prevailing party in such action or proceeding shall be entitled to collect in such action or proceeding from the non-prevailing party all costs of such action or proceeding incurred by such prevailing party, including, but not limited to, reasonable attorneys’ fees and costs, through all levels of proceedings.
-18.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Governing Law; Jurisdiction and Venue">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  This Agreement shall be governed by and construed in accordance with the law of the State of Florida.  If either party institutes any lawsuit or other action or proceeding pertaining to this Agreement, any right or obligation of any party hereunder, or any breach of this Agreement, then the sole and exclusive venue and jurisdiction for filing and maintaining any such lawsuit or other action or proceeding shall be in the Courts sitting in Orange County, Florida or the U.S. Middle District of Florida and each of the parties waives the right to institute or maintain any such suit, action or proceeding in any other courts or forums whatsoever.  By using the Technology, User consents and submits itself to the personal jurisdiction of such court.
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">19.	</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="Injunctive Relief">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <integer key="NSUnderline" value="1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=".">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPS-BoldMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">  User agrees that in the event of a breach by User of any provision of this Agreement, TapShield Provider shall be entitled to seek and obtain injunctive or other equitable relief, or both, in each case without the requirement to post any bond or other form of security, and without such act constituting an election of remedies or disentitling TapShield Provider to each and every remedy available at law or in equity for a breach of this Agreement by User.
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="12" firstLineHeadIndent="36" tailIndent="468" defaultTabInterval="36">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="72"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content="\59640\1 - # 6138427 v4">
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" minimumLineHeight="10" maximumLineHeight="10" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <integer key="NSSuperScript" value="-1"/>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content"> 
-
-Last Updated: 12/12/13
-
-
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="11" name="TimesNewRomanPSMT"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="468" minimumLineHeight="10" maximumLineHeight="10" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
+                            </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="SPU-BJ-wrK" firstAttribute="top" secondItem="gWF-fk-VEe" secondAttribute="bottom" id="Wfq-1N-Eu6"/>
-                            <constraint firstItem="gWF-fk-VEe" firstAttribute="leading" secondItem="r3R-IU-BrE" secondAttribute="leading" id="XcY-lY-DCf"/>
-                            <constraint firstItem="gWF-fk-VEe" firstAttribute="top" secondItem="r3R-IU-BrE" secondAttribute="top" id="hTm-D2-GIf"/>
-                            <constraint firstAttribute="trailing" secondItem="gWF-fk-VEe" secondAttribute="trailing" id="kfy-3t-vJz"/>
+                            <constraint firstItem="SPU-BJ-wrK" firstAttribute="top" secondItem="GFc-6V-ayv" secondAttribute="bottom" id="KCL-xl-elf"/>
+                            <constraint firstAttribute="trailing" secondItem="GFc-6V-ayv" secondAttribute="trailing" id="XjR-yw-OjQ"/>
+                            <constraint firstItem="GFc-6V-ayv" firstAttribute="leading" secondItem="r3R-IU-BrE" secondAttribute="leading" id="hqU-oQ-Ish"/>
+                            <constraint firstItem="GFc-6V-ayv" firstAttribute="top" secondItem="r3R-IU-BrE" secondAttribute="top" id="t8u-VC-daJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="EULA" id="Olc-d3-bxT"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="webView" destination="GFc-6V-ayv" id="3Bx-y5-uRU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GS-tt-F92" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2870,7 +2061,8 @@ Last Updated: 12/12/13
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="Re-send Verification SMS">
+                                <state key="normal" title="Resend Verification SMS">
+                                    <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -2886,12 +2078,15 @@ Last Updated: 12/12/13
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="3Ml-FN-RnH" id="z1w-Et-KSM"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your code:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIo-3H-5pN" customClass="TSRegistrationLabel">
                                         <rect key="frame" x="8" y="0.0" width="123" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -2906,6 +2101,9 @@ Last Updated: 12/12/13
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="3Ml-FN-RnH" id="uQD-q5-NZc"/>
+                                        </connections>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ehh-sF-iWa">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -2921,7 +2119,7 @@ Last Updated: 12/12/13
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your phone number is only shared in the event of an emergency to public safety dispatchers" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="uIP-ZI-94h" customClass="TSRegistrationLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="If the phone number above is incorrect, enter the correct number and tap resend" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="uIP-ZI-94h" customClass="TSRegistrationLabel">
                                 <rect key="frame" x="30" y="145" width="260" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -2931,7 +2129,7 @@ Last Updated: 12/12/13
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="oPS-Ds-7Al"/>
+                    <navigationItem key="navigationItem" title="Verification" id="oPS-Ds-7Al"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="phoneNumberTextField" destination="Se8-ax-53X" id="ZK3-lh-fBK"/>
@@ -2943,7 +2141,7 @@ Last Updated: 12/12/13
             </objects>
             <point key="canvasLocation" x="2987" y="-274"/>
         </scene>
-        <!--Name Picture View Controller-->
+        <!--Name Picture View Controller - Complete Registration-->
         <scene sceneID="F2U-G7-XZk">
             <objects>
                 <viewController storyboardIdentifier="TSNamePictureViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vZE-6o-F4y" customClass="TSNamePictureViewController" sceneMemberID="viewController">
@@ -2956,53 +2154,107 @@ Last Updated: 12/12/13
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kSA-0X-22l" userLabel="emailView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="138" width="320" height="41"/>
+                                <rect key="frame" x="0.0" y="144" width="320" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bIG-fn-RfF" customClass="TSRegistrationTextField">
-                                        <rect key="frame" x="115" y="0.0" width="205" height="40"/>
+                                        <rect key="frame" x="120" y="0.0" width="200" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="vZE-6o-F4y" id="hL8-oc-vSX"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CcI-OK-4sW" userLabel="phoneNumberView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="98" width="320" height="41"/>
+                                <rect key="frame" x="0.0" y="104" width="320" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NOS-WW-5hf" customClass="TSRegistrationTextField">
-                                        <rect key="frame" x="115" y="0.0" width="205" height="40"/>
+                                        <rect key="frame" x="120" y="0.0" width="200" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="vZE-6o-F4y" id="ur1-Dt-9HY"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-tQ-ezo" customClass="TSRoundImageView">
-                                <rect key="frame" x="10" y="89" width="100" height="100"/>
+                                <rect key="frame" x="10" y="95" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFa-xT-Z2p" customClass="TSBaseButton">
+                                <rect key="frame" x="23" y="177" width="75" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <state key="normal" title="Add Photo" backgroundImage="change_photo_bg.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gwQ-2g-kGG">
+                                <rect key="frame" x="0.0" y="200" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I have read, understand, and agree to the" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="262" translatesAutoresizingMaskIntoConstraints="NO" id="6FN-qX-fAN">
+                                        <rect key="frame" x="48" y="10" width="262" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ax6-Io-fZM">
+                                        <rect key="frame" x="48" y="25" width="175" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="End User License Agreement">
+                                            <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="displayAgreement:" destination="vZE-6o-F4y" eventType="touchUpInside" id="gaZ-Jd-AXm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sS7-A6-NKE">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="CheckBox_Unselected.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" image="CheckBox_Selected.png"/>
+                                        <state key="highlighted" image="CheckBox_UnselectedDown.png"/>
+                                        <connections>
+                                            <action selector="selectBox:" destination="vZE-6o-F4y" eventType="touchUpInside" id="nWQ-22-w28"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="nWm-bb-70a">
+                    <navigationItem key="navigationItem" title="Complete Registration" id="nWm-bb-70a">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="N6a-DS-7pB">
                             <color key="tintColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="dismissRegistration:" destination="vZE-6o-F4y" id="ZmJ-bR-SBa"/>
+                                <action selector="done:" destination="vZE-6o-F4y" id="T5A-ad-T8z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="checkBox" destination="sS7-A6-NKE" id="uxE-Je-GPe"/>
                         <outlet property="doneButton" destination="N6a-DS-7pB" id="uSm-vL-1c9"/>
                         <outlet property="firstNameTextField" destination="NOS-WW-5hf" id="gil-tT-VLQ"/>
                         <outlet property="imageView" destination="UuZ-tQ-ezo" id="WuT-N8-lN0"/>
                         <outlet property="lastNameTextField" destination="bIG-fn-RfF" id="Bh9-NZ-Om5"/>
+                        <outlet property="showAgreement" destination="Ax6-Io-fZM" id="hka-th-PRw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PKb-D7-Dm9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3054,7 +2306,7 @@ Last Updated: 12/12/13
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Head to your inbox and follow the instructions from there" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="abn-fd-Mqn" customClass="TSRegistrationLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Head to your inbox and follow the instructions to verify your email address" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="abn-fd-Mqn" customClass="TSRegistrationLabel">
                                 <rect key="frame" x="30" y="144" width="260" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -3508,7 +2760,7 @@ Last Updated: 12/12/13
             </objects>
             <point key="canvasLocation" x="2467" y="2195"/>
         </scene>
-        <!--Alert Details Table View Controller - Alert Type-->
+        <!--Alert Details Table View Controller - Report Type-->
         <scene sceneID="ywP-SQ-84g">
             <objects>
                 <viewController storyboardIdentifier="TSAlertDetailsTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mg7-W6-y5e" customClass="TSAlertDetailsTableViewController" sceneMemberID="viewController">
@@ -3565,7 +2817,7 @@ Last Updated: 12/12/13
                             <constraint firstItem="fSr-TP-EMg" firstAttribute="top" secondItem="7cm-V0-Ywa" secondAttribute="bottom" id="nYc-QJ-NL9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Alert Type" id="XjY-Gb-pLj">
+                    <navigationItem key="navigationItem" title="Report Type" id="XjY-Gb-pLj">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="NiO-JB-ddH">
                             <connections>
                                 <action selector="dismissViewController:" destination="Mg7-W6-y5e" id="I0V-Ub-DzU"/>
@@ -5002,25 +4254,6 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="8c3-oz-pc5" rowHeight="60" style="IBUITableViewCellStyleDefault" id="4gH-sF-WPl">
-                                <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4gH-sF-WPl" id="urD-KH-hLd">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8c3-oz-pc5">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="LWu-t1-cja" id="Xz1-eg-bEx"/>
                             <outlet property="delegate" destination="LWu-t1-cja" id="0db-vQ-nQv"/>
@@ -5039,25 +4272,6 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="PhY-kp-eF8" rowHeight="60" style="IBUITableViewCellStyleDefault" id="Hjl-6A-a9y">
-                                <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hjl-6A-a9y" id="GF2-gt-iDV">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PhY-kp-eF8">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="9Pz-1k-UU2" id="64Z-Qv-Fn9"/>
                             <outlet property="delegate" destination="9Pz-1k-UU2" id="K34-1M-lpQ"/>
@@ -5076,25 +4290,6 @@ Last Updated: 12/12/13
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="pgs-nI-njV" rowHeight="60" style="IBUITableViewCellStyleDefault" id="alq-jh-ZL3">
-                                <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="alq-jh-ZL3" id="kzQ-T8-MG6">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pgs-nI-njV">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="bAb-jp-WPS" id="a8d-j8-MP0"/>
                             <outlet property="delegate" destination="bAb-jp-WPS" id="NBT-FF-jhk"/>
@@ -5241,6 +4436,9 @@ Last Updated: 12/12/13
         </scene>
     </scenes>
     <resources>
+        <image name="CheckBox_Selected.png" width="16" height="16"/>
+        <image name="CheckBox_Unselected.png" width="16" height="16"/>
+        <image name="CheckBox_UnselectedDown.png" width="16" height="16"/>
         <image name="about_logo.png" width="154" height="93"/>
         <image name="alert_icon.png" width="50" height="41"/>
         <image name="alert_mute_icon.png" width="21" height="25"/>

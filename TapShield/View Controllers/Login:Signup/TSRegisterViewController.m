@@ -20,6 +20,10 @@
 {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(requiresDomainName:)
+                                                 name:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain
+                                               object:nil];
     
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
     self.navigationItem.rightBarButtonItem = nextButton;
@@ -87,6 +91,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)requiresDomainName:(NSNotification *)note {
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@ requires an %@ email address", _user.agency.name, _user.agency.domain]
+                                                        message:@"Please register with your organization's email account or deselect this organization to continue"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
 
 #pragma mark - Button
 
@@ -144,7 +158,7 @@
     }
     
     if ([responseObject objectForKey:@"email"]) {
-        _emailView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
+        _emailView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
     }
     
     UIAlertView *signupErrorAlert = [[UIAlertView alloc] initWithTitle:title
@@ -323,15 +337,15 @@
 
     if ([_emailTextField.text rangeOfCharacterFromSet: [NSCharacterSet alphanumericCharacterSet]].location == NSNotFound) {
         isValid = NO;
-        _emailView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
+        _emailView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
     }
     if ([_passwordTextField.text rangeOfCharacterFromSet: [NSCharacterSet alphanumericCharacterSet]].location == NSNotFound) {
         isValid = NO;
-        _passwordView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
+        _passwordView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
     }
     if ([[TSUtilities removeNonNumericalCharacters:_phoneNumberTextField.text] length] != 10) {
         isValid = NO;
-        _phoneView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette redColor] Alpha:0.1f];
+        _phoneView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
     }
 
     

@@ -41,6 +41,7 @@ NSString * const kTSJavelinAPIAuthenticationManagerDidResendVerificationEmailNot
 NSString * const kTSJavelinAPIAuthenticationManagerDidFailToResendVerificationEmailNotification = @"kTSJavelinAPIAuthenticationManagerDidFailToResendVerificationEmailNotification";
 NSString * const kTSJavelinAPIAuthenticationManagerDidFailToSendVerificationPhoneNumberNotification = @"kTSJavelinAPIAuthenticationManagerDidFailToResendVerificationEmailNotification";
 NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserAlreadyExistsNotification = @"User with this Email address already exists.";
+NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain = @"kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain";
 
 @interface TSJavelinAPIAuthenticationManager ()
 
@@ -231,35 +232,20 @@ static dispatch_once_t onceToken;
 - (void)registerUser:(TSJavelinAPIUser *)user
                       completion:(void (^)(id responseObject))completion {
     
-    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
-    if (user.agency.identifier) {
-        [mutableDictionary setObject:@(user.agency.identifier) forKey:@"agency"];
-    }
-    if (user.email) {
-        [mutableDictionary setObject:user.email forKey:@"email"];
-    }
-    if (user.password) {
-        [mutableDictionary setObject:user.password forKey:@"password"];
-    }
-    if (user.phoneNumber) {
-        [mutableDictionary setObject:user.phoneNumber forKey:@"phone_number"];
-    }
-    if (user.disarmCode) {
-        [mutableDictionary setObject:user.disarmCode forKey:@"disarm_code"];
-    }
-    if (user.firstName) {
-        [mutableDictionary setObject:user.firstName forKey:@"first_name"];
-    }
-    if (user.lastName) {
-        [mutableDictionary setObject:user.lastName forKey:@"last_name"];
-    }
+    NSDictionary *parameters = [user parametersForUpdate];
     
+    if (user.agency.requireDomainEmails) {
+        if ([user.email rangeOfString:user.agency.domain].location == NSNotFound) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain object:user.agency.domain];
+            return;
+        }
+    }
     
     // Set default Authorization token for allowing access to register API method
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                            forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/register/"
-    parameters:mutableDictionary
+    parameters:parameters
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            [self storeUserCredentials:user.email password:user.password];
@@ -420,14 +406,13 @@ static dispatch_once_t onceToken;
     if (!_loggedInUser) {
         return;
     }
+    
+    NSDictionary *parameters = [_loggedInUser parametersForUpdate];
 
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
-
     [self PATCH:_loggedInUser.url
-     parameters:@{ @"agency": _loggedInUser.agency.url, @"phone_number": _loggedInUser.phoneNumber,
-                   @"disarm_code": _loggedInUser.disarmCode, @"first_name": _loggedInUser.firstName,
-                   @"last_name": _loggedInUser.lastName }
+     parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"updateLoggedInUser: %@", responseObject);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

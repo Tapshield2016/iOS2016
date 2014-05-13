@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "Reachability.h"
+
+#ifdef DEV
+#define kEmergencyNumber @"555"
+#elif DEMO
+#define kEmergencyNumber @"555"
+#elif APP_STORE
+#define kEmergencyNumber @"911"
+#endif
+
+extern NSString * const TSAppDelegateDidFindConnection;
+extern NSString * const TSAppDelegateDidLoseConnection;
 
 @class MSDynamicsDrawerViewController;
 
@@ -15,6 +27,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
+@property (strong, nonatomic) Reachability *reachability;
+@property (strong, nonatomic) UIView *noConnectionIndicator;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;
 

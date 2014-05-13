@@ -110,6 +110,8 @@
 
 - (void)setSpotCrimes:(NSArray *)spotCrimes {
     
+    [self removeAnnotations:_spotCrimes];
+    
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     for (TSSpotCrimeLocation *location in spotCrimes) {
         TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
@@ -125,6 +127,8 @@
 }
 
 - (void)setSocialReports:(NSArray *)socialReports {
+    
+    [self removeAnnotations:_socialReports];
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
     for (TSJavelinAPISocialCrimeReport *report in socialReports) {
@@ -192,7 +196,13 @@
 
 - (void)getAllGeofenceBoundaries {
     
-    [[TSJavelinAPIClient sharedClient] getAgencies:^(NSArray *agencies) {
+#warning Only User Agency
+//    [[TSJavelinAPIClient sharedClient] getAgencies:^(NSArray *agencies) {
+    TSJavelinAPIAgency *agency = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency;
+    if (!agency) {
+        return;
+    }
+    NSArray *agencies = @[agency];
         NSMutableArray *mutableGeofenceArray = [[NSMutableArray alloc] init];
         for (TSJavelinAPIAgency *agency in agencies) {
             if (agency.agencyBoundaries) {
@@ -201,11 +211,12 @@
                 TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:agency.agencyCenter
                                                                                              placeName:agency.name
                                                                                            description:[NSString stringWithFormat:@"%lu", (unsigned long)agency.identifier]];
+                agencyAnnotation.image = agency.alternateLogo;
                 [self addAnnotation:agencyAnnotation];
             }
         }
         self.geofenceArray = mutableGeofenceArray;
-    }];
+//    }]; 
 }
 
 - (void)setGeofenceArray:(NSArray *)geofenceArray {

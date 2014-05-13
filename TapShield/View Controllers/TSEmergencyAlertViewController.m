@@ -43,7 +43,7 @@
     _alertInfoLabel.textColor = [UIColor whiteColor];
     _alertInfoLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
     _alertInfoLabel.textAlignment = NSTextAlignmentCenter;
-    _alertInfoLabel.text = kAlertSend;
+    _alertInfoLabel.text = [TSAlertManager sharedManager].status;
     [_alertInfoLabel setAdjustsFontSizeToFitWidth:YES];
     
     [self.view addSubview: _alertInfoLabel];
@@ -195,9 +195,12 @@
     
     if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
         if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
-            
-#warning 911
             NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+            if (!rawPhoneNum) {
+                rawPhoneNum = kEmergencyNumber;
+#warning 911
+            }
+            
             NSString *phoneNumber = [@"tel://" stringByAppendingString:rawPhoneNum];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
         }

@@ -94,35 +94,35 @@
     return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
-//    if (section == 0) {
-//        return @"Medical";
-//    }
-    
-    return @"Police";
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    
+////    if (section == 0) {
+////        return @"Medical";
+////    }
+//    
+//    return @"Police";
+//}
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
-    
-    headerView.backgroundColor = [TSColorPalette tableViewHeaderColor];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width - 10, headerView.frame.size.height)];
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0f];
-    [headerView addSubview:label];
-    
-    label.text = @"Police";
-    
-//    if (section == 0) {
-//        label.text = @"Medical";
-//    }
-    
-    return headerView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    
+//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+//    
+//    headerView.backgroundColor = [TSColorPalette tableViewHeaderColor];
+//    
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width - 10, headerView.frame.size.height)];
+//    label.textColor = [UIColor whiteColor];
+//    label.backgroundColor = [UIColor clearColor];
+//    label.font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0f];
+//    [headerView addSubview:label];
+//    
+//    label.text = @"Police";
+//    
+////    if (section == 0) {
+////        label.text = @"Medical";
+////    }
+//    
+//    return headerView;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     

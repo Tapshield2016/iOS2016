@@ -768,10 +768,6 @@ static dispatch_once_t onceToken;
 
     if (result.statusCode == 200) {
         // We're logged in and good to go
-        if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
-            [_delegate loginSuccessful:result];
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:result];
         [self storeUserCredentials:_emailAddress password:_password];
         _emailAddress = nil;
         _password = nil;
@@ -839,6 +835,11 @@ static dispatch_once_t onceToken;
                 _loginCompletionBlock(_loggedInUser);
             }
         }];
+        
+        if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
+            [_delegate loginSuccessful:nil];
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:_loggedInUser];
     }
     [self.responseData setLength:0];
 }

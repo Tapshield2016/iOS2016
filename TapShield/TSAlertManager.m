@@ -316,6 +316,7 @@ static dispatch_once_t predicate;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
     _callStartTime = nil;
+    self.callInProgress = NO;
     
     if ([_callDelegate respondsToSelector:@selector(connectionDidDisconnect:)]) {
         [_callDelegate connectionDidDisconnect:connection];
@@ -326,6 +327,7 @@ static dispatch_once_t predicate;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
     _callStartTime = nil;
+    self.callInProgress = NO;
     
     if ([_callDelegate respondsToSelector:@selector(connection:didFailWithError:)]) {
         [_callDelegate connection:connection didFailWithError:error];

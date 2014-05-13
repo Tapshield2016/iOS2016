@@ -189,6 +189,9 @@ static dispatch_once_t predicate;
                                                      otherButtonTitles:@"Arrived", nil];
         [_notifyEntourageAlertView show];
     }
+    else {
+        [_homeView clearEntourageAndResetMap];
+    }
 }
 
 - (void)stopEntourage {

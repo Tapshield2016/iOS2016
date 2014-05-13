@@ -57,6 +57,9 @@
         _dispatcherNameLabel.text = [NSString stringWithFormat:@"%@ Dispatcher", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
     }
     
+    if ([TSAlertManager sharedManager].callInProgress) {
+        [self initPhoneView];
+    }
     [TSAlertManager sharedManager].alertDelegate = self;
 }
 
@@ -191,6 +194,13 @@
 
 #pragma mark - Phone View Transition Animations
 
+- (void)startingPhoneCall {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self initPhoneView];
+    });
+}
+
 - (IBAction)callDispatcher:(id)sender {
     
     if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
@@ -217,6 +227,13 @@
         return;
     }
     
+    if (![TSAlertManager sharedManager].callInProgress) {
+        [[TSAlertManager sharedManager] startTwilioCall];
+    }
+}
+
+- (void)initPhoneView {
+    
     _pageViewController.isPhoneView = YES;
     
     if (!_voipController) {
@@ -236,7 +253,7 @@
     float minimumHeight = _pageViewController.navigationController.navigationBar.frame.size.height*3 + topBarHeight;
     CGRect toolbarFrame = _pageViewController.animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
-
+    
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
         _voipController.view.frame = self.view.bounds;
@@ -245,14 +262,10 @@
         _alertButtonView.alpha = 0.0f;
         _detailsButtonView.alpha = 0.0f;
         _chatButtonView.alpha = 0.0f;
-
+        
     } completion:^(BOOL finished) {
         [self showPhoneInfoView];
     }];
-    
-    if (![TSAlertManager sharedManager].callInProgress) {
-        [[TSAlertManager sharedManager] startTwilioCall];
-    }
 }
 
 - (void)showPhoneInfoView {

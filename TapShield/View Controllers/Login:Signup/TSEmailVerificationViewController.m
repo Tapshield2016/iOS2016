@@ -9,6 +9,7 @@
 #import "TSEmailVerificationViewController.h"
 #import "TSJavelinAPIAuthenticationManager.h"
 #import "TSPhoneVerificationViewController.h"
+#import "TSNamePictureViewController.h"
 
 @interface TSEmailVerificationViewController ()
 
@@ -69,7 +70,19 @@
     _errorMessageLabel.text = @"";
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        
+        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode &&
+            [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode.length == 4) {
+            if (self.presentingViewController.presentingViewController.presentingViewController) {
+                [self.presentingViewController.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            }
+            else {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
+        else {
+            [self pushViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+        }
     }
     else {
          TSPhoneVerificationViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSPhoneVerificationViewController"];

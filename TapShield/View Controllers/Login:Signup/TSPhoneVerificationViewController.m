@@ -210,7 +210,19 @@
     [[[TSJavelinAPIClient sharedClient] authenticationManager] checkPhoneVerificationCode:_verificationCodeTextField.text completion:^(id responseObject) {
         if (!responseObject) {
             [self stopCodeVerificationIndicator];
-            [self pushViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+            
+            if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode &&
+                [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode.length == 4) {
+                if (self.presentingViewController.presentingViewController.presentingViewController) {
+                    [self.presentingViewController.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+                }
+                else {
+                    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+                }
+            }
+            else {
+                [self pushViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+            }
         }
         else {
             [self stopCodeVerificationIndicator];

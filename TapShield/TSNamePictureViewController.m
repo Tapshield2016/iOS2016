@@ -110,8 +110,8 @@
 
 - (void)saveUserAndDismiss {
     
-    if (self.presentingViewController.presentingViewController) {
-        [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    if (self.presentingViewController.presentingViewController.presentingViewController) {
+        [self.presentingViewController.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
     else {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

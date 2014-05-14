@@ -18,4 +18,6 @@
 @property (strong, nonatomic) TSObservingInputAccessoryView *inputAccessoryView;
 @property (assign, nonatomic) BOOL hideBackButton;
 
+- (void)setNavigationItemPrompt:(NSString *)string;
+
 @end

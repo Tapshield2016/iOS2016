@@ -27,8 +27,10 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
-@property (strong, nonatomic) Reachability *reachability;
 @property (strong, nonatomic) UIView *noConnectionIndicator;
+
+@property (strong, nonatomic) Reachability *reachability;
+@property (assign, nonatomic) BOOL isConnected;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;
 

@@ -164,7 +164,7 @@
         
         [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
         [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
-        
+        [((TSPageViewController *)_pageViewController).chatViewController setNavigationItemPrompt:status];
     });
 }
 
@@ -221,30 +221,6 @@
 }
 
 - (IBAction)callDispatcher:(id)sender {
-    
-    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
-        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
-            NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
-            if (!rawPhoneNum) {
-                rawPhoneNum = kEmergencyNumber;
-#warning 911
-            }
-            
-            NSString *phoneNumber = [@"tel://" stringByAppendingString:rawPhoneNum];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
-        }
-        else {
-            UIAlertView *phoneServiceUnavailableAlert = [[UIAlertView alloc] initWithTitle:nil
-                                                                                   message:@"This device is not setup to make phone calls"
-                                                                                  delegate:nil
-                                                                         cancelButtonTitle:@"OK"
-                                                                         otherButtonTitles:nil];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [phoneServiceUnavailableAlert show];
-            });
-        }
-        return;
-    }
     
     if (![TSAlertManager sharedManager].callInProgress) {
         [[TSAlertManager sharedManager] startTwilioCall];

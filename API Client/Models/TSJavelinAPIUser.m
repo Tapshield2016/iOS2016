@@ -121,9 +121,6 @@
     if (_email) {
         [mutableDictionary setObject:_email forKey:@"email"];
     }
-    if (_password) {
-        [mutableDictionary setObject:_password forKey:@"password"];
-    }
     if (_phoneNumber) {
         [mutableDictionary setObject:_phoneNumber forKey:@"phone_number"];
     }

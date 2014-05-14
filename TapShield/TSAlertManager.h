@@ -29,7 +29,7 @@
 
 @end
 
-@interface TSAlertManager : NSObject <TCConnectionDelegate, TCDeviceDelegate>
+@interface TSAlertManager : NSObject <TCConnectionDelegate, TCDeviceDelegate, UIAlertViewDelegate>
 
 extern NSString * const kAlertSend;
 extern NSString * const kAlertSending;

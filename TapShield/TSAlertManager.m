@@ -17,6 +17,14 @@ NSString * const kAlertSending = @"Sending alert";
 NSString * const kAlertSent = @"Alert was sent";
 NSString * const kAlertReceived = @"The authorities have been notified";
 NSString * const kAlertOutsideGeofence = @"Outside boundaries please call";
+NSString * const kAlertNoConnection = @"No Network Connection";
+
+@interface TSAlertManager ()
+
+@property (strong, nonatomic) UIAlertView *noConnectionAlertView;
+@property (strong, nonatomic) NSString *previousStatus;
+
+@end
 
 @implementation TSAlertManager
 
@@ -44,7 +52,17 @@ static dispatch_once_t predicate;
                                                  selector:@selector(alertRecieved:)
                                                      name:TSJavelinAlertManagerDidRecieveActiveAlertNotification
                                                    object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didFindConnection)
+                                                     name:TSAppDelegateDidFindConnection
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didLoseConnection)
+                                                     name:TSAppDelegateDidLoseConnection
+                                                   object:nil];
     }
+    
     return self;
 }
 
@@ -101,12 +119,31 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
+    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
+    
     _status = kAlertSending;
     if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
         [_alertDelegate alertStatusChanged:kAlertSending];
     }
     
-    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
+    if (![(TSAppDelegate *)[UIApplication sharedApplication].delegate isConnected]) {
+        
+        [self didLoseConnection];
+        
+        NSString *number = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+        if (!number) {
+            number = kEmergencyNumber;
+        }
+        NSString *callButtonTitle = [NSString stringWithFormat:@"Call %@", number];
+        _noConnectionAlertView = [[UIAlertView alloc] initWithTitle:@"No Network Data Connection"
+                                                               message:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:@"Cancel"
+                                                     otherButtonTitles:callButtonTitle, nil];
+        [_noConnectionAlertView show];
+        
+        [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: No Network Data Connection. Call %@.", number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+    }
     
     [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:type location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
         if (sent) {
@@ -124,9 +161,7 @@ static dispatch_once_t predicate;
                 ![type isEqualToString:@"C"]) {
                 [self startTwilioCall];
             }
-            else {
-                
-            }
+            
         }
         else {
             [self alertSentOutsideGeofence];
@@ -141,7 +176,7 @@ static dispatch_once_t predicate;
     if (!number) {
         number = kEmergencyNumber;
     }
-    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: You are located outside of your agency's boundaries. Call %@.", kEmergencyNumber]openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: You are located outside of your agency's boundaries. Call %@.", number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
     
     NSLog(@"Outside geofence");
     _status = kAlertOutsideGeofence;
@@ -152,16 +187,34 @@ static dispatch_once_t predicate;
     [[TSAlertManager sharedManager] callSecondary];
 }
 
+- (void)callPrimary {
+    
+    NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherPhoneNumber;
+    if (rawPhoneNum) {
+        [self voiceCall:rawPhoneNum];
+    }
+    else {
+        [self callSecondary];
+    }
+}
+
 - (void)callSecondary {
+    
+    NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+    if (!rawPhoneNum) {
+#warning 911
+        rawPhoneNum = kEmergencyNumber;
+    }
+    
+    [self voiceCall:rawPhoneNum];
+}
+
+- (void)voiceCall:(NSString *)number {
     
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
         
-        NSString *rawPhoneNum = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
-        if (!rawPhoneNum) {
-#warning 911
-            rawPhoneNum = kEmergencyNumber;
-        }
-        NSString *phoneNumber = [@"tel://" stringByAppendingString:rawPhoneNum];
+        
+        NSString *phoneNumber = [@"tel://" stringByAppendingString:number];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
         });
@@ -220,6 +273,22 @@ static dispatch_once_t predicate;
 }
 
 - (void)startTwilioCall {
+    
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
+        [self callSecondary];
+        return;
+    }
+    
+    
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertNoConnection]) {
+        if ([_previousStatus isEqualToString:kAlertSent] || [_previousStatus isEqualToString:kAlertReceived]) {
+            [self callPrimary];
+        }
+        else if ([_previousStatus isEqualToString:kAlertSending]) {
+            [self callSecondary];
+        }
+        return;
+    }
     
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (!granted) {
@@ -354,6 +423,42 @@ static dispatch_once_t predicate;
 
 - (void)deviceDidStartListeningForIncomingConnections:(TCDevice *)device {
     
+}
+
+
+#pragma mark - Alert View Delegate 
+
+- (void)didFindConnection {
+    
+    [_noConnectionAlertView dismissWithClickedButtonIndex:-1 animated:YES];
+    
+    if ([_previousStatus isEqualToString:kAlertSending]) {
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    }
+    
+    _status = _previousStatus;
+    if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
+        [_alertDelegate alertStatusChanged:_status];
+    }
+}
+
+- (void)didLoseConnection {
+    
+    _previousStatus = _status;
+    
+    _status = kAlertNoConnection;
+    if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
+        [_alertDelegate alertStatusChanged:_status];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (alertView == _noConnectionAlertView) {
+        if (buttonIndex == 1) {
+            [self callSecondary];
+        }
+    }
 }
 
 @end

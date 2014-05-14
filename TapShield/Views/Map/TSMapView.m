@@ -171,7 +171,7 @@
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay {
     
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
-    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
     }
     
@@ -269,7 +269,7 @@
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, radius*2, radius*2);
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
     
-    if ([[TSJavelinAPIClient sharedClient] alertManager].activeAlert) {
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
         region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
         isBlueColor = NO;

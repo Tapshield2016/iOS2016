@@ -274,6 +274,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                 break;
             }
         }
+        
+        _isConnected = reachable;
+        
         if (reachable) {
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidFindConnection object:nil];
             NSLog(@"Connected");

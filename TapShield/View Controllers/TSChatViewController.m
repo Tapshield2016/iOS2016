@@ -16,6 +16,7 @@
 @interface TSChatViewController ()
 
 @property (assign, nonatomic) NSUInteger previousCount;
+@property (strong, nonatomic) UIView *tintView;
 
 @end
 
@@ -341,6 +342,35 @@
     frame = _textMessageBarAccessoryView.frame;
     frame.origin.y = -_textMessageBarAccessoryView.frame.size.height;
     _textMessageBarAccessoryView.frame = frame;
+}
+
+#pragma mark Prompt Messages
+
+- (void)setNavigationItemPrompt:(NSString *)string {
+    
+    if (!_tintView) {
+        _tintView = [[UIView alloc] initWithFrame:self.view.frame];
+        _tintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
+        [self.view insertSubview:_tintView belowSubview:_tableView];
+    }
+    
+    [self.navigationItem setPrompt:string];
+    
+    UIEdgeInsets inset = _tableView.contentInset;
+    inset.top = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    [_tableView setContentInset:inset];
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(clearPrompt) object:nil];
+    [self performSelector:@selector(clearPrompt) withObject:nil afterDelay:10.0];
+}
+
+- (void)clearPrompt {
+    
+    [self.navigationItem setPrompt:nil];
+    
+    UIEdgeInsets inset = _tableView.contentInset;
+    inset.top = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    [_tableView setContentInset:inset];
 }
 
 @end

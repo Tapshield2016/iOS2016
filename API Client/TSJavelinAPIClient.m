@@ -200,11 +200,14 @@ static dispatch_once_t onceToken;
     [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type location:location completion:^(BOOL sent, BOOL inside) {
         
         if (!sent && inside) {
-            // Delay execution of my block for 5 seconds.
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                [[TSJavelinAlertManager sharedManager] initiateAlert:alert type:type location:location completion:completion];
-            });
+            
+                // Delay execution of my block for 5 seconds.
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+                        [self sendEmergencyAlertWithAlertType:type location:location completion:completion];
+                    }
+                });
         }
         else {
             if (completion) {

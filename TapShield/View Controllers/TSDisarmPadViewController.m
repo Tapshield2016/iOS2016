@@ -112,6 +112,7 @@
         [[TSJavelinAPIClient sharedClient] disarmAlert];
         [[TSJavelinAPIClient sharedClient] cancelAlert];
         
+        [_pageViewController.homeViewController mapAlertModeToggle];
         [_pageViewController.toolbar setTranslucent:NO];
         [_pageViewController.toolbar setAlpha:0.5f];
         [_pageViewController.homeViewController viewWillAppear:NO];
@@ -127,7 +128,7 @@
     else {
         [self shakeDisarmCircles];
         _disarmTextField.text = @"";
-        [self performSelector:@selector(selectCodeCircles) withObject:nil afterDelay:0.08 * 6];
+        [self performSelector:@selector(selectCodeCircles) withObject:nil afterDelay:0.08 * 4];
     }
 }
 
@@ -137,7 +138,7 @@
     CABasicAnimation *animation =
     [CABasicAnimation animationWithKeyPath:@"position"];
     [animation setDuration:0.08f];
-    [animation setRepeatCount:3.0f];
+    [animation setRepeatCount:2.0f];
     [animation setAutoreverses:YES];
     [animation setFromValue:[NSValue valueWithCGPoint:
                              CGPointMake([_codeCircleContainerView center].x - 20.0f, [_codeCircleContainerView center].y)]];

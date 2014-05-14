@@ -961,7 +961,7 @@
                                 <rect key="frame" x="20" y="310" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="Tap here and request a demo today!">
+                                <state key="normal" title="Tap here to request a demo today!">
                                     <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1514,7 +1514,7 @@
                                     <constraint firstAttribute="height" constant="21" id="hd4-br-mvS"/>
                                     <constraint firstAttribute="width" constant="280" id="smp-XA-vZB"/>
                                 </constraints>
-                                <state key="normal" title="Tap here and request a demo today!">
+                                <state key="normal" title="Tap here to request a demo today!">
                                     <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>

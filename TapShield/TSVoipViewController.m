@@ -164,7 +164,6 @@ static NSString * const kCallRedialing = @"Redialing";
 - (void)connectionDidStartConnecting:(TCConnection *)connection {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        _redialButton.enabled = NO;
         [self setMuteEnabled:_muteButton.selected];
         [self setSpeakerEnabled:_speakerButton.selected];
     });

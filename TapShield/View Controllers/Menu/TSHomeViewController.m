@@ -490,7 +490,10 @@
     }
     
     _mapView.previousLocation = location;
-    [_mapView resetAnimatedOverlayAt:location];
+    
+    if (_viewDidAppear) {
+        [_mapView resetAnimatedOverlayAt:location];
+    }
 }
 
 - (void)didEnterRegion:(CLRegion *)region {

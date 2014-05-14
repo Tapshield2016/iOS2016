@@ -597,8 +597,6 @@
             annotationView = [[TSOrganizationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSAgencyAnnotation class])];
         }
         ((TSOrganizationAnnotationView *)annotationView).image = ((TSAgencyAnnotation *)annotation).image;
-        
-//        ((TSOrganizationAnnotationView *)annotationView).label.text = ((TSAgencyAnnotation *)annotation).title;
     }
     else if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
         annotationView = (TSDestinationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
@@ -633,6 +631,8 @@
     
     [self flipIntersectingRouteAnnotation];
     
+    
+    
     CGRect visibleRect = [mapView annotationVisibleRect];
     for (TSBaseAnnotationView *view in views) {
         
@@ -640,6 +640,10 @@
             
             if (((TSBaseMapAnnotation *)view.annotation).firstAdd) {
                 ((TSBaseMapAnnotation *)view.annotation).firstAdd = NO;
+                
+                if (!_viewDidAppear) {
+                    return;
+                }
                 CGRect endFrame = view.frame;
                 
                 CGRect startFrame = endFrame; startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;

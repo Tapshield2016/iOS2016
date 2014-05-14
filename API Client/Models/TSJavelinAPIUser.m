@@ -116,6 +116,34 @@
     
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
     if (_agency.identifier) {
+        [mutableDictionary setObject:_agency.url forKey:@"agency"];
+    }
+    if (_email) {
+        [mutableDictionary setObject:_email forKey:@"email"];
+    }
+    if (_password) {
+        [mutableDictionary setObject:_password forKey:@"password"];
+    }
+    if (_phoneNumber) {
+        [mutableDictionary setObject:_phoneNumber forKey:@"phone_number"];
+    }
+    if (_disarmCode) {
+        [mutableDictionary setObject:_disarmCode forKey:@"disarm_code"];
+    }
+    if (_firstName) {
+        [mutableDictionary setObject:_firstName forKey:@"first_name"];
+    }
+    if (_lastName) {
+        [mutableDictionary setObject:_lastName forKey:@"last_name"];
+    }
+    
+    return mutableDictionary;
+}
+
+- (NSDictionary *)parametersForRegistration {
+    
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if (_agency.identifier) {
         [mutableDictionary setObject:@(_agency.identifier) forKey:@"agency"];
     }
     if (_email) {

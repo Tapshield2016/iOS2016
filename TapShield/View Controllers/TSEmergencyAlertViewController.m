@@ -9,6 +9,7 @@
 #import "TSEmergencyAlertViewController.h"
 #import "TSPageViewController.h"
 #import "TSVoipViewController.h"
+#import "TSJavelinChatManager.h"
 
 @interface TSEmergencyAlertViewController ()
 
@@ -29,6 +30,9 @@
     self.showLargeLogo = YES;
     
     [self.view addSubview:_voipController.view];
+    
+    _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
+    [_chatButtonView addSubview:_badgeView];
     
     if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
         [_detailsButtonView setHidden:YES];
@@ -61,12 +65,18 @@
         [self initPhoneView];
     }
     [TSAlertManager sharedManager].alertDelegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(unreadChatMessage)
+                                                 name:TSJavelinChatManagerDidReceiveNewChatMessageNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
+    [self unreadChatMessage];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -122,6 +132,12 @@
     [[TSAlertManager sharedManager] endTwilioCall];
 }
 
+- (void)unreadChatMessage {
+    
+    [_badgeView setNumber:[TSJavelinChatManager sharedManager].unreadMessages];
+    [_voipController unreadChatMessage];
+}
+
 #pragma mark - Alert Methods
 
 
@@ -163,6 +179,9 @@
 #pragma mark - Button Actions
 
 - (IBAction)showChatViewController:(id)sender {
+    
+    [_badgeView clearBadge];
+    [_voipController.badgeView clearBadge];
     
     UIViewController *viewController = _pageViewController.chatViewController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];

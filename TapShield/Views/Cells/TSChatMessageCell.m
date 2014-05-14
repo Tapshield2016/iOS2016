@@ -240,7 +240,7 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
     _userImageView = [[TSRoundUserImageView alloc] initWithFrame:CGRectMake(0, 0, IMAGE_SIZE, IMAGE_SIZE)];
     UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.smallLogo;
     if (image) {
-        _userImageView.image = image;
+        _userImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     else {
         _userImageView.image = [[UIImage imageNamed:TSLogoImageViewSmallTapShieldLogo] resizeToSize:CGSizeMake(_userImageView.frame.size.width*.75, _userImageView.frame.size.height*.75)];

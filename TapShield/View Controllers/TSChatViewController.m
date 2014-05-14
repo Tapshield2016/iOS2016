@@ -15,7 +15,7 @@
 
 @interface TSChatViewController ()
 
-@property (assign) NSUInteger previousCount;
+@property (assign, nonatomic) NSUInteger previousCount;
 
 @end
 
@@ -53,11 +53,9 @@
     [_textMessageBarAccessoryView setSendButtonTarget:self action:@selector(sendMessage)];
     [_textMessageBarBaseView setSendButtonTarget:self action:@selector(sendMessage)];
     
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateTableViewCells)
-                                                 name:TSJavelinChatManagerDidReceiveNewChatMessageNotification
+                                                 name:TSJavelinChatManagerDidUpdateChatMessageNotification
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -90,6 +88,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [TSJavelinChatManager sharedManager].unreadMessages = 0;
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
@@ -140,6 +140,8 @@
 
 - (void)dismissViewController {
     
+    [TSJavelinChatManager sharedManager].unreadMessages = 0;
+    
     UINavigationController *parentNavigationController;
     if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
         parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
@@ -148,9 +150,14 @@
         parentNavigationController = (UINavigationController *)self.presentingViewController;
     }
     
+    [[parentNavigationController.topViewController.childViewControllers lastObject] viewWillAppear:NO];
+    
     [self dismissViewControllerAnimated:YES completion:^{
+        
         [parentNavigationController.topViewController viewWillAppear:NO];
         [parentNavigationController.topViewController viewDidAppear:NO];
+        
+        [[parentNavigationController.topViewController.childViewControllers lastObject] viewDidAppear:NO];
     }];
 }
 
@@ -165,8 +172,8 @@
     if (_previousCount == [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count) {
         shouldScroll = NO;
     }
-    _previousCount = [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count;
     
+    _previousCount = [[TSJavelinAPIClient sharedClient] chatManager].chatMessages.allMessages.count;
     
     [UIView animateWithDuration:0.3 animations:^{
         [_tableView reloadData];
@@ -191,9 +198,12 @@
     [self resetMessageBars];
     
     if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
-        [self.navigationController popViewControllerAnimated:YES];
         [TSAlertManager sharedManager].type = @"C";
         [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
+        [self.navigationItem setHidesBackButton:NO animated:YES];
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+//        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStylePlain target:nil action:nil] animated:YES];
+        [self.navigationItem setLeftItemsSupplementBackButton:YES];
     }
 }
 

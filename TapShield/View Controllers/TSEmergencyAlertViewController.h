@@ -9,6 +9,7 @@
 #import "TSNavigationViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TSAlertManager.h"
+#import "TSIconBadgeView.h"
 
 @interface TSEmergencyAlertViewController : TSNavigationViewController <TSAlertDelegate>
 
@@ -26,6 +27,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *callTimerView;
 
+@property (strong, nonatomic) TSIconBadgeView *badgeView;
 
 @property (strong, nonatomic) UIViewController *superviewViewController;
 @property (strong, nonatomic) NSTimer *sendEmergencyTimer;

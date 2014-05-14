@@ -48,7 +48,7 @@
     
     [self setAgencyBoundaries:[attributes objectForKey:@"agency_boundaries"]];
     
-    
+    [self parseAgencyTheme:[attributes objectForKey:@"agency_theme"]];
     
 //    "launch_call_to_dispatcher_on_alert": false,
 //    "agency_logo": null,
@@ -90,6 +90,26 @@
     if (_agencyBoundaries) {
         [encoder encodeObject:_agencyBoundaries forKey:@"agency_boundaries"];
     }
+    
+    if (_primaryColor) {
+        [encoder encodeObject:_primaryColor forKey:@"primary_color"];
+    }
+    
+    if (_secondaryColor) {
+        [encoder encodeObject:_secondaryColor forKey:@"secondary_color"];
+    }
+    
+    if (_smallLogo) {
+        [encoder encodeObject:UIImagePNGRepresentation(_smallLogo) forKey:@"small_logo"];
+    }
+    
+    if (_largeLogo) {
+        [encoder encodeObject:UIImagePNGRepresentation(_largeLogo) forKey:@"large_logo"];
+    }
+    
+    if (_alternateLogo) {
+        [encoder encodeObject:UIImagePNGRepresentation(_alternateLogo) forKey:@"alternate_logo"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -124,8 +144,47 @@
         if ([decoder containsValueForKey:@"agency_boundaries"]) {
             _agencyBoundaries = [decoder decodeObjectForKey:@"agency_boundaries"];
         }
+        
+        if ([decoder containsValueForKey:@"primary_color"]) {
+            _primaryColor = [decoder decodeObjectForKey:@"primary_color"];
+        }
+        
+        if ([decoder containsValueForKey:@"secondary_color"]) {
+            _secondaryColor = [decoder decodeObjectForKey:@"secondary_color"];
+        }
+        
+        if ([decoder containsValueForKey:@"small_logo"]) {
+            _smallLogo = [UIImage imageWithData:[decoder decodeObjectForKey:@"small_logo"]];
+        }
+        
+        if ([decoder containsValueForKey:@"large_logo"]) {
+            _largeLogo = [UIImage imageWithData:[decoder decodeObjectForKey:@"large_logo"]];
+        }
+        
+        if ([decoder containsValueForKey:@"alternate_logo"]) {
+            _alternateLogo = [UIImage imageWithData:[decoder decodeObjectForKey:@"alternate_logo"]];
+        }
     }
     return self;
+}
+
+
+- (void)parseAgencyTheme:(NSString *)jsonString {
+    
+    NSData *webData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary *agencyTheme = [NSJSONSerialization JSONObjectWithData:webData options:0 error:&error];
+    
+    if ([agencyTheme isKindOfClass:[NSDictionary class]] && agencyTheme) {
+        NSString *string = [agencyTheme objectForKey:@"primary_color"];
+        if (string) {
+            _primaryColor = UIColorFromRGB([self stringHexToInt:string]);
+        }
+        string = [agencyTheme objectForKey:@"secondary_color"];
+        if (string) {
+            _secondaryColor = UIColorFromRGB([self stringHexToInt:string]);
+        }
+    }
 }
 
 - (void)setAgencyLogoUrl:(NSString *)agencyLogoUrl {
@@ -213,6 +272,14 @@
         }
     }
     _agencyBoundaries = mutableArray;
+}
+
+- (int)stringHexToInt:(NSString *)string {
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    unsigned int temp;
+    [scanner scanHexInt:&temp];
+    
+    return temp;
 }
 
 @end

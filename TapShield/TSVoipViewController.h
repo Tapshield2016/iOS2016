@@ -10,6 +10,7 @@
 #import "TwilioClient.h"
 #import "TSRoundRectButton.h"
 #import "TSAlertManager.h"
+#import "TSIconBadgeView.h"
 
 
 @interface TSVoipViewController : TSNavigationViewController <TSCallDelegate>
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *muteButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *chatButton;
 
+@property (strong, nonatomic) TSIconBadgeView *badgeView;
 @property (strong, nonatomic) UIViewController *emergencyView;
 
 - (IBAction)addAlertDetails:(id)sender;
@@ -32,5 +34,7 @@
 - (IBAction)redialTwilio:(id)sender;
 - (IBAction)speakerToggle:(id)sender;
 - (IBAction)muteToggle:(id)sender;
+
+- (void)unreadChatMessage;
 
 @end

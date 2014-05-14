@@ -120,8 +120,12 @@ static dispatch_once_t predicate;
         }
         
         if (inside) {
-            if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.launchCallToDispatcherOnAlert) {
+            if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.launchCallToDispatcherOnAlert  &&
+                ![type isEqualToString:@"C"]) {
                 [self startTwilioCall];
+            }
+            else {
+                
             }
         }
         else {

@@ -53,15 +53,20 @@
     if (showLargeLogo) {
         
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.largeLogo;
+        
+        NSString *defaultImage = TSLogoImageViewBigTapShieldLogo;
+        if (!image) {
+            if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+                if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherSecondaryPhoneNumber isEqualToString:kEmergencyNumber] ||
+                    ![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
+                    defaultImage = TSLogoImageView911;
+                }
+            }
+        }
+        
         _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
         _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
-        CGPoint center = _largeLogoImageView.center;
-        center.x = self.view.bounds.size.width/2;
-        center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
-        //        _largeLogoImageView.center = center;
-        
-        //        [self.view addSubview:_largeLogoImageView];
         self.navigationItem.titleView = _largeLogoImageView;
     }
     else {

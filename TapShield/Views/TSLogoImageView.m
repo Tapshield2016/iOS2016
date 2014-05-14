@@ -7,7 +7,9 @@
 //
 
 #import "TSLogoImageView.h"
+#import "TSLocationController.h"
 
+NSString * const TSLogoImageView911 = @"911";
 NSString * const TSLogoImageViewBigTapShieldLogo = @"splash_logo_small";
 NSString * const TSLogoImageViewBigAlternateTapShieldLogo = @"tapshield_icon";
 NSString * const TSLogoImageViewSmallTapShieldLogo = @"tapshield_icon";

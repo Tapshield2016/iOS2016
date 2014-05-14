@@ -11,12 +11,14 @@
 #import "TSJavelinAPIChatMessage.h"
 
 extern NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification;
+extern NSString * const TSJavelinChatManagerDidUpdateChatMessageNotification;
 
 @interface TSJavelinChatManager : NSObject
 
 @property (strong, nonatomic) TSJavelinChatMessageOrganizer *chatMessages;
 @property (assign, nonatomic) BOOL didReceiveAll;
 @property (assign, nonatomic) BOOL quickGetTimerInterval;
+@property (assign, nonatomic) NSUInteger unreadMessages;
 
 + (instancetype)sharedManager;
 

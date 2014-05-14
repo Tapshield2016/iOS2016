@@ -34,5 +34,7 @@
 @property (strong, nonatomic) UIImage *alternateLogo;
 @property (strong, nonatomic) UIImage *smallLogo;
 
+@property (strong, nonatomic) UIColor *primaryColor;
+@property (strong, nonatomic) UIColor *secondaryColor;
 
 @end

@@ -102,15 +102,20 @@
     if (showLargeLogo) {
         
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.largeLogo;
-        _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
-        _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
-        CGPoint center = _largeLogoImageView.center;
-        center.x = self.view.bounds.size.width/2;
-        center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
-//        _largeLogoImageView.center = center;
+        NSString *defaultImage = TSLogoImageViewBigTapShieldLogo;
+        if (!image) {
+            if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+                if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherSecondaryPhoneNumber isEqualToString:kEmergencyNumber] ||
+                    ![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
+                    defaultImage = TSLogoImageView911;
+                }
+            }
+        }
         
-//        [self.view addSubview:_largeLogoImageView];
+        _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:defaultImage];
+        _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height - 10;
+        
         self.navigationItem.titleView = _largeLogoImageView;
     }
     else {
@@ -129,14 +134,7 @@
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.alternateLogo;
         _alternateLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
         _alternateLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
-        
-        CGPoint center = _alternateLogoImageView.center;
-        center.x = self.view.bounds.size.width/2;
-        center.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height/2;
-        
-        _alternateLogoImageView.center = center;
-        
-//        [self.view addSubview:_alternateLogoImageView];
+
         self.navigationItem.titleView = _alternateLogoImageView;
     }
     else {
@@ -154,7 +152,7 @@
         
         UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.smallLogo;
         _smallLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
-        _smallLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
+        _smallLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height - 10;
         self.navigationItem.titleView = _smallLogoImageView;
     }
     

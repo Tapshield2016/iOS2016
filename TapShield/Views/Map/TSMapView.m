@@ -57,7 +57,7 @@
 
 - (void)adjustAnnotationAlphaForPan {
     
-    float fullAlpha = 0.4f;
+    float fullAlpha = 0.2f;
     float newAlpha = 0.0f;
     
     if (self.region.span.latitudeDelta <= 0.04f) {

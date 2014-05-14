@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+extern NSString * const TSLogoImageView911;
 extern NSString * const TSLogoImageViewBigTapShieldLogo;
 extern NSString * const TSLogoImageViewBigAlternateTapShieldLogo;
 extern NSString * const TSLogoImageViewSmallTapShieldLogo;

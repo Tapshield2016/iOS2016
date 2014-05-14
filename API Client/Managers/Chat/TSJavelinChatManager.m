@@ -28,6 +28,7 @@ static NSString * const kTSJavelinAPIChatManagerDynamoDBProductionTableName = @"
 static NSString * const kTSJavelinAPIChatManagerArchivedChatMessages = @"kTSJavelinAPIChatManagerArchivedChatMessages";
 
 // Notifications
+NSString * const TSJavelinChatManagerDidUpdateChatMessageNotification = @"TSJavelinChatManagerDidUpdateChatMessageNotification";
 NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification = @"TSJavelinChatManagerDidReceiveNewChatMessageNotification";
 
 @interface TSJavelinChatManager ()
@@ -36,6 +37,7 @@ NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification = @"TS
 @property (strong, nonatomic) AmazonDynamoDBClient *dynamoDB;
 @property (strong, nonatomic) NSString *dynamoDBTableName;
 @property (strong, nonatomic) NSTimer *getTimer;
+@property (assign, nonatomic) NSUInteger previousCount;
 
 @end
 
@@ -157,7 +159,8 @@ static dispatch_once_t onceToken;
             if (chatMessages) {
                 _didReceiveAll = YES;
                 [_chatMessages addChatMessages:chatMessages];
-                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:[chatMessages lastObject]];
+                [self newMessagesCount];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidUpdateChatMessageNotification object:[chatMessages lastObject]];
             }
             else {
                 _didReceiveAll = NO;
@@ -169,9 +172,19 @@ static dispatch_once_t onceToken;
         [self getChatMessagesForActiveAlertSinceTime:[_chatMessages lastReceivedTimeStamp] completion:^(NSArray *chatMessages) {
             if (chatMessages) {
                 [_chatMessages addChatMessages:chatMessages];
-                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:[chatMessages lastObject]];
+                [self newMessagesCount];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidUpdateChatMessageNotification object:[chatMessages lastObject]];
             }
         }];
+    }
+}
+
+- (void)newMessagesCount {
+    int newMessageCount = _chatMessages.allMessages.count - _previousCount;
+    if (newMessageCount) {
+        _unreadMessages += newMessageCount;
+        _previousCount = _chatMessages.allMessages.count;
+        [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:nil];
     }
 }
 
@@ -298,6 +311,7 @@ static dispatch_once_t onceToken;
         [_chatMessages.allMessages removeAllObjects];
     }
     
+    _unreadMessages = 0;
     _didReceiveAll = NO;
 }
 

@@ -33,5 +33,6 @@
 
 - (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)parametersForUpdate;
+- (NSDictionary *)parametersForRegistration;
 
 @end

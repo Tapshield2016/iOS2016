@@ -232,7 +232,7 @@ static dispatch_once_t onceToken;
 - (void)registerUser:(TSJavelinAPIUser *)user
                       completion:(void (^)(id responseObject))completion {
     
-    NSDictionary *parameters = [user parametersForUpdate];
+    NSDictionary *parameters = [user parametersForRegistration];
     
     if (user.agency.requireDomainEmails) {
         if ([user.email rangeOfString:user.agency.domain].location == NSNotFound) {

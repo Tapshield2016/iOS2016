@@ -166,12 +166,15 @@
         _disarmPadViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSDisarmPadViewController"];
     }
     
-//    [self addChildViewController:_disarmPadViewController];
-//    [_disarmPadViewController didMoveToParentViewController:self];
+    [self addChildViewController:_disarmPadViewController];
+    [_disarmPadViewController didMoveToParentViewController:self];
     
     _disarmPadViewController.superviewViewController = self;
     _emergencyAlertViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSEmergencyAlertViewController"];
     _emergencyAlertViewController.superviewViewController = self;
+    
+    [self addChildViewController:_emergencyAlertViewController];
+    [_emergencyAlertViewController didMoveToParentViewController:self];
 
     _chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"TSChatViewController"];
     

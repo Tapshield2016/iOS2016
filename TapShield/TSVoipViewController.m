@@ -9,6 +9,7 @@
 #import "TSVoipViewController.h"
 #import "TSEmergencyAlertViewController.h"
 #import "TSPageViewController.h"
+#import "TSJavelinChatManager.h"
 
 static NSString * const kCallEnded = @"Call Ended";
 static NSString * const kCallFailed = @"Call Failed";
@@ -31,6 +32,9 @@ static NSString * const kCallRedialing = @"Redialing";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor clearColor];
+    
+    _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
+    [_chatButton addSubview:_badgeView];
     
     self.translucentBackground = YES;
     CGRect frame = self.view.frame;
@@ -56,6 +60,9 @@ static NSString * const kCallRedialing = @"Redialing";
 
 
 - (IBAction)showChatViewController:(id)sender {
+    
+    [((TSEmergencyAlertViewController *)_emergencyView).badgeView clearBadge];
+    [_badgeView clearBadge];
     
     TSEmergencyAlertViewController *emergencyView = (TSEmergencyAlertViewController *)_emergencyView;
     
@@ -99,20 +106,24 @@ static NSString * const kCallRedialing = @"Redialing";
     [self updatePhoneNumberWithMessage:[TSUtilities formatPhoneNumber:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber]];
 }
 
+- (void)unreadChatMessage {
+    
+    [_badgeView setNumber:[TSJavelinChatManager sharedManager].unreadMessages];
+}
+
 
 #pragma mark - Actions
-
 
 - (void)setMuteEnabled:(BOOL)enabled {
     [TSAlertManager sharedManager].twilioConnection.muted = enabled;
     
-    _muteButton.selected = [TSAlertManager sharedManager].twilioConnection.muted;
+    self.muteButton.selected = [TSAlertManager sharedManager].twilioConnection.muted;
 }
 
 - (void)setSpeakerEnabled:(BOOL)enabled {
 	_speakerEnabled = [[TSAlertManager sharedManager] updateAudioRoute:enabled];
     
-    _speakerButton.selected = _speakerEnabled;
+    self.speakerButton.selected = _speakerEnabled;
 }
 
 #pragma mark - Call Timer
@@ -152,7 +163,11 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (void)connectionDidStartConnecting:(TCConnection *)connection {
     
-    _redialButton.enabled = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _redialButton.enabled = NO;
+        [self setMuteEnabled:_muteButton.selected];
+        [self setSpeakerEnabled:_speakerButton.selected];
+    });
 }
 
 - (void)connectionDidConnect:(TCConnection *)connection {
@@ -166,6 +181,8 @@ static NSString * const kCallRedialing = @"Redialing";
 - (void)connectionDidDisconnect:(TCConnection *)connection {
     [self stopCallTimer];
     _redialButton.enabled = YES;
+    _muteButton.selected = NO;
+    _speakerButton.selected = NO;
     [self updatePhoneNumberWithMessage:kCallEnded];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -176,6 +193,8 @@ static NSString * const kCallRedialing = @"Redialing";
 - (void)connection:(TCConnection *)connection didFailWithError:(NSError *)error {
     [self stopCallTimer];
     _redialButton.enabled = YES;
+    _muteButton.selected = NO;
+    _speakerButton.selected = NO;
     [self updatePhoneNumberWithMessage:kCallFailed];
 }
 

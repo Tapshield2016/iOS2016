@@ -2366,6 +2366,18 @@
 		C5AFBEFF1921EF4E00EC62A5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBEFD1921EF4E00EC62A5 /* Reachability.m */; };
 		C5AFBF001921EF4E00EC62A5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBEFD1921EF4E00EC62A5 /* Reachability.m */; };
 		C5AFBF011921EF4E00EC62A5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBEFD1921EF4E00EC62A5 /* Reachability.m */; };
+		C5AFBF041922BE3500EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
+		C5AFBF051922BE3600EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
+		C5AFBF061922BE3600EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
+		C5AFBF071922BE3600EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
+		C5AFBF0A1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPasscodeButton.m */; };
+		C5AFBF0B1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPasscodeButton.m */; };
+		C5AFBF0C1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPasscodeButton.m */; };
+		C5AFBF0D1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPasscodeButton.m */; };
+		C5AFBF0F19231F6900EC62A5 /* 911@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFBF0E19231F6900EC62A5 /* 911@2x.png */; };
+		C5AFBF1019231F6A00EC62A5 /* 911@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFBF0E19231F6900EC62A5 /* 911@2x.png */; };
+		C5AFBF1119231F6A00EC62A5 /* 911@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFBF0E19231F6900EC62A5 /* 911@2x.png */; };
+		C5AFBF1219231F6A00EC62A5 /* 911@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5AFBF0E19231F6900EC62A5 /* 911@2x.png */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -3228,6 +3240,11 @@
 		C5AFBEF61921DCAF00EC62A5 /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Utilities.m"; path = "Utilities/NSDate+Utilities.m"; sourceTree = "<group>"; };
 		C5AFBEFC1921EF4E00EC62A5 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C5AFBEFD1921EF4E00EC62A5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		C5AFBF021922BE3500EC62A5 /* TSIconBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSIconBadgeView.h; sourceTree = "<group>"; };
+		C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSIconBadgeView.m; sourceTree = "<group>"; };
+		C5AFBF081922EC6E00EC62A5 /* TSPasscodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPasscodeButton.h; sourceTree = "<group>"; };
+		C5AFBF091922EC6E00EC62A5 /* TSPasscodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPasscodeButton.m; sourceTree = "<group>"; };
+		C5AFBF0E19231F6900EC62A5 /* 911@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "911@2x.png"; path = "Images/911@2x.png"; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -3520,6 +3537,8 @@
 				C5372DA018AEAC7400D22682 /* Map */,
 				C5C1706F18AC085100EEFBD6 /* Buttons */,
 				C5BBF42E18F9D063008B5CB2 /* Image */,
+				C5AFBF021922BE3500EC62A5 /* TSIconBadgeView.h */,
+				C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */,
 				C585F2E318DB6B66009EEF16 /* TSAnimatedView.h */,
 				C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */,
 				C5B5634918E8EA900013AF69 /* TSToolBarView.h */,
@@ -4801,6 +4820,7 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5AFBF0E19231F6900EC62A5 /* 911@2x.png */,
 				C5AFBC061921807B00EC62A5 /* 2014-05-12 ikonki_ios_iPhone_assets */,
 				C5AFB935191D2F3000EC62A5 /* splash3.5.png */,
 				C55568EB1912171A00685FB0 /* ios_icon_tapshield */,
@@ -4841,6 +4861,8 @@
 			children = (
 				C5CB078218C6851D00BC9425 /* TSCircularButton.h */,
 				C5CB078318C6851D00BC9425 /* TSCircularButton.m */,
+				C5AFBF081922EC6E00EC62A5 /* TSPasscodeButton.h */,
+				C5AFBF091922EC6E00EC62A5 /* TSPasscodeButton.m */,
 				C585F1C918CFB294009EEF16 /* TSFacebookLogin.h */,
 				C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */,
 				C585F1D018D0B390009EEF16 /* TSGooglePlusButton.h */,
@@ -5444,6 +5466,7 @@
 				C5AFBDD91921807E00EC62A5 /* bubble_heartattack_icon@2x.png in Resources */,
 				C5AFBD5D1921807E00EC62A5 /* alert_vandalism_icon.png in Resources */,
 				C54CEAFD18FB199A0077350E /* settings_female_icon@2x.png in Resources */,
+				C5AFBF0F19231F6900EC62A5 /* 911@2x.png in Resources */,
 				C55569161912171A00685FB0 /* input_email_icon@2x.png in Resources */,
 				C54CE94D18FB199A0077350E /* user_icon@2x.png in Resources */,
 				C54CEBEC18FC77150077350E /* btn_small_circle_pressed@2x.png in Resources */,
@@ -5540,6 +5563,7 @@
 				C5AFBED01921807E00EC62A5 /* pins_stroke_icon.png in Resources */,
 				C54CE7D818FB199A0077350E /* profile_menu_icon_active.png in Resources */,
 				C5AFBD881921807E00EC62A5 /* bubble_bleeding_icon.png in Resources */,
+				C5AFBF1219231F6A00EC62A5 /* 911@2x.png in Resources */,
 				C54CEA1518FB199A0077350E /* bubble_time2_RT_icon@2x.png in Resources */,
 				C5372E0418B3126000D22682 /* DisarmIcon_keypad.png in Resources */,
 				C5AFBE6C1921807E00EC62A5 /* pins_caraccident_icon@2x.png in Resources */,
@@ -6000,6 +6024,7 @@
 				C57C48F218BBDB1900DFFBCE /* CheckBox_Unselected.png in Resources */,
 				C54CE7D718FB199A0077350E /* profile_menu_icon_active.png in Resources */,
 				C5AFBD861921807E00EC62A5 /* bubble_bleeding_icon.png in Resources */,
+				C5AFBF1019231F6A00EC62A5 /* 911@2x.png in Resources */,
 				C54CEA1418FB199A0077350E /* bubble_time2_RT_icon@2x.png in Resources */,
 				C5AFBE6A1921807E00EC62A5 /* pins_caraccident_icon@2x.png in Resources */,
 				C57C48F318BBDB1900DFFBCE /* Agency@2x.png in Resources */,
@@ -6460,6 +6485,7 @@
 				C5AFB9ED191D35DE00EC62A5 /* CheckBox_Unselected.png in Resources */,
 				C5AFB9EE191D35DE00EC62A5 /* profile_menu_icon_active.png in Resources */,
 				C5AFBD871921807E00EC62A5 /* bubble_bleeding_icon.png in Resources */,
+				C5AFBF1119231F6A00EC62A5 /* 911@2x.png in Resources */,
 				C5AFB9F0191D35DE00EC62A5 /* bubble_time2_RT_icon@2x.png in Resources */,
 				C5AFBE6B1921807E00EC62A5 /* pins_caraccident_icon@2x.png in Resources */,
 				C5AFB9F2191D35DE00EC62A5 /* Agency@2x.png in Resources */,
@@ -7090,6 +7116,7 @@
 				C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
+				C5AFBF0A1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
 				C5AFBEF71921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C532E64318BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				B583B9BC18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
@@ -7128,6 +7155,7 @@
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
+				C5AFBF041922BE3500EC62A5 /* TSIconBadgeView.m in Sources */,
 				C585F1A518CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C5AFBC021921044000EC62A5 /* TSNamePictureViewController.m in Sources */,
 				C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
@@ -7231,6 +7259,7 @@
 				C520C90118A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				C5AFBBA5192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
+				C5AFBF071922BE3600EC62A5 /* TSIconBadgeView.m in Sources */,
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				C532E63618BBF1E900FC111A /* TSConstants.m in Sources */,
 				C5AFBB9F191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
@@ -7280,6 +7309,7 @@
 				C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
+				C5AFBF0D1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
 				C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C532E64518BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
@@ -7419,6 +7449,7 @@
 				C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C556478018E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
+				C5AFBF0B1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
 				C5AFBEF81921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
 				C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */,
@@ -7457,6 +7488,7 @@
 				C585F1A018CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C585F19118CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
+				C5AFBF051922BE3600EC62A5 /* TSIconBadgeView.m in Sources */,
 				C57C48D718BBDB1900DFFBCE /* TSHelpViewController.m in Sources */,
 				C5AFBC031921044000EC62A5 /* TSNamePictureViewController.m in Sources */,
 				C57C48D818BBDB1900DFFBCE /* TSBaseViewController.m in Sources */,
@@ -7584,6 +7616,7 @@
 				C5AFB979191D35DE00EC62A5 /* TSAnimatedView.m in Sources */,
 				C5AFB97A191D35DE00EC62A5 /* TSBottomMapButton.m in Sources */,
 				C5AFB97B191D35DE00EC62A5 /* TSJavelinChatManager.m in Sources */,
+				C5AFBF0C1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
 				C5AFBEF91921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C5AFB97C191D35DE00EC62A5 /* TSAppDelegate.m in Sources */,
 				C5AFB97D191D35DE00EC62A5 /* TSGradientSwipeViewController.m in Sources */,
@@ -7622,6 +7655,7 @@
 				C5AFB99A191D35DE00EC62A5 /* NSData+Base64.m in Sources */,
 				C5AFB99B191D35DE00EC62A5 /* TSIntroPageViewController.m in Sources */,
 				C5AFB99C191D35DE00EC62A5 /* TSDisarmPadViewController.m in Sources */,
+				C5AFBF061922BE3600EC62A5 /* TSIconBadgeView.m in Sources */,
 				C5AFB99D191D35DE00EC62A5 /* TSHelpViewController.m in Sources */,
 				C5AFBC041921044000EC62A5 /* TSNamePictureViewController.m in Sources */,
 				C5AFB99E191D35DE00EC62A5 /* TSBaseViewController.m in Sources */,

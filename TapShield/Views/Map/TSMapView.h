@@ -18,7 +18,6 @@
 #import "TSRouteOption.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUserAnnotationView.h"
-#import "TSGeofencePolygon.h"
 
 @interface TSMapView : MKMapView
 

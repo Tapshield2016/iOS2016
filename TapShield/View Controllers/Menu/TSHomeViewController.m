@@ -770,6 +770,13 @@
                                 subtitle = placemark.administrativeArea;
                             }
                         }
+                        if (placemark.postalCode) {
+                            subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
+                        }
+                        
+                        if (!title) {
+                            title = subtitle;
+                        }
                         
                         ((TSSpotCrimeAnnotation *)view.annotation).subtitle = title;
                         ((TSSpotCrimeAnnotation *)view.annotation).socialReport.address = title;

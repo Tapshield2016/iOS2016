@@ -43,14 +43,18 @@
 - (void)showDetailsForErrorMessage:(NSError *)error {
     
     _nameLabel.text = @"";
-    _addressLabel.text = @"";
+    _addressLabel.text = @"Try again";
     [_pinImageView setHidden:YES];
+    
+    if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+        _nameLabel.text = @"No network connection.";
+    }
     
     if (error.code == MKErrorUnknown) {
         _nameLabel.text = @"Unkown error occured.";
     }
     else if (error.code == MKErrorServerFailure) {
-        _nameLabel.text = @"Server failed to respond, try again.";
+        _nameLabel.text = @"Server failed to respond.";
     }
     else if (error.code == MKErrorLoadingThrottled) {
         _nameLabel.text = @"Server throttled requests";
@@ -58,6 +62,8 @@
     else if (error.code == MKErrorPlacemarkNotFound) {
         _nameLabel.text = @"No results found.";
     }
+    
+    [self adjustLabelFrames];
 }
 
 - (void)showDetailsForMapItem:(MKMapItem *)mapItem {
@@ -75,15 +81,20 @@
         [_pinImageView setHidden:YES];
     }
     
+    [self adjustLabelFrames];
+}
+
+- (void)adjustLabelFrames {
+    
     CGRect nameFrame;
     NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                           _nameLabel.font, NSFontAttributeName,
                                           nil];
     
     CGRect frame = [_nameLabel.text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height/2)
-                                            options:NSStringDrawingTruncatesLastVisibleLine
-                                         attributes:attributesDictionary
-                                            context:nil];
+                                                 options:NSStringDrawingTruncatesLastVisibleLine
+                                              attributes:attributesDictionary
+                                                 context:nil];
     nameFrame.size = frame.size;
     nameFrame.origin.y = self.frame.size.height/2 - frame.size.height + 2;
     nameFrame.origin.x = self.frame.size.width/30;

@@ -64,7 +64,7 @@
             }
         }
         
-        _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
+        _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:defaultImage];
         _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
         
         self.navigationItem.titleView = _largeLogoImageView;

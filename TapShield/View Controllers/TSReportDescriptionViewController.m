@@ -71,6 +71,10 @@
                     subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
                 }
                 
+                if (!title) {
+                    title = subtitle;
+                }
+                
                 _addressLabel.text = title;
             }
         }];

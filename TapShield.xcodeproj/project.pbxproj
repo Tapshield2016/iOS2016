@@ -1013,10 +1013,6 @@
 		C556598718CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
 		C556598818CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
 		C556598918CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
-		C556E8E719237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C556E8E619237B2A006D6DF3 /* TSGeofencePolygon.m */; };
-		C556E8E819237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C556E8E619237B2A006D6DF3 /* TSGeofencePolygon.m */; };
-		C556E8E919237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C556E8E619237B2A006D6DF3 /* TSGeofencePolygon.m */; };
-		C556E8EA19237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C556E8E619237B2A006D6DF3 /* TSGeofencePolygon.m */; };
 		C56356EB18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */; };
 		C56356EC18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */; };
 		C56356ED18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */; };
@@ -2967,8 +2963,6 @@
 		C556478218E48DD200D29B0D /* TSNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNavigationViewController.h; sourceTree = "<group>"; };
 		C556478318E48DD200D29B0D /* TSNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNavigationViewController.m; sourceTree = "<group>"; };
 		C556598618CC51A900288AD3 /* redial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redial.png; path = Images/redial.png; sourceTree = "<group>"; };
-		C556E8E519237B2A006D6DF3 /* TSGeofencePolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSGeofencePolygon.h; path = Views/TSGeofencePolygon.h; sourceTree = "<group>"; };
-		C556E8E619237B2A006D6DF3 /* TSGeofencePolygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSGeofencePolygon.m; path = Views/TSGeofencePolygon.m; sourceTree = "<group>"; };
 		C56356E918EC7FA100BAA5D7 /* TSRouteOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteOption.h; path = Views/Map/Annotations/TSRouteOption.h; sourceTree = "<group>"; };
 		C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteOption.m; path = Views/Map/Annotations/TSRouteOption.m; sourceTree = "<group>"; };
 		C56356EF18EC824D00BAA5D7 /* TSVirtualEntourageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSVirtualEntourageManager.h; path = "Virtual Entourage/TSVirtualEntourageManager.h"; sourceTree = "<group>"; };
@@ -4788,8 +4782,6 @@
 		C5B2E98318CE177300E2CF04 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				C556E8E519237B2A006D6DF3 /* TSGeofencePolygon.h */,
-				C556E8E619237B2A006D6DF3 /* TSGeofencePolygon.m */,
 				C56356EE18EC81DE00BAA5D7 /* Virtual Entourage */,
 				B583B9BA18AEB03600C5B8DA /* TSDestinationSearchViewController.h */,
 				B583B9BB18AEB03600C5B8DA /* TSDestinationSearchViewController.m */,
@@ -7160,7 +7152,6 @@
 				C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				C5BBF43118FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
-				C556E8E719237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */,
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
@@ -7347,7 +7338,6 @@
 				C5AFB92F191A634F00EC62A5 /* TSReportDescriptionViewController.m in Sources */,
 				C5AFB934191C1D2000EC62A5 /* TSAlertManager.m in Sources */,
 				C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
-				C556E8EA19237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */,
 				C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
@@ -7495,7 +7485,6 @@
 				C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				C5BBF43218FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
-				C556E8E819237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */,
 				C585F1A018CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C585F19118CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
@@ -7663,7 +7652,6 @@
 				C5AFB997191D35DE00EC62A5 /* TSGenderViewController.m in Sources */,
 				C5AFB998191D35DE00EC62A5 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5AFB999191D35DE00EC62A5 /* TSJavelinAPIBaseModel.m in Sources */,
-				C556E8E919237B2A006D6DF3 /* TSGeofencePolygon.m in Sources */,
 				C5AFB99A191D35DE00EC62A5 /* NSData+Base64.m in Sources */,
 				C5AFB99B191D35DE00EC62A5 /* TSIntroPageViewController.m in Sources */,
 				C5AFB99C191D35DE00EC62A5 /* TSDisarmPadViewController.m in Sources */,

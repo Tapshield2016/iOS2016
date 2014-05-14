@@ -22,7 +22,6 @@
 
 @interface TSMapView : MKMapView
 
-@property (nonatomic, strong) NSArray *geofenceArray;
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;

@@ -161,7 +161,10 @@
     MKPolygonRenderer *renderer = [[MKPolygonRenderer alloc] initWithPolygon:(MKPolygon *)overlay];
     renderer.lineWidth = 2.0;
     
-    UIColor *color = [TSColorPalette randomColor];
+    UIColor *color = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.secondaryColor;
+    if (!color) {
+        [TSColorPalette randomColor];
+    }
     renderer.strokeColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.75f];
     renderer.fillColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.15f];
     
@@ -215,12 +218,11 @@
                 [self addAnnotation:agencyAnnotation];
             }
         }
-        self.geofenceArray = mutableGeofenceArray;
+        [self overlayGeofenceArray:mutableGeofenceArray];
 //    }]; 
 }
 
-- (void)setGeofenceArray:(NSArray *)geofenceArray {
-    _geofenceArray = geofenceArray;
+- (void)overlayGeofenceArray:(NSArray *)geofenceArray {
     
     for (NSArray *coordinateArray in geofenceArray) {
         
@@ -235,6 +237,10 @@
         free(boundaries);
         [self addOverlay:geofencePolygon level:MKOverlayLevelAboveRoads];
     }
+}
+
+- (void)addGeofence:(NSArray *)geofence colorHex:(int)hex {
+    
 }
 
 #pragma mark Animated Overlay

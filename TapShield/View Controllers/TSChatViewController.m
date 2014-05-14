@@ -28,7 +28,30 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(leftAgencyBoundaries) name:TSGeofenceUserDidLeaveAgency object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(leftAgencyBoundaries)
+                                                 name:TSGeofenceUserDidLeaveAgency
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableViewCells)
+                                                 name:TSJavelinChatManagerDidUpdateChatMessageNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     
     [self.navigationItem setHidesBackButton:_hideBackButton];
     
@@ -53,28 +76,6 @@
     
     [_textMessageBarAccessoryView setSendButtonTarget:self action:@selector(sendMessage)];
     [_textMessageBarBaseView setSendButtonTarget:self action:@selector(sendMessage)];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateTableViewCells)
-                                                 name:TSJavelinChatManagerDidUpdateChatMessageNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidHide:)
-                                                 name:UIKeyboardDidHideNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
     
     _tableView.backgroundColor = [UIColor clearColor];
     [_tableView setContentInset:UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, _textMessageBarBaseView.frame.size.height, 0.0f)];
@@ -348,20 +349,31 @@
 
 - (void)setNavigationItemPrompt:(NSString *)string {
     
-    if (!_tintView) {
-        _tintView = [[UIView alloc] initWithFrame:self.view.frame];
-        _tintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
-        [self.view insertSubview:_tintView belowSubview:_tableView];
+    if (![string isEqualToString:kAlertSend] && ![string isEqualToString:kAlertNoConnection]) {
+        if (!_tintView) {
+            _tintView = [[UIView alloc] initWithFrame:self.view.frame];
+            _tintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
+            [self.view insertSubview:_tintView belowSubview:_tableView];
+        }
     }
     
-    [self.navigationItem setPrompt:string];
+    if (![string isEqualToString:kAlertSend]) {
+        [self.navigationItem setPrompt:string];
+    }
+    else {
+        [self clearPrompt];
+    }
     
     UIEdgeInsets inset = _tableView.contentInset;
     inset.top = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     [_tableView setContentInset:inset];
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(clearPrompt) object:nil];
-    [self performSelector:@selector(clearPrompt) withObject:nil afterDelay:10.0];
+    
+    if (![string isEqualToString:kAlertOutsideGeofence] && ![string isEqualToString:kAlertNoConnection]) {
+        
+        [self performSelector:@selector(clearPrompt) withObject:nil afterDelay:10.0];
+    }
 }
 
 - (void)clearPrompt {

@@ -36,6 +36,7 @@ extern NSString * const kAlertSending;
 extern NSString * const kAlertSent;
 extern NSString * const kAlertReceived;
 extern NSString * const kAlertOutsideGeofence;
+extern NSString * const kAlertNoConnection;
 
 @property (nonatomic, weak) id <TSAlertDelegate> alertDelegate;
 @property (nonatomic, weak) id <TSCallDelegate> callDelegate;

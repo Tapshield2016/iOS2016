@@ -143,12 +143,18 @@
     if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:NO];
     }
-    else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
-        [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
-    }
-    else if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode ||
-             ![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode.length) {
-        [self presentViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil animated:NO];
+}
+
+- (void)checkUserRegistration {
+    
+    TSJavelinAPIUser *user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
+    if (user) {
+        if (!user.phoneNumberVerified) {
+            [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
+        }
+        else if (!user.disarmCode || !user.disarmCode.length) {
+            [self presentViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil animated:NO];
+        }
     }
 }
 

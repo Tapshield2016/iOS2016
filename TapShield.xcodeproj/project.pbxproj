@@ -2695,7 +2695,6 @@
 		C53A664D190E827300760656 /* Walk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Walk@2x.png"; sourceTree = "<group>"; };
 		C53A6654190EF17100760656 /* CarEndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CarEndPoint@2x.png"; sourceTree = "<group>"; };
 		C53A6655190EF17100760656 /* WalkEndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalkEndPoint@2x.png"; sourceTree = "<group>"; };
-		C544238919245B0D00913D63 /* TapShield Demo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TapShield Demo copy-Info.plist"; path = "/Users/adamshare/Desktop/iOS/TapShield Demo copy-Info.plist"; sourceTree = "<absolute>"; };
 		C54CE5D118FAE1240077350E /* TSYankManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSYankManager.h; sourceTree = "<group>"; };
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CE64418FB19990077350E /* help_menu_icon_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help_menu_icon_active.png; sourceTree = "<group>"; };
@@ -3422,7 +3421,6 @@
 				B53BBCF618980FDA006A27E0 /* TapShield */,
 				B53BBD1518980FDA006A27E0 /* TapShieldTests */,
 				C5AFBB60191D35DE00EC62A5 /* TapShield Release-Info.plist */,
-				C544238919245B0D00913D63 /* TapShield Demo copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};

@@ -30,6 +30,9 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 + (NSMutableSet *)unArchiveEntourageMembersPosted;
 
+
+- (void)removeHomeViewController;
+
 @property (nonatomic, strong) TSRouteManager *routeManager;
 
 @property (nonatomic, strong) NSMutableSet *entourageMembersPosted;

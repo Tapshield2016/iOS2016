@@ -18,7 +18,7 @@
 
 @property (nonatomic, weak) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
 
-- (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier;
+- (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier animated:(BOOL)animated;
 - (void)showMenuButton:(UIViewController *)viewController;
 
 - (IBAction)showAbout:(id)sender;

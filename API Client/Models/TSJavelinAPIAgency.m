@@ -10,6 +10,8 @@
 #import "TSJavelinAPIClient.h"
 #import "UIImageView+AFNetworking.h"
 
+NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAgencyDidFinishSmallLogoDownload";
+
 @interface TSJavelinAPIAgency ()
 
 //UI Customization
@@ -171,7 +173,15 @@
 
 - (void)parseAgencyTheme:(NSString *)jsonString {
     
+    if (!jsonString) {
+        return;
+    }
+    
     NSData *webData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    if (!webData) {
+        return;
+    }
     NSError *error;
     NSDictionary *agencyTheme = [NSJSONSerialization JSONObjectWithData:webData options:0 error:&error];
     
@@ -224,6 +234,9 @@
                      placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                   self.smallLogo = image;
+                                  
+                                  [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIAgencyDidFinishSmallLogoDownload
+                                                                                      object:nil];
                               } failure:nil];
 }
 

@@ -68,11 +68,12 @@
 - (void)returnToMapViewForYankAlert {
     
     if ([NSStringFromClass([TSHomeViewController class]) isEqualToString:_currentPanelStoryBoardIdentifier]) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:NO completion:nil];
         return;
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        TSHomeViewController *homeView = (TSHomeViewController *)[self transitionToViewController:NSStringFromClass([TSHomeViewController class])];
+        TSHomeViewController *homeView = (TSHomeViewController *)[self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:NO];
         homeView.shouldSendAlert = YES;
         [self.tableView reloadData];
     });
@@ -81,16 +82,17 @@
 - (void)returnToMapViewForLogOut {
     
     if ([NSStringFromClass([TSHomeViewController class]) isEqualToString:_currentPanelStoryBoardIdentifier]) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:NO completion:nil];
         return;
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self transitionToViewController:NSStringFromClass([TSHomeViewController class])];
+        [self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:YES];
         [self.tableView reloadData];
     });
 }
 
-- (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier {
+- (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier animated:(BOOL)animated {
     
     if (!storyBoardIdentifier) {
         return nil;
@@ -102,10 +104,20 @@
     }
 
     BOOL animateTransition = self.dynamicsDrawerViewController.paneViewController != nil;
+    if (animated) {
+        animated = animateTransition;
+    }
+    
     UIViewController *paneViewController = [self.storyboard instantiateViewControllerWithIdentifier:storyBoardIdentifier];
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
     [paneNavigationViewController setNavigationBarHidden:YES];
-    [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
+    
+    UIViewController *oldPane = self.dynamicsDrawerViewController.paneViewController;
+    if ([oldPane isKindOfClass:[UINavigationController class]]) {
+        oldPane = [(UINavigationController *)oldPane topViewController];
+    }
+    [oldPane willMoveToParentViewController:nil];
+    [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animated completion:nil];
 
     [self showMenuButton:paneViewController];
     
@@ -137,7 +149,7 @@
 - (IBAction)showAbout:(id)sender {
     
     [self.tableView reloadData];
-    [self transitionToViewController:@"TSAboutViewController"];
+    [self transitionToViewController:@"TSAboutViewController" animated:YES];
 }
 
 - (IBAction)sendFeedback:(id)sender {
@@ -198,7 +210,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self transitionToViewController:[tableView cellForRowAtIndexPath:indexPath].reuseIdentifier];
+    [self transitionToViewController:[tableView cellForRowAtIndexPath:indexPath].reuseIdentifier animated:YES];
     [self.tableView reloadData];
 }
 

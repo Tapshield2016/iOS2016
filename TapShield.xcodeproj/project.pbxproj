@@ -2526,7 +2526,7 @@
 /* Begin PBXFileReference section */
 		200B9FDD64BF4B79934E3759 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		B53BBCED18980FDA006A27E0 /* TapShield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapShield.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B53BBCED18980FDA006A27E0 /* TapShield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = TapShield.app; path = "TapShield Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B53BBCF018980FDA006A27E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B53BBCF218980FDA006A27E0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B53BBCF418980FDA006A27E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -2695,6 +2695,7 @@
 		C53A664D190E827300760656 /* Walk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Walk@2x.png"; sourceTree = "<group>"; };
 		C53A6654190EF17100760656 /* CarEndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CarEndPoint@2x.png"; sourceTree = "<group>"; };
 		C53A6655190EF17100760656 /* WalkEndPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalkEndPoint@2x.png"; sourceTree = "<group>"; };
+		C544238919245B0D00913D63 /* TapShield Demo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TapShield Demo copy-Info.plist"; path = "/Users/adamshare/Desktop/iOS/TapShield Demo copy-Info.plist"; sourceTree = "<absolute>"; };
 		C54CE5D118FAE1240077350E /* TSYankManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSYankManager.h; sourceTree = "<group>"; };
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CE64418FB19990077350E /* help_menu_icon_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help_menu_icon_active.png; sourceTree = "<group>"; };
@@ -3421,6 +3422,7 @@
 				B53BBCF618980FDA006A27E0 /* TapShield */,
 				B53BBD1518980FDA006A27E0 /* TapShieldTests */,
 				C5AFBB60191D35DE00EC62A5 /* TapShield Release-Info.plist */,
+				C544238919245B0D00913D63 /* TapShield Demo copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -4935,9 +4937,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B53BBCEC18980FDA006A27E0 /* TapShield */ = {
+		B53BBCEC18980FDA006A27E0 /* TapShield Dev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B53BBD1F18980FDA006A27E0 /* Build configuration list for PBXNativeTarget "TapShield" */;
+			buildConfigurationList = B53BBD1F18980FDA006A27E0 /* Build configuration list for PBXNativeTarget "TapShield Dev" */;
 			buildPhases = (
 				AE497B1A5A1F463CAC2F59E5 /* Check Pods Manifest.lock */,
 				B53BBCE918980FDA006A27E0 /* Sources */,
@@ -4950,7 +4952,7 @@
 			);
 			dependencies = (
 			);
-			name = TapShield;
+			name = "TapShield Dev";
 			productName = TapShield;
 			productReference = B53BBCED18980FDA006A27E0 /* TapShield.app */;
 			productType = "com.apple.product-type.application";
@@ -5057,7 +5059,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B53BBCEC18980FDA006A27E0 /* TapShield */,
+				B53BBCEC18980FDA006A27E0 /* TapShield Dev */,
 				C57C48B418BBDB1900DFFBCE /* TapShield Demo */,
 				C5AFB939191D35DE00EC62A5 /* TapShield Release */,
 				B53BBD0D18980FDA006A27E0 /* TapShieldTests */,
@@ -7718,7 +7720,7 @@
 /* Begin PBXTargetDependency section */
 		B53BBD1418980FDA006A27E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B53BBCEC18980FDA006A27E0 /* TapShield */;
+			target = B53BBCEC18980FDA006A27E0 /* TapShield Dev */;
 			targetProxy = B53BBD1318980FDA006A27E0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -8006,8 +8008,7 @@
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"APP_STORE=1",
-					"DEBUG=1",
-					"COCOAPODS=1",
+					"$(inherited)",
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "TapShield Release-Info.plist";
@@ -8034,9 +8035,7 @@
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"APP_STORE=1",
-					COCOAPODS,
-					"=",
-					1,
+					"$(inherited)",
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "TapShield Release-Info.plist";
@@ -8060,7 +8059,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B53BBD1F18980FDA006A27E0 /* Build configuration list for PBXNativeTarget "TapShield" */ = {
+		B53BBD1F18980FDA006A27E0 /* Build configuration list for PBXNativeTarget "TapShield Dev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B53BBD2018980FDA006A27E0 /* Debug */,

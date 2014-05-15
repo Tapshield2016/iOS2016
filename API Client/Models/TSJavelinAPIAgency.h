@@ -9,6 +9,8 @@
 #import "TSJavelinAPIBaseModel.h"
 #import <CoreLocation/CoreLocation.h>
 
+extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
+
 @interface TSJavelinAPIAgency : TSJavelinAPIBaseModel
 
 @property (readonly) NSString *name;

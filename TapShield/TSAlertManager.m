@@ -23,6 +23,7 @@ NSString * const kAlertNoConnection = @"No Network Connection";
 
 @property (strong, nonatomic) UIAlertView *noConnectionAlertView;
 @property (strong, nonatomic) NSString *previousStatus;
+@property (assign, nonatomic) BOOL shouldStartTimer;
 
 @end
 
@@ -46,6 +47,7 @@ static dispatch_once_t predicate;
     self = [super init];
     if (self) {
         self.callInProgress = NO;
+        self.shouldStartTimer = YES;
         self.status = kAlertSend;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -76,6 +78,11 @@ static dispatch_once_t predicate;
 #pragma mark - Countdown To Alert
 
 - (void)startAlertCountdown:(int)seconds type:(NSString *)type {
+    
+    if (!_shouldStartTimer) {
+        return;
+    }
+    _shouldStartTimer = NO;
     
     [self stopAlertCountdown];
     
@@ -238,6 +245,7 @@ static dispatch_once_t predicate;
     _type = nil;
     _endDate = nil;
     _status = kAlertSend;
+    _shouldStartTimer = YES;
 }
 
 
@@ -437,6 +445,7 @@ static dispatch_once_t predicate;
     }
     
     _status = _previousStatus;
+    _previousStatus = nil;
     if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
         [_alertDelegate alertStatusChanged:_status];
     }

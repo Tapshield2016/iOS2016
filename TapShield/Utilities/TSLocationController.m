@@ -66,11 +66,14 @@ static dispatch_once_t predicate;
 
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion {
     
-    if (_location) {
-        completion(_location);
-    }
-    else if (completion) {
-        _locationReceivedBlock = completion;
+    
+    if (completion) {
+        if (_location) {
+            completion(_location);
+        }
+        else {
+            _locationReceivedBlock = completion;
+        }
     }
     
     [_locationManager startUpdatingLocation];

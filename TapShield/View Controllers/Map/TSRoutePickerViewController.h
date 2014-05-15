@@ -13,7 +13,7 @@
 
 @interface TSRoutePickerViewController : TSNavigationViewController 
 
-@property (nonatomic, strong) TSHomeViewController *homeViewController;
+@property (nonatomic, weak) TSHomeViewController *homeViewController;
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
 @property (nonatomic, strong) UISegmentedControl *directionsTypeSegmentedControl;
 @property (nonatomic, assign) MKDirectionsTransportType directionsTransportType;

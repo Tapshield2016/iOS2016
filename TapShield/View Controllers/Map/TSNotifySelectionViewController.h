@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIView *circleContainerView;
 
-@property (nonatomic, strong) TSHomeViewController *homeViewController;
+@property (nonatomic, weak) TSHomeViewController *homeViewController;
 @property (nonatomic, strong) id keyValueObserver;
 
 @property (assign, nonatomic) NSTimeInterval estimatedTimeInterval;

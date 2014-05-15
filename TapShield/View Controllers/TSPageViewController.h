@@ -23,7 +23,7 @@
 @property (strong, nonatomic) TSDisarmPadViewController *disarmPadViewController;
 @property (strong, nonatomic) TSEmergencyAlertViewController *emergencyAlertViewController;
 @property (strong, nonatomic) TSChatViewController *chatViewController;
-@property (strong, nonatomic) TSHomeViewController *homeViewController;
+@property (weak, nonatomic) TSHomeViewController *homeViewController;
 
 //UI and animation
 @property (strong, nonatomic) UIView *animatedView;

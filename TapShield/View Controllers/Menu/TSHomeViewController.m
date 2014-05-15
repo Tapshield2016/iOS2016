@@ -118,13 +118,17 @@
     _viewDidAppear = YES;
     
     if (_shouldSendAlert) {
-        [self performSelector:@selector(sendAlert:) withObject:self];
+        [self performSelectorOnMainThread:@selector(sendAlert:) withObject:@"T" waitUntilDone:NO];
     }
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {
+    
+    [super willMoveToParentViewController:parent];
+    
     if (!parent) {
         [TSLocationController sharedLocationController].delegate = nil;
+        [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
     }
 }
 
@@ -285,17 +289,21 @@
     
     _shouldSendAlert = NO;
     
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
     if (self.presentedViewController) {
         if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
             UINavigationController *nav = (UINavigationController *)self.presentedViewController;
-            
+            UIViewController *viewController = nav.topViewController;
             //already presented
-            if ([nav.topViewController isKindOfClass:[TSPageViewController class]]) {
+            if ([viewController isKindOfClass:[TSPageViewController class]]) {
                 return;
             }
             //dismiss any view presented first
             else {
-                [nav.topViewController dismissViewControllerAnimated:YES completion:^{
+                
+                [viewController dismissViewControllerAnimated:YES completion:^{
                     [self performSelectorOnMainThread:@selector(sendAlert:) withObject:sender waitUntilDone:NO];
                 }];
                 return;
@@ -313,15 +321,16 @@
         }
     }
     
-    [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
-    
-    TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
-    pageview.homeViewController = self;
-    
-    _isTrackingUser = YES;
-    [_mapView setRegionAtAppearanceAnimated:YES];
-    
-    [self showOnlyMap];
+        [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
+        
+        TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+        pageview.homeViewController = self;
+        
+        _isTrackingUser = YES;
+        [_mapView setRegionAtAppearanceAnimated:YES];
+        
+        [self showOnlyMap];
+    });
 }
 
 - (IBAction)openChatWindow:(id)sender {
@@ -674,7 +683,9 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
     
-    [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
+    if (_viewDidAppear) {
+        [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
+    }
     
     CLLocation *location = [TSLocationController sharedLocationController].location;
     if (_isTrackingUser) {

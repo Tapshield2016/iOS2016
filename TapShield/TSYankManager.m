@@ -8,6 +8,7 @@
 
 #import "TSYankManager.h"
 #import "TSBaseLabel.h"
+#import "TSLocalNotification.h"
 #import <AVFoundation/AVFoundation.h>
 
 NSString * const TSYankManagerShouldShowWarningDetails = @"TSYankManagerShowWarningDetails";
@@ -118,6 +119,7 @@ static dispatch_once_t predicate;
     
     _isEnabled = NO;
     _shouldEnable = NO;
+    [TSLocalNotification presentLocalNotification:@"Yank alert countdown activated!"];
     [[NSNotificationCenter defaultCenter] postNotificationName:TSYankManagerDidYankHeadphonesNotification object:@"T"];
 #warning Eventually Yank = @"Y"
 }

@@ -15,7 +15,7 @@
 @interface TSDestinationSearchViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 
-@property (strong, nonatomic) TSHomeViewController *homeViewController;
+@property (weak, nonatomic) TSHomeViewController *homeViewController;
 @property (strong, nonatomic) NSMutableArray *previousMapItemSelections;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

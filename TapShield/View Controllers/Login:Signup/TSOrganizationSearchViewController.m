@@ -20,6 +20,15 @@
 	// Do any additional setup after loading the view.
     _statusString = @"Locating...";
     
+    if (![(TSAppDelegate *)[UIApplication sharedApplication].delegate isConnected]) {
+        _statusString = @"No network connection";
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(newPicture)
+                                                 name:TSJavelinAPIAgencyDidFinishSmallLogoDownload
+                                               object:nil];
+    
     [self getOrganizationsToDisplay];
     
     _searchDisplay = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
@@ -49,6 +58,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)newPicture {
+    [_tableView reloadData];
+    [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
 #pragma mark - Bar Button Action
@@ -163,12 +177,15 @@
         cell = [[TSOrganizationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    [cell.logoImageView setHidden:NO];
+    
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         cell.agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
     } else {
         if (indexPath.section == 0) {
             if (_nearbyOrganizationArray.count == 0) {
                 cell.organizationLabel.text = _statusString;
+                [cell.logoImageView setHidden:YES];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setUserInteractionEnabled:NO];
             }

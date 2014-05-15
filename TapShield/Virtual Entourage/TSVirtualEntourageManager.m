@@ -26,7 +26,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 @interface TSVirtualEntourageManager ()
 
-@property (strong, nonatomic) TSHomeViewController *homeView;
+@property (weak, nonatomic) TSHomeViewController *homeView;
 @property (strong, nonatomic) UIAlertView *recalculateAlertView;
 @property (strong, nonatomic) UIAlertView *notifyEntourageAlertView;
 
@@ -415,6 +415,14 @@ static dispatch_once_t predicate;
             [_homeView clearEntourageAndResetMap];
         }
     }
+}
+
+
+#pragma mark Home View
+
+- (void)removeHomeViewController {
+    
+    [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:nil];
 }
 
 @end

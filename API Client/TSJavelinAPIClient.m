@@ -106,6 +106,13 @@ static dispatch_once_t onceToken;
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
+          
+          dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+          dispatch_after(popTime, dispatch_get_main_queue(), ^{
+              if ([self shouldRetry:error]) {
+                  [self getAgencies:completion];
+              }
+          });
       }];
 }
 
@@ -123,6 +130,12 @@ static dispatch_once_t onceToken;
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
+          dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+          dispatch_after(popTime, dispatch_get_main_queue(), ^{
+              if ([self shouldRetry:error]) {
+                  [self getAgenciesNearby:currentLocation radius:radius completion:completion];
+              }
+          });
       }];
 }
 

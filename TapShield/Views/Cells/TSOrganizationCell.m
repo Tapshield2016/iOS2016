@@ -18,7 +18,7 @@
         
         self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_placeholder"]];
         self.logoImageView.contentMode = UIViewContentModeCenter;
-        self.logoImageView.frame = CGRectMake(0.0f, 0.0f, 40.0f, 40.0f);
+        self.logoImageView.center = CGPointMake(20, 20);
         
         self.organizationLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(40.0f, 0.0f, [UIScreen mainScreen].bounds.size.width, 40.0f)];
         self.organizationLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:15.0f];
@@ -51,6 +51,17 @@
     _agency = agency;
     
     _organizationLabel.text = agency.name;
+    
+    UIImage *image = agency.smallLogo;
+    if (image) {
+        self.logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    else {
+        image = [UIImage imageNamed:@"logo_placeholder"];
+        self.logoImageView.contentMode = UIViewContentModeCenter;
+    }
+    
+    self.logoImageView.image = image;
 }
 
 

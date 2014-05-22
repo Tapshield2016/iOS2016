@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "TSNavigationViewController.h"
 
-@interface TSHelpViewController : TSNavigationViewController
+@interface TSHelpViewController : TSNavigationViewController <UIWebViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @end

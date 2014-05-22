@@ -21,6 +21,9 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 @property (readonly) NSString *dispatcherScheduleEnd;
 @property (readonly) NSString *alertCompletedMessage;
 
+@property (readonly) NSString *rssFeed;
+@property (readonly) NSString *infoUrl;
+
 @property (readonly) NSArray *agencyBoundaries;
 
 @property (readonly) BOOL requireDomainEmails;

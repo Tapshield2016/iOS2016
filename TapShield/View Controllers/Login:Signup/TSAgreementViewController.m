@@ -14,8 +14,6 @@
 
 @implementation TSAgreementViewController
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

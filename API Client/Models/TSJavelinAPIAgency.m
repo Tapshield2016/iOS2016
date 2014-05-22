@@ -43,6 +43,9 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     _showAgencyNameInAppNavbar = [[attributes objectForKey:@"show_agency_name_in_app_navbar"] boolValue];
     _launchCallToDispatcherOnAlert = [[attributes objectForKey:@"launch_call_to_dispatcher_on_alert"] boolValue];
     
+    _infoUrl = [attributes objectForKey:@"agency_info_url"];
+    _rssFeed = [attributes objectForKey:@"agency_rss_url"];
+    
     self.agencyLogoUrl = [attributes objectForKey:@"agency_logo"];
     self.agencyAlternateLogoUrl = [attributes objectForKey:@"agency_alternate_logo"];
     self.agencySmallLogoUrl = [attributes objectForKey:@"agency_small_logo"];
@@ -57,6 +60,8 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 //    "agency_alternate_logo": null,
 //    "agency_small_logo": null,
 //    "agency_theme": "{}"
+//    agency_info_url
+//    agency_rss_url
     
     return self;
 }
@@ -112,6 +117,14 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     if (_alternateLogo) {
         [encoder encodeObject:UIImagePNGRepresentation(_alternateLogo) forKey:@"alternate_logo"];
     }
+    
+    if (_infoUrl) {
+        [encoder encodeObject:_infoUrl forKey:@"agency_info_url"];
+    }
+    
+    if (_rssFeed) {
+        [encoder encodeObject:_rssFeed forKey:@"agency_rss_url"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -166,6 +179,15 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
         if ([decoder containsValueForKey:@"alternate_logo"]) {
             _alternateLogo = [UIImage imageWithData:[decoder decodeObjectForKey:@"alternate_logo"]];
         }
+        
+        if ([decoder containsValueForKey:@"agency_info_url"]) {
+            _infoUrl = [decoder decodeObjectForKey:@"agency_info_url"];
+        }
+        
+        if ([decoder containsValueForKey:@"agency_rss_url"]) {
+            _rssFeed = [decoder decodeObjectForKey:@"agency_rss_url"];
+        }
+        
     }
     return self;
 }

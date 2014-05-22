@@ -12,6 +12,7 @@
 #import "TSYankManager.h"
 #import "TSSettingsViewController.h"
 #import "TSVirtualEntourageManager.h"
+#import "TSHelpViewController.h"
 
 #define MENU_CELL_SIZE 80
 
@@ -244,6 +245,16 @@
         cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0f];
         cell.imageView.alpha = 1.0f;
     }
+    
+    if ([cell.reuseIdentifier isEqualToString:NSStringFromClass([TSHelpViewController class])]) {
+        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl) {
+            [cell setHidden:NO];
+        }
+        else {
+            [cell setHidden:YES];
+        }
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

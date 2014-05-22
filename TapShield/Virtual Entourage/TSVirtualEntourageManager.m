@@ -104,10 +104,12 @@ static dispatch_once_t predicate;
         radius = DRIVING_RADIUS;
     }
     
-    MKMapItem *destination = _routeManager.destinationMapItem;
-    return [[CLCircularRegion alloc] initWithCenter:destination.placemark.location.coordinate
+    MKMapPoint destination = _routeManager.selectedRoute.route.polyline.points[_routeManager.selectedRoute.route.polyline.pointCount - 1];
+    CLLocationCoordinate2D coordinate = MKCoordinateForMapPoint(destination);
+    
+    return [[CLCircularRegion alloc] initWithCenter:coordinate
                                              radius:radius
-                                         identifier:destination.name];
+                                         identifier:_routeManager.selectedRoute.route.name];
 }
 
 - (void)checkRegion:(CLLocation *)userLocation {

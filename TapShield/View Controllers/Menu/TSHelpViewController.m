@@ -37,6 +37,15 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        [self.navigationController setToolbarHidden:NO animated:YES];
+    }
+    
+    if ([request.URL isEqual:[NSURL URLWithString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl]] &&
+        navigationType == UIWebViewNavigationTypeBackForward) {
+        [self.navigationController setToolbarHidden:YES animated:YES];
+    }
+    
     return YES;
 }
 
@@ -48,5 +57,7 @@
     
 }
 
-
+- (IBAction)goBack:(id)sender {
+    [_webView goBack];
+}
 @end

@@ -12,5 +12,7 @@
 @interface TSHelpViewController : TSNavigationViewController <UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backBarButton;
+- (IBAction)goBack:(id)sender;
 
 @end

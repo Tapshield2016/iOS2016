@@ -9,6 +9,7 @@
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIClient.h"
 #import "UIImageView+AFNetworking.h"
+#import "UIImage+Resize.h"
 
 NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAgencyDidFinishSmallLogoDownload";
 
@@ -43,8 +44,12 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     _showAgencyNameInAppNavbar = [[attributes objectForKey:@"show_agency_name_in_app_navbar"] boolValue];
     _launchCallToDispatcherOnAlert = [[attributes objectForKey:@"launch_call_to_dispatcher_on_alert"] boolValue];
     
-    _infoUrl = [attributes objectForKey:@"agency_info_url"];
-    _rssFeed = [attributes objectForKey:@"agency_rss_url"];
+    if (![[attributes objectForKey:@"agency_info_url"] isKindOfClass:[NSNull class]]) {
+        _infoUrl = [attributes objectForKey:@"agency_info_url"];
+    }
+    if (![[attributes objectForKey:@"agency_rss_url"] isKindOfClass:[NSNull class]]) {
+        _rssFeed = [attributes objectForKey:@"agency_rss_url"];
+    }
     
     self.agencyLogoUrl = [attributes objectForKey:@"agency_logo"];
     self.agencyAlternateLogoUrl = [attributes objectForKey:@"agency_alternate_logo"];
@@ -54,14 +59,6 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     [self setAgencyBoundaries:[attributes objectForKey:@"agency_boundaries"]];
     
     [self parseAgencyTheme:[attributes objectForKey:@"agency_theme"]];
-    
-//    "launch_call_to_dispatcher_on_alert": false,
-//    "agency_logo": null,
-//    "agency_alternate_logo": null,
-//    "agency_small_logo": null,
-//    "agency_theme": "{}"
-//    agency_info_url
-//    agency_rss_url
     
     return self;
 }
@@ -233,10 +230,17 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     UIImageView *imageView = [[UIImageView alloc] init];
     
     [imageView setImageWithURLRequest:request
-                          placeholderImage:nil
-                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                       self.largeLogo = image;
-                                   } failure:nil];
+                     placeholderImage:nil
+                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                  
+                                  if (image.size.width > 150) {
+                                      image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit
+                                                                          bounds:CGSizeMake(150, 60)
+                                                            interpolationQuality:kCGInterpolationHigh];
+                                  }
+                                  
+                                  self.largeLogo = image;
+                              } failure:nil];
 }
 
 - (void)setAgencySmallLogoUrl:(NSString *)agencySmallLogoUrl {
@@ -255,6 +259,13 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     [imageView setImageWithURLRequest:request
                      placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                  
+                                  if (image.size.width > 100) {
+                                      image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit
+                                                                          bounds:CGSizeMake(100, 60)
+                                                            interpolationQuality:kCGInterpolationHigh];
+                                  }
+                                  
                                   self.smallLogo = image;
                                   
                                   [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIAgencyDidFinishSmallLogoDownload
@@ -293,7 +304,9 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     }
     
     NSString *noWhiteSpace = [agencyBoundariesString stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *string = [noWhiteSpace stringByReplacingOccurrencesOfString:@"[\"" withString:@""];
+    NSString *noBreaks = [noWhiteSpace stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    noBreaks = [noBreaks stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    NSString *string = [noBreaks stringByReplacingOccurrencesOfString:@"[\"" withString:@""];
     NSArray *splitAgencyBoundaryString = [string componentsSeparatedByString:@"\",\""];
 
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];

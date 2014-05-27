@@ -247,7 +247,8 @@
     }
     
     if ([cell.reuseIdentifier isEqualToString:NSStringFromClass([TSHelpViewController class])]) {
-        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl) {
+        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl.length) {
+            cell.textLabel.text = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name;
             [cell setHidden:NO];
         }
         else {

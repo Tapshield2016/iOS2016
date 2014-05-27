@@ -163,7 +163,7 @@
     
     UIColor *color = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.secondaryColor;
     if (!color) {
-        [TSColorPalette randomColor];
+        color = [TSColorPalette randomColor];
     }
     renderer.strokeColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.75f];
     renderer.fillColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.15f];

@@ -9,6 +9,9 @@
 #import "TSMassNotificationsViewController.h"
 #import "TSJavelinPushNotificationManager.h"
 #import "TSJavelinAPIMassAlert.h"
+#import <AFNetworking/AFNetworking.h>
+#import "RSSParser.h"
+#import "RSSItem.h"
 
 #define FONT_SIZE 17
 #define DETAILS_FONT_SIZE 12
@@ -20,6 +23,8 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
 
 @property (strong, nonatomic) NSMutableArray *notifications;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
+@property (strong, nonatomic) NSXMLParser *parser;
 
 @end
 
@@ -39,6 +44,32 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
                                                  name:TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
                                                object:nil];
     [self loadMassAlerts];
+    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer = [AFXMLParserResponseSerializer new];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];
+//    
+//    [manager GET:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.rssFeed
+//      parameters:nil
+//         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//             _parser = [[NSXMLParser alloc]initWithData:operation.responseData];
+//             
+//             [_parser setDelegate:self];
+//             _parser.shouldResolveExternalEntities = NO;
+//             
+//             [_parser parse];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//    }];
+    
+    [RSSParser parseRSSFeed:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.rssFeed
+                 parameters:nil
+                    success:^(RSSChannel *channel) {
+                        
+                    }
+                    failure:^(NSError *error) {
+                        
+                    }];
 }
 
 - (void)didReceiveMemoryWarning

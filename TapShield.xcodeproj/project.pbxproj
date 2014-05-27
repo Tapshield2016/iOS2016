@@ -119,6 +119,10 @@
 		C520C91C18A98EB400D1D2E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF218980FDA006A27E0 /* CoreGraphics.framework */; };
 		C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
 		C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C92218AA8C0F00D1D2E9 /* TSMapView.m */; };
+		C523BB8B1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C523BB8A1934134600BE12E0 /* TSJavelinMassNotificationManager.m */; };
+		C523BB8C1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C523BB8A1934134600BE12E0 /* TSJavelinMassNotificationManager.m */; };
+		C523BB8D1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C523BB8A1934134600BE12E0 /* TSJavelinMassNotificationManager.m */; };
+		C523BB8E1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C523BB8A1934134600BE12E0 /* TSJavelinMassNotificationManager.m */; };
 		C532E63118BBF1E900FC111A /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E62A18BBF1E900FC111A /* TSColorPalette.m */; };
 		C532E63218BBF1E900FC111A /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E62A18BBF1E900FC111A /* TSColorPalette.m */; };
 		C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = C532E62A18BBF1E900FC111A /* TSColorPalette.m */; };
@@ -2629,6 +2633,8 @@
 		C520C91618A98E4400D1D2E9 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		C520C92118AA8C0F00D1D2E9 /* TSMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapView.h; path = TapShield/Views/Map/TSMapView.h; sourceTree = SOURCE_ROOT; };
 		C520C92218AA8C0F00D1D2E9 /* TSMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapView.m; path = TapShield/Views/Map/TSMapView.m; sourceTree = SOURCE_ROOT; };
+		C523BB891934134600BE12E0 /* TSJavelinMassNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinMassNotificationManager.h; sourceTree = "<group>"; };
+		C523BB8A1934134600BE12E0 /* TSJavelinMassNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinMassNotificationManager.m; sourceTree = "<group>"; };
 		C532E62918BBF1E900FC111A /* TSColorPalette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSColorPalette.h; path = Utilities/TSColorPalette.h; sourceTree = "<group>"; };
 		C532E62A18BBF1E900FC111A /* TSColorPalette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSColorPalette.m; path = Utilities/TSColorPalette.m; sourceTree = "<group>"; };
 		C532E62B18BBF1E900FC111A /* TSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSConstants.h; path = Utilities/TSConstants.h; sourceTree = "<group>"; };
@@ -3669,6 +3675,8 @@
 			children = (
 				C520C8CC18A974C000D1D2E9 /* TSJavelinPushNotificationManager.h */,
 				C520C8CD18A974C000D1D2E9 /* TSJavelinPushNotificationManager.m */,
+				C523BB891934134600BE12E0 /* TSJavelinMassNotificationManager.h */,
+				C523BB8A1934134600BE12E0 /* TSJavelinMassNotificationManager.m */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -7088,6 +7096,7 @@
 				C501CC3818F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */,
+				C523BB8B1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
 				C5EAABE81905AF1C005EDD7B /* TSBaseTableViewController.m in Sources */,
 				C585F1AB18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
@@ -7360,6 +7369,7 @@
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
 				C56356FD18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
+				C523BB8E1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C585F1A418CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
@@ -7421,6 +7431,7 @@
 				C501CC3918F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */,
 				C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */,
+				C523BB8C1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
 				C5EAABE91905AF1C005EDD7B /* TSBaseTableViewController.m in Sources */,
 				C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */,
@@ -7588,6 +7599,7 @@
 				C5AFB95E191D35DE00EC62A5 /* TSMapItemCell.m in Sources */,
 				C5AFB95F191D35DE00EC62A5 /* TSLoginViewController.m in Sources */,
 				C5AFB960191D35DE00EC62A5 /* TSJavelinAPIGroup.m in Sources */,
+				C523BB8D1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C5AFB961191D35DE00EC62A5 /* TSProfileViewController.m in Sources */,
 				C5AFB962191D35DE00EC62A5 /* TSBaseTableViewController.m in Sources */,
 				C5AFB963191D35DE00EC62A5 /* TSLocationController.m in Sources */,

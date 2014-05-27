@@ -50,6 +50,8 @@ typedef enum {
 @property (strong, nonatomic) NSDate *creationDate;
 @property (strong, nonatomic) NSDate *lastModified;
 @property (strong, nonatomic) NSString *reportImageUrl;
+@property (strong, nonatomic) NSString *reportVideoUrl;
+@property (strong, nonatomic) NSString *reportAudioUrl;
 @property (strong, nonatomic) NSString *address;
 @property (assign, nonatomic) CLLocationDistance distance;
 @property (strong, nonatomic) CLLocation *location;

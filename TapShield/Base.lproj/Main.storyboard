@@ -424,8 +424,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Enn-53-blg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Enn-53-blg">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -1039,6 +1039,50 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSMassNotificationTableViewCell" rowHeight="70" id="FOo-oh-fOd" customClass="TSMassNotificationTableViewCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FOo-oh-fOd" id="aMY-aU-0Wb">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Mass notification 386-589-6729" translatesAutoresizingMaskIntoConstraints="NO" id="gHo-9b-Zi3">
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="49"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
+                                                </textView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="timestamp" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hgd-Bj-aJf" customClass="TSBaseLabel">
+                                                    <rect key="frame" x="16" y="39" width="300" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="300" id="Nnk-JT-CiL"/>
+                                                        <constraint firstAttribute="height" constant="30" id="c4A-g9-FjW"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gHo-9b-Zi3" firstAttribute="top" secondItem="aMY-aU-0Wb" secondAttribute="top" id="O4G-aP-fnn"/>
+                                                <constraint firstAttribute="bottom" secondItem="Hgd-Bj-aJf" secondAttribute="bottom" id="Ocw-e3-Lla"/>
+                                                <constraint firstAttribute="bottom" secondItem="gHo-9b-Zi3" secondAttribute="bottom" constant="20" id="TOm-Wj-A8G"/>
+                                                <constraint firstAttribute="trailing" secondItem="Hgd-Bj-aJf" secondAttribute="trailing" constant="4" id="VYb-CL-a0G"/>
+                                                <constraint firstItem="Hgd-Bj-aJf" firstAttribute="leading" secondItem="aMY-aU-0Wb" secondAttribute="leading" constant="16" id="nYW-VV-3Ta"/>
+                                                <constraint firstItem="gHo-9b-Zi3" firstAttribute="leading" secondItem="aMY-aU-0Wb" secondAttribute="leading" constant="10" id="pHl-v6-bhu"/>
+                                                <constraint firstAttribute="trailing" secondItem="gHo-9b-Zi3" secondAttribute="trailing" constant="10" id="r3e-Nb-Z3I"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textView" destination="gHo-9b-Zi3" id="QpL-Tv-O73"/>
+                                            <outlet property="timestampLabel" destination="Hgd-Bj-aJf" id="5Eh-3s-URk"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="kKr-PL-4rL" id="zwl-SO-8zf"/>
                                     <outlet property="delegate" destination="kKr-PL-4rL" id="vI4-pA-wsL"/>

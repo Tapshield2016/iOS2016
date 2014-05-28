@@ -7,6 +7,7 @@
 //
 
 #import "TSJavelinAPIMassAlert.h"
+#import "NSString+HTML.h"
 
 @implementation TSJavelinAPIMassAlert
 
@@ -21,6 +22,16 @@
     _message = [attributes valueForKey:@"message"];
     _timeStamp = [self reformattedTimeStamp:[attributes valueForKey:@"last_modified"]];
     
+    return self;
+}
+
+- (instancetype)initWithRSSItem:(RSSItem *)item {
+    
+    self = [super init];
+    if (self) {
+        _message = [item.itemDescription stringByDecodingXMLEntities];
+        _timeStamp = item.pubDate;
+    }
     return self;
 }
 

@@ -95,10 +95,7 @@
     [_mapView removeAnimatedOverlay];
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        if (!_annotationsLoaded) {
-            _annotationsLoaded = YES;
-            [self addOverlaysAndAnnotations];
-        }
+        [self addOverlaysAndAnnotations];
     }
 }
 
@@ -161,7 +158,11 @@
 - (void)addOverlaysAndAnnotations {
     
     [TSLocationController sharedLocationController].delegate = self;
-    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
+    if (!_annotationsLoaded) {
+        _annotationsLoaded = YES;
+        
+        [_mapView getAllGeofenceBoundaries];
+        
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
             [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
             

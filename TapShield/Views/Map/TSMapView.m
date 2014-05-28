@@ -50,7 +50,6 @@
     region.span = MKCoordinateSpanMake(0.006, 0.006);
     region = [self regionThatFits:region];
     [self setRegion:region animated:animated];
-    [self getAllGeofenceBoundaries];
 }
 
 #pragma mark - Annotation

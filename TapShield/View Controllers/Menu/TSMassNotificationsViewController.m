@@ -9,22 +9,16 @@
 #import "TSMassNotificationsViewController.h"
 #import "TSJavelinPushNotificationManager.h"
 #import "TSJavelinAPIMassAlert.h"
-#import <AFNetworking/AFNetworking.h>
-#import "RSSParser.h"
-#import "RSSItem.h"
+#import "TSJavelinMassNotificationManager.h"
 
 #define FONT_SIZE 17
 #define DETAILS_FONT_SIZE 12
 #define CELL_INSET 25
 
-static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"TSTSMassNotificationsViewControllerSavedNotifications";
-
 @interface TSMassNotificationsViewController ()
 
-@property (strong, nonatomic) NSMutableArray *notifications;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-
-@property (strong, nonatomic) NSXMLParser *parser;
+@property (strong, nonatomic) TSJavelinMassNotificationManager *massNotificationManager;
 
 @end
 
@@ -35,8 +29,7 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    
-    _notifications = [[NSMutableArray alloc] initWithArray:[self unarchiveNotifications]];
+    _massNotificationManager = [[TSJavelinMassNotificationManager alloc] init];
     [_tableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -44,32 +37,6 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
                                                  name:TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
                                                object:nil];
     [self loadMassAlerts];
-    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer = [AFXMLParserResponseSerializer new];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];
-//    
-//    [manager GET:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.rssFeed
-//      parameters:nil
-//         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//             _parser = [[NSXMLParser alloc]initWithData:operation.responseData];
-//             
-//             [_parser setDelegate:self];
-//             _parser.shouldResolveExternalEntities = NO;
-//             
-//             [_parser parse];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        
-//    }];
-    
-    [RSSParser parseRSSFeed:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.rssFeed
-                 parameters:nil
-                    success:^(RSSChannel *channel) {
-                        
-                    }
-                    failure:^(NSError *error) {
-                        
-                    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,24 +50,11 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
     [self loadMassAlerts];
 }
 
-- (void)archiveNotifications {
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_notifications];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:TSMassNotificationsViewControllerSavedNotifications];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (NSArray *)unarchiveNotifications {
-    
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:TSMassNotificationsViewControllerSavedNotifications];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-}
-
 #pragma mark - Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_notifications.count == 0) {
+    if (_massNotificationManager.notifications.count == 0) {
         return 0;
     }
     return 1;
@@ -108,38 +62,37 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_notifications.count == 0) {
+    if (_massNotificationManager.notifications.count == 0) {
         return 1;
     }
-    return _notifications.count - 1;
+    return _massNotificationManager.notifications.count - 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"Cell";
+    NSString *identifier = NSStringFromClass([TSMassNotificationTableViewCell class]);
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    TSMassNotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-        
-        cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:FONT_SIZE];
-        cell.textLabel.textColor = [TSColorPalette listCellTextColor];
-        
-        cell.detailTextLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:DETAILS_FONT_SIZE];
-        cell.detailTextLabel.textColor = [TSColorPalette listCellDetailsTextColor];
-        cell.backgroundColor = [TSColorPalette cellBackgroundColor];
-    }
+    cell.textView.text = nil;
+    cell.textView.editable = YES;
+    cell.textView.editable = NO;
     
-    cell.textLabel.text = ((TSJavelinAPIMassAlert *)_notifications[indexPath.row]).message;
-    cell.detailTextLabel.text = [TSUtilities formattedViewableDate:((TSJavelinAPIMassAlert *)_notifications[indexPath.row]).timeStamp];
+    cell.backgroundColor = [TSColorPalette cellBackgroundColor];
+    
+    cell.textView.font = [TSRalewayFont customFontFromStandardFont:cell.textView.font];
+    cell.textView.textColor = [TSColorPalette listCellTextColor];
+    cell.textView.delegate = self;
+    cell.textView.text = ((TSJavelinAPIMassAlert *)_massNotificationManager.notifications[indexPath.row]).message;
+    
+    cell.timestampLabel.textColor = [TSColorPalette listCellDetailsTextColor];
+    cell.timestampLabel.text = [TSUtilities formattedViewableDate:((TSJavelinAPIMassAlert *)_massNotificationManager.notifications[indexPath.row]).timeStamp];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *bodyTxt = ((TSJavelinAPIMassAlert *)_notifications[indexPath.row]).message;
+    NSString *bodyTxt = ((TSJavelinAPIMassAlert *)_massNotificationManager.notifications[indexPath.row]).message;
     
     CGSize size = [TSUtilities text:bodyTxt sizeWithFont:[TSRalewayFont fontWithName:kFontRalewayRegular size:FONT_SIZE]  constrainedToSize:CGSizeMake(self.view.frame.size.width - [self tableView:_tableView cellForRowAtIndexPath:indexPath].textLabel.frame.origin.x, INFINITY)];
     
@@ -168,16 +121,20 @@ static NSString * const TSMassNotificationsViewControllerSavedNotifications = @"
     [self.view bringSubviewToFront:_activityIndicator];
     
     
-    [[TSJavelinAPIClient sharedClient] getMassAlerts:^(NSArray *massAlerts) {
-        if (massAlerts) {
-            _notifications = [[NSMutableArray alloc] initWithArray:massAlerts];
-            
-            [_tableView reloadData];
-            [self archiveNotifications];
-        }
+    [_massNotificationManager getNewMassAlerts:^(NSArray *massAlerts) {
+        [_tableView reloadData];
         [_activityIndicator stopAnimating];
         [_activityIndicator setHidden:YES];
     }];
+}
+
+#pragma mark - Text View Delegate 
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    
+    
+    
+    return YES;
 }
 
 

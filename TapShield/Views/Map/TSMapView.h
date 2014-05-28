@@ -37,6 +37,7 @@
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay;
 
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
+- (void)getAllGeofenceBoundaries;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)adjustAnnotationAlphaForPan;
 

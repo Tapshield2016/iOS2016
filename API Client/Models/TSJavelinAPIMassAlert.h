@@ -7,6 +7,7 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
+#import "RSSItem.h"
 
 @class TSJavelinAPIAgency;
 @class TSJavelinAPIUser;
@@ -17,6 +18,8 @@
 @property (readonly) TSJavelinAPIUser *agencyDispatcher;
 @property (readonly) NSString *message;
 @property (readonly) NSDate *timeStamp;
+
+- (instancetype)initWithRSSItem:(RSSItem *)item;
 
 /*
  

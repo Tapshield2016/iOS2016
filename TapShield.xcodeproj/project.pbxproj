@@ -2455,6 +2455,14 @@
 		C5CED63119354CF90079CEA2 /* back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62B19354CF90079CEA2 /* back_button@2x.png */; };
 		C5CED63219354CF90079CEA2 /* back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62B19354CF90079CEA2 /* back_button@2x.png */; };
 		C5CED63319354CF90079CEA2 /* back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62B19354CF90079CEA2 /* back_button@2x.png */; };
+		C5CED63619355F990079CEA2 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63519355F990079CEA2 /* NSString+HTML.m */; };
+		C5CED63719355F990079CEA2 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63519355F990079CEA2 /* NSString+HTML.m */; };
+		C5CED63819355F990079CEA2 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63519355F990079CEA2 /* NSString+HTML.m */; };
+		C5CED63919355F990079CEA2 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63519355F990079CEA2 /* NSString+HTML.m */; };
+		C5CED63C193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63B193561640079CEA2 /* TSMassNotificationTableViewCell.m */; };
+		C5CED63D193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63B193561640079CEA2 /* TSMassNotificationTableViewCell.m */; };
+		C5CED63E193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63B193561640079CEA2 /* TSMassNotificationTableViewCell.m */; };
+		C5CED63F193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CED63B193561640079CEA2 /* TSMassNotificationTableViewCell.m */; };
 		C5D484EF18E5EE09006EB287 /* TSDestinationSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B583B9BB18AEB03600C5B8DA /* TSDestinationSearchViewController.m */; };
 		C5D484F218E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */; };
 		C5D484F318E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */; };
@@ -3305,6 +3313,10 @@
 		C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDisarmPadViewController.m; path = "View Controllers/TSDisarmPadViewController.m"; sourceTree = "<group>"; };
 		C5CED62A19354CF90079CEA2 /* back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back_button.png; path = Images/back_button.png; sourceTree = "<group>"; };
 		C5CED62B19354CF90079CEA2 /* back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "back_button@2x.png"; path = "Images/back_button@2x.png"; sourceTree = "<group>"; };
+		C5CED63419355F990079CEA2 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
+		C5CED63519355F990079CEA2 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		C5CED63A193561640079CEA2 /* TSMassNotificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMassNotificationTableViewCell.h; path = Views/TSMassNotificationTableViewCell.h; sourceTree = "<group>"; };
+		C5CED63B193561640079CEA2 /* TSMassNotificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMassNotificationTableViewCell.m; path = Views/TSMassNotificationTableViewCell.m; sourceTree = "<group>"; };
 		C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSocialAccountsManager.h; path = Utilities/TSSocialAccountsManager.h; sourceTree = "<group>"; };
 		C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSocialAccountsManager.m; path = Utilities/TSSocialAccountsManager.m; sourceTree = "<group>"; };
 		C5EAABE01904C4B6005EDD7B /* TSJavelinAPIEntourageMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIEntourageMember.h; sourceTree = "<group>"; };
@@ -3744,6 +3756,8 @@
 			children = (
 				C520C8E618A974C100D1D2E9 /* UIImage+Resize.h */,
 				C520C8E718A974C100D1D2E9 /* UIImage+Resize.m */,
+				C5CED63419355F990079CEA2 /* NSString+HTML.h */,
+				C5CED63519355F990079CEA2 /* NSString+HTML.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -4515,6 +4529,8 @@
 				C5C1C99E190853860087F622 /* TSEntourageMemberCell.m */,
 				C5C1C9A219085CEA0087F622 /* TSAddMemberCell.h */,
 				C5C1C9A319085CEA0087F622 /* TSAddMemberCell.m */,
+				C5CED63A193561640079CEA2 /* TSMassNotificationTableViewCell.h */,
+				C5CED63B193561640079CEA2 /* TSMassNotificationTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -7098,6 +7114,7 @@
 				C5662BF318DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C5BBF32C18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
+				C5CED63C193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C5EAABF719066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C56356F618EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5C1C9AE1909B9220087F622 /* TSCircularControl.m in Sources */,
@@ -7208,6 +7225,7 @@
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C55568E81911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
+				C5CED63619355F990079CEA2 /* NSString+HTML.m in Sources */,
 				C520C91218A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
 				C5B5635018E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5372DB418B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
@@ -7249,6 +7267,7 @@
 				C55644FD18E3684100D29B0D /* TSUserLocationAnnotation.m in Sources */,
 				C55644FB18E3681400D29B0D /* TSTransitionDelegate.m in Sources */,
 				C5B2E98818CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
+				C5CED63919355F990079CEA2 /* NSString+HTML.m in Sources */,
 				C556478618E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
 				C5C1C9A619085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				C5AFBB92191F96B500EC62A5 /* TSRelationshipViewController.m in Sources */,
@@ -7256,6 +7275,7 @@
 				C5AFB9251919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5662BD618DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
 				C5BBF42D18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
+				C5CED63F193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C520C90918A974C100D1D2E9 /* TSJavelinAPIUser.m in Sources */,
 				C501CC3A18F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C5EAAC0319066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */,
@@ -7433,6 +7453,7 @@
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
 				C5BBF32D18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
 				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
+				C5CED63D193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C5EAABF819066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C56356F718EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5C1C9AF1909B9220087F622 /* TSCircularControl.m in Sources */,
@@ -7543,6 +7564,7 @@
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
 				C55568E91911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
+				C5CED63719355F990079CEA2 /* NSString+HTML.m in Sources */,
 				C532E63B18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5B5635118E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5662BF418DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
@@ -7601,6 +7623,7 @@
 				C5AFB94C191D35DE00EC62A5 /* TSJavelinS3UploadManager.m in Sources */,
 				C5AFB94D191D35DE00EC62A5 /* TSJavelinChatMessageOrganizer.m in Sources */,
 				C5AFB94E191D35DE00EC62A5 /* TSJavelinAPIMassAlert.m in Sources */,
+				C5CED63E193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C5AFB94F191D35DE00EC62A5 /* TSAppearanceTableViewController.m in Sources */,
 				C5AFB950191D35DE00EC62A5 /* TSRouteManager.m in Sources */,
 				C5AFB951191D35DE00EC62A5 /* TSCircularControl.m in Sources */,
@@ -7711,6 +7734,7 @@
 				C5AFB9AE191D35DE00EC62A5 /* OAuthCore.m in Sources */,
 				C5AFB9AF191D35DE00EC62A5 /* TSMenuViewController.m in Sources */,
 				C5AFB9B0191D35DE00EC62A5 /* TSForgotPasswordViewController.m in Sources */,
+				C5CED63819355F990079CEA2 /* NSString+HTML.m in Sources */,
 				C5AFB9B1191D35DE00EC62A5 /* UIView+FirstResponder.m in Sources */,
 				C5AFB9B2191D35DE00EC62A5 /* TSHitTestForwardingView.m in Sources */,
 				C5AFB9B3191D35DE00EC62A5 /* TSRegistrationTextField.m in Sources */,

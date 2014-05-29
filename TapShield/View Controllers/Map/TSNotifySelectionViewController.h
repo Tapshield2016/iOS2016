@@ -10,10 +10,11 @@
 #import "TSHomeViewController.h"
 #import "TSEntourageMemberCell.h"
 #import <AddressBookUI/AddressBookUI.h>
+#import "TSPopUpWindow.h"
 
 #define INSET 50
 
-@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate, UIAlertViewDelegate, UITextFieldDelegate>
+@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate, UIAlertViewDelegate, UITextFieldDelegate, TSPopUpWindowDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

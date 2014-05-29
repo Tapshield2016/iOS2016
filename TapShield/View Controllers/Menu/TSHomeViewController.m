@@ -24,6 +24,7 @@
 #import "TSSpotCrimeAPIClient.h"
 #import "TSSpotCrimeAnnotationView.h"
 #import "TSNamePictureViewController.h"
+#import "TSGeofence.h"
 
 
 #define CRIME_ALPHA 0.5
@@ -165,6 +166,8 @@
         
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
             [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
+            
+            [[TSLocationController sharedLocationController].geofence updateNearbyAgencies:location];
             
             [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:.25 since:[[NSDate date] dateByAddingTimeInterval: -86400.0] maxReturned:500 sortBy:sortByDistance order:orderAscending type:0 completion:^(NSArray *crimes) {
                 _mapView.spotCrimes = crimes;

@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "TSRouteManager.h"
+#import "TSPopUpWindow.h"
 
 extern NSString * const TSVirtualEntourageManagerTimerDidStart;
 extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
 
 typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
-@interface TSVirtualEntourageManager : NSObject <UIAlertViewDelegate>
+@interface TSVirtualEntourageManager : NSObject <UIAlertViewDelegate, TSPopUpWindowDelegate>
 
 + (instancetype)initSharedEntourageManagerWithHomeView:(id)homeView;
 + (instancetype)sharedManager;

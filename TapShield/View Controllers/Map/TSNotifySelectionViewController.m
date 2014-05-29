@@ -12,7 +12,14 @@
 #import "TSMemberCollectionViewLayout.h"
 
 
+#define TUTORIAL_TITLE @"Add entourage members"
+#define TUTORIAL_MESSAGE @"Check-marked members will automatically be notified of your arrival or non-arrival"
 
+#define WARNING_TITLE @"WARNING"
+#define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
+
+static NSString * const TSNotifySelectionViewControllerTutorialShow = @"TSNotifySelectionViewControllerTutorialShow";
+static NSString * const TSNotifySelectionViewController911WarningShow = @"TSNotifySelectionViewController911WarningShow";
 static NSString * const kRecentSelections = @"kRecentSelections";
 
 @interface TSNotifySelectionViewController ()
@@ -22,6 +29,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 @property (assign, nonatomic) BOOL changedTime;
 @property (strong, nonatomic) TSCircularControl *slider;
 @property (strong, nonatomic) TSMemberCollectionViewLayout *collectionLayout;
+@property (nonatomic, strong) TSPopUpWindow *tutorialWindow;
 
 @end
 
@@ -80,6 +88,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [self adjustViewableTime];
     }
     
+    [self showTutorial];
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,6 +117,18 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [super viewWillDisappear:animated];
     
     [self hideContainerView];
+}
+
+- (void)showTutorial {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:TSNotifySelectionViewControllerTutorialShow]) {
+        return;
+    }
+    
+    _tutorialWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSNotifySelectionViewControllerTutorialShow
+                                                              title:TUTORIAL_TITLE
+                                                            message:TUTORIAL_MESSAGE];
+    [_tutorialWindow show];
 }
 
 - (void)dismissViewController {
@@ -322,11 +343,18 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (IBAction)startEntourage:(id)sender {
     
-    UIWindow *window = [self showSyncingWindow];
+    
+//    UIWindow *window = [self showSyncingWindow];
    
     [[TSVirtualEntourageManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
-        [self hideWindow:window];
+        
+//        [self hideWindow:window];
     }];
+    
+    [self dismissViewController];
+}
+
+- (void)didDismissWindow:(UIWindow *)window {
     
     [self dismissViewController];
 }

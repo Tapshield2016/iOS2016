@@ -154,7 +154,10 @@
 }
 
 - (IBAction)sendFeedback:(id)sender {
-    NSString *emailTitle = @"TapShield iOS App Feedback";
+    
+    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *emailTitle = [NSString stringWithFormat:@"TapShield iOS App Feedback v%@ (%@)", appVersionString, appBuildString];
     // Email Content
     NSString *messageBody = @"";
     // To address

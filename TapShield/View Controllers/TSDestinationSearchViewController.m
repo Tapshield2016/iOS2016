@@ -14,13 +14,18 @@
 
 #define CELL_HEIGHT 50
 
+#define TUTORIAL_TITLE @"Choose a destination"
+#define TUTORIAL_MESSAGE @"Search for a place or select a saved location from your address book"
+
 static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
+static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchTutorialShow";
 
 @interface TSDestinationSearchViewController ()
 
 @property (nonatomic, strong) NSArray *searchResults;
 @property (nonatomic, strong) TSTransitionDelegate *transitionDelegate;
 @property (nonatomic, strong) MKLocalSearch *search;
+@property (nonatomic, strong) TSPopUpWindow *tutorialWindow;
 
 @end
 
@@ -54,6 +59,8 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
                                                object:nil];
     
     self.view.backgroundColor = [UIColor clearColor];
+    
+    [self showTutorial];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,6 +90,18 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)showTutorial {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:TSDestinationSearchTutorialShow]) {
+        return;
+    }
+    
+    _tutorialWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSDestinationSearchTutorialShow
+                                                              title:TUTORIAL_TITLE
+                                                            message:TUTORIAL_MESSAGE];
+    [_tutorialWindow show];
 }
 
 #pragma mark - Saved MapItems

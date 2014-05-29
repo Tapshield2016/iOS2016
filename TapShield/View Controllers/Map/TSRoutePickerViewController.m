@@ -10,22 +10,19 @@
 #import "TSNotifySelectionViewController.h"
 #import "TSUtilities.h"
 
+#define TUTORIAL_TITLE @"Choose a route"
+#define TUTORIAL_MESSAGE @"Your route will determine the estimated time of arrival to notify your entourage"
+
+static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePickerViewControllerTutorialShow";
+
 @interface TSRoutePickerViewController ()
 
 @property (nonatomic, strong) MKDirections *directions;
+@property (nonatomic, strong) TSPopUpWindow *tutorialWindow;
 
 @end
 
 @implementation TSRoutePickerViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -63,6 +60,8 @@
         _homeViewController.isTrackingUser = NO;
         [self requestAndDisplayRoutesForSelectedDestination];
     }
+    
+    [self showTutorial];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,6 +92,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)showTutorial {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:TSRoutePickerViewControllerTutorialShow]) {
+        return;
+    }
+    
+    _tutorialWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSRoutePickerViewControllerTutorialShow
+                                                              title:TUTORIAL_TITLE
+                                                            message:TUTORIAL_MESSAGE];
+    [_tutorialWindow show];
+}
+
 
 #pragma mark - KVO Route Changes
 

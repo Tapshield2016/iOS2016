@@ -17,7 +17,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        [self setCircleColors:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA] fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.05] highlightedFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.2] selectedFillColor:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]];
+        [self setCircleColors:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]
+                    fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.05]
+         highlightedFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.2]
+            selectedFillColor:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]];
         [self drawCircleButtonHighlighted:NO selected:NO];
     }
     return self;

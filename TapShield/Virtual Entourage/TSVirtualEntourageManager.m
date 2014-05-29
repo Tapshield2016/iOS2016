@@ -19,7 +19,11 @@
 #define NON_ARRIVAL_MESSAGE @"Please be advised, %@ has not made it to %@, %@, within the estimated time of arrival."
 #define NOTIFICATION_TIMES @(60*5), @(60), @(30), @(10), @(5), nil
 
+#define WARNING_TITLE @"WARNING"
+#define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
+
 static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
+static NSString * const TSVirtualEntourageManagerWarning911 = @"TSVirtualEntourageManagerWarning911";
 
 NSString * const TSVirtualEntourageManagerTimerDidStart = @"TSVirtualEntourageManagerTimerDidStart";
 NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageManagerTimerDidEnd";
@@ -29,6 +33,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 @property (weak, nonatomic) TSHomeViewController *homeView;
 @property (strong, nonatomic) UIAlertView *recalculateAlertView;
 @property (strong, nonatomic) UIAlertView *notifyEntourageAlertView;
+@property (strong, nonatomic) TSPopUpWindow *warningWindow;
 
 @end
 
@@ -92,6 +97,14 @@ static dispatch_once_t predicate;
             }
         }
     }];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:TSVirtualEntourageManagerWarning911]) {
+        _warningWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSVirtualEntourageManagerWarning911
+                                                                  title:WARNING_TITLE
+                                                                message:WARNING_MESSAGE];
+        _warningWindow.popUpDelegate = self;
+        [_warningWindow show];
+    }
 }
 
 - (CLCircularRegion *)regionForEndPoint {
@@ -416,6 +429,15 @@ static dispatch_once_t predicate;
         else {
             [_homeView clearEntourageAndResetMap];
         }
+    }
+}
+
+#pragma mark - Pop Up Window Delegat 
+
+- (void)didDismissWindow:(UIWindow *)window {
+    
+    if (window == _warningWindow) {
+        _warningWindow = nil;
     }
 }
 

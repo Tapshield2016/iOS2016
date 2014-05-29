@@ -24,6 +24,7 @@
 
 //Roaming Organization
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation;
+- (void)updateNearbyAgencies:(CLLocation *)currentLocation;
 + (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector;
 
 //Outside

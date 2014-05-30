@@ -1315,10 +1315,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="s9t-hB-seg">
-                                        <rect key="frame" x="87" y="64" width="146" height="87"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BdZ-87-B7I" customClass="FBShimmeringView">
+                                        <rect key="frame" x="87" y="65" width="146" height="87"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Lh-7A-8lx">
                                         <rect key="frame" x="40" y="226" width="240" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1357,7 +1358,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="tyL-JO-qqZ">
-                                        <rect key="frame" x="40" y="334" width="240" height="20"/>
+                                        <rect key="frame" x="40" y="326" width="240" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1393,6 +1394,7 @@
                         <outlet property="loginButton" destination="SAk-v2-ZLC" id="8Td-uZ-XZR"/>
                         <outlet property="passwordTextField" destination="5C6-YA-1ze" id="6lR-z5-HZv"/>
                         <outlet property="scrollView" destination="YjK-6B-3HB" id="zhI-ON-BIw"/>
+                        <outlet property="shimmeringView" destination="BdZ-87-B7I" id="TwH-G4-fTO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1hU-Bq-3K4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1993,7 +1995,7 @@
                                                         <rect key="frame" x="40" y="0.0" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="jUA-Jf-8RT" id="fvM-jq-tN1"/>
                                                         </connections>
@@ -4275,10 +4277,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="OfV-A1-7bW">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bK2-lj-CRy" customClass="FBShimmeringView">
                                         <rect key="frame" x="87" y="64" width="146" height="87"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vyY-VA-g54">
                                         <rect key="frame" x="40" y="226" width="240" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4302,7 +4305,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="NRN-MS-AsY">
-                                        <rect key="frame" x="40" y="334" width="240" height="20"/>
+                                        <rect key="frame" x="40" y="326" width="240" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -4334,8 +4337,10 @@
                     <navigationItem key="navigationItem" title="Log In" id="S6f-aQ-A7H"/>
                     <connections>
                         <outlet property="emailTextField" destination="6Lj-An-aDb" id="tFx-hI-ptZ"/>
+                        <outlet property="errorLabel" destination="NRN-MS-AsY" id="ni7-Dh-XdW"/>
                         <outlet property="resetButton" destination="VIP-Id-r9e" id="uCf-XA-1nJ"/>
                         <outlet property="scrollView" destination="uB8-I8-7yJ" id="14R-J5-Lpc"/>
+                        <outlet property="shimmeringView" destination="bK2-lj-CRy" id="bJP-6O-9dW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="09a-9p-SJg" userLabel="First Responder" sceneMemberID="firstResponder"/>

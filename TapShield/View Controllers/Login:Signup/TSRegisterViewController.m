@@ -269,17 +269,6 @@
     
     [textField superview].backgroundColor = [UIColor whiteColor];
     
-//    if (_disarmCodeTextField == textField) {
-//        
-//        if ([textField.text length] + [string length] - range.length == 4) {
-//            textField.text = [textField.text stringByAppendingString:string];
-//            [textField resignFirstResponder];
-//            return NO;
-//        }
-//        else if ([textField.text length] + [string length] - range.length > 4) {
-//            return NO;
-//        }
-//    }
     if (_phoneNumberTextField == textField) {
         NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
         if ([string isEqualToString:@""]) {

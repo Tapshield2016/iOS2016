@@ -27,6 +27,7 @@
 #import "TSBaseTextField.h"
 #import "TSPopUpWindow.h"
 #import "GAITrackedViewController.h"
+#import "FBShimmeringView.h"
 
 @interface TSBaseViewController : GAITrackedViewController
 

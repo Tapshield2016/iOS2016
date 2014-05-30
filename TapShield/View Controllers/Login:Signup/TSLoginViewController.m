@@ -30,6 +30,15 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     [self addBottomButtons];
+    
+    _errorLabel.numberOfLines = 1;
+    _errorLabel.textColor = [TSColorPalette alertRed];
+    [_errorLabel setAdjustsFontSizeToFitWidth:YES];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
+    imageView.frame = _shimmeringView.bounds;
+    imageView.contentMode = UIViewContentModeCenter;
+    _shimmeringView.contentView = imageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -136,7 +145,8 @@
     
     // get a rect for the textView frame
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0f, 0.0f, keyboardBounds.size.height, 0.0f);
-    
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
     
     
     // animations settings
@@ -151,9 +161,6 @@
         CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
         [_scrollView setContentOffset:scrollPoint];
     }
-    
-    _scrollView.contentInset = contentInsets;
-    _scrollView.scrollIndicatorInsets = contentInsets;
     
     [UIView commitAnimations];
     
@@ -203,6 +210,8 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
+    textField.textColor = [TSColorPalette whiteColor];
+    
     if (_emailTextField.text.length > 1 && _passwordTextField.text.length > 1) {
         [_loginButton setEnabled:YES];
     }
@@ -222,6 +231,11 @@
 
 - (IBAction)loginUser:(id)sender {
     
+    _passwordTextField.textColor = [TSColorPalette whiteColor];
+    _emailTextField.textColor = [TSColorPalette whiteColor];
+    
+     _shimmeringView.shimmering = YES;
+    
     _errorLabel.text = @"";
     [self.navigationItem.backBarButtonItem setEnabled:NO];
     [_loginButton setEnabled:NO];
@@ -239,17 +253,19 @@
     
     _errorLabel.text = messageToUser;
     
-    [self shakeButton];
 }
 
 #pragma mark - TSJavelinAuthenticationManager Delegate
 
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
+    _shimmeringView.shimmering = NO;
     
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result error:(NSError *)error {
+    
+    _shimmeringView.shimmering = NO;
     
     [self.navigationItem.backBarButtonItem setEnabled:YES];
     [_loginButton setEnabled:YES];
@@ -259,13 +275,17 @@
         return;
     }
     
+    [self shakeButton];
+    
     NSString *message = @"Login Failed";
     
     if (result.loginFailureReason == kTSJavelinAPIAuthenticationManagerLoginFailureInactiveAccount) {
         message = @"Your account is inactive. Please contact your administrator.";
+        _emailTextField.textColor = [TSColorPalette alertRed];
     }
     else if (result.loginFailureReason == kTSJavelinAPIAuthenticationManagerLoginFailureInvalidCredentials) {
         message = @"Incorrect Email or Password.";
+        _passwordTextField.textColor = [TSColorPalette alertRed];
     }
     [self logInFailedWithMessage:message];
 }

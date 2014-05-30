@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet TSLoginTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
+@property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 
 @property (strong, nonatomic) NSString *email;
 

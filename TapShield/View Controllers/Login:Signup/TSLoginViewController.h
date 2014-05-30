@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
 
 @property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
 

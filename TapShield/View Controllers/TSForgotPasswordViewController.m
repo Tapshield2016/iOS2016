@@ -40,6 +40,15 @@
     else {
         [_resetButton setEnabled:NO];
     }
+    
+    _errorLabel.numberOfLines = 1;
+    _errorLabel.textColor = [TSColorPalette alertRed];
+    [_errorLabel setAdjustsFontSizeToFitWidth:YES];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
+    imageView.frame = _shimmeringView.bounds;
+    imageView.contentMode = UIViewContentModeCenter;
+    _shimmeringView.contentView = imageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -106,19 +115,36 @@
 
 - (IBAction)sendPasswordReset:(id)sender {
     
+    _shimmeringView.shimmering = YES;
+    
     if (self.emailTextField.text) {
         [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPasswordResetEmail:[self.emailTextField.text lowercaseString] completion:^(BOOL sent) {
             
-            NSString *message;
+            NSString *title;
             if (sent) {
-                message = @"Reset email sent to:";
+                title = @"Reset email sent to:";
+                _errorLabel.textColor = [TSColorPalette tapshieldBlue];
             }
             else {
-                message = @"Failed sending reset email to:";
+                title = @"Failed sending reset email to:";
+                _errorLabel.textColor = [TSColorPalette alertRed];
             }
             
-            UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:message
-                                                                     message:self.emailTextField.text
+            title = [NSString stringWithFormat:@"%@\n\n%@", title, _emailTextField.text];
+            
+//            NSDictionary *attributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue]};
+//            NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:title
+//                                                   attributes:nil];
+//            
+//            NSRange range = [title rangeOfString:_emailTextField.text];
+//            [attributedText setAttributes:attributes range:range];
+            
+            
+            _shimmeringView.shimmering = NO;
+//            _errorLabel.text = message;
+            
+            UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
+                                                                     message:@"\nIf you don't receive an email, please make sure you've entered the address you registered with."
                                                                     delegate:nil
                                                            cancelButtonTitle:@"OK"
                                                            otherButtonTitles:nil];
@@ -149,7 +175,8 @@
     // get a rect for the textView frame
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0f, 0.0f, keyboardBounds.size.height, 0.0f);
     
-    
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
     
     // animations settings
     [UIView beginAnimations:nil context:NULL];
@@ -163,9 +190,6 @@
         CGPoint scrollPoint = CGPointMake(0.0, [self.view findFirstResponder].superview.frame.origin.y - keyboardBounds.size.height);
         [_scrollView setContentOffset:scrollPoint];
     }
-    
-    _scrollView.contentInset = contentInsets;
-    _scrollView.scrollIndicatorInsets = contentInsets;
     
     [UIView commitAnimations];
     

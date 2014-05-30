@@ -142,8 +142,8 @@ static dispatch_once_t onceToken;
 
 - (void)socialLoginFailed {
     
-    if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
-        [_delegate loginFailed:nil];
+    if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+        [_delegate loginFailed:nil error:nil];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:nil];
 }
@@ -759,6 +759,13 @@ static dispatch_once_t onceToken;
 
 #pragma mark - NSURLConnectionDelegate Methods
 
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    
+    if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+        [_delegate loginFailed:nil error:error];
+    }
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.responseData appendData:data];
 }
@@ -783,16 +790,16 @@ static dispatch_once_t onceToken;
                 if ([authResponse isEqualToString:@"Login failed"]) {
                     // Incorrect credentials
                     result.loginFailureReason = kTSJavelinAPIAuthenticationManagerLoginFailureInvalidCredentials;
-                    if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
-                        [_delegate loginFailed:result];
+                    if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+                        [_delegate loginFailed:result error:nil];
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
                 }
                 else if ([authResponse isEqualToString:@"Email unverified"]) {
                     // Unverified email address
                     result.loginFailureReason = kTSJavelinAPIAuthenticationManagerLoginFailureUnverifiedEmail;
-                    if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
-                        [_delegate loginFailed:result];
+                    if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+                        [_delegate loginFailed:result error:nil];
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
                 }
@@ -811,8 +818,8 @@ static dispatch_once_t onceToken;
         else if (result.statusCode == 403) {
             // Account is inactive, tough luck...
             result.loginFailureReason = kTSJavelinAPIAuthenticationManagerLoginFailureInactiveAccount;
-            if ([_delegate respondsToSelector:@selector(loginFailed:)]) {
-                [_delegate loginFailed:result];
+            if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+                [_delegate loginFailed:result error:nil];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
 

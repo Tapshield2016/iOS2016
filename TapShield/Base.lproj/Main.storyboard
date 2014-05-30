@@ -220,10 +220,10 @@
             </objects>
             <point key="canvasLocation" x="-24" y="1329"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="7mQ-Cx-HH1">
             <objects>
-                <tableViewController storyboardIdentifier="TSSettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GhP-Ki-1aV" customClass="TSSettingsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSSettingsViewController" title="Settings" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GhP-Ki-1aV" customClass="TSSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" id="ayL-0o-047">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -412,10 +412,10 @@
             </objects>
             <point key="canvasLocation" x="1106" y="2794"/>
         </scene>
-        <!--Help View Controller - Organization-->
+        <!--Help View Controller - Organization Info-->
         <scene sceneID="4iP-ll-26B">
             <objects>
-                <viewController storyboardIdentifier="TSHelpViewController" title="Organization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dVr-FQ-hmx" customClass="TSHelpViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSHelpViewController" title="Organization Info" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dVr-FQ-hmx" customClass="TSHelpViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xyA-lL-37b"/>
                         <viewControllerLayoutGuide type="bottom" id="3uk-Ig-J11"/>
@@ -458,10 +458,10 @@
             </objects>
             <point key="canvasLocation" x="1106" y="5712"/>
         </scene>
-        <!--Contact Data Table View Controller-->
+        <!--Contact Data Table View Controller - Contact Info-->
         <scene sceneID="Y30-gH-Asv">
             <objects>
-                <tableViewController storyboardIdentifier="TSContactDataTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vKv-uN-eMT" customClass="TSContactDataTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSContactDataTableViewController" title="Contact Info" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vKv-uN-eMT" customClass="TSContactDataTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="sjp-Bt-gU5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -609,7 +609,7 @@
         <!--Profile View Controller - Profile-->
         <scene sceneID="DnH-GH-uZ8">
             <objects>
-                <viewController storyboardIdentifier="TSProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H05-fs-W0U" customClass="TSProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSProfileViewController" title="Profile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H05-fs-W0U" customClass="TSProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kuB-Fy-zkT"/>
                         <viewControllerLayoutGuide type="bottom" id="bPb-Ze-Rme"/>
@@ -926,7 +926,7 @@
         <!--About View Controller - About-->
         <scene sceneID="uMm-8C-ejg">
             <objects>
-                <viewController storyboardIdentifier="TSAboutViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Me5-cN-nf1" customClass="TSAboutViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSAboutViewController" title="About" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Me5-cN-nf1" customClass="TSAboutViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5ZT-ts-yp6"/>
                         <viewControllerLayoutGuide type="bottom" id="zca-lS-TxY"/>
@@ -1106,10 +1106,10 @@
             </objects>
             <point key="canvasLocation" x="1075" y="2075"/>
         </scene>
-        <!--Home View Controller-->
+        <!--Home View Controller - Home View-->
         <scene sceneID="IYc-gp-Y7P">
             <objects>
-                <viewController storyboardIdentifier="TSHomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qEG-az-7FP" customClass="TSHomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSHomeViewController" title="Home View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qEG-az-7FP" customClass="TSHomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aDF-CZ-qdy"/>
                         <viewControllerLayoutGuide type="bottom" id="sdU-lO-XUH"/>
@@ -1298,7 +1298,7 @@
         <!--Login View Controller - Log In-->
         <scene sceneID="21d-tb-3F1">
             <objects>
-                <viewController storyboardIdentifier="TSLoginViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dof-Su-aKb" customClass="TSLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSLoginViewController" title="Log In" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dof-Su-aKb" customClass="TSLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tlU-mc-8eb"/>
                         <viewControllerLayoutGuide type="bottom" id="by8-hq-41L"/>
@@ -1410,10 +1410,10 @@
             </objects>
             <point key="canvasLocation" x="-673" y="-637"/>
         </scene>
-        <!--Welcome View Controller-->
+        <!--Welcome View Controller - First View-->
         <scene sceneID="CMq-hx-BJv">
             <objects>
-                <viewController storyboardIdentifier="TSWelcomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1Um-Z8-9Di" customClass="TSWelcomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSWelcomeViewController" title="First View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1Um-Z8-9Di" customClass="TSWelcomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="leE-m8-1ea"/>
                         <viewControllerLayoutGuide type="bottom" id="TNp-yw-osg"/>
@@ -1485,10 +1485,10 @@
             </objects>
             <point key="canvasLocation" x="-287" y="-637"/>
         </scene>
-        <!--Intro Slide View Controller-->
+        <!--Intro Slide View Controller - Intro Slide-->
         <scene sceneID="oFz-Ta-CLu">
             <objects>
-                <viewController storyboardIdentifier="TSIntroSlideViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4pm-nB-azJ" customClass="TSIntroSlideViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSIntroSlideViewController" title="Intro Slide" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4pm-nB-azJ" customClass="TSIntroSlideViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BZK-jj-c08"/>
                         <viewControllerLayoutGuide type="bottom" id="8zd-uc-lhS"/>
@@ -1544,10 +1544,10 @@
             </objects>
             <point key="canvasLocation" x="118" y="-1375"/>
         </scene>
-        <!--Login Or Sign Up View Controller - TapShield-->
+        <!--Login Or Sign Up View Controller - Log In or Sign Up-->
         <scene sceneID="UDG-nM-ZIw">
             <objects>
-                <viewController storyboardIdentifier="TSLoginOrSignUpViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mdm-uj-E86" customClass="TSLoginOrSignUpViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSLoginOrSignUpViewController" title="Log In or Sign Up" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mdm-uj-E86" customClass="TSLoginOrSignUpViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sZ1-qv-Oqx"/>
                         <viewControllerLayoutGuide type="bottom" id="d60-iD-B1w"/>
@@ -1626,10 +1626,10 @@
             </objects>
             <point key="canvasLocation" x="320" y="-650"/>
         </scene>
-        <!--Ask Organization View Controller - Sign Up-->
+        <!--Ask Organization View Controller - Ask Organization-->
         <scene sceneID="wwG-FC-Qak">
             <objects>
-                <viewController storyboardIdentifier="TSAskOrganizationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ax0-oI-OdA" customClass="TSAskOrganizationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSAskOrganizationViewController" title="Ask Organization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ax0-oI-OdA" customClass="TSAskOrganizationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ahz-WV-0xv"/>
                         <viewControllerLayoutGuide type="bottom" id="1up-8e-7Ra"/>
@@ -1690,10 +1690,10 @@
             </objects>
             <point key="canvasLocation" x="1262" y="-295"/>
         </scene>
-        <!--Social Authorization View Controller-->
+        <!--Social Authorization View Controller - Social Login-->
         <scene sceneID="l9I-PY-ZLz">
             <objects>
-                <viewController storyboardIdentifier="TSSocialAuthorizationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Xiw-7p-sRv" customClass="TSSocialAuthorizationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSSocialAuthorizationViewController" title="Social Login" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Xiw-7p-sRv" customClass="TSSocialAuthorizationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SYx-sB-1k8"/>
                         <viewControllerLayoutGuide type="bottom" id="CME-H2-ikB"/>
@@ -1895,7 +1895,7 @@
         <!--Organization Search View Controller - Organization-->
         <scene sceneID="mSi-eN-V3C">
             <objects>
-                <viewController storyboardIdentifier="TSOrganizationSearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U4Y-Qf-oML" customClass="TSOrganizationSearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSOrganizationSearchViewController" title="Organization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U4Y-Qf-oML" customClass="TSOrganizationSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4uM-PA-W0W"/>
                         <viewControllerLayoutGuide type="bottom" id="BhB-eT-Afd"/>
@@ -2115,10 +2115,10 @@
             </objects>
             <point key="canvasLocation" x="2423" y="556"/>
         </scene>
-        <!--Phone Verification View Controller - Verification-->
+        <!--Phone Verification View Controller - Phone Verification-->
         <scene sceneID="ttN-4X-faa">
             <objects>
-                <viewController storyboardIdentifier="TSPhoneVerificationViewController" title="Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSPhoneVerificationViewController" title="Phone Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oyY-O6-C7a"/>
                         <viewControllerLayoutGuide type="bottom" id="NjR-rd-M8u"/>
@@ -2215,7 +2215,7 @@
         <!--Name Picture View Controller - Complete Registration-->
         <scene sceneID="F2U-G7-XZk">
             <objects>
-                <viewController storyboardIdentifier="TSNamePictureViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vZE-6o-F4y" customClass="TSNamePictureViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSNamePictureViewController" title="Complete Registration" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vZE-6o-F4y" customClass="TSNamePictureViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nxp-Y2-Cad"/>
                         <viewControllerLayoutGuide type="bottom" id="C60-1O-i76"/>
@@ -2332,10 +2332,10 @@
             </objects>
             <point key="canvasLocation" x="3383" y="-274"/>
         </scene>
-        <!--Email Verification View Controller - Verification-->
+        <!--Email Verification View Controller - Email Verification-->
         <scene sceneID="qtd-ze-SDF">
             <objects>
-                <viewController storyboardIdentifier="TSEmailVerificationViewController" title="Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mjo-E3-Aqu" customClass="TSEmailVerificationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSEmailVerificationViewController" title="Email Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mjo-E3-Aqu" customClass="TSEmailVerificationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ed7-Xd-ckq"/>
                         <viewControllerLayoutGuide type="bottom" id="Hfr-74-tHt"/>
@@ -2411,6 +2411,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Verification" id="v94-NY-Odq"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="completeVerificationButton" destination="uVD-Kj-BCL" id="ado-eG-F2m"/>
@@ -2424,10 +2425,10 @@
             </objects>
             <point key="canvasLocation" x="2602" y="-274"/>
         </scene>
-        <!--Disarm Pad View Controller-->
+        <!--Disarm Pad View Controller - Disarm-->
         <scene sceneID="nrl-0d-6y0">
             <objects>
-                <viewController storyboardIdentifier="TSDisarmPadViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="b9r-js-Ebz" customClass="TSDisarmPadViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSDisarmPadViewController" title="Disarm" useStoryboardIdentifierAsRestorationIdentifier="YES" id="b9r-js-Ebz" customClass="TSDisarmPadViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O13-5b-juQ"/>
                         <viewControllerLayoutGuide type="bottom" id="5bw-jh-YNl"/>
@@ -2655,10 +2656,10 @@
             </objects>
             <point key="canvasLocation" x="2004" y="2189"/>
         </scene>
-        <!--Emergency Alert View Controller - Phone-->
+        <!--Emergency Alert View Controller - Alert-->
         <scene sceneID="8vV-ne-SaL">
             <objects>
-                <viewController storyboardIdentifier="TSEmergencyAlertViewController" title="Phone" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cif-Vi-G9b" customClass="TSEmergencyAlertViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSEmergencyAlertViewController" title="Alert" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cif-Vi-G9b" customClass="TSEmergencyAlertViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="c69-Kj-FOD"/>
                         <viewControllerLayoutGuide type="bottom" id="Ucu-Ho-fMx"/>
@@ -2834,7 +2835,7 @@
         <!--Alert Details Table View Controller - Report Type-->
         <scene sceneID="ywP-SQ-84g">
             <objects>
-                <viewController storyboardIdentifier="TSAlertDetailsTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mg7-W6-y5e" customClass="TSAlertDetailsTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSAlertDetailsTableViewController" title="Report Type" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mg7-W6-y5e" customClass="TSAlertDetailsTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zq4-YX-Uji"/>
                         <viewControllerLayoutGuide type="bottom" id="fSr-TP-EMg"/>
@@ -2998,10 +2999,10 @@
             </objects>
             <point key="canvasLocation" x="1995" y="3639"/>
         </scene>
-        <!--Page View Controller-->
+        <!--Page View Controller - Alert Page View-->
         <scene sceneID="2wc-Yj-4GO">
             <objects>
-                <viewController storyboardIdentifier="TSPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yTw-T0-XKu" customClass="TSPageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSPageViewController" title="Alert Page View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yTw-T0-XKu" customClass="TSPageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fym-12-jjI"/>
                         <viewControllerLayoutGuide type="bottom" id="fiP-zN-qpx"/>
@@ -3016,10 +3017,10 @@
             </objects>
             <point key="canvasLocation" x="2457" y="2869"/>
         </scene>
-        <!--Voip View Controller-->
+        <!--Voip View Controller - Phone-->
         <scene sceneID="sSe-Y8-Jgw">
             <objects>
-                <viewController storyboardIdentifier="TSVoipViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9zb-cU-CuH" customClass="TSVoipViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSVoipViewController" title="Phone" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9zb-cU-CuH" customClass="TSVoipViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1bU-UQ-iTs"/>
                         <viewControllerLayoutGuide type="bottom" id="A0p-Wt-Klj"/>
@@ -3248,10 +3249,10 @@
             </objects>
             <point key="canvasLocation" x="2934" y="2195"/>
         </scene>
-        <!--Destination Search View Controller - Virtual Entourage-->
+        <!--Destination Search View Controller - Destination-->
         <scene sceneID="BsE-JY-VCu">
             <objects>
-                <viewController storyboardIdentifier="TSDestinationSearchViewController" title="Virtual Entourage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSDestinationSearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSDestinationSearchViewController" title="Destination" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSDestinationSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="z0p-0p-Ljz"/>
                         <viewControllerLayoutGuide type="bottom" id="YcF-kv-V2o"/>
@@ -3327,10 +3328,10 @@
             </objects>
             <point key="canvasLocation" x="1507" y="1339"/>
         </scene>
-        <!--Route Picker View Controller-->
+        <!--Route Picker View Controller - Routing-->
         <scene sceneID="l2p-ft-Ity">
             <objects>
-                <viewController storyboardIdentifier="TSRoutePickerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GTK-a7-ESV" customClass="TSRoutePickerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSRoutePickerViewController" title="Routing" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GTK-a7-ESV" customClass="TSRoutePickerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zxR-Z0-Wbo"/>
                         <viewControllerLayoutGuide type="bottom" id="uc0-0g-Kev"/>
@@ -3386,10 +3387,10 @@
             </objects>
             <point key="canvasLocation" x="1918" y="1339"/>
         </scene>
-        <!--Notify Selection View Controller-->
+        <!--Notify Selection View Controller - Notify-->
         <scene sceneID="ObZ-OU-9rh">
             <objects>
-                <viewController storyboardIdentifier="TSNotifySelectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6vl-xP-Mpq" customClass="TSNotifySelectionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSNotifySelectionViewController" title="Notify" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6vl-xP-Mpq" customClass="TSNotifySelectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="15g-9b-86J"/>
                         <viewControllerLayoutGuide type="bottom" id="R1r-tL-cQQ"/>
@@ -3551,10 +3552,10 @@
             </objects>
             <point key="canvasLocation" x="2326" y="1339"/>
         </scene>
-        <!--Basic Info Table View Controller-->
+        <!--Basic Info Table View Controller - Basic Info-->
         <scene sceneID="7VP-ie-99f">
             <objects>
-                <tableViewController storyboardIdentifier="TSBasicInfoTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ejf-tD-djA" customClass="TSBasicInfoTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSBasicInfoTableViewController" title="Basic Info" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ejf-tD-djA" customClass="TSBasicInfoTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="pZt-qc-Vpg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3683,10 +3684,10 @@
             </objects>
             <point key="canvasLocation" x="1507" y="5712"/>
         </scene>
-        <!--Medical Table View Controller-->
+        <!--Medical Table View Controller - Medical-->
         <scene sceneID="BFD-RE-Wc1">
             <objects>
-                <tableViewController storyboardIdentifier="TSMedicalTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y1Z-EP-saU" customClass="TSMedicalTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSMedicalTableViewController" title="Medical" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y1Z-EP-saU" customClass="TSMedicalTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="kCh-U2-ehu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3759,10 +3760,10 @@
             </objects>
             <point key="canvasLocation" x="2705" y="5712"/>
         </scene>
-        <!--Emergency Contact Table View Controller-->
+        <!--Emergency Contact Table View Controller - Emergency Contact-->
         <scene sceneID="TuM-Kh-Ccc">
             <objects>
-                <tableViewController storyboardIdentifier="TSEmergencyContactTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="n4K-Hz-2xU" customClass="TSEmergencyContactTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSEmergencyContactTableViewController" title="Emergency Contact" useStoryboardIdentifierAsRestorationIdentifier="YES" id="n4K-Hz-2xU" customClass="TSEmergencyContactTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="hva-uD-WQY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3891,10 +3892,10 @@
             </objects>
             <point key="canvasLocation" x="3089" y="5712"/>
         </scene>
-        <!--Appearance Table View Controller-->
+        <!--Appearance Table View Controller - Appearance-->
         <scene sceneID="VbJ-x5-wlo">
             <objects>
-                <tableViewController storyboardIdentifier="TSAppearanceTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ikX-c2-AOK" customClass="TSAppearanceTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSAppearanceTableViewController" title="Appearance" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ikX-c2-AOK" customClass="TSAppearanceTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="dva-eE-USK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4254,10 +4255,10 @@
             </objects>
             <point key="canvasLocation" x="1634" y="2189"/>
         </scene>
-        <!--Forgot Password View Controller - Log In-->
+        <!--Forgot Password View Controller - Forgot Password-->
         <scene sceneID="cPI-KK-g63">
             <objects>
-                <viewController storyboardIdentifier="TSForgotPasswordViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wl2-AH-zte" customClass="TSForgotPasswordViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSForgotPasswordViewController" title="Forgot Password" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wl2-AH-zte" customClass="TSForgotPasswordViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zJl-cX-eGp"/>
                         <viewControllerLayoutGuide type="bottom" id="we3-DI-9Ht"/>
@@ -4395,10 +4396,10 @@
             </objects>
             <point key="canvasLocation" x="3089" y="6388"/>
         </scene>
-        <!--Passcode Table View Controller-->
+        <!--Passcode Table View Controller - Change Passcode-->
         <scene sceneID="vWZ-po-CMz">
             <objects>
-                <tableViewController storyboardIdentifier="TSPasscodeTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y52-o6-8mh" customClass="TSPasscodeTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TSPasscodeTableViewController" title="Change Passcode" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y52-o6-8mh" customClass="TSPasscodeTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="DqS-fg-9mp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

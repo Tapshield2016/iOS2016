@@ -26,8 +26,9 @@
 #import "UIImage+Resize.h"
 #import "TSBaseTextField.h"
 #import "TSPopUpWindow.h"
+#import "GAITrackedViewController.h"
 
-@interface TSBaseViewController : UIViewController
+@interface TSBaseViewController : GAITrackedViewController
 
 - (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated;
 

@@ -80,6 +80,8 @@
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    self.screenName = self.title;
 }
 
 - (void)setTranslucentBackground:(BOOL)translucentBackground {

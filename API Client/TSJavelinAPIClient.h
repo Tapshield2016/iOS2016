@@ -33,7 +33,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 @optional
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result;
-- (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result;
+- (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result error:(NSError *)error;
 
 @end
 

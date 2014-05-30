@@ -249,10 +249,15 @@
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result {
+- (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result error:(NSError *)error {
     
     [self.navigationItem.backBarButtonItem setEnabled:YES];
     [_loginButton setEnabled:YES];
+    
+    if (error) {
+        [self logInFailedWithMessage:error.localizedDescription];
+        return;
+    }
     
     NSString *message = @"Login Failed";
     

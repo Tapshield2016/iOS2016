@@ -98,6 +98,7 @@
     [_checkBoxButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[TSColorPalette tapshieldBlue] forState:UIControlStateHighlighted];
     _checkBoxButton.titleLabel.font = [TSRalewayFont fontWithName:kFontRalewaySemiBold size:15.0f];
+    _checkBoxButton.titleEdgeInsets = UIEdgeInsetsMake(3, 0, 0, 0);
     
     [_view addSubview:_checkBoxButton];
 }

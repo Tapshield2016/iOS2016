@@ -171,16 +171,6 @@
 
 - (void)segueToEmailVerification {
     
-//    TSRegistrationNavigationController *navigationController = (TSRegistrationNavigationController *)self.navigationController;
-//    
-//    if (!navigationController.emailVerificationViewController) {
-//        navigationController.emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSEmailVerificationViewController"];
-//        navigationController.emailVerificationViewController.email = [_emailTextField.text lowercaseString];
-//        navigationController.emailVerificationViewController.password = _passwordTextField.text;
-//    }
-    
-//    [self pushViewControllerWithClass:[TSEmailVerificationViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
-    
     TSRegisterViewController *emailVerificationViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEmailVerificationViewController class])];
     if (_user) {
         emailVerificationViewController.user = _user;

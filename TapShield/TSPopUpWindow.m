@@ -94,11 +94,11 @@
     [_checkBoxButton setImage:[UIImage imageNamed:@"CheckBox_Selected"] forState:UIControlStateSelected];
     _checkBoxButton.frame = CGRectMake(0, _viewFrame.size.height*.75, _viewFrame.size.width, _viewFrame.size.height/4);
     
-    [_checkBoxButton setTitle:@" Don't show again" forState:UIControlStateNormal];
+    [_checkBoxButton setTitle:@"Don't show again" forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[TSColorPalette tapshieldBlue] forState:UIControlStateHighlighted];
     _checkBoxButton.titleLabel.font = [TSRalewayFont fontWithName:kFontRalewaySemiBold size:15.0f];
-    _checkBoxButton.titleEdgeInsets = UIEdgeInsetsMake(3, 0, 0, 0);
+    _checkBoxButton.titleEdgeInsets = UIEdgeInsetsMake(1, 5, 0, 0);
     
     [_view addSubview:_checkBoxButton];
 }

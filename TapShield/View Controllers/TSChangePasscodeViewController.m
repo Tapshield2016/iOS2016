@@ -77,11 +77,19 @@
 
 - (IBAction)savePasscode:(id)sender {
     
-    _tableViewController.currentPasscodeTextField.text = [TSUtilities removeNonNumericalCharacters:_tableViewController.currentPasscodeTextField.text];
     _tableViewController.passcodeTextField.text = [TSUtilities removeNonNumericalCharacters:_tableViewController.passcodeTextField.text];
     _tableViewController.repeatPasscodeTextField.text = [TSUtilities removeNonNumericalCharacters:_tableViewController.repeatPasscodeTextField.text];
     
     BOOL oldText = [[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode isEqualToString:_tableViewController.currentPasscodeTextField.text];
+    
+    NSString *email = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email;
+    NSString *password = [[[TSJavelinAPIClient sharedClient] authenticationManager] getPasswordForEmailAddress:email];
+    
+    
+    if (!oldText) {
+        oldText = [password isEqualToString:_tableViewController.currentPasscodeTextField.text];
+    }
+    
     if (!oldText) {
         _tableViewController.currentPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
     }
@@ -119,6 +127,9 @@
     CGRect aRect = self.view.frame;
     aRect.size.height -= keyboardBounds.size.height;
     
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
     // animations settings
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -132,9 +143,6 @@
         CGPoint scrollPoint = CGPointMake(0.0, rect.origin.y - keyboardBounds.size.height);
         [_scrollView setContentOffset:scrollPoint];
     }
-    
-    _scrollView.contentInset = contentInsets;
-    _scrollView.scrollIndicatorInsets = contentInsets;
     
     [UIView commitAnimations];
     

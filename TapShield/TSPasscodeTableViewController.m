@@ -39,18 +39,42 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
+    if (textField == _currentPasscodeTextField) {
+        return YES;
+    }
+    
     textField.backgroundColor = [UIColor clearColor];
     
     NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
     
     NSUInteger newTextFieldTextLength = [alphaNumericTextField length] + [string length] - range.length;
+    
+    if ([textField.text length] + [string length] - range.length == 4) {
+        textField.text = [textField.text stringByAppendingString:string];
+        if (textField == _passcodeTextField) {
+            [_repeatPasscodeTextField becomeFirstResponder];
+        }
+        return NO;
+    }
+    
     if (newTextFieldTextLength > 4) {
+        if (textField == _passcodeTextField) {
+            [_repeatPasscodeTextField becomeFirstResponder];
+        }
         return NO;
     }
     
     return YES;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    if (textField == _currentPasscodeTextField) {
+        [_passcodeTextField becomeFirstResponder];
+    }
+    
+    return YES;
+}
 
 #pragma mark - Table view data source
 

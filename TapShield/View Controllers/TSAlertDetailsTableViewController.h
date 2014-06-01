@@ -7,12 +7,12 @@
 //
 
 #import "TSNavigationViewController.h"
-#import "TSMapView.h"
+#import "TSReportAnnotationManager.h"
 
 @interface TSAlertDetailsTableViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
-@property (strong, nonatomic) TSMapView *mapView;
+@property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 
 - (IBAction)dismissViewController:(id)sender;
 

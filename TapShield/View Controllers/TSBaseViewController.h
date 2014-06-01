@@ -28,6 +28,7 @@
 #import "TSPopUpWindow.h"
 #import "GAITrackedViewController.h"
 #import "FBShimmeringView.h"
+#import "NSDate+Utilities.h"
 
 @interface TSBaseViewController : GAITrackedViewController
 

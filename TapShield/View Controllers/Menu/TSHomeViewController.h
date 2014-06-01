@@ -11,9 +11,11 @@
 #import "TSNavigationViewController.h"
 #import "TSVirtualEntourageManager.h"
 #import "TSMenuViewController.h"
+#import "TSReportAnnotationManager.h"
 
 @interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
+@property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (strong, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;

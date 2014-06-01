@@ -29,12 +29,18 @@
     
 }
 
+
 - (void)setImageForType:(id<MKAnnotation>)annotation {
     
     if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
         TSSpotCrimeAnnotation *spotCrime = (TSSpotCrimeAnnotation *)annotation;
         
-        self.image = [TSSpotCrimeLocation imageFromSpotCrimeType:spotCrime.type];
+        if (spotCrime.socialReport) {
+            self.image = [TSSpotCrimeLocation imageFromSocialCrimeType:spotCrime.type];
+        }
+        else {
+            self.image = [TSSpotCrimeLocation imageFromSpotCrimeType:spotCrime.type];
+        }
     }
 }
 

@@ -265,6 +265,50 @@
     return dateString;
 }
 
++ (NSString *)dateDescriptionSinceNow:(NSDate *)date {
+    
+    NSDate *now = [NSDate date];
+    
+    if (date.isToday) {
+        int seconds = abs([date timeIntervalSinceNow]);
+        if (seconds < 60) {
+            
+            if (seconds == 1) {
+                return [NSString stringWithFormat:@"%i second ago", seconds];
+            }
+            
+            return [NSString stringWithFormat:@"%i seconds ago", seconds];
+        }
+        
+        if ([date minutesBeforeDate:now] < 60) {
+            
+            if ([date minutesBeforeDate:now] == 1) {
+                return [NSString stringWithFormat:@"%i minute ago", [date minutesBeforeDate:now]];
+            }
+            
+            return [NSString stringWithFormat:@"%i minutes ago", [date minutesBeforeDate:now]];
+        }
+        
+        if ([date hoursBeforeDate:now] < 6) {
+            
+            if ([date hoursBeforeDate:now] == 1) {
+                return [NSString stringWithFormat:@"%i hour ago", [date hoursBeforeDate:now]];
+            }
+            
+            return [NSString stringWithFormat:@"%i hours ago", [date hoursBeforeDate:now]];
+        }
+        
+        return [NSString stringWithFormat:@"%@ today", date.shortTimeString];
+        
+    }
+    
+    if (date.isYesterday) {
+        return [NSString stringWithFormat:@"%@ yesterday", date.shortTimeString];
+    }
+    
+    return [TSUtilities formattedDateTime:date];
+}
+
 + (NSString *)formattedTime:(NSDate *)date {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"h:mm a"];
@@ -275,12 +319,9 @@
 
 + (NSString *)relativeDateStringForDate:(NSDate *)date {
 
-    if ([date isToday]) {
+    if (date.isToday) {
         return [NSString stringWithFormat:@"%@", [TSUtilities formattedTime:date]];
     }
-//    else if ([date isYesterday]) {
-//        return [NSString stringWithFormat:@"%@ Yesterday", [TSUtilities formattedTime:date]];
-//    }
     
     return [TSUtilities formattedDateTime:date];
 }

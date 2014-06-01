@@ -9,11 +9,14 @@
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUtilities.h"
 
+static NSString * const TSSpotCrimeAnnotationPoweredBy = @"Powered by SpotCrime";
+static NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip";
+
 @implementation TSSpotCrimeAnnotation
 
 - (instancetype)initWithSpotCrime:(TSSpotCrimeLocation *)location
 {
-    self = [super initWithCoordinates:location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", location.type, [TSUtilities relativeDateStringForDate:location.date]] description:location.address];
+    self = [super initWithCoordinates:location.coordinate placeName:location.type description:[TSUtilities dateDescriptionSinceNow:location.date]];
     if (self) {
         
         _spotCrime = location;
@@ -24,7 +27,7 @@
 
 - (instancetype)initWithSpocialReport:(TSJavelinAPISocialCrimeReport *)report
 {
-    self = [super initWithCoordinates:report.location.coordinate placeName:[NSString stringWithFormat:@"%@ %@", [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType], [TSUtilities relativeDateStringForDate:report.creationDate]] description:report.address];
+    self = [super initWithCoordinates:report.location.coordinate placeName:[TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType] description:[TSUtilities dateDescriptionSinceNow:report.creationDate]];
     if (self) {
         
         _socialReport = report;

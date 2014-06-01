@@ -8,6 +8,8 @@
 
 #import "TSSpotCrimeLocation.h"
 
+static NSString * const SpotCrimeIconImagePrefix = @"spotcrime_";
+
 static NSString * const IconImagePrefix = @"pins_";
 static NSString * const IconImageSuffix = @"_icon";
 
@@ -51,6 +53,16 @@ static NSString * const IconImageSuffix = @"_icon";
 
 + (UIImage *)imageFromSpotCrimeType:(NSString *)type {
     
+    
+    type = [type stringByReplacingOccurrencesOfString:@" " withString:@""];
+    type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    NSString *imageName = [NSString stringWithFormat:@"%@%@", SpotCrimeIconImagePrefix, [type lowercaseString]];
+    UIImage *image = [UIImage imageNamed:imageName];
+    
+    return image;
+}
+
++ (UIImage *)imageFromSocialCrimeType:(NSString *)type {
     
     type = [type stringByReplacingOccurrencesOfString:@" " withString:@""];
     type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];

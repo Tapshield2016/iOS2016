@@ -113,7 +113,7 @@
             }
             
             [self dismissViewControllerAnimated:YES completion:^{
-                [_mapView addSocialReports:@[report]];
+                [_reportManager addSocialReports:@[report]];
                 [parentNavigationController.topViewController viewWillAppear:NO];
                 [parentNavigationController.topViewController viewDidAppear:NO];
             }];
@@ -140,17 +140,17 @@
     CGRect aRect = self.view.frame;
     aRect.size.height -= keyboardBounds.size.height;
     
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0f, keyboardBounds.size.height, 0.0);
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
     // animations settings
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0f, keyboardBounds.size.height, 0.0);
-    _scrollView.contentInset = contentInsets;
-    _scrollView.scrollIndicatorInsets = contentInsets;
-    
-    CGRect rect = [[self.view findFirstResponder] convertRect:[self.view findFirstResponder].superview.frame toView:self.view];
+    CGRect rect = [self.view findFirstResponder].frame;
     
     if (!CGRectContainsPoint(aRect, rect.origin) ) {
         CGPoint scrollPoint = CGPointMake(0.0, rect.origin.y - keyboardBounds.size.height);

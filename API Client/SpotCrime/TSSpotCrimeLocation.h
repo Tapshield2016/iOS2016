@@ -18,6 +18,8 @@
 @property (strong, nonatomic) NSString *eventDescription;
 
 + (UIImage *)imageFromSpotCrimeType:(NSString *)type;
++ (UIImage *)imageFromSocialCrimeType:(NSString *)type;
+
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
 @end

@@ -10,6 +10,7 @@
 #import "TSUserLocationAnnotation.h"
 #import "TSSelectedDestinationAnnotation.h"
 #import "TSLocationController.h"
+#import "NSDate+Utilities.h"
 
 @interface TSMapView ()
 
@@ -92,68 +93,6 @@
 
 
 #pragma mark - Overlays
-
-- (void)hideSpotCrimes {
-    
-    [self removeAnnotations:_spotCrimes];
-    [self removeAnnotations:_socialReports];
-}
-
-- (void)showSpotCrimes {
-    
-    [self hideSpotCrimes];
-    [self addAnnotations:_spotCrimes];
-    [self addAnnotations:_socialReports];
-    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
-}
-
-- (void)setSpotCrimes:(NSArray *)spotCrimes {
-    
-    [self removeAnnotations:_spotCrimes];
-    
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
-    for (TSSpotCrimeLocation *location in spotCrimes) {
-        TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
-        if (![location.type isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
-            [mutableArray addObject:annotation];
-        }
-    }
-    
-    _spotCrimes = mutableArray;
-    
-    [self addAnnotations:mutableArray];
-    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
-}
-
-- (void)setSocialReports:(NSArray *)socialReports {
-    
-    [self removeAnnotations:_socialReports];
-    
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
-    for (TSJavelinAPISocialCrimeReport *report in socialReports) {
-        TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpocialReport:report];
-        [mutableArray addObject:annotation];
-    }
-    
-    _socialReports = mutableArray;
-    
-    [self addAnnotations:mutableArray];
-    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
-}
-
-- (void)addSocialReports:(NSArray *)socialReports {
-    
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
-    for (TSJavelinAPISocialCrimeReport *report in socialReports) {
-        TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpocialReport:report];
-        [mutableArray addObject:annotation];
-    }
-    
-    [_socialReports addObjectsFromArray:mutableArray];
-    
-    [self addAnnotations:mutableArray];
-    [_userLocationAnnotationView.superview bringSubviewToFront:_userLocationAnnotationView];
-}
 
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay {
     

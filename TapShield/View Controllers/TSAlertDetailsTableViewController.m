@@ -131,7 +131,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     viewController.type = cell.textLabel.text;
     viewController.image = cell.imageView.image;
-    viewController.mapView = _mapView;
+    viewController.reportManager = _reportManager;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

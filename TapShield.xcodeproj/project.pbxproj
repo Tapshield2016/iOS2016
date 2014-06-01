@@ -1071,6 +1071,78 @@
 		C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
 		C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
 		C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
+		C56AED5F193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4D193A4ED3005B18A6 /* spotcrime_arrest.png */; };
+		C56AED60193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4D193A4ED3005B18A6 /* spotcrime_arrest.png */; };
+		C56AED61193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4D193A4ED3005B18A6 /* spotcrime_arrest.png */; };
+		C56AED62193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4D193A4ED3005B18A6 /* spotcrime_arrest.png */; };
+		C56AED63193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4E193A4ED3005B18A6 /* spotcrime_arrest@2x.png */; };
+		C56AED64193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4E193A4ED3005B18A6 /* spotcrime_arrest@2x.png */; };
+		C56AED65193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4E193A4ED3005B18A6 /* spotcrime_arrest@2x.png */; };
+		C56AED66193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4E193A4ED3005B18A6 /* spotcrime_arrest@2x.png */; };
+		C56AED67193A4ED3005B18A6 /* spotcrime_arson.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4F193A4ED3005B18A6 /* spotcrime_arson.png */; };
+		C56AED68193A4ED3005B18A6 /* spotcrime_arson.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4F193A4ED3005B18A6 /* spotcrime_arson.png */; };
+		C56AED69193A4ED3005B18A6 /* spotcrime_arson.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4F193A4ED3005B18A6 /* spotcrime_arson.png */; };
+		C56AED6A193A4ED3005B18A6 /* spotcrime_arson.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED4F193A4ED3005B18A6 /* spotcrime_arson.png */; };
+		C56AED6B193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED50193A4ED3005B18A6 /* spotcrime_arson@2x.png */; };
+		C56AED6C193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED50193A4ED3005B18A6 /* spotcrime_arson@2x.png */; };
+		C56AED6D193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED50193A4ED3005B18A6 /* spotcrime_arson@2x.png */; };
+		C56AED6E193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED50193A4ED3005B18A6 /* spotcrime_arson@2x.png */; };
+		C56AED6F193A4ED3005B18A6 /* spotcrime_assault.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED51193A4ED3005B18A6 /* spotcrime_assault.png */; };
+		C56AED70193A4ED3005B18A6 /* spotcrime_assault.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED51193A4ED3005B18A6 /* spotcrime_assault.png */; };
+		C56AED71193A4ED3005B18A6 /* spotcrime_assault.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED51193A4ED3005B18A6 /* spotcrime_assault.png */; };
+		C56AED72193A4ED3005B18A6 /* spotcrime_assault.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED51193A4ED3005B18A6 /* spotcrime_assault.png */; };
+		C56AED73193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED52193A4ED3005B18A6 /* spotcrime_assault@2x.png */; };
+		C56AED74193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED52193A4ED3005B18A6 /* spotcrime_assault@2x.png */; };
+		C56AED75193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED52193A4ED3005B18A6 /* spotcrime_assault@2x.png */; };
+		C56AED76193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED52193A4ED3005B18A6 /* spotcrime_assault@2x.png */; };
+		C56AED77193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED53193A4ED3005B18A6 /* spotcrime_burglary.png */; };
+		C56AED78193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED53193A4ED3005B18A6 /* spotcrime_burglary.png */; };
+		C56AED79193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED53193A4ED3005B18A6 /* spotcrime_burglary.png */; };
+		C56AED7A193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED53193A4ED3005B18A6 /* spotcrime_burglary.png */; };
+		C56AED7B193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED54193A4ED3005B18A6 /* spotcrime_burglary@2x.png */; };
+		C56AED7C193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED54193A4ED3005B18A6 /* spotcrime_burglary@2x.png */; };
+		C56AED7D193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED54193A4ED3005B18A6 /* spotcrime_burglary@2x.png */; };
+		C56AED7E193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED54193A4ED3005B18A6 /* spotcrime_burglary@2x.png */; };
+		C56AED7F193A4ED3005B18A6 /* spotcrime_other.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED55193A4ED3005B18A6 /* spotcrime_other.png */; };
+		C56AED80193A4ED3005B18A6 /* spotcrime_other.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED55193A4ED3005B18A6 /* spotcrime_other.png */; };
+		C56AED81193A4ED3005B18A6 /* spotcrime_other.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED55193A4ED3005B18A6 /* spotcrime_other.png */; };
+		C56AED82193A4ED3005B18A6 /* spotcrime_other.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED55193A4ED3005B18A6 /* spotcrime_other.png */; };
+		C56AED83193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED56193A4ED3005B18A6 /* spotcrime_other@2x.png */; };
+		C56AED84193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED56193A4ED3005B18A6 /* spotcrime_other@2x.png */; };
+		C56AED85193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED56193A4ED3005B18A6 /* spotcrime_other@2x.png */; };
+		C56AED86193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED56193A4ED3005B18A6 /* spotcrime_other@2x.png */; };
+		C56AED87193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED57193A4ED3005B18A6 /* spotcrime_robbery.png */; };
+		C56AED88193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED57193A4ED3005B18A6 /* spotcrime_robbery.png */; };
+		C56AED89193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED57193A4ED3005B18A6 /* spotcrime_robbery.png */; };
+		C56AED8A193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED57193A4ED3005B18A6 /* spotcrime_robbery.png */; };
+		C56AED8B193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED58193A4ED3005B18A6 /* spotcrime_robbery@2x.png */; };
+		C56AED8C193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED58193A4ED3005B18A6 /* spotcrime_robbery@2x.png */; };
+		C56AED8D193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED58193A4ED3005B18A6 /* spotcrime_robbery@2x.png */; };
+		C56AED8E193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED58193A4ED3005B18A6 /* spotcrime_robbery@2x.png */; };
+		C56AED8F193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED59193A4ED3005B18A6 /* spotcrime_shooting.png */; };
+		C56AED90193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED59193A4ED3005B18A6 /* spotcrime_shooting.png */; };
+		C56AED91193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED59193A4ED3005B18A6 /* spotcrime_shooting.png */; };
+		C56AED92193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED59193A4ED3005B18A6 /* spotcrime_shooting.png */; };
+		C56AED93193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5A193A4ED3005B18A6 /* spotcrime_shooting@2x.png */; };
+		C56AED94193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5A193A4ED3005B18A6 /* spotcrime_shooting@2x.png */; };
+		C56AED95193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5A193A4ED3005B18A6 /* spotcrime_shooting@2x.png */; };
+		C56AED96193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5A193A4ED3005B18A6 /* spotcrime_shooting@2x.png */; };
+		C56AED97193A4ED3005B18A6 /* spotcrime_theft.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5B193A4ED3005B18A6 /* spotcrime_theft.png */; };
+		C56AED98193A4ED3005B18A6 /* spotcrime_theft.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5B193A4ED3005B18A6 /* spotcrime_theft.png */; };
+		C56AED99193A4ED3005B18A6 /* spotcrime_theft.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5B193A4ED3005B18A6 /* spotcrime_theft.png */; };
+		C56AED9A193A4ED3005B18A6 /* spotcrime_theft.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5B193A4ED3005B18A6 /* spotcrime_theft.png */; };
+		C56AED9B193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5C193A4ED3005B18A6 /* spotcrime_theft@2x.png */; };
+		C56AED9C193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5C193A4ED3005B18A6 /* spotcrime_theft@2x.png */; };
+		C56AED9D193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5C193A4ED3005B18A6 /* spotcrime_theft@2x.png */; };
+		C56AED9E193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5C193A4ED3005B18A6 /* spotcrime_theft@2x.png */; };
+		C56AED9F193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5D193A4ED3005B18A6 /* spotcrime_vandalism.png */; };
+		C56AEDA0193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5D193A4ED3005B18A6 /* spotcrime_vandalism.png */; };
+		C56AEDA1193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5D193A4ED3005B18A6 /* spotcrime_vandalism.png */; };
+		C56AEDA2193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5D193A4ED3005B18A6 /* spotcrime_vandalism.png */; };
+		C56AEDA3193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5E193A4ED3005B18A6 /* spotcrime_vandalism@2x.png */; };
+		C56AEDA4193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5E193A4ED3005B18A6 /* spotcrime_vandalism@2x.png */; };
+		C56AEDA5193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5E193A4ED3005B18A6 /* spotcrime_vandalism@2x.png */; };
+		C56AEDA6193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C56AED5E193A4ED3005B18A6 /* spotcrime_vandalism@2x.png */; };
 		C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */; };
 		C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */; };
 		C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */; };
@@ -2447,6 +2519,10 @@
 		C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
 		C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */; };
+		C5CC4589193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */; };
+		C5CC458A193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */; };
+		C5CC458B193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */; };
+		C5CC458C193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */; };
 		C5CED62C19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62D19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62E19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
@@ -3025,6 +3101,24 @@
 		C5662BF218DD0C8B00FD4F44 /* TSRegistrationTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegistrationTextField.m; path = Views/TextFields/TSRegistrationTextField.m; sourceTree = "<group>"; };
 		C5662BF618DD144800FD4F44 /* TSRegistrationLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRegistrationLabel.h; path = Views/Labels/TSRegistrationLabel.h; sourceTree = "<group>"; };
 		C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRegistrationLabel.m; path = Views/Labels/TSRegistrationLabel.m; sourceTree = "<group>"; };
+		C56AED4D193A4ED3005B18A6 /* spotcrime_arrest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_arrest.png; sourceTree = "<group>"; };
+		C56AED4E193A4ED3005B18A6 /* spotcrime_arrest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_arrest@2x.png"; sourceTree = "<group>"; };
+		C56AED4F193A4ED3005B18A6 /* spotcrime_arson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_arson.png; sourceTree = "<group>"; };
+		C56AED50193A4ED3005B18A6 /* spotcrime_arson@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_arson@2x.png"; sourceTree = "<group>"; };
+		C56AED51193A4ED3005B18A6 /* spotcrime_assault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_assault.png; sourceTree = "<group>"; };
+		C56AED52193A4ED3005B18A6 /* spotcrime_assault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_assault@2x.png"; sourceTree = "<group>"; };
+		C56AED53193A4ED3005B18A6 /* spotcrime_burglary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_burglary.png; sourceTree = "<group>"; };
+		C56AED54193A4ED3005B18A6 /* spotcrime_burglary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_burglary@2x.png"; sourceTree = "<group>"; };
+		C56AED55193A4ED3005B18A6 /* spotcrime_other.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_other.png; sourceTree = "<group>"; };
+		C56AED56193A4ED3005B18A6 /* spotcrime_other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_other@2x.png"; sourceTree = "<group>"; };
+		C56AED57193A4ED3005B18A6 /* spotcrime_robbery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_robbery.png; sourceTree = "<group>"; };
+		C56AED58193A4ED3005B18A6 /* spotcrime_robbery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_robbery@2x.png"; sourceTree = "<group>"; };
+		C56AED59193A4ED3005B18A6 /* spotcrime_shooting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_shooting.png; sourceTree = "<group>"; };
+		C56AED5A193A4ED3005B18A6 /* spotcrime_shooting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_shooting@2x.png"; sourceTree = "<group>"; };
+		C56AED5B193A4ED3005B18A6 /* spotcrime_theft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_theft.png; sourceTree = "<group>"; };
+		C56AED5C193A4ED3005B18A6 /* spotcrime_theft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_theft@2x.png"; sourceTree = "<group>"; };
+		C56AED5D193A4ED3005B18A6 /* spotcrime_vandalism.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotcrime_vandalism.png; sourceTree = "<group>"; };
+		C56AED5E193A4ED3005B18A6 /* spotcrime_vandalism@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotcrime_vandalism@2x.png"; sourceTree = "<group>"; };
 		C56B3D4A18FD753D00324FE8 /* TSBasicInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBasicInfoViewController.h; sourceTree = "<group>"; };
 		C56B3D4B18FD753D00324FE8 /* TSBasicInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBasicInfoViewController.m; sourceTree = "<group>"; };
 		C56B3D4F18FD759200324FE8 /* TSContactDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSContactDataViewController.h; sourceTree = "<group>"; };
@@ -3315,6 +3409,8 @@
 		C5CB078318C6851D00BC9425 /* TSCircularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularButton.m; path = Views/Buttons/TSCircularButton.m; sourceTree = "<group>"; };
 		C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDisarmPadViewController.h; path = "View Controllers/TSDisarmPadViewController.h"; sourceTree = "<group>"; };
 		C5CB078818C68B6100BC9425 /* TSDisarmPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSDisarmPadViewController.m; path = "View Controllers/TSDisarmPadViewController.m"; sourceTree = "<group>"; };
+		C5CC4587193AA0D500285DB3 /* TSReportAnnotationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSReportAnnotationManager.h; sourceTree = "<group>"; };
+		C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSReportAnnotationManager.m; sourceTree = "<group>"; };
 		C5CED62A19354CF90079CEA2 /* back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back_button.png; path = Images/back_button.png; sourceTree = "<group>"; };
 		C5CED62B19354CF90079CEA2 /* back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "back_button@2x.png"; path = "Images/back_button@2x.png"; sourceTree = "<group>"; };
 		C5CED63419355F990079CEA2 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
@@ -4489,6 +4585,32 @@
 			name = Signup;
 			sourceTree = "<group>";
 		};
+		C56AED4C193A4ED3005B18A6 /* SpotCrimePins */ = {
+			isa = PBXGroup;
+			children = (
+				C56AED4D193A4ED3005B18A6 /* spotcrime_arrest.png */,
+				C56AED4E193A4ED3005B18A6 /* spotcrime_arrest@2x.png */,
+				C56AED4F193A4ED3005B18A6 /* spotcrime_arson.png */,
+				C56AED50193A4ED3005B18A6 /* spotcrime_arson@2x.png */,
+				C56AED51193A4ED3005B18A6 /* spotcrime_assault.png */,
+				C56AED52193A4ED3005B18A6 /* spotcrime_assault@2x.png */,
+				C56AED53193A4ED3005B18A6 /* spotcrime_burglary.png */,
+				C56AED54193A4ED3005B18A6 /* spotcrime_burglary@2x.png */,
+				C56AED55193A4ED3005B18A6 /* spotcrime_other.png */,
+				C56AED56193A4ED3005B18A6 /* spotcrime_other@2x.png */,
+				C56AED57193A4ED3005B18A6 /* spotcrime_robbery.png */,
+				C56AED58193A4ED3005B18A6 /* spotcrime_robbery@2x.png */,
+				C56AED59193A4ED3005B18A6 /* spotcrime_shooting.png */,
+				C56AED5A193A4ED3005B18A6 /* spotcrime_shooting@2x.png */,
+				C56AED5B193A4ED3005B18A6 /* spotcrime_theft.png */,
+				C56AED5C193A4ED3005B18A6 /* spotcrime_theft@2x.png */,
+				C56AED5D193A4ED3005B18A6 /* spotcrime_vandalism.png */,
+				C56AED5E193A4ED3005B18A6 /* spotcrime_vandalism@2x.png */,
+			);
+			name = SpotCrimePins;
+			path = Images/SpotCrimePins;
+			sourceTree = "<group>";
+		};
 		C56B3D4918FD74C600324FE8 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -4824,6 +4946,7 @@
 		C5B2E98318CE177300E2CF04 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				C5CC458D193AA0E300285DB3 /* Reports */,
 				C56356EE18EC81DE00BAA5D7 /* Virtual Entourage */,
 				B583B9BA18AEB03600C5B8DA /* TSDestinationSearchViewController.h */,
 				B583B9BB18AEB03600C5B8DA /* TSDestinationSearchViewController.m */,
@@ -4862,6 +4985,7 @@
 		C5C1705A18AAE39600EEFBD6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C56AED4C193A4ED3005B18A6 /* SpotCrimePins */,
 				C5CED62A19354CF90079CEA2 /* back_button.png */,
 				C5CED62B19354CF90079CEA2 /* back_button@2x.png */,
 				C5AFBF0E19231F6900EC62A5 /* 911@2x.png */,
@@ -4935,14 +5059,23 @@
 				C5391EC118CA34F800C23C0A /* TSChatViewController.m */,
 				C5BBF30418F66A44008B5CB2 /* TSVoipViewController.h */,
 				C5BBF30518F66A44008B5CB2 /* TSVoipViewController.m */,
-				C5BBF42F18FA5527008B5CB2 /* TSAlertDetailsTableViewController.h */,
-				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
-				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
-				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
 				C5AFB930191C1D2000EC62A5 /* TSAlertManager.h */,
 				C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */,
 			);
 			name = Alert;
+			sourceTree = "<group>";
+		};
+		C5CC458D193AA0E300285DB3 /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				C5BBF42F18FA5527008B5CB2 /* TSAlertDetailsTableViewController.h */,
+				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
+				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
+				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
+				C5CC4587193AA0D500285DB3 /* TSReportAnnotationManager.h */,
+				C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */,
+			);
+			name = Reports;
 			sourceTree = "<group>";
 		};
 		C5EAABE51905AECF005EDD7B /* Static Tables */ = {
@@ -5123,6 +5256,7 @@
 				C5FD5E8518B3141800E27EE9 /* CheckBox_Unselected.png in Resources */,
 				C555690A1912171A00685FB0 /* Icon-76@2x.png in Resources */,
 				C54CEA2B18FB199A0077350E /* bubble_time_RT_icon@2x.png in Resources */,
+				C56AED8F193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */,
 				C5372DF318B3126000D22682 /* Agency@2x.png in Resources */,
 				C532E65318BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.xib in Resources */,
 				C5AFBEE11921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
@@ -5145,6 +5279,7 @@
 				C54CEA4F18FB199A0077350E /* user_new_icon@2x.png in Resources */,
 				C54CEC0118FC77150077350E /* linkedin_icon.png in Resources */,
 				C5372E0318B3126000D22682 /* DisarmIcon_keypad.png in Resources */,
+				C56AED5F193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */,
 				C54CEA2818FB199A0077350E /* bubble_time_RT_icon.png in Resources */,
 				C5AFBDB11921807E00EC62A5 /* bubble_cpr1_icon@2x.png in Resources */,
 				C54CEC1618FC77150077350E /* btn_login_pressed@2x.png in Resources */,
@@ -5204,6 +5339,7 @@
 				C5AFBEDD1921807E00EC62A5 /* pins_suspiciousactivity_icon.png in Resources */,
 				C54CEA0418FB199A0077350E /* bubble_time2_LT_icon.png in Resources */,
 				C5FD5E9518B3143100E27EE9 /* LockIcon.png in Resources */,
+				C56AED7B193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */,
 				C54CE9DD18FB199A0077350E /* pointer_icon@2x.png in Resources */,
 				C5AFBED51921807E00EC62A5 /* pins_suggestion_icon.png in Resources */,
 				C54CEC2518FC77150077350E /* btn_yes_no_normal.png in Resources */,
@@ -5227,6 +5363,7 @@
 				C54CEAEE18FB199A0077350E /* profile_ice_ico.png in Resources */,
 				C55568CC1910066B00685FB0 /* slide_4@2x.png in Resources */,
 				C5FD5E8718B3141800E27EE9 /* CheckBox_Unselected@2x.png in Resources */,
+				C56AEDA3193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */,
 				C5AFBEB51921807E00EC62A5 /* pins_other_icon.png in Resources */,
 				C54CEB5218FC76620077350E /* number_8@2x.png in Resources */,
 				C5AFBD711921807E00EC62A5 /* bubble_arrest_icon@2x.png in Resources */,
@@ -5247,6 +5384,7 @@
 				C54CEA2E18FB199A0077350E /* route_car_icon_active.png in Resources */,
 				C54CEA8E18FB199A0077350E /* code_disarm_not_fill.png in Resources */,
 				C54CE7D618FB199A0077350E /* profile_menu_icon_active.png in Resources */,
+				C56AED67193A4ED3005B18A6 /* spotcrime_arson.png in Resources */,
 				C54CEBEF18FC77150077350E /* email_icon.png in Resources */,
 				C54CEAD318FB199A0077350E /* about_logo@2x.png in Resources */,
 				C54CEBA418FC77150077350E /* btn_user_badge_pressed.png in Resources */,
@@ -5280,6 +5418,7 @@
 				C555691F1912171A00685FB0 /* input_phone_icon.png in Resources */,
 				C54CEA1918FB199A0077350E /* bubble_time_LB_icon@2x.png in Resources */,
 				C54CEA9D18FB199A0077350E /* alert_mute_icon@2x.png in Resources */,
+				C56AED73193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */,
 				C585F2F718DB6E2E009EEF16 /* Raleway-ExtraBold.otf in Resources */,
 				C54CEACA18FB199A0077350E /* switch_on.png in Resources */,
 				C55569011912171A00685FB0 /* Icon-60.png in Resources */,
@@ -5288,11 +5427,14 @@
 				C5AFBE911921807E00EC62A5 /* pins_drugs2_icon@2x.png in Resources */,
 				C54CEA6718FB199A0077350E /* chat_bg@2x.png in Resources */,
 				C54CEAF418FB199A0077350E /* profile_med_ico.png in Resources */,
+				C56AED8B193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */,
+				C56AED87193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */,
 				C54CEA0718FB199A0077350E /* bubble_time2_LT_icon@2x.png in Resources */,
 				C5372DCF18B2CD8A00D22682 /* facebookIcon.png in Resources */,
 				C54CEB2218FC76620077350E /* number_0@2x.png in Resources */,
 				C54CEA9A18FB199A0077350E /* alert_mute_icon.png in Resources */,
 				C54CEBF218FC77150077350E /* email_icon@2x.png in Resources */,
+				C56AED77193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */,
 				C5AFBEF11921807E00EC62A5 /* pins_vandalism_icon@2x.png in Resources */,
 				C54CEA1618FB199A0077350E /* bubble_time_LB_icon.png in Resources */,
 				C54CEA8218FB199A0077350E /* plus_icon.png in Resources */,
@@ -5368,6 +5510,7 @@
 				C5AFBCC11921807D00EC62A5 /* alert_bleeding_icon@2x.png in Resources */,
 				C54CE8B718FB199A0077350E /* entourage_icon@2x.png in Resources */,
 				C54CE9E918FB199A0077350E /* alert_yank_icon@2x.png in Resources */,
+				C56AED97193A4ED3005B18A6 /* spotcrime_theft.png in Resources */,
 				C55568DB1910066B00685FB0 /* welcome_screens_bg.png in Resources */,
 				C54CE8C318FB199A0077350E /* menu_icon@2x.png in Resources */,
 				C5AFBED91921807E00EC62A5 /* pins_suggestion_icon@2x.png in Resources */,
@@ -5394,6 +5537,7 @@
 				C54CE9F818FB199A0077350E /* chevron_icon.png in Resources */,
 				C54CE7EE18FB199A0077350E /* side_menu_bg.png in Resources */,
 				C5AFBD951921807E00EC62A5 /* bubble_burglary_icon.png in Resources */,
+				C56AED9B193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */,
 				C5AFBD751921807E00EC62A5 /* bubble_arson_icon.png in Resources */,
 				C54CEA7018FB199A0077350E /* error_ico.png in Resources */,
 				C54CEBAD18FC77150077350E /* splash_bg-568h@2x in Resources */,
@@ -5440,7 +5584,10 @@
 				C5372DD618B2CEBB00D22682 /* mailicon.png in Resources */,
 				C5AFBE751921807E00EC62A5 /* pins_cpr1_icon.png in Resources */,
 				C5AFBDBD1921807E00EC62A5 /* bubble_drugsalcohol_icon.png in Resources */,
+				C56AED6F193A4ED3005B18A6 /* spotcrime_assault.png in Resources */,
+				C56AED83193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */,
 				C5AFBEE51921807E00EC62A5 /* pins_theft_icon.png in Resources */,
+				C56AED7F193A4ED3005B18A6 /* spotcrime_other.png in Resources */,
 				C5AFBE211921807E00EC62A5 /* bubble_theft_icon@2x.png in Resources */,
 				C54CE9D418FB199A0077350E /* pin_details_bg.png in Resources */,
 				C5AFBE6D1921807E00EC62A5 /* pins_choking_icon.png in Resources */,
@@ -5485,6 +5632,7 @@
 				C54CE95918FB199A0077350E /* Yank_icon@2x.png in Resources */,
 				C5FD5E9918B3143100E27EE9 /* LockIcon@2x.png in Resources */,
 				C5372E0518B3126000D22682 /* DisarmIcon_KeyPad@2x.png in Resources */,
+				C56AED63193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */,
 				C54CEAD918FB199A0077350E /* change_photo_bg@2x.png in Resources */,
 				C5AFBE391921807E00EC62A5 /* pins_arrest_icon@2x.png in Resources */,
 				C5AFBE411921807E00EC62A5 /* pins_arson_icon@2x.png in Resources */,
@@ -5494,6 +5642,7 @@
 				C54CEBDA18FC77150077350E /* btn_big_circle_normal@2x.png in Resources */,
 				C54CE9EC18FB199A0077350E /* image_deafult.png in Resources */,
 				C54CEAA018FB199A0077350E /* alert_view_time_icon.png in Resources */,
+				C56AED9F193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */,
 				C5FD5E9B18B3143100E27EE9 /* PhoneIcon.png in Resources */,
 				C5AFBD691921807E00EC62A5 /* bubble_abuse_icon@2x.png in Resources */,
 				C54CEC0718FC77150077350E /* twitter_icon.png in Resources */,
@@ -5524,6 +5673,7 @@
 				C57C48A618B7B17400DFFBCE /* XIcon.png in Resources */,
 				C54CEA4918FB199A0077350E /* user_default_icon@2x.png in Resources */,
 				C5AFBD191921807E00EC62A5 /* alert_highfever_icon@2x.png in Resources */,
+				C56AED93193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */,
 				C5AFBCF91921807E00EC62A5 /* alert_drugs_icon@2x.png in Resources */,
 				C54CE8AB18FB199A0077350E /* alert_icon@2x.png in Resources */,
 				C54CE7BB18FB199A0077350E /* help_menu_icon_inactive@2x.png in Resources */,
@@ -5566,6 +5716,7 @@
 				C54CEB3118FC76620077350E /* number_3.png in Resources */,
 				C54CE7D018FB199A0077350E /* notifications_menu_icon_inactive.png in Resources */,
 				C5AFBD311921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
+				C56AED6B193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */,
 				C54CEB4318FC76620077350E /* number_6.png in Resources */,
 				C54CEC3D18FC77150077350E /* progress_bar_s2.png in Resources */,
 				C5AFBC9D1921807D00EC62A5 /* alert_abuse_icon.png in Resources */,
@@ -5597,6 +5748,7 @@
 				C5AFBD441921807E00EC62A5 /* alert_stroke_icon@2x.png in Resources */,
 				C54CEBC718FC77150077350E /* pag_dot_inactive.png in Resources */,
 				C54CEA8118FB199A0077350E /* default_user_icon@2x.png in Resources */,
+				C56AED7E193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */,
 				C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C54CE94C18FB199A0077350E /* user_icon.png in Resources */,
 				C54CEBBB18FC77150077350E /* splash_logo_big@2x.png in Resources */,
@@ -5633,11 +5785,14 @@
 				C5AFBE081921807E00EC62A5 /* bubble_stroke_icon.png in Resources */,
 				C5AFBE741921807E00EC62A5 /* pins_choking_icon@2x.png in Resources */,
 				C54CEB3F18FC76620077350E /* number_5.png in Resources */,
+				C56AED9A193A4ED3005B18A6 /* spotcrime_theft.png in Resources */,
 				C54CEBFA18FC77150077350E /* facebook_icon@2x.png in Resources */,
 				C54CE7ED18FB199A0077350E /* settings_menu_icon_inactive@2x.png in Resources */,
 				C5AFBE0C1921807E00EC62A5 /* bubble_stroke_icon@2x.png in Resources */,
+				C56AED82193A4ED3005B18A6 /* spotcrime_other.png in Resources */,
 				C54CE9D918FB199A0077350E /* pin_details_bg@2x.png in Resources */,
 				C54CE9EE18FB199A0077350E /* image_deafult.png in Resources */,
+				C56AED86193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */,
 				C55568C21910066B00685FB0 /* slide_2@2x.png in Resources */,
 				C54CE7F318FB199A0077350E /* side_menu_bg@2x.png in Resources */,
 				C5AFBEA01921807E00EC62A5 /* pins_heartattack_icon.png in Resources */,
@@ -5649,8 +5804,10 @@
 				C54CEAAE18FB199A0077350E /* count_bg.png in Resources */,
 				C5AFBE1C1921807E00EC62A5 /* bubble_suspiciousactivity_icon@2x.png in Resources */,
 				C54CE95218FB199A0077350E /* WARNING.png in Resources */,
+				C56AED6A193A4ED3005B18A6 /* spotcrime_arson.png in Resources */,
 				C54CEC3318FC77150077350E /* logo_placeholder.png in Resources */,
 				C54CEBFD18FC77150077350E /* google_icon.png in Resources */,
+				C56AED7A193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */,
 				C5AFBCB01921807D00EC62A5 /* alert_arson_icon.png in Resources */,
 				C54CEA4818FB199A0077350E /* user_default_icon.png in Resources */,
 				C54CEA9018FB199A0077350E /* code_disarm_not_fill.png in Resources */,
@@ -5701,6 +5858,7 @@
 				C54CEA9618FB199A0077350E /* alert_chat_icon.png in Resources */,
 				C5AFBE7C1921807E00EC62A5 /* pins_cpr1_icon@2x.png in Resources */,
 				C54CE7CF18FB199A0077350E /* notifications_menu_icon_active@2x.png in Resources */,
+				C56AED92193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */,
 				C54CEBE518FC77150077350E /* btn_small_circle_normal.png in Resources */,
 				C54CEAF018FB199A0077350E /* profile_ice_ico.png in Resources */,
 				C5AFBE841921807E00EC62A5 /* pins_disturbance_icon@2x.png in Resources */,
@@ -5712,10 +5870,12 @@
 				C54CEBA918FC77150077350E /* btn_user_badge_pressed@2x.png in Resources */,
 				C55568D11910066B00685FB0 /* slide_5.png in Resources */,
 				C54CEAE418FB199A0077350E /* profile_basic_ico.png in Resources */,
+				C56AED96193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */,
 				C5AFBCF81921807E00EC62A5 /* alert_drugs_icon.png in Resources */,
 				C54CEA7518FB199A0077350E /* error_ico@2x.png in Resources */,
 				C54CEC1518FC77150077350E /* btn_login_pressed.png in Resources */,
 				C54CEADE18FB199A0077350E /* profile_appearance_ico.png in Resources */,
+				C56AED8E193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */,
 				C54CEC0018FC77150077350E /* google_icon@2x.png in Resources */,
 				C5AFBEE41921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
 				C532E8E518BD44F400FC111A /* Main.storyboard in Resources */,
@@ -5725,6 +5885,7 @@
 				C54CE94F18FB199A0077350E /* user_icon@2x.png in Resources */,
 				C5AFBE8C1921807E00EC62A5 /* pins_drugsalcohol_icon@2x.png in Resources */,
 				C54CEA2A18FB199A0077350E /* bubble_time_RT_icon.png in Resources */,
+				C56AED8A193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */,
 				C5AFBD001921807E00EC62A5 /* alert_drugs2_icon.png in Resources */,
 				C54CEAFF18FB199A0077350E /* settings_female_icon@2x.png in Resources */,
 				C54CE9FD18FB199A0077350E /* chevron_icon@2x.png in Resources */,
@@ -5836,10 +5997,12 @@
 				C5AFBE401921807E00EC62A5 /* pins_arson_icon.png in Resources */,
 				C5AFBD281921807E00EC62A5 /* alert_other_icon.png in Resources */,
 				C5372DF218B3126000D22682 /* Agency.png in Resources */,
+				C56AED72193A4ED3005B18A6 /* spotcrime_assault.png in Resources */,
 				C54CEA6318FB199A0077350E /* bubble_someone@2x.png in Resources */,
 				C5AFBD5C1921807E00EC62A5 /* alert_theft_icon@2x.png in Resources */,
 				C54CEA0C18FB199A0077350E /* bubble_time2_RB_icon.png in Resources */,
 				C54CEB4218FC76620077350E /* number_5@2x.png in Resources */,
+				C56AED6E193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */,
 				C5AFBE541921807E00EC62A5 /* pins_bleeding_icon@2x.png in Resources */,
 				C54CEA0F18FB199A0077350E /* bubble_time2_RB_icon@2x.png in Resources */,
 				C5FD5E8C18B3141800E27EE9 /* CheckBox_UnselectedDown@2x.png in Resources */,
@@ -5867,6 +6030,7 @@
 				C54CEC4E18FC77150077350E /* progress_bar_s4@2x.png in Resources */,
 				C5372E0A18B3126000D22682 /* EmailEnvelope@2x.png in Resources */,
 				C5FD5E8E18B3141800E27EE9 /* CheckBox_Selected.png in Resources */,
+				C56AEDA6193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */,
 				C54CEBA018FC77150077350E /* btn_user_badge_normal.png in Resources */,
 				C5AFBCD81921807D00EC62A5 /* alert_caraccident_icon.png in Resources */,
 				C5AFBECC1921807E00EC62A5 /* pins_shooting@2x.png in Resources */,
@@ -5905,11 +6069,13 @@
 				C5AFBEC01921807E00EC62A5 /* pins_robbery.png in Resources */,
 				C5AFBD341921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
 				C54CEC4B18FC77150077350E /* progress_bar_s4.png in Resources */,
+				C56AED9E193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */,
 				C54CEB2D18FC76620077350E /* number_2.png in Resources */,
 				C5AFBE001921807E00EC62A5 /* bubble_shooting_icon.png in Resources */,
 				C54CEAC918FB199A0077350E /* switch_off@2x.png in Resources */,
 				C54CEBBE18FC77150077350E /* background568.png in Resources */,
 				C54CEBCA18FC77150077350E /* pag_dot_inactive@2x.png in Resources */,
+				C56AED76193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */,
 				C57C491D18BBDB7D00DFFBCE /* TapShield Demo-Info.plist in Resources */,
 				C5AFBEF41921807E00EC62A5 /* pins_vandalism_icon@2x.png in Resources */,
 				C54CEB5718FC76620077350E /* number_9.png in Resources */,
@@ -5950,6 +6116,7 @@
 				C5AFBD0C1921807E00EC62A5 /* alert_harassment_icon@2x.png in Resources */,
 				C54CE7E118FB199A0077350E /* profile_menu_icon_inactive@2x.png in Resources */,
 				C54CEBE818FC77150077350E /* btn_small_circle_normal@2x.png in Resources */,
+				C56AED66193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */,
 				C55568BF1910066B00685FB0 /* slide_2.png in Resources */,
 				C55568CE1910066B00685FB0 /* slide_4@2x.png in Resources */,
 				C55569031912171A00685FB0 /* Icon-60.png in Resources */,
@@ -6005,6 +6172,7 @@
 				C54CEAEA18FB199A0077350E /* profile_contact_ico.png in Resources */,
 				C57C48AE18BBC32100DFFBCE /* no_image.png in Resources */,
 				C55568CB1910066B00685FB0 /* slide_4.png in Resources */,
+				C56AEDA2193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */,
 				C54CEBA318FC77150077350E /* btn_user_badge_normal@2x.png in Resources */,
 				C54CEAC318FB199A0077350E /* switch_bg@2x.png in Resources */,
 				C5AFBDA81921807E00EC62A5 /* bubble_choking_icon.png in Resources */,
@@ -6023,6 +6191,7 @@
 				C54CEA3018FB199A0077350E /* route_car_icon_active.png in Resources */,
 				C5AFBCA01921807D00EC62A5 /* alert_abuse_icon.png in Resources */,
 				C55568C81910066B00685FB0 /* slide_3@2x.png in Resources */,
+				C56AED62193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */,
 				C54CEA3C18FB199A0077350E /* route_walk_icon_active.png in Resources */,
 				C585F30818DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C54CE94918FB199A0077350E /* tapshield_icon@2x.png in Resources */,
@@ -6060,6 +6229,7 @@
 				C54CEB2618FC76620077350E /* number_1.png in Resources */,
 				C54CEBC618FC77150077350E /* pag_dot_inactive.png in Resources */,
 				C54CEA8018FB199A0077350E /* default_user_icon@2x.png in Resources */,
+				C56AED7C193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */,
 				C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */,
 				C54CE94B18FB199A0077350E /* user_icon.png in Resources */,
 				C5AFBDC61921807E00EC62A5 /* bubble_drugs2_icon.png in Resources */,
@@ -6096,11 +6266,14 @@
 				C5AFBE721921807E00EC62A5 /* pins_choking_icon@2x.png in Resources */,
 				C54CE8C118FB199A0077350E /* menu_icon.png in Resources */,
 				C54CEB3E18FC76620077350E /* number_5.png in Resources */,
+				C56AED98193A4ED3005B18A6 /* spotcrime_theft.png in Resources */,
 				C5AFBE0A1921807E00EC62A5 /* bubble_stroke_icon@2x.png in Resources */,
 				C54CEBF918FC77150077350E /* facebook_icon@2x.png in Resources */,
 				C54CE7EC18FB199A0077350E /* settings_menu_icon_inactive@2x.png in Resources */,
+				C56AED80193A4ED3005B18A6 /* spotcrime_other.png in Resources */,
 				C54CE9D818FB199A0077350E /* pin_details_bg@2x.png in Resources */,
 				C54CE9ED18FB199A0077350E /* image_deafult.png in Resources */,
+				C56AED84193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */,
 				C55568C11910066B00685FB0 /* slide_2@2x.png in Resources */,
 				C5AFBE9E1921807E00EC62A5 /* pins_heartattack_icon.png in Resources */,
 				C54CE7F218FB199A0077350E /* side_menu_bg@2x.png in Resources */,
@@ -6112,8 +6285,10 @@
 				C5AFBE1A1921807E00EC62A5 /* bubble_suspiciousactivity_icon@2x.png in Resources */,
 				C54CEAAD18FB199A0077350E /* count_bg.png in Resources */,
 				C54CE95118FB199A0077350E /* WARNING.png in Resources */,
+				C56AED68193A4ED3005B18A6 /* spotcrime_arson.png in Resources */,
 				C54CEC3218FC77150077350E /* logo_placeholder.png in Resources */,
 				C5AFBCAE1921807D00EC62A5 /* alert_arson_icon.png in Resources */,
+				C56AED78193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */,
 				C54CEBFC18FC77150077350E /* google_icon.png in Resources */,
 				C54CEA4718FB199A0077350E /* user_default_icon.png in Resources */,
 				C54CEA8F18FB199A0077350E /* code_disarm_not_fill.png in Resources */,
@@ -6164,6 +6339,7 @@
 				C54CE8AC18FB199A0077350E /* alert_icon@2x.png in Resources */,
 				C54CEA9518FB199A0077350E /* alert_chat_icon.png in Resources */,
 				C54CE7CE18FB199A0077350E /* notifications_menu_icon_active@2x.png in Resources */,
+				C56AED90193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */,
 				C5AFBE821921807E00EC62A5 /* pins_disturbance_icon@2x.png in Resources */,
 				C54CEBE418FC77150077350E /* btn_small_circle_normal.png in Resources */,
 				C54CEAEF18FB199A0077350E /* profile_ice_ico.png in Resources */,
@@ -6175,10 +6351,12 @@
 				C54CEBA818FC77150077350E /* btn_user_badge_pressed@2x.png in Resources */,
 				C55568D01910066B00685FB0 /* slide_5.png in Resources */,
 				C5AFBCF61921807E00EC62A5 /* alert_drugs_icon.png in Resources */,
+				C56AED94193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */,
 				C54CEAE318FB199A0077350E /* profile_basic_ico.png in Resources */,
 				C54CEA7418FB199A0077350E /* error_ico@2x.png in Resources */,
 				C54CEC1418FC77150077350E /* btn_login_pressed.png in Resources */,
 				C54CEADD18FB199A0077350E /* profile_appearance_ico.png in Resources */,
+				C56AED8C193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */,
 				C54CEBFF18FC77150077350E /* google_icon@2x.png in Resources */,
 				C5AFBEE21921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
 				C57C48F818BBDB1900DFFBCE /* AddPhotoButton_Down@2x.png in Resources */,
@@ -6188,6 +6366,7 @@
 				C54CE94E18FB199A0077350E /* user_icon@2x.png in Resources */,
 				C5AFBE8A1921807E00EC62A5 /* pins_drugsalcohol_icon@2x.png in Resources */,
 				C54CEA2918FB199A0077350E /* bubble_time_RT_icon.png in Resources */,
+				C56AED88193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */,
 				C5AFBCFE1921807E00EC62A5 /* alert_drugs2_icon.png in Resources */,
 				C54CEAFE18FB199A0077350E /* settings_female_icon@2x.png in Resources */,
 				C54CE9FC18FB199A0077350E /* chevron_icon@2x.png in Resources */,
@@ -6299,10 +6478,12 @@
 				C5AFBE3E1921807E00EC62A5 /* pins_arson_icon.png in Resources */,
 				C5AFBD261921807E00EC62A5 /* alert_other_icon.png in Resources */,
 				C57C490118BBDB1900DFFBCE /* googlePlus.png in Resources */,
+				C56AED70193A4ED3005B18A6 /* spotcrime_assault.png in Resources */,
 				C54CEA6218FB199A0077350E /* bubble_someone@2x.png in Resources */,
 				C5AFBD5A1921807E00EC62A5 /* alert_theft_icon@2x.png in Resources */,
 				C54CEA0B18FB199A0077350E /* bubble_time2_RB_icon.png in Resources */,
 				C54CEB4118FC76620077350E /* number_5@2x.png in Resources */,
+				C56AED6C193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */,
 				C5AFBE521921807E00EC62A5 /* pins_bleeding_icon@2x.png in Resources */,
 				C54CEA0E18FB199A0077350E /* bubble_time2_RB_icon@2x.png in Resources */,
 				C57C490218BBDB1900DFFBCE /* AddPhotoButton_Down.png in Resources */,
@@ -6330,6 +6511,7 @@
 				C54CEC4D18FC77150077350E /* progress_bar_s4@2x.png in Resources */,
 				C57C490518BBDB1900DFFBCE /* location1.png in Resources */,
 				C57C490618BBDB1900DFFBCE /* CheckBox_UnselectedDown.png in Resources */,
+				C56AEDA4193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */,
 				C54CEB9F18FC77150077350E /* btn_user_badge_normal.png in Resources */,
 				C5AFBCD61921807D00EC62A5 /* alert_caraccident_icon.png in Resources */,
 				C5AFBECA1921807E00EC62A5 /* pins_shooting@2x.png in Resources */,
@@ -6368,11 +6550,13 @@
 				C54CEC4A18FC77150077350E /* progress_bar_s4.png in Resources */,
 				C5AFBEBE1921807E00EC62A5 /* pins_robbery.png in Resources */,
 				C5AFBD321921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
+				C56AED9C193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */,
 				C54CEB2C18FC76620077350E /* number_2.png in Resources */,
 				C54CEAC818FB199A0077350E /* switch_off@2x.png in Resources */,
 				C54CEBBD18FC77150077350E /* background568.png in Resources */,
 				C5AFBDFE1921807E00EC62A5 /* bubble_shooting_icon.png in Resources */,
 				C54CEBC918FC77150077350E /* pag_dot_inactive@2x.png in Resources */,
+				C56AED74193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */,
 				C57C490B18BBDB1900DFFBCE /* mailicon.png in Resources */,
 				C54CEB5618FC76620077350E /* number_9.png in Resources */,
 				C57C490C18BBDB1900DFFBCE /* CheckBox_Selected@2x.png in Resources */,
@@ -6413,6 +6597,7 @@
 				C54CE7E018FB199A0077350E /* profile_menu_icon_inactive@2x.png in Resources */,
 				C54CEBE718FC77150077350E /* btn_small_circle_normal@2x.png in Resources */,
 				C5AFBD0A1921807E00EC62A5 /* alert_harassment_icon@2x.png in Resources */,
+				C56AED64193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */,
 				C55568BE1910066B00685FB0 /* slide_2.png in Resources */,
 				C55568CD1910066B00685FB0 /* slide_4@2x.png in Resources */,
 				C55569021912171A00685FB0 /* Icon-60.png in Resources */,
@@ -6468,6 +6653,7 @@
 				C54CEAE918FB199A0077350E /* profile_contact_ico.png in Resources */,
 				C57C491218BBDB1900DFFBCE /* no_image.png in Resources */,
 				C55568CA1910066B00685FB0 /* slide_4.png in Resources */,
+				C56AEDA0193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */,
 				C54CEBA218FC77150077350E /* btn_user_badge_normal@2x.png in Resources */,
 				C54CEAC218FB199A0077350E /* switch_bg@2x.png in Resources */,
 				C5AFBDA61921807E00EC62A5 /* bubble_choking_icon.png in Resources */,
@@ -6486,6 +6672,7 @@
 				C54CEA2F18FB199A0077350E /* route_car_icon_active.png in Resources */,
 				C5AFBC9E1921807D00EC62A5 /* alert_abuse_icon.png in Resources */,
 				C55568C71910066B00685FB0 /* slide_3@2x.png in Resources */,
+				C56AED60193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */,
 				C54CEA3B18FB199A0077350E /* route_walk_icon_active.png in Resources */,
 				C585F30718DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C54CE94818FB199A0077350E /* tapshield_icon@2x.png in Resources */,
@@ -6523,6 +6710,7 @@
 				C5AFB9E5191D35DE00EC62A5 /* number_1.png in Resources */,
 				C5AFB9E6191D35DE00EC62A5 /* pag_dot_inactive.png in Resources */,
 				C5AFB9E7191D35DE00EC62A5 /* default_user_icon@2x.png in Resources */,
+				C56AED7D193A4ED3005B18A6 /* spotcrime_burglary@2x.png in Resources */,
 				C5AFB9E8191D35DE00EC62A5 /* SIL Open Font License.txt in Resources */,
 				C5AFB9EA191D35DE00EC62A5 /* user_icon.png in Resources */,
 				C5AFBDC71921807E00EC62A5 /* bubble_drugs2_icon.png in Resources */,
@@ -6559,11 +6747,14 @@
 				C5AFBE731921807E00EC62A5 /* pins_choking_icon@2x.png in Resources */,
 				C5AFBA04191D35DE00EC62A5 /* menu_icon.png in Resources */,
 				C5AFBA06191D35DE00EC62A5 /* number_5.png in Resources */,
+				C56AED99193A4ED3005B18A6 /* spotcrime_theft.png in Resources */,
 				C5AFBE0B1921807E00EC62A5 /* bubble_stroke_icon@2x.png in Resources */,
 				C5AFBA07191D35DE00EC62A5 /* facebook_icon@2x.png in Resources */,
 				C5AFBA08191D35DE00EC62A5 /* settings_menu_icon_inactive@2x.png in Resources */,
+				C56AED81193A4ED3005B18A6 /* spotcrime_other.png in Resources */,
 				C5AFBA09191D35DE00EC62A5 /* pin_details_bg@2x.png in Resources */,
 				C5AFBA0A191D35DE00EC62A5 /* image_deafult.png in Resources */,
+				C56AED85193A4ED3005B18A6 /* spotcrime_other@2x.png in Resources */,
 				C5AFBA0B191D35DE00EC62A5 /* slide_2@2x.png in Resources */,
 				C5AFBE9F1921807E00EC62A5 /* pins_heartattack_icon.png in Resources */,
 				C5AFBA0C191D35DE00EC62A5 /* side_menu_bg@2x.png in Resources */,
@@ -6575,8 +6766,10 @@
 				C5AFBE1B1921807E00EC62A5 /* bubble_suspiciousactivity_icon@2x.png in Resources */,
 				C5AFBA0F191D35DE00EC62A5 /* count_bg.png in Resources */,
 				C5AFBA10191D35DE00EC62A5 /* WARNING.png in Resources */,
+				C56AED69193A4ED3005B18A6 /* spotcrime_arson.png in Resources */,
 				C5AFBA12191D35DE00EC62A5 /* logo_placeholder.png in Resources */,
 				C5AFBCAF1921807D00EC62A5 /* alert_arson_icon.png in Resources */,
+				C56AED79193A4ED3005B18A6 /* spotcrime_burglary.png in Resources */,
 				C5AFBA13191D35DE00EC62A5 /* google_icon.png in Resources */,
 				C5AFBA14191D35DE00EC62A5 /* user_default_icon.png in Resources */,
 				C5AFBA15191D35DE00EC62A5 /* code_disarm_not_fill.png in Resources */,
@@ -6627,6 +6820,7 @@
 				C5AFBA39191D35DE00EC62A5 /* alert_icon@2x.png in Resources */,
 				C5AFBA3A191D35DE00EC62A5 /* alert_chat_icon.png in Resources */,
 				C5AFBA3B191D35DE00EC62A5 /* notifications_menu_icon_active@2x.png in Resources */,
+				C56AED91193A4ED3005B18A6 /* spotcrime_shooting.png in Resources */,
 				C5AFBE831921807E00EC62A5 /* pins_disturbance_icon@2x.png in Resources */,
 				C5AFBA3C191D35DE00EC62A5 /* btn_small_circle_normal.png in Resources */,
 				C5AFBA3D191D35DE00EC62A5 /* profile_ice_ico.png in Resources */,
@@ -6638,10 +6832,12 @@
 				C5AFBA44191D35DE00EC62A5 /* btn_user_badge_pressed@2x.png in Resources */,
 				C5AFBA45191D35DE00EC62A5 /* slide_5.png in Resources */,
 				C5AFBCF71921807E00EC62A5 /* alert_drugs_icon.png in Resources */,
+				C56AED95193A4ED3005B18A6 /* spotcrime_shooting@2x.png in Resources */,
 				C5AFBA46191D35DE00EC62A5 /* profile_basic_ico.png in Resources */,
 				C5AFBA47191D35DE00EC62A5 /* error_ico@2x.png in Resources */,
 				C5AFBA48191D35DE00EC62A5 /* btn_login_pressed.png in Resources */,
 				C5AFBA49191D35DE00EC62A5 /* profile_appearance_ico.png in Resources */,
+				C56AED8D193A4ED3005B18A6 /* spotcrime_robbery@2x.png in Resources */,
 				C5AFBA4B191D35DE00EC62A5 /* google_icon@2x.png in Resources */,
 				C5AFBEE31921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
 				C5AFBA4D191D35DE00EC62A5 /* AddPhotoButton_Down@2x.png in Resources */,
@@ -6651,6 +6847,7 @@
 				C5AFBA51191D35DE00EC62A5 /* user_icon@2x.png in Resources */,
 				C5AFBE8B1921807E00EC62A5 /* pins_drugsalcohol_icon@2x.png in Resources */,
 				C5AFBA52191D35DE00EC62A5 /* bubble_time_RT_icon.png in Resources */,
+				C56AED89193A4ED3005B18A6 /* spotcrime_robbery.png in Resources */,
 				C5AFBCFF1921807E00EC62A5 /* alert_drugs2_icon.png in Resources */,
 				C5AFBA54191D35DE00EC62A5 /* settings_female_icon@2x.png in Resources */,
 				C5AFBA55191D35DE00EC62A5 /* chevron_icon@2x.png in Resources */,
@@ -6762,10 +6959,12 @@
 				C5AFBE3F1921807E00EC62A5 /* pins_arson_icon.png in Resources */,
 				C5AFBD271921807E00EC62A5 /* alert_other_icon.png in Resources */,
 				C5AFBAB4191D35DE00EC62A5 /* googlePlus.png in Resources */,
+				C56AED71193A4ED3005B18A6 /* spotcrime_assault.png in Resources */,
 				C5AFBAB5191D35DE00EC62A5 /* bubble_someone@2x.png in Resources */,
 				C5AFBD5B1921807E00EC62A5 /* alert_theft_icon@2x.png in Resources */,
 				C5AFBAB7191D35DE00EC62A5 /* bubble_time2_RB_icon.png in Resources */,
 				C5AFBAB8191D35DE00EC62A5 /* number_5@2x.png in Resources */,
+				C56AED6D193A4ED3005B18A6 /* spotcrime_arson@2x.png in Resources */,
 				C5AFBE531921807E00EC62A5 /* pins_bleeding_icon@2x.png in Resources */,
 				C5AFBABA191D35DE00EC62A5 /* bubble_time2_RB_icon@2x.png in Resources */,
 				C5AFBABB191D35DE00EC62A5 /* AddPhotoButton_Down.png in Resources */,
@@ -6793,6 +6992,7 @@
 				C5AFBACB191D35DE00EC62A5 /* progress_bar_s4@2x.png in Resources */,
 				C5AFBACC191D35DE00EC62A5 /* location1.png in Resources */,
 				C5AFBACD191D35DE00EC62A5 /* CheckBox_UnselectedDown.png in Resources */,
+				C56AEDA5193A4ED3005B18A6 /* spotcrime_vandalism@2x.png in Resources */,
 				C5AFBACE191D35DE00EC62A5 /* btn_user_badge_normal.png in Resources */,
 				C5AFBCD71921807D00EC62A5 /* alert_caraccident_icon.png in Resources */,
 				C5AFBECB1921807E00EC62A5 /* pins_shooting@2x.png in Resources */,
@@ -6831,11 +7031,13 @@
 				C5AFBAE7191D35DE00EC62A5 /* progress_bar_s4.png in Resources */,
 				C5AFBEBF1921807E00EC62A5 /* pins_robbery.png in Resources */,
 				C5AFBD331921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
+				C56AED9D193A4ED3005B18A6 /* spotcrime_theft@2x.png in Resources */,
 				C5AFBAE8191D35DE00EC62A5 /* number_2.png in Resources */,
 				C5AFBAE9191D35DE00EC62A5 /* switch_off@2x.png in Resources */,
 				C5AFBAEA191D35DE00EC62A5 /* background568.png in Resources */,
 				C5AFBDFF1921807E00EC62A5 /* bubble_shooting_icon.png in Resources */,
 				C5AFBAEB191D35DE00EC62A5 /* pag_dot_inactive@2x.png in Resources */,
+				C56AED75193A4ED3005B18A6 /* spotcrime_assault@2x.png in Resources */,
 				C5AFBAEC191D35DE00EC62A5 /* mailicon.png in Resources */,
 				C5AFBAED191D35DE00EC62A5 /* number_9.png in Resources */,
 				C5AFBAEE191D35DE00EC62A5 /* CheckBox_Selected@2x.png in Resources */,
@@ -6876,6 +7078,7 @@
 				C5AFBB06191D35DE00EC62A5 /* profile_menu_icon_inactive@2x.png in Resources */,
 				C5AFBB07191D35DE00EC62A5 /* btn_small_circle_normal@2x.png in Resources */,
 				C5AFBD0B1921807E00EC62A5 /* alert_harassment_icon@2x.png in Resources */,
+				C56AED65193A4ED3005B18A6 /* spotcrime_arrest@2x.png in Resources */,
 				C5AFBB09191D35DE00EC62A5 /* slide_2.png in Resources */,
 				C5AFBB0A191D35DE00EC62A5 /* slide_4@2x.png in Resources */,
 				C5AFBB0B191D35DE00EC62A5 /* Icon-60.png in Resources */,
@@ -6931,6 +7134,7 @@
 				C5AFBB39191D35DE00EC62A5 /* profile_contact_ico.png in Resources */,
 				C5AFBB3A191D35DE00EC62A5 /* no_image.png in Resources */,
 				C5AFBB3B191D35DE00EC62A5 /* slide_4.png in Resources */,
+				C56AEDA1193A4ED3005B18A6 /* spotcrime_vandalism.png in Resources */,
 				C5AFBB3C191D35DE00EC62A5 /* btn_user_badge_normal@2x.png in Resources */,
 				C5AFBB3D191D35DE00EC62A5 /* switch_bg@2x.png in Resources */,
 				C5AFBDA71921807E00EC62A5 /* bubble_choking_icon.png in Resources */,
@@ -6949,6 +7153,7 @@
 				C5AFBB4B191D35DE00EC62A5 /* route_car_icon_active.png in Resources */,
 				C5AFBC9F1921807D00EC62A5 /* alert_abuse_icon.png in Resources */,
 				C5AFBB4C191D35DE00EC62A5 /* slide_3@2x.png in Resources */,
+				C56AED61193A4ED3005B18A6 /* spotcrime_arrest.png in Resources */,
 				C5AFBB4D191D35DE00EC62A5 /* route_walk_icon_active.png in Resources */,
 				C5AFBB4E191D35DE00EC62A5 /* Raleway-Regular.otf in Resources */,
 				C5AFBB4F191D35DE00EC62A5 /* tapshield_icon@2x.png in Resources */,
@@ -7150,6 +7355,7 @@
 				C5FD5EA318B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C5AFB9231919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
+				C5CC4589193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
 				C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5AFBB9C191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
@@ -7344,6 +7550,7 @@
 				C5EAABF419063B75005EDD7B /* TSContactDataTableViewController.m in Sources */,
 				C5FB6DFB191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				B5EE898718A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
+				C5CC458C193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
 				B53BBD2D1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C5EAABFE19066018005EDD7B /* TSMedicalTableViewController.m in Sources */,
 				C585F1CD18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
@@ -7491,6 +7698,7 @@
 				C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
+				C5CC458A193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
 				C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5AFBB9D191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
@@ -7662,6 +7870,7 @@
 				C5AFB966191D35DE00EC62A5 /* TSBaseTextField.m in Sources */,
 				C5AFB967191D35DE00EC62A5 /* TSRalewayFont.m in Sources */,
 				C5AFB968191D35DE00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
+				C5CC458B193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
 				C5AFB969191D35DE00EC62A5 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5AFBB9E191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C5AFB96A191D35DE00EC62A5 /* TSTextMessageBarView.m in Sources */,

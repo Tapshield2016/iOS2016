@@ -72,6 +72,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)resendVerificationEmailForEmailAddress:(NSString *)email completion:(void (^)(BOOL success))completion;
 - (void)getLoggedInUser:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUser:(TSJavelinAPIUserBlock)completion;
+- (void)updateLoggedInUserAgency:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;
 - (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion;
@@ -118,6 +119,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)getAgencies:(void (^)(NSArray *agencies))completion;
 - (void)getAgenciesNearby:(CLLocation *)currentLocation radius:(float)radius completion:(void (^)(NSArray *agencies))completion;
 - (void)getAgencyForLoggedInUser:(void (^)(TSJavelinAPIAgency *agency))completion;
+- (void)getUserAgencyForUrl:(NSString *)agencyUrl completion:(void (^)(TSJavelinAPIAgency *agency))completion;
 
 // Mass Alert actions
 - (void)getMassAlerts:(void (^)(NSArray *massAlerts))completion;

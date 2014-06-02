@@ -78,6 +78,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
 #endif
     
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
@@ -90,9 +92,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] retrieveAPITokenForLoggedInUser:nil];
-    [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
     
 //    [TSSocialAccountsManager initializeShareSocialAccountsManager];
     [TSYankManager sharedYankManager];

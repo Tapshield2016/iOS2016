@@ -380,7 +380,10 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     NSError *err = NULL;
     CMTime time = CMTimeMake(seconds/2, 1);
     CGImageRef imgRef = [generator copyCGImageAtTime:time actualTime:NULL error:&err];
-    NSLog(@"err==%@, imageRef==%@", err, imgRef);
+    
+    if (err) {
+        NSLog(@"err==%@, imageRef==%@", err, imgRef);
+    }
     
     UIImage *thumnail = [[UIImage alloc] initWithCGImage:imgRef];
     CGImageRelease(imgRef);

@@ -317,6 +317,10 @@ static dispatch_once_t onceToken;
 
 - (void)getLoggedInUser:(TSJavelinAPIUserBlock)completion {
     
+    if (!_loggedInUser) {
+        return;
+    }
+    
     // Set default Authorization token for allowing access to register API method
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -325,19 +329,29 @@ static dispatch_once_t onceToken;
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           
           [_loggedInUser updateWithAttributes:responseObject];
-          [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+          
+          if ([responseObject[@"agency"] isKindOfClass:[NSString class]]) {
+              
+              [[TSJavelinAPIClient sharedClient] getUserAgencyForUrl:responseObject[@"agency"]
+                                                          completion:nil];
+          }
           
           if (completion) {
               completion(_loggedInUser);
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
-          if (completion) {
-              completion(nil);
+          
+          if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+              [self getLoggedInUser:completion];
           }
-      }
-     ];
+          else {
+              NSLog(@"%@", error);
+              if (completion) {
+                  completion(nil);
+              }
+          }
+      }];
 }
 
 - (void)isLoggedInUserEmailVerified:(void (^)(BOOL success))completion {
@@ -415,6 +429,8 @@ static dispatch_once_t onceToken;
      parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"updateLoggedInUser: %@", responseObject);
+            
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error);
             
@@ -431,6 +447,42 @@ static dispatch_once_t onceToken;
                 }
             }
     }];
+}
+
+- (void)updateLoggedInUserAgency:(TSJavelinAPIUserBlock)completion {
+    
+    if (!_loggedInUser) {
+        return;
+    }
+    
+    if (!_loggedInUser.agency.url) {
+        return;
+    }
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self PATCH:_loggedInUser.url
+     parameters:@{@"agency": _loggedInUser.agency.url}
+        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"updateLoggedInUser: %@", responseObject);
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error);
+            
+            if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+                // Delay execution of my block for 10 seconds.
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                    [self updateLoggedInUser:completion];
+                });
+            }
+            else {
+                if (completion) {
+                    completion(nil);
+                }
+            }
+        }];
 }
 
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion {

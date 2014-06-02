@@ -174,6 +174,41 @@ static dispatch_once_t onceToken;
       }];
 }
 
+- (void)getUserAgencyForUrl:(NSString *)agencyUrl completion:(void (^)(TSJavelinAPIAgency *agency))completion {
+    
+    if (!agencyUrl) {
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:agencyUrl
+   parameters:nil
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          TSJavelinAPIAgency *agency = [[TSJavelinAPIAgency alloc] initWithAttributes:responseObject];
+          [[self authenticationManager] loggedInUser].agency = agency;
+          [[self authenticationManager] archiveLoggedInUser];
+          if (completion) {
+              completion(agency);
+          }
+      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          
+          if ([self shouldRetry:error]) {
+              // Delay execution of my block for 10 seconds.
+              dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+              dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                  [self getUserAgencyForUrl:agencyUrl completion:completion];
+              });
+          }
+          else {
+              if (completion) {
+                  completion(nil);
+              }
+          }
+      }];
+}
+
 #pragma mark - Mass Alert Methods
 
 - (void)getMassAlerts:(void (^)(NSArray *massAlerts))completion {

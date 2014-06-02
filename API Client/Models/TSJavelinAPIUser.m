@@ -18,7 +18,22 @@
         return nil;
     }
 
-    [self updateWithAttributes:attributes];
+    _username = [attributes valueForKey:@"username"];
+    _email = [attributes valueForKey:@"email"];
+    
+    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
+        _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
+    }
+    _phoneNumber = [attributes valueForKey:@"phone_number"];
+    _disarmCode = [attributes valueForKey:@"disarm_code"];
+    _firstName = [attributes valueForKey:@"first_name"];
+    _lastName = [attributes valueForKey:@"last_name"];
+    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
+    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
+    self.entourageMembers = [attributes valueForKey:@"entourage_members"];
         
     return self;
 }
@@ -87,9 +102,7 @@
     if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
     }
-    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
-        _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
-    }
+    
     _phoneNumber = [attributes valueForKey:@"phone_number"];
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
@@ -115,9 +128,7 @@
 - (NSDictionary *)parametersForUpdate {
     
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
-    if (_agency.identifier) {
-        [mutableDictionary setObject:_agency.url forKey:@"agency"];
-    }
+    
     if (_email) {
         [mutableDictionary setObject:_email forKey:@"email"];
     }

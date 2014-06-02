@@ -8,6 +8,7 @@
 
 #import "TSSpotCrimeAnnotationView.h"
 #import "TSSpotCrimeAnnotation.h"
+#import "NSDate+Utilities.h"
 
 @implementation TSSpotCrimeAnnotationView
 
@@ -42,6 +43,35 @@
             self.image = [TSSpotCrimeLocation imageFromSpotCrimeType:spotCrime.type];
         }
     }
+}
+
+- (float)alphaForReportDate {
+    
+    float hours;
+    
+    TSSpotCrimeAnnotation *annotation = (TSSpotCrimeAnnotation *)self.annotation;
+    if (annotation.spotCrime) {
+        hours = [annotation.spotCrime.date hoursBeforeDate:[NSDate date]];
+    }
+    else {
+        hours = [annotation.socialReport.creationDate hoursBeforeDate:[NSDate date]];
+    }
+    
+    if (hours == 0) {
+        return 1.0;
+    }
+    
+    if (hours >= 24) {
+        return 0.1;
+    }
+    
+    float ratio = (24 - hours)/24;
+    
+    if (ratio > 0.1) {
+        return ratio;
+    }
+    
+    return 0.1;
 }
 
 

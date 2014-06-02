@@ -9,9 +9,11 @@
 #import "TSNavigationViewController.h"
 #import "TSBaseTextView.h"
 #import "TSReportAnnotationManager.h"
+#import "TSRegistrationButton.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 
-@interface TSReportDescriptionViewController : TSNavigationViewController
+@interface TSReportDescriptionViewController : TSNavigationViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MPMediaPickerControllerDelegate>
 
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) UIImage *image;
@@ -24,5 +26,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet TSBaseTextView *detailsTextView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
+@property (weak, nonatomic) IBOutlet TSRegistrationButton *addMediaButton;
+@property (weak, nonatomic) IBOutlet UIImageView *mediaImageView;
+
+- (IBAction)chooseMedia:(id)sender;
 
 @end

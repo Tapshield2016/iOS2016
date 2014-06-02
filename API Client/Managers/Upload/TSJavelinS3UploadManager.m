@@ -23,10 +23,15 @@ static NSString * const kTSJavelinS3UploadManagerDevelopmentBucketName = @"dev.m
 - (void)uploadUIImageToS3:(UIImage *)image imageName:(NSString *)imageName completion:(void (^)(NSString *imageS3URL))completion {
     UIImage *croppedImage = [image resizeAndCropToSize:CGSizeMake(150, 150)];
     NSData *imageData = UIImageJPEGRepresentation(croppedImage, 0.5f);
-    [self processUpload:imageData key:imageName completion:completion];
+    [self uploadImageData:imageData key:imageName completion:completion];
 }
 
-- (void)processUpload:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *imageS3URL))completion {
+- (void)uploadUncompressedUIImageToS3:(UIImage *)image imageName:(NSString *)imageName completion:(void (^)(NSString *imageS3URL))completion {
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+    [self uploadImageData:imageData key:imageName completion:completion];
+}
+
+- (void)uploadImageData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *imageS3URL))completion {
     [AmazonLogger verboseLogging];
     _s3 = [[AmazonS3Client alloc] initWithAccessKey:kTSJavelinS3UploadManagerDevelopmentAccessKey
                                       withSecretKey:kTSJavelinS3UploadManagerDevelopmentSecretKey];
@@ -52,6 +57,40 @@ static NSString * const kTSJavelinS3UploadManagerDevelopmentBucketName = @"dev.m
         }
         else {
             NSLog(@"The image was successfully uploaded.");
+            if (completion) {
+                completion([NSString stringWithFormat:@"http://%@.s3.amazonaws.com/%@", kTSJavelinS3UploadManagerDevelopmentBucketName, key]);
+            }
+        }
+    });
+}
+
+
+- (void)uploadVideoData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *videoS3URL))completion {
+    [AmazonLogger verboseLogging];
+    _s3 = [[AmazonS3Client alloc] initWithAccessKey:kTSJavelinS3UploadManagerDevelopmentAccessKey
+                                      withSecretKey:kTSJavelinS3UploadManagerDevelopmentSecretKey];
+    _s3.timeout = 240;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        S3PutObjectRequest *putObjectRequest = [[S3PutObjectRequest alloc] initWithKey:key
+                                                                              inBucket:kTSJavelinS3UploadManagerDevelopmentBucketName];
+        // Make the object publicly readable
+        putObjectRequest.cannedACL = [S3CannedACL publicRead];
+        putObjectRequest.contentType = @"movie/mov";
+        putObjectRequest.data = fileData;
+        //putObjectRequest.delegate = self;
+        
+        // Put the video data into the specified s3 bucket and object.
+        S3PutObjectResponse *putObjectResponse = [self.s3 putObject:putObjectRequest];
+        if (putObjectResponse.error != nil) {
+            NSLog(@"Error: %@", putObjectResponse.error);
+            if (completion) {
+                completion(nil);
+            }
+        }
+        else {
+            NSLog(@"The video was successfully uploaded.");
             if (completion) {
                 completion([NSString stringWithFormat:@"http://%@.s3.amazonaws.com/%@", kTSJavelinS3UploadManagerDevelopmentBucketName, key]);
             }

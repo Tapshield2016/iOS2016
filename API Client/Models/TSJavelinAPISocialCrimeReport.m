@@ -35,7 +35,10 @@
         }
         
         _lastModified = [self reformattedTimeStamp:[attributes valueForKey:@"last_modified"]];
+        
         _reportImageUrl = [attributes objectForKey:@"report_image_url"];
+        _reportVideoUrl = [attributes objectForKey:@"report_video_url"];
+        _reportAudioUrl = [attributes objectForKey:@"report_audio_url"];
         
         double lat = [[attributes objectForKey:@"report_latitude"] doubleValue];
         double lon = [[attributes objectForKey:@"report_longitude"] doubleValue];

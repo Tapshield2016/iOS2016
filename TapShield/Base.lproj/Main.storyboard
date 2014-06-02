@@ -2910,7 +2910,7 @@
         <!--Report Description View Controller-->
         <scene sceneID="FaH-Z1-2ku">
             <objects>
-                <viewController storyboardIdentifier="TSReportDescriptionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OsC-XN-zUh" customClass="TSReportDescriptionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TSReportDescriptionViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OsC-XN-zUh" customClass="TSReportDescriptionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="v0b-ky-iYT"/>
                         <viewControllerLayoutGuide type="bottom" id="6Ih-iU-Myi"/>
@@ -2919,80 +2919,107 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="fG8-1R-VZN">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="fG8-1R-VZN">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H9F-tk-Bq3" customClass="TSBaseTextView">
-                                        <rect key="frame" x="20" y="237" width="280" height="80"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H9F-tk-Bq3" customClass="TSBaseTextView">
+                                        <rect key="frame" x="20" y="208" width="280" height="80"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="0Pc-Hv-QHr"/>
-                                            <constraint firstAttribute="height" constant="80" id="l26-lM-ca2"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7n-9X-4Um" customClass="TSBaseLabel">
-                                        <rect key="frame" x="20" y="208" width="280" height="21"/>
+                                        <rect key="frame" x="20" y="182" width="280" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXZ-Dd-QTe" customClass="TSBaseLabel">
-                                        <rect key="frame" x="35" y="163" width="144" height="21"/>
+                                        <rect key="frame" x="35" y="153" width="144" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="time_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="dPZ-e3-4VU">
-                                        <rect key="frame" x="20" y="169" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="159" width="10" height="10"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rYx-jc-8Dj" customClass="TSBaseLabel">
-                                        <rect key="frame" x="35" y="140" width="144" height="21"/>
+                                        <rect key="frame" x="35" y="130" width="144" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pointer_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="a1G-16-B7l">
-                                        <rect key="frame" x="20" y="146" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="135" width="10" height="10"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ry5-yx-CwD">
-                                        <rect key="frame" x="20" y="82" width="50" height="50"/>
+                                        <rect key="frame" x="20" y="72" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMc-4W-7UG" customClass="TSBaseLabel">
-                                        <rect key="frame" x="69" y="77" width="226" height="60"/>
+                                        <rect key="frame" x="69" y="67" width="226" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xps-3v-tyF" customClass="TSRegistrationButton">
+                                        <rect key="frame" x="0.0" y="308" width="320" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                        <state key="normal" title="Add media">
+                                            <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="chooseMedia:" destination="OsC-XN-zUh" eventType="touchUpInside" id="uCp-td-gHo"/>
+                                            <action selector="resendVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="efo-r8-f3m"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image_deafult.png" translatesAutoresizingMaskIntoConstraints="NO" id="oxR-8u-gFL">
+                                        <rect key="frame" x="20" y="358" width="280" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uTP-1t-rhP" customClass="FBShimmeringView">
+                                        <rect key="frame" x="20" y="358" width="280" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="280" id="grg-Rh-Mxz"/>
+                                            <constraint firstAttribute="height" constant="200" id="xxq-4P-CaM"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="H9F-tk-Bq3" firstAttribute="top" secondItem="fG8-1R-VZN" secondAttribute="top" constant="237" id="Cxg-eO-wB8"/>
-                                    <constraint firstItem="H9F-tk-Bq3" firstAttribute="leading" secondItem="fG8-1R-VZN" secondAttribute="leading" constant="20" id="FMU-LE-JMU"/>
-                                    <constraint firstAttribute="trailing" secondItem="H9F-tk-Bq3" secondAttribute="trailing" constant="20" id="Yak-ge-Ztf"/>
+                                    <constraint firstAttribute="bottom" secondItem="uTP-1t-rhP" secondAttribute="bottom" constant="10" id="6S7-86-hfC"/>
+                                    <constraint firstItem="uTP-1t-rhP" firstAttribute="top" secondItem="fG8-1R-VZN" secondAttribute="top" constant="358" id="I8B-ad-2Hn"/>
+                                    <constraint firstAttribute="trailing" secondItem="uTP-1t-rhP" secondAttribute="trailing" constant="20" id="ymF-KF-1xo"/>
+                                    <constraint firstItem="uTP-1t-rhP" firstAttribute="leading" secondItem="fG8-1R-VZN" secondAttribute="leading" constant="20" id="zif-4C-aIV"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fG8-1R-VZN" firstAttribute="top" secondItem="Qd8-Gh-SNA" secondAttribute="top" id="9VP-Io-YDO"/>
-                            <constraint firstItem="6Ih-iU-Myi" firstAttribute="top" secondItem="fG8-1R-VZN" secondAttribute="bottom" id="IyS-FJ-KM7"/>
-                            <constraint firstItem="fG8-1R-VZN" firstAttribute="leading" secondItem="Qd8-Gh-SNA" secondAttribute="leading" id="QIk-fY-bt7"/>
-                            <constraint firstAttribute="trailing" secondItem="fG8-1R-VZN" secondAttribute="trailing" id="x2s-Xe-yC0"/>
+                            <constraint firstItem="fG8-1R-VZN" firstAttribute="leading" secondItem="Qd8-Gh-SNA" secondAttribute="leading" id="8LL-lT-V18"/>
+                            <constraint firstItem="fG8-1R-VZN" firstAttribute="top" secondItem="Qd8-Gh-SNA" secondAttribute="top" id="V83-fO-qJs"/>
+                            <constraint firstAttribute="trailing" secondItem="fG8-1R-VZN" secondAttribute="trailing" id="iRN-YA-CWT"/>
+                            <constraint firstItem="6Ih-iU-Myi" firstAttribute="top" secondItem="fG8-1R-VZN" secondAttribute="bottom" id="lKG-Fz-SDE"/>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="addMediaButton" destination="xps-3v-tyF" id="Pxq-eT-2GJ"/>
                         <outlet property="addressLabel" destination="rYx-jc-8Dj" id="Isa-x7-ktt"/>
                         <outlet property="detailsTextView" destination="H9F-tk-Bq3" id="NNL-Um-4DX"/>
                         <outlet property="imageView" destination="ry5-yx-CwD" id="nKj-gG-OM5"/>
-                        <outlet property="scrollView" destination="fG8-1R-VZN" id="nwo-M7-TG1"/>
+                        <outlet property="mediaImageView" destination="oxR-8u-gFL" id="Nbd-O0-K7o"/>
+                        <outlet property="scrollView" destination="fG8-1R-VZN" id="lwl-fy-2eA"/>
+                        <outlet property="shimmeringView" destination="uTP-1t-rhP" id="tGg-6U-DnK"/>
                         <outlet property="timeLabel" destination="hXZ-Dd-QTe" id="8sw-Br-HFk"/>
                         <outlet property="typeLabel" destination="gMc-4W-7UG" id="6Sr-29-cWX"/>
                     </connections>
@@ -4560,6 +4587,7 @@
         <image name="google_icon.png" width="30" height="30"/>
         <image name="help_menu_icon_active.png" width="52" height="52"/>
         <image name="home_menu_icon_active.png" width="52" height="52"/>
+        <image name="image_deafult.png" width="100" height="88"/>
         <image name="input_email_icon.png" width="26" height="26"/>
         <image name="input_password_icon.png" width="26" height="26"/>
         <image name="input_phone_icon.png" width="26" height="26"/>

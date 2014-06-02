@@ -14,8 +14,10 @@
 @property (nonatomic, strong) AmazonS3Client *s3;
 
 - (void)uploadUIImageToS3:(UIImage *)image imageName:(NSString *)imageName completion:(void (^)(NSString *imageS3URL))completion;
+- (void)uploadUncompressedUIImageToS3:(UIImage *)image imageName:(NSString *)imageName completion:(void (^)(NSString *imageS3URL))completion;
 
 // Uploads file to S3
-- (void)processUpload:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *imageS3URL))completion;
+- (void)uploadImageData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *imageS3URL))completion;
+- (void)uploadVideoData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *videoS3URL))completion;
 
 @end

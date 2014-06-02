@@ -13,14 +13,14 @@
 
 @property (weak, nonatomic) TSMapView *mapView;
 
-@property (strong, nonatomic) NSArray *spotCrimes;
+@property (strong, nonatomic) NSMutableArray *spotCrimes;
 @property (strong, nonatomic) NSMutableArray *socialReports;
 
 - (instancetype)initWithMapView:(TSMapView *)mapView;
 
 - (void)loadSpotCrimeAndSocialAnnotations:(CLLocation *)location;
 
-- (void)addSocialReports:(NSArray *)socialReports;
+- (void)addUserSocialReport:(TSJavelinAPISocialCrimeReport *)report;
 
 - (void)showSpotCrimes;
 

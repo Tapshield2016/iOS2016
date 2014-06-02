@@ -22,7 +22,7 @@ static NSString * const IconImageSuffix = @"_icon";
         self.type = [attributes objectForKey:@"type"];
         self.address = [attributes objectForKey:@"address"];
         self.link = [attributes objectForKey:@"link"];
-        self.cdid = [attributes objectForKey:@"cdid"];
+        self.cdid = [[attributes objectForKey:@"cdid"] unsignedIntegerValue];
         
         NSString *dateString = [attributes objectForKey:@"date"];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -31,23 +31,6 @@ static NSString * const IconImageSuffix = @"_icon";
         self.date = myDate;
     }
     
-    return self;
-}
-
-- (instancetype)initWithSocialCrimeReport:(NSDictionary *)dictionary
-{
-    self = [super init];
-    if (self) {
-        self.type = [dictionary objectForKey:@"type"];
-        self.address = [dictionary objectForKey:@"address"];
-        self.link = [dictionary objectForKey:@"link"];
-        self.cdid = [dictionary objectForKey:@"cdid"];
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
-        NSDate *myDate = [df dateFromString:[dictionary objectForKey:@"date"]];
-        self.date = myDate;
-//        self.eventDescription = 
-    }
     return self;
 }
 

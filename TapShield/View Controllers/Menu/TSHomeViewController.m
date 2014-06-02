@@ -26,9 +26,6 @@
 #import "TSNamePictureViewController.h"
 #import "TSGeofence.h"
 
-
-#define CRIME_ALPHA 0.5
-
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
@@ -639,13 +636,16 @@
     }
     else if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
         
-        annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSSpotCrimeAnnotation class])];
-        [annotationView setImageForType:annotation];
+        NSString *reuseIdentifier = [NSString stringWithFormat:@"%@-%@", [(TSSpotCrimeAnnotation *)annotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[(TSSpotCrimeAnnotation *)annotation socialReport].reportType]];
+        
+        annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
+        [annotationView setAnnotation:annotation];
+        
         if (!annotationView) {
-            annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSpotCrimeAnnotation class])];
+            annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
         }
         
-        ((TSSpotCrimeAnnotationView *)annotationView).alpha = CRIME_ALPHA;
+        ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
     }
     
     return annotationView;
@@ -752,7 +752,7 @@
     }
     
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
-        view.alpha = CRIME_ALPHA;
+        view.alpha = [(TSSpotCrimeAnnotationView *)view alphaForReportDate];
     }
 }
 

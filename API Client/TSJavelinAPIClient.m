@@ -795,20 +795,36 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 //
 //reporter, body, report_type, report_latitude and report_longitude are required fields. report_image_url will be unused for now but preserved for future use (clients will be responsible for uploading image assets to S3 and supplying the resulting URL to the API).
 
-- (void)postSocialCrimeReport:(NSString *)body type:(NSString *)type location:(CLLocation *)location completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion {
+- (void)postSocialCrimeReport:(TSJavelinAPISocialCrimeReport *)report completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion {
     
-    if (!body || !type || !location) {
+    NSArray *shortArray = [NSArray arrayWithObjects:kSocialCrimeReportShortArray];
+    
+    if (!report.body || report.reportType >= shortArray.count || !report.location) {
         return;
+    }
+    
+    NSDictionary *requiredParam = @{@"reporter": [[self authenticationManager] loggedInUser].url,
+                                    @"body": report.body,
+                                    @"report_type": shortArray[report.reportType],
+                                    @"report_latitude": @(report.location.coordinate.latitude),
+                                    @"report_longitude": @(report.location.coordinate.longitude)};
+    
+    NSMutableDictionary *paramaters = [[NSMutableDictionary alloc] initWithDictionary:requiredParam];
+    
+    if (report.reportAudioUrl.length) {
+        [paramaters setObject:report.reportAudioUrl forKey:@"report_audio_url"];
+    }
+    if (report.reportImageUrl.length) {
+        [paramaters setObject:report.reportImageUrl forKey:@"report_image_url"];
+    }
+    if (report.reportVideoUrl.length) {
+        [paramaters setObject:report.reportVideoUrl forKey:@"report_video_url"];
     }
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"social-crime-reports/"
-    parameters:@{@"reporter": [[self authenticationManager] loggedInUser].url,
-                 @"body": body,
-                 @"report_type": type,
-                 @"report_latitude": @(location.coordinate.latitude),
-                 @"report_longitude": @(location.coordinate.longitude)}
+    parameters:paramaters
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            if (completion) {

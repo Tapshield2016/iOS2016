@@ -2924,7 +2924,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H9F-tk-Bq3" customClass="TSBaseTextView">
-                                        <rect key="frame" x="20" y="208" width="280" height="80"/>
+                                        <rect key="frame" x="20" y="208" width="280" height="62"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2994,6 +2994,23 @@
                                             <constraint firstAttribute="height" constant="200" id="xxq-4P-CaM"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nUD-cb-wBF" customClass="TSBaseButton">
+                                        <rect key="frame" x="20" y="278" width="200" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <inset key="titleEdgeInsets" minX="3" minY="1" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Report anonymously" image="CheckBox_Unselected.png">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" title="Reporting anonymously" image="CheckBox_Selected.png">
+                                            <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted" image="CheckBox_UnselectedDown.png"/>
+                                        <connections>
+                                            <action selector="reportAnonymously:" destination="OsC-XN-zUh" eventType="touchUpInside" id="JdA-vE-7gU"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="uTP-1t-rhP" secondAttribute="bottom" constant="10" id="6S7-86-hfC"/>
@@ -3015,9 +3032,11 @@
                     <connections>
                         <outlet property="addMediaButton" destination="xps-3v-tyF" id="Pxq-eT-2GJ"/>
                         <outlet property="addressLabel" destination="rYx-jc-8Dj" id="Isa-x7-ktt"/>
+                        <outlet property="descriptionLabel" destination="I7n-9X-4Um" id="DzE-c1-h9P"/>
                         <outlet property="detailsTextView" destination="H9F-tk-Bq3" id="NNL-Um-4DX"/>
                         <outlet property="imageView" destination="ry5-yx-CwD" id="nKj-gG-OM5"/>
                         <outlet property="mediaImageView" destination="oxR-8u-gFL" id="Nbd-O0-K7o"/>
+                        <outlet property="reportAnonymousButton" destination="nUD-cb-wBF" id="D6q-mN-Xce"/>
                         <outlet property="scrollView" destination="fG8-1R-VZN" id="lwl-fy-2eA"/>
                         <outlet property="shimmeringView" destination="uTP-1t-rhP" id="tGg-6U-DnK"/>
                         <outlet property="timeLabel" destination="hXZ-Dd-QTe" id="8sw-Br-HFk"/>

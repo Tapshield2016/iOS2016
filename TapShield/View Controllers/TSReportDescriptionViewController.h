@@ -29,7 +29,10 @@
 @property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
 @property (weak, nonatomic) IBOutlet TSRegistrationButton *addMediaButton;
 @property (weak, nonatomic) IBOutlet UIImageView *mediaImageView;
+@property (weak, nonatomic) IBOutlet TSBaseButton *reportAnonymousButton;
+@property (weak, nonatomic) IBOutlet TSBaseLabel *descriptionLabel;
 
 - (IBAction)chooseMedia:(id)sender;
+- (IBAction)reportAnonymously:(id)sender;
 
 @end

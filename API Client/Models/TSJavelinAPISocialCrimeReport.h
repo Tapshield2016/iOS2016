@@ -57,6 +57,7 @@ typedef enum {
 @property (strong, nonatomic) CLLocation *location;
 @property (assign, nonatomic) SocialReportTypes reportType;
 @property (strong, nonatomic) NSString *user;
+@property (assign, nonatomic) BOOL reportAnonymous;
 
 + (NSArray *)socialCrimeReportArray:(NSArray *)socialCrimes;
 

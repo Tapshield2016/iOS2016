@@ -103,6 +103,11 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     _uploadingLabel.text = @"Uploading";
     _uploadingLabel.hidden = YES;
     _shimmeringView.contentView = _uploadingLabel;
+    
+    _reportAnonymousButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_reportAnonymousButton setTitleColor:[TSColorPalette registrationButtonTextColor] forState:UIControlStateNormal];
+    
+    _descriptionLabel.textColor = [TSColorPalette registrationButtonTextColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,6 +115,12 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)reportAnonymously:(id)sender {
+    
+    _reportAnonymousButton.selected = !_reportAnonymousButton.selected;
+}
+
 
 - (void)setMedia:(id)media {
     
@@ -148,7 +159,8 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         report.body = _detailsTextView.text;
         report.reportType = index;
         report.location = _location;
-        
+        report.reportAnonymous = _reportAnonymousButton.selected;
+
         if (urlString) {
             if ([_media isKindOfClass:[UIImage class]]) {
                 report.reportImageUrl = urlString;

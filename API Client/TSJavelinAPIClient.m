@@ -855,6 +855,9 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     if (report.reportVideoUrl.length) {
         [paramaters setObject:report.reportVideoUrl forKey:@"report_video_url"];
     }
+    if (report.reportAnonymous) {
+        [paramaters setObject:@(report.reportAnonymous) forKey:@"report_anonymous"];
+    }
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];

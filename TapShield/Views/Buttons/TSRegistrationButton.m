@@ -7,6 +7,7 @@
 //
 
 #import "TSRegistrationButton.h"
+#import "UIImage+Color.h"
 
 @implementation TSRegistrationButton
 
@@ -17,10 +18,31 @@
         // Initialization code
         
         self.titleLabel.textColor = [TSColorPalette registrationButtonTextColor];
+        [self setBackgroundImage:[UIImage imageFromColor:[TSColorPalette listBackgroundColor]] forState:UIControlStateHighlighted];
     }
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self setTitleColor:[TSColorPalette registrationButtonTextColor] forState:UIControlStateNormal];
+    }
+    return self;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    
+    [super setHighlighted:highlighted];
+    
+    if (highlighted) {
+        self.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    }
+    else {
+        self.backgroundColor = [UIColor whiteColor];
+    }
+}
 
 - (void)drawRect:(CGRect)rect {
     // Drawing code

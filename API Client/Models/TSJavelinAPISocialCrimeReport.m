@@ -49,7 +49,7 @@
         
         _reportType = [shortArray indexOfObject:[attributes objectForKey:@"report_type"]];
         _user = [attributes objectForKey:@"reporter"];
-        
+        _reportAnonymous = [[attributes objectForKey:@"report_anonymous"] boolValue];
     }
     return self;
 }

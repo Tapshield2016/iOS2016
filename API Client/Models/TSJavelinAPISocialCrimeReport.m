@@ -36,9 +36,9 @@
         
         _lastModified = [self reformattedTimeStamp:[attributes valueForKey:@"last_modified"]];
         
-        _reportImageUrl = [attributes objectForKey:@"report_image_url"];
-        _reportVideoUrl = [attributes objectForKey:@"report_video_url"];
-        _reportAudioUrl = [attributes objectForKey:@"report_audio_url"];
+        _reportImageUrl = [self filterNSNull:[attributes objectForKey:@"report_image_url"]];
+        _reportVideoUrl = [self filterNSNull:[attributes objectForKey:@"report_video_url"]];
+        _reportAudioUrl = [self filterNSNull:[attributes objectForKey:@"report_audio_url"]];
         
         double lat = [[attributes objectForKey:@"report_latitude"] doubleValue];
         double lon = [[attributes objectForKey:@"report_longitude"] doubleValue];
@@ -75,6 +75,7 @@
     NSArray *typesArray = [[NSArray alloc] initWithObjects:kSocialCrimeReportShortArray];
     return [typesArray objectAtIndex:enumValue];
 }
+
 
 
 @end

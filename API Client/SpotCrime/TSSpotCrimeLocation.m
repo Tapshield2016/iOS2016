@@ -7,11 +7,11 @@
 //
 
 #import "TSSpotCrimeLocation.h"
+#import "TSSpotCrimeAPIClient.h"
 
-static NSString * const SpotCrimeIconImagePrefix = @"spotcrime_";
-
-static NSString * const IconImagePrefix = @"pins_";
-static NSString * const IconImageSuffix = @"_icon";
+static NSString * const PinImagePrefix = @"pins_";
+static NSString * const RedImageSuffix = @"_red";
+static NSString * const BlueImageSuffix = @"_blue";
 
 @implementation TSSpotCrimeLocation
 
@@ -34,25 +34,41 @@ static NSString * const IconImageSuffix = @"_icon";
     return self;
 }
 
-+ (UIImage *)imageFromSpotCrimeType:(NSString *)type {
++ (UIImage *)mapImageFromSpotCrimeType:(NSString *)type {
     
     
     type = [type stringByReplacingOccurrencesOfString:@" " withString:@""];
     type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];
-    NSString *imageName = [NSString stringWithFormat:@"%@%@", SpotCrimeIconImagePrefix, [type lowercaseString]];
+    NSString *imageName = [NSString stringWithFormat:@"%@%@%@", PinImagePrefix, [type lowercaseString], RedImageSuffix];
     UIImage *image = [UIImage imageNamed:imageName];
     
     return image;
 }
 
-+ (UIImage *)imageFromSocialCrimeType:(NSString *)type {
++ (UIImage *)mapImageFromSocialCrimeType:(NSString *)type {
     
     type = [type stringByReplacingOccurrencesOfString:@" " withString:@""];
     type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];
-    NSString *imageName = [NSString stringWithFormat:@"%@%@%@", IconImagePrefix, [type lowercaseString], IconImageSuffix];
+    NSString *imageName = [NSString stringWithFormat:@"%@%@%@", PinImagePrefix, [type lowercaseString], BlueImageSuffix];
     UIImage *image = [UIImage imageNamed:imageName];
     
     return image;
 }
+
++ (UIImage *)imageForSpotCrimeType:(NSString *)type {
+    
+    type = [type stringByReplacingOccurrencesOfString:@" " withString:@""];
+    type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    NSString *imageName = [NSString stringWithFormat:@"bubble_%@_icon", [type lowercaseString]];
+    UIImage *image = [UIImage imageNamed:imageName];
+    if (!image) {
+        image = [UIImage imageNamed:@"bubble_other_icon"];
+    }
+    
+    return image;
+}
+
+
+
 
 @end

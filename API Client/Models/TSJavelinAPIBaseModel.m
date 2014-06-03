@@ -67,4 +67,12 @@
     return date;
 }
 
+- (id)filterNSNull:(id)object {
+    
+    if ([object isKindOfClass:[NSNull class]]) {
+        return nil;
+    }
+    return object;
+}
+
 @end

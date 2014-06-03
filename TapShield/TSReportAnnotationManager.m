@@ -10,6 +10,7 @@
 #import "NSDate+Utilities.h"
 #import "TSLocationController.h"
 
+
 #define kSocialRadius 2
 #define kSpotCrimeRadius .25
 
@@ -198,8 +199,7 @@
     
     TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpocialReport:report];
     
-    [_mapView addAnnotation:annotation];
-    [_socialReports addObject:annotation];
+    [self addNewSocialReports:@[annotation]];
 }
 
 - (void)addSocialReports:(NSArray *)socialReports {
@@ -222,6 +222,12 @@
     
     //Add new crimes if available
     [self addNewSocialReports:socialReports];
+}
+
+- (void)removeUserSocialReport:(TSSpotCrimeAnnotation *)annotation {
+    
+    [_socialReports removeObject:annotation];
+    [_mapView removeAnnotation:annotation];
 }
 
 - (void)removeOldSocialReports:(NSArray *)socialReports {

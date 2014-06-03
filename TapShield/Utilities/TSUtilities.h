@@ -31,6 +31,8 @@
 + (NSString *)relativeDateStringForDate:(NSDate *)date;
 + (NSString *)dateDescriptionSinceNow:(NSDate *)date;
 
++ (UIImage*)videoThumbnail:(NSURL *)videoUrl;
+
 //distance
 + (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
 + (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;

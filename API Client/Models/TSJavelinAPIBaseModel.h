@@ -17,6 +17,7 @@
 - (id)initWithAttributes:(NSDictionary *)attributes;
 - (instancetype)initWithOnlyURLAttribute:(NSDictionary *)attributes forKey:(NSString *)key;
 
+- (id)filterNSNull:(id)object;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 - (NSDate *)reformattedTimeStamp:(NSDictionary *)attributes;

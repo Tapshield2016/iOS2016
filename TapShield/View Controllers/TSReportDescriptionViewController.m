@@ -108,6 +108,10 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     [_reportAnonymousButton setTitleColor:[TSColorPalette registrationButtonTextColor] forState:UIControlStateNormal];
     
     _descriptionLabel.textColor = [TSColorPalette registrationButtonTextColor];
+    
+    _imageView.layer.cornerRadius = _imageView.frame.size.height/2;
+    _imageView.layer.borderColor = [TSColorPalette tapshieldBlue].CGColor;
+    _imageView.layer.borderWidth = 1.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -350,7 +354,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         
         NSURL *videoUrl = (NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
-        image = [self videoThumbnail:videoUrl];
+        image = [TSUtilities videoThumbnail:videoUrl];
         self.media = videoUrl;
         
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
@@ -377,30 +381,6 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (UIImage*)videoThumbnail:(NSURL *)videoUrl {
-    
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoUrl options:nil];
-    
-    CMTime duration = asset.duration;
-    int seconds = (int)duration.value/duration.timescale;
-    
-    AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    generator.appliesPreferredTrackTransform = YES;
-    
-    NSError *err = NULL;
-    CMTime time = CMTimeMake(seconds/2, 1);
-    CGImageRef imgRef = [generator copyCGImageAtTime:time actualTime:NULL error:&err];
-    
-    if (err) {
-        NSLog(@"err==%@, imageRef==%@", err, imgRef);
-    }
-    
-    UIImage *thumnail = [[UIImage alloc] initWithCGImage:imgRef];
-    CGImageRelease(imgRef);
-    
-    return thumnail;
 }
 
 

@@ -22,6 +22,8 @@
 
 - (void)addUserSocialReport:(TSJavelinAPISocialCrimeReport *)report;
 
+- (void)removeUserSocialReport:(TSSpotCrimeAnnotation *)annotation;
+
 - (void)showSpotCrimes;
 
 - (void)hideSpotCrimes;

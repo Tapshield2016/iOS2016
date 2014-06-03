@@ -784,6 +784,36 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        }];
 }
 
+- (void)removeUrl:(NSString *)url completion:(void(^)(BOOL finished))completion {
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self DELETE:url
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             
+             if (completion) {
+                 completion(YES);
+             }
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"%@", error);
+             
+             if ([self shouldRetry:error]) {
+                 // Delay execution of my block for 10 seconds.
+                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                 dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                     [self removeUrl:url completion:completion];
+                 });
+             }
+             else {
+                 if (completion) {
+                     completion(NO);
+                 }
+             }
+         }];
+}
+
 #pragma mark - Social Reporting 
 
 //Given a latitude, longitude, and a distance radius, you can get a list of socially-reported crimes/suspicious incidents that surround the user. These are reported by other users of the app.

@@ -64,9 +64,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Type" forIndexPath:indexPath];
-    
-    NSString *string;
+    TSReportTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([TSReportTypeTableViewCell class]) forIndexPath:indexPath];
+    [cell setTypeForRow:indexPath.row];
     
 //    if (indexPath.section == 0) {
 //        cell.textLabel.text = [[NSArray arrayWithObjects:kMedicalArray] objectAtIndex:indexPath.row];
@@ -74,22 +73,7 @@
 //        
 //    }
 //    else {
-        cell.textLabel.text = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
-        string = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
-//    }
     
-    string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"/" withString:@""];
-    NSString *imageName = [NSString stringWithFormat:@"bubble_%@_icon", [string lowercaseString]];
-    UIImage *image = [UIImage imageNamed:imageName];
-    cell.imageView.image = image;
-    if (!cell.imageView.image) {
-        cell.imageView.image = [UIImage imageNamed:@"bubble_other_icon"];
-    }
-    
-    cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:18.0f];
-    cell.textLabel.textColor = [TSColorPalette listCellTextColor];
-    cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     
     return cell;
 }
@@ -128,9 +112,8 @@
     
     TSReportDescriptionViewController *viewController = (TSReportDescriptionViewController *)[self pushViewControllerWithClass:[TSReportDescriptionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    viewController.type = cell.textLabel.text;
-    viewController.image = cell.imageView.image;
+    viewController.type = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
+    viewController.image = [TSReportTypeTableViewCell imageForType:indexPath.row];
     viewController.reportManager = _reportManager;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

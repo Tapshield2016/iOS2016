@@ -17,8 +17,9 @@
 @property (strong, nonatomic) NSDate *date; //:"10/17/11 09:00 PM",
 @property (strong, nonatomic) NSString *eventDescription;
 
-+ (UIImage *)imageFromSpotCrimeType:(NSString *)type;
-+ (UIImage *)imageFromSocialCrimeType:(NSString *)type;
++ (UIImage *)mapImageFromSpotCrimeType:(NSString *)type;
++ (UIImage *)mapImageFromSocialCrimeType:(NSString *)type;
++ (UIImage *)imageForSpotCrimeType:(NSString *)type;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

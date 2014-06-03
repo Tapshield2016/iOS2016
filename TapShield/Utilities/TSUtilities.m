@@ -8,6 +8,7 @@
 
 #import "TSUtilities.h"
 #import "NSDate+Utilities.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation TSUtilities
 
@@ -327,5 +328,29 @@
     return [TSUtilities formattedDateTime:date];
 }
 
+
++ (UIImage*)videoThumbnail:(NSURL *)videoUrl {
+    
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoUrl options:nil];
+    
+    //    CMTime duration = asset.duration;
+    //    int seconds = (int)duration.value/duration.timescale;
+    
+    AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    generator.appliesPreferredTrackTransform = YES;
+    
+    NSError *err = NULL;
+    CMTime time = CMTimeMake(1, 10);
+    CGImageRef imgRef = [generator copyCGImageAtTime:time actualTime:NULL error:&err];
+    
+    if (err) {
+        NSLog(@"err==%@, imageRef==%@", err, imgRef);
+    }
+    
+    UIImage *thumbnail = [[UIImage alloc] initWithCGImage:imgRef];
+    CGImageRelease(imgRef);
+    
+    return thumbnail;
+}
 
 @end

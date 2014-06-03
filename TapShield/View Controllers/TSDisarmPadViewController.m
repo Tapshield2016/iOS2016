@@ -12,6 +12,7 @@
 @interface TSDisarmPadViewController ()
 
 @property (strong, nonatomic) TSPageViewController *pageViewController;
+@property (assign, nonatomic) NSUInteger failAttempts;
 
 @end
 
@@ -21,6 +22,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _failAttempts = 0;
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     
@@ -108,27 +111,42 @@
     }
     
     if ([_disarmTextField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [[TSAlertManager sharedManager] disarmAlert];
-        [[TSJavelinAPIClient sharedClient] disarmAlert];
-        [[TSJavelinAPIClient sharedClient] cancelAlert];
-        
-        [_pageViewController.homeViewController mapAlertModeToggle];
-        [_pageViewController.toolbar setTranslucent:NO];
-        [_pageViewController.toolbar setAlpha:0.5f];
-        [_pageViewController.homeViewController viewWillAppear:NO];
-        [_pageViewController.homeViewController viewDidAppear:NO];
-        [_pageViewController.homeViewController whiteNavigationBar];
-        [_pageViewController dismissViewControllerAnimated:YES completion:nil];
-        
-        if ([TSVirtualEntourageManager sharedManager].isEnabled &&
-            ![TSVirtualEntourageManager sharedManager].endTimer) {
-            [[TSVirtualEntourageManager sharedManager] recalculateEntourageTimerETA];
-        }
+        [self disarm];
     }
     else {
+        _failAttempts++;
         [self shakeDisarmCircles];
         _disarmTextField.text = @"";
         [self performSelector:@selector(selectCodeCircles) withObject:nil afterDelay:0.08 * 4];
+        
+        if (_failAttempts > 4) {
+            [self disarmViaPassword];
+        }
+    }
+}
+
+- (void)disarmViaPassword {
+    
+    
+    
+}
+
+- (void)disarm {
+    [[TSAlertManager sharedManager] disarmAlert];
+    [[TSJavelinAPIClient sharedClient] disarmAlert];
+    [[TSJavelinAPIClient sharedClient] cancelAlert];
+    
+    [_pageViewController.homeViewController mapAlertModeToggle];
+    [_pageViewController.toolbar setTranslucent:NO];
+    [_pageViewController.toolbar setAlpha:0.5f];
+    [_pageViewController.homeViewController viewWillAppear:NO];
+    [_pageViewController.homeViewController viewDidAppear:NO];
+    [_pageViewController.homeViewController whiteNavigationBar];
+    [_pageViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if ([TSVirtualEntourageManager sharedManager].isEnabled &&
+        ![TSVirtualEntourageManager sharedManager].endTimer) {
+        [[TSVirtualEntourageManager sharedManager] recalculateEntourageTimerETA];
     }
 }
 

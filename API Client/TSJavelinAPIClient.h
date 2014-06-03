@@ -158,6 +158,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 //Report
 - (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius completion:(void (^)(NSArray *reports))completion;
 - (void)postSocialCrimeReport:(TSJavelinAPISocialCrimeReport *)report completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion;
+- (void)removeUrl:(NSString *)url completion:(void(^)(BOOL finished))completion;
 
 - (BOOL)shouldRetry:(NSError *)error;
 

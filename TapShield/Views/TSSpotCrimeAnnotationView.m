@@ -37,10 +37,10 @@
         TSSpotCrimeAnnotation *spotCrime = (TSSpotCrimeAnnotation *)annotation;
         
         if (spotCrime.socialReport) {
-            self.image = [TSSpotCrimeLocation imageFromSocialCrimeType:spotCrime.type];
+            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:spotCrime.type];
         }
         else {
-            self.image = [TSSpotCrimeLocation imageFromSpotCrimeType:spotCrime.type];
+            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:spotCrime.type];
         }
     }
 }

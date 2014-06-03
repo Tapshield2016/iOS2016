@@ -8,6 +8,7 @@
 
 #import "TSNavigationViewController.h"
 #import "TSReportAnnotationManager.h"
+#import "TSReportTypeTableViewCell.h"
 
 @interface TSAlertDetailsTableViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
 

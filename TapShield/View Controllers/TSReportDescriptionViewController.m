@@ -116,6 +116,13 @@
     _imageView.layer.cornerRadius = _imageView.frame.size.height/2;
     _imageView.layer.borderColor = [TSColorPalette tapshieldBlue].CGColor;
     _imageView.layer.borderWidth = 1.0f;
+    
+    _mediaImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _mediaImageView.layer.shadowOffset = CGSizeMake(0, 1);
+    _mediaImageView.layer.shadowOpacity = .5;
+    _mediaImageView.layer.shadowRadius = 2.0;
+    _mediaImageView.clipsToBounds = NO;
+    _mediaImageView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -141,7 +148,7 @@
     if (media) {
         if ([_media isKindOfClass:[NSURL class]]) {
             
-            if ([[(NSURL*)_media pathExtension] isEqualToString:kReportAudioFormat]) {
+            if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportAudioFormat]) {
                 [_mediaImageView setHidden:YES];
                 [_shimmeringView setHidden:YES];
                 _audioPlayButton.hidden = NO;
@@ -150,10 +157,12 @@
         }
         _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
         [_addMediaButton setTitle:@"Change media" forState:UIControlStateNormal];
+        _mediaImageView.backgroundColor = [UIColor clearColor];
     }
     else {
         _mediaImageView.contentMode = UIViewContentModeCenter;
         _mediaImageView.image = [UIImage imageNamed:kDefaultMediaImage];
+        _mediaImageView.backgroundColor = [UIColor whiteColor];
         [_addMediaButton setTitle:@"Add media" forState:UIControlStateNormal];
     }
 }
@@ -188,10 +197,10 @@
             }
             else if ([_media isKindOfClass:[NSURL class]]) {
                 
-                if ([[(NSURL*)_media pathExtension] isEqualToString:kReportVideoFormat]) {
+                if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportVideoFormat]) {
                     report.reportVideoUrl = urlString;
                 }
-                else if ([[(NSURL*)_media pathExtension] isEqualToString:kReportAudioFormat]) {
+                else if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportAudioFormat]) {
                     report.reportAudioUrl = urlString;
                 }
             }
@@ -239,14 +248,14 @@
     
     if ([_media isKindOfClass:[NSURL class]]) {
         
-        if ([[(NSURL*)_media pathExtension] isEqualToString:kReportVideoFormat]) {
+        if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportVideoFormat]) {
             key = [NSString stringWithFormat:@"social-crime/video/%@.%@", [TSJavelinAPIUtilities uuidString], kReportVideoFormat];
             NSData *videoData = [NSData dataWithContentsOfURL:_media];
             [uploadManager uploadVideoData:videoData
                                        key:key
                                 completion:completion];
         }
-        else if ([[(NSURL*)_media pathExtension] isEqualToString:kReportAudioFormat]) {
+        else if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportAudioFormat]) {
             key = [NSString stringWithFormat:@"social-crime/audio/%@.%@", [TSJavelinAPIUtilities uuidString], kReportAudioFormat];
             NSData *audioData = [NSData dataWithContentsOfURL:_media];
             [uploadManager uploadAudioData:audioData

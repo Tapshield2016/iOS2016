@@ -111,8 +111,13 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     _mediaImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kDefaultMediaImage]];
     _mediaImageView.contentMode = UIViewContentModeCenter;
     _mediaImageView.hidden = YES;
-                       
     _shimmeringView.contentView = _mediaImageView;
+    _mediaImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _mediaImageView.layer.shadowOffset = CGSizeMake(0, 1);
+    _mediaImageView.layer.shadowOpacity = .5;
+    _mediaImageView.layer.shadowRadius = 2.0;
+    _mediaImageView.clipsToBounds = NO;
+    _mediaImageView.backgroundColor = [UIColor whiteColor];
     
     _descriptionLabel.textColor = [TSColorPalette registrationButtonTextColor];
     _submittedByLabel.textColor = [TSColorPalette registrationButtonTextColor];
@@ -154,13 +159,15 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 
 - (void)enlargeContent {
     
+    [_mediaImageView setHidden:YES];
+    
     CGRect largeFrame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.frame);
     CGRect smallframe = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _shimmeringView.frame);
     
     if (!_imageBackground) {
         
         _imageBackground = [[UIToolbar alloc] initWithFrame:smallframe];
-        _imageBackground.barStyle = UIBarStyleBlack;
+        _imageBackground.barStyle = UIBarStyleDefault;
         _imageBackground.center = _shimmeringView.center;
         
         _largeImageView = [[UIImageView alloc] initWithImage:_mediaImageView.image];
@@ -168,6 +175,11 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         _largeImageView.frame = largeFrame;
         _largeImageView.userInteractionEnabled = YES;
         _largeImageView.transform = [self scaledTransformUsingViewRect:smallframe fromRect:largeFrame];
+        _largeImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+        _largeImageView.layer.shadowOffset = CGSizeMake(0, 1);
+        _largeImageView.layer.shadowOpacity = .5;
+        _largeImageView.layer.shadowRadius = 2.0;
+        _largeImageView.clipsToBounds = NO;
         
         [self.view addSubview:_imageBackground];
         [self.view addSubview:_largeImageView];
@@ -191,7 +203,8 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                         _largeImageView.transform = CGAffineTransformMakeScale(1.0, 1.0);
                         _largeImageView.center = self.view.center;
                         _imageBackground.frame = self.view.bounds;
-
+                        _largeImageView.layer.shadowRadius = 10.0;
+                        _largeImageView.layer.shadowOffset = CGSizeMake(0, 5);
                     } completion:^(BOOL finished) {
                         
                         UITapGestureRecognizer* tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
@@ -215,12 +228,14 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                         
                         _imageBackground.frame = smallframe;
                         _imageBackground.alpha = 0.0;
-                        
+                        _largeImageView.layer.shadowRadius = 2.0;
+                        _largeImageView.layer.shadowOffset = CGSizeMake(0, 1);
                     } completion:^(BOOL finished) {
                         _imageBackground.frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _mediaImageView.frame);
                         _imageBackground.center = _shimmeringView.center;
                         [_largeImageView setHidden:YES];
                         [_imageBackground setHidden:YES];
+                        [_mediaImageView setHidden:NO];
                     }];
 }
 
@@ -251,6 +266,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
             _shimmeringView.shimmering = NO;
             _mediaImageView.image = image;
             _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+            _mediaImageView.backgroundColor = [UIColor clearColor];
             [_scrollView addSubview:toolbar];
         });
     });
@@ -355,6 +371,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         _shimmeringView.shimmering = NO;
         _mediaImageView.image = image;
         _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _mediaImageView.backgroundColor = [UIColor clearColor];
     });
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self

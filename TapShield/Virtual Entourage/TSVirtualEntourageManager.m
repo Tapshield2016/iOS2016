@@ -173,22 +173,21 @@ static dispatch_once_t predicate;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
                                              (unsigned long)NULL), ^(void) {
         
-        [self findMembersToDelete:_entourageMembersPosted newMembers:members];
-        
-        if (members.count) {
+        [self findMembersToDelete:_entourageMembersPosted newMembers:members completion:^(BOOL done) {
+            
             if (completion) {
                 _finishedPosting = completion;
             }
             
-            [self postEntourageMembers:members];
-        }
-        else {
-            if (completion) {
-                _finishedDeleting = completion;
+            if (members.count) {
+                
+                [self postEntourageMembers:members];
             }
-            
-            [self getAllPreviousMembersFromUserAndDeleteMissing];
-        }
+            else {
+                
+                [self getAllPreviousMembersFromUserAndDeleteMissing];
+            }
+        }];
     });
     
 }
@@ -282,7 +281,7 @@ static dispatch_once_t predicate;
 
 #pragma mark - Add Remove Members
 
-- (void)findMembersToDelete:(NSSet *)oldMembers newMembers:(NSSet *)newMembers{
+- (void)findMembersToDelete:(NSSet *)oldMembers newMembers:(NSSet *)newMembers completion:(void(^)(BOOL done))completion {
     
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         
@@ -297,7 +296,25 @@ static dispatch_once_t predicate;
     }];
     
     NSSet *filtered = [oldMembers filteredSetUsingPredicate:predicate];
-    [self deleteEntourageMembers:filtered];
+    [self deleteEntourageMembers:filtered completion:completion];
+}
+
+- (void)findMembersToAddWithSavedUrls:(NSSet *)oldMembers newMembers:(NSSet *)newMembers{
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        
+        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
+        for (TSJavelinAPIEntourageMember *member in oldMembers) {
+            if (sortingMember.identifier == member.identifier) {
+                return NO;
+            }
+        }
+        sortingMember.url = nil;
+        return YES;
+    }];
+    
+    NSSet *filtered = [newMembers filteredSetUsingPredicate:predicate];
+    [self postEntourageMembers:filtered];
 }
 
 - (void)postedMember:(TSJavelinAPIEntourageMember *)member {
@@ -356,10 +373,6 @@ static dispatch_once_t predicate;
             }
             
             if (i == members.count) {
-                if (_finishedPosting) {
-                    _finishedPosting(YES);
-                    _finishedPosting = nil;
-                }
                 [self getAllPreviousMembersFromUserAndDeleteMissing];
             }
         }];
@@ -367,8 +380,15 @@ static dispatch_once_t predicate;
     }
 }
 
-- (void)deleteEntourageMembers:(NSSet *)members {
+- (void)deleteEntourageMembers:(NSSet *)members completion:(void(^)(BOOL done))completion {
     
+    if (!members.count) {
+        if (completion) {
+            completion(YES);
+        }
+    }
+    
+    int i = 1;
     for (TSJavelinAPIEntourageMember *member in members) {
         [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:^(id responseObject, NSError *error) {
             if (!error) {
@@ -377,19 +397,39 @@ static dispatch_once_t predicate;
             else {
                 [self failedToDeletedMember:member error:error];
             }
+            
+            if (i == members.count) {
+                
+                if (completion) {
+                    completion(YES);
+                }
+            }
         }];
+        i++;
     }
 }
 
 - (void)getAllPreviousMembersFromUserAndDeleteMissing {
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
-        [self findMembersToDelete:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted];
-        
-        if (_finishedDeleting) {
-            _finishedDeleting(YES);
-            _finishedDeleting = nil;
-        }
+        [self findMembersToDelete:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted completion:^(BOOL done) {
+            
+            if (_finishedPosting) {
+                _finishedPosting(YES);
+                _finishedPosting = nil;
+            }
+            
+            [self getAllPostedMembersFromUserAndAddMissing:^(BOOL finished) {
+                
+            }];
+        }];
+    }];
+}
+
+- (void)getAllPostedMembersFromUserAndAddMissing:(void(^)(BOOL finished))completion {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
+        [self findMembersToAddWithSavedUrls:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted];
     }];
 }
 

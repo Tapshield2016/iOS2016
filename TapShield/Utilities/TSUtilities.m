@@ -357,28 +357,18 @@
 }
 
 
-+ (UIImage*)videoThumbnail:(NSURL *)videoUrl {
++ (void)videoThumbnailFromBeginning:(NSURL *)videoUrl completion:(void(^)(UIImage *image))completion {
     
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoUrl options:nil];
-    
-    //    CMTime duration = asset.duration;
-    //    int seconds = (int)duration.value/duration.timescale;
-    
     AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     generator.appliesPreferredTrackTransform = YES;
     
-    NSError *err = NULL;
     CMTime time = CMTimeMake(1, 10);
-    CGImageRef imgRef = [generator copyCGImageAtTime:time actualTime:NULL error:&err];
-    
-    if (err) {
-        NSLog(@"err==%@, imageRef==%@", err, imgRef);
-    }
-    
-    UIImage *thumbnail = [[UIImage alloc] initWithCGImage:imgRef];
-    CGImageRelease(imgRef);
-    
-    return thumbnail;
+    [generator generateCGImagesAsynchronouslyForTimes:@[[NSValue valueWithBytes:&time objCType:@encode(CMTime)]] completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
+        if (completion) {
+            completion([UIImage imageWithCGImage:image]);
+        }
+    }];
 }
 
 @end

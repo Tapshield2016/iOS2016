@@ -29,7 +29,8 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 @property (assign, nonatomic) BOOL changedTime;
 @property (strong, nonatomic) TSCircularControl *slider;
 @property (strong, nonatomic) TSMemberCollectionViewLayout *collectionLayout;
-@property (nonatomic, strong) TSPopUpWindow *tutorialWindow;
+@property (strong, nonatomic) TSPopUpWindow *tutorialWindow;
+@property (assign, nonatomic) BOOL isStarting;
 
 @end
 
@@ -41,11 +42,12 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _changedTime = NO;
+    _isStarting = NO;
+    
     _collectionLayout = [[TSMemberCollectionViewLayout alloc] init];
     _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 20.0, 0);
     [_collectionView setCollectionViewLayout:_collectionLayout];
-    
-    _changedTime = NO;
     
     NSSet *set = [TSVirtualEntourageManager sharedManager].entourageMembersPosted;
     _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:[set allObjects]]];
@@ -80,10 +82,10 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [self blackNavigationBar];
         self.removeNavigationShadow = YES;
         
-        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneEditingEntourage)];
-        [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette whiteColor],
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneEditingEntourage)];
+        [doneButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette whiteColor],
                                             NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
-        [self.navigationItem setRightBarButtonItem:barButton];
+        [self.navigationItem setRightBarButtonItem:doneButton];
         
         [self adjustViewableTime];
     }
@@ -339,19 +341,41 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 }
 
 
+- (void)shimmerCollectionView {
+    
+    [UIView animateWithDuration:0.1 animations:^{
+        [_collectionView setContentOffset:CGPointMake(0, -INSET)];
+    } completion:^(BOOL finished) {
+        CGRect frame = _collectionView.frame;
+        frame.origin.y += INSET;
+        FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:frame];
+        shimmeringView.contentView = _collectionView;
+        
+        frame.origin.y = 0;
+        _collectionView.frame = frame;
+        [_collectionView setContentOffset:CGPointMake(0, -INSET) animated:NO];
+        [self scrollViewDidScroll:_collectionView];
+        
+        [self.view addSubview:shimmeringView];
+        shimmeringView.shimmering = YES;
+    }];
+}
+
 #pragma mark - Entourage
 
 - (IBAction)startEntourage:(id)sender {
+    if (_isStarting) {
+        return;
+    }
+    _isStarting = YES;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self shimmerCollectionView];
+    [self.navigationItem setHidesBackButton:YES animated:YES];
     
-    
-//    UIWindow *window = [self showSyncingWindow];
-   
     [[TSVirtualEntourageManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
         
-//        [self hideWindow:window];
+        [self dismissViewController];
     }];
-    
-    [self dismissViewController];
 }
 
 - (void)didDismissWindow:(UIWindow *)window {

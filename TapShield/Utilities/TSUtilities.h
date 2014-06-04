@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <MapKit/MapKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface TSUtilities : NSObject
 
@@ -32,7 +33,7 @@
 + (NSString *)relativeDateStringForDate:(NSDate *)date;
 + (NSString *)dateDescriptionSinceNow:(NSDate *)date;
 
-+ (UIImage*)videoThumbnail:(NSURL *)videoUrl;
++ (void)videoThumbnailFromBeginning:(NSURL *)videoUrl completion:(void(^)(UIImage *image))completion;
 
 //distance
 + (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;

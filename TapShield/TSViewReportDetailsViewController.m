@@ -137,6 +137,18 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)done:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
++ (TSViewReportDetailsViewController *)presentDetails:(TSSpotCrimeAnnotation *)annotation from:(TSBaseViewController *)controller {
+    
+    TSViewReportDetailsViewController *detailsController = (TSViewReportDetailsViewController *)[controller presentViewControllerWithClass:[TSViewReportDetailsViewController class] transitionDelegate:nil animated:YES];
+    detailsController.spotCrimeAnnotation = annotation;
+    return detailsController;
+}
+
 - (void)showDeleteSocialCrime {
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Delete"
@@ -156,6 +168,60 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         }
     }];
 }
+
+#pragma mark - Display Picture
+
+- (void)getImageFromSocialReport {
+    if (!_spotCrimeAnnotation.socialReport.reportImageUrl) {
+        return;
+    }
+    
+    _mediaImageView.hidden = NO;
+    _shimmeringView.shimmering = YES;
+    
+    NSURL *url = [NSURL URLWithString:_spotCrimeAnnotation.socialReport.reportImageUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    __weak typeof(self) weakSelf = self;
+    [_mediaImageView setImageWithURLRequest:request
+                           placeholderImage:_mediaImageView.image
+                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                        
+                                        [weakSelf setThumbnail:image];
+                                        
+                                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                        
+                                        if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+                                            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                                            dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                                                [weakSelf getImageFromSocialReport];
+                                            });
+                                        }
+                                        else {
+                                            weakSelf.shimmeringView.shimmering = NO;
+                                        }
+                                    }];
+}
+
+
+- (void)setThumbnail:(UIImage *)image {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _shimmeringView.shimmering = NO;
+        _mediaImageView.image = image;
+        _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _mediaImageView.backgroundColor = [UIColor clearColor];
+    });
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(enlargeContent)];
+    _tapView = [[UIView alloc] initWithFrame:_mediaImageView.frame];
+    _tapView.backgroundColor = [UIColor clearColor];
+    _tapView.center = _shimmeringView.center;
+    [_tapView addGestureRecognizer:tap];
+    [_scrollView addSubview:_tapView];
+}
+
 
 - (void)enlargeContent {
     
@@ -184,6 +250,11 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         [self.view addSubview:_imageBackground];
         [self.view addSubview:_largeImageView];
         
+        UITapGestureRecognizer* tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+        [_largeImageView addGestureRecognizer: tgr];
+        tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+        [_imageBackground addGestureRecognizer: tgr];
+        
     }
     
     _imageBackground.frame = [self.view convertRect:_shimmeringView.frame fromView:_scrollView];
@@ -207,8 +278,6 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                         _largeImageView.layer.shadowOffset = CGSizeMake(0, 5);
                     } completion:^(BOOL finished) {
                         
-                        UITapGestureRecognizer* tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
-                        [_largeImageView addGestureRecognizer: tgr];
                     }];
 }
 
@@ -239,6 +308,15 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                     }];
 }
 
+- (CGAffineTransform)scaledTransformUsingViewRect:(CGRect)viewRect fromRect:(CGRect)fromRect {
+    
+    CGSize scales = CGSizeMake(viewRect.size.width/fromRect.size.width, viewRect.size.height/fromRect.size.height);
+    return CGAffineTransformMakeScale(scales.width, scales.height);
+}
+
+
+#pragma mark - Display Video
+
 - (void)getVideoFromSocialReport {
     if (!_spotCrimeAnnotation.socialReport.reportVideoUrl) {
         return;
@@ -257,19 +335,17 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     toolbar.center = _shimmeringView.center;
     
     NSURL *videoUrl = [NSURL URLWithString:_spotCrimeAnnotation.socialReport.reportVideoUrl];
-    dispatch_queue_t queue = dispatch_queue_create("async", NULL);
-    dispatch_async(queue, ^{
-        //code to be executed in the background
-        UIImage *image = [TSUtilities videoThumbnail:videoUrl];
+    
+    [TSUtilities videoThumbnailFromBeginning:videoUrl completion:^(UIImage *image) {
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            //code to be executed on the main thread when background task is finished
-            _shimmeringView.shimmering = NO;
+            [_scrollView addSubview:toolbar];
             _mediaImageView.image = image;
+            _shimmeringView.shimmering = NO;
             _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
             _mediaImageView.backgroundColor = [UIColor clearColor];
-            [_scrollView addSubview:toolbar];
         });
-    });
+    }];
     
     _player = [[MPMoviePlayerController alloc] initWithContentURL:videoUrl];
     _player.shouldAutoplay = NO;
@@ -333,78 +409,8 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     }
 }
 
-- (void)getImageFromSocialReport {
-    if (!_spotCrimeAnnotation.socialReport.reportImageUrl) {
-        return;
-    }
-    
-    _mediaImageView.hidden = NO;
-    _shimmeringView.shimmering = YES;
-    
-    NSURL *url = [NSURL URLWithString:_spotCrimeAnnotation.socialReport.reportImageUrl];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    __weak typeof(self) weakSelf = self;
-    [_mediaImageView setImageWithURLRequest:request
-                     placeholderImage:_mediaImageView.image
-                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                  
-                                  [weakSelf setThumbnail:image];
-                                  
-                              } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                  
-                                  if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
-                                      dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
-                                      dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                                          [weakSelf getImageFromSocialReport];
-                                      });
-                                  }
-                                  else {
-                                      weakSelf.shimmeringView.shimmering = NO;
-                                  }
-                              }];
-}
 
-- (void)setThumbnail:(UIImage *)image {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        _shimmeringView.shimmering = NO;
-        _mediaImageView.image = image;
-        _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _mediaImageView.backgroundColor = [UIColor clearColor];
-    });
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(enlargeContent)];
-    _tapView = [[UIView alloc] initWithFrame:_mediaImageView.frame];
-    _tapView.backgroundColor = [UIColor clearColor];
-    _tapView.center = _shimmeringView.center;
-    [_tapView addGestureRecognizer:tap];
-    [_scrollView addSubview:_tapView];
-}
-
-- (IBAction)done:(id)sender {
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-+ (TSViewReportDetailsViewController *)presentDetails:(TSSpotCrimeAnnotation *)annotation from:(TSBaseViewController *)controller {
-    
-    TSViewReportDetailsViewController *detailsController = (TSViewReportDetailsViewController *)[controller presentViewControllerWithClass:[TSViewReportDetailsViewController class] transitionDelegate:nil animated:YES];
-    detailsController.spotCrimeAnnotation = annotation;
-    return detailsController;
-}
-
-
-- (CGAffineTransform)scaledTransformUsingViewRect:(CGRect)viewRect fromRect:(CGRect)fromRect {
-    
-    CGSize scales = CGSizeMake(viewRect.size.width/fromRect.size.width, viewRect.size.height/fromRect.size.height);
-    return CGAffineTransformMakeScale(scales.width, scales.height);
-}
-
-
-
-#pragma mark - Play Media
+#pragma mark - Play Audio
 
 - (void)getAudioFromSocialReport {
     

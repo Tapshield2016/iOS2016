@@ -3683,6 +3683,10 @@
 		C5CC4B95193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
 		C5CC4B96193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
 		C5CC4B97193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
+		C5CC4B99193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
+		C5CC4B9A193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
+		C5CC4B9B193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
+		C5CC4B9C193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
 		C5CED62C19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62D19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62E19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
@@ -4329,7 +4333,6 @@
 		C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAlertManager.m; sourceTree = "<group>"; };
 		C5AFB935191D2F3000EC62A5 /* splash3.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash3.5.png; path = Images/splash3.5.png; sourceTree = "<group>"; };
 		C5AFBB5F191D35DE00EC62A5 /* TapShield copy copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TapShield copy copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5AFBB60191D35DE00EC62A5 /* TapShield Release-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TapShield Release-Info.plist"; path = "/Users/adamshare/Desktop/iOS/TapShield Release-Info.plist"; sourceTree = "<absolute>"; };
 		C5AFBB75191EE09900EC62A5 /* TSLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLocalNotification.h; sourceTree = "<group>"; };
 		C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocalNotification.m; sourceTree = "<group>"; };
 		C5AFBB7B191F766B00EC62A5 /* TSBaseTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseTextView.h; path = Views/TSBaseTextView.h; sourceTree = "<group>"; };
@@ -4865,6 +4868,7 @@
 		C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stop_Record_Button@2x.png"; sourceTree = "<group>"; };
 		C5CC4B92193EC11500285DB3 /* TSSoundFileFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSoundFileFolderViewController.h; path = "View Controllers/TSSoundFileFolderViewController.h"; sourceTree = "<group>"; };
 		C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSoundFileFolderViewController.m; path = "View Controllers/TSSoundFileFolderViewController.m"; sourceTree = "<group>"; };
+		C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TapShield Release-Info.plist"; sourceTree = "<group>"; };
 		C5CED62A19354CF90079CEA2 /* back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back_button.png; path = Images/back_button.png; sourceTree = "<group>"; };
 		C5CED62B19354CF90079CEA2 /* back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "back_button@2x.png"; path = "Images/back_button@2x.png"; sourceTree = "<group>"; };
 		C5CED63419355F990079CEA2 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
@@ -5004,7 +5008,6 @@
 				B53BBCEE18980FDA006A27E0 /* Products */,
 				B53BBCF618980FDA006A27E0 /* TapShield */,
 				B53BBD1518980FDA006A27E0 /* TapShieldTests */,
-				C5AFBB60191D35DE00EC62A5 /* TapShield Release-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -5062,6 +5065,7 @@
 		B53BBCF718980FDA006A27E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */,
 				C57C491B18BBDB7D00DFFBCE /* TapShield Demo-Info.plist */,
 				B53BBCF818980FDA006A27E0 /* TapShield-Info.plist */,
 				B53BBCF918980FDA006A27E0 /* InfoPlist.strings */,
@@ -6976,6 +6980,9 @@
 							};
 						};
 					};
+					C5AFB939191D35DE00EC62A5 = {
+						DevelopmentTeam = 896VCD8T65;
+					};
 				};
 			};
 			buildConfigurationList = B53BBCE818980FDA006A27E0 /* Build configuration list for PBXProject "TapShield" */;
@@ -7254,6 +7261,7 @@
 				C5CC48D4193D930C00285DB3 /* pins_highfever_blue@2x.png in Resources */,
 				C5AFBDB51921807E00EC62A5 /* bubble_disturbance_icon.png in Resources */,
 				C5CC4A10193D930D00285DB3 /* bubble_brokenbone_red.png in Resources */,
+				C5CC4B99193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4900193D930C00285DB3 /* pins_suggestion_blue.png in Resources */,
 				C54CEBD118FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C5CC4784193D930C00285DB3 /* alert_theft_blue@2x.png in Resources */,
@@ -7877,6 +7885,7 @@
 				C5AFBE901921807E00EC62A5 /* pins_drugs2_icon.png in Resources */,
 				C5CC480F193D930C00285DB3 /* bubble_highfever_blue@2x.png in Resources */,
 				C5CC4B47193D930D00285DB3 /* pins_robbery_red@2x.png in Resources */,
+				C5CC4B9C193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4877193D930C00285DB3 /* pins_assault_blue@2x.png in Resources */,
 				C5CC4AE3193D930D00285DB3 /* pins_burglary_red.png in Resources */,
 				C5CC486F193D930C00285DB3 /* pins_arson_blue@2x.png in Resources */,
@@ -8644,6 +8653,7 @@
 				C5AFBD621921807E00EC62A5 /* alert_vandalism_icon@2x.png in Resources */,
 				C5CC480D193D930C00285DB3 /* bubble_highfever_blue@2x.png in Resources */,
 				C5CC4B45193D930D00285DB3 /* pins_robbery_red@2x.png in Resources */,
+				C5CC4B9A193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4875193D930C00285DB3 /* pins_assault_blue@2x.png in Resources */,
 				C5CC4AE1193D930D00285DB3 /* pins_burglary_red.png in Resources */,
 				C5CC486D193D930C00285DB3 /* pins_arson_blue@2x.png in Resources */,
@@ -9411,6 +9421,7 @@
 				C5AFBD631921807E00EC62A5 /* alert_vandalism_icon@2x.png in Resources */,
 				C5CC480E193D930C00285DB3 /* bubble_highfever_blue@2x.png in Resources */,
 				C5CC4B46193D930D00285DB3 /* pins_robbery_red@2x.png in Resources */,
+				C5CC4B9B193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4876193D930C00285DB3 /* pins_assault_blue@2x.png in Resources */,
 				C5CC4AE2193D930D00285DB3 /* pins_burglary_red.png in Resources */,
 				C5CC486E193D930C00285DB3 /* pins_arson_blue@2x.png in Resources */,
@@ -11194,7 +11205,7 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
@@ -11203,7 +11214,7 @@
 					"$(inherited)",
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				INFOPLIST_FILE = "TapShield Release-Info.plist";
+				INFOPLIST_FILE = "TapShield/TapShield Release-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "TapShield copy copy";
 				PROVISIONING_PROFILE = "194321AD-3C79-4BD0-BDDD-4BB43B9B3D35";
@@ -11221,7 +11232,7 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
@@ -11230,7 +11241,7 @@
 					"$(inherited)",
 				);
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				INFOPLIST_FILE = "TapShield Release-Info.plist";
+				INFOPLIST_FILE = "TapShield/TapShield Release-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "TapShield copy copy";

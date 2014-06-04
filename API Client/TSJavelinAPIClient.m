@@ -701,7 +701,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 
 - (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion {
     
-    if (member.identifier) {
+    if (member.url) {
         NSLog(@"Entourage member already has a url");
         if (completion) {
             completion(member, nil);

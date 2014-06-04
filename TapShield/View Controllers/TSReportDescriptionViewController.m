@@ -489,7 +489,11 @@
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         
         NSURL *videoUrl = (NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
-        image = [TSUtilities videoThumbnail:videoUrl];
+        [TSUtilities videoThumbnailFromBeginning:videoUrl completion:^(UIImage *image) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _mediaImageView.image = image;
+            });
+        }];
         self.media = videoUrl;
         
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {

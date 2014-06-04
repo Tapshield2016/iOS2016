@@ -8,7 +8,7 @@
 
 #import "TSNavigationViewController.h"
 
-@interface TSDisarmPadViewController : TSBaseViewController <UITextFieldDelegate>
+@interface TSDisarmPadViewController : TSBaseViewController <UITextFieldDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *disarmTextField;
 @property (weak, nonatomic) IBOutlet UIView *codeCircleContainerView;

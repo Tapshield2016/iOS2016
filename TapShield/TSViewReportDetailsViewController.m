@@ -154,28 +154,28 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 
 - (void)enlargeContent {
     
+    CGRect largeFrame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.frame);
+    CGRect smallframe = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _shimmeringView.frame);
+    
     if (!_imageBackground) {
-        _imageBackground = [[UIToolbar alloc] initWithFrame:AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _mediaImageView.frame)];
+        
+        _imageBackground = [[UIToolbar alloc] initWithFrame:smallframe];
         _imageBackground.barStyle = UIBarStyleBlack;
         _imageBackground.center = _shimmeringView.center;
         
         _largeImageView = [[UIImageView alloc] initWithImage:_mediaImageView.image];
         _largeImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _largeImageView.frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.bounds);
+        _largeImageView.frame = largeFrame;
         _largeImageView.userInteractionEnabled = YES;
+        _largeImageView.transform = [self scaledTransformUsingViewRect:smallframe fromRect:largeFrame];
         
         [self.view addSubview:_imageBackground];
         [self.view addSubview:_largeImageView];
         
-        
-        CGRect frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _shimmeringView.frame);
-        _largeImageView.transform = [self translatedAndScaledTransformUsingViewRect:frame fromRect:_largeImageView.frame];
     }
     
-    NSLog(@"%f", [self.view convertRect:_shimmeringView.frame fromView:_scrollView].origin.y);
-    
-    _largeImageView.frame = [self.view convertRect:_shimmeringView.frame fromView:_scrollView];
     _imageBackground.frame = [self.view convertRect:_shimmeringView.frame fromView:_scrollView];
+    _largeImageView.center = [self.view convertPoint:_shimmeringView.center fromView:_scrollView];
     
     [_largeImageView setHidden:NO];
     [_imageBackground setHidden:NO];
@@ -188,7 +188,8 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                        options: UIViewAnimationOptionAllowAnimatedContent
                     animations:^{
                         
-                        _largeImageView.transform = [self translatedAndScaledTransformUsingViewRect:AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.bounds) fromRect:[self.view convertRect:_shimmeringView.frame fromView:_scrollView]];
+                        _largeImageView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+                        _largeImageView.center = self.view.center;
                         _imageBackground.frame = self.view.bounds;
 
                     } completion:^(BOOL finished) {
@@ -206,8 +207,13 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                       duration:0.2
                        options:UIViewAnimationOptionAllowAnimatedContent
                     animations:^{
-                        CGRect frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, [self.view convertRect:_shimmeringView.frame fromView:_scrollView]);
-                        _largeImageView.transform = [self translatedAndScaledTransformUsingViewRect:[self.view convertRect:_shimmeringView.frame fromView:_scrollView] fromRect:_largeImageView.frame];
+                        
+                        CGRect largeFrame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.frame);
+                        CGRect smallframe = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, [self.view convertRect:_shimmeringView.frame fromView:_scrollView]);
+                        _largeImageView.transform = [self scaledTransformUsingViewRect:smallframe fromRect:largeFrame];
+                        _largeImageView.center = [self.view convertPoint:_shimmeringView.center fromView:_scrollView];
+                        
+                        _imageBackground.frame = smallframe;
                         _imageBackground.alpha = 0.0;
                         
                     } completion:^(BOOL finished) {
@@ -373,11 +379,10 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 }
 
 
-- (CGAffineTransform)translatedAndScaledTransformUsingViewRect:(CGRect)viewRect fromRect:(CGRect)fromRect {
+- (CGAffineTransform)scaledTransformUsingViewRect:(CGRect)viewRect fromRect:(CGRect)fromRect {
     
     CGSize scales = CGSizeMake(viewRect.size.width/fromRect.size.width, viewRect.size.height/fromRect.size.height);
-    CGPoint offset = CGPointMake(CGRectGetMidX(viewRect) - CGRectGetMidX(fromRect), CGRectGetMidY(viewRect) - CGRectGetMidY(fromRect));
-    return CGAffineTransformMake(scales.width, 0, 0, scales.height, offset.x, offset.y);
+    return CGAffineTransformMakeScale(scales.width, scales.height);
 }
 
 

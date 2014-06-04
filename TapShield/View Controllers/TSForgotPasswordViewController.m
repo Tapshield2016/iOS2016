@@ -132,16 +132,7 @@
             
             title = [NSString stringWithFormat:@"%@\n\n%@", title, _emailTextField.text];
             
-//            NSDictionary *attributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue]};
-//            NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:title
-//                                                   attributes:nil];
-//            
-//            NSRange range = [title rangeOfString:_emailTextField.text];
-//            [attributedText setAttributes:attributes range:range];
-            
-            
             _shimmeringView.shimmering = NO;
-//            _errorLabel.text = message;
             
             UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
                                                                      message:@"\nIf you don't receive an email, please make sure you've entered the address you registered with."

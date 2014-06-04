@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) TSPageViewController *pageViewController;
 @property (assign, nonatomic) NSUInteger failAttempts;
+@property (strong, nonatomic) UIAlertView *passwordAttemptAlertView;
+@property (assign, nonatomic) BOOL didSendReset;
 
 @end
 
@@ -22,6 +24,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    _didSendReset = NO;
     
     _failAttempts = 0;
     
@@ -127,8 +130,62 @@
 
 - (void)disarmViaPassword {
     
+    _passwordAttemptAlertView = [[UIAlertView alloc] initWithTitle:@"Forgot your passcode?"
+                                                    message:@"Enter your account password"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Forgot Password", @"Disarm", nil];
+    _passwordAttemptAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [_passwordAttemptAlertView textFieldAtIndex:0];
+    [textField setPlaceholder:@"password"];
+    [textField setTextAlignment:NSTextAlignmentLeft];
+    [textField setSecureTextEntry:YES];
+    [textField setKeyboardType:UIKeyboardTypeASCIICapable];
+    [textField setKeyboardAppearance:UIKeyboardAppearanceLight];
+    [textField setDelegate:self];
     
+    [_passwordAttemptAlertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     
+    if (alertView == _passwordAttemptAlertView) {
+        
+        switch (buttonIndex) {
+            case 0:
+                
+                break;
+                
+            case 1:
+                [self sendPasswordReset];
+                break;
+                
+            case 2:
+                [self checkPassword:[alertView textFieldAtIndex:0].text];
+                break;
+                
+            default:
+                break;
+        }
+    }
+    else {
+        [self disarmViaPassword];
+    }
+}
+
+- (void)checkPassword:(NSString *)password {
+    
+    if (_didSendReset) {
+        [self loginWithPassword:password];
+    }
+    else {
+        if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] getPasswordForEmailAddress:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email] isEqualToString:password]) {
+            [self disarm];
+        }
+        else {
+            [self disarmViaPassword];
+        }
+    }
 }
 
 - (void)disarm {
@@ -166,6 +223,44 @@
 }
 
 
+
+#pragma mark - Authentication
+
+- (void)loginWithPassword:(NSString *)password {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logInUser:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email password:password completion:^(TSJavelinAPIUser *user) {
+        if (user) {
+            [self disarm];
+        }
+        else {
+            [self disarmViaPassword];
+        }
+    }];
+}
+
+- (void)sendPasswordReset {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPasswordResetEmail:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email completion:^(BOOL sent) {
+        
+        NSString *title;
+        if (sent) {
+            title = @"Reset email sent to:";
+            _didSendReset = YES;
+        }
+        else {
+            title = @"Failed sending reset email to:";
+        }
+        
+        title = [NSString stringWithFormat:@"%@\n\n%@", title, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email];
+        
+        UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
+                                                                 message:nil
+                                                                delegate:self
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil];
+        [emailSentAlert show];
+    }];
+}
 
 
 @end

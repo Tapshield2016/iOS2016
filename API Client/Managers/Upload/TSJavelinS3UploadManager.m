@@ -98,6 +98,39 @@ static NSString * const kTSJavelinS3UploadManagerDevelopmentBucketName = @"dev.m
     });
 }
 
+- (void)uploadAudioData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *audioS3URL))completion {
+    [AmazonLogger verboseLogging];
+    _s3 = [[AmazonS3Client alloc] initWithAccessKey:kTSJavelinS3UploadManagerDevelopmentAccessKey
+                                      withSecretKey:kTSJavelinS3UploadManagerDevelopmentSecretKey];
+    _s3.timeout = 240;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        S3PutObjectRequest *putObjectRequest = [[S3PutObjectRequest alloc] initWithKey:key
+                                                                              inBucket:kTSJavelinS3UploadManagerDevelopmentBucketName];
+        // Make the object publicly readable
+        putObjectRequest.cannedACL = [S3CannedACL publicRead];
+        putObjectRequest.contentType = @"audio/aac";
+        putObjectRequest.data = fileData;
+        //putObjectRequest.delegate = self;
+        
+        // Put the video data into the specified s3 bucket and object.
+        S3PutObjectResponse *putObjectResponse = [self.s3 putObject:putObjectRequest];
+        if (putObjectResponse.error != nil) {
+            NSLog(@"Error: %@", putObjectResponse.error);
+            if (completion) {
+                completion(nil);
+            }
+        }
+        else {
+            NSLog(@"The audio was successfully uploaded.");
+            if (completion) {
+                completion([NSString stringWithFormat:@"http://%@.s3.amazonaws.com/%@", kTSJavelinS3UploadManagerDevelopmentBucketName, key]);
+            }
+        }
+    });
+}
+
 
 #pragma mark - AmazonServiceRequestDelegate methods
 

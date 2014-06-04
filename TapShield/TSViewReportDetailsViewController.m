@@ -9,8 +9,6 @@
 #import "TSViewReportDetailsViewController.h"
 #import "TSReportTypeTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
-#import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MediaPlayer.h>
 
 static NSString * const kDefaultMediaImage = @"image_deafult";
 
@@ -20,6 +18,9 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 @property (strong, nonatomic) UIToolbar *imageBackground;
 @property (strong, nonatomic) UIView *tapView;
 @property (assign, nonatomic) CGRect previousRect;
+@property (strong, nonatomic) UIImageView *largeImageView;
+@property (strong, nonatomic) AVPlayer *audioPlayer;
+@property (strong, nonatomic) UIView *volumeHolder;
 
 @end
 
@@ -32,6 +33,8 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     
     self.navigationItem.title = @"Details";
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
+    
+    _audioPlayButton.hidden = YES;
     
     _detailsTextView.layer.cornerRadius = 5;
     [_detailsTextView setEditable:NO];
@@ -120,6 +123,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     
     [self getImageFromSocialReport];
     [self getVideoFromSocialReport];
+    [self getAudioFromSocialReport];
 }
 
 - (void)didReceiveMemoryWarning
@@ -150,86 +154,68 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 
 - (void)enlargeContent {
     
-//    if (_shimmeringView.superview == self.view) {
-//        [self shrinkContent];
-//    }
-    
     if (!_imageBackground) {
-        _imageBackground = [[UIToolbar alloc] initWithFrame:AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _mediaImageView.bounds)];
+        _imageBackground = [[UIToolbar alloc] initWithFrame:AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _mediaImageView.frame)];
         _imageBackground.barStyle = UIBarStyleBlack;
-        _imageBackground.center = _mediaImageView.center;
-        [_shimmeringView insertSubview:_imageBackground belowSubview:_mediaImageView];
+        _imageBackground.center = _shimmeringView.center;
+        
+        _largeImageView = [[UIImageView alloc] initWithImage:_mediaImageView.image];
+        _largeImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _largeImageView.frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.bounds);
+        _largeImageView.userInteractionEnabled = YES;
+        
+        [self.view addSubview:_imageBackground];
+        [self.view addSubview:_largeImageView];
+        
+        
+        CGRect frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _shimmeringView.frame);
+        _largeImageView.transform = [self translatedAndScaledTransformUsingViewRect:frame fromRect:_largeImageView.frame];
     }
     
-    [self.view addSubview:_imageBackground];
-    [self.view addSubview:_mediaImageView];
-    _imageBackground.frame = _shimmeringView.frame;
-    _mediaImageView.frame = _shimmeringView.frame;
+    NSLog(@"%f", [self.view convertRect:_shimmeringView.frame fromView:_scrollView].origin.y);
     
-    _mediaImageView.userInteractionEnabled = YES;
+    _largeImageView.frame = [self.view convertRect:_shimmeringView.frame fromView:_scrollView];
+    _imageBackground.frame = [self.view convertRect:_shimmeringView.frame fromView:_scrollView];
+    
+    [_largeImageView setHidden:NO];
+    [_imageBackground setHidden:NO];
+    _imageBackground.alpha = 1.0;
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
     [UIView transitionWithView: self.view
-                      duration: 1.0
+                      duration: 0.2
                        options: UIViewAnimationOptionAllowAnimatedContent
                     animations:^{
                         
+                        _largeImageView.transform = [self translatedAndScaledTransformUsingViewRect:AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, self.view.bounds) fromRect:[self.view convertRect:_shimmeringView.frame fromView:_scrollView]];
                         _imageBackground.frame = self.view.bounds;
-                        
-                        _mediaImageView.frame = self.view.bounds;
-                        
+
                     } completion:^(BOOL finished) {
                         
                         UITapGestureRecognizer* tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
-                        [_mediaImageView addGestureRecognizer: tgr];
+                        [_largeImageView addGestureRecognizer: tgr];
                     }];
-    
-//    _previousRect = _shimmeringView.frame;
-//    
-//    [self.view addSubview:_shimmeringView];
-//    [self.view addSubview:_tapView];
-//    
-//    [UIView animateWithDuration:0.2 animations:^{
-//        _shimmeringView.frame = self.view.frame;
-////        _mediaImageView.frame = self.view.frame;
-////        _imageBackground.frame = self.view.frame;
-//        _tapView.frame = self.view.frame;
-//    } completion:^(BOOL finished) {
-//        [_tapView setUserInteractionEnabled:YES];
-//    }];
 }
 
-- (void) onTap: (UITapGestureRecognizer*) tgr
-{
-    [_mediaImageView removeGestureRecognizer:tgr];
+- (void)onTap:(UITapGestureRecognizer*)tgr {
     
-    [UIView transitionWithView: _shimmeringView
-                      duration: 1.0
-                       options: UIViewAnimationOptionAllowAnimatedContent
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    [UIView transitionWithView:self.view
+                      duration:0.2
+                       options:UIViewAnimationOptionAllowAnimatedContent
                     animations:^{
-                        [_shimmeringView addSubview:_imageBackground];
-                        _imageBackground.frame = _shimmeringView.bounds;
-                        [_shimmeringView addSubview:_mediaImageView];
-                        _mediaImageView.frame = _shimmeringView.bounds;
+                        CGRect frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, [self.view convertRect:_shimmeringView.frame fromView:_scrollView]);
+                        _largeImageView.transform = [self translatedAndScaledTransformUsingViewRect:[self.view convertRect:_shimmeringView.frame fromView:_scrollView] fromRect:_largeImageView.frame];
+                        _imageBackground.alpha = 0.0;
                         
                     } completion:^(BOOL finished) {
-                        [_scrollView bringSubviewToFront:_tapView];
+                        _imageBackground.frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _mediaImageView.frame);
+                        _imageBackground.center = _shimmeringView.center;
+                        [_largeImageView setHidden:YES];
+                        [_imageBackground setHidden:YES];
                     }];
-}
-
-- (void)shrinkContent {
-    
-    [_tapView setUserInteractionEnabled:NO];
-    
-    [_scrollView addSubview:_shimmeringView];
-    [_scrollView addSubview:_tapView];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        _shimmeringView.frame = _previousRect;
-        _mediaImageView.frame = _shimmeringView.bounds;
-        _imageBackground.frame = AVMakeRectWithAspectRatioInsideRect(_mediaImageView.image.size, _mediaImageView.bounds);
-    } completion:^(BOOL finished) {
-        [_tapView setUserInteractionEnabled:YES];
-        [_tapView setFrame:_shimmeringView.frame];
-    }];
 }
 
 - (void)getVideoFromSocialReport {
@@ -385,5 +371,135 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     detailsController.spotCrimeAnnotation = annotation;
     return detailsController;
 }
+
+
+- (CGAffineTransform)translatedAndScaledTransformUsingViewRect:(CGRect)viewRect fromRect:(CGRect)fromRect {
+    
+    CGSize scales = CGSizeMake(viewRect.size.width/fromRect.size.width, viewRect.size.height/fromRect.size.height);
+    CGPoint offset = CGPointMake(CGRectGetMidX(viewRect) - CGRectGetMidX(fromRect), CGRectGetMidY(viewRect) - CGRectGetMidY(fromRect));
+    return CGAffineTransformMake(scales.width, 0, 0, scales.height, offset.x, offset.y);
+}
+
+
+
+#pragma mark - Play Media
+
+- (void)getAudioFromSocialReport {
+    
+    if (_spotCrimeAnnotation.socialReport.reportAudioUrl) {
+        [_mediaImageView setHidden:YES];
+        [_shimmeringView setHidden:YES];
+        _audioPlayButton.hidden = NO;
+        [_scrollView bringSubviewToFront:_audioPlayButton];
+        [self initAudioPlayer];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(itemDidFinishPlaying:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:nil];
+    }
+}
+
+- (IBAction)playAudio:(id)sender {
+    
+    NSLog(@"%@", _audioPlayer.currentItem);
+    NSLog(@"%lld - %lld", _audioPlayer.currentItem.duration.value , _audioPlayer.currentTime.value);
+    
+    if (_audioPlayer.status == AVPlayerStatusFailed) {
+        [self initAudioPlayer];
+    }
+    
+    if (_audioPlayer.currentItem.duration.value < _audioPlayer.currentTime.value) {
+        [_audioPlayer seekToTime:CMTimeMake(0, 10)];
+        [_audioPlayer pause];
+    }
+    
+    if (_audioPlayer.rate == 0.0) {
+        [_audioPlayer play];
+        [_audioPlayButton setTitle:@"Pause" forState:UIControlStateNormal];
+    }
+    else {
+        [_audioPlayer pause];
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    }
+    
+}
+
+- (void)initAudioPlayer {
+    
+    NSError *error;
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayback
+                        error:&error];
+    
+    [audioSession setActive:YES error:&error];
+    _audioPlayer = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:_spotCrimeAnnotation.socialReport.reportAudioUrl]];
+    _audioPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    
+    [self createAndDisplayMPVolumeView];
+    
+}
+
+- (void)itemDidFinishPlaying:(NSNotification *) notification {
+    // Will be called when AVPlayer finishes playing playerItem
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void) createAndDisplayMPVolumeView {
+    
+    // Create a simple holding UIView and give it a frame
+    CGRect frame = _audioPlayButton.frame;
+    frame.origin.y += frame.size.height + 15;
+    frame.size.width -= 40;
+    frame.origin.x = (self.view.frame.size.width - frame.size.width)/2;
+    _volumeHolder = [[UIView alloc] initWithFrame:frame];
+    
+    // set the UIView backgroundColor to clear.
+    [_volumeHolder setBackgroundColor: [UIColor clearColor]];
+    
+    // add the holding view as a subView of the main view
+    [_scrollView addSubview: _volumeHolder];
+    
+    // Create an instance of MPVolumeView and give it a frame
+    MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: _volumeHolder.bounds];
+    
+    // Add myVolumeView as a subView of the volumeHolder
+    [_volumeHolder addSubview: myVolumeView];
+}
+
+#pragma mark Audio Player Delegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player {
+    
+    [player stop];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void)audioPlayerEndInterruption:(AVAudioPlayer *)player {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
 
 @end

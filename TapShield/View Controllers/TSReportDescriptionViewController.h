@@ -11,13 +11,20 @@
 #import "TSReportAnnotationManager.h"
 #import "TSRegistrationButton.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "TSRecordWindow.h"
 
 
-@interface TSReportDescriptionViewController : TSNavigationViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MPMediaPickerControllerDelegate>
+static NSString * const kDefaultMediaImage = @"image_deafult";
+
+static NSString * const kReportAudioFormat = @"aac";
+static NSString * const kReportVideoFormat = @"mov";
+static NSString * const kReportImageFormat = @"jpg";
+
+@interface TSReportDescriptionViewController : TSNavigationViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MPMediaPickerControllerDelegate, TSRecordWindowDelegate, AVAudioPlayerDelegate>
 
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) UIImage *image;
-
+@property (strong, nonatomic) id media;
 @property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -31,7 +38,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *mediaImageView;
 @property (weak, nonatomic) IBOutlet TSBaseButton *reportAnonymousButton;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet TSRegistrationButton *audioPlayButton;
 
+- (IBAction)playAudio:(id)sender;
 - (IBAction)chooseMedia:(id)sender;
 - (IBAction)reportAnonymously:(id)sender;
 

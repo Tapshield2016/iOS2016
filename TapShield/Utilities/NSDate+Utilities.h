@@ -40,6 +40,8 @@
 @property (nonatomic, readonly) NSString *longDateString;
 @property (nonatomic, readonly) NSString *longTimeString;
 
++ (NSString *) fileDateTimeNowString;
+
 // Comparing dates
 - (BOOL) isEqualToDateIgnoringTime: (NSDate *) aDate;
 

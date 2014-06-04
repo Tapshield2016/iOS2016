@@ -10,8 +10,11 @@
 #import "TSSpotCrimeAnnotationView.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "TSReportAnnotationManager.h"
+#import "TSRegistrationButton.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface TSViewReportDetailsViewController : TSNavigationViewController
+@interface TSViewReportDetailsViewController : TSNavigationViewController <AVAudioPlayerDelegate>
 
 @property (strong, nonatomic) TSSpotCrimeAnnotation *spotCrimeAnnotation;
 @property (strong, nonatomic) UIImageView *mediaImageView;
@@ -26,6 +29,9 @@
 @property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *submittedByLabel;
+@property (weak, nonatomic) IBOutlet TSRegistrationButton *audioPlayButton;
+
+- (IBAction)playAudio:(id)sender;
 
 - (IBAction)done:(id)sender;
 

@@ -10,8 +10,8 @@
 #import "TSNotifySelectionViewController.h"
 #import "TSUtilities.h"
 
-#define TUTORIAL_TITLE @"Choose a route"
-#define TUTORIAL_MESSAGE @"Your route will determine the estimated time of arrival to notify your entourage"
+#define TUTORIAL_TITLE @"Next, choose a route"
+#define TUTORIAL_MESSAGE @"Walking or Driving? Pick the route that best represents your intended journey. We'll automatically calculate and suggest an ETA."
 
 static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePickerViewControllerTutorialShow";
 

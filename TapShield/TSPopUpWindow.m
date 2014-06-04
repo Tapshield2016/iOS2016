@@ -121,7 +121,7 @@
     [button addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"X" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.center = CGPointMake(_view.center.x - _viewFrame.size.width/2 + 5, _view.center.y - _viewFrame.size.height/2 + 5);
+    button.center = CGPointMake(_view.center.x - _viewFrame.size.width/2 + 2, _view.center.y - _viewFrame.size.height/2 + 2);
     
     [self addSubview:button];
 }
@@ -156,6 +156,7 @@
     label.font = [TSRalewayFont fontWithName:kFontRalewayBold size:17.0f];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
+    label.adjustsFontSizeToFitWidth = YES;
     
     [_view addSubview:label];
     

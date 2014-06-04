@@ -15,7 +15,7 @@
 #define CELL_HEIGHT 50
 
 #define TUTORIAL_TITLE @"Choose a destination"
-#define TUTORIAL_MESSAGE @"Search for a place or select a saved location from your address book"
+#define TUTORIAL_MESSAGE @"You can search for a place or select a saved location."
 
 static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
 static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchTutorialShow";

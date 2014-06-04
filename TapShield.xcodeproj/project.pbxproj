@@ -3659,6 +3659,30 @@
 		C5CC4B75193D930D00285DB3 /* pins_vandalism_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC46C7193D930C00285DB3 /* pins_vandalism_red@2x.png */; };
 		C5CC4B76193D930D00285DB3 /* pins_vandalism_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC46C7193D930C00285DB3 /* pins_vandalism_red@2x.png */; };
 		C5CC4B77193D930D00285DB3 /* pins_vandalism_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC46C7193D930C00285DB3 /* pins_vandalism_red@2x.png */; };
+		C5CC4B7A193DDE7A00285DB3 /* TSRecordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */; };
+		C5CC4B7B193DDE7A00285DB3 /* TSRecordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */; };
+		C5CC4B7C193DDE7A00285DB3 /* TSRecordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */; };
+		C5CC4B7D193DDE7A00285DB3 /* TSRecordWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */; };
+		C5CC4B80193DEBA500285DB3 /* Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7E193DEBA500285DB3 /* Record_Button.png */; };
+		C5CC4B81193DEBA500285DB3 /* Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7E193DEBA500285DB3 /* Record_Button.png */; };
+		C5CC4B82193DEBA500285DB3 /* Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7E193DEBA500285DB3 /* Record_Button.png */; };
+		C5CC4B83193DEBA500285DB3 /* Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7E193DEBA500285DB3 /* Record_Button.png */; };
+		C5CC4B84193DEBA500285DB3 /* Stop_Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7F193DEBA500285DB3 /* Stop_Record_Button.png */; };
+		C5CC4B85193DEBA500285DB3 /* Stop_Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7F193DEBA500285DB3 /* Stop_Record_Button.png */; };
+		C5CC4B86193DEBA500285DB3 /* Stop_Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7F193DEBA500285DB3 /* Stop_Record_Button.png */; };
+		C5CC4B87193DEBA500285DB3 /* Stop_Record_Button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B7F193DEBA500285DB3 /* Stop_Record_Button.png */; };
+		C5CC4B8A193DF0A100285DB3 /* Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B88193DF0A100285DB3 /* Record_Button@2x.png */; };
+		C5CC4B8B193DF0A100285DB3 /* Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B88193DF0A100285DB3 /* Record_Button@2x.png */; };
+		C5CC4B8C193DF0A100285DB3 /* Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B88193DF0A100285DB3 /* Record_Button@2x.png */; };
+		C5CC4B8D193DF0A100285DB3 /* Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B88193DF0A100285DB3 /* Record_Button@2x.png */; };
+		C5CC4B8E193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */; };
+		C5CC4B8F193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */; };
+		C5CC4B90193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */; };
+		C5CC4B91193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */; };
+		C5CC4B94193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
+		C5CC4B95193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
+		C5CC4B96193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
+		C5CC4B97193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
 		C5CED62C19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62D19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62E19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
@@ -4833,6 +4857,14 @@
 		C5CC46C5193D930C00285DB3 /* pins_theft_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_theft_red@2x.png"; sourceTree = "<group>"; };
 		C5CC46C6193D930C00285DB3 /* pins_vandalism_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_vandalism_red.png; sourceTree = "<group>"; };
 		C5CC46C7193D930C00285DB3 /* pins_vandalism_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_vandalism_red@2x.png"; sourceTree = "<group>"; };
+		C5CC4B78193DDE7A00285DB3 /* TSRecordWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRecordWindow.h; sourceTree = "<group>"; };
+		C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRecordWindow.m; sourceTree = "<group>"; };
+		C5CC4B7E193DEBA500285DB3 /* Record_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Record_Button.png; sourceTree = "<group>"; };
+		C5CC4B7F193DEBA500285DB3 /* Stop_Record_Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Stop_Record_Button.png; sourceTree = "<group>"; };
+		C5CC4B88193DF0A100285DB3 /* Record_Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Record_Button@2x.png"; sourceTree = "<group>"; };
+		C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stop_Record_Button@2x.png"; sourceTree = "<group>"; };
+		C5CC4B92193EC11500285DB3 /* TSSoundFileFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSoundFileFolderViewController.h; path = "View Controllers/TSSoundFileFolderViewController.h"; sourceTree = "<group>"; };
+		C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSoundFileFolderViewController.m; path = "View Controllers/TSSoundFileFolderViewController.m"; sourceTree = "<group>"; };
 		C5CED62A19354CF90079CEA2 /* back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back_button.png; path = Images/back_button.png; sourceTree = "<group>"; };
 		C5CED62B19354CF90079CEA2 /* back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "back_button@2x.png"; path = "Images/back_button@2x.png"; sourceTree = "<group>"; };
 		C5CED63419355F990079CEA2 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
@@ -5493,6 +5525,10 @@
 		C54CE70618FB199A0077350E /* 04_AlertType_view_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C5CC4B7E193DEBA500285DB3 /* Record_Button.png */,
+				C5CC4B88193DF0A100285DB3 /* Record_Button@2x.png */,
+				C5CC4B89193DF0A100285DB3 /* Stop_Record_Button@2x.png */,
+				C5CC4B7F193DEBA500285DB3 /* Stop_Record_Button.png */,
 				C54CE70718FB199A0077350E /* image_deafult.png */,
 				C54CE70818FB199A0077350E /* image_deafult@2x.png */,
 			);
@@ -6471,6 +6507,10 @@
 				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
 				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
 				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
+				C5CC4B78193DDE7A00285DB3 /* TSRecordWindow.h */,
+				C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */,
+				C5CC4B92193EC11500285DB3 /* TSSoundFileFolderViewController.h */,
+				C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */,
 				C5CC4587193AA0D500285DB3 /* TSReportAnnotationManager.h */,
 				C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */,
 				C5CC4594193D48B100285DB3 /* TSViewReportDetailsViewController.h */,
@@ -7132,6 +7172,7 @@
 				C5AFBD211921807E00EC62A5 /* alert_mentalhealth_icon@2x.png in Resources */,
 				C54CE9E018FB199A0077350E /* time_icon.png in Resources */,
 				C5CC4AD8193D930D00285DB3 /* pins_brokenbone_red.png in Resources */,
+				C5CC4B80193DEBA500285DB3 /* Record_Button.png in Resources */,
 				C54CEA0118FB199A0077350E /* bubble_time2_LB_icon@2x.png in Resources */,
 				C54CEC3118FC77150077350E /* logo_placeholder.png in Resources */,
 				C5AFBCCD1921807D00EC62A5 /* alert_burglary_icon.png in Resources */,
@@ -7170,6 +7211,7 @@
 				C5CC4B64193D930D00285DB3 /* pins_suspiciousactivity_red@2x.png in Resources */,
 				C5CC499C193D930C00285DB3 /* alert_highfever_red@2x.png in Resources */,
 				C5CC4A8C193D930D00285DB3 /* bubble_stroke_red@2x.png in Resources */,
+				C5CC4B8E193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */,
 				C5AFBE591921807E00EC62A5 /* pins_brokenbone_icon@2x.png in Resources */,
 				C5CC4804193D930C00285DB3 /* bubble_heartattack_blue@2x.png in Resources */,
 				C54CEBAA18FC77150077350E /* splash568.png in Resources */,
@@ -7198,6 +7240,7 @@
 				C5CC47EC193D930C00285DB3 /* bubble_drugs1_blue@2x.png in Resources */,
 				C5AFBE691921807E00EC62A5 /* pins_caraccident_icon@2x.png in Resources */,
 				C5CC47B8193D930C00285DB3 /* bubble_brokenbone_blue.png in Resources */,
+				C5CC4B8A193DF0A100285DB3 /* Record_Button@2x.png in Resources */,
 				C54CEC4C18FC77150077350E /* progress_bar_s4@2x.png in Resources */,
 				C532E8E318BD44F400FC111A /* Main.storyboard in Resources */,
 				C54CEACD18FB199A0077350E /* switch_on@2x.png in Resources */,
@@ -7512,6 +7555,7 @@
 				C5AFBD8D1921807E00EC62A5 /* bubble_brokenbone_icon.png in Resources */,
 				C5CC4A78193D930D00285DB3 /* bubble_robbery_red.png in Resources */,
 				C5FD5E8318B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
+				C5CC4B84193DEBA500285DB3 /* Stop_Record_Button.png in Resources */,
 				C5CC47C0193D930C00285DB3 /* bubble_burglary_blue.png in Resources */,
 				C5AFBDC91921807E00EC62A5 /* bubble_drugs2_icon@2x.png in Resources */,
 				C54CE7E818FB199A0077350E /* settings_menu_icon_inactive.png in Resources */,
@@ -7974,6 +8018,7 @@
 				C5CC481B193D930C00285DB3 /* bubble_other_blue.png in Resources */,
 				C5AFBEE41921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
 				C532E8E518BD44F400FC111A /* Main.storyboard in Resources */,
+				C5CC4B83193DEBA500285DB3 /* Record_Button.png in Resources */,
 				C54CEA0918FB199A0077350E /* bubble_time2_LT_icon@2x.png in Resources */,
 				C5AFBE041921807E00EC62A5 /* bubble_shooting_icon@2x.png in Resources */,
 				C54CE8BF18FB199A0077350E /* locate_me_icon@2x.png in Resources */,
@@ -8010,6 +8055,7 @@
 				C5CC4A1B193D930D00285DB3 /* bubble_burglary_red.png in Resources */,
 				C55568C51910066B00685FB0 /* slide_3.png in Resources */,
 				C5AFBD241921807E00EC62A5 /* alert_mentalhealth_icon@2x.png in Resources */,
+				C5CC4B8D193DF0A100285DB3 /* Record_Button@2x.png in Resources */,
 				C5AFBD801921807E00EC62A5 /* bubble_assault_icon.png in Resources */,
 				C5CC4933193D930C00285DB3 /* alert_arson_red.png in Resources */,
 				C5AFBE481921807E00EC62A5 /* pins_assault_icon.png in Resources */,
@@ -8019,6 +8065,7 @@
 				C5AFBE2C1921807E00EC62A5 /* bubble_vandalism_icon@2x.png in Resources */,
 				C54CEBD318FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C54CEB3318FC76620077350E /* number_3.png in Resources */,
+				C5CC4B91193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */,
 				C5CC47AB193D930C00285DB3 /* bubble_assault_blue.png in Resources */,
 				C5CC4863193D930C00285DB3 /* pins_arrest_blue.png in Resources */,
 				C5AFBD181921807E00EC62A5 /* alert_highfever_icon.png in Resources */,
@@ -8273,6 +8320,7 @@
 				C5AFBEC01921807E00EC62A5 /* pins_robbery.png in Resources */,
 				C5AFBD341921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
 				C54CEC4B18FC77150077350E /* progress_bar_s4.png in Resources */,
+				C5CC4B87193DEBA500285DB3 /* Stop_Record_Button.png in Resources */,
 				C5CC46FB193D930C00285DB3 /* alert_burglary_blue.png in Resources */,
 				C54CEB2D18FC76620077350E /* number_2.png in Resources */,
 				C5CC4B5B193D930D00285DB3 /* pins_suggestion_red.png in Resources */,
@@ -8737,6 +8785,7 @@
 				C5CC4819193D930C00285DB3 /* bubble_other_blue.png in Resources */,
 				C5AFBEE21921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
 				C57C48F818BBDB1900DFFBCE /* AddPhotoButton_Down@2x.png in Resources */,
+				C5CC4B81193DEBA500285DB3 /* Record_Button.png in Resources */,
 				C54CEA0818FB199A0077350E /* bubble_time2_LT_icon@2x.png in Resources */,
 				C5AFBE021921807E00EC62A5 /* bubble_shooting_icon@2x.png in Resources */,
 				C54CE8BE18FB199A0077350E /* locate_me_icon@2x.png in Resources */,
@@ -8773,6 +8822,7 @@
 				C5CC4A19193D930D00285DB3 /* bubble_burglary_red.png in Resources */,
 				C55568C41910066B00685FB0 /* slide_3.png in Resources */,
 				C5AFBD221921807E00EC62A5 /* alert_mentalhealth_icon@2x.png in Resources */,
+				C5CC4B8B193DF0A100285DB3 /* Record_Button@2x.png in Resources */,
 				C5AFBD7E1921807E00EC62A5 /* bubble_assault_icon.png in Resources */,
 				C5CC4931193D930C00285DB3 /* alert_arson_red.png in Resources */,
 				C5AFBE461921807E00EC62A5 /* pins_assault_icon.png in Resources */,
@@ -8782,6 +8832,7 @@
 				C5AFBE2A1921807E00EC62A5 /* bubble_vandalism_icon@2x.png in Resources */,
 				C54CEBD218FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C54CEB3218FC76620077350E /* number_3.png in Resources */,
+				C5CC4B8F193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */,
 				C5CC47A9193D930C00285DB3 /* bubble_assault_blue.png in Resources */,
 				C5CC4861193D930C00285DB3 /* pins_arrest_blue.png in Resources */,
 				C5AFBD161921807E00EC62A5 /* alert_highfever_icon.png in Resources */,
@@ -9036,6 +9087,7 @@
 				C54CEC4A18FC77150077350E /* progress_bar_s4.png in Resources */,
 				C5AFBEBE1921807E00EC62A5 /* pins_robbery.png in Resources */,
 				C5AFBD321921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
+				C5CC4B85193DEBA500285DB3 /* Stop_Record_Button.png in Resources */,
 				C5CC46F9193D930C00285DB3 /* alert_burglary_blue.png in Resources */,
 				C54CEB2C18FC76620077350E /* number_2.png in Resources */,
 				C5CC4B59193D930D00285DB3 /* pins_suggestion_red.png in Resources */,
@@ -9500,6 +9552,7 @@
 				C5CC481A193D930C00285DB3 /* bubble_other_blue.png in Resources */,
 				C5AFBEE31921807E00EC62A5 /* pins_suspiciousactivity_icon@2x.png in Resources */,
 				C5AFBA4D191D35DE00EC62A5 /* AddPhotoButton_Down@2x.png in Resources */,
+				C5CC4B82193DEBA500285DB3 /* Record_Button.png in Resources */,
 				C5AFBA4E191D35DE00EC62A5 /* bubble_time2_LT_icon@2x.png in Resources */,
 				C5AFBE031921807E00EC62A5 /* bubble_shooting_icon@2x.png in Resources */,
 				C5AFBA50191D35DE00EC62A5 /* locate_me_icon@2x.png in Resources */,
@@ -9536,6 +9589,7 @@
 				C5CC4A1A193D930D00285DB3 /* bubble_burglary_red.png in Resources */,
 				C5AFBA5C191D35DE00EC62A5 /* slide_3.png in Resources */,
 				C5AFBD231921807E00EC62A5 /* alert_mentalhealth_icon@2x.png in Resources */,
+				C5CC4B8C193DF0A100285DB3 /* Record_Button@2x.png in Resources */,
 				C5AFBD7F1921807E00EC62A5 /* bubble_assault_icon.png in Resources */,
 				C5CC4932193D930C00285DB3 /* alert_arson_red.png in Resources */,
 				C5AFBE471921807E00EC62A5 /* pins_assault_icon.png in Resources */,
@@ -9545,6 +9599,7 @@
 				C5AFBE2B1921807E00EC62A5 /* bubble_vandalism_icon@2x.png in Resources */,
 				C5AFBA62191D35DE00EC62A5 /* swipe_arrows_icon.png in Resources */,
 				C5AFBA63191D35DE00EC62A5 /* number_3.png in Resources */,
+				C5CC4B90193DF0A100285DB3 /* Stop_Record_Button@2x.png in Resources */,
 				C5CC47AA193D930C00285DB3 /* bubble_assault_blue.png in Resources */,
 				C5CC4862193D930C00285DB3 /* pins_arrest_blue.png in Resources */,
 				C5AFBD171921807E00EC62A5 /* alert_highfever_icon.png in Resources */,
@@ -9799,6 +9854,7 @@
 				C5AFBAE7191D35DE00EC62A5 /* progress_bar_s4.png in Resources */,
 				C5AFBEBF1921807E00EC62A5 /* pins_robbery.png in Resources */,
 				C5AFBD331921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
+				C5CC4B86193DEBA500285DB3 /* Stop_Record_Button.png in Resources */,
 				C5CC46FA193D930C00285DB3 /* alert_burglary_blue.png in Resources */,
 				C5AFBAE8191D35DE00EC62A5 /* number_2.png in Resources */,
 				C5CC4B5A193D930D00285DB3 /* pins_suggestion_red.png in Resources */,
@@ -10174,6 +10230,7 @@
 				C520C90618A974C100D1D2E9 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5CED63C193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C5EAABF719066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
+				C5CC4B94193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C56356F618EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5C1C9AE1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C585F2E518DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
@@ -10193,6 +10250,7 @@
 				C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */,
 				C523BB8B1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C520C90418A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
+				C5CC4B7A193DDE7A00285DB3 /* TSRecordWindow.m in Sources */,
 				C5EAABE81905AF1C005EDD7B /* TSBaseTableViewController.m in Sources */,
 				C585F1AB18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C57C48B118BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
@@ -10387,6 +10445,7 @@
 				C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C563570718ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
+				C5CC4B97193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C5C1C9A1190853860087F622 /* TSEntourageMemberCell.m in Sources */,
 				C501CC9A18F337A0005A0B98 /* TSRoundRectButton.m in Sources */,
 				C5AFBB99191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
@@ -10476,6 +10535,7 @@
 				C56356FD18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C520C91118A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C523BB8E1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
+				C5CC4B7D193DDE7A00285DB3 /* TSRecordWindow.m in Sources */,
 				C585F1A418CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
@@ -10521,6 +10581,7 @@
 				C57C48BE18BBDB1900DFFBCE /* TSJavelinAPIMassAlert.m in Sources */,
 				C5CED63D193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C5EAABF819066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
+				C5CC4B95193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C56356F718EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5C1C9AF1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C5662BCF18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
@@ -10540,6 +10601,7 @@
 				C57C48C518BBDB1900DFFBCE /* TSJavelinAPIGroup.m in Sources */,
 				C523BB8C1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C57C48C618BBDB1900DFFBCE /* TSProfileViewController.m in Sources */,
+				C5CC4B7B193DDE7A00285DB3 /* TSRecordWindow.m in Sources */,
 				C5EAABE91905AF1C005EDD7B /* TSBaseTableViewController.m in Sources */,
 				C532E8DF18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
@@ -10695,6 +10757,7 @@
 				C5AFB94E191D35DE00EC62A5 /* TSJavelinAPIMassAlert.m in Sources */,
 				C5CED63E193561640079CEA2 /* TSMassNotificationTableViewCell.m in Sources */,
 				C5AFB94F191D35DE00EC62A5 /* TSAppearanceTableViewController.m in Sources */,
+				C5CC4B96193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C5AFB950191D35DE00EC62A5 /* TSRouteManager.m in Sources */,
 				C5AFB951191D35DE00EC62A5 /* TSCircularControl.m in Sources */,
 				C5AFB952191D35DE00EC62A5 /* TSButtonLabel.m in Sources */,
@@ -10714,6 +10777,7 @@
 				C5AFB960191D35DE00EC62A5 /* TSJavelinAPIGroup.m in Sources */,
 				C523BB8D1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C5AFB961191D35DE00EC62A5 /* TSProfileViewController.m in Sources */,
+				C5CC4B7C193DDE7A00285DB3 /* TSRecordWindow.m in Sources */,
 				C5AFB962191D35DE00EC62A5 /* TSBaseTableViewController.m in Sources */,
 				C5AFB963191D35DE00EC62A5 /* TSLocationController.m in Sources */,
 				C5AFB964191D35DE00EC62A5 /* TSEmailVerificationViewController.m in Sources */,

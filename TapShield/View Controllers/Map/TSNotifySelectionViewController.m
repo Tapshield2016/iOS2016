@@ -12,8 +12,8 @@
 #import "TSMemberCollectionViewLayout.h"
 
 
-#define TUTORIAL_TITLE @"Add entourage members"
-#define TUTORIAL_MESSAGE @"Check-marked members will automatically be notified of your arrival or non-arrival"
+#define TUTORIAL_TITLE @"Set ETA, add your Entourage"
+#define TUTORIAL_MESSAGE @"Contacts with a check mark will be notified of your arrival or non-arrival. If you're on-campus and you don't arrive at your destination, we'll also notify campus police."
 
 #define WARNING_TITLE @"WARNING"
 #define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"

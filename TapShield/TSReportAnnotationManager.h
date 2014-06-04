@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TSMapView.h"
+#define MAX_HOURS 24
 
 @interface TSReportAnnotationManager : NSObject
 

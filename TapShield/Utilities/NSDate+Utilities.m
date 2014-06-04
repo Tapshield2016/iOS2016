@@ -140,6 +140,14 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
     return [self stringWithDateStyle:NSDateFormatterLongStyle  timeStyle:NSDateFormatterNoStyle];
 }
 
++ (NSString *) fileDateTimeNowString
+{
+    // return a formatted string for a file name
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"ddMMMYY_hhmmssa";
+    return [formatter stringFromDate:[NSDate date]];
+}
+
 #pragma mark - Comparing Dates
 
 - (BOOL) isEqualToDateIgnoringTime: (NSDate *) aDate

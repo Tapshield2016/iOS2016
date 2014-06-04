@@ -12,8 +12,9 @@
 #import "TSJavelinS3UploadManager.h"
 #import "TSJavelinAPIUtilities.h"
 #import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import "TSSoundFileFolderViewController.h"
 
-static NSString * const kDefaultMediaImage = @"image_deafult";
 
 @interface TSReportDescriptionViewController ()
 
@@ -22,7 +23,9 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 @property (strong, nonatomic) UIActionSheet *recordActionSheet;
 @property (strong, nonatomic) UIActionSheet *fileActionSheet;
 @property (strong, nonatomic) TSBaseLabel *uploadingLabel;
-@property (strong, nonatomic) id media;
+@property (strong, nonatomic) TSRecordWindow *recordWindow;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+@property (strong, nonatomic) UIView *volumeHolder;
 
 @end
 
@@ -53,6 +56,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     _detailsTextView.layer.cornerRadius = 5;
     _detailsTextView.placeholder = @"Enter your non-emergency tip details here (call 911 if this is an emergency)";
     
+    _audioPlayButton.hidden = YES;
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
         [geocoder reverseGeocodeLocation:_location completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -129,8 +133,21 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 - (void)setMedia:(id)media {
     
     _media = media;
+    [_mediaImageView setHidden:NO];
+    [_shimmeringView setHidden:NO];
+    _audioPlayButton.hidden = YES;
+    [_volumeHolder removeFromSuperview];
     
     if (media) {
+        if ([_media isKindOfClass:[NSURL class]]) {
+            
+            if ([[(NSURL*)_media pathExtension] isEqualToString:kReportAudioFormat]) {
+                [_mediaImageView setHidden:YES];
+                [_shimmeringView setHidden:YES];
+                _audioPlayButton.hidden = NO;
+                [self initAudioPlayer];
+            }
+        }
         _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
         [_addMediaButton setTitle:@"Change media" forState:UIControlStateNormal];
     }
@@ -170,7 +187,13 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                 report.reportImageUrl = urlString;
             }
             else if ([_media isKindOfClass:[NSURL class]]) {
-                report.reportVideoUrl = urlString;
+                
+                if ([[(NSURL*)_media pathExtension] isEqualToString:kReportVideoFormat]) {
+                    report.reportVideoUrl = urlString;
+                }
+                else if ([[(NSURL*)_media pathExtension] isEqualToString:kReportAudioFormat]) {
+                    report.reportAudioUrl = urlString;
+                }
             }
         }
         
@@ -188,7 +211,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
                 }
                 
                 [self dismissViewControllerAnimated:YES completion:^{
-                    [_reportManager addUserSocialReport:report];
+//                    [_reportManager addUserSocialReport:report];
                     [parentNavigationController.topViewController viewWillAppear:NO];
                     [parentNavigationController.topViewController viewDidAppear:NO];
                 }];
@@ -215,11 +238,23 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     NSString *key;
     
     if ([_media isKindOfClass:[NSURL class]]) {
-        key = [NSString stringWithFormat:@"social-crime/video/%@.mov", [TSJavelinAPIUtilities uuidString]];
-        NSData *videoData = [NSData dataWithContentsOfURL:_media];
-        [uploadManager uploadVideoData:videoData
-                                   key:key
-                            completion:completion];
+        
+        if ([[(NSURL*)_media pathExtension] isEqualToString:kReportVideoFormat]) {
+            key = [NSString stringWithFormat:@"social-crime/video/%@.%@", [TSJavelinAPIUtilities uuidString], kReportVideoFormat];
+            NSData *videoData = [NSData dataWithContentsOfURL:_media];
+            [uploadManager uploadVideoData:videoData
+                                       key:key
+                                completion:completion];
+        }
+        else if ([[(NSURL*)_media pathExtension] isEqualToString:kReportAudioFormat]) {
+            key = [NSString stringWithFormat:@"social-crime/audio/%@.%@", [TSJavelinAPIUtilities uuidString], kReportAudioFormat];
+            NSData *audioData = [NSData dataWithContentsOfURL:_media];
+            [uploadManager uploadAudioData:audioData
+                                       key:key
+                                completion:completion];
+        }
+        
+        
     }
     else if ([_media isKindOfClass:[UIImage class]]) {
         key = [NSString stringWithFormat:@"social-crime/image/%@.jpg", [TSJavelinAPIUtilities uuidString]];
@@ -234,6 +269,95 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     }
     
     
+}
+
+#pragma mark - Play Media
+
+- (IBAction)playAudio:(id)sender {
+    
+    if (_audioPlayer.isPlaying) {
+        [_audioPlayer stop];
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    }
+    else {
+        [_audioPlayer play];
+        [_audioPlayButton setTitle:@"Stop" forState:UIControlStateNormal];
+    }
+}
+
+- (void)initAudioPlayer {
+    
+    NSError *error;
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayback
+                        error:&error];
+    
+    [audioSession setActive:YES error:&error];
+    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_media
+                                                   fileTypeHint:AVFileTypeAppleM4A
+                                                          error:&error];
+    if (error) {
+        NSLog(@"Error in audioPlayer: %@", [error localizedDescription]);
+    }
+    else {
+        _audioPlayer.delegate = self;
+        [_audioPlayer prepareToPlay];
+    }
+    
+    [self createAndDisplayMPVolumeView];
+}
+
+- (void) createAndDisplayMPVolumeView {
+    
+    // Create a simple holding UIView and give it a frame
+    CGRect frame = _audioPlayButton.frame;
+    frame.origin.y += frame.size.height + 15;
+    frame.size.width -= 40;
+    frame.origin.x = (self.view.frame.size.width - frame.size.width)/2;
+    _volumeHolder = [[UIView alloc] initWithFrame:frame];
+    
+    // set the UIView backgroundColor to clear.
+    [_volumeHolder setBackgroundColor: [UIColor clearColor]];
+    
+    // add the holding view as a subView of the main view
+    [_scrollView addSubview: _volumeHolder];
+    
+    // Create an instance of MPVolumeView and give it a frame
+    MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: _volumeHolder.bounds];
+    
+    // Add myVolumeView as a subView of the volumeHolder
+    [_volumeHolder addSubview: myVolumeView];
+}
+
+#pragma mark Audio Player Delegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player {
+    
+    [player stop];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
+}
+
+- (void)audioPlayerEndInterruption:(AVAudioPlayer *)player {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_audioPlayButton setTitle:@"Play Audio" forState:UIControlStateNormal];
+    });
 }
 
 #pragma mark - Add Media
@@ -301,15 +425,15 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         
         _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         
-        
-        
         if (buttonIndex == 0 + i) {
             
             _imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
             [self presentViewController:_imagePicker animated:YES completion:nil];
         }
         else if (buttonIndex == 1 + i) {
-            
+            _recordWindow = [[TSRecordWindow alloc] init];
+            _recordWindow.recordDelegate = self;
+            [_recordWindow show];
         }
         else if (buttonIndex == 2 + i) {
             [self showFileActionSheet];
@@ -334,6 +458,8 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         }
         else if (buttonIndex == 2 + i) {
             
+            TSSoundFileFolderViewController *viewController = (TSSoundFileFolderViewController *)[self presentViewControllerWithClass:[TSSoundFileFolderViewController class] transitionDelegate:nil animated:YES];
+            viewController.descriptionView = self;
         }
         else if (buttonIndex == actionSheet.destructiveButtonIndex) {
             self.media = nil;
@@ -396,6 +522,14 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     [mediaPicker dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark Record Window Delegate
+
+- (void)didDismissWindow:(UIWindow *)window audioFile:(NSURL *)filePath {
+    
+    if (filePath) {
+        self.media = filePath;
+    }
+}
 
 #pragma mark - Keyboard Notifications
 

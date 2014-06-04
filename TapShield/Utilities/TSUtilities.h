@@ -20,6 +20,7 @@
 + (NSString *)formattedViewableDate:(NSDate *)date;
 + (NSString *)formattedDateTime:(NSDate *)date;
 + (NSString *)formattedStringForTime:(NSTimeInterval)duration;
++ (NSString *)formattedStringForTimeWithMs:(NSTimeInterval)duration ;
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration;
 + (NSString *)formattedDescriptiveStringForDuration:(NSTimeInterval)duration;
 + (NSString *)formattedStringForDistanceInUSStandard:(CLLocationDistance)meters;

@@ -104,4 +104,10 @@ finish:
     return result;
 }
 
+- (NSString *)encodeStringForURLPath {
+    NSString *charactersToEscape = @"!*'();:@&=+$,/?%#[]\" ";
+    NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+}
+
 @end

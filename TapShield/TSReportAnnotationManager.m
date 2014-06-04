@@ -31,7 +31,7 @@
     if (self) {
         _mapView = mapView;
         _shouldAddAnnotations = YES;
-        _maxHours = 24;
+        _maxHours = MAX_HOURS;
     }
     return self;
 }

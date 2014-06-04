@@ -75,6 +75,34 @@
     }
 }
 
++ (NSString *)formattedStringForTimeWithMs:(NSTimeInterval)duration {
+    
+    if (duration < 0) {
+        return @"00:00.00";
+    }
+    
+    long durationInSeconds = lroundf(duration);
+    NSInteger hours = durationInSeconds / 3600;
+    NSInteger minutes = (durationInSeconds % 3600) / 60;
+    NSInteger seconds = durationInSeconds % 60;
+    float milliseconds = duration - floor(duration);
+    
+    if (hours > 0) {
+        return [NSString stringWithFormat:@"%02ld:%02d:%02d", (long)hours, minutes, seconds];
+    }
+    else {
+        //        if (minutes == 0) {
+        //            return [NSString stringWithFormat:@":%02d", seconds];
+        //        }
+        float sec = seconds + milliseconds;
+        NSNumberFormatter *numFormatter = [NSNumberFormatter new];
+        [numFormatter setMaximumFractionDigits:2];
+        [numFormatter setMinimumIntegerDigits:2];
+        [numFormatter setMinimumFractionDigits:2];
+        return [NSString stringWithFormat:@"%02ld:%@", (long)minutes, [numFormatter stringFromNumber:@(sec)]];
+    }
+}
+
 + (NSString *)formattedStringForDuration:(NSTimeInterval)duration {
     long durationInSeconds = lroundf(duration);
     NSInteger hours = durationInSeconds / 3600;

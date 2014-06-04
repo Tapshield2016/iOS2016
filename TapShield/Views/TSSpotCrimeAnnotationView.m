@@ -9,6 +9,7 @@
 #import "TSSpotCrimeAnnotationView.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "NSDate+Utilities.h"
+#import "TSReportAnnotationManager.h"
 
 @implementation TSSpotCrimeAnnotationView
 
@@ -61,11 +62,11 @@
         return 1.0;
     }
     
-    if (hours >= 24) {
+    if (hours >= MAX_HOURS) {
         return 0.1;
     }
     
-    float ratio = (24 - hours)/24;
+    float ratio = (MAX_HOURS - hours)/MAX_HOURS;
     
     if (ratio > 0.1) {
         return ratio;

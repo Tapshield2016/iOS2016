@@ -19,5 +19,6 @@
 // Uploads file to S3
 - (void)uploadImageData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *imageS3URL))completion;
 - (void)uploadVideoData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *videoS3URL))completion;
+- (void)uploadAudioData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *audioS3URL))completion;
 
 @end

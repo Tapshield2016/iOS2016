@@ -2980,7 +2980,6 @@
                                         </state>
                                         <connections>
                                             <action selector="chooseMedia:" destination="OsC-XN-zUh" eventType="touchUpInside" id="uCp-td-gHo"/>
-                                            <action selector="resendVerification:" destination="mjo-E3-Aqu" eventType="touchUpInside" id="efo-r8-f3m"/>
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image_deafult.png" translatesAutoresizingMaskIntoConstraints="NO" id="oxR-8u-gFL">
@@ -3013,6 +3012,19 @@
                                             <action selector="reportAnonymously:" destination="OsC-XN-zUh" eventType="touchUpInside" id="JdA-vE-7gU"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vV9-vp-J5N" customClass="TSRegistrationButton">
+                                        <rect key="frame" x="0.0" y="380" width="320" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                        <state key="normal" title="Play Audio">
+                                            <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playAudio:" destination="OsC-XN-zUh" eventType="touchUpInside" id="tc6-xK-PnY"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="uTP-1t-rhP" secondAttribute="bottom" constant="10" id="6S7-86-hfC"/>
@@ -3034,6 +3046,7 @@
                     <connections>
                         <outlet property="addMediaButton" destination="xps-3v-tyF" id="Pxq-eT-2GJ"/>
                         <outlet property="addressLabel" destination="rYx-jc-8Dj" id="Isa-x7-ktt"/>
+                        <outlet property="audioPlayButton" destination="vV9-vp-J5N" id="ofP-GA-35S"/>
                         <outlet property="descriptionLabel" destination="I7n-9X-4Um" id="DzE-c1-h9P"/>
                         <outlet property="detailsTextView" destination="H9F-tk-Bq3" id="NNL-Um-4DX"/>
                         <outlet property="imageView" destination="ry5-yx-CwD" id="nKj-gG-OM5"/>
@@ -4644,6 +4657,13 @@
                                         <color key="textColor" red="0.070588238540000001" green="0.4784313738" blue="0.74117648599999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User submitted report" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9Z-ao-P0F" customClass="TSBaseLabel">
+                                        <rect key="frame" x="20" y="330" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5vB-Di-QCF" customClass="FBShimmeringView">
                                         <rect key="frame" x="20" y="358" width="280" height="200"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4653,13 +4673,19 @@
                                             <constraint firstAttribute="width" constant="280" id="jXV-Wg-FrQ"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User submitted report" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9Z-ao-P0F" customClass="TSBaseLabel">
-                                        <rect key="frame" x="20" y="329" width="280" height="21"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tOj-bm-Wax" customClass="TSRegistrationButton">
+                                        <rect key="frame" x="0.0" y="359" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                        <state key="normal" title="Play Audio">
+                                            <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playAudio:" destination="Bsd-Cp-2jr" eventType="touchUpInside" id="Wfa-5q-x6d"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="5vB-Di-QCF" firstAttribute="leading" secondItem="yrb-VG-Nh6" secondAttribute="leading" constant="20" id="21r-No-YVY"/>
@@ -4687,6 +4713,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="addressLabel" destination="1Gg-mk-H5H" id="qlv-ZP-Fe9"/>
+                        <outlet property="audioPlayButton" destination="tOj-bm-Wax" id="Qql-8q-Xs7"/>
                         <outlet property="descriptionLabel" destination="9U8-Tc-wFH" id="vUa-Jp-8lC"/>
                         <outlet property="detailsTextView" destination="63H-XV-X8g" id="sWN-tG-b2m"/>
                         <outlet property="imageView" destination="xD4-uq-EVO" id="Uqm-Tx-zKq"/>
@@ -4700,6 +4727,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ier-4F-efy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2395" y="3618"/>
+        </scene>
+        <!--Sound File Folder View Controller - Saved Recordings-->
+        <scene sceneID="0cb-z4-rCl">
+            <objects>
+                <tableViewController storyboardIdentifier="TSSoundFileFolderViewController" title="Saved Recordings" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yi8-3L-ZMP" customClass="TSSoundFileFolderViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oOU-k6-gTR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SoundFile" id="hw0-0n-Fcp">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hw0-0n-Fcp" id="Qbf-is-DXW">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="yi8-3L-ZMP" id="zq6-Ik-7Bw"/>
+                            <outlet property="delegate" destination="yi8-3L-ZMP" id="KzO-ug-vuE"/>
+                        </connections>
+                    </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f8d-q7-rsl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2797" y="3618"/>
         </scene>
     </scenes>
     <resources>

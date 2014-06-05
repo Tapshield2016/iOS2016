@@ -205,6 +205,7 @@
     [_pageViewController.homeViewController viewWillAppear:NO];
     [_pageViewController.homeViewController viewDidAppear:NO];
     [_pageViewController.homeViewController whiteNavigationBar];
+    [_pageViewController.homeViewController.reportManager showSpotCrimes];
     [_pageViewController dismissViewControllerAnimated:YES completion:nil];
     
     if ([TSVirtualEntourageManager sharedManager].isEnabled &&

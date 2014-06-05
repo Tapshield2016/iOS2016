@@ -299,7 +299,6 @@
     
     _shouldSendAlert = NO;
     
-    
     dispatch_async(dispatch_get_main_queue(), ^{
     
     if (self.presentedViewController) {
@@ -340,6 +339,7 @@
         [_mapView setRegionAtAppearanceAnimated:YES];
         
         [self showOnlyMap];
+        [_reportManager hideSpotCrimes];
     });
 }
 

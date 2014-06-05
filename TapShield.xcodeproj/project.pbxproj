@@ -4334,7 +4334,7 @@
 		C5AFB930191C1D2000EC62A5 /* TSAlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAlertManager.h; sourceTree = "<group>"; };
 		C5AFB931191C1D2000EC62A5 /* TSAlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAlertManager.m; sourceTree = "<group>"; };
 		C5AFB935191D2F3000EC62A5 /* splash3.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash3.5.png; path = Images/splash3.5.png; sourceTree = "<group>"; };
-		C5AFBB5F191D35DE00EC62A5 /* TapShield copy copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TapShield copy copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5AFBB5F191D35DE00EC62A5 /* TapShield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapShield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5AFBB75191EE09900EC62A5 /* TSLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLocalNotification.h; sourceTree = "<group>"; };
 		C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLocalNotification.m; sourceTree = "<group>"; };
 		C5AFBB7B191F766B00EC62A5 /* TSBaseTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseTextView.h; path = Views/TSBaseTextView.h; sourceTree = "<group>"; };
@@ -5019,7 +5019,7 @@
 				B53BBCED18980FDA006A27E0 /* TapShield Dev.app */,
 				B53BBD0E18980FDA006A27E0 /* TapShieldTests.xctest */,
 				C57C491918BBDB1900DFFBCE /* TapShield.app */,
-				C5AFBB5F191D35DE00EC62A5 /* TapShield copy copy.app */,
+				C5AFBB5F191D35DE00EC62A5 /* TapShield.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -6509,18 +6509,18 @@
 		C5CC458D193AA0E300285DB3 /* Reports */ = {
 			isa = PBXGroup;
 			children = (
-				C5BBF42F18FA5527008B5CB2 /* TSAlertDetailsTableViewController.h */,
-				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
-				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
-				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
 				C599C036193FD7CA00B77410 /* NSURL+FileType.h */,
 				C599C037193FD7CA00B77410 /* NSURL+FileType.m */,
+				C5BBF42F18FA5527008B5CB2 /* TSAlertDetailsTableViewController.h */,
+				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
 				C5CC4B78193DDE7A00285DB3 /* TSRecordWindow.h */,
 				C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */,
-				C5CC4B92193EC11500285DB3 /* TSSoundFileFolderViewController.h */,
-				C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */,
 				C5CC4587193AA0D500285DB3 /* TSReportAnnotationManager.h */,
 				C5CC4588193AA0D500285DB3 /* TSReportAnnotationManager.m */,
+				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
+				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
+				C5CC4B92193EC11500285DB3 /* TSSoundFileFolderViewController.h */,
+				C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */,
 				C5CC4594193D48B100285DB3 /* TSViewReportDetailsViewController.h */,
 				C5CC4595193D48B100285DB3 /* TSViewReportDetailsViewController.m */,
 			);
@@ -6952,7 +6952,7 @@
 			);
 			name = "TapShield Release";
 			productName = TapShield;
-			productReference = C5AFBB5F191D35DE00EC62A5 /* TapShield copy copy.app */;
+			productReference = C5AFBB5F191D35DE00EC62A5 /* TapShield.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -11220,7 +11220,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "TapShield/TapShield Release-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "TapShield copy copy";
+				PRODUCT_NAME = TapShield;
 				PROVISIONING_PROFILE = "194321AD-3C79-4BD0-BDDD-4BB43B9B3D35";
 				WRAPPER_EXTENSION = app;
 			};
@@ -11248,7 +11248,7 @@
 				INFOPLIST_FILE = "TapShield/TapShield Release-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = "TapShield copy copy";
+				PRODUCT_NAME = TapShield;
 				PROVISIONING_PROFILE = "194321AD-3C79-4BD0-BDDD-4BB43B9B3D35";
 				WRAPPER_EXTENSION = app;
 			};

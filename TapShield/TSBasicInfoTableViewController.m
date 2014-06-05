@@ -107,7 +107,7 @@
     if (indexPath.row == 3) {
         
         if (self.userProfile.gender != 0) {
-            NSString *imageName = [NSString stringWithFormat:@"settings_%@_icon", [TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender]];
+            NSString *imageName = [NSString stringWithFormat:@"settings_%@_icon", [[TSJavelinAPIUserProfile genderToLongString:self.userProfile.gender] lowercaseString]];
             
             UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
             imageView.contentMode = UIViewContentModeLeft;

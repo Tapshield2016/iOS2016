@@ -62,7 +62,12 @@
     
     [super viewWillDisappear:animated];
     
-    _userProfile.birthday = _tableViewController.birthdayTextField.text;
+    if (_tableViewController.birthdayTextField.text.length == 10) {
+        _userProfile.birthday = _tableViewController.birthdayTextField.text;
+    }
+    else {
+        _userProfile.birthday = nil;
+    }
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName = _tableViewController.firstNameTextField.text;
     [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName = _tableViewController.lastNameTextField.text;

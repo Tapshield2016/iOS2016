@@ -12,12 +12,13 @@
 #import "TSRegistrationButton.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "TSRecordWindow.h"
+#import "NSURL+FileType.h"
 
 
 static NSString * const kDefaultMediaImage = @"image_deafult";
 
 static NSString * const kReportAudioFormat = @"aac";
-static NSString * const kReportVideoFormat = @"mov";
+static NSString * const kReportVideoFormat = @"mp4";
 static NSString * const kReportImageFormat = @"jpg";
 
 @interface TSReportDescriptionViewController : TSNavigationViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MPMediaPickerControllerDelegate, TSRecordWindowDelegate, AVAudioPlayerDelegate>

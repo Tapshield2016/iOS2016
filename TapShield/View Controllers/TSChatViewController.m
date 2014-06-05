@@ -134,7 +134,7 @@
 
 - (void)leftAgencyBoundaries {
     
-    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+    if (![TSAlertManager sharedManager].isAlertInProgress) {
         [self dismissViewController];
         [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
     }
@@ -199,7 +199,7 @@
     
     [self resetMessageBars];
     
-    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+    if (![TSAlertManager sharedManager].isAlertInProgress) {
         [TSAlertManager sharedManager].type = @"C";
         [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
         [self.navigationItem setHidesBackButton:NO animated:YES];

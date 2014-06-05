@@ -55,9 +55,6 @@
     
     _isPhoneView = NO;
     
-    if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
-        [self showAlertViewController];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,6 +67,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    
+    if ([TSAlertManager sharedManager].isAlertInProgress) {
+        [self showAlertViewController];
+    }
     
     [self startTintViewAnimation];
 }
@@ -196,7 +197,8 @@
 - (void)startTintViewAnimation {
     
     NSDate *endDate = [TSAlertManager sharedManager].endDate;
-    if (!endDate) {
+    
+    if ([TSAlertManager sharedManager].isAlertInProgress) {
         [self stopTintViewAnimation];
         return;
     }
@@ -239,7 +241,7 @@
 
 - (void)showingAlertView {
     
-    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+    if (![TSAlertManager sharedManager].isAlertInProgress) {
         [[TSAlertManager sharedManager] sendAlert:nil];
         [self stopTintViewAnimation];
         _isFirstTimeViewed = NO;

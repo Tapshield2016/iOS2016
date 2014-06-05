@@ -371,4 +371,94 @@
     }];
 }
 
++ (void)convertToMP4:(NSString *)videoPath completion:(void(^)(AVAssetExportSessionStatus status, NSString *path))completion {
+    
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:videoPath] options:nil];
+    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    
+    if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality]) {
+        
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetPassthrough];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        videoPath = [NSString stringWithFormat:@"%@/temp-conversion.mp4", [paths objectAtIndex:0]];
+        exportSession.outputURL = [NSURL fileURLWithPath:videoPath];
+        NSLog(@"videopath of your mp4 file = %@",videoPath);
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        
+        //make sure file doesn't exist already
+        [TSUtilities deleteFile:videoPath];
+        
+        //  CMTime start = CMTimeMakeWithSeconds(1.0, 600);
+        //  CMTime duration = CMTimeMakeWithSeconds(3.0, 600);
+        //  CMTimeRange range = CMTimeRangeMake(start, duration);
+        //   exportSession.timeRange = range;
+        //  UNCOMMENT ABOVE LINES FOR CROP VIDEO
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            
+            switch ([exportSession status]) {
+                    
+                case AVAssetExportSessionStatusFailed:
+                    NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
+                    
+                    if (completion) {
+                        completion([exportSession status], videoPath);
+                    }
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusCancelled:
+                    
+                    NSLog(@"Export canceled");
+                    
+                    if (completion) {
+                        completion([exportSession status], videoPath);
+                    }
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusCompleted:
+                    
+                    NSLog(@"Export Completed");
+                    
+                    if (completion) {
+                        completion([exportSession status], videoPath);
+                    }
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusExporting:
+                    
+                    NSLog(@"Export Exporting");
+                    
+                    break;
+                    
+                case AVAssetExportSessionStatusWaiting:
+                    
+                    NSLog(@"Export Waiting");
+                    
+                    break;
+                    
+                default:
+                    
+                    break;
+                    
+            }
+        }];
+        
+    }
+}
+
++ (void)deleteFile:(NSString *)path {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSError *error;
+    if ([fileManager fileExistsAtPath:path]) {
+        [fileManager removeItemAtPath:path  error:&error];
+    }
+    if (error) {
+        NSLog(@"%@", error.localizedDescription);
+    }
+}
+
 @end

@@ -46,7 +46,7 @@ extern NSString * const kAlertNoConnection;
 @property (strong, nonatomic) NSDate *endDate;
 @property (nonatomic, strong) NSTimer *countdownTimer;
 @property (nonatomic, strong) NSString *status;
-
+@property (assign, nonatomic) BOOL isAlertInProgress;
 
 //Call
 @property (strong, nonatomic) NSString *callToken;

@@ -1184,7 +1184,6 @@
 		C57C491118BBDB1900DFFBCE /* XIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48A518B7B17400DFFBCE /* XIcon.png */; };
 		C57C491218BBDB1900DFFBCE /* no_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C57C48AC18BBC32100DFFBCE /* no_image.png */; };
 		C57C491318BBDB1900DFFBCE /* EmailEnvelope.png in Resources */ = {isa = PBXBuildFile; fileRef = C5372DE718B3126000D22682 /* EmailEnvelope.png */; };
-		C57C491C18BBDB7D00DFFBCE /* TapShield Demo-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57C491B18BBDB7D00DFFBCE /* TapShield Demo-Info.plist */; };
 		C57C491D18BBDB7D00DFFBCE /* TapShield Demo-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57C491B18BBDB7D00DFFBCE /* TapShield Demo-Info.plist */; };
 		C585F19018CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F18F18CF7E73009EEF16 /* TSIntroPageViewController.m */; };
 		C585F19118CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C585F18F18CF7E73009EEF16 /* TSIntroPageViewController.m */; };
@@ -1249,6 +1248,10 @@
 		C585F30F18DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
+		C599C038193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
+		C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
+		C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
+		C599C03B193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C5AFB9231919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
 		C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
 		C5AFB9251919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
@@ -3683,9 +3686,6 @@
 		C5CC4B95193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
 		C5CC4B96193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
 		C5CC4B97193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC4B93193EC11500285DB3 /* TSSoundFileFolderViewController.m */; };
-		C5CC4B99193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
-		C5CC4B9A193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
-		C5CC4B9B193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
 		C5CC4B9C193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5CC4B98193F1D3D00285DB3 /* TapShield Release-Info.plist */; };
 		C5CED62C19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
 		C5CED62D19354CF90079CEA2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CED62A19354CF90079CEA2 /* back_button.png */; };
@@ -4323,6 +4323,8 @@
 		C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-SemiBold.otf"; sourceTree = "<group>"; };
 		C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Thin.otf"; sourceTree = "<group>"; };
 		C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
+		C599C036193FD7CA00B77410 /* NSURL+FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileType.h"; sourceTree = "<group>"; };
+		C599C037193FD7CA00B77410 /* NSURL+FileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FileType.m"; sourceTree = "<group>"; };
 		C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotation.h; path = Views/Map/Annotations/TSSpotCrimeAnnotation.h; sourceTree = "<group>"; };
 		C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotation.m; path = Views/Map/Annotations/TSSpotCrimeAnnotation.m; sourceTree = "<group>"; };
 		C5AFB9261919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotationView.h; path = Views/TSSpotCrimeAnnotationView.h; sourceTree = "<group>"; };
@@ -6511,6 +6513,8 @@
 				C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */,
 				C5AFB92B191A634F00EC62A5 /* TSReportDescriptionViewController.h */,
 				C5AFB92C191A634F00EC62A5 /* TSReportDescriptionViewController.m */,
+				C599C036193FD7CA00B77410 /* NSURL+FileType.h */,
+				C599C037193FD7CA00B77410 /* NSURL+FileType.m */,
 				C5CC4B78193DDE7A00285DB3 /* TSRecordWindow.h */,
 				C5CC4B79193DDE7A00285DB3 /* TSRecordWindow.m */,
 				C5CC4B92193EC11500285DB3 /* TSSoundFileFolderViewController.h */,
@@ -7111,7 +7115,6 @@
 				C5CC4708193D930C00285DB3 /* alert_chocking_blue.png in Resources */,
 				C5CC4A0C193D930D00285DB3 /* bubble_bleeding_red@2x.png in Resources */,
 				C5AFBCC91921807D00EC62A5 /* alert_brokenbone_icon@2x.png in Resources */,
-				C57C491C18BBDB7D00DFFBCE /* TapShield Demo-Info.plist in Resources */,
 				C54CEA3118FB199A0077350E /* route_car_icon_active@2x.png in Resources */,
 				C5CC4878193D930C00285DB3 /* pins_bleeding_blue.png in Resources */,
 				C54CE9F218FB199A0077350E /* avatar_icon.png in Resources */,
@@ -7261,7 +7264,6 @@
 				C5CC48D4193D930C00285DB3 /* pins_highfever_blue@2x.png in Resources */,
 				C5AFBDB51921807E00EC62A5 /* bubble_disturbance_icon.png in Resources */,
 				C5CC4A10193D930D00285DB3 /* bubble_brokenbone_red.png in Resources */,
-				C5CC4B99193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4900193D930C00285DB3 /* pins_suggestion_blue.png in Resources */,
 				C54CEBD118FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C5CC4784193D930C00285DB3 /* alert_theft_blue@2x.png in Resources */,
@@ -8653,7 +8655,6 @@
 				C5AFBD621921807E00EC62A5 /* alert_vandalism_icon@2x.png in Resources */,
 				C5CC480D193D930C00285DB3 /* bubble_highfever_blue@2x.png in Resources */,
 				C5CC4B45193D930D00285DB3 /* pins_robbery_red@2x.png in Resources */,
-				C5CC4B9A193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4875193D930C00285DB3 /* pins_assault_blue@2x.png in Resources */,
 				C5CC4AE1193D930D00285DB3 /* pins_burglary_red.png in Resources */,
 				C5CC486D193D930C00285DB3 /* pins_arson_blue@2x.png in Resources */,
@@ -9421,7 +9422,6 @@
 				C5AFBD631921807E00EC62A5 /* alert_vandalism_icon@2x.png in Resources */,
 				C5CC480E193D930C00285DB3 /* bubble_highfever_blue@2x.png in Resources */,
 				C5CC4B46193D930D00285DB3 /* pins_robbery_red@2x.png in Resources */,
-				C5CC4B9B193F1D3D00285DB3 /* TapShield Release-Info.plist in Resources */,
 				C5CC4876193D930C00285DB3 /* pins_assault_blue@2x.png in Resources */,
 				C5CC4AE2193D930D00285DB3 /* pins_burglary_red.png in Resources */,
 				C5CC486E193D930C00285DB3 /* pins_arson_blue@2x.png in Resources */,
@@ -10291,6 +10291,7 @@
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
 				C5AFBF0A1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
+				C599C038193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C5CC4590193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF71921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C532E64318BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
@@ -10441,6 +10442,7 @@
 				C5AFBBA5192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
 				C5AFBF071922BE3600EC62A5 /* TSIconBadgeView.m in Sources */,
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
+				C599C03B193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C532E63618BBF1E900FC111A /* TSConstants.m in Sources */,
 				C5AFBB9F191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C5FD5EA818B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
@@ -10642,6 +10644,7 @@
 				C556478018E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
 				C5AFBF0B1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
+				C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C5CC4591193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF81921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
@@ -10818,6 +10821,7 @@
 				C5AFB97A191D35DE00EC62A5 /* TSBottomMapButton.m in Sources */,
 				C5AFB97B191D35DE00EC62A5 /* TSJavelinChatManager.m in Sources */,
 				C5AFBF0C1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
+				C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C5CC4592193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF91921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C5AFB97C191D35DE00EC62A5 /* TSAppDelegate.m in Sources */,

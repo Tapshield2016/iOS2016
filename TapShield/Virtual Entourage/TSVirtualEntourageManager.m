@@ -16,11 +16,13 @@
 #define DRIVING_RADIUS 200
 
 #define ARRIVAL_MESSAGE @"%@ has arrived at %@, %@."
-#define NON_ARRIVAL_MESSAGE @"Please be advised, %@ has not made it to %@, %@, within the estimated time of arrival."
+#define NON_ARRIVAL_MESSAGE @"%@ has not made it to %@, %@, within their estimated time of arrival."
 #define NOTIFICATION_TIMES @(60*5), @(60), @(30), @(10), @(5), nil
 
 #define WARNING_TITLE @"WARNING"
 #define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
+
+static NSString * const kGoogleMapsPath = @"http://maps.google.com/maps?q=%f,%f";
 
 static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
 static NSString * const TSVirtualEntourageManagerWarning911 = @"TSVirtualEntourageManagerWarning911";
@@ -163,8 +165,17 @@ static dispatch_once_t predicate;
     NSString *destinationName = _routeManager.destinationMapItem.name;
     NSString *message = [NSString stringWithFormat:NON_ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
     
+    NSString *googleLocation;
+    CLLocation *location = [TSLocationController sharedLocationController].location;
+    if (location) {
+        googleLocation = [NSString stringWithFormat:kGoogleMapsPath, location.coordinate.latitude, location.coordinate.longitude];
+        googleLocation = [NSString stringWithFormat:@"%@'s latest location %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, googleLocation];
+    }
+    
     [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {
-        
+        if (googleLocation) {
+            [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:googleLocation completion:nil];
+        }
     }];
 }
 

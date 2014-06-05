@@ -11,10 +11,7 @@
 #import "TSSpotCrimeAnnotation.h"
 #import "TSJavelinS3UploadManager.h"
 #import "TSJavelinAPIUtilities.h"
-#import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MediaPlayer.h>
 #import "TSSoundFileFolderViewController.h"
-
 
 @interface TSReportDescriptionViewController ()
 
@@ -148,7 +145,7 @@
     if (media) {
         if ([_media isKindOfClass:[NSURL class]]) {
             
-            if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportAudioFormat]) {
+            if ([(NSURL *)_media isAudio]) {
                 [_mediaImageView setHidden:YES];
                 [_shimmeringView setHidden:YES];
                 _audioPlayButton.hidden = NO;
@@ -197,10 +194,10 @@
             }
             else if ([_media isKindOfClass:[NSURL class]]) {
                 
-                if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportVideoFormat]) {
+                if ([(NSURL *)_media isVideo]) {
                     report.reportVideoUrl = urlString;
                 }
-                else if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportAudioFormat]) {
+                else if ([(NSURL *)_media isAudio]) {
                     report.reportAudioUrl = urlString;
                 }
             }
@@ -227,6 +224,8 @@
             }
             else {
                 [[self.navigationItem rightBarButtonItem] setEnabled:YES];
+                
+                [[[UIAlertView alloc] initWithTitle:@"Network error" message:@"Check connection and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             }
         }];
     }];
@@ -248,14 +247,10 @@
     
     if ([_media isKindOfClass:[NSURL class]]) {
         
-        if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportVideoFormat]) {
-            key = [NSString stringWithFormat:@"social-crime/video/%@.%@", [TSJavelinAPIUtilities uuidString], kReportVideoFormat];
-            NSData *videoData = [NSData dataWithContentsOfURL:_media];
-            [uploadManager uploadVideoData:videoData
-                                       key:key
-                                completion:completion];
+        if ([(NSURL *)_media isVideo]) {
+            [uploadManager convertToMP4andUpload:_media completion:completion];
         }
-        else if ([[[(NSURL*)_media pathExtension] lowercaseString] isEqualToString:kReportAudioFormat]) {
+        else if ([(NSURL *)_media isAudio]) {
             key = [NSString stringWithFormat:@"social-crime/audio/%@.%@", [TSJavelinAPIUtilities uuidString], kReportAudioFormat];
             NSData *audioData = [NSData dataWithContentsOfURL:_media];
             [uploadManager uploadAudioData:audioData
@@ -494,6 +489,7 @@
                 _mediaImageView.image = image;
             });
         }];
+        
         self.media = videoUrl;
         
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
@@ -512,9 +508,8 @@
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         }
+        _mediaImageView.image = image;
     }
-    
-    _mediaImageView.image = image;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -615,5 +610,8 @@
     
     [UIView commitAnimations];
 }
+
+
+
 
 @end

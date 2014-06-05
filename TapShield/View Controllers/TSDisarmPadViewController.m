@@ -180,6 +180,12 @@
     }
     else {
         if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] getPasswordForEmailAddress:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email] isEqualToString:password]) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please Change Passcode"
+                                                                message:@"Go to 'Settings' in the side menu to change your passcode"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
             [self disarm];
         }
         else {

@@ -87,7 +87,7 @@
         location = [TSLocationController sharedLocationController].location;
     }
     
-    [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:kSpotCrimeRadius since:[NSDate dateWithHoursBeforeNow:_maxHours] maxReturned:500 sortBy:sortByDistance order:orderAscending type:0 completion:^(NSArray *crimes) {
+    [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:kSpotCrimeRadius since:[NSDate dateWithHoursBeforeNow:_maxHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
         [self addSpotCrimes:crimes];
     }];
 }

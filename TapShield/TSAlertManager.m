@@ -48,6 +48,7 @@ static dispatch_once_t predicate;
     if (self) {
         self.callInProgress = NO;
         self.shouldStartTimer = YES;
+        self.isAlertInProgress = NO;
         self.status = kAlertSend;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -119,6 +120,8 @@ static dispatch_once_t predicate;
 }
 
 - (void)sendAlert:(NSString *)type {
+    
+    _isAlertInProgress = YES;
     
     if (!type) {
         type = _type;
@@ -245,6 +248,7 @@ static dispatch_once_t predicate;
     _type = nil;
     _endDate = nil;
     _status = kAlertSend;
+    _isAlertInProgress = NO;
     _shouldStartTimer = YES;
 }
 

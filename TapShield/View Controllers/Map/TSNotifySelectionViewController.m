@@ -368,6 +368,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         return;
     }
     _isStarting = YES;
+    [_containerView setUserInteractionEnabled:NO];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self shimmerCollectionView];
     [self.navigationItem setHidesBackButton:YES animated:YES];

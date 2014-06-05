@@ -902,16 +902,17 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
            
-           if ([self shouldRetry:error]) {
-               // Delay execution of my block for 10 seconds.
-               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
-               dispatch_after(popTime, dispatch_get_main_queue(), ^{
-               });
-           }
-           else {
+//           if ([self shouldRetry:error]) {
+//               // Delay execution of my block for 10 seconds.
+//               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+//               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+//                   [self postSocialCrimeReport:report completion:completion];
+//               });
+//           }
+//           else {
                if (completion) {
                    completion(nil);
-               }
+//               }
            }
        }];
 }

@@ -33,7 +33,10 @@
 + (NSString *)relativeDateStringForDate:(NSDate *)date;
 + (NSString *)dateDescriptionSinceNow:(NSDate *)date;
 
+
+//video
 + (void)videoThumbnailFromBeginning:(NSURL *)videoUrl completion:(void(^)(UIImage *image))completion;
++ (void)convertToMP4:(NSString *)videoPath completion:(void(^)(AVAssetExportSessionStatus status, NSString *path))completion;
 
 //distance
 + (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;

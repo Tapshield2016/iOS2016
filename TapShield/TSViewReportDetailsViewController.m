@@ -47,6 +47,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         _detailsTextView.text = _spotCrimeAnnotation.socialReport.body;
         
         location = _spotCrimeAnnotation.socialReport.location;
+        _submittedByLabel.text = @"User-submitted report";
         
         if ([_spotCrimeAnnotation.socialReport.user isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].url]) {
             [self showDeleteSocialCrime];

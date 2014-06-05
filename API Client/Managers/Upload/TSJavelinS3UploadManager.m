@@ -8,6 +8,8 @@
 
 #import "TSJavelinS3UploadManager.h"
 #import "UIImage+Resize.h"
+#import "TSUtilities.h"
+#import "TSJavelinAPIUtilities.h"
 
 static NSString * const kTSJavelinS3UploadManagerDevelopmentAccessKey = @"AKIAJHIUM7YWZW2T2YIA";
 static NSString * const kTSJavelinS3UploadManagerDevelopmentSecretKey = @"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";
@@ -64,8 +66,30 @@ static NSString * const kTSJavelinS3UploadManagerDevelopmentBucketName = @"dev.m
     });
 }
 
+- (void)convertToMP4andUpload:(NSURL *)videoUrl completion:(void (^)(NSString *videoS3URL))completion {
+    
+    NSString *randomKey = [NSString stringWithFormat:@"social-crime/video/%@.mp4", [TSJavelinAPIUtilities uuidString]];
+    
+    [TSUtilities convertToMP4:[videoUrl path] completion:^(AVAssetExportSessionStatus status, NSString *path) {
+        
+        if (status == AVAssetExportSessionStatusFailed) {
+            if (completion) {
+                completion(nil);
+            }
+        }
+        
+        if (status == AVAssetExportSessionStatusCompleted) {
+            NSData *videoData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:path]];
+            [self uploadMP4VideoData:videoData
+                                 key:randomKey
+                          completion:completion];
+        }
+    }];
+    
+    
+}
 
-- (void)uploadVideoData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *videoS3URL))completion {
+- (void)uploadMP4VideoData:(NSData *)fileData key:(NSString *)key completion:(void (^)(NSString *videoS3URL))completion {
     [AmazonLogger verboseLogging];
     _s3 = [[AmazonS3Client alloc] initWithAccessKey:kTSJavelinS3UploadManagerDevelopmentAccessKey
                                       withSecretKey:kTSJavelinS3UploadManagerDevelopmentSecretKey];
@@ -77,7 +101,7 @@ static NSString * const kTSJavelinS3UploadManagerDevelopmentBucketName = @"dev.m
                                                                               inBucket:kTSJavelinS3UploadManagerDevelopmentBucketName];
         // Make the object publicly readable
         putObjectRequest.cannedACL = [S3CannedACL publicRead];
-        putObjectRequest.contentType = @"movie/mov";
+        putObjectRequest.contentType = @"video/mp4";
         putObjectRequest.data = fileData;
         //putObjectRequest.delegate = self;
         

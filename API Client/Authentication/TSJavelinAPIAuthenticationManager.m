@@ -610,6 +610,33 @@ static dispatch_once_t onceToken;
        }];
 }
 
+#pragma mark - Emailmgr Add Remove Emails
+
+- (void)addSecondaryEmail:(NSString *)email {
+    
+    if (!email) {
+        return;
+    }
+    
+    email = [email lowercaseString];
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/email/add/"
+    parameters:@{ @"email": email}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
+           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           if (!errorMessage) {
+               errorMessage = error.localizedDescription;
+           }
+           
+           NSLog(@"%@", errorMessage);
+       }];
+}
 
 #pragma mark - Javelin API Token Methods
 

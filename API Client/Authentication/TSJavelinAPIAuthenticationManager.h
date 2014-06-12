@@ -64,6 +64,9 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserR
 - (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion;
 - (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion;
 
+//secondary email
+- (void)addSecondaryEmail:(NSString *)email;
+
 - (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 

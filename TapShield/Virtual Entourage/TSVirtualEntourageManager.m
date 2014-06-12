@@ -17,6 +17,7 @@
 
 #define ARRIVAL_MESSAGE @"%@ has arrived at %@, %@."
 #define NON_ARRIVAL_MESSAGE @"%@ has not made it to %@, %@, within their estimated time of arrival."
+#define NON_ARRIVAL_LOCATION @"%@'s latest location %@"
 #define NOTIFICATION_TIMES @(60*5), @(60), @(30), @(10), @(5), nil
 
 #define WARNING_TITLE @"WARNING"
@@ -169,7 +170,7 @@ static dispatch_once_t predicate;
     CLLocation *location = [TSLocationController sharedLocationController].location;
     if (location) {
         googleLocation = [NSString stringWithFormat:kGoogleMapsPath, location.coordinate.latitude, location.coordinate.longitude];
-        googleLocation = [NSString stringWithFormat:@"%@'s latest location %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, googleLocation];
+        googleLocation = [NSString stringWithFormat:NON_ARRIVAL_LOCATION, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, googleLocation];
     }
     
     [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {

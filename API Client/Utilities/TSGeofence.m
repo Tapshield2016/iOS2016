@@ -196,7 +196,9 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 - (void)updateNearbyAgencies:(CLLocation *)currentLocation {
     
-    _nearbyAgencies = @[[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency];
+    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
+        _nearbyAgencies = @[[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency];
+    }
     
     [self checkInsideNearbyAgencies:currentLocation completion:^(TSJavelinAPIAgency *insideAgency) {
         

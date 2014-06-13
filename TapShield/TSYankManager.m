@@ -15,9 +15,9 @@ NSString * const TSYankManagerShouldShowWarningDetails = @"TSYankManagerShowWarn
 NSString * const TSYankManagerSettingAutoEnableYank = @"TSYankManagerSettingAutoEnableYank";
 NSString * const TSYankManagerDidYankHeadphonesNotification = @"TSYankManagerDidYankHeadphonesNotification";
 
-static NSString * const kHeadphonesIn = @"Headphone jack is in.\n Yank enabled.";
+static NSString * const kHeadphonesIn = @"Headphones inserted.\nYank is enabled.";
 static NSString * const kInsertHeadphones = @"Insert headphone jack\nto enable Yank.";
-static NSString * const kRemoveHeadphones = @"Yank disabled.\nRemove headphone jack.";
+static NSString * const kRemoveHeadphones = @"Yank is disabled.\nRemove headphones";
 
 @interface TSYankManager ()
 

@@ -239,6 +239,7 @@
         if (completion) {
             completion(nil);
         }
+        return;
     }
     
     TSJavelinS3UploadManager *uploadManager = [[TSJavelinS3UploadManager alloc] init];

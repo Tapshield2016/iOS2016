@@ -100,10 +100,16 @@
         return;
     }
     
+    _completeVerificationButton.enabled = NO;
+    [[self.navigationItem rightBarButtonItem] setEnabled:NO];
+    
     [[[TSJavelinAPIClient sharedClient] authenticationManager] isLoggedInUserEmailVerified:^(BOOL success) {
         if (success) {
             if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
                 [self segueToPhoneVerification];
+                
+                _completeVerificationButton.enabled = YES;
+                [[self.navigationItem rightBarButtonItem] setEnabled:YES];
                 return;
             }
             
@@ -111,10 +117,16 @@
                 if (user) {
                     [self segueToPhoneVerification];
                 }
+                
+                _completeVerificationButton.enabled = YES;
+                [[self.navigationItem rightBarButtonItem] setEnabled:YES];
             }];
         }
         else {
             _errorMessageLabel.text = @"Email has not been verified.";
+            
+            _completeVerificationButton.enabled = YES;
+            [[self.navigationItem rightBarButtonItem] setEnabled:YES];
         }
     }];
 }

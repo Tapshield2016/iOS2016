@@ -4503,8 +4503,8 @@
 		C5AFBC9A1921807D00EC62A5 /* pins_theft_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_theft_icon@2x.png"; sourceTree = "<group>"; };
 		C5AFBC9B1921807D00EC62A5 /* pins_vandalism_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_vandalism_icon.png; sourceTree = "<group>"; };
 		C5AFBC9C1921807D00EC62A5 /* pins_vandalism_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_vandalism_icon@2x.png"; sourceTree = "<group>"; };
-		C5AFBEF51921DCAF00EC62A5 /* NSDate+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Utilities.h"; path = "Utilities/NSDate+Utilities.h"; sourceTree = "<group>"; };
-		C5AFBEF61921DCAF00EC62A5 /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Utilities.m"; path = "Utilities/NSDate+Utilities.m"; sourceTree = "<group>"; };
+		C5AFBEF51921DCAF00EC62A5 /* NSDate+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Utilities.h"; path = "../../../TapShield/Utilities/NSDate+Utilities.h"; sourceTree = "<group>"; };
+		C5AFBEF61921DCAF00EC62A5 /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Utilities.m"; path = "../../../TapShield/Utilities/NSDate+Utilities.m"; sourceTree = "<group>"; };
 		C5AFBEFC1921EF4E00EC62A5 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C5AFBEFD1921EF4E00EC62A5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C5AFBF021922BE3500EC62A5 /* TSIconBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSIconBadgeView.h; sourceTree = "<group>"; };
@@ -5165,8 +5165,6 @@
 				C532E63018BBF1E900FC111A /* UIView+FirstResponder.m */,
 				C5AFBB75191EE09900EC62A5 /* TSLocalNotification.h */,
 				C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */,
-				C5AFBEF51921DCAF00EC62A5 /* NSDate+Utilities.h */,
-				C5AFBEF61921DCAF00EC62A5 /* NSDate+Utilities.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5318,6 +5316,8 @@
 		C520C8E518A974C100D1D2E9 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				C5AFBEF51921DCAF00EC62A5 /* NSDate+Utilities.h */,
+				C5AFBEF61921DCAF00EC62A5 /* NSDate+Utilities.m */,
 				C520C8E618A974C100D1D2E9 /* UIImage+Resize.h */,
 				C520C8E718A974C100D1D2E9 /* UIImage+Resize.m */,
 				C5CED63419355F990079CEA2 /* NSString+HTML.h */,

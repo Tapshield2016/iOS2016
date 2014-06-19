@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+#import "NSDictionary+ReplaceNull.h"
+#import "NSDate+Utilities.h"
 
 @interface TSJavelinAPIBaseModel : NSObject
 
@@ -17,9 +20,11 @@
 - (id)initWithAttributes:(NSDictionary *)attributes;
 - (instancetype)initWithOnlyURLAttribute:(NSDictionary *)attributes forKey:(NSString *)key;
 
-- (id)filterNSNull:(id)object;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
-- (NSDate *)reformattedTimeStamp:(NSDictionary *)attributes;
+- (NSDate *)reformattedTimeStamp:(NSString *)dateString;
+- (NSDate *)timeFromString:(NSString *)string;
+
+- (NSUInteger)filterIdentifier:(NSString *)url;
 
 @end

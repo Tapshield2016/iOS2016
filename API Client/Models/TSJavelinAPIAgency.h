@@ -7,7 +7,6 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
-#import <CoreLocation/CoreLocation.h>
 
 extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 
@@ -33,6 +32,10 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 
 @property (readonly) CLLocationCoordinate2D agencyCenter;
 
+@property (readonly) NSArray *dispatchCenters;
+@property (readonly) NSArray *regions;
+
+//Theme
 @property (readonly) NSDictionary *agencyTheme;
 
 @property (strong, nonatomic) UIImage *largeLogo;
@@ -41,5 +44,7 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 
 @property (strong, nonatomic) UIColor *primaryColor;
 @property (strong, nonatomic) UIColor *secondaryColor;
+
+- (NSArray *)openDispatchCenters;
 
 @end

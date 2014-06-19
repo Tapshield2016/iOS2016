@@ -159,6 +159,22 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
 			(components1.day == components2.day));
 }
 
+- (BOOL) isEarlierThanTimeIgnoringDate: (NSDate *) aDate {
+    
+    NSDate *date1 = [self resetDateKeepTime];
+    NSDate *date2 = [aDate resetDateKeepTime];
+    
+    return [date1 isEarlierThanDate:date2];
+}
+
+- (BOOL) isLaterThanTimeIgnoringDate: (NSDate *) aDate {
+    
+    NSDate *date1 = [self resetDateKeepTime];
+    NSDate *date2 = [aDate resetDateKeepTime];
+    
+    return [date1 isLaterThanDate:date2];
+}
+
 - (BOOL) isToday
 {
 	return [self isEqualToDateIgnoringTime:[NSDate date]];
@@ -501,6 +517,25 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
 {
 	NSDateComponents *components = [[NSDate currentCalendar] components:componentFlags fromDate:self];
 	return components.year;
+}
+
+
+- (NSDate *)resetDateKeepTime {
+    
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [[NSDate currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:now];
+    [components setHour:self.hour];
+    [components setMinute:self.minute];
+    [components setSecond:self.seconds];
+    return [calendar dateFromComponents:components];
+    
+//    unsigned int flags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+//    NSCalendar* calendar = [NSCalendar currentCalendar];
+//    
+//    NSDateComponents* components = [calendar components:flags fromDate:self];
+//    
+//    return [calendar dateFromComponents:components];
 }
 
 @end

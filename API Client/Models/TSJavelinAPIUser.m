@@ -31,8 +31,8 @@
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
     _lastName = [attributes valueForKey:@"last_name"];
-    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
-    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
+    _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
+    _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes valueForKey:@"entourage_members"];
         
     return self;
@@ -99,16 +99,19 @@
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];
     
-    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+    if ([[attributes nonNullObjectForKey:@"agency"] isKindOfClass:[NSDictionary class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if (![attributes nonNullObjectForKey:@"agency"]) {
+        _agency = nil;
     }
     
     _phoneNumber = [attributes valueForKey:@"phone_number"];
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
     _lastName = [attributes valueForKey:@"last_name"];
-    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
-    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
+    _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
+    _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes valueForKey:@"entourage_members"];
     
     return self;

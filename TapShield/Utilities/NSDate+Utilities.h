@@ -44,6 +44,8 @@
 
 // Comparing dates
 - (BOOL) isEqualToDateIgnoringTime: (NSDate *) aDate;
+- (BOOL) isEarlierThanTimeIgnoringDate: (NSDate *) aDate;
+- (BOOL) isLaterThanTimeIgnoringDate: (NSDate *) aDate;
 
 - (BOOL) isToday;
 - (BOOL) isTomorrow;
@@ -110,5 +112,7 @@
 @property (readonly) NSInteger weekday;
 @property (readonly) NSInteger nthWeekday; // e.g. 2nd Tuesday of the month == 2
 @property (readonly) NSInteger year;
+
+- (NSDate *)resetDateKeepTime;
 
 @end

@@ -25,6 +25,105 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 @implementation TSGeofence
 
++ (BOOL)isWithinBoundariesWithOverhangAndOpen:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
+    
+    if (agency.regions) {
+        for (TSJavelinAPIRegion *region in agency.regions) {
+            if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
+                if ([region openCenterToReceive:[agency openDispatchCenters]]) {
+                    return YES;
+                }
+            }
+        }
+    }
+    else {
+        return [TSGeofence isWithinBoundariesWithOverhang:location boundaries:agency.agencyBoundaries];
+    }
+    
+    
+    return NO;
+}
+
++ (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location boundaries:(NSArray *)boundaries
+{
+    if (!location) {
+        return NO;
+    }
+    
+    if (!boundaries) {
+        return YES;
+    }
+    
+    double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:boundaries];
+    bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:boundaries];
+    
+    NSLog(@"%fm From Boundary", metersFromBoundary);
+    NSLog(@"%fm Accuracy", location.horizontalAccuracy);
+    NSLog(@"Accuracy - MetersFromBoundary = %fm", location.horizontalAccuracy - metersFromBoundary);
+    
+    if (isInsideGeofence) {
+        NSLog(@"isInsideGeofence");
+        if (metersFromBoundary > location.horizontalAccuracy - metersFromBoundary) {
+            NSLog(@"InsideGeofence and (metersFromBoundary < location.horizontalAccuracy - metersFromBoundary)");
+            return YES;
+        }
+    }
+//#warning GeoTesting
+//        return YES;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsOutsideBoundariesWithOverhang
+                                                        object:nil];
+    
+    return NO;
+}
+
++ (BOOL)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location
+{
+    
+    double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
+    bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
+    
+    NSLog(@"%fm From Boundary", metersFromBoundary);
+    NSLog(@"%fm Accuracy", location.horizontalAccuracy);
+    NSLog(@"Accuracy - MetersFromBoundary = %fm", location.horizontalAccuracy - metersFromBoundary);
+    if (isInsideGeofence) {
+        return YES;
+        NSLog(@"isInsideGeofence");
+    }
+    if (!isInsideGeofence && metersFromBoundary < location.horizontalAccuracy - metersFromBoundary) {
+        NSLog(@"NotInsideGeofence but (metersFromBoundary < location.horizontalAccuracy - metersFromBoundary)");
+            return YES;
+    }
+    NSLog(@"Initially Outside Geofence");
+//#warning GeoTesting
+//        return YES;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang
+                                                        object:nil];
+    
+    return NO;
+}
+
+
++ (NSString *)primaryPhoneNumberInsideRegion:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
+    
+    if (agency.regions) {
+        for (TSJavelinAPIRegion *region in agency.regions) {
+            if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
+                
+                TSJavelinAPIDispatchCenter *center = [region openCenterToReceive:[agency openDispatchCenters]];
+                if (center) {
+                    return center.phoneNumber;
+                }
+            }
+        }
+    }
+    
+    return agency.dispatcherPhoneNumber;
+}
+
+#pragma mark - Polygon Utilities
+
 + (BOOL)isLocation:(CLLocation *)location insideGeofence:(NSArray *)geofencePolygon {
     
     double currentLocationX = location.coordinate.latitude;
@@ -117,63 +216,6 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     return shortestDistanceInMeters;
 }
 
-+ (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency
-{
-    if (!location || !agency) {
-        return NO;
-    }
-    
-    double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:agency.agencyBoundaries];
-    bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:agency.agencyBoundaries];
-    
-    NSLog(@"%fm From Boundary", metersFromBoundary);
-    NSLog(@"%fm Accuracy", location.horizontalAccuracy);
-    NSLog(@"Accuracy - MetersFromBoundary = %fm", location.horizontalAccuracy - metersFromBoundary);
-    
-    if (isInsideGeofence) {
-        NSLog(@"isInsideGeofence");
-        if (metersFromBoundary > location.horizontalAccuracy - metersFromBoundary) {
-            NSLog(@"InsideGeofence and (metersFromBoundary < location.horizontalAccuracy - metersFromBoundary)");
-            return YES;
-        }
-    }
-//#warning GeoTesting
-//        return YES;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsOutsideBoundariesWithOverhang
-                                                        object:nil];
-    
-    return NO;
-}
-
-+ (BOOL)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location
-{
-    
-    double metersFromBoundary = [TSGeofence distanceFromPoint:location toGeofencePolygon:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
-    bool isInsideGeofence = [TSGeofence isLocation:location insideGeofence:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.agencyBoundaries];
-    
-    NSLog(@"%fm From Boundary", metersFromBoundary);
-    NSLog(@"%fm Accuracy", location.horizontalAccuracy);
-    NSLog(@"Accuracy - MetersFromBoundary = %fm", location.horizontalAccuracy - metersFromBoundary);
-    if (isInsideGeofence) {
-        return YES;
-        NSLog(@"isInsideGeofence");
-    }
-    if (!isInsideGeofence && metersFromBoundary < location.horizontalAccuracy - metersFromBoundary) {
-        NSLog(@"NotInsideGeofence but (metersFromBoundary < location.horizontalAccuracy - metersFromBoundary)");
-            return YES;
-    }
-    NSLog(@"Initially Outside Geofence");
-//#warning GeoTesting
-//        return YES;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang
-                                                        object:nil];
-    
-    return NO;
-}
-
-
 #pragma mark - Geofence Proximity
 
 //start here
@@ -244,7 +286,7 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     
     for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
         
-        if ([TSGeofence isWithinBoundariesWithOverhang:currentLocation agency:agency]) {
+        if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:currentLocation agency:agency]) {
             self.currentAgency = agency;
             
             [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:agency userInfo:nil];

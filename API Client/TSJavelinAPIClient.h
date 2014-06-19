@@ -14,6 +14,8 @@
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIEntourageMember.h"
 #import "TSJavelinAPISocialCrimeReport.h"
+#import "TSJavelinAPIRegion.h"
+#import "TSJavelinAPIDispatchCenter.h"
 
 @class TSJavelinAPIUser;
 @class TSJavelinAPIAlert;

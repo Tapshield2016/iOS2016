@@ -10,6 +10,8 @@
 #import "TSJavelinAPIClient.h"
 #import "UIImageView+AFNetworking.h"
 #import "UIImage+Resize.h"
+#import "TSJavelinAPIRegion.h"
+#import "TSJavelinAPIDispatchCenter.h"
 
 NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAgencyDidFinishSmallLogoDownload";
 
@@ -36,29 +38,32 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     _dispatcherSecondaryPhoneNumber = [attributes valueForKey:@"dispatcher_secondary_phone_number"];
     _dispatcherScheduleStart = [attributes valueForKey:@"dispatcher_schedule_start"];
     _dispatcherScheduleEnd = [attributes valueForKey:@"dispatcher_schedule_end"];
-    _agencyCenter.latitude = [[attributes objectForKey:@"agency_center_latitude"] doubleValue];
-    _agencyCenter.longitude = [[attributes objectForKey:@"agency_center_longitude"] doubleValue];
-    _alertCompletedMessage = [attributes objectForKey:@"alert_completed_message"];
-    _requireDomainEmails = [[attributes objectForKey:@"require_domain_emails"] boolValue];
-    _displayCommandAlert = [[attributes objectForKey:@"display_command_alert"] boolValue];
-    _showAgencyNameInAppNavbar = [[attributes objectForKey:@"show_agency_name_in_app_navbar"] boolValue];
-    _launchCallToDispatcherOnAlert = [[attributes objectForKey:@"launch_call_to_dispatcher_on_alert"] boolValue];
+    _agencyCenter.latitude = [[attributes nonNullObjectForKey:@"agency_center_latitude"] doubleValue];
+    _agencyCenter.longitude = [[attributes nonNullObjectForKey:@"agency_center_longitude"] doubleValue];
+    _alertCompletedMessage = [attributes nonNullObjectForKey:@"alert_completed_message"];
+    _requireDomainEmails = [[attributes nonNullObjectForKey:@"require_domain_emails"] boolValue];
+    _displayCommandAlert = [[attributes nonNullObjectForKey:@"display_command_alert"] boolValue];
+    _showAgencyNameInAppNavbar = [[attributes nonNullObjectForKey:@"show_agency_name_in_app_navbar"] boolValue];
+    _launchCallToDispatcherOnAlert = [[attributes nonNullObjectForKey:@"launch_call_to_dispatcher_on_alert"] boolValue];
     
-    if (![[attributes objectForKey:@"agency_info_url"] isKindOfClass:[NSNull class]]) {
-        _infoUrl = [attributes objectForKey:@"agency_info_url"];
+    if (![[attributes nonNullObjectForKey:@"agency_info_url"] isKindOfClass:[NSNull class]]) {
+        _infoUrl = [attributes nonNullObjectForKey:@"agency_info_url"];
     }
-    if (![[attributes objectForKey:@"agency_rss_url"] isKindOfClass:[NSNull class]]) {
-        _rssFeed = [attributes objectForKey:@"agency_rss_url"];
+    if (![[attributes nonNullObjectForKey:@"agency_rss_url"] isKindOfClass:[NSNull class]]) {
+        _rssFeed = [attributes nonNullObjectForKey:@"agency_rss_url"];
     }
     
-    self.agencyLogoUrl = [attributes objectForKey:@"agency_logo"];
-    self.agencyAlternateLogoUrl = [attributes objectForKey:@"agency_alternate_logo"];
-    self.agencySmallLogoUrl = [attributes objectForKey:@"agency_small_logo"];
-    _agencyTheme = [attributes objectForKey:@"agency_theme"];
+    self.agencyLogoUrl = [attributes nonNullObjectForKey:@"agency_logo"];
+    self.agencyAlternateLogoUrl = [attributes nonNullObjectForKey:@"agency_alternate_logo"];
+    self.agencySmallLogoUrl = [attributes nonNullObjectForKey:@"agency_small_logo"];
+    _agencyTheme = [attributes nonNullObjectForKey:@"agency_theme"];
     
-    [self setAgencyBoundaries:[attributes objectForKey:@"agency_boundaries"]];
+    [self setAgencyBoundaries:[attributes nonNullObjectForKey:@"agency_boundaries"]];
     
-    [self parseAgencyTheme:[attributes objectForKey:@"agency_theme"]];
+    [self parseAgencyTheme:[attributes nonNullObjectForKey:@"agency_theme"]];
+    
+    [self setRegions:[attributes nonNullObjectForKey:@"region"]];
+    [self setDispatchCenters:[attributes nonNullObjectForKey:@"dispatch_center"]];
     
     return self;
 }
@@ -189,6 +194,36 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     return self;
 }
 
+
+- (void)setRegions:(NSArray *)regions {
+    
+    if (!regions) {
+        return;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:regions.count];
+    for (NSDictionary *dictionary in regions) {
+        TSJavelinAPIRegion *region = [[TSJavelinAPIRegion alloc] initWithAttributes:dictionary];
+        [mutableArray addObject:region];
+    }
+    
+    _regions = mutableArray;
+}
+
+- (void)setDispatchCenters:(NSArray *)dispatchCenters {
+    
+    if (!dispatchCenters) {
+        return;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:dispatchCenters.count];
+    for (NSDictionary *dictionary in dispatchCenters) {
+        TSJavelinAPIDispatchCenter *center = [[TSJavelinAPIDispatchCenter alloc] initWithAttributes:dictionary];
+        [mutableArray addObject:center];
+    }
+    
+    _dispatchCenters = mutableArray;
+}
 
 - (void)parseAgencyTheme:(NSString *)jsonString {
     
@@ -328,6 +363,22 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     [scanner scanHexInt:&temp];
     
     return temp;
+}
+
+- (NSArray *)openDispatchCenters {
+    
+    if (!_dispatchCenters) {
+        return nil;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:_dispatchCenters.count];
+    for (TSJavelinAPIDispatchCenter *center in _dispatchCenters) {
+        if ([center isOpen]) {
+            [mutableArray addObject:center];
+        }
+    }
+    
+    return mutableArray;
 }
 
 @end

@@ -339,7 +339,8 @@ static dispatch_once_t predicate;
         _twilioDevice.disconnectSoundEnabled = YES;
         
         
-        NSString *phoneNumber = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber;
+        NSString *phoneNumber = [TSGeofence primaryPhoneNumberInsideRegion:[TSLocationController sharedLocationController].location
+                                                                    agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency];
         
         if (phoneNumber) {
             _twilioConnection = [_twilioDevice connect:@{@"To": phoneNumber} delegate:self];

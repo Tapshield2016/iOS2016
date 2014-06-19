@@ -26,30 +26,30 @@
 {
     self = [super initWithAttributes:attributes];
     if (self) {
-        _body = [attributes objectForKey:@"body"];
-        _creationDate = [self reformattedTimeStamp:[attributes objectForKey:@"creation_date"]];
+        _body = [attributes nonNullObjectForKey:@"body"];
+        _creationDate = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"creation_date"]];
         
-        id distance = [attributes objectForKey:@"distance"];
-        if (distance && ![distance isKindOfClass:[NSNull class]]) {
+        id distance = [attributes nonNullObjectForKey:@"distance"];
+        if (distance) {
             _distance = [distance unsignedIntegerValue];
         }
         
         _lastModified = [self reformattedTimeStamp:[attributes valueForKey:@"last_modified"]];
         
-        _reportImageUrl = [self filterNSNull:[attributes objectForKey:@"report_image_url"]];
-        _reportVideoUrl = [self filterNSNull:[attributes objectForKey:@"report_video_url"]];
-        _reportAudioUrl = [self filterNSNull:[attributes objectForKey:@"report_audio_url"]];
+        _reportImageUrl = [attributes nonNullObjectForKey:@"report_image_url"];
+        _reportVideoUrl = [attributes nonNullObjectForKey:@"report_video_url"];
+        _reportAudioUrl = [attributes nonNullObjectForKey:@"report_audio_url"];
         
-        double lat = [[attributes objectForKey:@"report_latitude"] doubleValue];
-        double lon = [[attributes objectForKey:@"report_longitude"] doubleValue];
+        double lat = [[attributes nonNullObjectForKey:@"report_latitude"] doubleValue];
+        double lon = [[attributes nonNullObjectForKey:@"report_longitude"] doubleValue];
         
         _location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
         
         NSArray *shortArray = [NSArray arrayWithObjects:kSocialCrimeReportShortArray];
         
-        _reportType = [shortArray indexOfObject:[attributes objectForKey:@"report_type"]];
-        _user = [attributes objectForKey:@"reporter"];
-        _reportAnonymous = [[attributes objectForKey:@"report_anonymous"] boolValue];
+        _reportType = [shortArray indexOfObject:[attributes nonNullObjectForKey:@"report_type"]];
+        _user = [attributes nonNullObjectForKey:@"reporter"];
+        _reportAnonymous = [[attributes nonNullObjectForKey:@"report_anonymous"] boolValue];
     }
     return self;
 }

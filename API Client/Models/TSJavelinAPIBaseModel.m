@@ -42,37 +42,54 @@
 
 - (void)setUrl:(NSString *)url {
     _url = url;
-
-    if (!url || [url isKindOfClass:[NSNull class]]) {
-        _identifier = 0;
-        return;
-    }
     
-    // Expects a path like /api/v1/users/1/, so the 2nd to last item in the
-    // list of components should be our integer ID.
-    NSArray *urlComponents = [_url componentsSeparatedByString:@"/"];
-    if (urlComponents.count) {
-        _identifier = [urlComponents[urlComponents.count - 2] integerValue];
-    }
+    _identifier = [self filterIdentifier:_url];
 }
 
-- (NSDate *)reformattedTimeStamp:(NSString *)string
-{
+- (NSUInteger)filterIdentifier:(NSString *)url {
+    
+    if (!url || [url isKindOfClass:[NSNull class]]) {
+        return 0;
+    }
+    
+    NSUInteger identifier = 0;
+    // Expects a path like /api/v1/users/1/, so the 2nd to last item in the
+    // list of components should be our integer ID.
+    NSArray *urlComponents = [url componentsSeparatedByString:@"/"];
+    if (urlComponents.count) {
+        identifier = [urlComponents[urlComponents.count - 2] integerValue];
+    }
+    return identifier;
+}
+
+- (NSDate *)reformattedTimeStamp:(NSString *)string {
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     [dateFormatter setLocale:[NSLocale systemLocale]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
     NSDate *date = [dateFormatter dateFromString:string];
     
+    if (!date) {
+        dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [dateFormatter setLocale:[NSLocale systemLocale]];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+        date = [dateFormatter dateFromString:string];
+    }
+    
     return date;
 }
 
-- (id)filterNSNull:(id)object {
+- (NSDate *)timeFromString:(NSString *)string {
     
-    if ([object isKindOfClass:[NSNull class]]) {
-        return nil;
-    }
-    return object;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    [dateFormatter setLocale:[NSLocale systemLocale]];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    NSDate *date = [dateFormatter dateFromString:string];
+    
+    return date;
 }
 
 @end

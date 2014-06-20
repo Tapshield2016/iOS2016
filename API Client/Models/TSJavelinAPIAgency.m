@@ -378,6 +378,10 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
         }
     }
     
+    if (!mutableArray.count) {
+        return nil;
+    }
+    
     return mutableArray;
 }
 

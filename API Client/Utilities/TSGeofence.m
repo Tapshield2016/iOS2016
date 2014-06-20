@@ -8,6 +8,7 @@
 
 #import "TSGeofence.h"
 #import "TSBaseLabel.h"
+#import "TSLocationController.h"
 
 NSString * const TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang = @"TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang";
 NSString * const TSGeofenceUserIsWithinBoundariesWithOverhang = @"TSGeofenceUserIsWithinBoundariesWithOverhang";
@@ -17,6 +18,10 @@ NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGe
 NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
 NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
+#define kNoChatOutside @"Chat Unavailable\n\nYou are located outside of the %@ boundaries"
+#define kNoChatClosed @"Chat Unavailable\n\nThe %@ dispatch center is closed"
+#define kNoChatNoAgency @"Chat Unavailable\n\nYou are located outside the boundaries of an organization that uses TapShield"
+
 @interface TSGeofence ()
 
 @property (strong, nonatomic) UIWindow *window;
@@ -25,23 +30,78 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 @implementation TSGeofence
 
++ (BOOL)isWithinBoundariesWithOverhangAndOpen {
+    
+    return [TSGeofence isWithinBoundariesWithOverhangAndOpen:[TSLocationController sharedLocationController].location agency:[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency];
+}
+
+
++ (BOOL)isInsideOpenRegion {
+    
+    return [TSGeofence isInsideOpenRegion:[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency location:[TSLocationController sharedLocationController].location];
+}
+
+
++ (TSJavelinAPIRegion *)regionInside {
+    return [TSGeofence regionInside:[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency location:[TSLocationController sharedLocationController].location];
+}
+
+
++ (NSString *)primaryPhoneNumberInsideRegion {
+    
+    return [TSGeofence primaryPhoneNumberInsideRegion:[TSLocationController sharedLocationController].location agency:[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency];
+}
+
++ (BOOL)insideButClosed {
+    
+    TSJavelinAPIRegion *region = [TSGeofence regionInside];
+    if (region) {
+        if (![region openCenterToReceive:[TSGeofence openDispatchCenters]]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
++ (NSArray *)openDispatchCenters {
+    
+    return [[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency openDispatchCenters];
+}
+
+
 + (BOOL)isWithinBoundariesWithOverhangAndOpen:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
     
     if (agency.regions) {
-        for (TSJavelinAPIRegion *region in agency.regions) {
-            if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
-                if ([region openCenterToReceive:[agency openDispatchCenters]]) {
-                    return YES;
-                }
+        return [TSGeofence isInsideOpenRegion:agency location:location];
+    }
+    
+    return [TSGeofence isWithinBoundariesWithOverhang:location boundaries:agency.agencyBoundaries];
+}
+
+
++ (BOOL)isInsideOpenRegion:(TSJavelinAPIAgency *)agency location:(CLLocation *)location {
+    
+    for (TSJavelinAPIRegion *region in agency.regions) {
+        if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
+            if ([region openCenterToReceive:[agency openDispatchCenters]]) {
+                return YES;
             }
         }
     }
-    else {
-        return [TSGeofence isWithinBoundariesWithOverhang:location boundaries:agency.agencyBoundaries];
-    }
-    
     
     return NO;
+}
+
++ (TSJavelinAPIRegion *)regionInside:(TSJavelinAPIAgency *)agency location:(CLLocation *)location {
+    
+    for (TSJavelinAPIRegion *region in agency.regions) {
+        if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
+            return region;
+        }
+    }
+    
+    return nil;
 }
 
 + (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location boundaries:(NSArray *)boundaries
@@ -370,10 +430,14 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     TSBaseLabel *windowMessage = [[TSBaseLabel alloc] initWithFrame:CGRectMake(inset, 0, frame.size.width - inset*2, frame.size.height)];
     windowMessage.numberOfLines = 0;
     windowMessage.backgroundColor = [UIColor clearColor];
-    windowMessage.text = [NSString stringWithFormat:@"Chat Unavailable\n\nYou are located outside of the %@ boundaries", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
+    windowMessage.text = [NSString stringWithFormat:kNoChatOutside, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
+    
+    if ([TSGeofence insideButClosed]) {
+        windowMessage.text = [NSString stringWithFormat:kNoChatClosed, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name];
+    }
     
     if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
-        windowMessage.text = @"Chat Unavailable\n\nYou are located outside the boundaries of an organization that uses TapShield";
+        windowMessage.text = kNoChatNoAgency;
     }
     
     windowMessage.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];

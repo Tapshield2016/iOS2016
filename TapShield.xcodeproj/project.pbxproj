@@ -3752,10 +3752,6 @@
 		C5F2E5B11950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
 		C5F2E5B21950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
 		C5F2E5B31950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
-		C5F2E5B619550A02005B32A1 /* TSRegionPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5B519550A02005B32A1 /* TSRegionPolygon.m */; };
-		C5F2E5B719550A02005B32A1 /* TSRegionPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5B519550A02005B32A1 /* TSRegionPolygon.m */; };
-		C5F2E5B819550A02005B32A1 /* TSRegionPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5B519550A02005B32A1 /* TSRegionPolygon.m */; };
-		C5F2E5B919550A02005B32A1 /* TSRegionPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5B519550A02005B32A1 /* TSRegionPolygon.m */; };
 		C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
 		C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
 		C5FB6DFB191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
@@ -4929,8 +4925,6 @@
 		C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIPeriod.m; sourceTree = "<group>"; };
 		C5F2E5AE1950FBFF005B32A1 /* NSDictionary+ReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ReplaceNull.h"; sourceTree = "<group>"; };
 		C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ReplaceNull.m"; sourceTree = "<group>"; };
-		C5F2E5B419550A02005B32A1 /* TSRegionPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRegionPolygon.h; sourceTree = "<group>"; };
-		C5F2E5B519550A02005B32A1 /* TSRegionPolygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRegionPolygon.m; sourceTree = "<group>"; };
 		C5FB6DF7191774DD008E1185 /* TSGenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSGenderViewController.h; path = "View Controllers/TSGenderViewController.h"; sourceTree = "<group>"; };
 		C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSGenderViewController.m; path = "View Controllers/TSGenderViewController.m"; sourceTree = "<group>"; };
 		C5FC0A6218CF704F00AB787F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -5177,8 +5171,6 @@
 				C5C1C9AD1909B9220087F622 /* TSCircularControl.m */,
 				C5CED6401936608E0079CEA2 /* TSPopUpWindow.h */,
 				C5CED6411936608E0079CEA2 /* TSPopUpWindow.m */,
-				C5F2E5B419550A02005B32A1 /* TSRegionPolygon.h */,
-				C5F2E5B519550A02005B32A1 /* TSRegionPolygon.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -10298,7 +10290,6 @@
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C5C1C9A419085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
-				C5F2E5B619550A02005B32A1 /* TSRegionPolygon.m in Sources */,
 				C520C8FC18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C56B3D6618FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C585F1B018CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
@@ -10473,7 +10464,6 @@
 				C5F2E59B194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				C5AFBB86191F8F0C00EC62A5 /* TSHairColorViewController.m in Sources */,
-				C5F2E5B919550A02005B32A1 /* TSRegionPolygon.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5BBF42318F907EC008B5CB2 /* TSChatMessageCell.m in Sources */,
@@ -10663,7 +10653,6 @@
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
 				C5C1C9A519085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
-				C5F2E5B719550A02005B32A1 /* TSRegionPolygon.m in Sources */,
 				C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */,
 				C56B3D6718FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
@@ -10846,7 +10835,6 @@
 				C5AFB955191D35DE00EC62A5 /* TSSettingsViewController.m in Sources */,
 				C5AFB956191D35DE00EC62A5 /* TSAddMemberCell.m in Sources */,
 				C5AFB957191D35DE00EC62A5 /* TSGooglePlusButton.m in Sources */,
-				C5F2E5B819550A02005B32A1 /* TSRegionPolygon.m in Sources */,
 				C5AFB958191D35DE00EC62A5 /* TSHomeViewController.m in Sources */,
 				C5AFB959191D35DE00EC62A5 /* TSSettingsSwitch.m in Sources */,
 				C5AFB95A191D35DE00EC62A5 /* TSJavelinAPIAgency.m in Sources */,

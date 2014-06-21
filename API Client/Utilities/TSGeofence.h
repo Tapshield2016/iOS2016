@@ -38,6 +38,9 @@
 - (void)updateNearbyAgencies:(CLLocation *)currentLocation;
 + (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector;
 
+- (TSJavelinAPIAgency *)nearbyAgencyWithID:(NSString *)identifier;
+- (TSJavelinAPIRegion *)nearbyAgencyRegionWithID:(NSString *)identifier;
+
 //Outside
 - (void)showOutsideBoundariesWindow;
 

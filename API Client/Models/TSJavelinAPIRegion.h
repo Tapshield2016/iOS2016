@@ -27,7 +27,7 @@
 @property (assign, nonatomic) NSUInteger primaryDispatchCenter;
 @property (assign, nonatomic) NSUInteger secondaryDispatchCenter;
 @property (assign, nonatomic) NSUInteger fallbackDispatchCenter;
-@property (readonly) CLLocationCoordinate2D centerPoint;
+@property (assign, nonatomic) CLLocationCoordinate2D centerPoint;
 
 - (TSJavelinAPIDispatchCenter *)openCenterToReceive:(NSArray *)openCenters;
 

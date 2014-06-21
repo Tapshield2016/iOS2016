@@ -30,6 +30,8 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 @implementation TSGeofence
 
+#pragma mark - Quick Boundary Methods
+
 + (BOOL)isWithinBoundariesWithOverhangAndOpen {
     
     return [TSGeofence isWithinBoundariesWithOverhangAndOpen:[TSLocationController sharedLocationController].location agency:[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency];
@@ -68,6 +70,9 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     
     return [[[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency openDispatchCenters];
 }
+
+
+#pragma mark - Full Boundary Methods
 
 
 + (BOOL)isWithinBoundariesWithOverhangAndOpen:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
@@ -368,6 +373,39 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     if (completion) {
         completion(nil);
     }
+}
+
+
+#pragma mark - Agency Query
+
+- (TSJavelinAPIAgency *)nearbyAgencyWithID:(NSString *)identifier {
+    
+    if (!_nearbyAgencies) {
+        [self updateNearbyAgencies:[TSLocationController sharedLocationController].location];
+    }
+    
+    for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
+        if (agency.identifier == [identifier integerValue]) {
+            return agency;
+        }
+    }
+    return nil;
+}
+
+- (TSJavelinAPIRegion *)nearbyAgencyRegionWithID:(NSString *)identifier {
+    
+    if (!_nearbyAgencies) {
+        [self updateNearbyAgencies:[TSLocationController sharedLocationController].location];
+    }
+    
+    for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
+        for (TSJavelinAPIRegion *region in agency.regions) {
+            if (region.identifier == [identifier integerValue]) {
+                return region;
+            }
+        }
+    }
+    return nil;
 }
 
 

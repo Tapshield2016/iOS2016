@@ -99,10 +99,21 @@
     MKPolygonRenderer *renderer = [[MKPolygonRenderer alloc] initWithPolygon:(MKPolygon *)overlay];
     renderer.lineWidth = 2.0;
     
-    UIColor *color = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.secondaryColor;
+    MKPolygon *polygon = (MKPolygon *)overlay;
+    TSJavelinAPIAgency *agency = [[TSLocationController sharedLocationController].geofence nearbyAgencyWithID:polygon.title];
+    TSJavelinAPIRegion *region = [[TSLocationController sharedLocationController].geofence nearbyAgencyRegionWithID:polygon.subtitle];
+    
+    UIColor *color = agency.secondaryColor;
     if (!color) {
         color = [TSColorPalette randomColor];
     }
+    
+    if (region) {
+        if (![region openCenterToReceive:[agency openDispatchCenters]]) {
+            color = [TSColorPalette darkGrayColor];
+        }
+    }
+    
     renderer.strokeColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.75f];
     renderer.fillColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.15f];
     
@@ -128,10 +139,17 @@
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location {
     
     MKCircle *previousCircle = _accuracyCircle;
-    _accuracyCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
+    MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
+    
+    if (MKMetersBetweenMapPoints(MKMapPointForCoordinate(previousCircle.coordinate),
+                                 MKMapPointForCoordinate(newcircle.coordinate)) < 0.5 &&
+        previousCircle.radius == newcircle.radius) {
+        return;
+    }
+    
+    _accuracyCircle = newcircle;
     _animatedOverlay.circle = _accuracyCircle;
     [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];
-    
     [self removeOverlay:previousCircle];
 }
 
@@ -144,41 +162,55 @@
         return;
     }
     NSArray *agencies = @[agency];
-        NSMutableArray *mutableGeofenceArray = [[NSMutableArray alloc] init];
-        for (TSJavelinAPIAgency *agency in agencies) {
-            if (agency.agencyBoundaries) {
-                [mutableGeofenceArray addObject:agency.agencyBoundaries];
-                
-                TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:agency.agencyCenter
-                                                                                             placeName:agency.name
-                                                                                           description:[NSString stringWithFormat:@"%lu", (unsigned long)agency.identifier]];
-                agencyAnnotation.image = agency.alternateLogo;
-                [self addAnnotation:agencyAnnotation];
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+    for (TSJavelinAPIAgency *agency in agencies) {
+        
+        NSArray *regionsArray = agency.regions;
+        
+        if (!regionsArray.count) {
+            TSJavelinAPIRegion *region = [[TSJavelinAPIRegion alloc] init];
+            region.boundaries = agency.agencyBoundaries;
+            region.centerPoint = agency.agencyCenter;
+            regionsArray = @[region];
+        }
+        
+        for (TSJavelinAPIRegion *region in regionsArray) {
+            MKPolygon *regionPolygon = [self polygonForBoundaries:region.boundaries];
+            regionPolygon.title = [NSString stringWithFormat:@"%i", agency.identifier];
+            if (region.identifier) {
+                regionPolygon.subtitle = [NSString stringWithFormat:@"%i", region.identifier];
             }
-        }
-        [self overlayGeofenceArray:mutableGeofenceArray];
-//    }]; 
-}
-
-- (void)overlayGeofenceArray:(NSArray *)geofenceArray {
-    
-    for (NSArray *coordinateArray in geofenceArray) {
-        
-        CLLocationCoordinate2D *boundaries = calloc(coordinateArray.count, sizeof(CLLocationCoordinate2D));
-        for (int i = 0; i < coordinateArray.count; i++) {
+            else {
+                regionPolygon.subtitle = nil;
+            }
             
-            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(((CLLocation *)coordinateArray[i]).coordinate.latitude, ((CLLocation *)coordinateArray[i]).coordinate.longitude);
-            boundaries[i] = coordinate;
+            [mutableArray addObject:regionPolygon];
+            
+            TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:region.centerPoint
+                                                                                         placeName:agency.name
+                                                                                       description:region.name];
+            agencyAnnotation.image = agency.alternateLogo;
+            [self addAnnotation:agencyAnnotation];
         }
-        
-        MKPolygon *geofencePolygon = [MKPolygon polygonWithCoordinates:boundaries count:coordinateArray.count];
-        free(boundaries);
-        [self addOverlay:geofencePolygon level:MKOverlayLevelAboveRoads];
     }
+    
+    [self addOverlays:mutableArray level:MKOverlayLevelAboveRoads];
+//    }];
 }
 
-- (void)addGeofence:(NSArray *)geofence colorHex:(int)hex {
+- (MKPolygon *)polygonForBoundaries:(NSArray *)regionBoundaries {
     
+    CLLocationCoordinate2D *boundaries = calloc(regionBoundaries.count, sizeof(CLLocationCoordinate2D));
+    for (int i = 0; i < regionBoundaries.count; i++) {
+        
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(((CLLocation *)regionBoundaries[i]).coordinate.latitude, ((CLLocation *)regionBoundaries[i]).coordinate.longitude);
+        boundaries[i] = coordinate;
+    }
+    
+    MKPolygon *geofencePolygon = [MKPolygon polygonWithCoordinates:boundaries count:regionBoundaries.count];
+    free(boundaries);
+    
+    return geofencePolygon;
 }
 
 #pragma mark Animated Overlay

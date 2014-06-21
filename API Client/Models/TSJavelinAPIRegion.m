@@ -41,7 +41,7 @@ static NSString *const kModelCenterLongitude = @"center_longitude";
     _secondaryDispatchCenter = [self filterIdentifier:[attributes nonNullObjectForKey:kModelSecondaryDispatchCenter]];
     _fallbackDispatchCenter = [self filterIdentifier:[attributes nonNullObjectForKey:kModelFallbackDispatchCenter]];
     
-    [self setBoundaries:[attributes nonNullObjectForKey:kModelBoundaries]];
+    [self setRegionBoundariesFromAttributes:[attributes nonNullObjectForKey:kModelBoundaries]];
     
     double lat = [[attributes nonNullObjectForKey:kModelCenterLatitude] doubleValue];
     double lon = [[attributes nonNullObjectForKey:kModelCenterLongitude] doubleValue];
@@ -76,7 +76,7 @@ static NSString *const kModelCenterLongitude = @"center_longitude";
 }
 
 
-- (void)setBoundaries:(NSString *)boundariesString {
+- (void)setRegionBoundariesFromAttributes:(NSString *)boundariesString {
     
     if ([boundariesString isKindOfClass:[NSNull class]]) {
         return;

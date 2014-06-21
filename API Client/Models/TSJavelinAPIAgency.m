@@ -127,6 +127,14 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     if (_rssFeed) {
         [encoder encodeObject:_rssFeed forKey:@"agency_rss_url"];
     }
+    
+    if (_regions) {
+        [encoder encodeObject:_regions forKey:@"region"];
+    }
+    
+    if (_dispatchCenters) {
+        [encoder encodeObject:_dispatchCenters forKey:@"dispatch_center"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -190,6 +198,13 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
             _rssFeed = [decoder decodeObjectForKey:@"agency_rss_url"];
         }
         
+        if ([decoder containsValueForKey:@"region"]) {
+            _regions = [decoder decodeObjectForKey:@"region"];
+        }
+        
+        if ([decoder containsValueForKey:@"dispatch_center"]) {
+            _dispatchCenters = [decoder decodeObjectForKey:@"dispatch_center"];
+        }
     }
     return self;
 }

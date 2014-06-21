@@ -561,6 +561,7 @@
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if([overlay isKindOfClass:[MKPolygon class]]){
+        
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
     else if ([overlay isKindOfClass:[MKCircle class]]) {

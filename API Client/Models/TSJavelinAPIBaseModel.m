@@ -64,6 +64,10 @@
 
 - (NSDate *)reformattedTimeStamp:(NSString *)string {
     
+    if (![string isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     [dateFormatter setLocale:[NSLocale systemLocale]];

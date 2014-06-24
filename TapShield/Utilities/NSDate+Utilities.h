@@ -114,5 +114,7 @@
 @property (readonly) NSInteger year;
 
 - (NSDate *)resetDateKeepTime;
++ (NSDate *)nextWeekday:(NSInteger)day;
+- (NSDate *)setTime:(NSDate *)dateTime;
 
 @end

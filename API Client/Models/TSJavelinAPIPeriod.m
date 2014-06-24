@@ -40,6 +40,8 @@ static NSString *const kModelEndTime = @"close";
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
+    [super encodeWithCoder:encoder];
+    
     [encoder encodeObject:@(_day) forKey:kModelDay];
     [encoder encodeObject:_startTime forKey:kModelStartTime];
     [encoder encodeObject:_endTime forKey:kModelEndTime];

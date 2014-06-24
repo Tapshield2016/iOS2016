@@ -37,6 +37,8 @@ static NSString *const kModelEndDate = @"end_date";
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
+    [super encodeWithCoder:encoder];
+    
     [encoder encodeObject:_startDate forKey:kModelStartDate];
     [encoder encodeObject:_endDate forKey:kModelEndDate];
 }

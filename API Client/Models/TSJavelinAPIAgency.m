@@ -12,6 +12,8 @@
 #import "UIImage+Resize.h"
 #import "TSJavelinAPIRegion.h"
 #import "TSJavelinAPIDispatchCenter.h"
+#import "TSJavelinAPIClosedDate.h"
+#import "TSJavelinAPIPeriod.h"
 
 NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAgencyDidFinishSmallLogoDownload";
 
@@ -398,6 +400,43 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     }
     
     return mutableArray;
+}
+
+- (NSDate *)nextOpeningHoursStatusChange {
+    
+   NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:5];
+    
+    for (TSJavelinAPIDispatchCenter *dispatchCenter in _dispatchCenters) {
+        for (TSJavelinAPIClosedDate *closedDate in dispatchCenter.closedDates) {
+            if (closedDate.startDate.isInFuture) {
+                [mutableArray addObject:closedDate.startDate];
+            }
+            else if (closedDate.endDate.isInFuture) {
+                [mutableArray addObject:closedDate.endDate];
+            }
+        }
+        
+        for (TSJavelinAPIPeriod *period in dispatchCenter.openingHours) {
+            
+            NSDate *startDate = [[NSDate nextWeekday:period.day] setTime:period.startTime];
+            NSDate *endDate = [[NSDate nextWeekday:period.day] setTime:period.endTime];
+            
+            if (startDate.isInFuture) {
+                [mutableArray addObject:startDate];
+            }
+            else if (endDate.isInFuture) {
+                [mutableArray addObject:endDate];
+            }
+        }
+    }
+    
+    [mutableArray sortUsingSelector:@selector(compare:)];
+    
+    if (mutableArray.count) {
+        return [mutableArray firstObject];
+    }
+    
+    return nil;
 }
 
 @end

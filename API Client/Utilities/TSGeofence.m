@@ -17,6 +17,7 @@ NSString * const TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang = @"TSGe
 
 NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
 NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
+NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpdateOpenAgencies";
 
 #define kNoChatOutside @"Chat Unavailable\n\nYou are located outside of the %@ boundaries"
 #define kNoChatClosed @"Chat Unavailable\n\nThe %@ dispatch center is closed"
@@ -25,10 +26,21 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 @interface TSGeofence ()
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSTimer *updateTimer;
 
 @end
 
 @implementation TSGeofence
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [TSJavelinAPIClient registerForUserAgencyUpdatesNotification:self
+                                                              action:@selector(updateNearbyAgencies)];
+    }
+    return self;
+}
 
 #pragma mark - Quick Boundary Methods
 
@@ -291,21 +303,28 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
     }
     
     if (!_lastAgencyUpdate) {
-        [self updateNearbyAgencies:currentLocation];
+        [self updateNearbyAgencies];
         return;
     }
    
     
     if ([_lastAgencyUpdate distanceFromLocation:currentLocation] > _distanceToNearestAgencyBoundary) {
-        [self updateNearbyAgencies:currentLocation];
+        [self updateNearbyAgencies];
     }
 }
 
-- (void)updateNearbyAgencies:(CLLocation *)currentLocation {
+- (void)updateNearbyAgencies {
+    
+    [self updateAgenciesCloseTo:[TSLocationController sharedLocationController].location];
+}
+
+- (void)updateAgenciesCloseTo:(CLLocation *)currentLocation {
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
         _nearbyAgencies = @[[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency];
     }
+    
+    [self findNextOpeningHoursChange];
     
     [self checkInsideNearbyAgencies:currentLocation completion:^(TSJavelinAPIAgency *insideAgency) {
         
@@ -381,7 +400,7 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 - (TSJavelinAPIAgency *)nearbyAgencyWithID:(NSString *)identifier {
     
     if (!_nearbyAgencies) {
-        [self updateNearbyAgencies:[TSLocationController sharedLocationController].location];
+        [self updateNearbyAgencies];
     }
     
     for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
@@ -395,7 +414,7 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 - (TSJavelinAPIRegion *)nearbyAgencyRegionWithID:(NSString *)identifier {
     
     if (!_nearbyAgencies) {
-        [self updateNearbyAgencies:[TSLocationController sharedLocationController].location];
+        [self updateNearbyAgencies];
     }
     
     for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
@@ -410,6 +429,46 @@ NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 
 
 #pragma mark - Agency Updates
+
+- (void)findNextOpeningHoursChange {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:5];
+    
+    for (TSJavelinAPIAgency *agency in [_nearbyAgencies copy]) {
+        
+        NSDate *date = [agency nextOpeningHoursStatusChange];
+        if (date) {
+            [mutableArray addObject: date];
+        }
+    }
+    
+    if (mutableArray.count) {
+        [mutableArray sortUsingSelector:@selector(compare:)];
+        [self setTimerForAgencyOpeningHours:[mutableArray firstObject]];
+    }
+}
+
+- (void)setTimerForAgencyOpeningHours:(NSDate *)date {
+    
+    _updateTimer = [NSTimer scheduledTimerWithTimeInterval:[date timeIntervalSinceNow]
+                                                    target:self
+                                                  selector:@selector(refreshOpenAgencies)
+                                                  userInfo:nil
+                                                   repeats:NO];
+}
+
+- (void)refreshOpenAgencies {
+    
+    [self updateNearbyAgencies];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceShouldUpdateOpenAgencies object:nil];
+}
+
++ (void)registerForOpeningHourChanges:(id)object action:(SEL)selector {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSGeofenceShouldUpdateOpenAgencies object:nil];
+}
+
+
 
 - (void)setCurrentAgency:(TSJavelinAPIAgency *)currentAgency {
     _currentAgency = currentAgency;

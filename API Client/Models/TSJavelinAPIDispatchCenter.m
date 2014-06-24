@@ -47,6 +47,7 @@ static NSString *const kModelPhoneNumber = @"phone_number";
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
+    [super encodeWithCoder:encoder];
     [encoder encodeObject:_name forKey:kModelName];
     [encoder encodeObject:_phoneNumber forKey:kModelPhoneNumber];
     [encoder encodeObject:_closedDates forKey:kModelClosedDate];
@@ -98,6 +99,7 @@ static NSString *const kModelPhoneNumber = @"phone_number";
     if (!_openingHours || !_openingHours.count) {
         return YES;
     }
+    
     
     for (TSJavelinAPIPeriod *period in _openingHours) {
         if (period.day == now.weekday) {

@@ -39,6 +39,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
+    [super encodeWithCoder:encoder];
 
     [encoder encodeObject: _profileImage forKey: @"profile_image"];
     [encoder encodeObject: _profileImageURL forKey: @"profile_image_url"];

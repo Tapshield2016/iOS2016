@@ -46,5 +46,6 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 @property (strong, nonatomic) UIColor *secondaryColor;
 
 - (NSArray *)openDispatchCenters;
+- (NSDate *)nextOpeningHoursStatusChange;
 
 @end

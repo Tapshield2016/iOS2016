@@ -33,9 +33,11 @@
 
 + (NSString *)primaryPhoneNumberInsideRegion:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency;
 
++ (void)registerForOpeningHourChanges:(id)object action:(SEL)selector;
+
 //Roaming Organization
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation;
-- (void)updateNearbyAgencies:(CLLocation *)currentLocation;
+- (void)updateNearbyAgencies;
 + (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector;
 
 - (TSJavelinAPIAgency *)nearbyAgencyWithID:(NSString *)identifier;

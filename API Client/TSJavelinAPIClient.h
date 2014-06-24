@@ -98,6 +98,8 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 @end
 
+extern NSString * const TSJavelinAPIClientDidUpdateAgency;
+
 @interface TSJavelinAPIClient : AFHTTPRequestOperationManager
 
 // The authManager should be used to perform any user-relation actions like
@@ -165,5 +167,6 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)removeUrl:(NSString *)url completion:(void(^)(BOOL finished))completion;
 
 - (BOOL)shouldRetry:(NSError *)error;
++ (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector;
 
 @end

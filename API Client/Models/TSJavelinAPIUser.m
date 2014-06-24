@@ -41,6 +41,9 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
+    
+    [super encodeWithCoder:encoder];
+    
     [encoder encodeObject:self.url forKey:@"url"];
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_email forKey:@"email"];

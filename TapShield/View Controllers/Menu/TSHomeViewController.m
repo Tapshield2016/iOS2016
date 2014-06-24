@@ -164,12 +164,12 @@
     if (!_annotationsLoaded) {
         _annotationsLoaded = YES;
         
-        [_mapView getAllGeofenceBoundaries];
+        [_mapView refreshRegionBoundariesOverlay];
         
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
             
             [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
-            [[TSLocationController sharedLocationController].geofence updateNearbyAgencies:location];
+            [[TSLocationController sharedLocationController].geofence updateNearbyAgencies];
             [_reportManager loadSpotCrimeAndSocialAnnotations:location];
             [self addUserLocationAnnotation:location];
         }];

@@ -10,6 +10,7 @@
 #import "TSBaseLabel.h"
 #import "TSLocalNotification.h"
 #import "TSAlertManager.h"
+#import "FBShimmeringView.h"
 #import <AVFoundation/AVFoundation.h>
 
 NSString * const TSYankManagerShouldShowWarningDetails = @"TSYankManagerShowWarningDetails";
@@ -26,6 +27,8 @@ static NSString * const kRemoveHeadphones = @"Yank is disabled.\nRemove headphon
 @property (strong, nonatomic) TSYankManagerYankEnabled yankEnabledBlock;
 @property (strong, nonatomic) UIWindow *yankWindow;
 @property (strong, nonatomic) TSBaseLabel *windowMessage;
+@property (strong, nonatomic) FBShimmeringView *shimmeringView;
+@property (strong, nonatomic) UIImageView *imageView;
 
 @end
 
@@ -147,10 +150,12 @@ static dispatch_once_t predicate;
     if (isEnabled) {
         NSLog(@"Yank enabled");
         [_windowMessage setText:kHeadphonesIn withAnimationType:kCATransitionReveal direction:kCATransitionFromBottom duration:0.3];
+        _shimmeringView.shimmering = NO;
     }
     else {
         NSLog(@"Yank disabled");
         [_windowMessage setText:kRemoveHeadphones withAnimationType:kCATransitionReveal direction:kCATransitionFromBottom duration:0.3];
+        _shimmeringView.shimmering = NO;
     }
     
     [self performSelector:@selector(hideYankWindow) withObject:nil afterDelay:3.0];
@@ -206,12 +211,19 @@ static dispatch_once_t predicate;
     toolbar.barStyle = UIBarStyleBlack;
     [view addSubview:toolbar];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert_yank_icon"]];
-    imageView.contentMode = UIViewContentModeCenter;
     
-    float centerOffsetX = frame.size.width - imageView.frame.size.width;
-    imageView.center = CGPointMake((frame.size.width+centerOffsetX)/2, frame.size.height/4 + 10);
-    [view addSubview:imageView];
+    
+    _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert_yank_icon"]];
+    _imageView.contentMode = UIViewContentModeCenter;
+    
+    _shimmeringView = [[FBShimmeringView alloc] initWithFrame:_imageView.frame];
+    _shimmeringView.contentView = _imageView;
+    _shimmeringView.shimmeringSpeed = 
+    _shimmeringView.shimmering = YES;
+    
+    float centerOffsetX = frame.size.width - _imageView.frame.size.width;
+    _shimmeringView.center = CGPointMake((frame.size.width+centerOffsetX)/2, frame.size.height/4 + 10);
+    [view addSubview:_shimmeringView];
     
     float inset = 10;
     _windowMessage = [[TSBaseLabel alloc] initWithFrame:CGRectMake(inset, frame.size.height/2, frame.size.width - inset*2, frame.size.height/2)];

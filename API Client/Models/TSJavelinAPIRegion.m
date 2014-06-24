@@ -66,6 +66,7 @@ static NSString *const kModelCenterLongitude = @"center_longitude";
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     
+    [super encodeWithCoder:encoder];
     [encoder encodeObject:_name forKey:kModelName];
     [encoder encodeObject:@(_primaryDispatchCenter) forKey:kModelPrimaryDispatchCenter];
     [encoder encodeObject:@(_secondaryDispatchCenter) forKey:kModelSecondaryDispatchCenter];

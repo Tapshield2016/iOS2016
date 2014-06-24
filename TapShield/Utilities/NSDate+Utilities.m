@@ -286,13 +286,11 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
 	return ([self compare:aDate] == NSOrderedDescending);
 }
 
-// Thanks, markrickert
 - (BOOL) isInFuture
 {
     return ([self isLaterThanDate:[NSDate date]]);
 }
 
-// Thanks, markrickert
 - (BOOL) isInPast
 {
     return ([self isEarlierThanDate:[NSDate date]]);
@@ -523,19 +521,56 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
 - (NSDate *)resetDateKeepTime {
     
     NSDate *now = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *components = [[NSDate currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:now];
+    NSDateComponents *components = [[NSDate currentCalendar] components:
+                                    NSYearCalendarUnit|
+                                    NSMonthCalendarUnit|
+                                    NSDayCalendarUnit
+                                                               fromDate:now];
     [components setHour:self.hour];
     [components setMinute:self.minute];
     [components setSecond:self.seconds];
-    return [calendar dateFromComponents:components];
-    
-//    unsigned int flags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-//    NSCalendar* calendar = [NSCalendar currentCalendar];
-//    
-//    NSDateComponents* components = [calendar components:flags fromDate:self];
-//    
-//    return [calendar dateFromComponents:components];
+    return [[NSDate currentCalendar] dateFromComponents:components];
 }
+
++ (NSDate *)nextWeekday:(NSInteger)day {
+    
+    NSDate *today = [NSDate date];
+    NSDateComponents *nowComponents = [[NSDate currentCalendar] components:
+                                       NSYearCalendarUnit |
+                                       NSWeekCalendarUnit |
+                                       NSHourCalendarUnit |
+                                       NSMinuteCalendarUnit |
+                                       NSSecondCalendarUnit
+                                                   fromDate:today];
+    
+    [nowComponents setWeekday:day];
+    [nowComponents setWeek: [nowComponents week]];
+    [nowComponents setHour:0];
+    [nowComponents setMinute:0];
+    [nowComponents setSecond:0];
+    
+    NSDate *weekday = [[NSDate currentCalendar] dateFromComponents:nowComponents];
+    
+    if (weekday.isInPast && !weekday.isToday) {
+        [nowComponents setWeek: [nowComponents week] + 1];
+        weekday = [[NSDate currentCalendar] dateFromComponents:nowComponents];
+    }
+    
+    return weekday;
+}
+
+- (NSDate *)setTime:(NSDate *)dateTime {
+    
+    NSDateComponents *components = [[NSDate currentCalendar] components:
+                                    NSYearCalendarUnit|
+                                    NSMonthCalendarUnit|
+                                    NSDayCalendarUnit
+                                                               fromDate:self];
+    [components setHour:dateTime.hour];
+    [components setMinute:dateTime.minute];
+    [components setSecond:dateTime.seconds];
+    return [[NSDate currentCalendar] dateFromComponents:components];
+}
+
 
 @end

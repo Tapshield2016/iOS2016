@@ -14,6 +14,8 @@
 
 @interface TSMapView ()
 
+@property (strong, nonatomic) NSArray *regionPolygons;
+
 @end
 
 @implementation TSMapView
@@ -26,6 +28,7 @@
         // Initialization code
         self.showsBuildings = YES;
         self.showsPointsOfInterest = YES;
+        [TSGeofence registerForOpeningHourChanges:self action:@selector(refreshRegionBoundariesOverlay)];
     }
     return self;
 }
@@ -36,7 +39,7 @@
     if (self) {
         self.showsBuildings = YES;
         self.showsPointsOfInterest = YES;
-        //[self setShowsUserLocation:YES];
+        [TSGeofence registerForOpeningHourChanges:self action:@selector(refreshRegionBoundariesOverlay)];
     }
     return self;
 }
@@ -153,7 +156,7 @@
     [self removeOverlay:previousCircle];
 }
 
-- (void)getAllGeofenceBoundaries {
+- (void)refreshRegionBoundariesOverlay {
     
 #warning Only User Agency
 //    [[TSJavelinAPIClient sharedClient] getAgencies:^(NSArray *agencies) {
@@ -194,7 +197,10 @@
         }
     }
     
+    [self removeOverlays:_regionPolygons];
     [self addOverlays:mutableArray level:MKOverlayLevelAboveRoads];
+    _regionPolygons = [NSArray arrayWithArray:mutableArray];
+    
 //    }];
 }
 

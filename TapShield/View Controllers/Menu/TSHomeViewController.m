@@ -55,8 +55,10 @@
     
     [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:self];
     
-    _yankBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleYank:)];
-    self.navigationItem.rightBarButtonItem = _yankBarButton;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"]
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(toggleYank:)];
     
     _transitionController = [[TSTransitionDelegate alloc] init];
     
@@ -79,7 +81,7 @@
                                                  name:TSJavelinAlertManagerDidRecieveActiveAlertNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sendAlert:)
+                                             selector:@selector(sendYankAlert)
                                                  name:TSYankManagerDidYankHeadphonesNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -97,6 +99,13 @@
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [self addOverlaysAndAnnotations];
+    }
+    
+    if ([TSYankManager sharedYankManager].isEnabled) {
+        [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    }
+    else {
+        [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
     }
 }
 
@@ -116,7 +125,7 @@
     _viewDidAppear = YES;
     
     if (_shouldSendAlert) {
-        [self performSelectorOnMainThread:@selector(sendAlert:) withObject:@"T" waitUntilDone:NO];
+        [self sendYankAlert];
     }
 }
 
@@ -286,13 +295,20 @@
 - (void)toggleYank:(id)sender {
     
     [[TSYankManager sharedYankManager] enableYank:^(BOOL enabled) {
-        if (enabled) {
-            
-        }
-        else {
-            
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (enabled) {
+                [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+            }
+            else {
+                [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
+            }
+        });
     }];
+}
+
+- (void)sendYankAlert {
+    
+    [self performSelectorOnMainThread:@selector(sendAlert:) withObject:@"T" waitUntilDone:NO];
 }
 
 - (IBAction)sendAlert:(id)sender {
@@ -300,36 +316,36 @@
     _shouldSendAlert = NO;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-    
-    if (self.presentedViewController) {
-        if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nav = (UINavigationController *)self.presentedViewController;
-            UIViewController *viewController = nav.topViewController;
-            //already presented
-            if ([viewController isKindOfClass:[TSPageViewController class]]) {
-                return;
-            }
-            //dismiss any view presented first
-            else {
-                
-                [viewController dismissViewControllerAnimated:YES completion:^{
-                    [self performSelectorOnMainThread:@selector(sendAlert:) withObject:sender waitUntilDone:NO];
-                }];
-                return;
+        
+        if (self.presentedViewController) {
+            if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
+                UINavigationController *nav = (UINavigationController *)self.presentedViewController;
+                UIViewController *viewController = nav.topViewController;
+                //already presented
+                if ([viewController isKindOfClass:[TSPageViewController class]]) {
+                    return;
+                }
+                //dismiss any view presented first
+                else {
+                    
+                    [viewController dismissViewControllerAnimated:YES completion:^{
+                        [self performSelectorOnMainThread:@selector(sendAlert:) withObject:sender waitUntilDone:NO];
+                    }];
+                    return;
+                }
             }
         }
-    }
-    
-    NSString *type;
-    if ([sender isKindOfClass:[NSNotification class]]) {
-        type = [(NSNotification *)sender object];
-    }
-    else if ([sender isKindOfClass:[NSString class]]) {
-        if (((NSString *)sender).length == 1) {
-            type = sender;
+        
+        NSString *type;
+        if ([sender isKindOfClass:[NSNotification class]]) {
+            type = [(NSNotification *)sender object];
         }
-    }
-    
+        else if ([sender isKindOfClass:[NSString class]]) {
+            if (((NSString *)sender).length == 1) {
+                type = sender;
+            }
+        }
+        
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
         
         TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];

@@ -155,7 +155,7 @@ static dispatch_once_t predicate;
     else {
         NSLog(@"Yank disabled");
         [_windowMessage setText:kRemoveHeadphones withAnimationType:kCATransitionReveal direction:kCATransitionFromBottom duration:0.3];
-        _shimmeringView.shimmering = NO;
+        _shimmeringView.shimmeringDirection = FBShimmerDirectionRight;
     }
     
     [self performSelector:@selector(hideYankWindow) withObject:nil afterDelay:3.0];
@@ -218,7 +218,8 @@ static dispatch_once_t predicate;
     
     _shimmeringView = [[FBShimmeringView alloc] initWithFrame:_imageView.frame];
     _shimmeringView.contentView = _imageView;
-    _shimmeringView.shimmeringSpeed = 
+    _shimmeringView.shimmeringDirection = FBShimmerDirectionLeft;
+    _shimmeringView.shimmeringSpeed = 115;
     _shimmeringView.shimmering = YES;
     
     float centerOffsetX = frame.size.width - _imageView.frame.size.width;

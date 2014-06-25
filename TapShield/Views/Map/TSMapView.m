@@ -128,6 +128,10 @@
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
     if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
+        ((MKCircle *)overlay).title = @"red";
+    }
+    else {
+        ((MKCircle *)overlay).title = nil;
     }
     
     MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
@@ -144,11 +148,11 @@
     MKCircle *previousCircle = _accuracyCircle;
     MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
     
-    if (MKMetersBetweenMapPoints(MKMapPointForCoordinate(previousCircle.coordinate),
-                                 MKMapPointForCoordinate(newcircle.coordinate)) < 0.5 &&
-        previousCircle.radius == newcircle.radius) {
-        return;
-    }
+//    if (MKMetersBetweenMapPoints(MKMapPointForCoordinate(previousCircle.coordinate),
+//                                 MKMapPointForCoordinate(newcircle.coordinate)) < 0.5 &&
+//        previousCircle.radius == newcircle.radius) {
+//        return;
+//    }
     
     _accuracyCircle = newcircle;
     _animatedOverlay.circle = _accuracyCircle;

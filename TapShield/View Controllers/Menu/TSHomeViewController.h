@@ -25,7 +25,6 @@
 @property (assign, nonatomic) BOOL isTrackingUser;
 
 //Yank
-@property (strong, nonatomic) UIBarButtonItem *yankBarButton;
 @property (assign, nonatomic) BOOL shouldSendAlert;
 
 - (void)mapAlertModeToggle;

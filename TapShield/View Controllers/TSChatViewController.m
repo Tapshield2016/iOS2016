@@ -370,7 +370,9 @@
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(clearPrompt) object:nil];
     
-    if (![string isEqualToString:kAlertOutsideGeofence] && ![string isEqualToString:kAlertNoConnection]) {
+    if (![string isEqualToString:kAlertOutsideGeofence] &&
+        ![string isEqualToString:kAlertNoConnection]  &&
+        ![string isEqualToString:kAlertClosedDispatchCenter]) {
         
         [self performSelector:@selector(clearPrompt) withObject:nil afterDelay:10.0];
     }

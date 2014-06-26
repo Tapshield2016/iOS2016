@@ -195,13 +195,29 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
         
         if (error) {
             NSLog(@"error");
-            self.navigationItem.rightBarButtonItem.enabled = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+                
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Failed requesting access to contacts"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Ok"
+                                  otherButtonTitles:nil] show];
+            });
             return;
         }
         
         if (!granted) {
             NSLog(@"Denied access");
-            self.navigationItem.rightBarButtonItem.enabled = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+                
+                [[[UIAlertView alloc] initWithTitle:@"Contacts Access denied"
+                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Ok"
+                                  otherButtonTitles:nil] show];
+            });
             return;
         }
         

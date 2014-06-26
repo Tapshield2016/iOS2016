@@ -50,6 +50,8 @@ static NSString * const kCallRedialing = @"Redialing";
     }
     
     [TSAlertManager sharedManager].callDelegate = self;
+    
+    _redialButton.alpha = 0.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -166,6 +168,11 @@ static NSString * const kCallRedialing = @"Redialing";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setMuteEnabled:_muteButton.selected];
         [self setSpeakerEnabled:_speakerButton.selected];
+        _redialButton.enabled = NO;
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            _redialButton.alpha = 0.0f;
+        }];
     });
 }
 
@@ -186,6 +193,10 @@ static NSString * const kCallRedialing = @"Redialing";
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [(TSEmergencyAlertViewController *)_emergencyView performSelector:@selector(dismissPhoneView) withObject:self afterDelay:2.0];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            _redialButton.alpha = 1.0f;
+        }];
     });
 }
 
@@ -195,6 +206,13 @@ static NSString * const kCallRedialing = @"Redialing";
     _muteButton.selected = NO;
     _speakerButton.selected = NO;
     [self updatePhoneNumberWithMessage:kCallFailed];
+
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.2 animations:^{
+            _redialButton.alpha = 1.0f;
+        }];
+    });
 }
 
 @end

@@ -17,7 +17,12 @@ NSString * const kAlertSending = @"Sending alert";
 NSString * const kAlertSent = @"Alert was sent";
 NSString * const kAlertReceived = @"The authorities have been notified";
 NSString * const kAlertOutsideGeofence = @"Outside boundaries please call";
+NSString * const kAlertClosedDispatchCenter = @"Dispatch center closed please call";
 NSString * const kAlertNoConnection = @"No Network Connection";
+
+#define kNoConnectionNotification @"WARNING: No Network Data Connection. Call %@."
+#define kOutsideNotification @"WARNING: You are located outside of your organization's boundaries. Call %@."
+#define kClosedNotification @"WARNING: Your organization's dispatch center is closed. Call %@."
 
 @interface TSAlertManager ()
 
@@ -152,7 +157,7 @@ static dispatch_once_t predicate;
                                                      otherButtonTitles:callButtonTitle, nil];
         [_noConnectionAlertView show];
         
-        [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: No Network Data Connection. Call %@.", number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+        [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kNoConnectionNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
     }
     
     [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:type location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
@@ -186,10 +191,19 @@ static dispatch_once_t predicate;
     if (!number) {
         number = kEmergencyNumber;
     }
-    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:@"WARNING: You are located outside of your agency's boundaries. Call %@.", number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
     
-    NSLog(@"Outside geofence");
-    _status = kAlertOutsideGeofence;
+    if ([TSGeofence insideButClosed]) {
+        [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kClosedNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+        _status = kAlertClosedDispatchCenter;
+        NSLog(@"Closed dispatch center");
+    }
+    else {
+        [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kOutsideNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+        _status = kAlertOutsideGeofence;
+        NSLog(@"Outside geofence");
+    }
+    
+    
     if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
         [_alertDelegate alertStatusChanged:_status];
     }
@@ -286,7 +300,8 @@ static dispatch_once_t predicate;
 
 - (void)startTwilioCall {
     
-    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence] ||
+        [[TSAlertManager sharedManager].status isEqualToString:kAlertClosedDispatchCenter]) {
         [self callSecondary];
         return;
     }
@@ -339,7 +354,8 @@ static dispatch_once_t predicate;
         _twilioDevice.disconnectSoundEnabled = YES;
         
         
-        NSString *phoneNumber = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber;
+        NSString *phoneNumber = [TSGeofence primaryPhoneNumberInsideRegion:[TSLocationController sharedLocationController].location
+                                                                    agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency];
         
         if (phoneNumber) {
             _twilioConnection = [_twilioDevice connect:@{@"To": phoneNumber} delegate:self];

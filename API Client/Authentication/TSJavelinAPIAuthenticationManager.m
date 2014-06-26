@@ -21,6 +21,8 @@ static NSString * const TSJavelinAPIProductionMasterAccessToken = @"bb83910a015c
 NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureInvalidCredentials = @"kTSJavelinAPIAuthenticationManagerLoginFailureInvalidCredentials";
 NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureInactiveAccount = @"kTSJavelinAPIAuthenticationManagerLoginFailureInactiveAccount";
 NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureUnverifiedEmail = @"kTSJavelinAPIAuthenticationManagerLoginFailureUnverifiedEmail";
+NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureServerError = @"kTSJavelinAPIAuthenticationManagerLoginFailureServerError";
+NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureUnknownError = @"kTSJavelinAPIAuthenticationManagerLoginFailureUnknownError";
 
 static NSString *const kTSJavelinAPIAuthenticationManagerAPNSTokenArchiveKey = @"kTSJavelinAPIAuthenticationManagerAPNSTokenArchiveKey";
 
@@ -905,6 +907,24 @@ static dispatch_once_t onceToken;
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
 
+        }
+        else if (result.statusCode == 500) {
+            
+            // Server error, shit...
+            result.loginFailureReason = kTSJavelinAPIAuthenticationManagerLoginFailureServerError;
+            if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+                [_delegate loginFailed:result error:nil];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+        }
+        else {
+            //I don't know
+            
+            result.loginFailureReason = kTSJavelinAPIAuthenticationManagerLoginFailureUnknownError;
+            if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
+                [_delegate loginFailed:result error:nil];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
         }
     }
 }

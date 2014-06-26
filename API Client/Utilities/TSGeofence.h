@@ -17,15 +17,31 @@
 @property (strong, nonatomic) CLLocation *lastAgencyUpdate;
 @property (assign, nonatomic) double distanceToNearestAgencyBoundary;
 
++ (BOOL)isWithinBoundariesWithOverhangAndOpen;
++ (BOOL)isInsideOpenRegion;
++ (TSJavelinAPIRegion *)regionInside;
++ (NSString *)primaryPhoneNumberInsideRegion;
++ (NSArray *)openDispatchCenters;
++ (BOOL)insideButClosed;
+
 + (double) distanceFromPoint:(CLLocation *)location toGeofencePolygon:(NSArray *)geofencePolygon;
 + (BOOL)isLocation:(CLLocation *)location insideGeofence:(NSArray *)geofencePolygon;
-+ (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency;
++ (BOOL)isWithinBoundariesWithOverhang:(CLLocation *)location boundaries:(NSArray *)boundaries;
 + (BOOL)isInitiallyWithinBoundariesWithOverhang:(CLLocation *)location;
++ (BOOL)isWithinBoundariesWithOverhangAndOpen:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency;
++ (TSJavelinAPIRegion *)regionInside:(TSJavelinAPIAgency *)agency location:(CLLocation *)location;
+
++ (NSString *)primaryPhoneNumberInsideRegion:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency;
+
++ (void)registerForOpeningHourChanges:(id)object action:(SEL)selector;
 
 //Roaming Organization
 - (void)updateProximityToAgencies:(CLLocation *)currentLocation;
-- (void)updateNearbyAgencies:(CLLocation *)currentLocation;
+- (void)updateNearbyAgencies;
 + (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector;
+
+- (TSJavelinAPIAgency *)nearbyAgencyWithID:(NSString *)identifier;
+- (TSJavelinAPIRegion *)nearbyAgencyRegionWithID:(NSString *)identifier;
 
 //Outside
 - (void)showOutsideBoundariesWindow;

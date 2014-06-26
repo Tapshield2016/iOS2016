@@ -132,13 +132,6 @@
     NSIndexSet *removeIndexSet = [[_spotCrimes copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;
         
-//        for (TSSpotCrimeAnnotation *newAnnotation in spotCrimes) {
-//            if (oldAnnotation.spotCrime.cdid == newAnnotation.spotCrime.cdid) {
-//                return NO;
-//            }
-//        }
-//        return YES;
-        
         if ([oldAnnotation.spotCrime.date hoursBeforeDate:[NSDate date]] > _maxHours) {
                 return YES;
         }
@@ -235,13 +228,6 @@
     NSIndexSet *removeIndexSet = [[_socialReports copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;
         
-        //        for (TSSpotCrimeAnnotation *newAnnotation in socialReports) {
-        //            if (oldAnnotation.socialReport.identifier == newAnnotation.socialReport.identifier) {
-        //                return NO;
-        //            }
-        //        }
-        //        return YES;
-        
         if ([oldAnnotation.socialReport.creationDate hoursBeforeDate:[NSDate date]] > _maxHours) {
             return YES;
         }
@@ -299,8 +285,10 @@
     if (!_shouldAddAnnotations) {
         return;
     }
-    [_mapView addAnnotations:annotations];
-    [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_mapView addAnnotations:annotations];
+        [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
+    });
 }
 
 - (void)hideSpotCrimes {
@@ -310,8 +298,10 @@
     [self stopSocialTimer];
     [self stopSpotCrimeTimer];
     
-    [_mapView removeAnnotations:_spotCrimes];
-    [_mapView removeAnnotations:_socialReports];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_mapView removeAnnotations:_spotCrimes];
+        [_mapView removeAnnotations:_socialReports];
+    });
 }
 
 - (void)showSpotCrimes {
@@ -319,9 +309,11 @@
     [self hideSpotCrimes];
     
     _shouldAddAnnotations = YES;
-    [_mapView addAnnotations:_spotCrimes];
-    [_mapView addAnnotations:_socialReports];
-    [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_mapView addAnnotations:_spotCrimes];
+        [_mapView addAnnotations:_socialReports];
+        [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
+    });
     
     [self startSocialTimer];
     [self startSpotCrimeTimer];

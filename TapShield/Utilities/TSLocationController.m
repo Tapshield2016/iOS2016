@@ -32,6 +32,7 @@ static dispatch_once_t predicate;
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.distanceFilter = 1.0;
         self.geofence = [[TSGeofence alloc] init];
     }
     return self;

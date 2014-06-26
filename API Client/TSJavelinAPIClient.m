@@ -20,6 +20,8 @@
 #import "TSJavelinAPIUtilities.h"
 #import "TSJavelinAPISocialCrimeReport.h"
 
+NSString * const TSJavelinAPIClientDidUpdateAgency = @"TSJavelinAPIClientDidUpdateAgency";
+
 @interface TSJavelinAPIClient ()
 
 @property (nonatomic, strong) NSString *baseAuthURL;
@@ -191,6 +193,7 @@ static dispatch_once_t onceToken;
           if (completion) {
               completion(agency);
           }
+          [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidUpdateAgency object:nil];
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"%@", error);
           
@@ -981,6 +984,11 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     }
     
     return YES;
+}
+
++ (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSJavelinAPIClientDidUpdateAgency object:nil];
 }
 
 @end

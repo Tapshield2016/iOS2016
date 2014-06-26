@@ -22,8 +22,8 @@
     _locationAddress = [attributes valueForKey:@"location_address"];
     _alertStatus = [attributes valueForKey:@"status"];
 
-    if (![[attributes objectForKey:@"location"] isKindOfClass:[NSNull class]]) {
-        _location = [attributes objectForKey:@"location"];
+    if (![[attributes nonNullObjectForKey:@"location"] isKindOfClass:[NSNull class]]) {
+        _location = [attributes nonNullObjectForKey:@"location"];
     }
     
     return self;

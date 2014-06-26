@@ -44,7 +44,6 @@
     
     [super encodeWithCoder:encoder];
     
-    [encoder encodeObject:self.url forKey:@"url"];
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_email forKey:@"email"];
     [encoder encodeObject:_agency forKey:@"agency"];

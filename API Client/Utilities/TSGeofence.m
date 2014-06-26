@@ -9,6 +9,7 @@
 #import "TSGeofence.h"
 #import "TSBaseLabel.h"
 #import "TSLocationController.h"
+#import "FBKVOController.h"
 
 NSString * const TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang = @"TSGeofenceUserIsInitiallyWithinBoundariesWithOverhang";
 NSString * const TSGeofenceUserIsWithinBoundariesWithOverhang = @"TSGeofenceUserIsWithinBoundariesWithOverhang";
@@ -89,7 +90,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 + (BOOL)isWithinBoundariesWithOverhangAndOpen:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
     
-    if (agency.regions) {
+    if (agency.regions.count) {
         return [TSGeofence isInsideOpenRegion:agency location:location];
     }
     
@@ -184,7 +185,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 + (NSString *)primaryPhoneNumberInsideRegion:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
     
-    if (agency.regions) {
+    if (agency.regions.count) {
         for (TSJavelinAPIRegion *region in agency.regions) {
             if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
                 
@@ -450,7 +451,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 - (void)setTimerForAgencyOpeningHours:(NSDate *)date {
     
-    _updateTimer = [NSTimer scheduledTimerWithTimeInterval:[date timeIntervalSinceNow]
+    _updateTimer = [NSTimer scheduledTimerWithTimeInterval:[date timeIntervalSinceNow] + 1
                                                     target:self
                                                   selector:@selector(refreshOpenAgencies)
                                                   userInfo:nil
@@ -458,7 +459,6 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 }
 
 - (void)refreshOpenAgencies {
-    
     [self updateNearbyAgencies];
     [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceShouldUpdateOpenAgencies object:nil];
 }
@@ -471,17 +471,41 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 
 - (void)setCurrentAgency:(TSJavelinAPIAgency *)currentAgency {
+    
     _currentAgency = currentAgency;
     
-    if (!_currentAgency.largeLogo) {
-        [_currentAgency addObserver:self forKeyPath:@"largeLogo" options: 0  context: NULL];
-    }
-    if (!_currentAgency.alternateLogo) {
-        [_currentAgency addObserver:self forKeyPath:@"alternateLogo" options: 0  context: NULL];
-    }
-    if (!_currentAgency.smallLogo) {
-        [_currentAgency addObserver:self forKeyPath:@"smallLogo" options: 0  context: NULL];
-    }
+//    if (!_currentAgency.largeLogo) {
+//        [_currentAgency addObserver:self forKeyPath:@"largeLogo" options: 0  context: NULL];
+//    }
+//    if (!_currentAgency.alternateLogo) {
+//        [_currentAgency addObserver:self forKeyPath:@"alternateLogo" options: 0  context: NULL];
+//    }
+//    if (!_currentAgency.smallLogo) {
+//        [_currentAgency addObserver:self forKeyPath:@"smallLogo" options: 0  context: NULL];
+//    }
+    
+    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+    
+    [KVOController observe:_currentAgency keyPath:@"largeLogo" options:NSKeyValueObservingOptionNew block:^(TSGeofence *geofence, TSJavelinAPIAgency *agency, NSDictionary *change) {
+        
+        if (agency.largeLogo) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:nil];
+        }
+    }];
+    
+    [KVOController observe:_currentAgency keyPath:@"alternateLogo" options:NSKeyValueObservingOptionNew block:^(TSGeofence *geofence, TSJavelinAPIAgency *agency, NSDictionary *change) {
+        
+        if (agency.alternateLogo) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:nil];
+        }
+    }];
+    
+    [KVOController observe:_currentAgency keyPath:@"smallLogo" options:NSKeyValueObservingOptionNew block:^(TSGeofence *geofence, TSJavelinAPIAgency *agency, NSDictionary *change) {
+        
+        if (agency.smallLogo) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:nil];
+        }
+    }];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

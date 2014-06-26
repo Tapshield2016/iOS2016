@@ -132,13 +132,6 @@
     NSIndexSet *removeIndexSet = [[_spotCrimes copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;
         
-//        for (TSSpotCrimeAnnotation *newAnnotation in spotCrimes) {
-//            if (oldAnnotation.spotCrime.cdid == newAnnotation.spotCrime.cdid) {
-//                return NO;
-//            }
-//        }
-//        return YES;
-        
         if ([oldAnnotation.spotCrime.date hoursBeforeDate:[NSDate date]] > _maxHours) {
                 return YES;
         }
@@ -234,13 +227,6 @@
     
     NSIndexSet *removeIndexSet = [[_socialReports copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;
-        
-        //        for (TSSpotCrimeAnnotation *newAnnotation in socialReports) {
-        //            if (oldAnnotation.socialReport.identifier == newAnnotation.socialReport.identifier) {
-        //                return NO;
-        //            }
-        //        }
-        //        return YES;
         
         if ([oldAnnotation.socialReport.creationDate hoursBeforeDate:[NSDate date]] > _maxHours) {
             return YES;

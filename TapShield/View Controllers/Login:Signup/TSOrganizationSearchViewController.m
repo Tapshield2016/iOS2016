@@ -103,7 +103,7 @@
     
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
         [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
-            if (agencies) {
+            if (agencies.count) {
                 self.nearbyOrganizationArray = agencies;
             }
             else {

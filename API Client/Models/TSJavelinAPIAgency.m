@@ -23,6 +23,9 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 @property (strong, nonatomic) NSString *agencyLogoUrl;
 @property (strong, nonatomic) NSString *agencyAlternateLogoUrl;
 @property (strong, nonatomic) NSString *agencySmallLogoUrl;
+@property (strong, nonatomic) UIImageView *smallImageView;
+@property (strong, nonatomic) UIImageView *largeImageView;
+@property (strong, nonatomic) UIImageView *altImageView;
 
 @end
 
@@ -214,7 +217,7 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 
 - (void)setRegions:(NSArray *)regions {
     
-    if (!regions) {
+    if (!regions || !regions.count) {
         return;
     }
     
@@ -229,7 +232,7 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 
 - (void)setDispatchCenters:(NSArray *)dispatchCenters {
     
-    if (!dispatchCenters) {
+    if (!dispatchCenters || !dispatchCenters.count) {
         return;
     }
     
@@ -270,7 +273,9 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 
 - (void)setAgencyLogoUrl:(NSString *)agencyLogoUrl {
     
-    if ([agencyLogoUrl isKindOfClass:[NSNull class]]) {
+    if ([agencyLogoUrl isKindOfClass:[NSNull class]] ||
+        !agencyLogoUrl ||
+        !agencyLogoUrl.length) {
         return;
     }
     
@@ -279,9 +284,10 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     NSURL *url = [NSURL URLWithString:agencyLogoUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-    UIImageView *imageView = [[UIImageView alloc] init];
+    _largeImageView = [[UIImageView alloc] init];
     
-    [imageView setImageWithURLRequest:request
+    __weak __typeof(self)weakSelf = self;
+    [_largeImageView setImageWithURLRequest:request
                      placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                   
@@ -291,13 +297,17 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
                                                             interpolationQuality:kCGInterpolationHigh];
                                   }
                                   
-                                  self.largeLogo = image;
-                              } failure:nil];
+                                  weakSelf.largeLogo = image;
+                              } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                  NSLog(@"%@", error.localizedDescription);
+                              }];
 }
 
 - (void)setAgencySmallLogoUrl:(NSString *)agencySmallLogoUrl {
     
-    if ([agencySmallLogoUrl isKindOfClass:[NSNull class]]) {
+    if ([agencySmallLogoUrl isKindOfClass:[NSNull class]] ||
+        !agencySmallLogoUrl ||
+        !agencySmallLogoUrl.length) {
         return;
     }
     
@@ -306,9 +316,10 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     NSURL *url = [NSURL URLWithString:agencySmallLogoUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-    UIImageView *imageView = [[UIImageView alloc] init];
+    _smallImageView = [[UIImageView alloc] init];
     
-    [imageView setImageWithURLRequest:request
+    __weak __typeof(self)weakSelf = self;
+    [_smallImageView setImageWithURLRequest:request
                      placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                   
@@ -318,16 +329,20 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
                                                             interpolationQuality:kCGInterpolationHigh];
                                   }
                                   
-                                  self.smallLogo = image;
+                                  weakSelf.smallLogo = image;
                                   
                                   [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIAgencyDidFinishSmallLogoDownload
                                                                                       object:nil];
-                              } failure:nil];
+                              } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                  NSLog(@"%@", error.localizedDescription);
+                              }];
 }
 
 - (void)setAgencyAlternateLogoUrl:(NSString *)agencyAlternateLogoUrl {
     
-    if ([agencyAlternateLogoUrl isKindOfClass:[NSNull class]]) {
+    if ([agencyAlternateLogoUrl isKindOfClass:[NSNull class]] ||
+        !agencyAlternateLogoUrl||
+        !agencyAlternateLogoUrl.length) {
         return;
     }
     
@@ -336,13 +351,16 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     NSURL *url = [NSURL URLWithString:agencyAlternateLogoUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-    UIImageView *imageView = [[UIImageView alloc] init];
+    _altImageView = [[UIImageView alloc] init];
     
-    [imageView setImageWithURLRequest:request
+    __weak __typeof(self)weakSelf = self;
+    [_altImageView setImageWithURLRequest:request
                      placeholderImage:nil
                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                  self.alternateLogo = image;
-                              } failure:nil];
+                                  weakSelf.alternateLogo = image;
+                              } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                  NSLog(@"%@", error.localizedDescription);
+                              }];
 }
 
 - (void)setAgencyBoundaries:(NSString *)agencyBoundariesString {

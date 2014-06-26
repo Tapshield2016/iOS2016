@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *chatButton;
 
 @property (strong, nonatomic) TSIconBadgeView *badgeView;
-@property (strong, nonatomic) UIViewController *emergencyView;
+@property (weak, nonatomic) UIViewController *emergencyView;
 
 - (IBAction)addAlertDetails:(id)sender;
 - (IBAction)showChatViewController:(id)sender;

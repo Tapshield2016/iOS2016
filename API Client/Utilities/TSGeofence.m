@@ -237,7 +237,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 {
     double x3 = location.coordinate.latitude;
     double y3 = location.coordinate.longitude;
-    double shortestDistanceInMeters = 0.0;
+    double shortestDistanceInMeters = MAXFLOAT;
     NSLog(@"Your Location: %f,%f", x3, y3);
     if (geofencePolygon.count < 3) {
         return 99999999999;
@@ -282,10 +282,6 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
         CLLocation *coordinatePoint = [[CLLocation alloc] initWithLatitude:xu longitude:yu];
         double newDistance = [location distanceFromLocation:coordinatePoint];
         
-        if (shortestDistanceInMeters == 0.0) {
-            shortestDistanceInMeters = [location distanceFromLocation:coordinatePoint];
-            NSLog(@"closest point: %f,%f", xu, yu);
-        }
         if (newDistance < shortestDistanceInMeters) {
             shortestDistanceInMeters = newDistance;
             NSLog(@"closest point: %f,%f", xu, yu);

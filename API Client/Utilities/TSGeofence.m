@@ -90,6 +90,10 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 + (BOOL)isWithinBoundariesWithOverhangAndOpen:(CLLocation *)location agency:(TSJavelinAPIAgency *)agency {
     
+    if (!agency) {
+        return NO;
+    }
+    
     if (agency.regions.count) {
         return [TSGeofence isInsideOpenRegion:agency location:location];
     }
@@ -99,6 +103,10 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 
 + (BOOL)isInsideOpenRegion:(TSJavelinAPIAgency *)agency location:(CLLocation *)location {
+    
+    if (!agency) {
+        return NO;
+    }
     
     for (TSJavelinAPIRegion *region in agency.regions) {
         if ([TSGeofence isWithinBoundariesWithOverhang:location boundaries:region.boundaries]) {
@@ -146,8 +154,8 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
             return YES;
         }
     }
-//#warning GeoTesting
-//        return YES;
+    //#warning GeoTesting
+    //        return YES;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsOutsideBoundariesWithOverhang
                                                         object:nil];
@@ -170,11 +178,11 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     }
     if (!isInsideGeofence && metersFromBoundary < location.horizontalAccuracy - metersFromBoundary) {
         NSLog(@"NotInsideGeofence but (metersFromBoundary < location.horizontalAccuracy - metersFromBoundary)");
-            return YES;
+        return YES;
     }
     NSLog(@"Initially Outside Geofence");
-//#warning GeoTesting
-//        return YES;
+    //#warning GeoTesting
+    //        return YES;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserIsInitiallyOutsideBoundariesWithOverhang
                                                         object:nil];
@@ -303,7 +311,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
         [self updateNearbyAgencies];
         return;
     }
-   
+    
     
     if ([_lastAgencyUpdate distanceFromLocation:currentLocation] > _distanceToNearestAgencyBoundary) {
         [self updateNearbyAgencies];
@@ -326,13 +334,13 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     [self checkInsideNearbyAgencies:currentLocation completion:^(TSJavelinAPIAgency *insideAgency) {
         
 #warning Nearby Agency Check Off - Using user agency
-//        if (!insideAgency && !_nearbyAgencies) {
-//            
-//            [[TSJavelinAPIClient sharedClient] getAgenciesNearby:currentLocation radius:5.0 completion:^(NSArray *agencies) {
-//                _nearbyAgencies = agencies;
-//                [self checkInsideNearbyAgencies:currentLocation completion:nil];
-//            }];
-//        }
+        //        if (!insideAgency && !_nearbyAgencies) {
+        //
+        //            [[TSJavelinAPIClient sharedClient] getAgenciesNearby:currentLocation radius:5.0 completion:^(NSArray *agencies) {
+        //                _nearbyAgencies = agencies;
+        //                [self checkInsideNearbyAgencies:currentLocation completion:nil];
+        //            }];
+        //        }
     }];
 }
 
@@ -470,15 +478,15 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     
     _currentAgency = currentAgency;
     
-//    if (!_currentAgency.largeLogo) {
-//        [_currentAgency addObserver:self forKeyPath:@"largeLogo" options: 0  context: NULL];
-//    }
-//    if (!_currentAgency.alternateLogo) {
-//        [_currentAgency addObserver:self forKeyPath:@"alternateLogo" options: 0  context: NULL];
-//    }
-//    if (!_currentAgency.smallLogo) {
-//        [_currentAgency addObserver:self forKeyPath:@"smallLogo" options: 0  context: NULL];
-//    }
+    //    if (!_currentAgency.largeLogo) {
+    //        [_currentAgency addObserver:self forKeyPath:@"largeLogo" options: 0  context: NULL];
+    //    }
+    //    if (!_currentAgency.alternateLogo) {
+    //        [_currentAgency addObserver:self forKeyPath:@"alternateLogo" options: 0  context: NULL];
+    //    }
+    //    if (!_currentAgency.smallLogo) {
+    //        [_currentAgency addObserver:self forKeyPath:@"smallLogo" options: 0  context: NULL];
+    //    }
     
     FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
     
@@ -506,7 +514,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
-//    [object removeObserver:self forKeyPath:keyPath];
+    //    [object removeObserver:self forKeyPath:keyPath];
     if (_currentAgency) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:object userInfo:nil];
     }

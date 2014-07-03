@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) TSJavelinAPIUserProfile *userProfile;
 @property (nonatomic, strong) NSArray *entourageMembers;
+@property (nonatomic, strong) NSArray *secondaryEmails;
 
 @property (assign) BOOL isEmailVerified;
 @property (assign) BOOL phoneNumberVerified;

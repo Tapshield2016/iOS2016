@@ -181,8 +181,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
     }
-    
-//    [[[TSJavelinAPIClient sharedClient] authenticationManager] addSecondaryEmail:@""];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

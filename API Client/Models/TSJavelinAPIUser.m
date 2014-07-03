@@ -9,6 +9,7 @@
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIEntourageMember.h"
+#import "TSJavelinAPIEmail.h"
 
 @implementation TSJavelinAPIUser
 
@@ -33,7 +34,8 @@
     _lastName = [attributes valueForKey:@"last_name"];
     _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
-    self.entourageMembers = [attributes valueForKey:@"entourage_members"];
+    self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
+    self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
         
     return self;
 }
@@ -65,6 +67,10 @@
     if (_entourageMembers) {
         [encoder encodeObject:_entourageMembers forKey:@"entourage_members"];
     }
+    
+    if (_secondaryEmails) {
+        [encoder encodeObject:_entourageMembers forKey:@"secondary_emails"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -92,6 +98,10 @@
         if ([decoder containsValueForKey:@"entourage_members"]) {
             _entourageMembers = [decoder decodeObjectForKey:@"entourage_members"];
         }
+        
+        if ([decoder containsValueForKey:@"secondary_emails"]) {
+            _secondaryEmails = [decoder decodeObjectForKey:@"secondary_emails"];
+        }
     }
     return self;
 }
@@ -114,7 +124,8 @@
     _lastName = [attributes valueForKey:@"last_name"];
     _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
-    self.entourageMembers = [attributes valueForKey:@"entourage_members"];
+    self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
+    self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     return self;
 }
@@ -128,6 +139,21 @@
     }
     
     _entourageMembers = mutableArray;
+}
+
+- (void)setSecondaryEmails:(NSArray *)secondaryEmails {
+    
+    if (!secondaryEmails || !secondaryEmails.count) {
+        return;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:secondaryEmails.count];
+    for (NSDictionary *dictionary in secondaryEmails) {
+        TSJavelinAPIEmail *email = [[TSJavelinAPIEmail alloc] initWithAttributes:dictionary];
+        [mutableArray addObject:email];
+    }
+    
+    _secondaryEmails = mutableArray;
 }
 
 - (NSDictionary *)parametersForUpdate {

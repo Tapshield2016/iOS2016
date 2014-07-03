@@ -217,7 +217,7 @@
                 }
                 
                 [self dismissViewControllerAnimated:YES completion:^{
-//                    [_reportManager addUserSocialReport:report];
+                    [_reportManager addUserSocialReport:report];
                     [parentNavigationController.topViewController viewWillAppear:NO];
                     [parentNavigationController.topViewController viewDidAppear:NO];
                 }];

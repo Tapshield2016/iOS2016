@@ -34,7 +34,8 @@
     _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
     [_chatButtonView addSubview:_badgeView];
     
-    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence]) {
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertOutsideGeofence] ||
+        [[TSAlertManager sharedManager].status isEqualToString:kAlertClosedDispatchCenter]) {
         [_detailsButtonView setHidden:YES];
         [_chatButtonView setHidden:YES];
     }
@@ -157,7 +158,8 @@
             [_pageViewController.homeViewController mapAlertModeToggle];
         }
         
-        if ([status isEqualToString:kAlertOutsideGeofence]) {
+        if ([status isEqualToString:kAlertOutsideGeofence] ||
+            [status isEqualToString:kAlertClosedDispatchCenter]) {
             [_detailsButtonView setHidden:YES];
             [_chatButtonView setHidden:YES];
         }

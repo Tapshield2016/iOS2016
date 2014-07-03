@@ -26,7 +26,7 @@
     _gender = [TSJavelinAPIUserProfile indexOfShortGenderString:[attributes valueForKey:@"gender"]];
     _race = [TSJavelinAPIUserProfile indexOfShortRaceString:[attributes valueForKey:@"race"]];
     _height = [attributes valueForKey:@"height"];
-    _weight = [[attributes objectForKey:@"weight"] integerValue];
+    _weight = [[attributes nonNullObjectForKey:@"weight"] integerValue];
     _knownAllergies = [attributes valueForKey:@"known_allergies"];
     _medications = [attributes valueForKey:@"medications"];
     _emergencyContactFirstName = [attributes valueForKey:@"emergency_contact_first_name"];
@@ -39,6 +39,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
+    [super encodeWithCoder:encoder];
 
     [encoder encodeObject: _profileImage forKey: @"profile_image"];
     [encoder encodeObject: _profileImageURL forKey: @"profile_image_url"];

@@ -1013,6 +1013,14 @@
 		C556478418E48DD200D29B0D /* TSNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C556478318E48DD200D29B0D /* TSNavigationViewController.m */; };
 		C556478518E48DD200D29B0D /* TSNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C556478318E48DD200D29B0D /* TSNavigationViewController.m */; };
 		C556478618E48DD200D29B0D /* TSNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C556478318E48DD200D29B0D /* TSNavigationViewController.m */; };
+		C55656CF195A552F006170AA /* Yank_icon_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CD195A552F006170AA /* Yank_icon_red.png */; };
+		C55656D0195A552F006170AA /* Yank_icon_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CD195A552F006170AA /* Yank_icon_red.png */; };
+		C55656D1195A552F006170AA /* Yank_icon_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CD195A552F006170AA /* Yank_icon_red.png */; };
+		C55656D2195A552F006170AA /* Yank_icon_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CD195A552F006170AA /* Yank_icon_red.png */; };
+		C55656D3195A552F006170AA /* Yank_icon_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CE195A552F006170AA /* Yank_icon_red@2x.png */; };
+		C55656D4195A552F006170AA /* Yank_icon_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CE195A552F006170AA /* Yank_icon_red@2x.png */; };
+		C55656D5195A552F006170AA /* Yank_icon_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CE195A552F006170AA /* Yank_icon_red@2x.png */; };
+		C55656D6195A552F006170AA /* Yank_icon_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C55656CE195A552F006170AA /* Yank_icon_red@2x.png */; };
 		C556598518CC180F00288AD3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
 		C556598718CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
 		C556598818CC51A900288AD3 /* redial.png in Resources */ = {isa = PBXBuildFile; fileRef = C556598618CC51A900288AD3 /* redial.png */; };
@@ -3732,6 +3740,26 @@
 		C5EAAC0119066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
 		C5EAAC0219066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
 		C5EAAC0319066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
+		C5F2E598194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
+		C5F2E599194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
+		C5F2E59A194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
+		C5F2E59B194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
+		C5F2E59E194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */; };
+		C5F2E59F194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */; };
+		C5F2E5A0194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */; };
+		C5F2E5A1194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */; };
+		C5F2E5A4194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */; };
+		C5F2E5A5194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */; };
+		C5F2E5A6194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */; };
+		C5F2E5A7194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */; };
+		C5F2E5AA194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */; };
+		C5F2E5AB194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */; };
+		C5F2E5AC194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */; };
+		C5F2E5AD194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */; };
+		C5F2E5B01950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
+		C5F2E5B11950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
+		C5F2E5B21950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
+		C5F2E5B31950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */; };
 		C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
 		C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
 		C5FB6DFB191774DD008E1185 /* TSGenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */; };
@@ -4228,6 +4256,8 @@
 		C556477E18E3B1A300D29B0D /* TSBottomMapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBottomMapButton.m; path = Views/Map/Buttons/TSBottomMapButton.m; sourceTree = "<group>"; };
 		C556478218E48DD200D29B0D /* TSNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNavigationViewController.h; sourceTree = "<group>"; };
 		C556478318E48DD200D29B0D /* TSNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNavigationViewController.m; sourceTree = "<group>"; };
+		C55656CD195A552F006170AA /* Yank_icon_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Yank_icon_red.png; sourceTree = "<group>"; };
+		C55656CE195A552F006170AA /* Yank_icon_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Yank_icon_red@2x.png"; sourceTree = "<group>"; };
 		C556598618CC51A900288AD3 /* redial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redial.png; path = Images/redial.png; sourceTree = "<group>"; };
 		C56356E918EC7FA100BAA5D7 /* TSRouteOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteOption.h; path = Views/Map/Annotations/TSRouteOption.h; sourceTree = "<group>"; };
 		C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteOption.m; path = Views/Map/Annotations/TSRouteOption.m; sourceTree = "<group>"; };
@@ -4895,6 +4925,16 @@
 		C5EAABFB19066018005EDD7B /* TSMedicalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMedicalTableViewController.m; sourceTree = "<group>"; };
 		C5EAABFF19066035005EDD7B /* TSEmergencyContactTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEmergencyContactTableViewController.h; sourceTree = "<group>"; };
 		C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEmergencyContactTableViewController.m; sourceTree = "<group>"; };
+		C5F2E596194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIDispatchCenter.h; sourceTree = "<group>"; };
+		C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIDispatchCenter.m; sourceTree = "<group>"; };
+		C5F2E59C194F6E60005B32A1 /* TSJavelinAPIRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIRegion.h; sourceTree = "<group>"; };
+		C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIRegion.m; sourceTree = "<group>"; };
+		C5F2E5A2194FA696005B32A1 /* TSJavelinAPIClosedDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIClosedDate.h; sourceTree = "<group>"; };
+		C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIClosedDate.m; sourceTree = "<group>"; };
+		C5F2E5A8194FA6D7005B32A1 /* TSJavelinAPIPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIPeriod.h; sourceTree = "<group>"; };
+		C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIPeriod.m; sourceTree = "<group>"; };
+		C5F2E5AE1950FBFF005B32A1 /* NSDictionary+ReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ReplaceNull.h"; sourceTree = "<group>"; };
+		C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ReplaceNull.m"; sourceTree = "<group>"; };
 		C5FB6DF7191774DD008E1185 /* TSGenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSGenderViewController.h; path = "View Controllers/TSGenderViewController.h"; sourceTree = "<group>"; };
 		C5FB6DF8191774DD008E1185 /* TSGenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSGenderViewController.m; path = "View Controllers/TSGenderViewController.m"; sourceTree = "<group>"; };
 		C5FC0A6218CF704F00AB787F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -5297,6 +5337,14 @@
 				C5EAABE11904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m */,
 				C5AFBBA0192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.h */,
 				C5AFBBA1192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m */,
+				C5F2E596194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.h */,
+				C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */,
+				C5F2E59C194F6E60005B32A1 /* TSJavelinAPIRegion.h */,
+				C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */,
+				C5F2E5A2194FA696005B32A1 /* TSJavelinAPIClosedDate.h */,
+				C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */,
+				C5F2E5A8194FA6D7005B32A1 /* TSJavelinAPIPeriod.h */,
+				C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */,
 			);
 			name = Models;
 			path = "API Client/Models";
@@ -5322,6 +5370,8 @@
 				C520C8E718A974C100D1D2E9 /* UIImage+Resize.m */,
 				C5CED63419355F990079CEA2 /* NSString+HTML.h */,
 				C5CED63519355F990079CEA2 /* NSString+HTML.m */,
+				C5F2E5AE1950FBFF005B32A1 /* NSDictionary+ReplaceNull.h */,
+				C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -5476,6 +5526,8 @@
 		C54CE69718FB19990077350E /* 02_Home_view.psb_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C55656CD195A552F006170AA /* Yank_icon_red.png */,
+				C55656CE195A552F006170AA /* Yank_icon_red@2x.png */,
 				C5FD5E8218B3141800E27EE9 /* circle.png */,
 				C54CE69818FB19990077350E /* alert_icon.png */,
 				C54CE69918FB19990077350E /* alert_icon@2x.png */,
@@ -7235,6 +7287,7 @@
 				C54CEA8E18FB199A0077350E /* code_disarm_not_fill.png in Resources */,
 				C54CE7D618FB199A0077350E /* profile_menu_icon_active.png in Resources */,
 				C54CEBEF18FC77150077350E /* email_icon.png in Resources */,
+				C55656D3195A552F006170AA /* Yank_icon_red@2x.png in Resources */,
 				C5CC4ABC193D930D00285DB3 /* pins_arrest_red@2x.png in Resources */,
 				C5CC4AB0193D930D00285DB3 /* pins_abuse_red.png in Resources */,
 				C5CC48F4193D930C00285DB3 /* pins_shooting_blue@2x.png in Resources */,
@@ -7264,6 +7317,7 @@
 				C5CC48D4193D930C00285DB3 /* pins_highfever_blue@2x.png in Resources */,
 				C5AFBDB51921807E00EC62A5 /* bubble_disturbance_icon.png in Resources */,
 				C5CC4A10193D930D00285DB3 /* bubble_brokenbone_red.png in Resources */,
+				C55656CF195A552F006170AA /* Yank_icon_red.png in Resources */,
 				C5CC4900193D930C00285DB3 /* pins_suggestion_blue.png in Resources */,
 				C54CEBD118FC77150077350E /* swipe_arrows_icon.png in Resources */,
 				C5CC4784193D930C00285DB3 /* alert_theft_blue@2x.png in Resources */,
@@ -7817,6 +7871,7 @@
 				C54CE94C18FB199A0077350E /* user_icon.png in Resources */,
 				C54CEBBB18FC77150077350E /* splash_logo_big@2x.png in Resources */,
 				C5AFBDC81921807E00EC62A5 /* bubble_drugs2_icon.png in Resources */,
+				C55656D2195A552F006170AA /* Yank_icon_red.png in Resources */,
 				C5AFBDF01921807E00EC62A5 /* bubble_other_icon.png in Resources */,
 				C5CC4AE7193D930D00285DB3 /* pins_burglary_red@2x.png in Resources */,
 				C5AFBD3C1921807E00EC62A5 /* alert_shooting_icon@2x.png in Resources */,
@@ -8140,6 +8195,7 @@
 				C5CC4883193D930C00285DB3 /* pins_brokenbone_blue.png in Resources */,
 				C5AFBCC01921807D00EC62A5 /* alert_bleeding_icon.png in Resources */,
 				C54CE7C918FB199A0077350E /* home_menu_icon_inactive@2x.png in Resources */,
+				C55656D6195A552F006170AA /* Yank_icon_red@2x.png in Resources */,
 				C5FD5E8418B3141800E27EE9 /* CheckBox_Selected@2x.png in Resources */,
 				C54CEC4518FC77150077350E /* progress_bar_s3.png in Resources */,
 				C5CC4A1F193D930D00285DB3 /* bubble_burglary_red@2x.png in Resources */,
@@ -8770,6 +8826,7 @@
 				C5CC4B15193D930D00285DB3 /* pins_drugs2_red@2x.png in Resources */,
 				C5AFBE821921807E00EC62A5 /* pins_disturbance_icon@2x.png in Resources */,
 				C54CEBE418FC77150077350E /* btn_small_circle_normal.png in Resources */,
+				C55656D4195A552F006170AA /* Yank_icon_red@2x.png in Resources */,
 				C5CC4B09193D930D00285DB3 /* pins_drugsalcohol_red.png in Resources */,
 				C5CC4981193D930C00285DB3 /* alert_drugs2_red.png in Resources */,
 				C54CEAEF18FB199A0077350E /* profile_ice_ico.png in Resources */,
@@ -8799,6 +8856,7 @@
 				C5CC4B81193DEBA500285DB3 /* Record_Button.png in Resources */,
 				C54CEA0818FB199A0077350E /* bubble_time2_LT_icon@2x.png in Resources */,
 				C5AFBE021921807E00EC62A5 /* bubble_shooting_icon@2x.png in Resources */,
+				C55656D0195A552F006170AA /* Yank_icon_red.png in Resources */,
 				C54CE8BE18FB199A0077350E /* locate_me_icon@2x.png in Resources */,
 				C5CC47F9193D930C00285DB3 /* bubble_harassment_blue.png in Resources */,
 				C54CE94E18FB199A0077350E /* user_icon@2x.png in Resources */,
@@ -9537,6 +9595,7 @@
 				C5CC4B16193D930D00285DB3 /* pins_drugs2_red@2x.png in Resources */,
 				C5AFBE831921807E00EC62A5 /* pins_disturbance_icon@2x.png in Resources */,
 				C5AFBA3C191D35DE00EC62A5 /* btn_small_circle_normal.png in Resources */,
+				C55656D5195A552F006170AA /* Yank_icon_red@2x.png in Resources */,
 				C5CC4B0A193D930D00285DB3 /* pins_drugsalcohol_red.png in Resources */,
 				C5CC4982193D930C00285DB3 /* alert_drugs2_red.png in Resources */,
 				C5AFBA3D191D35DE00EC62A5 /* profile_ice_ico.png in Resources */,
@@ -9566,6 +9625,7 @@
 				C5CC4B82193DEBA500285DB3 /* Record_Button.png in Resources */,
 				C5AFBA4E191D35DE00EC62A5 /* bubble_time2_LT_icon@2x.png in Resources */,
 				C5AFBE031921807E00EC62A5 /* bubble_shooting_icon@2x.png in Resources */,
+				C55656D1195A552F006170AA /* Yank_icon_red.png in Resources */,
 				C5AFBA50191D35DE00EC62A5 /* locate_me_icon@2x.png in Resources */,
 				C5CC47FA193D930C00285DB3 /* bubble_harassment_blue.png in Resources */,
 				C5AFBA51191D35DE00EC62A5 /* user_icon@2x.png in Resources */,
@@ -10270,6 +10330,7 @@
 				B543F08C18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C5AFB9231919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5CC4589193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
+				C5F2E598194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
 				C501CC2918F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5AFBB9C191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
@@ -10308,6 +10369,7 @@
 				C56356FB18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5EAABE21904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m in Sources */,
+				C5F2E5B01950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
 				C5662BEE18DD091500FD4F44 /* TSBorderedView.m in Sources */,
 				C5C5E4D218EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
 				C5B5634118E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
@@ -10347,6 +10409,7 @@
 				C501CC9E18F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */,
 				C5BBF30618F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
+				C5F2E5AA194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */,
 				C5EAABFC19066018005EDD7B /* TSMedicalTableViewController.m in Sources */,
 				C563571018ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				C5AFBB7D191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
@@ -10378,6 +10441,7 @@
 				C5CC4596193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C501CC3D18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C5F2E5A4194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C55568E31910082000685FB0 /* TSIntroSlideViewController.m in Sources */,
 				C5AFBB83191F8F0C00EC62A5 /* TSHairColorViewController.m in Sources */,
 				C556478418E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
@@ -10387,6 +10451,7 @@
 				C5BBF42618F9CF6D008B5CB2 /* TSRoundImageView.m in Sources */,
 				C5662BD918DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C5CED6421936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
+				C5F2E59E194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */,
 				C520C8F818A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C5CB078418C6851D00BC9425 /* TSCircularButton.m in Sources */,
 			);
@@ -10416,6 +10481,7 @@
 				C5372DB118B27C1F00D22682 /* TSAskOrganizationViewController.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C585F1AA18CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C5F2E59B194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				C5AFBB86191F8F0C00EC62A5 /* TSHairColorViewController.m in Sources */,
 				C520C8FB18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
@@ -10424,6 +10490,7 @@
 				C5EAABF919066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C501CC2B18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
+				C5F2E5A7194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C5EAABEF1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C5AFBB80191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
 				C5AFB92A1919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
@@ -10492,6 +10559,7 @@
 				C5CC4599193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
 				C532E65218BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
+				C5F2E5B31950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
 				C5AFBF0D1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
@@ -10507,6 +10575,7 @@
 				C5372DB518B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */,
 				C585F1A118CF88CF009EEF16 /* NSData+Base64.m in Sources */,
+				C5F2E5AD194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */,
 				C585F19218CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C5C1C9B01909B9220087F622 /* TSCircularControl.m in Sources */,
@@ -10550,6 +10619,7 @@
 				C523BB8E1934134600BE12E0 /* TSJavelinMassNotificationManager.m in Sources */,
 				C5CC4B7D193DDE7A00285DB3 /* TSRecordWindow.m in Sources */,
 				C585F1A418CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
+				C5F2E5A1194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */,
 				B53BBD1C18980FDA006A27E0 /* TapShieldTests.m in Sources */,
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C5391EA518C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
@@ -10623,6 +10693,7 @@
 				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5CC458A193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
+				C5F2E599194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
 				C501CC2A18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5AFBB9D191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
@@ -10661,6 +10732,7 @@
 				C56356FC18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C5EAABE31904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m in Sources */,
+				C5F2E5B11950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
 				C585F1AC18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D318EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
 				C5B5634218E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
@@ -10700,6 +10772,7 @@
 				C501CC9F18F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C5662BDA18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C5BBF30718F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
+				C5F2E5AB194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */,
 				C5EAABFD19066018005EDD7B /* TSMedicalTableViewController.m in Sources */,
 				C563571118ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				C5AFBB7E191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
@@ -10731,6 +10804,7 @@
 				C5CC4597193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
 				C5391EA418C7D19100C23C0A /* TSTransitionAnimation.m in Sources */,
 				C501CC3E18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C5F2E5A5194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C55568E41910082000685FB0 /* TSIntroSlideViewController.m in Sources */,
 				C5AFBB84191F8F0C00EC62A5 /* TSHairColorViewController.m in Sources */,
 				C5391EBE18CA238D00C23C0A /* TSPageViewController.m in Sources */,
@@ -10740,6 +10814,7 @@
 				C5BBF42718F9CF6E008B5CB2 /* TSRoundImageView.m in Sources */,
 				C57C48E718BBDB1900DFFBCE /* TSLoginOrSignUpViewController.m in Sources */,
 				C5CED6431936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
+				C5F2E59F194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */,
 				C57C48E818BBDB1900DFFBCE /* TSJavelinPushNotificationManager.m in Sources */,
 				C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */,
 			);
@@ -10800,6 +10875,7 @@
 				C5AFB967191D35DE00EC62A5 /* TSRalewayFont.m in Sources */,
 				C5AFB968191D35DE00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5CC458B193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
+				C5F2E59A194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
 				C5AFB969191D35DE00EC62A5 /* MKMapItem+EncodeDecode.m in Sources */,
 				C5AFBB9E191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
 				C5AFB96A191D35DE00EC62A5 /* TSTextMessageBarView.m in Sources */,
@@ -10838,6 +10914,7 @@
 				C5AFB986191D35DE00EC62A5 /* TSRouteTimeAnnotationView.m in Sources */,
 				C5AFB987191D35DE00EC62A5 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C5AFB988191D35DE00EC62A5 /* TSJavelinAPIEntourageMember.m in Sources */,
+				C5F2E5B21950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
 				C5AFB989191D35DE00EC62A5 /* TWSignedRequest.m in Sources */,
 				C5AFB98A191D35DE00EC62A5 /* TSRouteTimeAnnotation.m in Sources */,
 				C5AFB98B191D35DE00EC62A5 /* TSSpotCrimeAPIClient.m in Sources */,
@@ -10877,6 +10954,7 @@
 				C5AFB9A8191D35DE00EC62A5 /* TSLogoImageView.m in Sources */,
 				C5AFB9A9191D35DE00EC62A5 /* TSBaseButton.m in Sources */,
 				C5AFB9AA191D35DE00EC62A5 /* TSVoipViewController.m in Sources */,
+				C5F2E5AC194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */,
 				C5AFB9AB191D35DE00EC62A5 /* TSMedicalTableViewController.m in Sources */,
 				C5AFB9AC191D35DE00EC62A5 /* TSDestinationAnnotationView.m in Sources */,
 				C5AFBB7F191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
@@ -10908,6 +10986,7 @@
 				C5CC4598193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
 				C5AFB9C4191D35DE00EC62A5 /* TSTransitionAnimation.m in Sources */,
 				C5AFB9C5191D35DE00EC62A5 /* TSNotifySelectionViewController.m in Sources */,
+				C5F2E5A6194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C5AFB9C6191D35DE00EC62A5 /* TSIntroSlideViewController.m in Sources */,
 				C5AFBB85191F8F0C00EC62A5 /* TSHairColorViewController.m in Sources */,
 				C5AFB9C7191D35DE00EC62A5 /* TSPageViewController.m in Sources */,
@@ -10917,6 +10996,7 @@
 				C5AFB9CB191D35DE00EC62A5 /* TSRoundImageView.m in Sources */,
 				C5AFB9CC191D35DE00EC62A5 /* TSLoginOrSignUpViewController.m in Sources */,
 				C5CED6441936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
+				C5F2E5A0194F6E60005B32A1 /* TSJavelinAPIRegion.m in Sources */,
 				C5AFB9CD191D35DE00EC62A5 /* TSJavelinPushNotificationManager.m in Sources */,
 				C5AFB9CE191D35DE00EC62A5 /* TSChatViewController.m in Sources */,
 			);
@@ -11042,10 +11122,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv7s,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Adam Share (N9M8832F78)";
@@ -11069,10 +11146,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv7s,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Adam Share (N9M8832F78)";

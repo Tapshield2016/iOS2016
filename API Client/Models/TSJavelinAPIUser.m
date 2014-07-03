@@ -31,8 +31,8 @@
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
     _lastName = [attributes valueForKey:@"last_name"];
-    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
-    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
+    _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
+    _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes valueForKey:@"entourage_members"];
         
     return self;
@@ -41,7 +41,9 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
-    [encoder encodeObject:self.url forKey:@"url"];
+    
+    [super encodeWithCoder:encoder];
+    
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_email forKey:@"email"];
     [encoder encodeObject:_agency forKey:@"agency"];
@@ -99,16 +101,19 @@
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];
     
-    if ([attributes[@"agency"] isKindOfClass:[NSDictionary class]]) {
+    if ([[attributes nonNullObjectForKey:@"agency"] isKindOfClass:[NSDictionary class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if (![attributes nonNullObjectForKey:@"agency"]) {
+        _agency = nil;
     }
     
     _phoneNumber = [attributes valueForKey:@"phone_number"];
     _disarmCode = [attributes valueForKey:@"disarm_code"];
     _firstName = [attributes valueForKey:@"first_name"];
     _lastName = [attributes valueForKey:@"last_name"];
-    _isEmailVerified = [[attributes objectForKey:@"is_active"] boolValue];
-    _phoneNumberVerified = [[attributes objectForKey:@"phone_number_verified"] boolValue];
+    _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
+    _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes valueForKey:@"entourage_members"];
     
     return self;

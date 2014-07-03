@@ -29,7 +29,7 @@
 
 @property (strong, nonatomic) TSIconBadgeView *badgeView;
 
-@property (strong, nonatomic) UIViewController *superviewViewController;
+@property (weak, nonatomic) UIViewController *superviewViewController;
 @property (strong, nonatomic) NSTimer *sendEmergencyTimer;
 
 - (IBAction)addAlertDetails:(id)sender;

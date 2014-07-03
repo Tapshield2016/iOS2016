@@ -29,9 +29,9 @@
     
     self = [super initWithAttributes:attributes];
     if (self) {
-        _name = [attributes objectForKey:@"name"];
-        _email = [attributes objectForKey:@"email_address"];
-        _phoneNumber = [attributes objectForKey:@"phone_number"];
+        _name = [attributes nonNullObjectForKey:@"name"];
+        _email = [attributes nonNullObjectForKey:@"email_address"];
+        _phoneNumber = [attributes nonNullObjectForKey:@"phone_number"];
     }
     return self;
 }

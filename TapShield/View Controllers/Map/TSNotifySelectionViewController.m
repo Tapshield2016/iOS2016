@@ -581,6 +581,31 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     }
     
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+        
+        if (error) {
+            NSLog(@"error");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Failed requesting access to contacts"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Ok"
+                                  otherButtonTitles:nil] show];
+            });
+            return;
+        }
+        
+        if (!granted) {
+            NSLog(@"Denied access");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Contacts Access denied"
+                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Ok"
+                                  otherButtonTitles:nil] show];
+            });
+            return;
+        }
+        
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
         CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
         

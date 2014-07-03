@@ -614,7 +614,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Emailmgr Add Remove Emails
 
-- (void)addSecondaryEmail:(NSString *)email {
+- (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
         return;
@@ -629,6 +629,12 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
            
+           [_loggedInUser updateWithAttributes:responseObject];
+           
+           if (completion) {
+               completion(YES, nil);
+           }
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            
            NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
@@ -637,6 +643,113 @@ static dispatch_once_t onceToken;
            }
            
            NSLog(@"%@", errorMessage);
+           if (completion) {
+               completion(NO, errorMessage);
+           }
+       }];
+}
+
+- (void)makeSecondaryEmailPrimary:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
+    
+    if (!email) {
+        return;
+    }
+    
+    email = [email lowercaseString];
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/email/make_primary/"
+    parameters:@{ @"email": email}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [_loggedInUser updateWithAttributes:responseObject];
+           
+           if (completion) {
+               completion(YES, nil);
+           }
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
+           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           if (!errorMessage) {
+               errorMessage = error.localizedDescription;
+           }
+           
+           NSLog(@"%@", errorMessage);
+           if (completion) {
+               completion(NO, errorMessage);
+           }
+       }];
+}
+
+- (void)resendSecondaryEmailActivation:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
+    
+    if (!email) {
+        return;
+    }
+    
+    email = [email lowercaseString];
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/email/send_activation/"
+    parameters:@{ @"email": email}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           if (completion) {
+               completion(YES, nil);
+           }
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
+           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           if (!errorMessage) {
+               errorMessage = error.localizedDescription;
+           }
+           
+           NSLog(@"%@", errorMessage);
+           if (completion) {
+               completion(NO, errorMessage);
+           }
+       }];
+}
+
+- (void)removeSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
+    
+    if (!email) {
+        return;
+    }
+    
+    email = [email lowercaseString];
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/email/delete/"
+    parameters:@{ @"email": email}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [_loggedInUser updateWithAttributes:responseObject];
+           
+           if (completion) {
+               completion(YES, nil);
+           }
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
+           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           if (!errorMessage) {
+               errorMessage = error.localizedDescription;
+           }
+           
+           NSLog(@"%@", errorMessage);
+           
+           if (completion) {
+               completion(NO, errorMessage);
+           }
        }];
 }
 

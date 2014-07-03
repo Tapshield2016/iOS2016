@@ -19,7 +19,8 @@
 @property (strong, nonatomic) NSTimer *socialGetTimer;
 @property (strong, nonatomic) NSTimer *spotCrimeGetTimer;
 @property (assign, nonatomic) BOOL shouldAddAnnotations;
-@property (assign, nonatomic) NSUInteger maxHours;
+@property (assign, nonatomic) NSUInteger maxSocialHours;
+@property (assign, nonatomic) NSUInteger maxSpotCrimeHours;
 
 @end
 
@@ -31,7 +32,8 @@
     if (self) {
         _mapView = mapView;
         _shouldAddAnnotations = YES;
-        _maxHours = MAX_HOURS;
+        _maxSocialHours = MAX_HOURS;
+        _maxSpotCrimeHours = [[NSDate date] hoursAfterDate:[NSDate dateWithDaysBeforeNow:7]];
     }
     return self;
 }
@@ -87,7 +89,7 @@
         location = [TSLocationController sharedLocationController].location;
     }
     
-    [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:kSpotCrimeRadius since:[NSDate dateWithHoursBeforeNow:_maxHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+    [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:kSpotCrimeRadius since:[NSDate dateWithHoursBeforeNow:_maxSpotCrimeHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
         [self addSpotCrimes:crimes];
     }];
 }
@@ -132,7 +134,7 @@
     NSIndexSet *removeIndexSet = [[_spotCrimes copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;
         
-        if ([oldAnnotation.spotCrime.date hoursBeforeDate:[NSDate date]] > _maxHours) {
+        if ([oldAnnotation.spotCrime.date hoursBeforeDate:[NSDate date]] > _maxSocialHours) {
                 return YES;
         }
         
@@ -172,7 +174,7 @@
     for (TSSpotCrimeLocation *location in spotCrimes) {
         TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
         
-        if ([location.date hoursBeforeDate:[NSDate date]] > _maxHours) {
+        if ([location.date hoursBeforeDate:[NSDate date]] > _maxSocialHours) {
             continue;
         }
         
@@ -228,7 +230,7 @@
     NSIndexSet *removeIndexSet = [[_socialReports copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;
         
-        if ([oldAnnotation.socialReport.creationDate hoursBeforeDate:[NSDate date]] > _maxHours) {
+        if ([oldAnnotation.socialReport.creationDate hoursBeforeDate:[NSDate date]] > _maxSocialHours) {
             return YES;
         }
         
@@ -266,7 +268,7 @@
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
     for (TSJavelinAPISocialCrimeReport *report in socialReports) {
         
-        if ([report.creationDate hoursBeforeDate:[NSDate date]] > _maxHours) {
+        if ([report.creationDate hoursBeforeDate:[NSDate date]] > _maxSocialHours) {
             continue;
         }
         

@@ -3803,6 +3803,10 @@
 		C5FD5EA818B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */; };
 		C5FD5EAA18B5165600E27EE9 /* iphoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */; };
 		C5FD5EAB18B5165600E27EE9 /* iphoneIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */; };
+		C5FFB4CB195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */; };
+		C5FFB4CC195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */; };
+		C5FFB4CD195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */; };
+		C5FFB4CE195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -4957,6 +4961,8 @@
 		C5FD5EA518B4009000E27EE9 /* TSPhoneVerificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSPhoneVerificationViewController.h; path = "View Controllers/Login:Signup/TSPhoneVerificationViewController.h"; sourceTree = "<group>"; };
 		C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPhoneVerificationViewController.m; path = "View Controllers/Login:Signup/TSPhoneVerificationViewController.m"; sourceTree = "<group>"; };
 		C5FD5EA918B5165600E27EE9 /* iphoneIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iphoneIcon.png; path = Images/iphoneIcon.png; sourceTree = "<group>"; };
+		C5FFB4C9195E689C003D6368 /* TSJavelinAPIEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIEmail.h; sourceTree = "<group>"; };
+		C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIEmail.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5325,26 +5331,28 @@
 				C520C8D718A974C000D1D2E9 /* TSJavelinAPIBaseModel.m */,
 				C520C8D818A974C000D1D2E9 /* TSJavelinAPIChatMessage.h */,
 				C520C8D918A974C000D1D2E9 /* TSJavelinAPIChatMessage.m */,
+				C5F2E5A2194FA696005B32A1 /* TSJavelinAPIClosedDate.h */,
+				C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */,
+				C5F2E596194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.h */,
+				C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */,
+				C5FFB4C9195E689C003D6368 /* TSJavelinAPIEmail.h */,
+				C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */,
+				C5EAABE01904C4B6005EDD7B /* TSJavelinAPIEntourageMember.h */,
+				C5EAABE11904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m */,
 				C520C8DA18A974C000D1D2E9 /* TSJavelinAPIGroup.h */,
 				C520C8DB18A974C000D1D2E9 /* TSJavelinAPIGroup.m */,
 				C520C8DC18A974C000D1D2E9 /* TSJavelinAPIMassAlert.h */,
 				C520C8DD18A974C000D1D2E9 /* TSJavelinAPIMassAlert.m */,
+				C5F2E5A8194FA6D7005B32A1 /* TSJavelinAPIPeriod.h */,
+				C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */,
+				C5F2E59C194F6E60005B32A1 /* TSJavelinAPIRegion.h */,
+				C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */,
+				C5AFBBA0192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.h */,
+				C5AFBBA1192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m */,
 				C520C8DE18A974C000D1D2E9 /* TSJavelinAPIUser.h */,
 				C520C8DF18A974C100D1D2E9 /* TSJavelinAPIUser.m */,
 				C520C8E018A974C100D1D2E9 /* TSJavelinAPIUserProfile.h */,
 				C520C8E118A974C100D1D2E9 /* TSJavelinAPIUserProfile.m */,
-				C5EAABE01904C4B6005EDD7B /* TSJavelinAPIEntourageMember.h */,
-				C5EAABE11904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m */,
-				C5AFBBA0192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.h */,
-				C5AFBBA1192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m */,
-				C5F2E596194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.h */,
-				C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */,
-				C5F2E59C194F6E60005B32A1 /* TSJavelinAPIRegion.h */,
-				C5F2E59D194F6E60005B32A1 /* TSJavelinAPIRegion.m */,
-				C5F2E5A2194FA696005B32A1 /* TSJavelinAPIClosedDate.h */,
-				C5F2E5A3194FA696005B32A1 /* TSJavelinAPIClosedDate.m */,
-				C5F2E5A8194FA6D7005B32A1 /* TSJavelinAPIPeriod.h */,
-				C5F2E5A9194FA6D7005B32A1 /* TSJavelinAPIPeriod.m */,
 			);
 			name = Models;
 			path = "API Client/Models";
@@ -10359,6 +10367,7 @@
 				B583B9BC18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
+				C5FFB4CB195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C5AFBB96191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
@@ -10594,6 +10603,7 @@
 				C5662BFA18DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
+				C5FFB4CE195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
 				C56B3D5D18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C532E63C18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
@@ -10722,6 +10732,7 @@
 				C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */,
 				C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C5FFB4CC195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C5AFBB97191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
@@ -10904,6 +10915,7 @@
 				C5AFB97D191D35DE00EC62A5 /* TSGradientSwipeViewController.m in Sources */,
 				C5AFB97E191D35DE00EC62A5 /* TSBaseLabel.m in Sources */,
 				C5AFB97F191D35DE00EC62A5 /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C5FFB4CD195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5AFB980191D35DE00EC62A5 /* TSAgreementViewController.m in Sources */,
 				C5AFB981191D35DE00EC62A5 /* TSSelectedDestinationAnnotation.m in Sources */,
 				C5AFBB98191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
@@ -11064,6 +11076,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -11082,6 +11095,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -11102,7 +11116,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -11113,6 +11128,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -11277,7 +11293,7 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
@@ -11289,7 +11305,7 @@
 				INFOPLIST_FILE = "TapShield/TapShield Release-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = TapShield;
-				PROVISIONING_PROFILE = "194321AD-3C79-4BD0-BDDD-4BB43B9B3D35";
+				PROVISIONING_PROFILE = "3C367BF0-FCCB-4765-BBC8-32610432B574";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -11304,7 +11320,7 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapShield/TapShield-Prefix.pch";
@@ -11317,7 +11333,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = TapShield;
-				PROVISIONING_PROFILE = "194321AD-3C79-4BD0-BDDD-4BB43B9B3D35";
+				PROVISIONING_PROFILE = "3C367BF0-FCCB-4765-BBC8-32610432B574";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -11238,7 +11238,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC";
@@ -11262,7 +11262,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5EADC0AEB4FF48EF938D2BDA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC";
@@ -11305,7 +11305,7 @@
 				INFOPLIST_FILE = "TapShield/TapShield Release-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = TapShield;
-				PROVISIONING_PROFILE = "3C367BF0-FCCB-4765-BBC8-32610432B574";
+				PROVISIONING_PROFILE = "660D8601-3CAC-4E57-950F-50227B5A1200";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -11333,7 +11333,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = TapShield;
-				PROVISIONING_PROFILE = "3C367BF0-FCCB-4765-BBC8-32610432B574";
+				PROVISIONING_PROFILE = "660D8601-3CAC-4E57-950F-50227B5A1200";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -831,18 +831,21 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 //
 //The distance_within parameter is a value in miles and can be specified as a float if desired, e.g. 0.3, 97.8, etc.
 
-- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius completion:(void (^)(NSArray *reports))completion {
+- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius since:(NSDate *)date completion:(void (^)(NSArray *reports))completion {
     
     if (!location || !radius) {
         return;
     }
+    
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"social-crime-reports/"
    parameters:@{ @"latitude": @(location.coordinate.latitude),
                  @"longitude": @(location.coordinate.longitude),
-                 @"distance_within": @(radius)}
+                 @"distance_within": @(radius),
+                 @"page_size": @(100),
+                 @"modified_since": date.iso8601String}
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if (completion) {
               completion([TSJavelinAPISocialCrimeReport socialCrimeReportArray:[responseObject objectForKey:@"results"]]);

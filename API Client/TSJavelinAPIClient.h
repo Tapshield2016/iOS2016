@@ -165,7 +165,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 - (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion;
 
 //Report
-- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius completion:(void (^)(NSArray *reports))completion;
+- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius since:(NSDate *)date completion:(void (^)(NSArray *reports))completion;
 - (void)postSocialCrimeReport:(TSJavelinAPISocialCrimeReport *)report completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion;
 - (void)removeUrl:(NSString *)url completion:(void(^)(BOOL finished))completion;
 

@@ -39,6 +39,7 @@
 @property (nonatomic, readonly) NSString *longString;
 @property (nonatomic, readonly) NSString *longDateString;
 @property (nonatomic, readonly) NSString *longTimeString;
+@property (nonatomic, readonly) NSString *iso8601String;
 
 + (NSString *) fileDateTimeNowString;
 

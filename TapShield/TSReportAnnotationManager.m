@@ -88,6 +88,8 @@
     
     [self startSocialTimer];
     [self startSpotCrimeTimer];
+    
+    NSLog(@"Get new reports");
 }
 
 - (void)getSpotCrimeAnnotations:(CLLocation *)location {
@@ -114,7 +116,7 @@
                                               longitude:_mapView.region.center.longitude];
     }
     
-    [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:distanceInMiles completion:^(NSArray *reports) {
+    [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:distanceInMiles since:[NSDate dateWithHoursBeforeNow:_maxSocialHours] completion:^(NSArray *reports) {
         [self addSocialReports:reports];
     }];
 }

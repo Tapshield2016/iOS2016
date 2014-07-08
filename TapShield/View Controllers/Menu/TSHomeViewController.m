@@ -725,6 +725,11 @@
             [_mapView setCenterCoordinate:location.coordinate animated:YES];
         }
     }
+    else {
+        CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude
+                                                                longitude:[mapView centerCoordinate].longitude];
+        [_reportManager getReportsForMapCenter:centerLocation];
+    }
     
     [self flipIntersectingRouteAnnotation];
 }
@@ -782,75 +787,6 @@
         TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:view.annotation
                                                                                                      from:self];
         controller.reportManager = _reportManager;
-        
-//        TSSpotCrimeLocation *location = ((TSSpotCrimeAnnotation *)view.annotation).spotCrime;
-//        TSJavelinAPISocialCrimeReport *report = ((TSSpotCrimeAnnotation *)view.annotation).socialReport;
-//        
-//        if (location) {
-//            if (!location.eventDescription) {
-//                
-//                [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeDescription:location completion:^(TSSpotCrimeLocation *location) {
-//                    
-//                    ((TSSpotCrimeAnnotation *)view.annotation).spotCrime = location;
-//                    ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.eventDescription;
-//                }];
-//            }
-//            else {
-//                if ([((TSSpotCrimeAnnotation *)view.annotation).subtitle isEqualToString:location.address]) {
-//                    ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.eventDescription;
-//                }
-//                else {
-//                    ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.address;
-//                }
-//            }
-//        }
-//        if (report) {
-//            
-//            if (!((TSSpotCrimeAnnotation *)view.annotation).subtitle) {
-//                CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-//                [geocoder reverseGeocodeLocation:((TSSpotCrimeAnnotation *)view.annotation).socialReport.location completionHandler:^(NSArray *placemarks, NSError *error) {
-//                    if (placemarks) {
-//                        CLPlacemark *placemark = [placemarks firstObject];
-//                        NSString *title = @"";
-//                        NSString *subtitle = @"";
-//                        if (placemark.subThoroughfare) {
-//                            title = placemark.subThoroughfare;
-//                        }
-//                        if (placemark.thoroughfare) {
-//                            title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
-//                        }
-//                        if (placemark.locality) {
-//                            subtitle = placemark.locality;
-//                        }
-//                        if (placemark.administrativeArea) {
-//                            if (placemark.locality) {
-//                                subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
-//                            }
-//                            else {
-//                                subtitle = placemark.administrativeArea;
-//                            }
-//                        }
-//                        if (placemark.postalCode) {
-//                            subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
-//                        }
-//                        
-//                        if (!title) {
-//                            title = subtitle;
-//                        }
-//                        
-//                        ((TSSpotCrimeAnnotation *)view.annotation).subtitle = title;
-//                        ((TSSpotCrimeAnnotation *)view.annotation).socialReport.address = title;
-//                    }
-//                }];
-//            }
-//            
-//            if ([((TSSpotCrimeAnnotation *)view.annotation).subtitle isEqualToString:report.address]) {
-//                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = report.body;
-//            }
-//            else {
-//                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = report.address;
-//            }
-//        }
     }
 }
 

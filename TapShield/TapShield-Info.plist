@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.3</string>
+	<string>2.0.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,15 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	<string>814</string>
-=======
-	<string>819</string>
->>>>>>> Stashed changes
-=======
-	<string>818</string>
->>>>>>> 1a2244aa8c98fb319ac79d1881d33ae3e62ba21a
+	<string>821</string>
 	<key>FacebookAppID</key>
 	<string>412321438904850</string>
 	<key>FacebookDisplayName</key>

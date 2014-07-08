@@ -212,7 +212,7 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.navigationItem.rightBarButtonItem.enabled = YES;
                 
-                [[[UIAlertView alloc] initWithTitle:@"Contacts Access denied"
+                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
                                             message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
                                            delegate:nil
                                   cancelButtonTitle:@"Ok"

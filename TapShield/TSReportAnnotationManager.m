@@ -74,6 +74,13 @@
     _spotCrimeGetTimer = nil;
 }
 
+- (void)getReportsForMapCenter:(CLLocation *)location {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:1];
+}
+
 - (void)loadSpotCrimeAndSocialAnnotations:(CLLocation *)location {
     
     [self getSpotCrimeAnnotations:location];
@@ -86,7 +93,8 @@
 - (void)getSpotCrimeAnnotations:(CLLocation *)location {
     
     if (![location isKindOfClass:[CLLocation class]]) {
-        location = [TSLocationController sharedLocationController].location;
+        location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
+                                              longitude:_mapView.region.center.longitude];
     }
     
     [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:kSpotCrimeRadius since:[NSDate dateWithHoursBeforeNow:_maxSpotCrimeHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
@@ -96,11 +104,17 @@
 
 - (void)getSocialAnnotations:(CLLocation *)location  {
     
+    MKMapRect mRect = _mapView.visibleMapRect;
+    MKMapPoint point1 = MKMapPointMake(MKMapRectGetMidX(mRect), MKMapRectGetMaxY(mRect));
+    MKMapPoint point2 = MKMapPointMake(MKMapRectGetMidX(mRect), MKMapRectGetMinY(mRect));
+    float distanceInMiles = lroundf(MKMetersBetweenMapPoints(point1, point2) * 0.000621371);
+    
     if (![location isKindOfClass:[CLLocation class]]) {
-        location = [TSLocationController sharedLocationController].location;
+        location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
+                                              longitude:_mapView.region.center.longitude];
     }
     
-    [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:kSocialRadius completion:^(NSArray *reports) {
+    [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:distanceInMiles completion:^(NSArray *reports) {
         [self addSocialReports:reports];
     }];
 }

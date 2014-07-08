@@ -21,6 +21,8 @@
 
 - (void)loadSpotCrimeAndSocialAnnotations:(CLLocation *)location;
 
+- (void)getReportsForMapCenter:(CLLocation *)location;
+
 - (void)addUserSocialReport:(TSJavelinAPISocialCrimeReport *)report;
 
 - (void)removeUserSocialReport:(TSSpotCrimeAnnotation *)annotation;

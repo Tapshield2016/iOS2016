@@ -88,8 +88,6 @@
     
     [self startSocialTimer];
     [self startSpotCrimeTimer];
-    
-    NSLog(@"Get new reports");
 }
 
 - (void)getSpotCrimeAnnotations:(CLLocation *)location {

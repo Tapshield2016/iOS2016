@@ -21,6 +21,7 @@ static NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip
         
         _spotCrime = location;
         _type = location.type;
+        self.groupTag = kTYPESpotCrime;
     }
     return self;
 }
@@ -32,6 +33,7 @@ static NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip
         
         _socialReport = report;
         _type = [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType];
+        self.groupTag = kTYPESocialReport;
     }
     return self;
 }

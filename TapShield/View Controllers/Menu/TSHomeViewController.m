@@ -26,6 +26,9 @@
 #import "TSNamePictureViewController.h"
 #import "TSGeofence.h"
 #import "TSViewReportDetailsViewController.h"
+#import "TSClusterAnnotationView.h"
+
+static CGFloat kDEFAULTCLUSTERSIZE = 0.2;
 
 @interface TSHomeViewController ()
 
@@ -43,6 +46,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    _mapView.clusterSize = kDEFAULTCLUSTERSIZE;
+    _mapView.clusterByGroupTag = YES;
     
     _annotationsLoaded = NO;
     
@@ -665,6 +671,22 @@
         
         ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
     }
+    else if ([annotation isKindOfClass:[OCAnnotation class]]) {
+        
+        annotationView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ClusterView"];
+        [annotationView setAnnotation:annotation];
+        if (!annotationView) {
+            annotationView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ClusterView"];
+        }
+    }
+    else {
+        annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"errorAnnotationView"];
+        if (!annotationView) {
+            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"errorAnnotationView"];
+            ((MKPinAnnotationView *)annotationView).canShowCallout = NO;
+            ((MKPinAnnotationView *)annotationView).pinColor = MKPinAnnotationColorRed;
+        }
+    }
     
     return annotationView;
 }
@@ -679,6 +701,10 @@
     for (TSBaseAnnotationView *view in views) {
         
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
+            
+            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]]) {
+                return;
+            }
             
             if (((TSBaseMapAnnotation *)view.annotation).firstAdd) {
                 ((TSBaseMapAnnotation *)view.annotation).firstAdd = NO;
@@ -732,6 +758,7 @@
     }
     
     [self flipIntersectingRouteAnnotation];
+    [_mapView doClustering];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
@@ -765,6 +792,27 @@
         [self flipIntersectingRouteAnnotation];
     }
     
+    if ([view isKindOfClass:[TSClusterAnnotationView class]]){
+        _isTrackingUser = NO;
+        
+        OCAnnotation *annotation = (OCAnnotation *)view.annotation;
+        
+        MKCoordinateRegion region = mapView.region;
+        MKCoordinateSpan span = mapView.region.span;
+        
+        if (span.latitudeDelta > 1) {
+            span.latitudeDelta = 0.6;
+            span.longitudeDelta = 0.4;
+        }
+        else {
+            span.latitudeDelta*=.5;
+            span.longitudeDelta*=.5;
+        }
+        region.span=span;
+        region.center = annotation.coordinate;
+        [mapView setRegion:region animated:YES];
+    }
+    
     [_mapView bringSubviewToFront:view];
 }
 
@@ -784,7 +832,7 @@
     
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         
-        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:view.annotation
+        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)view.annotation
                                                                                                      from:self];
         controller.reportManager = _reportManager;
     }

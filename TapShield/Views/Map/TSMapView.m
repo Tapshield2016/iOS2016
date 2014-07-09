@@ -293,4 +293,18 @@
     });
 }
 
+#pragma mark - Clustering
+
+- (void)doClustering {
+    
+    if (self.region.span.latitudeDelta < .1) {
+        self.clusteringEnabled = NO;
+    }
+    else {
+        self.clusteringEnabled = YES;
+    }
+    
+    [super doClustering];
+}
+
 @end

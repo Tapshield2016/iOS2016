@@ -18,8 +18,9 @@
 #import "TSRouteOption.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUserAnnotationView.h"
+#import "OCMapview.h"
 
-@interface TSMapView : MKMapView
+@interface TSMapView : OCMapView
 
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;

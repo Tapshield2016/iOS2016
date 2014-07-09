@@ -211,6 +211,10 @@
 		C5391EC218CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC318CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
 		C5391EC418CA34F800C23C0A /* TSChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5391EC118CA34F800C23C0A /* TSChatViewController.m */; };
+		C53A62E7196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A62E6196DD04B00C34BF0 /* TSClusterAnnotationView.m */; };
+		C53A62E8196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A62E6196DD04B00C34BF0 /* TSClusterAnnotationView.m */; };
+		C53A62E9196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A62E6196DD04B00C34BF0 /* TSClusterAnnotationView.m */; };
+		C53A62EA196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A62E6196DD04B00C34BF0 /* TSClusterAnnotationView.m */; };
 		C53A663B190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
 		C53A663C190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
 		C53A663D190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
@@ -3984,6 +3988,8 @@
 		C5391EBC18CA238D00C23C0A /* TSPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSPageViewController.m; path = "View Controllers/TSPageViewController.m"; sourceTree = "<group>"; };
 		C5391EC018CA34F800C23C0A /* TSChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSChatViewController.h; path = "View Controllers/TSChatViewController.h"; sourceTree = "<group>"; };
 		C5391EC118CA34F800C23C0A /* TSChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSChatViewController.m; path = "View Controllers/TSChatViewController.m"; sourceTree = "<group>"; };
+		C53A62E5196DD04B00C34BF0 /* TSClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClusterAnnotationView.h; sourceTree = "<group>"; };
+		C53A62E6196DD04B00C34BF0 /* TSClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClusterAnnotationView.m; sourceTree = "<group>"; };
 		C53A6639190E527000760656 /* TSMemberCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayout.h; path = Views/TSMemberCollectionViewLayout.h; sourceTree = "<group>"; };
 		C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayout.m; path = Views/TSMemberCollectionViewLayout.m; sourceTree = "<group>"; };
 		C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayoutAttributes.h; path = Views/TSMemberCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
@@ -6048,6 +6054,8 @@
 				C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */,
 				C56356FE18ED13B600BAA5D7 /* TSBaseAnnotationView.h */,
 				C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */,
+				C53A62E5196DD04B00C34BF0 /* TSClusterAnnotationView.h */,
+				C53A62E6196DD04B00C34BF0 /* TSClusterAnnotationView.m */,
 				C563570918ED160800BAA5D7 /* TSUserAnnotationView.h */,
 				C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */,
 				C563570E18ED1B4000BAA5D7 /* TSDestinationAnnotationView.h */,
@@ -10323,6 +10331,7 @@
 				C585F1B018CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
 				C585F19018CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
+				C53A62E7196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */,
 				C5AFB9281919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
 				C501CC3818F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48A318B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
@@ -10617,6 +10626,7 @@
 				C5662BF518DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C56B3D5818FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C501CC3F18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C53A62EA196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */,
 				C56B3D5318FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5CED6451936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
@@ -10688,6 +10698,7 @@
 				C57C48C118BBDB1900DFFBCE /* TSJavelinAPIAgency.m in Sources */,
 				C57C48C218BBDB1900DFFBCE /* TSAgencyAnnotation.m in Sources */,
 				C57C48C318BBDB1900DFFBCE /* TSOrganizationCell.m in Sources */,
+				C53A62E8196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */,
 				C5AFB9291919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
 				C501CC3918F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C57C48C418BBDB1900DFFBCE /* TSLoginViewController.m in Sources */,
@@ -10871,6 +10882,7 @@
 				C5AFB95A191D35DE00EC62A5 /* TSJavelinAPIAgency.m in Sources */,
 				C5AFB95B191D35DE00EC62A5 /* TSAgencyAnnotation.m in Sources */,
 				C5AFB95C191D35DE00EC62A5 /* TSOrganizationCell.m in Sources */,
+				C53A62E9196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */,
 				C5AFB95D191D35DE00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
 				C5AFB95E191D35DE00EC62A5 /* TSMapItemCell.m in Sources */,
 				C5AFB95F191D35DE00EC62A5 /* TSLoginViewController.m in Sources */,

@@ -297,11 +297,14 @@
 
 - (void)doClustering {
     
-    if (self.region.span.latitudeDelta < .1) {
+    self.clusterSize = 80/[UIScreen mainScreen].bounds.size.width;
+    self.clusteringEnabled = YES;
+    
+    if (self.region.span.longitudeDelta <= .05) {
         self.clusteringEnabled = NO;
     }
-    else {
-        self.clusteringEnabled = YES;
+    else if (self.region.span.longitudeDelta <= 1) {
+        self.clusterSize = .2;
     }
     
     [super doClustering];

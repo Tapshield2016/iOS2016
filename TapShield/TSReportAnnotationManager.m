@@ -12,7 +12,7 @@
 
 
 #define kSocialRadius 2
-#define kSpotCrimeRadius .25
+#define kSpotCrimeRadius .1
 
 @interface TSReportAnnotationManager ()
 
@@ -33,7 +33,7 @@
         _mapView = mapView;
         _shouldAddAnnotations = YES;
         _maxSocialHours = MAX_HOURS;
-        _maxSpotCrimeHours = [[NSDate date] hoursAfterDate:[NSDate dateWithDaysBeforeNow:7]];
+        _maxSpotCrimeHours = MAX_HOURS;
     }
     return self;
 }
@@ -97,8 +97,22 @@
                                               longitude:_mapView.region.center.longitude];
     }
     
-    [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:kSpotCrimeRadius since:[NSDate dateWithHoursBeforeNow:_maxSpotCrimeHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+    float radius = kSpotCrimeRadius;
+    
+    if (_mapView.region.span.longitudeDelta > .5) {
+        radius = .25;
+    }
+    
+    
+    [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithHoursBeforeNow:_maxSpotCrimeHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+        
         [self addSpotCrimes:crimes];
+        
+        if (crimes.count < 10) {
+            [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithDaysBeforeNow:7] maxReturned:50 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+                [self addSpotCrimes:crimes];
+            }];
+        }
     }];
 }
 
@@ -137,7 +151,7 @@
     }
     
     //Remove old crimes keeping thos still relevant
-    [self removeOldSpotCrimes:spotCrimes];
+//    [self removeOldSpotCrimes:spotCrimes];
     
     //Add new crimes if available
     [self addNewSpotCrimes:spotCrimes];
@@ -185,16 +199,22 @@
 - (NSArray *)createSpotCrimeAnnotations:(NSArray *)spotCrimes {
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
+    NSMutableArray *oldMutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     for (TSSpotCrimeLocation *location in spotCrimes) {
         TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpotCrime:location];
         
         if ([location.date hoursBeforeDate:[NSDate date]] > _maxSocialHours) {
+            [oldMutableArray addObject:annotation];
             continue;
         }
         
-        if (![location.type isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
+//        if (![location.type isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
             [mutableArray addObject:annotation];
-        }
+//        }
+    }
+    
+    if (mutableArray.count < 10) {
+        [mutableArray addObjectsFromArray:oldMutableArray];
     }
     
     return mutableArray;

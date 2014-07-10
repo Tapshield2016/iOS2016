@@ -20,6 +20,8 @@
 #import "TSUserAnnotationView.h"
 #import "OCMapview.h"
 
+#define kMaxLonDeltaCluster 0.1
+
 @interface TSMapView : OCMapView
 
 @property (nonatomic, strong) CLLocation *previousLocation;

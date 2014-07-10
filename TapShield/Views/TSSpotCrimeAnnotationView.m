@@ -63,16 +63,16 @@
     }
     
     if (hours >= MAX_HOURS) {
-        return 0.1;
+        return 0.2;
     }
     
     float ratio = (MAX_HOURS - hours)/MAX_HOURS;
     
-    if (ratio > 0.1) {
+    if (ratio > 0.3) {
         return ratio;
     }
     
-    return 0.1;
+    return 0.3;
 }
 
 

@@ -17,7 +17,16 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
+        self.frame = CGRectMake(0, 0, 40, 40);
+        self.label = [[UILabel alloc] initWithFrame:self.frame];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        self.label.textColor = [TSColorPalette listCellTextColor];
+        self.label.center = self.center;
+        [self addSubview:self.label];
+        
+        self.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        self.layer.borderWidth = 2.0;
+        self.layer.cornerRadius = self.frame.size.width/2;
     }
     return self;
 }
@@ -34,11 +43,14 @@
     
     // change pin image for group
     if ([clusterAnnotation.groupTag isEqualToString:kTYPESpotCrime]) {
-        self.image = [UIImage imageNamed:@"pins_highfever_red"];
+        self.layer.borderColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.7].CGColor;
     }
     else if([clusterAnnotation.groupTag isEqualToString:kTYPESocialReport]){
-        self.image = [UIImage imageNamed:@"pins_highfever_blue"];
+        self.layer.borderColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.7].CGColor;
     }
+    
+    self.label.text = [NSString stringWithFormat:@"%i", clusterAnnotation.annotationsInCluster.count];
+    
     clusterAnnotation.title = clusterAnnotation.groupTag;
 }
 

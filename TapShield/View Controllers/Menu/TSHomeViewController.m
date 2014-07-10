@@ -28,7 +28,7 @@
 #import "TSViewReportDetailsViewController.h"
 #import "TSClusterAnnotationView.h"
 
-static CGFloat kDEFAULTCLUSTERSIZE = 0.2;
+static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
 @interface TSHomeViewController ()
 
@@ -674,7 +674,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.2;
     else if ([annotation isKindOfClass:[OCAnnotation class]]) {
         
         annotationView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ClusterView"];
-        [annotationView setAnnotation:annotation];
+//        [annotationView setAnnotation:annotation];
         if (!annotationView) {
             annotationView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ClusterView"];
         }
@@ -769,6 +769,9 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.2;
         [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
     }
     
+    
+    MKCoordinateSpan span = mapView.region.span;
+    
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         view.alpha = 1.0;
         
@@ -785,6 +788,11 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.2;
         }
         
         ((TSSpotCrimeAnnotation *)view.annotation).subtitle = subtitle;
+        
+        if (span.longitudeDelta > kMaxLonDeltaCluster) {
+            
+            [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:kMaxLonDeltaCluster];
+        }
     }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
@@ -793,27 +801,38 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.2;
     }
     
     if ([view isKindOfClass:[TSClusterAnnotationView class]]){
-        _isTrackingUser = NO;
         
-        OCAnnotation *annotation = (OCAnnotation *)view.annotation;
+        float delta;
         
-        MKCoordinateRegion region = mapView.region;
-        MKCoordinateSpan span = mapView.region.span;
-        
-        if (span.latitudeDelta > 1) {
-            span.latitudeDelta = 0.6;
-            span.longitudeDelta = 0.4;
+        if (span.longitudeDelta > .4) {
+            delta = span.longitudeDelta*.25;
+        }
+        else if (span.longitudeDelta > kMaxLonDeltaCluster) {
+            delta = kMaxLonDeltaCluster;
         }
         else {
-            span.latitudeDelta*=.5;
-            span.longitudeDelta*=.5;
+            delta = span.longitudeDelta*.5;
         }
-        region.span=span;
-        region.center = annotation.coordinate;
-        [mapView setRegion:region animated:YES];
+        
+        [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:delta];
     }
     
     [_mapView bringSubviewToFront:view];
+}
+
+- (void)moveMapView:(MKMapView *)mapView coordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
+    
+    _isTrackingUser = NO;
+    
+    MKCoordinateRegion region = mapView.region;
+    MKCoordinateSpan span = mapView.region.span;
+    
+    span.latitudeDelta = delta;
+    span.longitudeDelta = delta;
+    
+    region.span = span;
+    region.center = coordinate;
+    [mapView setRegion:region animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {

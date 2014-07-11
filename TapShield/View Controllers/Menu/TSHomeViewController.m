@@ -27,6 +27,9 @@
 #import "TSGeofence.h"
 #import "TSViewReportDetailsViewController.h"
 #import "TSClusterAnnotationView.h"
+#import "TSHeatMapAnnotation.h"
+#import "TSHeatMapAnnotationView.h"
+#import "TSHeatMapOverlay.h"
 
 static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
@@ -49,6 +52,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     
     _mapView.clusterSize = kDEFAULTCLUSTERSIZE;
     _mapView.clusterByGroupTag = YES;
+//    _mapView.clusteringMethod = OCClusteringMethodGrid;
     
     _annotationsLoaded = NO;
     
@@ -582,11 +586,13 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 #pragma mark - MKMapViewDelegate methods
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    
     if([overlay isKindOfClass:[MKPolygon class]]){
         
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
-    else if ([overlay isKindOfClass:[MKCircle class]]) {
+    else if ([overlay isKindOfClass:[MKCircle class]] ||
+             [overlay isKindOfClass:[TSHeatMapOverlay class]]) {
         
         return [TSMapView mapViewCircleOverlay:overlay];
     }
@@ -679,6 +685,13 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
             annotationView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ClusterView"];
         }
     }
+    else if ([annotation isKindOfClass:[TSHeatMapAnnotation class]]) {
+        
+        annotationView = (TSHeatMapAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"TSHeatMapAnnotationView"];
+        if (!annotationView) {
+            annotationView = [[TSHeatMapAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"TSHeatMapAnnotationView"];
+        }
+    }
     else {
         annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"errorAnnotationView"];
         if (!annotationView) {
@@ -702,7 +715,8 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
             
-            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]]) {
+            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]] ||
+                [view.annotation isKindOfClass:[TSHeatMapAnnotation class]]) {
                 return;
             }
             

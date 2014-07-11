@@ -11,6 +11,7 @@
 #import "TSSelectedDestinationAnnotation.h"
 #import "TSLocationController.h"
 #import "NSDate+Utilities.h"
+#import "TSHeatMapOverlay.h"
 
 @interface TSMapView ()
 
@@ -125,6 +126,17 @@
 
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay {
     
+    
+    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
+    
+    if ([overlay.title isEqualToString:@"heat_marker"]) {
+        circleRenderer.lineWidth = 1.0;
+        circleRenderer.strokeColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
+        circleRenderer.fillColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
+        
+        return circleRenderer;
+    }
+    
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
     if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
@@ -134,14 +146,12 @@
         ((MKCircle *)overlay).title = nil;
     }
     
-    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     circleRenderer.lineWidth = 1.0;
     circleRenderer.strokeColor = color;
     circleRenderer.fillColor = color;
     
     return circleRenderer;
 }
-
 
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location {
     

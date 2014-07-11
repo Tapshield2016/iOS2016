@@ -9,6 +9,8 @@
 #import "TSReportAnnotationManager.h"
 #import "NSDate+Utilities.h"
 #import "TSLocationController.h"
+#import "TSHeatMapAnnotation.h"
+#import "TSHeatMapOverlay.h"
 
 
 #define kSocialRadius 2
@@ -21,6 +23,7 @@
 @property (assign, nonatomic) BOOL shouldAddAnnotations;
 @property (assign, nonatomic) NSUInteger maxSocialHours;
 @property (assign, nonatomic) NSUInteger maxSpotCrimeHours;
+@property (assign, nonatomic) BOOL shouldAddHeatMap;
 
 @end
 
@@ -141,19 +144,13 @@
         return;
     }
     
-    spotCrimes = [self createSpotCrimeAnnotations:spotCrimes];
-    
     if (!_spotCrimes) {
-        _spotCrimes = [[NSMutableArray alloc] initWithArray:spotCrimes];
-        [self addAnnotations:_spotCrimes];
-        
-        return;
+        _spotCrimes = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     }
     
-    //Remove old crimes keeping thos still relevant
-//    [self removeOldSpotCrimes:spotCrimes];
+    spotCrimes = [self createSpotCrimeAnnotations:spotCrimes];
+    spotCrimes = [self filterOutOther:spotCrimes];
     
-    //Add new crimes if available
     [self addNewSpotCrimes:spotCrimes];
 }
 
@@ -193,8 +190,35 @@
         NSArray *newSpotCrimes = [spotCrimes objectsAtIndexes:addIndexSet];
         [self addAnnotations:newSpotCrimes];
         [_spotCrimes addObjectsFromArray:newSpotCrimes];
+        [self addHeatMapOverlays:newSpotCrimes];
     }
 }
+
+- (void)addHeatMapOverlays:(NSArray *)spotCrimes {
+    
+    if (!_shouldAddHeatMap) {
+        return;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
+    
+    for (TSSpotCrimeAnnotation *annotation in spotCrimes) {
+        MKCircle *heatMarker = [MKCircle circleWithCenterCoordinate:annotation.coordinate radius:50];
+        heatMarker.title = @"heat_marker";
+        [mutableArray addObject:heatMarker];
+    }
+    
+    [_mapView addOverlays:mutableArray level:MKOverlayLevelAboveRoads];
+    
+    if (!_heatMarkers) {
+        _heatMarkers = mutableArray;
+    }
+    else {
+        [_heatMarkers addObjectsFromArray:mutableArray];
+    }
+    
+}
+
 
 - (NSArray *)createSpotCrimeAnnotations:(NSArray *)spotCrimes {
     
@@ -321,10 +345,9 @@
     if (!_shouldAddAnnotations) {
         return;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_mapView addAnnotations:annotations];
-        [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
-    });
+    
+    [_mapView addAnnotations:annotations];
+    [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
 }
 
 - (void)hideSpotCrimes {
@@ -334,10 +357,8 @@
     [self stopSocialTimer];
     [self stopSpotCrimeTimer];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_mapView removeAnnotations:_spotCrimes];
-        [_mapView removeAnnotations:_socialReports];
-    });
+    [_mapView removeAnnotations:_spotCrimes];
+    [_mapView removeAnnotations:_socialReports];
 }
 
 - (void)showSpotCrimes {
@@ -345,16 +366,59 @@
     [self hideSpotCrimes];
     
     _shouldAddAnnotations = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_mapView addAnnotations:_spotCrimes];
-        [_mapView addAnnotations:_socialReports];
-        [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
-    });
+    [_mapView addAnnotations:_spotCrimes];
+    [_mapView addAnnotations:_socialReports];
+    [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
     
     [self startSocialTimer];
     [self startSpotCrimeTimer];
 }
 
+#pragma mark - Handle Other SpotCrime type
+
+- (NSArray *)filterOutOther:(NSArray *)spotCrimes {
+    
+    NSMutableArray *minusOthers = [[NSMutableArray alloc] initWithArray:spotCrimes];
+    
+    NSIndexSet *addIndexSet = [spotCrimes indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        TSSpotCrimeAnnotation *newAnnotation = (TSSpotCrimeAnnotation *)obj;
+        if ([newAnnotation.spotCrime.type isEqualToString:[TSSpotCrimeAPIClient spotCrimeTypesToString:other]]) {
+            for (TSSpotCrimeAnnotation *oldAnnotation in [_spotCrimes copy]) {
+                if (newAnnotation.spotCrime.cdid == oldAnnotation.spotCrime.cdid) {
+                    return NO;
+                }
+            }
+            return YES;
+        }
+        
+        return NO;
+    }];
+    
+    NSArray *others;
+    if (addIndexSet.count != 0) {
+        others = [spotCrimes objectsAtIndexes:addIndexSet];
+        [minusOthers removeObjectsAtIndexes:addIndexSet];
+    }
+    
+    if (others) {
+        [self filterOtherTypesByDescription:others];
+    }
+    
+    return minusOthers;
+}
+
+- (void)filterOtherTypesByDescription:(NSArray *)array {
+    
+    for (TSSpotCrimeAnnotation *annotation in array) {
+        [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeDescription:annotation.spotCrime completion:^(TSSpotCrimeLocation *location) {
+            annotation.spotCrime = location;
+            [annotation.spotCrime setTypeFromDescription];
+            annotation.type = annotation.spotCrime.type;
+            annotation.title = annotation.type;
+            [self addNewSpotCrimes:@[annotation]];
+        }];
+    }
+}
 
 
 @end

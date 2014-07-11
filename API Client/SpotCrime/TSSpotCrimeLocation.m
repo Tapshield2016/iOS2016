@@ -69,6 +69,50 @@ static NSString * const BlueImageSuffix = @"_blue";
 }
 
 
+- (void)setTypeFromDescription {
+    
+    NSString *type = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:trespasser];
+    
+    if ([_eventDescription rangeOfString:type
+                                 options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        _type = type;
+        return;
+    }
+    
+    type = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:missingPerson];
+    if ([_eventDescription rangeOfString:type
+                                 options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        _type = type;
+        return;
+    }
+    
+    type = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:suspiciousActivity];
+    if ([_eventDescription rangeOfString:@"suspicious"
+                                 options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        _type = type;
+        return;
+    }
+    
+    type = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:disturbance];
+    if ([_eventDescription rangeOfString:type
+                                 options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        _type = type;
+        return;
+    }
+    
+    type = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:vehicle];
+    NSArray *array = @[@"hit and run",
+                       @"car accident",
+                       @"vehicle pursuit",
+                       @"veh pursuit"];
+    for (NSString *string in array) {
+        if ([_eventDescription rangeOfString:string
+                                     options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            _type = type;
+            return;
+        }
+    }
+}
 
 
 @end

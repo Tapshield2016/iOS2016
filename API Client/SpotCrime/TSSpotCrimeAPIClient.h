@@ -24,20 +24,23 @@ typedef enum {
     orderAscending, // == 1
 } SpotCrimeOrder;
 
+#define kSpotCrimeTypesArray @"Arrest", @"Arson", @"Assault", @"Burglary", @"Disturbance", @"Missing Person", @"Other", @"Robbery", @"Shooting", @"Suspicious Activity", @"Theft", @"Trespasser", @"Vandalism", @"Vehicle", nil
 
-#define kSpotCrimeTypesArray @"Arrest", @"Arson", @"Assault", @"Burglary", @"Other", @"Robbery", @"Shooting", @"Theft", @"Vandalism", nil
-
-#define kSpotCrimeTypesShortArray @"A", @"AR", @"AS", @"B", @"O", @"R", @"S", @"T", @"V", nil
 typedef enum {
     arrest,
     arson,
     assault,
     burglary,
+    disturbance,
+    missingPerson,
     other,
     robbery,
     shooting,
+    suspiciousActivity,
     theft,
+    trespasser,
     vandalism,
+    vehicle,
 } SpotCrimeTypes;
 
 @interface TSSpotCrimeAPIClient : AFHTTPRequestOperationManager

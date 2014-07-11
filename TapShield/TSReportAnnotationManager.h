@@ -16,6 +16,7 @@
 
 @property (strong, nonatomic) NSMutableArray *spotCrimes;
 @property (strong, nonatomic) NSMutableArray *socialReports;
+@property (strong, nonatomic) NSMutableArray *heatMarkers;
 
 - (instancetype)initWithMapView:(TSMapView *)mapView;
 

@@ -23,4 +23,6 @@
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
+- (void)setTypeFromDescription;
+
 @end

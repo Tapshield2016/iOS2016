@@ -17,16 +17,27 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        
+//        self.image = [UIImage imageNamed:@"red_bumper"];
+//        self.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+//        CGRect frame = CGRectMake(0, 0, self.image.size.width/2, self.image.size.height/2);
+//        self.label = [[UILabel alloc] initWithFrame:frame];
+        
         self.frame = CGRectMake(0, 0, 40, 40);
         self.label = [[UILabel alloc] initWithFrame:self.frame];
         self.label.textAlignment = NSTextAlignmentCenter;
         self.label.textColor = [TSColorPalette listCellTextColor];
         self.label.center = self.center;
+        self.label.font = [UIFont systemFontOfSize:10];
         [self addSubview:self.label];
         
         self.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
         self.layer.borderWidth = 2.0;
         self.layer.cornerRadius = self.frame.size.width/2;
+//        self.layer.shadowRadius = 10.0f;
+//        self.layer.shadowOpacity = 1.0;
+//        self.layer.shadowOffset = CGSizeZero;
+        
     }
     return self;
 }

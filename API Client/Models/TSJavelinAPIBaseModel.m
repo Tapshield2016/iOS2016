@@ -7,6 +7,7 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
+#import <AWSiOSSDK/AmazonSDKUtil.h>
 
 @implementation TSJavelinAPIBaseModel
 
@@ -68,13 +69,10 @@
         return nil;
     }
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    [dateFormatter setLocale:[NSLocale systemLocale]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-    NSDate *date = [dateFormatter dateFromString:string];
+    NSDate *date = [NSDate dateWithISO8061Format:string];
     
     if (!date) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
         dateFormatter = [[NSDateFormatter alloc]init];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         [dateFormatter setLocale:[NSLocale systemLocale]];

@@ -27,9 +27,8 @@
 #import "TSGeofence.h"
 #import "TSViewReportDetailsViewController.h"
 #import "TSClusterAnnotationView.h"
-#import "TSHeatMapAnnotation.h"
-#import "TSHeatMapAnnotationView.h"
 #import "TSHeatMapOverlay.h"
+#import "ADClusterAnnotation.h"
 
 static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
@@ -49,10 +48,6 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    _mapView.clusterSize = kDEFAULTCLUSTERSIZE;
-    _mapView.clusterByGroupTag = YES;
-//    _mapView.clusteringMethod = OCClusteringMethodGrid;
     
     _annotationsLoaded = NO;
     
@@ -677,21 +672,6 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         
         ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
     }
-    else if ([annotation isKindOfClass:[OCAnnotation class]]) {
-        
-        annotationView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ClusterView"];
-//        [annotationView setAnnotation:annotation];
-        if (!annotationView) {
-            annotationView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ClusterView"];
-        }
-    }
-    else if ([annotation isKindOfClass:[TSHeatMapAnnotation class]]) {
-        
-        annotationView = (TSHeatMapAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"TSHeatMapAnnotationView"];
-        if (!annotationView) {
-            annotationView = [[TSHeatMapAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"TSHeatMapAnnotationView"];
-        }
-    }
     else {
         annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"errorAnnotationView"];
         if (!annotationView) {
@@ -715,8 +695,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
             
-            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]] ||
-                [view.annotation isKindOfClass:[TSHeatMapAnnotation class]]) {
+            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]]) {
                 return;
             }
             
@@ -772,7 +751,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     }
     
     [self flipIntersectingRouteAnnotation];
-    [_mapView doClustering];
+//    [_mapView doClustering];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
@@ -906,6 +885,33 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
             }
         }
     }
+}
+
+#pragma mark - ADClusterMapViewDelegate
+
+- (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id<MKAnnotation>)annotation {
+    TSClusterAnnotationView * pinView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ADMapCluster"];
+    if (!pinView) {
+        pinView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation
+                                               reuseIdentifier:@"ADMapCluster"];
+    }
+    else {
+        pinView.annotation = annotation;
+    }
+    return pinView;
+}
+
+
+- (void)mapViewDidFinishClustering:(ADClusterMapView *)mapView {
+    NSLog(@"Done");
+}
+
+- (NSInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView {
+    return 40;
+}
+
+- (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView {
+    return 1.8;
 }
 
 

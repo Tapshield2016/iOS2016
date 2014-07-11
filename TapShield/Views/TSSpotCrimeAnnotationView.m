@@ -75,5 +75,12 @@
     return 0.3;
 }
 
+- (void)setAnnotation:(id<MKAnnotation>)annotation {
+    
+    [super setAnnotation:annotation];
+    
+    
+}
+
 
 @end

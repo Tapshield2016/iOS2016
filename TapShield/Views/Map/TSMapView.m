@@ -303,21 +303,6 @@
     });
 }
 
-#pragma mark - Clustering
 
-- (void)doClustering {
-    
-    self.clusterSize = 80/[UIScreen mainScreen].bounds.size.width;
-    self.clusteringEnabled = YES;
-    
-    if (self.region.span.longitudeDelta <= .05) {
-        self.clusteringEnabled = NO;
-    }
-    else if (self.region.span.longitudeDelta <= 1) {
-        self.clusterSize = .2;
-    }
-    
-    [super doClustering];
-}
 
 @end

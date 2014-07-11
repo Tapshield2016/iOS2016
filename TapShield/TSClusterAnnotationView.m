@@ -8,7 +8,7 @@
 
 #import "TSClusterAnnotationView.h"
 #import "TSSpotCrimeAnnotation.h"
-#import "OCAnnotation.h"
+#import "ADClusterAnnotation.h"
 
 @implementation TSClusterAnnotationView
 
@@ -46,23 +46,23 @@
     
     [super setAnnotation:annotation];
     
-    OCAnnotation *clusterAnnotation = (OCAnnotation *)annotation;
+    ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)annotation;
     
-    // set title
-    clusterAnnotation.title = @"Cluster";
-    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", [clusterAnnotation.annotationsInCluster count]];
+//    // set title
+//    clusterAnnotation.title = @"Cluster";
+//    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", [clusterAnnotation.annotationsInCluster count]];
     
     // change pin image for group
-    if ([clusterAnnotation.groupTag isEqualToString:kTYPESpotCrime]) {
-        self.layer.borderColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.7].CGColor;
-    }
-    else if([clusterAnnotation.groupTag isEqualToString:kTYPESocialReport]){
-        self.layer.borderColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.7].CGColor;
-    }
+//    if ([clusterAnnotation. isEqualToString:kTYPESpotCrime]) {
+//        self.layer.borderColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.7].CGColor;
+//    }
+//    else if([clusterAnnotation.groupTag isEqualToString:kTYPESocialReport]){
+//        self.layer.borderColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.7].CGColor;
+//    }
     
-    self.label.text = [NSString stringWithFormat:@"%i", clusterAnnotation.annotationsInCluster.count];
+    self.label.text = [NSString stringWithFormat:@"%i", clusterAnnotation.originalAnnotations.count];
     
-    clusterAnnotation.title = clusterAnnotation.groupTag;
+//    clusterAnnotation.title = clusterAnnotation.groupTag;
 }
 
 @end

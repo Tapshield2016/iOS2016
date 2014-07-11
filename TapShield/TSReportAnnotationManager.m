@@ -9,9 +9,7 @@
 #import "TSReportAnnotationManager.h"
 #import "NSDate+Utilities.h"
 #import "TSLocationController.h"
-#import "TSHeatMapAnnotation.h"
 #import "TSHeatMapOverlay.h"
-
 
 #define kSocialRadius 2
 #define kSpotCrimeRadius .1
@@ -346,7 +344,7 @@
         return;
     }
     
-    [_mapView addAnnotations:annotations];
+    [_mapView addClusteredAnnotations:annotations];
     [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
 }
 
@@ -357,8 +355,9 @@
     [self stopSocialTimer];
     [self stopSpotCrimeTimer];
     
-    [_mapView removeAnnotations:_spotCrimes];
-    [_mapView removeAnnotations:_socialReports];
+    NSMutableArray * array = [[NSMutableArray alloc] initWithArray:_spotCrimes];
+    [array addObjectsFromArray:_socialReports];
+    [_mapView removeAnnotations:array];
 }
 
 - (void)showSpotCrimes {
@@ -366,8 +365,11 @@
     [self hideSpotCrimes];
     
     _shouldAddAnnotations = YES;
-    [_mapView addAnnotations:_spotCrimes];
-    [_mapView addAnnotations:_socialReports];
+    
+    NSMutableArray * array = [[NSMutableArray alloc] initWithArray:_spotCrimes];
+    [array addObjectsFromArray:_socialReports];
+    [_mapView addClusteredAnnotations:array];
+    
     [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
     
     [self startSocialTimer];

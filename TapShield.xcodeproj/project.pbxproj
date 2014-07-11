@@ -259,6 +259,22 @@
 		C53A632C196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6326196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png */; };
 		C53A632D196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6326196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png */; };
 		C53A632E196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A6326196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png */; };
+		C53A63381970533500C34BF0 /* ADClusterAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63311970533500C34BF0 /* ADClusterAnnotation.m */; };
+		C53A63391970533500C34BF0 /* ADClusterAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63311970533500C34BF0 /* ADClusterAnnotation.m */; };
+		C53A633A1970533500C34BF0 /* ADClusterAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63311970533500C34BF0 /* ADClusterAnnotation.m */; };
+		C53A633B1970533500C34BF0 /* ADClusterAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63311970533500C34BF0 /* ADClusterAnnotation.m */; };
+		C53A633C1970533500C34BF0 /* ADClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63331970533500C34BF0 /* ADClusterMapView.m */; };
+		C53A633D1970533500C34BF0 /* ADClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63331970533500C34BF0 /* ADClusterMapView.m */; };
+		C53A633E1970533500C34BF0 /* ADClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63331970533500C34BF0 /* ADClusterMapView.m */; };
+		C53A633F1970533500C34BF0 /* ADClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63331970533500C34BF0 /* ADClusterMapView.m */; };
+		C53A63401970533500C34BF0 /* ADMapCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63351970533500C34BF0 /* ADMapCluster.m */; };
+		C53A63411970533500C34BF0 /* ADMapCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63351970533500C34BF0 /* ADMapCluster.m */; };
+		C53A63421970533500C34BF0 /* ADMapCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63351970533500C34BF0 /* ADMapCluster.m */; };
+		C53A63431970533500C34BF0 /* ADMapCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63351970533500C34BF0 /* ADMapCluster.m */; };
+		C53A63441970533500C34BF0 /* ADMapPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */; };
+		C53A63451970533500C34BF0 /* ADMapPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */; };
+		C53A63461970533500C34BF0 /* ADMapPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */; };
+		C53A63471970533500C34BF0 /* ADMapPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */; };
 		C53A663B190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
 		C53A663C190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
 		C53A663D190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
@@ -4046,6 +4062,14 @@
 		C53A631C196F7C4900C34BF0 /* pins_missingperson_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_missingperson_red@2x.png"; sourceTree = "<group>"; };
 		C53A6325196F7DA500C34BF0 /* bubble_missingperson_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_missingperson_icon.png; sourceTree = "<group>"; };
 		C53A6326196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_missingperson_icon@2x.png"; sourceTree = "<group>"; };
+		C53A63301970533500C34BF0 /* ADClusterAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADClusterAnnotation.h; sourceTree = "<group>"; };
+		C53A63311970533500C34BF0 /* ADClusterAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADClusterAnnotation.m; sourceTree = "<group>"; };
+		C53A63321970533500C34BF0 /* ADClusterMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADClusterMapView.h; sourceTree = "<group>"; };
+		C53A63331970533500C34BF0 /* ADClusterMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADClusterMapView.m; sourceTree = "<group>"; };
+		C53A63341970533500C34BF0 /* ADMapCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADMapCluster.h; sourceTree = "<group>"; };
+		C53A63351970533500C34BF0 /* ADMapCluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADMapCluster.m; sourceTree = "<group>"; };
+		C53A63361970533500C34BF0 /* ADMapPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADMapPointAnnotation.h; sourceTree = "<group>"; };
+		C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADMapPointAnnotation.m; sourceTree = "<group>"; };
 		C53A6639190E527000760656 /* TSMemberCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayout.h; path = Views/TSMemberCollectionViewLayout.h; sourceTree = "<group>"; };
 		C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayout.m; path = Views/TSMemberCollectionViewLayout.m; sourceTree = "<group>"; };
 		C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayoutAttributes.h; path = Views/TSMemberCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
@@ -5156,6 +5180,7 @@
 		B53BBCF618980FDA006A27E0 /* TapShield */ = {
 			isa = PBXGroup;
 			children = (
+				C53A632F1970533500C34BF0 /* Clustering */,
 				C5AFBEFB1921EF4E00EC62A5 /* Reachability */,
 				C501CC9B18F36E6D005A0B98 /* Location */,
 				C585F2E818DB6E2E009EEF16 /* Font */,
@@ -5548,6 +5573,21 @@
 				C5391EA218C7D19100C23C0A /* TSTransitionAnimation.m */,
 			);
 			name = Transitions;
+			sourceTree = "<group>";
+		};
+		C53A632F1970533500C34BF0 /* Clustering */ = {
+			isa = PBXGroup;
+			children = (
+				C53A63301970533500C34BF0 /* ADClusterAnnotation.h */,
+				C53A63311970533500C34BF0 /* ADClusterAnnotation.m */,
+				C53A63321970533500C34BF0 /* ADClusterMapView.h */,
+				C53A63331970533500C34BF0 /* ADClusterMapView.m */,
+				C53A63341970533500C34BF0 /* ADMapCluster.h */,
+				C53A63351970533500C34BF0 /* ADMapCluster.m */,
+				C53A63361970533500C34BF0 /* ADMapPointAnnotation.h */,
+				C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */,
+			);
+			path = Clustering;
 			sourceTree = "<group>";
 		};
 		C53A663E190E562000760656 /* Collection */ = {
@@ -10420,6 +10460,7 @@
 				C5EAABED1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
+				C53A63401970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C55644F718E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C5662BF318DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C5BBF32C18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
@@ -10488,6 +10529,7 @@
 				C5FFB4CB195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C53A633C1970533500C34BF0 /* ADClusterMapView.m in Sources */,
 				C5AFBB96191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
 				C501CC3318F1DE7D005A0B98 /* TSContactsCell.m in Sources */,
 				C54CE5D318FAE1240077350E /* TSYankManager.m in Sources */,
@@ -10510,6 +10552,7 @@
 				C520C90018A974C100D1D2E9 /* TSJavelinAPIBaseModel.m in Sources */,
 				C56356EB18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
 				C56B3D5B18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
+				C53A63441970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
 				C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
@@ -10517,6 +10560,7 @@
 				C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				C5BBF43118FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
+				C53A63381970533500C34BF0 /* ADClusterAnnotation.m in Sources */,
 				C585F1A218CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				B543F09418AABC05004C2B26 /* TSBaseViewController.m in Sources */,
 				B53BBD3418983648006A27E0 /* TSUserLocationAnnotation.m in Sources */,
@@ -10616,6 +10660,7 @@
 				C5BBF42318F907EC008B5CB2 /* TSChatMessageCell.m in Sources */,
 				C5EAABF919066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C501CC2B18F1D12E005A0B98 /* MKMapItem+EncodeDecode.m in Sources */,
+				C53A633F1970533500C34BF0 /* ADClusterMapView.m in Sources */,
 				C5662BD018DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
 				C5F2E5A7194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C5EAABEF1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
@@ -10626,6 +10671,7 @@
 				C520C8F518A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
 				C585F1D418D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09118AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
+				C53A633B1970533500C34BF0 /* ADClusterAnnotation.m in Sources */,
 				C5AFBB7A191EE09900EC62A5 /* TSLocalNotification.m in Sources */,
 				C5BBF30818F66A44008B5CB2 /* TSVoipViewController.m in Sources */,
 				C501CC3018F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
@@ -10677,6 +10723,7 @@
 				C556478118E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C56356F818EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
+				C53A63471970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
 				C55568E51910082000685FB0 /* TSIntroSlideViewController.m in Sources */,
 				C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C55644F418DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */,
@@ -10760,6 +10807,7 @@
 				C532E64B18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
 				C55568EA1911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
 				C56356ED18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
+				C53A63431970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C56B3D6818FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
 				C520C8EF18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				B543F09518AABC05004C2B26 /* TSBaseViewController.m in Sources */,
@@ -10789,6 +10837,7 @@
 				C5EAABEE1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C53A63411970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
 				C5BBF32D18F8959D008B5CB2 /* TSJavelinChatMessageOrganizer.m in Sources */,
@@ -10857,6 +10906,7 @@
 				C5FFB4CC195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
+				C53A633D1970533500C34BF0 /* ADClusterMapView.m in Sources */,
 				C5AFBB97191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
 				C501CC3418F1DE7D005A0B98 /* TSContactsCell.m in Sources */,
 				C54CE5D418FAE1240077350E /* TSYankManager.m in Sources */,
@@ -10879,6 +10929,7 @@
 				C585F2DD18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
 				C56356EC18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
 				C56B3D5C18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
+				C53A63451970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
 				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
 				C55644F818E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
@@ -10886,6 +10937,7 @@
 				C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */,
 				C5BBF43218FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
+				C53A63391970533500C34BF0 /* ADClusterAnnotation.m in Sources */,
 				C585F1A018CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C585F19118CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5CB078A18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
@@ -10974,6 +11026,7 @@
 				C5AFB948191D35DE00EC62A5 /* TSBasicInfoTableViewController.m in Sources */,
 				C5AFB949191D35DE00EC62A5 /* TSBasicInfoViewController.m in Sources */,
 				C5AFB94A191D35DE00EC62A5 /* TWAPIManager.m in Sources */,
+				C53A63421970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C5AFB94B191D35DE00EC62A5 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C5AFB94C191D35DE00EC62A5 /* TSJavelinS3UploadManager.m in Sources */,
 				C5AFB94D191D35DE00EC62A5 /* TSJavelinChatMessageOrganizer.m in Sources */,
@@ -11042,6 +11095,7 @@
 				C5FFB4CD195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5AFB980191D35DE00EC62A5 /* TSAgreementViewController.m in Sources */,
 				C5AFB981191D35DE00EC62A5 /* TSSelectedDestinationAnnotation.m in Sources */,
+				C53A633E1970533500C34BF0 /* ADClusterMapView.m in Sources */,
 				C5AFBB98191FA05100EC62A5 /* TSPasscodeTableViewController.m in Sources */,
 				C5AFB982191D35DE00EC62A5 /* TSContactsCell.m in Sources */,
 				C5AFB983191D35DE00EC62A5 /* TSYankManager.m in Sources */,
@@ -11064,6 +11118,7 @@
 				C5AFB990191D35DE00EC62A5 /* TSWelcomeViewController.m in Sources */,
 				C5AFB991191D35DE00EC62A5 /* TSRouteOption.m in Sources */,
 				C5AFB992191D35DE00EC62A5 /* TSMedicalInformationViewController.m in Sources */,
+				C53A63461970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
 				C5AFB993191D35DE00EC62A5 /* TSPhoneVerificationViewController.m in Sources */,
 				C5AFB994191D35DE00EC62A5 /* TSRegistrationButton.m in Sources */,
 				C5AFB995191D35DE00EC62A5 /* TSRegisterViewController.m in Sources */,
@@ -11071,6 +11126,7 @@
 				C5AFB997191D35DE00EC62A5 /* TSGenderViewController.m in Sources */,
 				C5AFB998191D35DE00EC62A5 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5AFB999191D35DE00EC62A5 /* TSJavelinAPIBaseModel.m in Sources */,
+				C53A633A1970533500C34BF0 /* ADClusterAnnotation.m in Sources */,
 				C5AFB99A191D35DE00EC62A5 /* NSData+Base64.m in Sources */,
 				C5AFB99B191D35DE00EC62A5 /* TSIntroPageViewController.m in Sources */,
 				C5AFB99C191D35DE00EC62A5 /* TSDisarmPadViewController.m in Sources */,

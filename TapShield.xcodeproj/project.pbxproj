@@ -283,6 +283,10 @@
 		C53A634F19706D6300C34BF0 /* pins_cluster_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A634919706D6300C34BF0 /* pins_cluster_red@2x.png */; };
 		C53A635019706D6300C34BF0 /* pins_cluster_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A634919706D6300C34BF0 /* pins_cluster_red@2x.png */; };
 		C53A635119706D6300C34BF0 /* pins_cluster_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C53A634919706D6300C34BF0 /* pins_cluster_red@2x.png */; };
+		C53A635A1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */; };
+		C53A635B1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */; };
+		C53A635C1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */; };
+		C53A635D1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */; };
 		C53A663B190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
 		C53A663C190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
 		C53A663D190E527000760656 /* TSMemberCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */; };
@@ -4080,6 +4084,8 @@
 		C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADMapPointAnnotation.m; sourceTree = "<group>"; };
 		C53A634819706D6300C34BF0 /* pins_cluster_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_cluster_red.png; sourceTree = "<group>"; };
 		C53A634919706D6300C34BF0 /* pins_cluster_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_cluster_red@2x.png"; sourceTree = "<group>"; };
+		C53A63581971B38700C34BF0 /* NSDictionary+MKMapRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MKMapRect.h"; sourceTree = "<group>"; };
+		C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MKMapRect.m"; sourceTree = "<group>"; };
 		C53A6639190E527000760656 /* TSMemberCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayout.h; path = Views/TSMemberCollectionViewLayout.h; sourceTree = "<group>"; };
 		C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayout.m; path = Views/TSMemberCollectionViewLayout.m; sourceTree = "<group>"; };
 		C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayoutAttributes.h; path = Views/TSMemberCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
@@ -5592,6 +5598,8 @@
 				C53A63311970533500C34BF0 /* ADClusterAnnotation.m */,
 				C53A63321970533500C34BF0 /* ADClusterMapView.h */,
 				C53A63331970533500C34BF0 /* ADClusterMapView.m */,
+				C53A63581971B38700C34BF0 /* NSDictionary+MKMapRect.h */,
+				C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */,
 				C53A63341970533500C34BF0 /* ADMapCluster.h */,
 				C53A63351970533500C34BF0 /* ADMapCluster.m */,
 				C53A63361970533500C34BF0 /* ADMapPointAnnotation.h */,
@@ -10535,6 +10543,7 @@
 				C563570B18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				B53BBCFD18980FDA006A27E0 /* main.m in Sources */,
 				C5BBF42118F907EC008B5CB2 /* TSChatMessageCell.m in Sources */,
+				C53A635A1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
@@ -10714,6 +10723,7 @@
 				C5B5634D18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C5AFBB8C191F95E700EC62A5 /* TSEthnicityViewController.m in Sources */,
 				C5B5634318E7CC6B0013AF69 /* TSSpotCrimeAPIClient.m in Sources */,
+				C53A635D1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C563570218ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
 				C563570718ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
@@ -10912,6 +10922,7 @@
 				C563570C18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				C57C48CD18BBDB1900DFFBCE /* TSJavelinAPIChatMessage.m in Sources */,
 				C5BBF42218F907EC008B5CB2 /* TSChatMessageCell.m in Sources */,
+				C53A635B1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C556478018E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
@@ -11101,6 +11112,7 @@
 				C5AFB976191D35DE00EC62A5 /* TSUserAnnotationView.m in Sources */,
 				C5AFB977191D35DE00EC62A5 /* TSJavelinAPIChatMessage.m in Sources */,
 				C5AFB978191D35DE00EC62A5 /* TSChatMessageCell.m in Sources */,
+				C53A635C1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C5AFB979191D35DE00EC62A5 /* TSAnimatedView.m in Sources */,
 				C5AFB97A191D35DE00EC62A5 /* TSBottomMapButton.m in Sources */,
 				C5AFB97B191D35DE00EC62A5 /* TSJavelinChatManager.m in Sources */,

@@ -244,6 +244,11 @@
     NSMutableArray * previousLevelClusters = nil;
     NSMutableArray * previousLevelAnnotations = nil;
     BOOL clustersDidChange = YES; // prevents infinite loop at the bottom of the tree
+    
+    for (<#initialization#>; <#condition#>; <#increment#>) {
+        <#statements#>
+    }
+    
     while (clusters.count + annotations.count < N && clusters.count > 0 && clustersDidChange) {
         previousLevelAnnotations = [annotations mutableCopy];
         previousLevelClusters = [clusters mutableCopy];

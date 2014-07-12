@@ -10,6 +10,7 @@
 #import "ADClusterMapView.h"
 #import "ADClusterAnnotation.h"
 #import "ADMapPointAnnotation.h"
+#import "NSDictionary+MKMapRect.h"
 
 @interface ADClusterMapView () {
 @private
@@ -303,8 +304,50 @@
 @end
 
 @implementation ADClusterMapView (Private)
+
+- (NSArray *)mapRectsFromNumberOfClustersAcross:(int)amount mapRect:(MKMapRect)rect {
+    
+    if (amount == 0) {
+        return @[[NSDictionary dictionaryFromMapRect:rect]];
+    }
+    
+    double x = rect.origin.x;
+    double y = rect.origin.y;
+    double width = rect.size.width;
+    double height = rect.size.height;
+    
+    //create basic cluster grid
+    double clusterWidth = width/amount;
+    int horizontalClusters = amount;
+    int verticalClusters = round(height/clusterWidth);
+    double clusterHeight = height/verticalClusters;
+    
+    //build array of MKMapRects
+    NSMutableArray* array = [[NSMutableArray alloc] initWithCapacity:10];
+    for (int i=0; i<horizontalClusters; i++) {
+        double newX = x + clusterWidth*(i);
+        for (int j=0; j<verticalClusters; j++) {
+            double newY = y + clusterHeight*(j);
+            MKMapRect newRect = MKMapRectMake(newX, newY, clusterWidth, clusterHeight);
+            [array addObject:[NSDictionary dictionaryFromMapRect:newRect]];
+        }
+    }
+    
+    return array;
+}
+
 - (void)_clusterInMapRect:(MKMapRect)rect {
-    NSArray * clustersToShowOnMap = [_rootMapCluster find:[self _numberOfClusters] childrenInMapRect:rect];
+    
+    NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:6 mapRect:rect];
+    
+    for (NSDictionary *dic in mapRects) {
+        [self clusterInMapRect:[dic mapRectForDictionary]];
+    }
+}
+
+- (void)clusterInMapRect:(MKMapRect)rect {
+    
+    NSArray * clustersToShowOnMap = [_rootMapCluster find:2 childrenInMapRect:rect];  //[self _numberOfClusters] childrenInMapRect:rect];
 
     // Build an array with available annotations (eg. not moving or not staying at the same place on the map)
     NSMutableArray * availableSingleAnnotations = [[NSMutableArray alloc] init];
@@ -450,9 +493,7 @@
             if (cluster.annotation) {
                 ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)
                 ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).coordinate = cluster.clusterCoordinate;
-//                dispatch_async(dispatch_get_main_queue(), ^{
                     [((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).annotationView setImageFromAnnotation:((ADClusterAnnotation *)[availableSingleAnnotations lastObject])];
-//                });
                 [availableSingleAnnotations removeLastObject]; // update the availableAnnotations
             } else {
                 ((ADClusterAnnotation *)[availableClusterAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)

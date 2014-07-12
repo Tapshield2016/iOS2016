@@ -10,8 +10,8 @@
 
 @interface TSSpotCrimeAnnotationView : TSBaseAnnotationView
 
-- (void)setImageForType:(id<MKAnnotation>)annotation;
-
 - (float)alphaForReportDate;
+
+- (void)setImageFromAnnotation:(id<MKAnnotation>)annotation;
 
 @end

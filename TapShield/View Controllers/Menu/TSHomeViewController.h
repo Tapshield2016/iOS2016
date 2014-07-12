@@ -13,7 +13,7 @@
 #import "TSMenuViewController.h"
 #import "TSReportAnnotationManager.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate, ADClusterMapViewDelegate>
 
 @property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (strong, nonatomic) TSMenuViewController *menuViewController;

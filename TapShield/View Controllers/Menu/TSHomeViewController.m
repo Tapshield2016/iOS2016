@@ -672,6 +672,25 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         
         ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
     }
+    else if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        
+        ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)annotation;
+        TSSpotCrimeAnnotation *spotCrimeAnnotation;
+        if (clusterAnnotation.cluster) {
+            spotCrimeAnnotation = [clusterAnnotation.originalAnnotations firstObject];
+        }
+        
+        NSString *reuseIdentifier = [NSString stringWithFormat:@"%@-%@", [spotCrimeAnnotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[spotCrimeAnnotation socialReport].reportType]];
+        
+        annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
+        [annotationView setAnnotation:annotation];
+        
+        if (!annotationView) {
+            annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+        }
+        
+        ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
+    }
     else {
         annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"errorAnnotationView"];
         if (!annotationView) {
@@ -770,8 +789,17 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         
         NSString *subtitle;
         
-        TSSpotCrimeLocation *location = ((TSSpotCrimeAnnotation *)view.annotation).spotCrime;
-        TSJavelinAPISocialCrimeReport *report = ((TSSpotCrimeAnnotation *)view.annotation).socialReport;
+        TSSpotCrimeAnnotation *annotation;
+        
+        if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
+            annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+        }
+        else {
+            annotation = (TSSpotCrimeAnnotation *)view.annotation;
+        }
+        
+        TSSpotCrimeLocation *location = annotation.spotCrime;
+        TSJavelinAPISocialCrimeReport *report = annotation.socialReport;
         
         if (report) {
             subtitle = [TSUtilities dateDescriptionSinceNow:report.creationDate];
@@ -780,7 +808,9 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
             subtitle = [TSUtilities dateDescriptionSinceNow:location.date];
         }
         
-        ((TSSpotCrimeAnnotation *)view.annotation).subtitle = subtitle;
+        annotation.subtitle = subtitle;
+        ((ADClusterAnnotation *)view.annotation).subtitle = subtitle;
+        ((ADClusterAnnotation *)view.annotation).title = annotation.title;
         
         if (span.longitudeDelta > kMaxLonDeltaCluster) {
             
@@ -844,7 +874,15 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         
-        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)view.annotation
+        id<MKAnnotation> annotation;
+        if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
+            annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+        }
+        else {
+            annotation = view.annotation;
+        }
+        
+        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)annotation
                                                                                                      from:self];
         controller.reportManager = _reportManager;
     }
@@ -907,11 +945,16 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 }
 
 - (NSInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView {
-    return 40;
+    
+    if (_mapView.region.span.longitudeDelta > 1) {
+        return 10;
+    }
+    
+    return 30;
 }
 
 - (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView {
-    return 1.8;
+    return 1;
 }
 
 

@@ -10,16 +10,21 @@
 #import "TSSpotCrimeAnnotation.h"
 #import "NSDate+Utilities.h"
 #import "TSReportAnnotationManager.h"
+#import <KVOController/FBKVOController.h>
+#import "ADClusterAnnotation.h"
+
 
 @implementation TSSpotCrimeAnnotationView
+// Observer with KVO controller instance variable
+{
+    FBKVOController *_KVOController;
+}
 
 - (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        
-        [self setImageForType:annotation];
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
         
@@ -31,17 +36,46 @@
     
 }
 
-
-- (void)setImageForType:(id<MKAnnotation>)annotation {
+- (void)setAnnotation:(id<MKAnnotation>)annotation {
+    
+    [super setAnnotation:annotation];
+    
+    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        ((ADClusterAnnotation *)annotation).annotationView = self;
+        if (((ADClusterAnnotation *)annotation).cluster) {
+            annotation = [((ADClusterAnnotation *)annotation).originalAnnotations firstObject];
+        }
+    }
     
     if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
-        TSSpotCrimeAnnotation *spotCrime = (TSSpotCrimeAnnotation *)annotation;
+        TSSpotCrimeAnnotation *crimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
         
-        if (spotCrime.socialReport) {
-            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:spotCrime.type];
+        if (crimeAnnotation.socialReport) {
+            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
         }
         else {
-            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:spotCrime.type];
+            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
+        }
+    }
+}
+
+- (void)setImageFromAnnotation:(id<MKAnnotation>)annotation {
+    
+    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        
+        if (((ADClusterAnnotation *)annotation).cluster) {
+            annotation = [((ADClusterAnnotation *)annotation).originalAnnotations firstObject];
+        }
+    }
+    
+    if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
+        TSSpotCrimeAnnotation *crimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
+        
+        if (crimeAnnotation.socialReport) {
+            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
+        }
+        else {
+            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
         }
     }
 }
@@ -50,12 +84,23 @@
     
     float hours;
     
-    TSSpotCrimeAnnotation *annotation = (TSSpotCrimeAnnotation *)self.annotation;
-    if (annotation.spotCrime) {
-        hours = [annotation.spotCrime.date hoursBeforeDate:[NSDate date]];
+    id<MKAnnotation> annotation = self.annotation;
+    
+    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        if (((ADClusterAnnotation *)annotation).cluster) {
+            annotation = [((ADClusterAnnotation *)annotation).originalAnnotations firstObject];
+        }
+        else {
+            return 1.0;
+        }
+    }
+    
+    TSSpotCrimeAnnotation *spotCrimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
+    if (spotCrimeAnnotation.spotCrime) {
+        hours = [spotCrimeAnnotation.spotCrime.date hoursBeforeDate:[NSDate date]];
     }
     else {
-        hours = [annotation.socialReport.creationDate hoursBeforeDate:[NSDate date]];
+        hours = [spotCrimeAnnotation.socialReport.creationDate hoursBeforeDate:[NSDate date]];
     }
     
     if (hours == 0) {
@@ -73,13 +118,6 @@
     }
     
     return 0.3;
-}
-
-- (void)setAnnotation:(id<MKAnnotation>)annotation {
-    
-    [super setAnnotation:annotation];
-    
-    
 }
 
 

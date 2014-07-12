@@ -11,6 +11,7 @@
 #import "ADMapPointAnnotation.h"
 
 @interface ADMapCluster : NSObject
+
 @property (nonatomic) CLLocationCoordinate2D clusterCoordinate;
 @property (weak, nonatomic, readonly) NSString * title;
 @property (weak, nonatomic, readonly) NSString * subtitle;
@@ -18,6 +19,7 @@
 @property (weak, nonatomic, readonly) NSMutableArray * originalAnnotations;
 @property (nonatomic, readonly) NSInteger depth;
 @property (nonatomic, assign) BOOL showSubtitle;
+
 - (id)initWithAnnotations:(NSArray *)annotations atDepth:(NSInteger)depth inMapRect:(MKMapRect)mapRect gamma:(double)gamma clusterTitle:(NSString *)clusterTitle showSubtitle:(BOOL)showSubtitle;
 + (ADMapCluster *)rootClusterForAnnotations:(NSArray *)annotations gamma:(double)gamma clusterTitle:(NSString *)clusterTitle showSubtitle:(BOOL)showSubtitle;
 - (NSArray *)find:(NSInteger)N childrenInMapRect:(MKMapRect)mapRect;

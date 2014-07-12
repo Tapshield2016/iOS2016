@@ -42,7 +42,7 @@
         _originalAnnotations = annotations;
         _isSettingAnnotations = YES;
         [self removeAnnotations:_clusterAnnotations];
-        NSInteger numberOfAnnotationsInPool = 2 * [self _numberOfClusters]; // We manage a pool of annotations. In case we have N splits and N joins in a single animation we have to double up the actual number of annotations that belongs to the pool.
+        NSInteger numberOfAnnotationsInPool = 2 * 100; // We manage a pool of annotations. In case we have N splits and N joins in a single animation we have to double up the actual number of annotations that belongs to the pool.
         _singleAnnotationsPool = [[NSMutableArray alloc] initWithCapacity: numberOfAnnotationsInPool];
         _clusterAnnotationsPool = [[NSMutableArray alloc] initWithCapacity: numberOfAnnotationsInPool];
         for (int i = 0; i < numberOfAnnotationsInPool; i++) {
@@ -80,7 +80,10 @@
                 shouldShowSubtitle = [_secondaryDelegate shouldShowSubtitleForClusterAnnotationsInMapView:self];
             }
 
-            _rootMapCluster = [ADMapCluster rootClusterForAnnotations:mapPointAnnotations gamma:gamma clusterTitle:clusterTitle showSubtitle:shouldShowSubtitle];
+            _rootMapCluster = [ADMapCluster rootClusterForAnnotations:mapPointAnnotations
+                                                                gamma:gamma
+                                                         clusterTitle:clusterTitle
+                                                         showSubtitle:shouldShowSubtitle];
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self _clusterInMapRect:self.visibleMapRect];
@@ -263,6 +266,11 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    
+    if (MKMapRectContainsPoint(self.visibleMapRect, MKMapPointForCoordinate(kADCoordinate2DOffscreen))) {
+        return;
+    }
+    
     if (_isAnimatingClusters) {
         _shouldComputeClusters = YES;
     } else {
@@ -405,6 +413,16 @@
             [annotation reset];
         }
     }
+    
+    for (ADClusterAnnotation * annotation in _clusterAnnotations) {
+        if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [annotation.annotationView setImageFromAnnotation:annotation];
+            });
+        }
+    }
+    
+    
     [UIView beginAnimations:@"ADClusterMapViewAnimation" context:NULL];
     [UIView setAnimationBeginsFromCurrentState:NO];
     [UIView setAnimationDelegate:self];
@@ -416,7 +434,6 @@
         }
     }
     [UIView commitAnimations];
-
 
     // Add not-yet-annotated clusters
     for (ADMapCluster * cluster in clustersToShowOnMap) {
@@ -433,6 +450,9 @@
             if (cluster.annotation) {
                 ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)
                 ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).coordinate = cluster.clusterCoordinate;
+//                dispatch_async(dispatch_get_main_queue(), ^{
+                    [((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).annotationView setImageFromAnnotation:((ADClusterAnnotation *)[availableSingleAnnotations lastObject])];
+//                });
                 [availableSingleAnnotations removeLastObject]; // update the availableAnnotations
             } else {
                 ((ADClusterAnnotation *)[availableClusterAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)

@@ -26,7 +26,7 @@
     NSArray *                      _clusterAnnotations;
 }
 
-@property NSArray *clusterableAnnotationsAdded;
+@property NSMutableArray *clusterableAnnotationsAdded;
 
 @end
 
@@ -39,10 +39,10 @@
 @implementation ADClusterMapView
 
 - (void)setAnnotations:(NSArray *)annotations {
-    if (!_isSettingAnnotations) {
+    if (!_isSettingAnnotations && !_isAnimatingClusters) {
         _originalAnnotations = annotations;
         _isSettingAnnotations = YES;
-        [self removeAnnotations:_clusterAnnotations];
+        [super removeAnnotations:_clusterAnnotations];
         NSInteger numberOfAnnotationsInPool = 2 * 50; // We manage a pool of annotations. In case we have N splits and N joins in a single animation we have to double up the actual number of annotations that belongs to the pool.
         _singleAnnotationsPool = [[NSMutableArray alloc] initWithCapacity: numberOfAnnotationsInPool];
         _clusterAnnotationsPool = [[NSMutableArray alloc] initWithCapacity: numberOfAnnotationsInPool];
@@ -156,6 +156,28 @@
     [self addNonClusteredAnnotations:annotations];
 }
 
+- (void)removeAnnotation:(id<MKAnnotation>)annotation {
+    
+    if ([_clusterableAnnotationsAdded containsObject:annotation]) {
+        [_clusterableAnnotationsAdded removeObject:annotation];
+        [self setAnnotations:_clusterableAnnotationsAdded];
+    }
+    
+    [super removeAnnotation:annotation];
+}
+
+- (void)removeAnnotations:(NSArray *)annotations {
+    
+    NSMutableSet *set = [NSMutableSet setWithArray:_clusterableAnnotationsAdded];
+    [set minusSet:[NSSet setWithArray:annotations]];
+    if (set.count != _clusterableAnnotationsAdded.count) {
+        _clusterableAnnotationsAdded = [[NSMutableArray alloc] initWithArray:set.allObjects];
+        [self setAnnotations:_clusterableAnnotationsAdded];
+    }
+    
+    [super removeAnnotations:annotations];
+}
+
 - (void)selectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated {
     [super selectAnnotation:[self clusterAnnotationForOriginalAnnotation:annotation] animated:animated];
 }
@@ -235,7 +257,13 @@
         }
     }
     _isAnimatingClusters = NO;
-    if (_shouldComputeClusters) { // do one more computation if the user moved the map while animating
+    if (_annotationsToBeSet) {
+        NSArray * annotations = _annotationsToBeSet;
+        _annotationsToBeSet = nil;
+        _shouldComputeClusters = NO;
+        [self setAnnotations:annotations];
+    }
+    else if (_shouldComputeClusters) { // do one more computation if the user moved the map while animating
         _shouldComputeClusters = NO;
         [self _clusterInMapRect:self.visibleMapRect];
     }
@@ -274,7 +302,7 @@
     
     if (_isAnimatingClusters) {
         _shouldComputeClusters = YES;
-    } else {
+    } else if (!_isSettingAnnotations){
         _isAnimatingClusters = YES;
         [self _clusterInMapRect:self.visibleMapRect];
     }

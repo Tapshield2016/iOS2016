@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import "OCGrouping.h"
 
-@interface TSBaseMapAnnotation : NSObject <MKAnnotation, OCGrouping>
+@interface TSBaseMapAnnotation : NSObject <MKAnnotation>
 
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;

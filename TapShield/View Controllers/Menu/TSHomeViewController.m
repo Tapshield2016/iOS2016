@@ -946,15 +946,11 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
 - (NSInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView {
     
-    if (_mapView.region.span.longitudeDelta > 1) {
-        return 10;
-    }
-    
     return 30;
 }
 
 - (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView {
-    return 1;
+    return 1.8;
 }
 
 

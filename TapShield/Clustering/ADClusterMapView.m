@@ -336,49 +336,17 @@
     return array;
 }
 
-- (void)cleanClusters:(NSMutableArray *)clusters {
-    
-    NSMutableArray *referenceClusters = [[NSMutableArray alloc] init];
-    for (ADMapCluster *cluster in clusters) {
-        if (cluster.annotation) {
-            [referenceClusters addObject:cluster];
-        }
-    }
-    
-    NSMutableArray * clustersToRemove = [[NSMutableArray alloc] init];
-    for (ADMapCluster * cluster in clusters) {
-        for (ADMapCluster * referenceCluster in referenceClusters) {
-            if ([cluster isAncestorOf:referenceCluster]) {
-                [clustersToRemove addObject:cluster];
-                break;
-            }
-        }
-    }
-    [clusters removeObjectsInArray:clustersToRemove];
-    [clusters addObjectsFromArray:referenceClusters];
-}
-
 - (void)_clusterInMapRect:(MKMapRect)rect {
     
-    
-    int numberOnScreen = 30;
+    int numberOnScreen = [self _numberOfClusters];
     
     if (self.region.span.longitudeDelta > .1) {
-        NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:4 mapRect:rect];
+        NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:5 mapRect:rect];
         
-        NSMutableArray *mutableClusters = [[NSMutableArray alloc] initWithCapacity:mapRects.count];
-        
-        for (NSDictionary *dic in mapRects) {
-            [mutableClusters addObjectsFromArray:[_rootMapCluster find:1 childrenInMapRect:[dic mapRectForDictionary]]];
-        }
-        
-        [self cleanClusters:mutableClusters];
-        
-        numberOnScreen = mutableClusters.count + 1;
+        numberOnScreen = [_rootMapCluster numberOfMapRectsContainingChildren:mapRects];
     }
     
-    
-    NSArray * clustersToShowOnMap = [_rootMapCluster find:numberOnScreen clustersInMapRect:rect];//[_rootMapCluster find:[self _numberOfClusters] childrenInMapRect:rect];
+    NSArray * clustersToShowOnMap = [_rootMapCluster find:numberOnScreen childrenInMapRect:rect];//[_rootMapCluster find:[self _numberOfClusters] childrenInMapRect:rect];
 
     // Build an array with available annotations (eg. not moving or not staying at the same place on the map)
     NSMutableArray * availableSingleAnnotations = [[NSMutableArray alloc] init];
@@ -491,7 +459,7 @@
     for (ADClusterAnnotation * annotation in _clusterAnnotations) {
         if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [annotation.annotationView setImageFromAnnotation:annotation];
+                [annotation.annotationView refreshView];
             });
         }
     }
@@ -524,7 +492,7 @@
             if (cluster.annotation) {
                 ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)
                 ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).coordinate = cluster.clusterCoordinate;
-                    [((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).annotationView setImageFromAnnotation:((ADClusterAnnotation *)[availableSingleAnnotations lastObject])];
+                    [((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).annotationView refreshView];
                 [availableSingleAnnotations removeLastObject]; // update the availableAnnotations
             } else {
                 ((ADClusterAnnotation *)[availableClusterAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)

@@ -8,6 +8,7 @@
 
 #import "ADMapCluster.h"
 #import "ADMapPointAnnotation.h"
+#import "NSDictionary+MKMapRect.h"
 
 #define ADMapClusterDiscriminationPrecision 1E-4
 
@@ -233,7 +234,7 @@
     return cluster;
 }
 
-- (NSArray *)find:(NSInteger)N clustersInMapRect:(MKMapRect)mapRect {
+- (NSArray *)find:(NSInteger)N childrenInMapRect:(MKMapRect)mapRect {
     
     // Start from the root (self)
     // Adopt a breadth-first search strategy
@@ -281,20 +282,32 @@
     return annotations;
 }
 
+- (NSUInteger)numberOfMapRectsContainingChildren:(NSArray *)mapRects {
+    
+    NSMutableArray * mutableArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in mapRects) {
+        [mutableArray addObjectsFromArray:[self findClustersInMapRect:[dictionary mapRectForDictionary]]];
+    }
+    
+    return mutableArray.count;
+}
+
 - (BOOL)isInMapRect:(MKMapRect)mapRect {
     
     return MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(self.clusterCoordinate));
 }
 
-- (NSArray *)find:(NSInteger)N childrenInMapRect:(MKMapRect)mapRect {
+- (NSArray *)findClustersInMapRect:(MKMapRect)mapRect {
     
     NSMutableArray * clusters = [[NSMutableArray alloc] initWithObjects:self, nil];
     NSMutableArray * clustersWithCoordinateInMapRect = [[NSMutableArray alloc] init];
     NSMutableArray * annotations = [[NSMutableArray alloc] init];
     
     BOOL shouldContinueSearching = YES; // prevents infinite loop at the bottom of the tree
-    while (shouldContinueSearching && clustersWithCoordinateInMapRect.count + annotations.count < N) {
-
+    while (shouldContinueSearching &&
+           !clustersWithCoordinateInMapRect.count &&
+           !annotations.count) {
+        
         shouldContinueSearching = NO;
         NSMutableArray * nextLevelClusters = [[NSMutableArray alloc] init];
         for (ADMapCluster * cluster in clusters) {
@@ -318,16 +331,9 @@
             shouldContinueSearching = YES;
         }
     }
-    [self _cleanClusters:clustersWithCoordinateInMapRect fromAncestorsOfClusters:annotations];
-
-//    if (clusters.count + annotations.count > N) { // if there are too many clusters and annotations, that means that we went one level too far in depth
-//        clusters = previousLevelClusters;
-//        annotations = previousLevelAnnotations;
-//        [self _cleanClusters:clusters fromAncestorsOfClusters:annotations];
-//    }
-//    [self _cleanClusters:clusters outsideMapRect:mapRect];
+    
     [annotations addObjectsFromArray:clustersWithCoordinateInMapRect];
-
+    
     return annotations;
 }
 

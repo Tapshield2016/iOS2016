@@ -102,6 +102,7 @@ static NSString * const BlueImageSuffix = @"_blue";
     
     type = [[NSArray arrayWithObjects:kSpotCrimeTypesArray] objectAtIndex:vehicle];
     NSArray *array = @[@"hit and run",
+                       @"hit & run",
                        @"car accident",
                        @"vehicle pursuit",
                        @"veh pursuit"];

@@ -12,6 +12,4 @@
 
 - (float)alphaForReportDate;
 
-- (void)setImageFromAnnotation:(id<MKAnnotation>)annotation;
-
 @end

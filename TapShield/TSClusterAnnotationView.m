@@ -30,7 +30,7 @@
     
     [super setAnnotation:annotation];
     
-    ((ADClusterAnnotation *)annotation).annotationView = nil;
+    ((ADClusterAnnotation *)annotation).annotationView = self;
     
 //    ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)annotation;
     

@@ -59,7 +59,9 @@
     }
 }
 
-- (void)setImageFromAnnotation:(id<MKAnnotation>)annotation {
+- (void)refreshView {
+    
+    id<MKAnnotation> annotation = self.annotation;
     
     if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
         

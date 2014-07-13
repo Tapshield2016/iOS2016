@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "ADMapCluster.h"
-#import "TSSpotCrimeAnnotationView.h"
+#import "TSBaseAnnotationView.h"
 
 #define kADCoordinate2DOffscreen CLLocationCoordinate2DMake(85.0, 179.0) // this coordinate puts the annotation on the top right corner of the map. We use this instead of kCLLocationCoordinate2DInvalid so that we don't mess with MapKit's KVO weird behaviour that removes from the map the annotations whose coordinate was set to kCLLocationCoordinate2DInvalid.
 
@@ -25,7 +25,7 @@ typedef enum {
 @property (nonatomic) ADClusterAnnotationType type;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, weak) ADMapCluster * cluster;
-@property (nonatomic, weak) TSSpotCrimeAnnotationView *annotationView;
+@property (nonatomic, weak) TSBaseAnnotationView *annotationView;
 @property (nonatomic) BOOL shouldBeRemovedAfterAnimation;
 @property (weak, nonatomic, readonly) NSArray * originalAnnotations; // this array contains the annotations contained by the cluster of this annotation
 

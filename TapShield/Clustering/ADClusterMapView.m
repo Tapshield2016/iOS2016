@@ -26,7 +26,9 @@
     NSArray *                      _clusterAnnotations;
 }
 
-@property NSMutableArray *clusterableAnnotationsAdded;
+@property (nonatomic, strong) NSMutableArray *clusterableAnnotationsAdded;
+@property (nonatomic, strong) id<MKAnnotation> previouslySelectedAnnotation;
+@property (nonatomic) BOOL shouldReselectAnnotation;
 
 @end
 
@@ -306,17 +308,44 @@
         _isAnimatingClusters = YES;
         [self _clusterInMapRect:self.visibleMapRect];
     }
+    if (_previouslySelectedAnnotation) {
+        _shouldReselectAnnotation = YES;
+    }
     for (id<MKAnnotation> annotation in [self selectedAnnotations]) {
         [self deselectAnnotation:annotation animated:YES];
     }
     if ([_secondaryDelegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)]) {
         [_secondaryDelegate mapView:self regionDidChangeAnimated:animated];
     }
+    if (_shouldReselectAnnotation) {
+        _shouldReselectAnnotation = NO;
+        [self selectAnnotation:_previouslySelectedAnnotation animated:YES];
+        _previouslySelectedAnnotation = nil;
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    
+    if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        if (((ADClusterAnnotation *)view.annotation).type == ADClusterAnnotationTypeLeaf && !_shouldReselectAnnotation) {
+            _previouslySelectedAnnotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+        }
+    }
+    
+    
     if ([_secondaryDelegate respondsToSelector:@selector(mapView:didSelectAnnotationView:)]) {
         [_secondaryDelegate mapView:mapView didSelectAnnotationView:view];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    
+    if (!_shouldReselectAnnotation) {
+        _previouslySelectedAnnotation = nil;
+    }
+    
+    if ([_secondaryDelegate respondsToSelector:@selector(mapView:didDeselectAnnotationView:)]) {
+        [_secondaryDelegate mapView:mapView didDeselectAnnotationView:view];
     }
 }
 
@@ -364,12 +393,25 @@
     return array;
 }
 
+- (MKMapRect)visibleMapRectWithBuffer {
+    
+    double width = self.visibleMapRect.size.width;
+    double height = self.visibleMapRect.size.height;
+    MKMapRect mapRect = self.visibleMapRect;
+    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(self.visibleMapRect, -width, -height));
+    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(self.visibleMapRect, width, height));
+    
+    return mapRect;
+}
+
 - (void)_clusterInMapRect:(MKMapRect)rect {
     
-    int numberOnScreen = [self _numberOfClusters];
+    rect = [self visibleMapRectWithBuffer];
+    
+    int numberOnScreen = [self _numberOfClusters] * 3;
     
     if (self.region.span.longitudeDelta > .1) {
-        NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:5 mapRect:rect];
+        NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:5*3 mapRect:rect];
         
         numberOnScreen = [_rootMapCluster numberOfMapRectsContainingChildren:mapRects];
     }

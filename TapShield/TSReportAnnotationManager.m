@@ -217,6 +217,13 @@
     
 }
 
+- (void)hideHeatMapOverlays {
+    
+    _shouldAddHeatMap = NO;
+    [_mapView removeOverlays:_heatMarkers];
+    _heatMarkers = nil;
+}
+
 
 - (NSArray *)createSpotCrimeAnnotations:(NSArray *)spotCrimes {
     
@@ -358,11 +365,14 @@
     NSMutableArray * array = [[NSMutableArray alloc] initWithArray:_spotCrimes];
     [array addObjectsFromArray:_socialReports];
     [_mapView removeAnnotations:array];
+    
+    _shouldAddHeatMap = YES;
+    [self addHeatMapOverlays:_spotCrimes];
 }
 
 - (void)showSpotCrimes {
     
-    [self hideSpotCrimes];
+    [self hideHeatMapOverlays];
     
     _shouldAddAnnotations = YES;
     

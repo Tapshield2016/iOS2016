@@ -233,26 +233,23 @@
     return cluster;
 }
 
-- (NSArray *)find:(NSInteger)N childrenInMapRect:(MKMapRect)mapRect {
+- (NSArray *)find:(NSInteger)N clustersInMapRect:(MKMapRect)mapRect {
+    
     // Start from the root (self)
     // Adopt a breadth-first search strategy
     // If MapRect intersects the bounds, then keep this element for next iteration
     // Stop if there are N elements or more
     // Or if the bottom of the tree was reached (d'oh!)
+    
     NSMutableArray * clusters = [[NSMutableArray alloc] initWithObjects:self, nil];
     NSMutableArray * annotations = [[NSMutableArray alloc] init];
     NSMutableArray * previousLevelClusters = nil;
     NSMutableArray * previousLevelAnnotations = nil;
     BOOL clustersDidChange = YES; // prevents infinite loop at the bottom of the tree
-    
-    for (<#initialization#>; <#condition#>; <#increment#>) {
-        <#statements#>
-    }
-    
     while (clusters.count + annotations.count < N && clusters.count > 0 && clustersDidChange) {
         previousLevelAnnotations = [annotations mutableCopy];
         previousLevelClusters = [clusters mutableCopy];
-
+        
         clustersDidChange = NO;
         NSMutableArray * nextLevelClusters = [[NSMutableArray alloc] init];
         for (ADMapCluster * cluster in clusters) {
@@ -272,7 +269,7 @@
         }
     }
     [self _cleanClusters:clusters fromAncestorsOfClusters:annotations];
-
+    
     if (clusters.count + annotations.count > N) { // if there are too many clusters and annotations, that means that we went one level too far in depth
         clusters = previousLevelClusters;
         annotations = previousLevelAnnotations;
@@ -280,6 +277,56 @@
     }
     [self _cleanClusters:clusters outsideMapRect:mapRect];
     [annotations addObjectsFromArray:clusters];
+    
+    return annotations;
+}
+
+- (BOOL)isInMapRect:(MKMapRect)mapRect {
+    
+    return MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(self.clusterCoordinate));
+}
+
+- (NSArray *)find:(NSInteger)N childrenInMapRect:(MKMapRect)mapRect {
+    
+    NSMutableArray * clusters = [[NSMutableArray alloc] initWithObjects:self, nil];
+    NSMutableArray * clustersWithCoordinateInMapRect = [[NSMutableArray alloc] init];
+    NSMutableArray * annotations = [[NSMutableArray alloc] init];
+    
+    BOOL shouldContinueSearching = YES; // prevents infinite loop at the bottom of the tree
+    while (shouldContinueSearching && clustersWithCoordinateInMapRect.count + annotations.count < N) {
+
+        shouldContinueSearching = NO;
+        NSMutableArray * nextLevelClusters = [[NSMutableArray alloc] init];
+        for (ADMapCluster * cluster in clusters) {
+            for (ADMapCluster * child in [cluster children]) {
+                if (child.annotation) {
+                    if ([child isInMapRect:mapRect]) {
+                        [annotations addObject:child];
+                    }
+                } else {
+                    if ([child isInMapRect:mapRect]) {
+                        [clustersWithCoordinateInMapRect addObject:child];
+                    }
+                    else if (MKMapRectIntersectsRect(mapRect, [child _mapRect])) {
+                        [nextLevelClusters addObject:child];
+                    }
+                }
+            }
+        }
+        if (nextLevelClusters.count > 0) {
+            clusters = nextLevelClusters;
+            shouldContinueSearching = YES;
+        }
+    }
+    [self _cleanClusters:clustersWithCoordinateInMapRect fromAncestorsOfClusters:annotations];
+
+//    if (clusters.count + annotations.count > N) { // if there are too many clusters and annotations, that means that we went one level too far in depth
+//        clusters = previousLevelClusters;
+//        annotations = previousLevelAnnotations;
+//        [self _cleanClusters:clusters fromAncestorsOfClusters:annotations];
+//    }
+//    [self _cleanClusters:clusters outsideMapRect:mapRect];
+    [annotations addObjectsFromArray:clustersWithCoordinateInMapRect];
 
     return annotations;
 }

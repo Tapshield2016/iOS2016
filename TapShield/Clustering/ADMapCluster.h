@@ -23,6 +23,7 @@
 - (id)initWithAnnotations:(NSArray *)annotations atDepth:(NSInteger)depth inMapRect:(MKMapRect)mapRect gamma:(double)gamma clusterTitle:(NSString *)clusterTitle showSubtitle:(BOOL)showSubtitle;
 + (ADMapCluster *)rootClusterForAnnotations:(NSArray *)annotations gamma:(double)gamma clusterTitle:(NSString *)clusterTitle showSubtitle:(BOOL)showSubtitle;
 - (NSArray *)find:(NSInteger)N childrenInMapRect:(MKMapRect)mapRect;
+- (NSArray *)find:(NSInteger)N clustersInMapRect:(MKMapRect)mapRect;
 - (NSArray *)children;
 - (BOOL)isAncestorOf:(ADMapCluster *)mapCluster;
 - (BOOL)isRootClusterForAnnotation:(id<MKAnnotation>)annotation;

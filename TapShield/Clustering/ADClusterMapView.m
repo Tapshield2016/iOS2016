@@ -43,7 +43,7 @@
         _originalAnnotations = annotations;
         _isSettingAnnotations = YES;
         [self removeAnnotations:_clusterAnnotations];
-        NSInteger numberOfAnnotationsInPool = 2 * 100; // We manage a pool of annotations. In case we have N splits and N joins in a single animation we have to double up the actual number of annotations that belongs to the pool.
+        NSInteger numberOfAnnotationsInPool = 2 * 50; // We manage a pool of annotations. In case we have N splits and N joins in a single animation we have to double up the actual number of annotations that belongs to the pool.
         _singleAnnotationsPool = [[NSMutableArray alloc] initWithCapacity: numberOfAnnotationsInPool];
         _clusterAnnotationsPool = [[NSMutableArray alloc] initWithCapacity: numberOfAnnotationsInPool];
         for (int i = 0; i < numberOfAnnotationsInPool; i++) {
@@ -336,18 +336,49 @@
     return array;
 }
 
-- (void)_clusterInMapRect:(MKMapRect)rect {
+- (void)cleanClusters:(NSMutableArray *)clusters {
     
-    NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:6 mapRect:rect];
-    
-    for (NSDictionary *dic in mapRects) {
-        [self clusterInMapRect:[dic mapRectForDictionary]];
+    NSMutableArray *referenceClusters = [[NSMutableArray alloc] init];
+    for (ADMapCluster *cluster in clusters) {
+        if (cluster.annotation) {
+            [referenceClusters addObject:cluster];
+        }
     }
+    
+    NSMutableArray * clustersToRemove = [[NSMutableArray alloc] init];
+    for (ADMapCluster * cluster in clusters) {
+        for (ADMapCluster * referenceCluster in referenceClusters) {
+            if ([cluster isAncestorOf:referenceCluster]) {
+                [clustersToRemove addObject:cluster];
+                break;
+            }
+        }
+    }
+    [clusters removeObjectsInArray:clustersToRemove];
+    [clusters addObjectsFromArray:referenceClusters];
 }
 
-- (void)clusterInMapRect:(MKMapRect)rect {
+- (void)_clusterInMapRect:(MKMapRect)rect {
     
-    NSArray * clustersToShowOnMap = [_rootMapCluster find:2 childrenInMapRect:rect];  //[self _numberOfClusters] childrenInMapRect:rect];
+    
+    int numberOnScreen = 30;
+    
+    if (self.region.span.longitudeDelta > .1) {
+        NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:4 mapRect:rect];
+        
+        NSMutableArray *mutableClusters = [[NSMutableArray alloc] initWithCapacity:mapRects.count];
+        
+        for (NSDictionary *dic in mapRects) {
+            [mutableClusters addObjectsFromArray:[_rootMapCluster find:1 childrenInMapRect:[dic mapRectForDictionary]]];
+        }
+        
+        [self cleanClusters:mutableClusters];
+        
+        numberOnScreen = mutableClusters.count + 1;
+    }
+    
+    
+    NSArray * clustersToShowOnMap = [_rootMapCluster find:numberOnScreen clustersInMapRect:rect];//[_rootMapCluster find:[self _numberOfClusters] childrenInMapRect:rect];
 
     // Build an array with available annotations (eg. not moving or not staying at the same place on the map)
     NSMutableArray * availableSingleAnnotations = [[NSMutableArray alloc] init];

@@ -20,8 +20,13 @@
         
         self.image = [UIImage imageNamed:@"pins_cluster_red"];
         self.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
-        CGRect frame = CGRectMake(0, 0, self.image.size.width/2, self.image.size.height/2);
+        CGRect frame = CGRectMake(0, 8, self.image.size.width, self.image.size.height/3);
         self.label = [[UILabel alloc] initWithFrame:frame];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        self.label.textColor = [TSColorPalette alertRed];
+        self.label.font = [UIFont systemFontOfSize:10];
+        
+        [self addSubview:self.label];
     }
     return self;
 }
@@ -31,12 +36,21 @@
     [super setAnnotation:annotation];
     
     ((ADClusterAnnotation *)annotation).annotationView = self;
+ 
+}
+
+- (void)refreshView {
     
-//    ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)annotation;
     
-//    // set title
-//    clusterAnnotation.title = @"Cluster";
-//    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", [clusterAnnotation.annotationsInCluster count]];
+    ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)self.annotation;
+    
+    int count = 0;
+    if (clusterAnnotation.cluster) {
+        count = clusterAnnotation.originalAnnotations.count;
+    }
+    // set title
+    clusterAnnotation.title = @"Cluster";
+    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", count];
     
     // change pin image for group
 //    if ([clusterAnnotation. isEqualToString:kTYPESpotCrime]) {
@@ -45,9 +59,14 @@
 //    else if([clusterAnnotation.groupTag isEqualToString:kTYPESocialReport]){
 //        self.layer.borderColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.7].CGColor;
 //    }
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.5;
+    [self.label.layer addAnimation:animation forKey:@"kCATransitionFade"];
     
-//    self.label.text = [NSString stringWithFormat:@"%i", clusterAnnotation.originalAnnotations.count];
-//    
+    self.label.text = [NSString stringWithFormat:@"%i", clusterAnnotation.originalAnnotations.count];
+    
 //    clusterAnnotation.title = clusterAnnotation.groupTag;
 }
 

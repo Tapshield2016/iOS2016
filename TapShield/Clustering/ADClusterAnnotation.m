@@ -29,11 +29,11 @@ BOOL ADClusterCoordinate2DIsOffscreen(CLLocationCoordinate2D coord) {
 }
 
 - (void)setCluster:(ADMapCluster *)cluster {
-    [self willChangeValueForKey:@"title"];
-    [self willChangeValueForKey:@"subtitle"];
+//    [self willChangeValueForKey:@"title"];
+//    [self willChangeValueForKey:@"subtitle"];
     _cluster = cluster;
-    [self didChangeValueForKey:@"subtitle"];
-    [self didChangeValueForKey:@"title"];
+//    [self didChangeValueForKey:@"subtitle"];
+//    [self didChangeValueForKey:@"title"];
 }
 
 - (ADMapCluster *)cluster {

@@ -926,6 +926,15 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
 #pragma mark - ADClusterMapViewDelegate
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSLog(@"did scroll");
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    
+    NSLog(@"did zoom");
+}
+
 - (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id<MKAnnotation>)annotation {
     TSClusterAnnotationView * pinView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ADMapCluster"];
     if (!pinView) {
@@ -945,7 +954,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
 - (NSUInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView {
     
-    return 15;
+    return 25;
 }
 
 - (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView {

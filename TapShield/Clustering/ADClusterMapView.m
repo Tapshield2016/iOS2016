@@ -192,6 +192,7 @@
     
     int previousCount = _clusterableAnnotationsAdded.count;
     [_clusterableAnnotationsAdded minusSet:[NSSet setWithArray:annotations]];
+    
     if (_clusterableAnnotationsAdded.count != previousCount) {;
         [self setAnnotations:_clusterableAnnotationsAdded];
     }
@@ -336,9 +337,9 @@
 //        _shouldComputeClusters = YES;
 //    } else
     if (!_isSettingAnnotations){
-        [NSObject cancelPreviousPerformRequestsWithTarget:self];
-        [self performSelector:@selector(_clusterInMapRect:) withObject:nil afterDelay:.5];
-//        [self _clusterInMapRect:self.visibleMapRect];
+//        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+//        [self performSelector:@selector(_clusterInMapRect:) withObject:nil afterDelay:.2];
+        [self _clusterInMapRect:self.visibleMapRect];
     }
     if (_previouslySelectedAnnotation) {
         _shouldReselectAnnotation = YES;

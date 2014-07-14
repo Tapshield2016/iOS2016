@@ -58,7 +58,7 @@ int nearestEvenInt(int to) {
     
     if (_mapView.region.span.longitudeDelta > .005) {
         //create grid to estimate number of clusters needed based on the spread of annotations across map rect
-        NSSet *mapRects = [self mapRectsFromNumberOfClustersAcross:5*3 mapRect:rect];
+        NSSet *mapRects = [self mapRectsFromNumberOfClustersAcross:15 mapRect:rect];
         
         //number of map rects that contain at least one annotation
         numberOnScreen = [_rootMapCluster numberOfMapRectsContainingChildren:mapRects];
@@ -264,10 +264,8 @@ int nearestEvenInt(int to) {
     }
         for (ADClusterAnnotation * annotation in availableClusterAnnotations) {
             NSAssert(annotation.type == ADClusterAnnotationTypeCluster, @"Inconsistent annotation type!");
-//            [annotation reset];
             [afterAnimated addObject:@{annotationKey: annotation}];
         }
-//    });
     
     if (self.isCancelled) {
         return;
@@ -296,10 +294,11 @@ int nearestEvenInt(int to) {
         [UIView beginAnimations:@"ADClusterMapViewAnimation" context:NULL];
         [UIView setAnimationBeginsFromCurrentState:NO];
         [UIView setAnimationDelegate:_mapView];
-        [UIView setAnimationDuration:0.2f];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.3f];
         for (ADClusterAnnotation * annotation in _mapView.clusterAnnotations) {
             if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
-                NSAssert(!ADClusterCoordinate2DIsOffscreen(annotation.coordinate), @"annotation.coordinate not valid! Can't animate from an invalid coordinate (inconsistent result)!");
+//                NSAssert(!ADClusterCoordinate2DIsOffscreen(annotation.coordinate), @"annotation.coordinate not valid! Can't animate from an invalid coordinate (inconsistent result)!");
                 annotation.coordinate = annotation.cluster.clusterCoordinate;
             }
         }

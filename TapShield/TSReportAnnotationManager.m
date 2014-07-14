@@ -24,6 +24,7 @@
 @property (assign, nonatomic) NSUInteger maxSpotCrimeHours;
 @property (assign, nonatomic) BOOL shouldAddHeatMap;
 @property (strong, nonatomic) NSOperationQueue *operationQueue;
+@property (strong, nonatomic) CLLocation *previousCenter;
 
 @end
 
@@ -50,7 +51,7 @@
     
     [self stopSocialTimer];
     
-    _socialGetTimer = [NSTimer scheduledTimerWithTimeInterval:20
+    _socialGetTimer = [NSTimer scheduledTimerWithTimeInterval:60
                                                        target:self
                                                      selector:@selector(getSocialAnnotations:)
                                                      userInfo:nil
@@ -67,7 +68,7 @@
     
     [self stopSpotCrimeTimer];
     
-    _spotCrimeGetTimer = [NSTimer scheduledTimerWithTimeInterval:60
+    _spotCrimeGetTimer = [NSTimer scheduledTimerWithTimeInterval:300
                                                        target:self
                                                      selector:@selector(getSpotCrimeAnnotations:)
                                                      userInfo:nil
@@ -82,9 +83,19 @@
 
 - (void)getReportsForMapCenter:(CLLocation *)location {
     
+    if ([location distanceFromLocation:_previousCenter] > 500) {
+        _previousCenter = nil;
+    }
+    
+    if (!_previousCenter) {
+        _previousCenter = location;
+        
+        [self getSpotCrimeAnnotations:location];
+    }
+    
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    [self performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:1];
+    [self performSelector:@selector(getSocialAnnotations:) withObject:location afterDelay:1];
 }
 
 - (void)loadSpotCrimeAndSocialAnnotations:(CLLocation *)location {
@@ -156,8 +167,6 @@
     if (!_spotCrimes) {
         _spotCrimes = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     }
-    
-    NSLog(@"adding spotcrimes");
     
     spotCrimes = [self createSpotCrimeAnnotations:spotCrimes];
     spotCrimes = [self filterOutOther:spotCrimes];
@@ -298,7 +307,10 @@
 - (void)removeUserSocialReport:(TSSpotCrimeAnnotation *)annotation {
     
     [_socialReports removeObject:annotation];
-    [_mapView removeAnnotation:annotation];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_mapView removeAnnotation:annotation];
+    });
 }
 
 - (void)removeOldSocialReports:(NSArray *)socialReports {
@@ -314,8 +326,10 @@
     }];
     
     if (removeIndexSet.count != 0) {
-        [_mapView removeAnnotations:[_socialReports objectsAtIndexes:removeIndexSet]];
-        [_socialReports removeObjectsAtIndexes:removeIndexSet];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_mapView removeAnnotations:[_socialReports objectsAtIndexes:removeIndexSet]];
+            [_socialReports removeObjectsAtIndexes:removeIndexSet];
+        });
     }
 }
 

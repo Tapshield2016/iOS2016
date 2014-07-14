@@ -1332,6 +1332,30 @@
 		C585F30F18DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C585F31018DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
 		C585F31118DB6E2E009EEF16 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */; };
+		C586E685197310700047002B /* bubble_trespasser_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E683197310700047002B /* bubble_trespasser_icon.png */; };
+		C586E686197310700047002B /* bubble_trespasser_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E683197310700047002B /* bubble_trespasser_icon.png */; };
+		C586E687197310700047002B /* bubble_trespasser_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E683197310700047002B /* bubble_trespasser_icon.png */; };
+		C586E688197310700047002B /* bubble_trespasser_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E683197310700047002B /* bubble_trespasser_icon.png */; };
+		C586E689197310700047002B /* bubble_trespasser_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E684197310700047002B /* bubble_trespasser_icon@2x.png */; };
+		C586E68A197310700047002B /* bubble_trespasser_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E684197310700047002B /* bubble_trespasser_icon@2x.png */; };
+		C586E68B197310700047002B /* bubble_trespasser_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E684197310700047002B /* bubble_trespasser_icon@2x.png */; };
+		C586E68C197310700047002B /* bubble_trespasser_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E684197310700047002B /* bubble_trespasser_icon@2x.png */; };
+		C586E68F197310790047002B /* pins_trespasser_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68D197310790047002B /* pins_trespasser_red.png */; };
+		C586E690197310790047002B /* pins_trespasser_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68D197310790047002B /* pins_trespasser_red.png */; };
+		C586E691197310790047002B /* pins_trespasser_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68D197310790047002B /* pins_trespasser_red.png */; };
+		C586E692197310790047002B /* pins_trespasser_red.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68D197310790047002B /* pins_trespasser_red.png */; };
+		C586E693197310790047002B /* pins_trespasser_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68E197310790047002B /* pins_trespasser_red@2x.png */; };
+		C586E694197310790047002B /* pins_trespasser_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68E197310790047002B /* pins_trespasser_red@2x.png */; };
+		C586E695197310790047002B /* pins_trespasser_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68E197310790047002B /* pins_trespasser_red@2x.png */; };
+		C586E696197310790047002B /* pins_trespasser_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C586E68E197310790047002B /* pins_trespasser_red@2x.png */; };
+		C586E699197335B10047002B /* CLLocation+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E698197335B10047002B /* CLLocation+Utilities.m */; };
+		C586E69A197335B10047002B /* CLLocation+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E698197335B10047002B /* CLLocation+Utilities.m */; };
+		C586E69B197335B10047002B /* CLLocation+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E698197335B10047002B /* CLLocation+Utilities.m */; };
+		C586E69C197335B10047002B /* CLLocation+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E698197335B10047002B /* CLLocation+Utilities.m */; };
+		C586E69F197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
+		C586E6A0197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
+		C586E6A1197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
+		C586E6A2197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
 		C599C038193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
@@ -4459,6 +4483,14 @@
 		C585F2F118DB6E2E009EEF16 /* Raleway-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-SemiBold.otf"; sourceTree = "<group>"; };
 		C585F2F218DB6E2E009EEF16 /* Raleway-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Thin.otf"; sourceTree = "<group>"; };
 		C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
+		C586E683197310700047002B /* bubble_trespasser_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_trespasser_icon.png; sourceTree = "<group>"; };
+		C586E684197310700047002B /* bubble_trespasser_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_trespasser_icon@2x.png"; sourceTree = "<group>"; };
+		C586E68D197310790047002B /* pins_trespasser_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pins_trespasser_red.png; sourceTree = "<group>"; };
+		C586E68E197310790047002B /* pins_trespasser_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pins_trespasser_red@2x.png"; sourceTree = "<group>"; };
+		C586E697197335B10047002B /* CLLocation+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Utilities.h"; sourceTree = "<group>"; };
+		C586E698197335B10047002B /* CLLocation+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Utilities.m"; sourceTree = "<group>"; };
+		C586E69D197390430047002B /* TSClusterOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClusterOperation.h; sourceTree = "<group>"; };
+		C586E69E197390430047002B /* TSClusterOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClusterOperation.m; sourceTree = "<group>"; };
 		C599C036193FD7CA00B77410 /* NSURL+FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileType.h"; sourceTree = "<group>"; };
 		C599C037193FD7CA00B77410 /* NSURL+FileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FileType.m"; sourceTree = "<group>"; };
 		C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotation.h; path = Views/Map/Annotations/TSSpotCrimeAnnotation.h; sourceTree = "<group>"; };
@@ -5598,12 +5630,16 @@
 				C53A63311970533500C34BF0 /* ADClusterAnnotation.m */,
 				C53A63321970533500C34BF0 /* ADClusterMapView.h */,
 				C53A63331970533500C34BF0 /* ADClusterMapView.m */,
-				C53A63581971B38700C34BF0 /* NSDictionary+MKMapRect.h */,
-				C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */,
+				C586E69D197390430047002B /* TSClusterOperation.h */,
+				C586E69E197390430047002B /* TSClusterOperation.m */,
 				C53A63341970533500C34BF0 /* ADMapCluster.h */,
 				C53A63351970533500C34BF0 /* ADMapCluster.m */,
 				C53A63361970533500C34BF0 /* ADMapPointAnnotation.h */,
 				C53A63371970533500C34BF0 /* ADMapPointAnnotation.m */,
+				C586E697197335B10047002B /* CLLocation+Utilities.h */,
+				C586E698197335B10047002B /* CLLocation+Utilities.m */,
+				C53A63581971B38700C34BF0 /* NSDictionary+MKMapRect.h */,
+				C53A63591971B38700C34BF0 /* NSDictionary+MKMapRect.m */,
 			);
 			path = Clustering;
 			sourceTree = "<group>";
@@ -6403,6 +6439,8 @@
 		C5AFBC061921807B00EC62A5 /* 2014-05-12 ikonki_ios_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C586E683197310700047002B /* bubble_trespasser_icon.png */,
+				C586E684197310700047002B /* bubble_trespasser_icon@2x.png */,
 				C53A6325196F7DA500C34BF0 /* bubble_missingperson_icon.png */,
 				C53A6326196F7DA500C34BF0 /* bubble_missingperson_icon@2x.png */,
 				C53A6311196F7ABB00C34BF0 /* bubble_vehicle_icon.png */,
@@ -6876,6 +6914,8 @@
 		C5CC4631193D930B00285DB3 /* red_iPhone_assets */ = {
 			isa = PBXGroup;
 			children = (
+				C586E68D197310790047002B /* pins_trespasser_red.png */,
+				C586E68E197310790047002B /* pins_trespasser_red@2x.png */,
 				C53A634819706D6300C34BF0 /* pins_cluster_red.png */,
 				C53A634919706D6300C34BF0 /* pins_cluster_red@2x.png */,
 				C53A631B196F7C4900C34BF0 /* pins_missingperson_red.png */,
@@ -7239,6 +7279,7 @@
 				C5CC47A4193D930C00285DB3 /* bubble_arson_blue@2x.png in Resources */,
 				C54CEAAF18FB199A0077350E /* count_bg@2x.png in Resources */,
 				C54CEB0018FB199A0077350E /* settings_male_icon.png in Resources */,
+				C586E693197310790047002B /* pins_trespasser_red@2x.png in Resources */,
 				C54CE7CD18FB199A0077350E /* notifications_menu_icon_active@2x.png in Resources */,
 				C5CC4B28193D930D00285DB3 /* pins_highfever_red.png in Resources */,
 				C5CC4790193D930C00285DB3 /* bubble_abuse_blue.png in Resources */,
@@ -7568,6 +7609,7 @@
 				C5CC4A00193D930D00285DB3 /* bubble_assault_red.png in Resources */,
 				C5CC4854193D930C00285DB3 /* bubble_vandalism_blue@2x.png in Resources */,
 				C5AFBE1D1921807E00EC62A5 /* bubble_theft_icon.png in Resources */,
+				C586E685197310700047002B /* bubble_trespasser_icon.png in Resources */,
 				C5CC4A98193D930D00285DB3 /* bubble_suspicious_red.png in Resources */,
 				C5CC4934193D930C00285DB3 /* alert_arson_red@2x.png in Resources */,
 				C5C1706B18ABEFFC00EEFBD6 /* location1.png in Resources */,
@@ -7635,6 +7677,7 @@
 				C54CE7E518FB199A0077350E /* settings_menu_icon_active@2x.png in Resources */,
 				C5AFBEB11921807E00EC62A5 /* pins_mentalhealth_icon@2x.png in Resources */,
 				C5AFBDE51921807E00EC62A5 /* bubble_mentalhealth_icon.png in Resources */,
+				C586E689197310700047002B /* bubble_trespasser_icon@2x.png in Resources */,
 				C5AFBCC11921807D00EC62A5 /* alert_bleeding_icon@2x.png in Resources */,
 				C54CE8B718FB199A0077350E /* entourage_icon@2x.png in Resources */,
 				C54CE9E918FB199A0077350E /* alert_yank_icon@2x.png in Resources */,
@@ -7974,6 +8017,7 @@
 				C54CEB3118FC76620077350E /* number_3.png in Resources */,
 				C54CE7D018FB199A0077350E /* notifications_menu_icon_inactive.png in Resources */,
 				C5CC47AC193D930C00285DB3 /* bubble_assault_blue@2x.png in Resources */,
+				C586E68F197310790047002B /* pins_trespasser_red.png in Resources */,
 				C5AFBD311921807E00EC62A5 /* alert_robbery_icon@2x.png in Resources */,
 				C5CC4B04193D930D00285DB3 /* pins_disturbance_red@2x.png in Resources */,
 				C54CEB4318FC76620077350E /* number_6.png in Resources */,
@@ -8049,6 +8093,7 @@
 				C5CC487F193D930C00285DB3 /* pins_bleeding_blue@2x.png in Resources */,
 				C5372E0418B3126000D22682 /* DisarmIcon_keypad.png in Resources */,
 				C5CC4803193D930C00285DB3 /* bubble_heartattack_blue.png in Resources */,
+				C586E692197310790047002B /* pins_trespasser_red.png in Resources */,
 				C5AFBE6C1921807E00EC62A5 /* pins_caraccident_icon@2x.png in Resources */,
 				C5CC48F7193D930C00285DB3 /* pins_shooting_blue@2x.png in Resources */,
 				C54CEB5A18FC76620077350E /* number_9@2x.png in Resources */,
@@ -8142,6 +8187,7 @@
 				C5CC47EF193D930C00285DB3 /* bubble_drugs1_blue@2x.png in Resources */,
 				C5CC4B0F193D930D00285DB3 /* pins_drugsalcohol_red@2x.png in Resources */,
 				C54CEA4518FB199A0077350E /* route_walk_icon_inactive@2x.png in Resources */,
+				C586E696197310790047002B /* pins_trespasser_red@2x.png in Resources */,
 				C5CC4873193D930C00285DB3 /* pins_assault_blue.png in Resources */,
 				C5CC49E7193D930D00285DB3 /* alert_vandalism_red@2x.png in Resources */,
 				C5CC4973193D930C00285DB3 /* alert_disturbance_red.png in Resources */,
@@ -8207,6 +8253,7 @@
 				C5CC490F193D930C00285DB3 /* pins_suspiciousactivity_blue@2x.png in Resources */,
 				C5CC4B1F193D930D00285DB3 /* pins_harassment_red@2x.png in Resources */,
 				C5CC4837193D930C00285DB3 /* bubble_stroke_blue@2x.png in Resources */,
+				C586E68C197310700047002B /* bubble_trespasser_icon@2x.png in Resources */,
 				C5CC473F193D930C00285DB3 /* alert_heartattack_blue@2x.png in Resources */,
 				C5CC487B193D930C00285DB3 /* pins_bleeding_blue.png in Resources */,
 				C5CC4A4F193D930D00285DB3 /* bubble_drugs2_red@2x.png in Resources */,
@@ -8740,6 +8787,7 @@
 				C54CEC1818FC77150077350E /* btn_login_pressed@2x.png in Resources */,
 				C54CEBE218FC77150077350E /* btn_big_circle_pressed@2x.png in Resources */,
 				C53A6653190E827300760656 /* Walk@2x.png in Resources */,
+				C586E688197310700047002B /* bubble_trespasser_icon.png in Resources */,
 				C54CE7BD18FB199A0077350E /* help_menu_icon_inactive@2x.png in Resources */,
 				C5CC484F193D930C00285DB3 /* bubble_theft_blue@2x.png in Resources */,
 				C5CC498F193D930C00285DB3 /* alert_harassment_red@2x.png in Resources */,
@@ -8802,6 +8850,7 @@
 				C5AFBD421921807E00EC62A5 /* alert_stroke_icon@2x.png in Resources */,
 				C5CC493D193D930C00285DB3 /* alert_assault_red@2x.png in Resources */,
 				C54CEB2618FC76620077350E /* number_1.png in Resources */,
+				C586E694197310790047002B /* pins_trespasser_red@2x.png in Resources */,
 				C5CC4719193D930C00285DB3 /* alert_disturbance_blue.png in Resources */,
 				C54CEBC618FC77150077350E /* pag_dot_inactive.png in Resources */,
 				C54CEA8018FB199A0077350E /* default_user_icon@2x.png in Resources */,
@@ -9131,6 +9180,7 @@
 				C54CEBD818FC77150077350E /* btn_big_circle_normal.png in Resources */,
 				C57C48FB18BBDB1900DFFBCE /* LockIcon.png in Resources */,
 				C54CEB0418FB199A0077350E /* settings_male_icon@2x.png in Resources */,
+				C586E686197310700047002B /* bubble_trespasser_icon.png in Resources */,
 				C53A665A190EF17100760656 /* WalkEndPoint@2x.png in Resources */,
 				C57C48FC18BBDB1900DFFBCE /* CheckBox_Selected.png in Resources */,
 				C54CEB3818FC76620077350E /* number_4.png in Resources */,
@@ -9198,6 +9248,7 @@
 				C54CEC1118FC77150077350E /* btn_login_normal@2x.png in Resources */,
 				C5CC4A85193D930D00285DB3 /* bubble_shooting_red@2x.png in Resources */,
 				C5CC4AD5193D930D00285DB3 /* pins_bleeding_red@2x.png in Resources */,
+				C586E68A197310700047002B /* bubble_trespasser_icon@2x.png in Resources */,
 				C5AFBEEE1921807E00EC62A5 /* pins_vandalism_icon.png in Resources */,
 				C55569231912171A00685FB0 /* input_phone_icon@2x.png in Resources */,
 				C5AFBDAE1921807E00EC62A5 /* bubble_cpr1_icon.png in Resources */,
@@ -9537,6 +9588,7 @@
 				C5CC4B71193D930D00285DB3 /* pins_vandalism_red.png in Resources */,
 				C585F30718DB6E2E009EEF16 /* Raleway-Regular.otf in Resources */,
 				C54CE94818FB199A0077350E /* tapshield_icon@2x.png in Resources */,
+				C586E690197310790047002B /* pins_trespasser_red.png in Resources */,
 				C57C491318BBDB1900DFFBCE /* EmailEnvelope.png in Resources */,
 				C54CEA5F18FB199A0077350E /* bubble_someone.png in Resources */,
 				C5AFBDFA1921807E00EC62A5 /* bubble_robbery_icon@2x.png in Resources */,
@@ -9583,6 +9635,7 @@
 				C5AFBD431921807E00EC62A5 /* alert_stroke_icon@2x.png in Resources */,
 				C5CC493E193D930C00285DB3 /* alert_assault_red@2x.png in Resources */,
 				C5AFB9E5191D35DE00EC62A5 /* number_1.png in Resources */,
+				C586E695197310790047002B /* pins_trespasser_red@2x.png in Resources */,
 				C5CC471A193D930C00285DB3 /* alert_disturbance_blue.png in Resources */,
 				C5AFB9E6191D35DE00EC62A5 /* pag_dot_inactive.png in Resources */,
 				C5AFB9E7191D35DE00EC62A5 /* default_user_icon@2x.png in Resources */,
@@ -9912,6 +9965,7 @@
 				C5AFBA84191D35DE00EC62A5 /* btn_big_circle_normal.png in Resources */,
 				C5AFBA85191D35DE00EC62A5 /* LockIcon.png in Resources */,
 				C5AFBA87191D35DE00EC62A5 /* settings_male_icon@2x.png in Resources */,
+				C586E687197310700047002B /* bubble_trespasser_icon.png in Resources */,
 				C5AFBA89191D35DE00EC62A5 /* WalkEndPoint@2x.png in Resources */,
 				C5AFBA8A191D35DE00EC62A5 /* CheckBox_Selected.png in Resources */,
 				C5AFBA8B191D35DE00EC62A5 /* number_4.png in Resources */,
@@ -9979,6 +10033,7 @@
 				C5AFBAAC191D35DE00EC62A5 /* btn_login_normal@2x.png in Resources */,
 				C5CC4A86193D930D00285DB3 /* bubble_shooting_red@2x.png in Resources */,
 				C5CC4AD6193D930D00285DB3 /* pins_bleeding_red@2x.png in Resources */,
+				C586E68B197310700047002B /* bubble_trespasser_icon@2x.png in Resources */,
 				C5AFBEEF1921807E00EC62A5 /* pins_vandalism_icon.png in Resources */,
 				C5AFBAAF191D35DE00EC62A5 /* input_phone_icon@2x.png in Resources */,
 				C5AFBDAF1921807E00EC62A5 /* bubble_cpr1_icon.png in Resources */,
@@ -10318,6 +10373,7 @@
 				C5CC4B72193D930D00285DB3 /* pins_vandalism_red.png in Resources */,
 				C5AFBB4E191D35DE00EC62A5 /* Raleway-Regular.otf in Resources */,
 				C5AFBB4F191D35DE00EC62A5 /* tapshield_icon@2x.png in Resources */,
+				C586E691197310790047002B /* pins_trespasser_red.png in Resources */,
 				C5AFBB52191D35DE00EC62A5 /* EmailEnvelope.png in Resources */,
 				C5AFBB53191D35DE00EC62A5 /* bubble_someone.png in Resources */,
 				C5AFBDFB1921807E00EC62A5 /* bubble_robbery_icon@2x.png in Resources */,
@@ -10575,6 +10631,7 @@
 				C5AFBB8F191F96B500EC62A5 /* TSRelationshipViewController.m in Sources */,
 				C5AFBB77191EE09900EC62A5 /* TSLocalNotification.m in Sources */,
 				C5372DB018B27C1F00D22682 /* TSAskOrganizationViewController.m in Sources */,
+				C586E699197335B10047002B /* CLLocation+Utilities.m in Sources */,
 				C5FD5EA718B4009000E27EE9 /* TSPhoneVerificationViewController.m in Sources */,
 				C5AFBB89191F95E700EC62A5 /* TSEthnicityViewController.m in Sources */,
 				C5372DB818B2AB7400D22682 /* TSRegisterViewController.m in Sources */,
@@ -10635,6 +10692,7 @@
 				C520C91018A974C100D1D2E9 /* TSGeofence.m in Sources */,
 				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
+				C586E69F197390430047002B /* TSClusterOperation.m in Sources */,
 				C56B3D6018FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
@@ -10750,6 +10808,7 @@
 				C5BBF42818F9CF6E008B5CB2 /* TSRoundImageView.m in Sources */,
 				C501CCA018F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C585F2E718DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
+				C586E6A2197390430047002B /* TSClusterOperation.m in Sources */,
 				C556478118E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C56356F818EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
@@ -10817,6 +10876,7 @@
 				C56B3D5318FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5CED6451936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
+				C586E69C197335B10047002B /* CLLocation+Utilities.m in Sources */,
 				C5CB078618C6851D00BC9425 /* TSCircularButton.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */,
@@ -10954,6 +11014,7 @@
 				C5AFBB90191F96B500EC62A5 /* TSRelationshipViewController.m in Sources */,
 				C5AFBB78191EE09900EC62A5 /* TSLocalNotification.m in Sources */,
 				C57C48D218BBDB1900DFFBCE /* TSAskOrganizationViewController.m in Sources */,
+				C586E69A197335B10047002B /* CLLocation+Utilities.m in Sources */,
 				C585F1B118CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
 				C5AFBB8A191F95E700EC62A5 /* TSEthnicityViewController.m in Sources */,
 				C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */,
@@ -11014,6 +11075,7 @@
 				C57C48E118BBDB1900DFFBCE /* TSJavelinAPIUser.m in Sources */,
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1A318CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
+				C586E6A0197390430047002B /* TSClusterOperation.m in Sources */,
 				C56B3D6118FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
@@ -11144,6 +11206,7 @@
 				C5AFBB91191F96B500EC62A5 /* TSRelationshipViewController.m in Sources */,
 				C5AFBB79191EE09900EC62A5 /* TSLocalNotification.m in Sources */,
 				C5AFB98D191D35DE00EC62A5 /* TSAskOrganizationViewController.m in Sources */,
+				C586E69B197335B10047002B /* CLLocation+Utilities.m in Sources */,
 				C5AFB98E191D35DE00EC62A5 /* TSSocialAuthorizationViewController.m in Sources */,
 				C5AFBB8B191F95E700EC62A5 /* TSEthnicityViewController.m in Sources */,
 				C5AFB98F191D35DE00EC62A5 /* TSRoutePickerViewController.m in Sources */,
@@ -11204,6 +11267,7 @@
 				C5AFB9BE191D35DE00EC62A5 /* TSJavelinAPIUser.m in Sources */,
 				C5AFB9BF191D35DE00EC62A5 /* TSBaseMapAnnotation.m in Sources */,
 				C5AFB9C0191D35DE00EC62A5 /* OAuth+Additions.m in Sources */,
+				C586E6A1197390430047002B /* TSClusterOperation.m in Sources */,
 				C5AFB9C1191D35DE00EC62A5 /* TSEmergencyContactViewController.m in Sources */,
 				C5AFB9C2191D35DE00EC62A5 /* TSAboutViewController.m in Sources */,
 				C5AFB9C3191D35DE00EC62A5 /* TSGeofence.m in Sources */,

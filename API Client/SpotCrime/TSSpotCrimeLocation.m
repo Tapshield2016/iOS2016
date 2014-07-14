@@ -40,7 +40,14 @@ static NSString * const BlueImageSuffix = @"_blue";
     type = [type stringByReplacingOccurrencesOfString:@" " withString:@""];
     type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];
     NSString *imageName = [NSString stringWithFormat:@"%@%@%@", PinImagePrefix, [type lowercaseString], RedImageSuffix];
+    
     UIImage *image = [UIImage imageNamed:imageName];
+    
+    
+    if (!image) {
+        imageName = [NSString stringWithFormat:@"%@%@%@", PinImagePrefix, @"other", RedImageSuffix];
+        image = [UIImage imageNamed:imageName];
+    }
     
     return image;
 }
@@ -51,6 +58,11 @@ static NSString * const BlueImageSuffix = @"_blue";
     type = [type stringByReplacingOccurrencesOfString:@"/" withString:@""];
     NSString *imageName = [NSString stringWithFormat:@"%@%@%@", PinImagePrefix, [type lowercaseString], BlueImageSuffix];
     UIImage *image = [UIImage imageNamed:imageName];
+    
+    if (!image) {
+        imageName = [NSString stringWithFormat:@"%@%@%@", PinImagePrefix, @"other", BlueImageSuffix];
+        image = [UIImage imageNamed:imageName];
+    }
     
     return image;
 }

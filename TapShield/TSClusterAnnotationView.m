@@ -36,11 +36,11 @@
     [super setAnnotation:annotation];
     
     ((ADClusterAnnotation *)annotation).annotationView = self;
- 
+    
+    [self refreshView];
 }
 
 - (void)refreshView {
-    
     
     ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)self.annotation;
     
@@ -59,13 +59,16 @@
 //    else if([clusterAnnotation.groupTag isEqualToString:kTYPESocialReport]){
 //        self.layer.borderColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.7].CGColor;
 //    }
-    CATransition *animation = [CATransition animation];
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    animation.type = kCATransitionFade;
-    animation.duration = 0.5;
-    [self.label.layer addAnimation:animation forKey:@"kCATransitionFade"];
     
-    self.label.text = [NSString stringWithFormat:@"%i", clusterAnnotation.originalAnnotations.count];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+        CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionFade;
+        animation.duration = 0.5;
+        [self.label.layer addAnimation:animation forKey:@"kCATransitionFade"];
+        
+        self.label.text = [NSString stringWithFormat:@"%i", count];
+//    });
     
 //    clusterAnnotation.title = clusterAnnotation.groupTag;
 }

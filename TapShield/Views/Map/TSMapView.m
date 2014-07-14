@@ -78,21 +78,21 @@
         newAlpha = 0.0f;
     }
     
-    TSAgencyAnnotation *annotation;
-    if ([[self.annotations lastObject] isKindOfClass:[TSAgencyAnnotation class]]) {
-        annotation = [self.annotations lastObject];
-    }
-    else {
-        annotation = [self.annotations firstObject];
-    }
+//    TSAgencyAnnotation *annotation;
+//    if ([[self.annotations lastObject] isKindOfClass:[TSAgencyAnnotation class]]) {
+//        annotation = [self.annotations lastObject];
+//    }
+//    else {
+//        annotation = [self.annotations firstObject];
+//    }
     
-    if ([self viewForAnnotation:annotation].alpha != newAlpha) {
-        for (TSAgencyAnnotation *agency in self.annotations) {
-            if ([agency isKindOfClass:[TSAgencyAnnotation class]]) {
-                [self viewForAnnotation:agency].alpha = newAlpha;
-            }
-        }
-    }
+//    if ([self viewForAnnotation:annotation].alpha != newAlpha) {
+//        for (TSAgencyAnnotation *agency in self.annotations) {
+//            if ([agency isKindOfClass:[TSAgencyAnnotation class]]) {
+//                [self viewForAnnotation:agency].alpha = newAlpha;
+//            }
+//        }
+//    }
 }
 
 

@@ -769,8 +769,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         [_reportManager getReportsForMapCenter:centerLocation];
     }
     
-    [self flipIntersectingRouteAnnotation];
-//    [_mapView doClustering];
+//    [self flipIntersectingRouteAnnotation];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {

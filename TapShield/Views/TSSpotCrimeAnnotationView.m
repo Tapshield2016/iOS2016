@@ -73,12 +73,14 @@
     if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
         TSSpotCrimeAnnotation *crimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
         
-        if (crimeAnnotation.socialReport) {
-            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
-        }
-        else {
-            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
-        }
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            if (crimeAnnotation.socialReport) {
+                self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
+            }
+            else {
+                self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
+            }
+//        });
     }
 }
 

@@ -10,6 +10,7 @@
 #import "NSDate+Utilities.h"
 #import "TSLocationController.h"
 #import "TSHeatMapOverlay.h"
+#import "CLLocation+Utilities.h"
 
 #define kSocialRadius 2
 #define kSpotCrimeRadius .1
@@ -429,6 +430,19 @@
             annotation.title = annotation.type;
             [self addNewSpotCrimes:@[annotation]];
         }];
+    }
+}
+
+
+- (void)cleanCoordinatesOld:(NSArray *)oldArray new:(NSArray *)newArray {
+    
+    float shift = 0.005f;
+    for (TSSpotCrimeAnnotation *annotation in newArray) {
+        for (TSSpotCrimeAnnotation *oldAnnotation  in [oldArray copy]) {
+            if (CLLocationCoordinate2DIsApproxEqual(annotation.coordinate, oldAnnotation.coordinate, shift)) {
+                
+            }
+        }
     }
 }
 

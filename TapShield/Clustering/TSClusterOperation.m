@@ -24,12 +24,13 @@
 
 @implementation TSClusterOperation
 
-- (instancetype)initWithMapView:(ADClusterMapView *)mapView rootCluster:(ADMapCluster *)rootCluster
+- (instancetype)initWithMapView:(ADClusterMapView *)mapView rootCluster:(ADMapCluster *)rootCluster completion:(ClusterOperationCompletionBlock)completion
 {
     self = [super init];
     if (self) {
         self.mapView = mapView;
         self.rootMapCluster = rootCluster;
+        self.finishedBlock = completion;
     }
     return self;
 }
@@ -38,8 +39,12 @@
     // a lengthy operation
     @autoreleasepool {
         
-        
+        [self _clusterInMapRect];
     }
+}
+
+int nearestEvenInt(int to) {
+    return (to % 2 == 0) ? to : (to + 1);
 }
 
 - (void)_clusterInMapRect {
@@ -53,33 +58,36 @@
     
     if (_mapView.region.span.longitudeDelta > .005) {
         //create grid to estimate number of clusters needed based on the spread of annotations across map rect
-        NSArray *mapRects = [self mapRectsFromNumberOfClustersAcross:5*3 mapRect:rect];
+        NSSet *mapRects = [self mapRectsFromNumberOfClustersAcross:5*3 mapRect:rect];
         
         //number of map rects that contain at least one annotation
         numberOnScreen = [_rootMapCluster numberOfMapRectsContainingChildren:mapRects];
-        numberOnScreen = numberOnScreen * [self _numberOfClusters]/mapRects.count;
+        numberOnScreen = numberOnScreen * _mapView.numberOfClusters/mapRects.count;
+        numberOnScreen = nearestEvenInt(numberOnScreen);
         
         if (_mapView.region.span.longitudeDelta < .1) {
             //if we are at a small enough span lets take into account and not over cluster
-            if (numberOnScreen < [self _numberOfClusters]/9) {
-                numberOnScreen = [self _numberOfClusters]/9;
+            if (numberOnScreen < _mapView.numberOfClusters/9) {
+                numberOnScreen = _mapView.numberOfClusters/9;
             }
         }
     }
     else {
         //Really close lets just show as many single annotations as we can
-        numberOnScreen = [self _numberOfClusters];
+        numberOnScreen = _mapView.numberOfClusters;
+    }
+    if (self.isCancelled) {
+        return;
     }
     
-    
-    NSArray * clustersToShowOnMap = [_rootMapCluster find:numberOnScreen childrenInMapRect:rect];//[_rootMapCluster find:[self _numberOfClusters] childrenInMapRect:rect];
+    NSSet *clustersToShowOnMap = [_rootMapCluster find:numberOnScreen childrenInMapRect:rect];//[_rootMapCluster find:[self _numberOfClusters] childrenInMapRect:rect];
     
     // Build an array with available annotations (eg. not moving or not staying at the same place on the map)
-    NSMutableArray * availableSingleAnnotations = [[NSMutableArray alloc] init];
-    NSMutableArray * availableClusterAnnotations = [[NSMutableArray alloc] init];
-    NSMutableArray * selfDividingSingleAnnotations = [[NSMutableArray alloc] init];
-    NSMutableArray * selfDividingClusterAnnotations = [[NSMutableArray alloc] init];
-    for (ADClusterAnnotation * annotation in _mapView.) {
+    NSMutableSet * availableSingleAnnotations = [[NSMutableSet alloc] init];
+    NSMutableSet * availableClusterAnnotations = [[NSMutableSet alloc] init];
+    NSMutableSet * selfDividingSingleAnnotations = [[NSMutableSet alloc] init];
+    NSMutableSet * selfDividingClusterAnnotations = [[NSMutableSet alloc] init];
+    for (ADClusterAnnotation * annotation in _mapView.clusterAnnotations) {
         BOOL isAncestor = NO;
         if (annotation.cluster) { // if there is a cluster associated to the current annotation
             for (ADMapCluster * cluster in clustersToShowOnMap) { // is the current annotation cluster an ancestor of one of the clustersToShowOnMap?
@@ -105,8 +113,18 @@
         }
     }
     
+    if (self.isCancelled) {
+        return;
+    }
+    
+    static NSString *coordinatesKey = @"coordinates";
+    static NSString *annotationKey = @"annotation";
+    static NSString *clusterKey = @"cluster";
+    NSMutableArray *nonAnimated = [[NSMutableArray alloc] init];
+    NSMutableArray *afterAnimated = [[NSMutableArray alloc] init];
+    
     // Let ancestor annotations divide themselves
-    for (ADClusterAnnotation * annotation in [selfDividingSingleAnnotations arrayByAddingObjectsFromArray:selfDividingClusterAnnotations]) {
+    for (ADClusterAnnotation * annotation in [selfDividingSingleAnnotations setByAddingObjectsFromSet:selfDividingClusterAnnotations]) {
         BOOL willNeedAnAvailableAnnotation = NO;
         CLLocationCoordinate2D originalAnnotationCoordinate = annotation.coordinate;
         ADMapCluster * originalAnnotationCluster = annotation.cluster;
@@ -117,41 +135,47 @@
                     annotation.cluster = cluster;
                     if (cluster.annotation) { // replace this annotation by a leaf one
                         NSAssert(annotation.type != ADClusterAnnotationTypeLeaf, @"Inconsistent annotation type!");
-                        ADClusterAnnotation * singleAnnotation = [availableSingleAnnotations lastObject];
-                        [availableSingleAnnotations removeLastObject];
+                        ADClusterAnnotation * singleAnnotation = [availableSingleAnnotations anyObject];
+                        [availableSingleAnnotations removeObject:singleAnnotation];
                         singleAnnotation.cluster = annotation.cluster;
-                        singleAnnotation.coordinate = originalAnnotationCoordinate;
+                        [nonAnimated addObject:@{annotationKey: singleAnnotation, coordinatesKey: [NSValue valueWithMKCoordinate:originalAnnotationCoordinate]}];
+                        
                         [availableClusterAnnotations addObject:annotation];
                     }
                 } else {
                     ADClusterAnnotation * availableAnnotation = nil;
                     if (cluster.annotation) {
-                        availableAnnotation = [availableSingleAnnotations lastObject];
-                        [availableSingleAnnotations removeLastObject];
+                        availableAnnotation = [availableSingleAnnotations anyObject];
+                        [availableSingleAnnotations removeObject:availableAnnotation];
                     } else {
-                        availableAnnotation = [availableClusterAnnotations lastObject];
-                        [availableClusterAnnotations removeLastObject];
+                        availableAnnotation = [availableClusterAnnotations anyObject];
+                        [availableClusterAnnotations removeObject:availableAnnotation];
                     }
                     availableAnnotation.cluster = cluster;
-                    availableAnnotation.coordinate = originalAnnotationCoordinate;
+                    [nonAnimated addObject:@{annotationKey: availableAnnotation, coordinatesKey: [NSValue valueWithMKCoordinate:originalAnnotationCoordinate]}];
                 }
             }
         }
     }
     
+    if (self.isCancelled) {
+        return;
+    }
+    
     // Converge annotations to ancestor clusters
     for (ADMapCluster * cluster in clustersToShowOnMap) {
         BOOL didAlreadyFindAChild = NO;
-        for (__strong ADClusterAnnotation * annotation in _clusterAnnotations) {
+        for (__strong ADClusterAnnotation * annotation in _mapView.clusterAnnotations) {
             if (![annotation isKindOfClass:[MKUserLocation class]]) {
                 if (annotation.cluster && ![annotation isKindOfClass:[MKUserLocation class]]) {
                     if ([cluster isAncestorOf:annotation.cluster]) {
                         if (annotation.type == ADClusterAnnotationTypeLeaf) { // replace this annotation by a cluster one
-                            ADClusterAnnotation * clusterAnnotation = [availableClusterAnnotations lastObject];
-                            [availableClusterAnnotations removeLastObject];
+                            ADClusterAnnotation * clusterAnnotation = [availableClusterAnnotations anyObject];
+                            [availableClusterAnnotations removeObject:clusterAnnotation];
                             clusterAnnotation.cluster = cluster;
                             // Setting the coordinate makes us call viewForAnnotation: right away, so make sure the cluster is set
-                            clusterAnnotation.coordinate = annotation.coordinate;
+
+                            [nonAnimated addObject:@{annotationKey: clusterAnnotation, coordinatesKey: [NSValue valueWithMKCoordinate:annotation.coordinate]}];
                             [availableSingleAnnotations addObject:annotation];
                             annotation = clusterAnnotation;
                         } else {
@@ -161,7 +185,7 @@
                             annotation.shouldBeRemovedAfterAnimation = YES;
                         }
                         if (ADClusterCoordinate2DIsOffscreen(annotation.coordinate)) {
-                            annotation.coordinate = annotation.cluster.clusterCoordinate;
+                            [nonAnimated addObject:@{annotationKey: annotation, coordinatesKey: [NSValue valueWithMKCoordinate:annotation.cluster.clusterCoordinate]}];
                         }
                         didAlreadyFindAChild = YES;
                     }
@@ -169,44 +193,37 @@
             }
         }
     }
+    if (self.isCancelled) {
+        return;
+    }
     for (ADClusterAnnotation * annotation in availableSingleAnnotations) {
         NSAssert(annotation.type == ADClusterAnnotationTypeLeaf, @"Inconsistent annotation type!");
         if (annotation.cluster) { // This is here for performance reason (annotation reset causes the refresh of the annotation because of KVO)
-            [annotation reset];
+            [nonAnimated addObject:@{annotationKey: annotation}];
         }
+    }
+    if (self.isCancelled) {
+        return;
     }
     for (ADClusterAnnotation * annotation in availableClusterAnnotations) {
         NSAssert(annotation.type == ADClusterAnnotationTypeCluster, @"Inconsistent annotation type!");
         if (annotation.cluster) {
-            [annotation reset];
+            [nonAnimated addObject:@{annotationKey: annotation}];
         }
     }
-    
-    for (ADClusterAnnotation * annotation in _clusterAnnotations) {
-        if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
-            [annotation.annotationView refreshView];
-        }
+    if (self.isCancelled) {
+        return;
     }
     
-    [ADClusterMapView mutateCoordinatesOfClashingAnnotations:_clusterAnnotations];
-    
-    NSLog(@"Animating");
-    [UIView beginAnimations:@"ADClusterMapViewAnimation" context:NULL];
-    [UIView setAnimationBeginsFromCurrentState:NO];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.5f];
-    for (ADClusterAnnotation * annotation in _clusterAnnotations) {
-        if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
-            NSAssert(!ADClusterCoordinate2DIsOffscreen(annotation.coordinate), @"annotation.coordinate not valid! Can't animate from an invalid coordinate (inconsistent result)!");
-            annotation.coordinate = annotation.cluster.clusterCoordinate;
-        }
+    [TSClusterOperation mutateCoordinatesOfClashingAnnotations:_mapView.clusterAnnotations];
+    if (self.isCancelled) {
+        return;
     }
-    [UIView commitAnimations];
     
     // Add not-yet-annotated clusters
     for (ADMapCluster * cluster in clustersToShowOnMap) {
         BOOL isAlreadyAnnotated = NO;
-        for (ADClusterAnnotation * annotation in _clusterAnnotations) {
+        for (ADClusterAnnotation * annotation in _mapView.clusterAnnotations) {
             if (![annotation isKindOfClass:[MKUserLocation class]]) {
                 if ([cluster isEqual:annotation.cluster]) {
                     isAlreadyAnnotated = YES;
@@ -216,41 +233,102 @@
         }
         if (!isAlreadyAnnotated) {
             if (cluster.annotation) {
-                ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)
-                ((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).coordinate = cluster.clusterCoordinate;
-                [((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).annotationView refreshView];
-                [availableSingleAnnotations removeLastObject]; // update the availableAnnotations
+                    ADClusterAnnotation * annotation = [availableSingleAnnotations anyObject];
+                    [availableSingleAnnotations removeObject:annotation]; // update the availableAnnotations
+                [afterAnimated addObject:@{annotationKey: annotation,
+                                           clusterKey: cluster,
+                                           coordinatesKey: [NSValue valueWithMKCoordinate:cluster.clusterCoordinate]}];
             } else {
-                ((ADClusterAnnotation *)[availableClusterAnnotations lastObject]).cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)
-                ((ADClusterAnnotation *)[availableClusterAnnotations lastObject]).coordinate = cluster.clusterCoordinate;
-                [((ADClusterAnnotation *)[availableSingleAnnotations lastObject]).annotationView refreshView];
-                [availableClusterAnnotations removeLastObject]; // update the availableAnnotations
+                    ADClusterAnnotation * annotation = [availableClusterAnnotations anyObject];
+//                    annotation.cluster = cluster; // the order here is important: because of KVO, the cluster property must be set before the coordinate property (change of coordinate -> refresh of the view -> refresh of the title -> the cluster can't be nil)
+                    [availableClusterAnnotations removeObject:annotation]; // update the availableAnnotations
+                
+                [afterAnimated addObject:@{annotationKey: annotation,
+                                           clusterKey: cluster,
+                                           coordinatesKey: [NSValue valueWithMKCoordinate:cluster.clusterCoordinate]}];
             }
         }
     }
-    for (ADClusterAnnotation * annotation in availableSingleAnnotations) {
-        NSAssert(annotation.type == ADClusterAnnotationTypeLeaf, @"Inconsistent annotation type!");
-        [annotation reset];
+    
+    if (self.isCancelled) {
+        return;
     }
-    for (ADClusterAnnotation * annotation in availableClusterAnnotations) {
-        NSAssert(annotation.type == ADClusterAnnotationTypeCluster, @"Inconsistent annotation type!");
-        [annotation reset];
+    
+        for (ADClusterAnnotation * annotation in availableSingleAnnotations) {
+            NSAssert(annotation.type == ADClusterAnnotationTypeLeaf, @"Inconsistent annotation type!");
+            [afterAnimated addObject:@{annotationKey: annotation}];
+        }
+    
+    if (self.isCancelled) {
+        return;
+    }
+        for (ADClusterAnnotation * annotation in availableClusterAnnotations) {
+            NSAssert(annotation.type == ADClusterAnnotationTypeCluster, @"Inconsistent annotation type!");
+//            [annotation reset];
+            [afterAnimated addObject:@{annotationKey: annotation}];
+        }
+//    });
+    
+    if (self.isCancelled) {
+        return;
     }
     
     NSLog(@"Finished Clustering");
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"Animating");
+        
+        if (self.isCancelled) {
+            NSLog(@"Animation cancelled");
+            return;
+        }
+        
+        for (NSDictionary *dic in nonAnimated) {
+            ADClusterAnnotation * annotation = [dic objectForKey:annotationKey];
+            if ([dic objectForKey:coordinatesKey]) {
+                annotation.coordinate = [[dic objectForKey:coordinatesKey] MKCoordinateValue];
+            }
+            else {
+                [annotation reset];
+            }
+        }
+        
+        [UIView beginAnimations:@"ADClusterMapViewAnimation" context:NULL];
+        [UIView setAnimationBeginsFromCurrentState:NO];
+        [UIView setAnimationDelegate:_mapView];
+        [UIView setAnimationDuration:0.2f];
+        for (ADClusterAnnotation * annotation in _mapView.clusterAnnotations) {
+            if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
+                NSAssert(!ADClusterCoordinate2DIsOffscreen(annotation.coordinate), @"annotation.coordinate not valid! Can't animate from an invalid coordinate (inconsistent result)!");
+                annotation.coordinate = annotation.cluster.clusterCoordinate;
+            }
+        }
+        [UIView commitAnimations];
+        
+        NSLog(@"afterAnimated");
+        for (NSDictionary *dic in afterAnimated) {
+            ADClusterAnnotation * annotation = [dic objectForKey:annotationKey];
+            if ([dic objectForKey:coordinatesKey]) {
+                annotation.cluster = [dic objectForKey:clusterKey];
+                annotation.coordinate = [[dic objectForKey:coordinatesKey] MKCoordinateValue];
+            }
+            else {
+                [annotation reset];
+            }
+        }
+        
+        NSLog(@"RefreshingViews");
+        for (ADClusterAnnotation * annotation in _mapView.clusterAnnotations) {
+            if (![annotation isKindOfClass:[MKUserLocation class]] && annotation.cluster) {
+                [annotation.annotationView refreshView];
+            }
+        }
+        
+        NSLog(@"Finished mainqueue");
+    });
 }
 
-- (NSInteger)_numberOfClusters {
-    NSInteger numberOfClusters = 32; // default value
-    if ([_secondaryDelegate respondsToSelector:@selector(numberOfClustersInMapView:)]) {
-        numberOfClusters = [_secondaryDelegate numberOfClustersInMapView:self];
-    }
-    //multiply by 9 for the visible rect plus 8 directions of possible screen travel (up, down, up-left, down-left, etc.)
-    return numberOfClusters * 9;
-}
-
-
-- (BOOL)_annotation:(ADClusterAnnotation *)annotation belongsToClusters:(NSArray *)clusters {
+- (BOOL)_annotation:(ADClusterAnnotation *)annotation belongsToClusters:(NSSet *)clusters {
     if (annotation.cluster) {
         for (ADMapCluster * cluster in clusters) {
             if ([cluster isAncestorOf:annotation.cluster] || [cluster isEqual:annotation.cluster]) {
@@ -263,7 +341,7 @@
 
 #pragma mark - Spread close annotations
 
-+ (void)mutateCoordinatesOfClashingAnnotations:(NSArray *)annotations {
++ (void)mutateCoordinatesOfClashingAnnotations:(NSSet *)annotations {
     
     NSDictionary *coordinateValuesToAnnotations = [self groupAnnotationsByLocationValue:annotations];
     
@@ -272,12 +350,13 @@
         if (outletsAtLocation.count > 1) {
             CLLocationCoordinate2D coordinate;
             [coordinateValue getValue:&coordinate];
-            [self repositionAnnotations:outletsAtLocation toAvoidClashAtCoordination:coordinate];
+            [self repositionAnnotations:[[NSMutableSet alloc] initWithArray:outletsAtLocation]
+             toAvoidClashAtCoordination:coordinate];
         }
     }
 }
 
-+ (NSDictionary *)groupAnnotationsByLocationValue:(NSArray *)annotations {
++ (NSDictionary *)groupAnnotationsByLocationValue:(NSSet *)annotations {
     
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     
@@ -301,18 +380,20 @@
     return result;
 }
 
-+ (void)repositionAnnotations:(NSMutableArray *)annotations toAvoidClashAtCoordination:(CLLocationCoordinate2D)coordinate {
++ (void)repositionAnnotations:(NSMutableSet *)annotations toAvoidClashAtCoordination:(CLLocationCoordinate2D)coordinate {
     
     double distance = 3 * annotations.count / 2.0;
     double radiansBetweenAnnotations = (M_PI * 2) / annotations.count;
     
-    for (int i = 0; i < annotations.count; i++) {
+    int i = 0;
+    for (ADClusterAnnotation *annotation in annotations) {
         
         double heading = radiansBetweenAnnotations * i;
         CLLocationCoordinate2D newCoordinate = [self calculateCoordinateFrom:coordinate onBearing:heading atDistance:distance];
         
-        ADClusterAnnotation *annotation = annotations[i];
         annotation.cluster.clusterCoordinate = newCoordinate;
+        
+        i++;
     }
 }
 
@@ -332,10 +413,10 @@
     return result;
 }
 
-- (NSArray *)mapRectsFromNumberOfClustersAcross:(int)amount mapRect:(MKMapRect)rect {
+- (NSSet *)mapRectsFromNumberOfClustersAcross:(int)amount mapRect:(MKMapRect)rect {
     
     if (amount == 0) {
-        return @[[NSDictionary dictionaryFromMapRect:rect]];
+        return [NSSet setWithObject:[NSDictionary dictionaryFromMapRect:rect]];
     }
     
     double x = rect.origin.x;
@@ -350,26 +431,26 @@
     double clusterHeight = height/verticalClusters;
     
     //build array of MKMapRects
-    NSMutableArray* array = [[NSMutableArray alloc] initWithCapacity:10];
+    NSMutableSet* set = [[NSMutableSet alloc] initWithCapacity:10];
     for (int i=0; i<horizontalClusters; i++) {
         double newX = x + clusterWidth*(i);
         for (int j=0; j<verticalClusters; j++) {
             double newY = y + clusterHeight*(j);
             MKMapRect newRect = MKMapRectMake(newX, newY, clusterWidth, clusterHeight);
-            [array addObject:[NSDictionary dictionaryFromMapRect:newRect]];
-        }
+            [set addObject:[NSDictionary dictionaryFromMapRect:newRect]];
+        } 
     }
     
-    return array;
+    return set;
 }
 
 - (MKMapRect)visibleMapRectWithBuffer {
     
-    double width = self.visibleMapRect.size.width;
-    double height = self.visibleMapRect.size.height;
-    MKMapRect mapRect = self.visibleMapRect;
-    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(self.visibleMapRect, -width, -height));
-    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(self.visibleMapRect, width, height));
+    double width = _mapView.visibleMapRect.size.width;
+    double height = _mapView.visibleMapRect.size.height;
+    MKMapRect mapRect = _mapView.visibleMapRect;
+    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(_mapView.visibleMapRect, -width/2, -height/2));
+    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(_mapView.visibleMapRect, width/2, height/2));
     
     return mapRect;
 }

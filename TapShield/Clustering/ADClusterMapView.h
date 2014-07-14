@@ -14,7 +14,7 @@
 @class ADClusterMapView;
 @protocol ADClusterMapViewDelegate <MKMapViewDelegate>
 @optional
-- (NSInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView; // default: 32
+- (NSUInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView; // default: 32
 - (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id <MKAnnotation>)annotation; // default: same as returned by mapView:viewForAnnotation:
 - (BOOL)shouldShowSubtitleForClusterAnnotationsInMapView:(ADClusterMapView *)mapView; // default: YES
 - (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView; // This parameter emphasize the discrimination of annotations which are far away from the center of mass. default: 1.0 (no discrimination applied)
@@ -25,11 +25,12 @@
 
 @interface ADClusterMapView : MKMapView <MKMapViewDelegate>
 
-@property (nonatomic, strong) NSArray *clusterAnnotations;
+@property (nonatomic, strong) NSSet *clusterAnnotations;
+- (NSUInteger)numberOfClusters;
 
 - (ADClusterAnnotation *)clusterAnnotationForOriginalAnnotation:(id<MKAnnotation>)annotation; // returns the ADClusterAnnotation instance containing the annotation originally added.
 - (void)selectClusterAnnotation:(ADClusterAnnotation *)annotation animated:(BOOL)animated;
-- (void)setAnnotations:(NSArray *)annotations; // entry point for the annotations that you want to cluster
+//- (void)setAnnotations:(NSSet *)annotations; // entry point for the annotations that you want to cluster
 
 - (void)addClusteredAnnotation:(id<MKAnnotation>)annotation;
 - (void)addClusteredAnnotations:(NSArray *)annotations;

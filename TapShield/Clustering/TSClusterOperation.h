@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ADClusterMapView.h"
+
+typedef void(^ClusterOperationCompletionBlock)(ADClusterMapView *mapView);
 
 @interface TSClusterOperation : NSOperation
+
+@property (nonatomic, copy) ClusterOperationCompletionBlock finishedBlock;
+
+- (instancetype)initWithMapView:(ADClusterMapView *)mapView rootCluster:(ADMapCluster *)rootCluster completion:(ClusterOperationCompletionBlock)completion;
 
 @end

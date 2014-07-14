@@ -23,6 +23,7 @@
 @property (assign, nonatomic) NSUInteger maxSocialHours;
 @property (assign, nonatomic) NSUInteger maxSpotCrimeHours;
 @property (assign, nonatomic) BOOL shouldAddHeatMap;
+@property (strong, nonatomic) NSOperationQueue *operationQueue;
 
 @end
 
@@ -36,6 +37,9 @@
         _shouldAddAnnotations = YES;
         _maxSocialHours = MAX_HOURS;
         _maxSpotCrimeHours = MAX_HOURS;
+        self.operationQueue = [[NSOperationQueue alloc] init];
+        [self.operationQueue setMaxConcurrentOperationCount:1];
+        [self.operationQueue setSuspended:NO];
     }
     return self;
 }
@@ -108,11 +112,15 @@
     
     [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithHoursBeforeNow:_maxSpotCrimeHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
         
-        [self addSpotCrimes:crimes];
+        [_operationQueue addOperationWithBlock:^{
+            [self addSpotCrimes:crimes];
+        }];
         
         if (crimes.count < 10) {
             [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithDaysBeforeNow:7] maxReturned:50 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
-                [self addSpotCrimes:crimes];
+                [_operationQueue addOperationWithBlock:^{
+                    [self addSpotCrimes:crimes];
+                }];
             }];
         }
     }];
@@ -131,7 +139,9 @@
     }
     
     [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:distanceInMiles since:[NSDate dateWithHoursBeforeNow:_maxSocialHours] completion:^(NSArray *reports) {
-        [self addSocialReports:reports];
+        [_operationQueue addOperationWithBlock:^{
+            [self addSocialReports:reports];
+        }];
     }];
 }
 
@@ -146,6 +156,8 @@
     if (!_spotCrimes) {
         _spotCrimes = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     }
+    
+    NSLog(@"adding spotcrimes");
     
     spotCrimes = [self createSpotCrimeAnnotations:spotCrimes];
     spotCrimes = [self filterOutOther:spotCrimes];
@@ -352,8 +364,10 @@
         return;
     }
     
-    [_mapView addClusteredAnnotations:annotations];
-    [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_mapView addClusteredAnnotations:annotations];
+        [_mapView.userLocationAnnotationView.superview bringSubviewToFront:_mapView.userLocationAnnotationView];
+    });
 }
 
 - (void)hideSpotCrimes {
@@ -424,11 +438,13 @@
     
     for (TSSpotCrimeAnnotation *annotation in array) {
         [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeDescription:annotation.spotCrime completion:^(TSSpotCrimeLocation *location) {
-            annotation.spotCrime = location;
-            [annotation.spotCrime setTypeFromDescription];
-            annotation.type = annotation.spotCrime.type;
-            annotation.title = annotation.type;
-            [self addNewSpotCrimes:@[annotation]];
+            [_operationQueue addOperationWithBlock:^{
+                annotation.spotCrime = location;
+                [annotation.spotCrime setTypeFromDescription];
+                annotation.type = annotation.spotCrime.type;
+                annotation.title = annotation.type;
+                [self addNewSpotCrimes:@[annotation]];
+            }];
         }];
     }
 }

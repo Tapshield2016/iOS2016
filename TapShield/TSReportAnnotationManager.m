@@ -291,10 +291,7 @@
     socialReports = [self createSocialAnnotations:socialReports];
     
     if (!_socialReports) {
-        _socialReports = [[NSMutableArray alloc] initWithArray:socialReports];
-        [self addAnnotations:_socialReports];
-        
-        return;
+        _socialReports = [[NSMutableArray alloc] initWithCapacity:socialReports.count];
     }
     
     //Remove old crimes keeping thos still relevant
@@ -322,6 +319,10 @@
             return YES;
         }
         
+        if (oldAnnotation.socialReport.isSpam) {
+            return YES;
+        }
+        
         return NO;
     }];
     
@@ -338,11 +339,19 @@
     NSIndexSet *addIndexSet = [socialReports indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *newAnnotation = (TSSpotCrimeAnnotation *)obj;
         
-        for (TSSpotCrimeAnnotation *oldAnnotation in [_socialReports copy]) {
+        for (TSSpotCrimeAnnotation *oldAnnotation in [NSSet setWithArray:_socialReports]) {
             if (oldAnnotation.socialReport.identifier == newAnnotation.socialReport.identifier) {
+                if (newAnnotation.socialReport.isSpam) {
+                    oldAnnotation.socialReport.isSpam = YES;
+                }
                 return NO;
             }
         }
+        
+        if (newAnnotation.socialReport.isSpam) {
+            return NO;
+        }
+        
         return YES;
     }];
     

@@ -448,8 +448,8 @@ int nearestEvenInt(int to) {
     double width = _mapView.visibleMapRect.size.width;
     double height = _mapView.visibleMapRect.size.height;
     MKMapRect mapRect = _mapView.visibleMapRect;
-    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(_mapView.visibleMapRect, -width/2, -height/2));
-    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(_mapView.visibleMapRect, width/2, height/2));
+    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(_mapView.visibleMapRect, -width, -height));
+    mapRect = MKMapRectUnion(mapRect, MKMapRectOffset(_mapView.visibleMapRect, width, height));
     
     return mapRect;
 }

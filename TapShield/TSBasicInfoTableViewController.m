@@ -134,6 +134,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [[self.view findFirstResponder] resignFirstResponder];
+    
     if (indexPath.row == tableView.visibleCells.count - 1) {
         TSGenderViewController *viewController = (TSGenderViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSGenderViewController class])];
         viewController.userProfile = self.userProfile;

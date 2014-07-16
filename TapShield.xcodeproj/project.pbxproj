@@ -164,6 +164,10 @@
 		C534ACF51975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
 		C534ACF61975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
 		C534ACF71975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
+		C534ACFA19761AEF001608C7 /* UITextField+Selection.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF919761AEF001608C7 /* UITextField+Selection.m */; };
+		C534ACFB19761AEF001608C7 /* UITextField+Selection.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF919761AEF001608C7 /* UITextField+Selection.m */; };
+		C534ACFC19761AEF001608C7 /* UITextField+Selection.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF919761AEF001608C7 /* UITextField+Selection.m */; };
+		C534ACFD19761AEF001608C7 /* UITextField+Selection.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF919761AEF001608C7 /* UITextField+Selection.m */; };
 		C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA318AEC99900D22682 /* TSLoginViewController.m */; };
@@ -4058,6 +4062,8 @@
 		C534ACED19759359001608C7 /* TSBoundariesOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBoundariesOverlay.m; sourceTree = "<group>"; };
 		C534ACF21975C54C001608C7 /* TSNoNetworkWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNoNetworkWindow.h; sourceTree = "<group>"; };
 		C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNoNetworkWindow.m; sourceTree = "<group>"; };
+		C534ACF819761AEF001608C7 /* UITextField+Selection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Selection.h"; sourceTree = "<group>"; };
+		C534ACF919761AEF001608C7 /* UITextField+Selection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Selection.m"; sourceTree = "<group>"; };
 		C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAgencyAnnotation.h; path = Views/Map/Annotations/TSAgencyAnnotation.h; sourceTree = "<group>"; };
 		C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAgencyAnnotation.m; path = Views/Map/Annotations/TSAgencyAnnotation.m; sourceTree = "<group>"; };
 		C5372DA218AEC99900D22682 /* TSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLoginViewController.h; path = "View Controllers/Login:Signup/TSLoginViewController.h"; sourceTree = "<group>"; };
@@ -5350,16 +5356,18 @@
 				C532E62A18BBF1E900FC111A /* TSColorPalette.m */,
 				C532E62B18BBF1E900FC111A /* TSConstants.h */,
 				C532E62C18BBF1E900FC111A /* TSConstants.m */,
+				C5AFBB75191EE09900EC62A5 /* TSLocalNotification.h */,
+				C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */,
 				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
 				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
 				B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */,
 				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
 				C532E62D18BBF1E900FC111A /* UIImage+Color.h */,
 				C532E62E18BBF1E900FC111A /* UIImage+Color.m */,
+				C534ACF819761AEF001608C7 /* UITextField+Selection.h */,
+				C534ACF919761AEF001608C7 /* UITextField+Selection.m */,
 				C532E62F18BBF1E900FC111A /* UIView+FirstResponder.h */,
 				C532E63018BBF1E900FC111A /* UIView+FirstResponder.m */,
-				C5AFBB75191EE09900EC62A5 /* TSLocalNotification.h */,
-				C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -10661,6 +10669,7 @@
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
 				C5D484F218E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
 				C5FB6DF9191774DD008E1185 /* TSGenderViewController.m in Sources */,
+				C534ACFA19761AEF001608C7 /* UITextField+Selection.m in Sources */,
 				C5BBF43118FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5662BC918DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C53A63381970533500C34BF0 /* ADClusterAnnotation.m in Sources */,
@@ -10823,6 +10832,7 @@
 				C520C8F718A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				C520C90F18A974C100D1D2E9 /* UIImage+Resize.m in Sources */,
 				B543F08118AAB3E9004C2B26 /* TSAboutViewController.m in Sources */,
+				C534ACFD19761AEF001608C7 /* UITextField+Selection.m in Sources */,
 				C5BBF42818F9CF6E008B5CB2 /* TSRoundImageView.m in Sources */,
 				C501CCA018F48E40005A0B98 /* TSLogoImageView.m in Sources */,
 				C585F2E718DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
@@ -11048,6 +11058,7 @@
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
 				C5D484F318E60A2C006EB287 /* TSSocialAccountsManager.m in Sources */,
 				C5FB6DFA191774DD008E1185 /* TSGenderViewController.m in Sources */,
+				C534ACFB19761AEF001608C7 /* UITextField+Selection.m in Sources */,
 				C5BBF43218FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C57C48D618BBDB1900DFFBCE /* TSJavelinAPIBaseModel.m in Sources */,
 				C53A63391970533500C34BF0 /* ADClusterAnnotation.m in Sources */,
@@ -11242,6 +11253,7 @@
 				C5AFB995191D35DE00EC62A5 /* TSRegisterViewController.m in Sources */,
 				C5AFB996191D35DE00EC62A5 /* TSSocialAccountsManager.m in Sources */,
 				C5AFB997191D35DE00EC62A5 /* TSGenderViewController.m in Sources */,
+				C534ACFC19761AEF001608C7 /* UITextField+Selection.m in Sources */,
 				C5AFB998191D35DE00EC62A5 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5AFB999191D35DE00EC62A5 /* TSJavelinAPIBaseModel.m in Sources */,
 				C53A633A1970533500C34BF0 /* ADClusterAnnotation.m in Sources */,

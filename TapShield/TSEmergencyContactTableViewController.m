@@ -129,6 +129,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [[self.view findFirstResponder] resignFirstResponder];
+    
     if (indexPath.row == tableView.visibleCells.count - 1) {
         TSRelationshipViewController *viewController = (TSRelationshipViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRelationshipViewController class])];
         viewController.userProfile = self.userProfile;

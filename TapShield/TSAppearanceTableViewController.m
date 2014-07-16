@@ -125,43 +125,75 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if (_heightTextField == textField) {
-        NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
+        NSString *alphaNumericText = [TSUtilities removeNonNumericalCharacters:textField.text];
         if ([string isEqualToString:@""]) {
-            if ([alphaNumericTextField length] == 1) {
+            if ([alphaNumericText length] == 1) {
                 textField.text = [TSUtilities removeNonNumericalCharacters:textField.text];
             }
-            else if ([textField.text length] > [alphaNumericTextField length] + 2) {
+            else if ([textField.text length] > [alphaNumericText length] + 2) {
                 textField.text = [textField.text substringToIndex:[textField.text length]-1];
             }
             return YES;
         }
-        if ([alphaNumericTextField length] == 0) {
+        
+        if ([alphaNumericText length] == 0) {
             textField.text = [NSString stringWithFormat:@"%@'-",string];
             return NO;
         }
         
-        if ([alphaNumericTextField length] == 1 && ![string isEqualToString:@"1"]) {
+        if ([alphaNumericText length] == 1 && ![string isEqualToString:@"1"]) {
             textField.text = [NSString stringWithFormat:@"%@%@\"",textField.text, string];
             return NO;
         }
-        else if ([alphaNumericTextField length] == 2 && [alphaNumericTextField characterAtIndex:1] - '0' == 1){
+        else if ([alphaNumericText length] == 2 && [alphaNumericText characterAtIndex:1] - '0' == 1){
             textField.text = [NSString stringWithFormat:@"%@%@\"",textField.text, string];
             return NO;
         }
-        NSUInteger newTextFieldTextLength = [alphaNumericTextField length] + [string length] - range.length;
+        NSUInteger newTextFieldTextLength = [alphaNumericText length] + [string length] - range.length;
         if (newTextFieldTextLength > 3) {
             return NO;
         }
-        if (newTextFieldTextLength > 2 && [alphaNumericTextField characterAtIndex:1] - '0' != 1) {
+        if (newTextFieldTextLength > 2 && [alphaNumericText characterAtIndex:1] - '0' != 1) {
             return NO;
         }
+    }
+    
+    if (_weightTextField == textField) {
+        
+        NSString *alphaNumericText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        alphaNumericText = [TSUtilities removeNonNumericalCharacters:alphaNumericText];
+        alphaNumericText = [alphaNumericText stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
+        if (alphaNumericText.length) {
+            textField.text = textField.text = [NSString stringWithFormat:@"%@ lbs", alphaNumericText];
+            [textField setSelectedRange:NSMakeRange(alphaNumericText.length, 0)];
+        }
+        else {
+            textField.text = @"";
+        }
+        
+        return NO;
     }
     
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    if (_weightTextField == textField) {
+        NSString *alphaNumericText = [TSUtilities removeNonNumericalCharacters:textField.text];
+        alphaNumericText = [alphaNumericText stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
+        if (alphaNumericText.length) {
+            [textField setSelectedRange:NSMakeRange(alphaNumericText.length, 0)];
+        }
+    }
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [[self.view findFirstResponder] resignFirstResponder];
     
     if (indexPath.row == tableView.visibleCells.count - 2) {
         TSHairColorViewController *viewController = (TSHairColorViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSHairColorViewController class])];

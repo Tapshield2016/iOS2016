@@ -30,8 +30,6 @@
 #import "TSHeatMapOverlay.h"
 #import "ADClusterAnnotation.h"
 
-static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
-
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
@@ -134,6 +132,13 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     }
 }
 
+- (void)didReceiveMemoryWarning {
+    
+    [super didReceiveMemoryWarning];
+    
+    [_reportManager removeOldSpotCrimes];
+}
+
 - (void)willMoveToParentViewController:(UIViewController *)parent {
     
     [super willMoveToParentViewController:parent];
@@ -141,13 +146,10 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     if (!parent) {
         [TSLocationController sharedLocationController].delegate = nil;
         [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView removeFromSuperview];
+        _mapView = nil;
     }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)checkLoggedInUser {
@@ -194,8 +196,8 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     
     if (!_mapView.userLocationAnnotation) {
         _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                      placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
-                                                                                    description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
+                                                                                      placeName:@"Searching for address..."
+                                                                                    description:nil];
         
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
         [_mapView updateAccuracyCircleWithLocation:location];
@@ -503,8 +505,8 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     
     if (!_mapView.userLocationAnnotation) {
         _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                       placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
-                                                                                     description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
+                                                                                       placeName:@"Searching for address..."
+                                                                                     description:nil];
         
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
         [_mapView updateAccuracyCircleWithLocation:location];
@@ -525,9 +527,7 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
         }
     }
     
-    if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 15 && _mapView.shouldUpdateCallOut) {
-        [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
-    }
+    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
     
     _mapView.previousLocation = location;
     
@@ -544,38 +544,51 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 
 - (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
     
-    _mapView.lastReverseGeocodeLocation = location;
+    BOOL search = NO;
     
-    [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks) {
-            CLPlacemark *placemark = [placemarks firstObject];
-            NSString *title = @"";
-            NSString *subtitle = @"";
-            if (placemark.subThoroughfare) {
-                title = placemark.subThoroughfare;
-            }
-            if (placemark.thoroughfare) {
-                title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
-            }
-            if (placemark.locality) {
-                subtitle = placemark.locality;
-            }
-            if (placemark.administrativeArea) {
-                if (placemark.locality) {
-                    subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
-                }
-                else {
-                    subtitle = placemark.administrativeArea;
-                }
-            }
-            if (placemark.postalCode) {
-                subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
-            }
-            
-            _mapView.userLocationAnnotation.title = title;
-            _mapView.userLocationAnnotation.subtitle = subtitle;
+    if (_mapView.shouldUpdateCallOut) {
+        if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 15 ||
+            !_mapView.lastReverseGeocodeLocation) {
+            search = YES;
         }
-    }];
+    }
+    
+    if (search) {
+        
+        _mapView.lastReverseGeocodeLocation = location;
+        
+        [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            if (placemarks) {
+                CLPlacemark *placemark = [placemarks firstObject];
+                NSString *title = @"";
+                NSString *subtitle = @"";
+                if (placemark.subThoroughfare) {
+                    title = placemark.subThoroughfare;
+                }
+                if (placemark.thoroughfare) {
+                    title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
+                }
+                if (placemark.locality) {
+                    subtitle = placemark.locality;
+                }
+                if (placemark.administrativeArea) {
+                    if (placemark.locality) {
+                        subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
+                    }
+                    else {
+                        subtitle = placemark.administrativeArea;
+                    }
+                }
+                if (placemark.postalCode) {
+                    subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
+                }
+                
+                _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
+            }
+        }];
+    }
+    
+    _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
 #pragma mark - MKMapViewDelegate methods
@@ -661,16 +674,13 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
     }
     else if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
         
-        NSString *reuseIdentifier = [NSString stringWithFormat:@"%@-%@", [(TSSpotCrimeAnnotation *)annotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[(TSSpotCrimeAnnotation *)annotation socialReport].reportType]];
+        NSString *reuseIdentifier = NSStringFromClass([TSSpotCrimeAnnotation class]);//[NSString stringWithFormat:@"%@-%@", [(TSSpotCrimeAnnotation *)annotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[(TSSpotCrimeAnnotation *)annotation socialReport].reportType]];
         
         annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
-        [annotationView setAnnotation:annotation];
         
         if (!annotationView) {
             annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
         }
-        
-        ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
     }
     else if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
         

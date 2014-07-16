@@ -15,10 +15,6 @@
 
 
 @implementation TSSpotCrimeAnnotationView
-// Observer with KVO controller instance variable
-{
-    FBKVOController *_KVOController;
-}
 
 - (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     
@@ -42,20 +38,10 @@
     
     if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
         ((ADClusterAnnotation *)annotation).annotationView = self;
-        if (((ADClusterAnnotation *)annotation).cluster) {
-            annotation = [((ADClusterAnnotation *)annotation).originalAnnotations firstObject];
-        }
     }
     
-    if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
-        TSSpotCrimeAnnotation *crimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
-        
-        if (crimeAnnotation.socialReport) {
-            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
-        }
-        else {
-            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
-        }
+    if (annotation) {
+        [self refreshView];
     }
 }
 
@@ -72,16 +58,15 @@
     
     if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
         TSSpotCrimeAnnotation *crimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
-        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-            if (crimeAnnotation.socialReport) {
-                self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
-            }
-            else {
-                self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
-            }
-//        });
+        if (crimeAnnotation.socialReport) {
+            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
+        }
+        else {
+            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
+        }
     }
+    
+    self.alpha = [self alphaForReportDate];
 }
 
 - (float)alphaForReportDate {

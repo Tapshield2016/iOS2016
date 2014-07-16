@@ -174,7 +174,7 @@
     [self addNewSpotCrimes:spotCrimes];
 }
 
-- (void)removeOldSpotCrimes:(NSArray *)spotCrimes {
+- (void)removeOldSpotCrimes {
     
     NSIndexSet *removeIndexSet = [[_spotCrimes copy] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         TSSpotCrimeAnnotation *oldAnnotation = (TSSpotCrimeAnnotation *)obj;

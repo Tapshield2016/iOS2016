@@ -60,6 +60,7 @@
     
     if (_birthdayTextField == textField) {
         NSString *alphaNumericTextField = [TSUtilities removeNonNumericalCharacters:textField.text];
+        
         if ([string isEqualToString:@""]) {
             if ([alphaNumericTextField length] == 3) {
                 textField.text = [TSUtilities removeNonNumericalCharacters:textField.text];
@@ -69,17 +70,75 @@
             }
             return YES;
         }
-        if ([alphaNumericTextField length] == 2) {
-            textField.text = [NSString stringWithFormat:@"%@-",textField.text];
-        }
         
-        if ([alphaNumericTextField length] == 4) {
-            textField.text = [NSString stringWithFormat:@"%@-",textField.text];
-        }
-        NSUInteger newTextFieldTextLength = [alphaNumericTextField length] + [string length] - range.length;
-        if (newTextFieldTextLength > 8) {
+        NSString *newAlphaNumericText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        newAlphaNumericText = [TSUtilities removeNonNumericalCharacters:newAlphaNumericText];
+        
+        if (newAlphaNumericText.length > 8) {
             return NO;
         }
+        NSString *subString;
+        
+        switch (newAlphaNumericText.length) {
+            case 1:
+                if (newAlphaNumericText.intValue > 1) {
+                    textField.text = [NSString stringWithFormat:@"0%@-", newAlphaNumericText];
+                }
+                else {
+                    return YES;
+                }
+                break;
+            case 2:
+                if (newAlphaNumericText.intValue > 12) {
+                    return NO;
+                }
+                textField.text = [NSString stringWithFormat:@"%@-", newAlphaNumericText];
+                break;
+            case 3:
+                if (string.intValue > 3) {
+                    textField.text = [NSString stringWithFormat:@"%@-0%@", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringFromIndex:2]];
+                }
+                else {
+                    textField.text = [NSString stringWithFormat:@"%@-%@", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringFromIndex:2]];
+                }
+                break;
+            case 4:
+                if ([newAlphaNumericText substringFromIndex:2].intValue > [NSDate daysInMonth:[newAlphaNumericText substringToIndex:2].integerValue]) {
+                    return NO;
+                }
+                textField.text = [NSString stringWithFormat:@"%@-%@-", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringFromIndex:2]];
+                break;
+            
+            case 5:
+                subString = [newAlphaNumericText substringFromIndex:4];
+                if (subString.intValue > 2) {
+                    textField.text = [NSString stringWithFormat:@"%@-%@-19%@", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringWithRange:NSMakeRange(2, 2)], subString];
+                }
+                else {
+                    if (subString.intValue == 2) {
+                        textField.text = [NSString stringWithFormat:@"%@-%@-20", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringWithRange:NSMakeRange(2, 2)]];
+                    }
+                    else if (subString.intValue == 1) {
+                        textField.text = [NSString stringWithFormat:@"%@-%@-19", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringWithRange:NSMakeRange(2, 2)]];
+                    }
+                    else if (subString.intValue == 0) {
+                        textField.text = [NSString stringWithFormat:@"%@-%@-200", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringWithRange:NSMakeRange(2, 2)]];
+                    }
+                }
+                break;
+                
+            default:
+                
+                if ([newAlphaNumericText substringFromIndex:4].intValue > [NSDate date].year) {
+                    return NO;
+                }
+                if (newAlphaNumericText.length > 4) {
+                    textField.text = [NSString stringWithFormat:@"%@-%@-%@", [newAlphaNumericText substringToIndex:2], [newAlphaNumericText substringWithRange:NSMakeRange(2, 2)], [newAlphaNumericText substringFromIndex:4]];
+                }
+                break;
+        }
+        
+        return NO;
     }
     
     return YES;

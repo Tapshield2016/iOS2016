@@ -462,6 +462,20 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
     return components.day;
 }
 
++ (NSInteger)daysInMonth:(NSInteger)month {
+    
+    NSCalendar *cal = [NSDate currentCalendar];
+    NSDateComponents* comps = [[NSDateComponents alloc] init];
+    
+    [comps setMonth:month];
+    [comps setYear:2008];
+    
+    NSRange range = [cal rangeOfUnit:NSDayCalendarUnit
+                              inUnit:NSMonthCalendarUnit
+                             forDate:[cal dateFromComponents:comps]];
+    return range.length;
+}
+
 #pragma mark - Decomposing Dates
 
 - (NSInteger) nearestHour

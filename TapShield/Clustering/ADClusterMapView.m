@@ -31,7 +31,6 @@
 @property (nonatomic, strong) id<MKAnnotation> previouslySelectedAnnotation;
 @property (nonatomic) BOOL shouldReselectAnnotation;
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
-@property (nonatomic, strong) TSClusterOperation *clusterOperation;
 
 @end
 
@@ -359,11 +358,12 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
     if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
-        if (((ADClusterAnnotation *)view.annotation).type == ADClusterAnnotationTypeLeaf && !_shouldReselectAnnotation) {
+        if (((ADClusterAnnotation *)view.annotation).type == ADClusterAnnotationTypeLeaf &&
+            !_shouldReselectAnnotation &&
+            ((ADClusterAnnotation *)view.annotation).cluster) {
             _previouslySelectedAnnotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
         }
     }
-    
     
     if ([_secondaryDelegate respondsToSelector:@selector(mapView:didSelectAnnotationView:)]) {
         [_secondaryDelegate mapView:mapView didSelectAnnotationView:view];

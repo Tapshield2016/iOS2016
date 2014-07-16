@@ -32,4 +32,6 @@
 
 - (void)hideSpotCrimes;
 
+- (void)removeOldSpotCrimes;
+
 @end

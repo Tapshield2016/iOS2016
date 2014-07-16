@@ -743,8 +743,6 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
-    [_mapView adjustAnnotationAlphaForPan];
-    
     [_mapView removeAnimatedOverlay];
 }
 
@@ -768,8 +766,6 @@ static CGFloat kDEFAULTCLUSTERSIZE = 0.25;
                                                                 longitude:[mapView centerCoordinate].longitude];
         [_reportManager getReportsForMapCenter:centerLocation];
     }
-    
-//    [self flipIntersectingRouteAnnotation];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {

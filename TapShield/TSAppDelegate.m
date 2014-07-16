@@ -24,6 +24,7 @@
 #import "GAIFields.h"
 #import "GAITracker.h"
 #import "GAIDictionaryBuilder.h"
+#import "TSNoNetworkWindow.h"
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -35,6 +36,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *windowBackground;
+@property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
 
 @end
 
@@ -307,10 +309,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         _isConnected = reachable;
         
         if (reachable) {
+            if (_noNetworkWindow) {
+                [_noNetworkWindow dismiss:^(BOOL finished) {
+                    _noNetworkWindow = nil;
+                    [self.window makeKeyAndVisible];
+                }];
+            }
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidFindConnection object:nil];
             NSLog(@"Connected");
         }
         else {
+            _noNetworkWindow = [[TSNoNetworkWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+            [_noNetworkWindow show];
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidLoseConnection object:nil];
             NSLog(@"No Connection");
         }

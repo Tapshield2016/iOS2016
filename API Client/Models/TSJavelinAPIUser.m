@@ -36,6 +36,8 @@
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
+    
+    _userProfile = [self unarchiveUserProfile];
         
     return self;
 }
@@ -206,5 +208,34 @@
     
     return mutableDictionary;
 }
+
+- (void)setUserProfile:(TSJavelinAPIUserProfile *)userProfile {
+    
+    _userProfile = userProfile;
+    
+    [self archiveUserProfile];
+}
+
+- (void)archiveUserProfile {
+    
+    if (_userProfile) {
+        NSString *string = [NSString stringWithFormat:@"%@-profile", _username];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_userProfile];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:string];
+    }
+}
+
+- (TSJavelinAPIUserProfile *)unarchiveUserProfile {
+    
+    NSString *string = [NSString stringWithFormat:@"%@-profile", _username];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:string];
+    
+    if (data) {
+        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    
+    return nil;
+}
+
 
 @end

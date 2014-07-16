@@ -156,6 +156,14 @@
 		C532E8E718BD583200FC111A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E618BD583200FC111A /* logo.png */; };
 		C532E8E818BD583200FC111A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E618BD583200FC111A /* logo.png */; };
 		C532E8E918BD583200FC111A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E618BD583200FC111A /* logo.png */; };
+		C534ACEE19759359001608C7 /* TSBoundariesOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACED19759359001608C7 /* TSBoundariesOverlay.m */; };
+		C534ACEF19759359001608C7 /* TSBoundariesOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACED19759359001608C7 /* TSBoundariesOverlay.m */; };
+		C534ACF019759359001608C7 /* TSBoundariesOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACED19759359001608C7 /* TSBoundariesOverlay.m */; };
+		C534ACF119759359001608C7 /* TSBoundariesOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACED19759359001608C7 /* TSBoundariesOverlay.m */; };
+		C534ACF41975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
+		C534ACF51975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
+		C534ACF61975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
+		C534ACF71975C54C001608C7 /* TSNoNetworkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */; };
 		C5372D9718AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */; };
 		C5372DA418AEC99900D22682 /* TSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5372DA318AEC99900D22682 /* TSLoginViewController.m */; };
@@ -4046,6 +4054,10 @@
 		C532E8DD18BCF85E00FC111A /* TSLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLocationController.m; path = Utilities/TSLocationController.m; sourceTree = "<group>"; };
 		C532E8E218BD44F400FC111A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C532E8E618BD583200FC111A /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Images/logo.png; sourceTree = "<group>"; };
+		C534ACEC19759359001608C7 /* TSBoundariesOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBoundariesOverlay.h; sourceTree = "<group>"; };
+		C534ACED19759359001608C7 /* TSBoundariesOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBoundariesOverlay.m; sourceTree = "<group>"; };
+		C534ACF21975C54C001608C7 /* TSNoNetworkWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNoNetworkWindow.h; sourceTree = "<group>"; };
+		C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNoNetworkWindow.m; sourceTree = "<group>"; };
 		C5372D9518AD6BBB00D22682 /* TSAgencyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAgencyAnnotation.h; path = Views/Map/Annotations/TSAgencyAnnotation.h; sourceTree = "<group>"; };
 		C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAgencyAnnotation.m; path = Views/Map/Annotations/TSAgencyAnnotation.m; sourceTree = "<group>"; };
 		C5372DA218AEC99900D22682 /* TSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLoginViewController.h; path = "View Controllers/Login:Signup/TSLoginViewController.h"; sourceTree = "<group>"; };
@@ -5322,6 +5334,8 @@
 				C5C1C9AD1909B9220087F622 /* TSCircularControl.m */,
 				C5CED6401936608E0079CEA2 /* TSPopUpWindow.h */,
 				C5CED6411936608E0079CEA2 /* TSPopUpWindow.m */,
+				C534ACF21975C54C001608C7 /* TSNoNetworkWindow.h */,
+				C534ACF31975C54C001608C7 /* TSNoNetworkWindow.m */,
 			);
 			name = Views;
 			path = TapShield;
@@ -5586,6 +5600,8 @@
 				C5372DA118AEAC9E00D22682 /* Annotations */,
 				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
 				C520C92218AA8C0F00D1D2E9 /* TSMapView.m */,
+				C534ACEC19759359001608C7 /* TSBoundariesOverlay.h */,
+				C534ACED19759359001608C7 /* TSBoundariesOverlay.m */,
 			);
 			name = Map;
 			path = TapShield;
@@ -10608,6 +10624,7 @@
 				C5CC4590193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF71921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C532E64318BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
+				C534ACEE19759359001608C7 /* TSBoundariesOverlay.m in Sources */,
 				B583B9BC18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
@@ -10655,6 +10672,7 @@
 				C5AFBC021921044000EC62A5 /* TSNamePictureViewController.m in Sources */,
 				C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
+				C534ACF41975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
 				C5B2E98618CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
@@ -10827,6 +10845,7 @@
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
 				C5AFBF0D1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
 				C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
+				C534ACF71975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
 				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C532E64518BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1B218CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
@@ -10876,6 +10895,7 @@
 				C56B3D5318FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5CED6451936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
 				C520C8FF18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
+				C534ACF119759359001608C7 /* TSBoundariesOverlay.m in Sources */,
 				C586E69C197335B10047002B /* CLLocation+Utilities.m in Sources */,
 				C5CB078618C6851D00BC9425 /* TSCircularButton.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
@@ -10991,6 +11011,7 @@
 				C5CC4591193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF81921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
+				C534ACEF19759359001608C7 /* TSBoundariesOverlay.m in Sources */,
 				C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */,
 				C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
@@ -11038,6 +11059,7 @@
 				C5AFBC031921044000EC62A5 /* TSNamePictureViewController.m in Sources */,
 				C57C48D818BBDB1900DFFBCE /* TSBaseViewController.m in Sources */,
 				C57C48D918BBDB1900DFFBCE /* TSUserLocationAnnotation.m in Sources */,
+				C534ACF51975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
 				C5662BEF18DD091500FD4F44 /* TSBorderedView.m in Sources */,
 				C57C48DA18BBDB1900DFFBCE /* TSUserLocationButton.m in Sources */,
 				C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
@@ -11183,6 +11205,7 @@
 				C5CC4592193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF91921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C5AFB97C191D35DE00EC62A5 /* TSAppDelegate.m in Sources */,
+				C534ACF019759359001608C7 /* TSBoundariesOverlay.m in Sources */,
 				C5AFB97D191D35DE00EC62A5 /* TSGradientSwipeViewController.m in Sources */,
 				C5AFB97E191D35DE00EC62A5 /* TSBaseLabel.m in Sources */,
 				C5AFB97F191D35DE00EC62A5 /* TSJavelinAlertAMQPMessage.m in Sources */,
@@ -11230,6 +11253,7 @@
 				C5AFBC041921044000EC62A5 /* TSNamePictureViewController.m in Sources */,
 				C5AFB99E191D35DE00EC62A5 /* TSBaseViewController.m in Sources */,
 				C5AFB99F191D35DE00EC62A5 /* TSUserLocationAnnotation.m in Sources */,
+				C534ACF61975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
 				C5AFB9A0191D35DE00EC62A5 /* TSBorderedView.m in Sources */,
 				C5AFB9A1191D35DE00EC62A5 /* TSUserLocationButton.m in Sources */,
 				C5AFB9A2191D35DE00EC62A5 /* TSRegistrationLabel.m in Sources */,

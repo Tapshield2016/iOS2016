@@ -295,9 +295,10 @@ static dispatch_once_t onceToken;
 }
 
 - (void)logoutUser:(void (^)(BOOL success))completion {
-    _loggedInUser = nil;
     
     [self removeArchivedLoggedInUser];
+    
+    _loggedInUser = nil;
     
     if (completion) {
         completion(YES);
@@ -931,7 +932,7 @@ static dispatch_once_t onceToken;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
-//    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
+    [_loggedInUser setUserProfile:_loggedInUser.userProfile];
     [defaults synchronize];
 }
 

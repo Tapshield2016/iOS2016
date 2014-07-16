@@ -12,6 +12,7 @@
 #import "TSLocationController.h"
 #import "NSDate+Utilities.h"
 #import "TSHeatMapOverlay.h"
+#import "TSBoundariesOverlay.h"
 
 @interface TSMapView ()
 
@@ -57,69 +58,18 @@
     [self setRegion:region animated:animated];
 }
 
-#pragma mark - Annotation
-
-- (void)adjustAnnotationAlphaForPan {
-    
-    float fullAlpha = 0.2f;
-    float newAlpha = 0.0f;
-    
-    if (self.region.span.latitudeDelta <= 0.04f) {
-        newAlpha = roundf((0.0f + self.region.span.latitudeDelta * 10) * 100)/100;
-    }
-    else {
-        newAlpha = fullAlpha;
-        if (self.region.span.latitudeDelta >= 0.05f) {
-            newAlpha = roundf((fullAlpha - self.region.span.latitudeDelta * 2) * 100)/100;
-        }
-    }
-    
-    if (newAlpha < 0) {
-        newAlpha = 0.0f;
-    }
-    
-//    TSAgencyAnnotation *annotation;
-//    if ([[self.annotations lastObject] isKindOfClass:[TSAgencyAnnotation class]]) {
-//        annotation = [self.annotations lastObject];
-//    }
-//    else {
-//        annotation = [self.annotations firstObject];
-//    }
-    
-//    if ([self viewForAnnotation:annotation].alpha != newAlpha) {
-//        for (TSAgencyAnnotation *agency in self.annotations) {
-//            if ([agency isKindOfClass:[TSAgencyAnnotation class]]) {
-//                [self viewForAnnotation:agency].alpha = newAlpha;
-//            }
-//        }
-//    }
-}
-
 
 #pragma mark - Overlays
 
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay {
     
-    MKPolygonRenderer *renderer = [[MKPolygonRenderer alloc] initWithPolygon:(MKPolygon *)overlay];
-    renderer.lineWidth = 2.0;
-    
     MKPolygon *polygon = (MKPolygon *)overlay;
     TSJavelinAPIAgency *agency = [[TSLocationController sharedLocationController].geofence nearbyAgencyWithID:polygon.title];
     TSJavelinAPIRegion *region = [[TSLocationController sharedLocationController].geofence nearbyAgencyRegionWithID:polygon.subtitle];
     
-    UIColor *color = agency.secondaryColor;
-    if (!color) {
-        color = [TSColorPalette randomColor];
-    }
-    
-    if (region) {
-        if (![region openCenterToReceive:[agency openDispatchCenters]]) {
-            color = [TSColorPalette darkGrayColor];
-        }
-    }
-    
-    renderer.strokeColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.75f];
-    renderer.fillColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.15f];
+    TSBoundariesOverlay *renderer = [[TSBoundariesOverlay alloc] initWithPolygon:overlay
+                                                                          agency:agency
+                                                                          region:region];
     
     return renderer;
 }

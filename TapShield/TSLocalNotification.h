@@ -14,5 +14,6 @@
 + (void)presentLocalNotification:(NSString *)message  fireDate:(NSDate *)date;
 + (void)presentLocalNotification:(NSString *)message  openDestination:(NSString *)storyboardID;
 + (void)presentLocalNotification:(NSString *)message  openDestination:(NSString *)storyboardID alertAction:(NSString *)action;
++ (void)say:(NSString *)string;
 
 @end

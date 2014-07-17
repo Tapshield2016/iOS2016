@@ -9,8 +9,12 @@
 #import "TSChangePasscodeViewController.h"
 #import "TSPasscodeTableViewController.h"
 
+static NSString * const TSChangePasscodeViewControllerShouldLogin = @"TSChangePasscodeViewControllerShouldLogin";
+
 @interface TSChangePasscodeViewController ()
 
+@property (strong, nonatomic) UIAlertView *sendResetAlertView;
+@property (assign, nonatomic) BOOL didSendReset;
 @property (strong, nonatomic) TSPasscodeTableViewController *tableViewController;
 
 @end
@@ -21,6 +25,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _didSendReset = [[NSUserDefaults standardUserDefaults] boolForKey:TSChangePasscodeViewControllerShouldLogin];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -36,7 +42,7 @@
     [_tableViewController didMoveToParentViewController:self];
     
     CGRect frame = _tableViewController.view.frame;
-    frame.size.height = 60 *3;
+    frame.size.height = 60*4;
     frame.origin.y = 100;
     _tableViewController.view.frame = frame;
     [_scrollView addSubview:_tableViewController.view];
@@ -90,20 +96,16 @@
         oldText = [password isEqualToString:_tableViewController.currentPasscodeTextField.text];
     }
     
-    if (!oldText) {
+    if (!oldText && !_didSendReset) {
         _tableViewController.currentPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
     }
-    BOOL newText = [_tableViewController.passcodeTextField.text isEqualToString:_tableViewController.repeatPasscodeTextField.text];
-    if (!newText || _tableViewController.passcodeTextField.text.length != 4) {
-        newText = NO;
-        _tableViewController.passcodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
-        _tableViewController.repeatPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
-    }
     
-    if (oldText && newText && _tableViewController.passcodeTextField.text.length == 4) {
-        [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode = _tableViewController.passcodeTextField.text;
-        [self.navigationController popViewControllerAnimated:YES];
-        [[[TSJavelinAPIClient sharedClient] authenticationManager] updateLoggedInUserDisarmCode:nil];
+    if (oldText) {
+        [self checkNewAndSave];
+    }
+    else if (_didSendReset) {
+        
+        [self loginWithPassword:_tableViewController.currentPasscodeTextField.text];
     }
 }
 
@@ -177,5 +179,82 @@
     [_scrollView setScrollEnabled:NO];
 }
 
+
+- (IBAction)forgotPassword:(id)sender {
+    
+    _sendResetAlertView = [[UIAlertView alloc] initWithTitle:@"Forgot your password?"
+                                                     message:@"We'll send you an email with instructions to reset"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:@"Send", nil];
+    [_sendResetAlertView show];
+}
+
+
+#pragma mark - Authentication
+
+- (void)loginWithPassword:(NSString *)password {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logInUser:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email password:password completion:^(TSJavelinAPIUser *user) {
+        
+        if (user) {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:TSChangePasscodeViewControllerShouldLogin];
+            [self checkNewAndSave];
+        }
+        else {
+            _tableViewController.currentPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
+        }
+    }];
+}
+
+- (void)checkNewAndSave {
+    
+    BOOL newText = [_tableViewController.passcodeTextField.text isEqualToString:_tableViewController.repeatPasscodeTextField.text];
+    if (!newText || _tableViewController.passcodeTextField.text.length != 4) {
+        newText = NO;
+        _tableViewController.passcodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
+        _tableViewController.repeatPasscodeTextField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2];
+    }
+    
+    if (newText && _tableViewController.passcodeTextField.text.length == 4) {
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode = _tableViewController.passcodeTextField.text;
+        [self.navigationController popViewControllerAnimated:YES];
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] updateLoggedInUserDisarmCode:nil];
+    }
+}
+
+- (void)sendPasswordReset {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPasswordResetEmail:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email completion:^(BOOL sent) {
+        
+        NSString *title;
+        if (sent) {
+            title = @"Reset email sent to:";
+            _didSendReset = YES;
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TSChangePasscodeViewControllerShouldLogin];
+        }
+        else {
+            title = @"Failed sending reset email to:";
+        }
+        
+        title = [NSString stringWithFormat:@"%@\n\n%@", title, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email];
+        
+        UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
+                                                                 message:nil
+                                                                delegate:self
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil];
+        [emailSentAlert show];
+    }];
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (alertView == _sendResetAlertView) {
+        if (buttonIndex == 1) {
+            [self sendPasswordReset];
+        }
+    }
+}
 
 @end

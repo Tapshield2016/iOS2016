@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet TSBaseTextField *currentPasscodeTextField;
 @property (weak, nonatomic) IBOutlet TSBaseTextField *passcodeTextField;
 @property (weak, nonatomic) IBOutlet TSBaseTextField *repeatPasscodeTextField;
+- (IBAction)forgotPassword:(id)sender;
 
 @end

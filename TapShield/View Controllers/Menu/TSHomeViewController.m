@@ -336,7 +336,7 @@
                 else {
                     
                     [viewController dismissViewControllerAnimated:YES completion:^{
-                        [self performSelectorOnMainThread:@selector(sendAlert:) withObject:sender waitUntilDone:NO];
+                        [self performSelector:@selector(sendAlert:) withObject:sender];
                     }];
                     return;
                 }
@@ -427,6 +427,8 @@
             [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
         }
     }
+    
+    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
 }
 
 - (void)showAllSubviews {
@@ -452,7 +454,22 @@
 }
 
 
-
+- (void)setStatusViewText:(NSString *)string {
+    
+    [_statusView setText:string];
+    
+    float height = _statusView.originalHeight;
+    
+    if (!string) {
+        height = 0;
+    }
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        _statusViewHeight.constant = height;
+        
+        [self.view layoutIfNeeded];
+    }];
+}
 
 #pragma mark - UIGestureRecognizerDelegate methods
 
@@ -464,8 +481,9 @@
 
 - (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
     
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
         _isTrackingUser = NO;
+        [self setStatusViewText:nil];
     }
 }
 
@@ -499,7 +517,7 @@
 
 - (void)locationDidUpdate:(CLLocation *)location {
     
-    if ([[TSVirtualEntourageManager sharedManager].endRegion containsCoordinate:location.coordinate]) {
+    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
         [[TSVirtualEntourageManager sharedManager] checkRegion:location];
     }
     
@@ -546,8 +564,8 @@
     
     BOOL search = NO;
     
-    if (_mapView.shouldUpdateCallOut) {
-        if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 15 ||
+    if (_mapView.shouldUpdateCallOut || _isTrackingUser) {
+        if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 10 ||
             !_mapView.lastReverseGeocodeLocation) {
             search = YES;
         }
@@ -583,12 +601,18 @@
                     subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
                 }
                 
-                _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
+                _statusView.userLocation = [NSString stringWithFormat:@"Approx: %@", title];
+                [self setStatusViewText:_statusView.userLocation];
+                
+                _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"Approx: %@", title];
             }
         }];
     }
+    else {
+        [self setStatusViewText:_statusView.userLocation];
+    }
     
-    _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
+    _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
 #pragma mark - MKMapViewDelegate methods
@@ -797,7 +821,9 @@
         TSSpotCrimeAnnotation *annotation;
         
         if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
-            annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+            if (((ADClusterAnnotation *)view.annotation).cluster) {
+                annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+            }
         }
         else {
             annotation = (TSSpotCrimeAnnotation *)view.annotation;
@@ -833,11 +859,11 @@
         float delta;
         
         if (span.longitudeDelta > .4) {
-            delta = span.longitudeDelta*.25;
+            delta = span.longitudeDelta*.3;
         }
-        else if (span.longitudeDelta > kMaxLonDeltaCluster) {
-            delta = kMaxLonDeltaCluster;
-        }
+//        else if (span.longitudeDelta > kMaxLonDeltaCluster) {
+//            delta = kMaxLonDeltaCluster;
+//        }
         else {
             delta = span.longitudeDelta*.5;
         }
@@ -881,7 +907,9 @@
         
         id<MKAnnotation> annotation;
         if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
-            annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+            if (((ADClusterAnnotation *)view.annotation).cluster) {
+                annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+            }
         }
         else {
             annotation = view.annotation;

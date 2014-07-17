@@ -962,6 +962,10 @@ static dispatch_once_t onceToken;
     if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
         [_delegate loginFailed:nil error:error];
     }
+    
+    if (_loginCompletionBlock) {
+        _loginCompletionBlock(nil);
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -992,6 +996,10 @@ static dispatch_once_t onceToken;
                         [_delegate loginFailed:result error:nil];
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+                    
+                    if (_loginCompletionBlock) {
+                        _loginCompletionBlock(nil);
+                    }
                 }
                 else if ([authResponse isEqualToString:@"Email unverified"]) {
                     // Unverified email address
@@ -1000,6 +1008,10 @@ static dispatch_once_t onceToken;
                         [_delegate loginFailed:result error:nil];
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+                    
+                    if (_loginCompletionBlock) {
+                        _loginCompletionBlock(nil);
+                    }
                 }
             }
             else {
@@ -1021,6 +1033,9 @@ static dispatch_once_t onceToken;
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
 
+            if (_loginCompletionBlock) {
+                _loginCompletionBlock(nil);
+            }
         }
         else if (result.statusCode == 500) {
             
@@ -1030,6 +1045,10 @@ static dispatch_once_t onceToken;
                 [_delegate loginFailed:result error:nil];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+            
+            if (_loginCompletionBlock) {
+                _loginCompletionBlock(nil);
+            }
         }
         else {
             //I don't know

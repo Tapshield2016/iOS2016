@@ -42,7 +42,7 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 @property (nonatomic, assign) NSTimeInterval selectedETA;
 
-@property (nonatomic, strong) CLCircularRegion *endRegion;
+@property (nonatomic, strong) NSArray *endRegions;
 
 @property (readonly) BOOL isEnabled;
 

@@ -199,7 +199,8 @@
 }
 
 - (void)selectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated {
-    [super selectAnnotation:[self clusterAnnotationForOriginalAnnotation:annotation] animated:animated];
+    
+    [super selectAnnotation:annotation animated:animated];
 }
 
 - (void)selectClusterAnnotation:(ADClusterAnnotation *)annotation animated:(BOOL)animated {
@@ -214,15 +215,20 @@
             [displayedAnnotations addObject:annotation];
         }
     }
+    
     return displayedAnnotations;
 }
 
 // careful, the implementation of the following method is slow
 - (NSArray *)annotations {
-    NSArray * otherAnnotations = [[super annotations] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return  ![evaluatedObject isKindOfClass: [ADClusterAnnotation class]];
-    }]];
-    return [_originalAnnotations.allObjects arrayByAddingObjectsFromArray:otherAnnotations];
+//    NSArray * otherAnnotations = [[super annotations] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+//        return  ![evaluatedObject isKindOfClass: [ADClusterAnnotation class]];
+//    }]];
+    
+    NSMutableSet *set = [NSMutableSet setWithArray:[super annotations]];
+    [set minusSet:_clusterAnnotations];
+    
+    return [_originalAnnotations.allObjects arrayByAddingObjectsFromArray:set.allObjects];
 }
 
 - (void)addNonClusteredAnnotation:(id<MKAnnotation>)annotation {
@@ -350,7 +356,7 @@
     }
     if (_shouldReselectAnnotation) {
         _shouldReselectAnnotation = NO;
-        [self selectAnnotation:_previouslySelectedAnnotation animated:YES];
+        [self selectClusterAnnotation:_previouslySelectedAnnotation animated:YES];
         _previouslySelectedAnnotation = nil;
     }
 }

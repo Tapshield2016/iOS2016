@@ -2564,6 +2564,10 @@
 		C5C5E4D218EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
 		C5C5E4D318EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
 		C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
+		C5C7047D1977CAD60052C9B0 /* TSStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C7047C1977CAD60052C9B0 /* TSStatusView.m */; };
+		C5C7047E1977CAD60052C9B0 /* TSStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C7047C1977CAD60052C9B0 /* TSStatusView.m */; };
+		C5C7047F1977CAD60052C9B0 /* TSStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C7047C1977CAD60052C9B0 /* TSStatusView.m */; };
+		C5C704801977CAD60052C9B0 /* TSStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C7047C1977CAD60052C9B0 /* TSStatusView.m */; };
 		C5CB078418C6851D00BC9425 /* TSCircularButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078318C6851D00BC9425 /* TSCircularButton.m */; };
 		C5CB078518C6851D00BC9425 /* TSCircularButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078318C6851D00BC9425 /* TSCircularButton.m */; };
 		C5CB078618C6851D00BC9425 /* TSCircularButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CB078318C6851D00BC9425 /* TSCircularButton.m */; };
@@ -4738,6 +4742,8 @@
 		C5C1C9AD1909B9220087F622 /* TSCircularControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularControl.m; path = Views/TSCircularControl.m; sourceTree = "<group>"; };
 		C5C5E4D018EC58F000E1D868 /* TSRouteTimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteTimeAnnotation.h; path = Views/Map/Annotations/TSRouteTimeAnnotation.h; sourceTree = "<group>"; };
 		C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteTimeAnnotation.m; path = Views/Map/Annotations/TSRouteTimeAnnotation.m; sourceTree = "<group>"; };
+		C5C7047B1977CAD60052C9B0 /* TSStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStatusView.h; sourceTree = "<group>"; };
+		C5C7047C1977CAD60052C9B0 /* TSStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStatusView.m; sourceTree = "<group>"; };
 		C5CB078218C6851D00BC9425 /* TSCircularButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSCircularButton.h; path = Views/Buttons/TSCircularButton.h; sourceTree = "<group>"; };
 		C5CB078318C6851D00BC9425 /* TSCircularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSCircularButton.m; path = Views/Buttons/TSCircularButton.m; sourceTree = "<group>"; };
 		C5CB078718C68B6100BC9425 /* TSDisarmPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSDisarmPadViewController.h; path = "View Controllers/TSDisarmPadViewController.h"; sourceTree = "<group>"; };
@@ -5328,6 +5334,8 @@
 				C5BBF42E18F9D063008B5CB2 /* Image */,
 				C5AFBF021922BE3500EC62A5 /* TSIconBadgeView.h */,
 				C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */,
+				C5C7047B1977CAD60052C9B0 /* TSStatusView.h */,
+				C5C7047C1977CAD60052C9B0 /* TSStatusView.m */,
 				C585F2E318DB6B66009EEF16 /* TSAnimatedView.h */,
 				C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */,
 				C5B5634918E8EA900013AF69 /* TSToolBarView.h */,
@@ -10646,6 +10654,7 @@
 				C5EAABF219063B75005EDD7B /* TSContactDataTableViewController.m in Sources */,
 				C501CC9818F337A0005A0B98 /* TSRoundRectButton.m in Sources */,
 				C56356FB18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
+				C5C7047D1977CAD60052C9B0 /* TSStatusView.m in Sources */,
 				C5372DAC18B270E100D22682 /* TSAgreementViewController.m in Sources */,
 				C5EAABE21904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m in Sources */,
 				C5F2E5B01950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
@@ -10901,6 +10910,7 @@
 				C5662BF518DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C56B3D5818FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C501CC3F18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C5C704801977CAD60052C9B0 /* TSStatusView.m in Sources */,
 				C53A62EA196DD04B00C34BF0 /* TSClusterAnnotationView.m in Sources */,
 				C56B3D5318FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5CED6451936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
@@ -11035,6 +11045,7 @@
 				C5EAABF319063B75005EDD7B /* TSContactDataTableViewController.m in Sources */,
 				C501CC9918F337A0005A0B98 /* TSRoundRectButton.m in Sources */,
 				C56356FC18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m in Sources */,
+				C5C7047E1977CAD60052C9B0 /* TSStatusView.m in Sources */,
 				C5662BE918DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C5EAABE31904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m in Sources */,
 				C5F2E5B11950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
@@ -11230,6 +11241,7 @@
 				C5AFB984191D35DE00EC62A5 /* TSContactDataTableViewController.m in Sources */,
 				C5AFB985191D35DE00EC62A5 /* TSRoundRectButton.m in Sources */,
 				C5AFB986191D35DE00EC62A5 /* TSRouteTimeAnnotationView.m in Sources */,
+				C5C7047F1977CAD60052C9B0 /* TSStatusView.m in Sources */,
 				C5AFB987191D35DE00EC62A5 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C5AFB988191D35DE00EC62A5 /* TSJavelinAPIEntourageMember.m in Sources */,
 				C5F2E5B21950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,

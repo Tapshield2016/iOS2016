@@ -160,10 +160,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         [TSYankManager sharedYankManager].isEnabled ||
         [TSVirtualEntourageManager sharedManager].isEnabled ||
         [TSAlertManager sharedManager].countdownTimer) {
-//        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-//            NSLog(@"BackgroundTaskExpirationHandler");
-//            [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
-//        }];
+        
     }
     else {
         [[TSLocationController sharedLocationController] stopLocationUpdates];

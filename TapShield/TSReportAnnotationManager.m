@@ -128,7 +128,7 @@
         }];
         
         if (crimes.count < 10) {
-            [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithDaysBeforeNow:7] maxReturned:50 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
+            [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithDaysBeforeNow:14] maxReturned:50 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
                 [_operationQueue addOperationWithBlock:^{
                     [self addSpotCrimes:crimes];
                 }];

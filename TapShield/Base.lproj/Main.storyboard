@@ -1047,7 +1047,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Mass notification 386-589-6729" translatesAutoresizingMaskIntoConstraints="NO" id="gHo-9b-Zi3">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Mass notification" translatesAutoresizingMaskIntoConstraints="NO" id="gHo-9b-Zi3">
                                                     <rect key="frame" x="10" y="0.0" width="300" height="49"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1215,8 +1215,17 @@
                                     <constraint firstAttribute="width" constant="60" id="vG2-fb-IaS"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J4r-zu-51U" customClass="TSStatusView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="W5b-wZ-Kig"/>
+                                    <constraint firstAttribute="height" constant="20" id="ZZD-v3-oxH"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2H-Q3-BBF">
-                                <rect key="frame" x="267" y="75" width="45" height="45"/>
+                                <rect key="frame" x="267" y="95" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZ6-Zp-Gpl" customClass="TSUserLocationButton">
@@ -1240,7 +1249,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Llm-Q6-w56">
-                                <rect key="frame" x="8" y="75" width="45" height="45"/>
+                                <rect key="frame" x="8" y="95" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-tK-QET" customClass="TSUserLocationButton">
@@ -1264,22 +1273,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="J4r-zu-51U" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" id="06Q-j4-cbb"/>
+                            <constraint firstItem="Llm-Q6-w56" firstAttribute="top" secondItem="J4r-zu-51U" secondAttribute="bottom" constant="11" id="3ai-z4-Qs1"/>
                             <constraint firstAttribute="centerX" secondItem="CNt-Kp-jHu" secondAttribute="centerX" id="4xG-tM-NFU"/>
+                            <constraint firstItem="g2H-Q3-BBF" firstAttribute="top" secondItem="J4r-zu-51U" secondAttribute="bottom" constant="11" id="5ya-NB-O9J"/>
                             <constraint firstAttribute="trailing" secondItem="3I1-wT-J8A" secondAttribute="trailing" constant="21" id="72I-lc-8sh"/>
                             <constraint firstItem="cdg-2v-fWv" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="496" id="K9k-f9-mfO"/>
+                            <constraint firstAttribute="trailing" secondItem="J4r-zu-51U" secondAttribute="trailing" id="LPh-fs-fhO"/>
                             <constraint firstItem="3I1-wT-J8A" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="496" id="LbC-lJ-t5W"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" id="Pmt-wL-QsS"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="cdg-2v-fWv" secondAttribute="bottom" constant="12" id="SVQ-O4-Xvf"/>
+                            <constraint firstItem="J4r-zu-51U" firstAttribute="top" secondItem="aDF-CZ-qdy" secondAttribute="bottom" id="TJx-w2-aIh"/>
                             <constraint firstAttribute="trailing" secondItem="g2H-Q3-BBF" secondAttribute="trailing" constant="8" id="azW-Qv-MAZ"/>
                             <constraint firstItem="CNt-Kp-jHu" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="466" id="bc8-f0-g3o"/>
                             <constraint firstItem="Llm-Q6-w56" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="8" id="bif-vW-p6e"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" id="d16-M7-QsV"/>
-                            <constraint firstItem="g2H-Q3-BBF" firstAttribute="top" secondItem="aDF-CZ-qdy" secondAttribute="bottom" constant="11" id="exI-aC-sp9"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="3I1-wT-J8A" secondAttribute="bottom" constant="12" id="m52-zd-dVs"/>
                             <constraint firstAttribute="trailing" secondItem="w2T-Hb-1QL" secondAttribute="trailing" id="pEV-XX-T34"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="CNt-Kp-jHu" secondAttribute="bottom" constant="12" id="rY2-2E-ZV9"/>
                             <constraint firstItem="cdg-2v-fWv" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="21" id="szU-WH-IGx"/>
-                            <constraint firstItem="Llm-Q6-w56" firstAttribute="top" secondItem="aDF-CZ-qdy" secondAttribute="bottom" constant="11" id="wQx-6A-fCf"/>
                             <constraint firstAttribute="bottom" secondItem="w2T-Hb-1QL" secondAttribute="bottom" id="yHq-YJ-lIh"/>
                         </constraints>
                     </view>
@@ -1289,6 +1301,8 @@
                         <outlet property="entourageButton" destination="nSe-tK-QET" id="Wlp-uC-h9O"/>
                         <outlet property="mapView" destination="w2T-Hb-1QL" id="OHY-6j-bgU"/>
                         <outlet property="showUserLocationButton" destination="KZ6-Zp-Gpl" id="y4w-f8-h6U"/>
+                        <outlet property="statusView" destination="J4r-zu-51U" id="p1x-oX-BSy"/>
+                        <outlet property="statusViewHeight" destination="ZZD-v3-oxH" id="nw0-QA-tu7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ia-8D-Yax" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4473,6 +4487,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <sections>
                             <tableViewSection id="B5B-Hs-rAD">
                                 <cells>
@@ -4501,6 +4516,7 @@
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HbT-RJ-tWL">
                                         <rect key="frame" x="0.0" y="60" width="320" height="60"/>
@@ -4527,6 +4543,7 @@
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="m1h-ab-Rz3">
                                         <rect key="frame" x="0.0" y="120" width="320" height="60"/>
@@ -4553,6 +4570,30 @@
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="389" id="1uj-uR-sW3">
+                                        <rect key="frame" x="0.0" y="180" width="320" height="389"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1uj-uR-sW3" id="l7b-LG-886">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="388"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lwG-yH-V7r">
+                                                    <rect key="frame" x="12" y="0.0" width="288" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <state key="normal" title="Oops, I forgot my passcode and password.">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="forgotPassword:" destination="y52-o6-8mh" eventType="touchUpInside" id="CND-F9-kyc"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

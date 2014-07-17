@@ -60,7 +60,28 @@
 }
 
 
+#pragma mark - Text To Speech 
 
++ (void)say:(NSString *)string {
+    
+    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
+    
+    NSError *error = NULL;
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:&error];
+    if(error) {
+        // Do some error handling
+    }
+    [session setActive:YES error:&error];
+    if (error) {
+        // Do some error handling
+    }
+    
+    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:string];
+    [utterance setRate:AVSpeechUtteranceDefaultSpeechRate/2];
+    [synthesizer speakUtterance:utterance];
+}
 
 
 @end

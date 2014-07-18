@@ -47,8 +47,9 @@
     [_animatedView addSubview:self.toolbar];
     [self.view insertSubview:_animatedView atIndex:0];
     
-    CGRect statusFrame = [UIApplication sharedApplication].statusBarFrame;
+    CGRect statusFrame = self.view.bounds;
     statusFrame.origin.y = self.view.frame.size.height;
+    statusFrame.size.height = 35;
     _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
     [self.view insertSubview:_statusView belowSubview:_animatedView];
     

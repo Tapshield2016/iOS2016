@@ -159,8 +159,19 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     if ([[TSJavelinAPIClient sharedClient] isStillActiveAlert] ||
         [TSYankManager sharedYankManager].isEnabled ||
         [TSVirtualEntourageManager sharedManager].isEnabled ||
-        [TSAlertManager sharedManager].countdownTimer) {
+        [TSAlertManager sharedManager].countdownTimer ||
+        [TSAlertManager sharedManager].isAlertInProgress) {
         
+        if (![TSAlertManager sharedManager].countdownTimer &&
+            ![TSAlertManager sharedManager].isAlertInProgress ) {
+            
+            if ([TSVirtualEntourageManager sharedManager].isEnabled) {
+                [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSVirtualEntourageManager sharedManager].endTimer.fireDate];
+            }
+            else {
+                
+            }
+        }
     }
     else {
         [[TSLocationController sharedLocationController] stopLocationUpdates];

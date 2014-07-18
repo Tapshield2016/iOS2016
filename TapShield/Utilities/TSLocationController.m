@@ -11,6 +11,12 @@
 
 #import "TSLocationController.h"
 
+@interface TSLocationController ()
+
+@property (nonatomic, strong) NSTimer *cycleTimer;
+
+@end
+
 @implementation TSLocationController
 
 static TSLocationController *_sharedLocationControllerInstance = nil;
@@ -34,8 +40,21 @@ static dispatch_once_t predicate;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locationManager.distanceFilter = 1.0;
         self.geofence = [[TSGeofence alloc] init];
+        
+        UIDevice *device = [UIDevice currentDevice];
+        device.batteryMonitoringEnabled = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(batteryChanged:) name:UIDeviceBatteryLevelDidChangeNotification object:device];
     }
     return self;
+}
+
+
+#pragma mark - Battery Management
+
+- (void)batteryChanged:(NSNotification *)notification
+{
+    UIDevice *device = [UIDevice currentDevice];
+    NSLog(@"State: %i Charge: %f", device.batteryState, device.batteryLevel);
 }
 
 #pragma mark - Region Methods
@@ -124,6 +143,43 @@ static dispatch_once_t predicate;
     }
 }
 
+#pragma mark - GPS Strength
+
+- (void)cycleGPSSignalStrengthUntilDate:(NSDate *)date {
+    
+    NSTimeInterval timeInterval = [date timeIntervalSinceNow];
+    
+    if (timeInterval < 0) {
+        return;
+    }
+    
+    
+}
+
+- (void)scheduleStrengthCycleTimer {
+    
+    
+}
+
+- (void)enterLowPowerState {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+}
+
+- (void)navigationAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
+}
+
+- (void)conserveBatteryInAlert {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+}
+
+- (void)bestAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+}
+
+- (void)wifiAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+}
 
 #pragma mark - CLLocationManagerDelegate Methods
 

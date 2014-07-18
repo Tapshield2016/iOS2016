@@ -16,6 +16,7 @@
 #import "TSJavelinAPISocialCrimeReport.h"
 #import "TSJavelinAPIRegion.h"
 #import "TSJavelinAPIDispatchCenter.h"
+#import "NSNull+JSON.h"
 
 @class TSJavelinAPIUser;
 @class TSJavelinAPIAlert;

@@ -49,5 +49,6 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 - (void)requestStateForRegion:(CLRegion *)region;
 
 - (void)stopLocationUpdates;
+- (void)cycleGPSSignalStrengthUntilDate:(NSDate *)date;
 
 @end

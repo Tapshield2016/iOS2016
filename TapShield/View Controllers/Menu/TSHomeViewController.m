@@ -587,6 +587,10 @@
 
 - (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
     
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        return;
+    }
+    
     BOOL search = NO;
     BOOL show = NO;
     

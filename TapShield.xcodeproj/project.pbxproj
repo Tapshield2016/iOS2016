@@ -1368,6 +1368,10 @@
 		C586E6A0197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
 		C586E6A1197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
 		C586E6A2197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
+		C596C63B1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
+		C596C63C1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
+		C596C63D1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
+		C596C63E1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
 		C599C038193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
@@ -4513,6 +4517,8 @@
 		C586E698197335B10047002B /* CLLocation+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Utilities.m"; sourceTree = "<group>"; };
 		C586E69D197390430047002B /* TSClusterOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClusterOperation.h; sourceTree = "<group>"; };
 		C586E69E197390430047002B /* TSClusterOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClusterOperation.m; sourceTree = "<group>"; };
+		C596C6391979A26200DF2E29 /* NSNull+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+JSON.h"; sourceTree = "<group>"; };
+		C596C63A1979A26200DF2E29 /* NSNull+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+JSON.m"; sourceTree = "<group>"; };
 		C599C036193FD7CA00B77410 /* NSURL+FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileType.h"; sourceTree = "<group>"; };
 		C599C037193FD7CA00B77410 /* NSURL+FileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FileType.m"; sourceTree = "<group>"; };
 		C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotation.h; path = Views/Map/Annotations/TSSpotCrimeAnnotation.h; sourceTree = "<group>"; };
@@ -5545,6 +5551,8 @@
 				C5CED63519355F990079CEA2 /* NSString+HTML.m */,
 				C5F2E5AE1950FBFF005B32A1 /* NSDictionary+ReplaceNull.h */,
 				C5F2E5AF1950FBFF005B32A1 /* NSDictionary+ReplaceNull.m */,
+				C596C6391979A26200DF2E29 /* NSNull+JSON.h */,
+				C596C63A1979A26200DF2E29 /* NSNull+JSON.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -10644,6 +10652,7 @@
 				B583B9BC18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
+				C596C63B1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CB195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5391EBD18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C520C8F218A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
@@ -10860,6 +10869,7 @@
 				C532E65218BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C5662BEA18DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C5F2E5B31950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
+				C596C63E1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
 				C5AFBF0D1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
@@ -11035,6 +11045,7 @@
 				C55644F318DF770D00D29B0D /* TSGradientSwipeViewController.m in Sources */,
 				C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C596C63C1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CC195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
 				C532E64A18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
@@ -11231,6 +11242,7 @@
 				C5AFB97D191D35DE00EC62A5 /* TSGradientSwipeViewController.m in Sources */,
 				C5AFB97E191D35DE00EC62A5 /* TSBaseLabel.m in Sources */,
 				C5AFB97F191D35DE00EC62A5 /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C596C63D1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CD195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5AFB980191D35DE00EC62A5 /* TSAgreementViewController.m in Sources */,
 				C5AFB981191D35DE00EC62A5 /* TSSelectedDestinationAnnotation.m in Sources */,

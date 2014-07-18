@@ -30,17 +30,30 @@
         _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         _statusToolbar.barTintColor = [TSColorPalette alertRed];
         
-        _label = [[TSBaseLabel alloc] initWithFrame:self.bounds];
+        CGRect frame = self.bounds;
+        frame.origin.y = frame.size.height*.35;
+        frame.size.height *= .65;
+        _label = [[TSBaseLabel alloc] initWithFrame:frame];
         _label.text = @"Searching for location";
-        _label.font = [UIFont systemFontOfSize:14];
+        _label.font = [UIFont systemFontOfSize:18];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.textColor = [UIColor whiteColor];
         _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        
+        frame = self.bounds;
+        frame.size.height *= .4;
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:frame];
+        titleLabel.text = @"Approximate Location";
+        titleLabel.font = [UIFont systemFontOfSize:10];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         
         self.autoresizesSubviews = YES;
         self.backgroundColor = [TSColorPalette clearColor];
         [self addSubview:_statusToolbar];
         [self addSubview:_label];
+        [self addSubview:titleLabel];
         
         _originalHeight = self.frame.size.height;
     }

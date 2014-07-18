@@ -563,10 +563,10 @@ static dispatch_once_t predicate;
 
 - (void)saySecondsRemaining:(NSTimeInterval)seconds {
     
-    NSString *destination = _routeManager.destinationMapItem.name;
-    if (!destination) {
-        destination = @"destination";
-    }
+//    NSString *destination = _routeManager.destinationMapItem.name;
+//    if (!destination) {
+//        destination = @"destination";
+//    }
     NSString *message = [NSString stringWithFormat:kSpeechRemaining, [TSUtilities formattedDescriptiveStringForDuration:seconds]];
 //    [NSString stringWithFormat:@"%@ remaining to reach %@", [TSUtilities formattedDescriptiveStringForDuration:seconds], destination];
     [TSLocalNotification say:message];

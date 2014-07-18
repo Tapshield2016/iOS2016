@@ -32,11 +32,12 @@
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) NSDate *lastAnnotationSet;
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
+@property (assign) MKMapRect previousVisibleMapRectClustered;
 
 @end
 
 @interface ADClusterMapView (Private)
-- (void)_clusterInMapRect:(MKMapRect)rect;
+- (void)_clusterInMapRect:(MKMapRect)rect newRootCluster:(BOOL)isNewCluster;
 @end
 
 @implementation ADClusterMapView
@@ -45,8 +46,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.operationQueue = [[NSOperationQueue alloc] init];
-        [self.operationQueue setMaxConcurrentOperationCount:1];
+        [self initHelpers];
     }
     return self;
 }
@@ -55,9 +55,21 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.operationQueue = [[NSOperationQueue alloc] init];
+        [self initHelpers];
     }
     return self;
+}
+
+- (void)initHelpers {
+    
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    [self.operationQueue setMaxConcurrentOperationCount:1];
+    [self.operationQueue setName:@"Clustering Queue"];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(didPanMap:)];
+    [panRecognizer setDelegate:self];
+    [self addGestureRecognizer:panRecognizer];
 }
 
 - (void)initAnnotationPools:(NSUInteger)numberOfAnnotationsInPool {
@@ -157,7 +169,7 @@
                                                          showSubtitle:shouldShowSubtitle];
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self _clusterInMapRect:self.visibleMapRect];
+                [self _clusterInMapRect:self.visibleMapRect newRootCluster:YES];
                 if ([_secondaryDelegate respondsToSelector:@selector(mapViewDidFinishClustering:)]) {
                     [_secondaryDelegate mapViewDidFinishClustering:self];
                 }
@@ -285,6 +297,28 @@
     [super removeAnnotations:annotations];
 }
 
+#pragma mark - UIGestureRecognizerDelegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void)didPanMap:(UIGestureRecognizer*)gestureRecognizer {
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
+        if ([_secondaryDelegate respondsToSelector:@selector(userWillPanMapView:)]) {
+            [_secondaryDelegate userWillPanMapView:self];
+        }
+    }
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        if ([_secondaryDelegate respondsToSelector:@selector(userDidPanMapView:)]) {
+            [_secondaryDelegate userDidPanMapView:self];
+        }
+    }
+}
+
+
 #pragma mark - Objective-C Runtime and subclassing methods
 - (void)setDelegate:(id<ADClusterMapViewDelegate>)delegate {
     /*
@@ -394,7 +428,7 @@
     }
     
     if (!_isSettingAnnotations){
-        [self _clusterInMapRect:self.visibleMapRect];
+        [self _clusterInMapRect:self.visibleMapRect newRootCluster:NO];
     }
     if (_previouslySelectedAnnotation) {
         _shouldReselectAnnotation = YES;
@@ -463,18 +497,37 @@
 @implementation ADClusterMapView (Private)
 
 
-- (void)_clusterInMapRect:(MKMapRect)rect {
-    
-    NSLog(@"clusterInMapRect");
+- (void)_clusterInMapRect:(MKMapRect)rect newRootCluster:(BOOL)isNewCluster {
     
     _isAnimatingClusters = YES;
     
-    [_operationQueue cancelAllOperations];
+    if (isNewCluster) {
+        _previousVisibleMapRectClustered = MKMapRectNull;
+    }
+    
+    if (!MKMapRectIsNull(_previousVisibleMapRectClustered) &&
+        !MKMapRectIsEmpty(_previousVisibleMapRectClustered)) {
+        
+        MKMapRect halvedPreviousVisibleRect = MKMapRectInset(_previousVisibleMapRectClustered, _previousVisibleMapRectClustered.size.width/4, _previousVisibleMapRectClustered.size.width/4);
+        
+        if (MKMapRectIntersectsRect(rect, halvedPreviousVisibleRect) &&
+            MKMapRectSizeIsEqual(rect, _previousVisibleMapRectClustered)) {
+            return;
+        }
+    }
+    
+    NSLog(@"clusterInMapRect");
+    
+    if (_operationQueue.operationCount) {
+        [_operationQueue cancelAllOperations];
+    }
+    
     TSClusterOperation *clusterOperation = [[TSClusterOperation alloc] initWithMapView:self
                                                                            rootCluster:_rootMapCluster
                                                                             completion:^(ADClusterMapView *mapView) {
                                                                                 [_indicatorView stopAnimating];
                                                                                 [_indicatorView removeFromSuperview];
+                                                                                _previousVisibleMapRectClustered = rect;
                                                                             }];
     [_operationQueue addOperation:clusterOperation];
     [_operationQueue setSuspended:NO];

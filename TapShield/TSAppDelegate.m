@@ -54,10 +54,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #elif DEMO
 
 //internal
-//    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     
 //Demo
-    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
+//    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";

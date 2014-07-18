@@ -12,7 +12,7 @@
 #import "ADClusterAnnotation.h"
 
 @class ADClusterMapView;
-@protocol ADClusterMapViewDelegate <MKMapViewDelegate>
+@protocol ADClusterMapViewDelegate <MKMapViewDelegate, UIGestureRecognizerDelegate>
 @optional
 - (NSUInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView; // default: 32
 - (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id <MKAnnotation>)annotation; // default: same as returned by mapView:viewForAnnotation:
@@ -21,9 +21,12 @@
 - (NSString *)clusterTitleForMapView:(ADClusterMapView *)mapView; // default : @"%d elements"
 - (void)clusterAnimationDidStopForMapView:(ADClusterMapView *)mapView;
 - (void)mapViewDidFinishClustering:(ADClusterMapView *)mapView;
+- (void)userWillPanMapView:(ADClusterMapView *)mapView;
+- (void)userDidPanMapView:(ADClusterMapView *)mapView;
+
 @end
 
-@interface ADClusterMapView : MKMapView <MKMapViewDelegate>
+@interface ADClusterMapView : MKMapView <MKMapViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSSet *clusterAnnotations;
 - (NSUInteger)numberOfClusters;

@@ -210,7 +210,7 @@
         NSArray *newSpotCrimes = [spotCrimes objectsAtIndexes:addIndexSet];
         [self addAnnotations:newSpotCrimes];
         [_spotCrimes addObjectsFromArray:newSpotCrimes];
-        [self addHeatMapOverlays:newSpotCrimes];
+        [self addHeatMapOverlays:[newSpotCrimes copy]];
     }
 }
 

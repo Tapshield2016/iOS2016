@@ -68,10 +68,6 @@
                                                                              action:@selector(toggleYank:)];
     
     _transitionController = [[TSTransitionDelegate alloc] init];
-    
-    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
-    [panRecognizer setDelegate:self];
-    [_mapView addGestureRecognizer:panRecognizer];
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -95,6 +91,8 @@
                                              selector:@selector(sendAlert:)
                                                  name:TSVirtualEntourageManagerTimerDidEnd
                                                object:nil];
+    
+    _statusViewHeight.constant = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -128,6 +126,12 @@
     
     [self showAllSubviews];
     
+    if (_viewDidAppear) {
+        [self performSelector:@selector(geocoderUpdateUserLocationAnnotationCallOutForLocation:)
+                   withObject:[TSLocationController sharedLocationController].location
+                   afterDelay:0.5];
+    }
+    
     //To determine animation of first region
     _viewDidAppear = YES;
     
@@ -139,6 +143,14 @@
         _firstMapLoad = NO;
         [_mapView setRegionAtAppearanceAnimated:YES];
     }
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [self setStatusViewText:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -334,6 +346,7 @@
 - (IBAction)sendAlert:(id)sender {
     
     _shouldSendAlert = NO;
+    _mapView.shouldUpdateCallOut = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -440,6 +453,8 @@
 
 - (void)showAllSubviews {
     
+    _statusView.alpha = 1.0;
+    
     [UIView animateWithDuration:0.3f animations:^{
         for (UIView *view in self.view.subviews) {
             view.alpha = 1.0f;
@@ -473,15 +488,18 @@
     
     _statusView.hidden = NO;
     
-    [UIView animateWithDuration:0.2 animations:^{
-        _statusViewHeight.constant = height;
-        
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        if (!height) {
-            _statusView.hidden = YES;
-        }
-    }];
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _statusViewHeight.constant = height;
+                         
+                         [self.view layoutIfNeeded];
+                     } completion:^(BOOL finished) {
+                         if (!height) {
+                             _statusView.hidden = YES;
+                         }
+                     }];
 }
 
 #pragma mark - UIGestureRecognizerDelegate methods
@@ -492,12 +510,14 @@
 
 #pragma mark - Gesture handlers
 
-- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+- (void)userDidPanMapView:(ADClusterMapView *)mapView {
     
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
-        _isTrackingUser = NO;
-        [self setStatusViewText:nil];
-    }
+}
+
+- (void)userWillPanMapView:(ADClusterMapView *)mapView {
+    
+    _isTrackingUser = NO;
+    [self setStatusViewText:nil];
 }
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
@@ -568,8 +588,10 @@
 - (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
     
     BOOL search = NO;
+    BOOL show = NO;
     
     if (_mapView.shouldUpdateCallOut || _isTrackingUser) {
+        show = YES;
         if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 10 ||
             !_mapView.lastReverseGeocodeLocation) {
             search = YES;
@@ -611,7 +633,7 @@
                     subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
                 }
                 
-                _statusView.userLocation = [NSString stringWithFormat:@"Approx: %@, %@", title, subtitle];
+                _statusView.userLocation = [NSString stringWithFormat:@"%@", title];
                 [self setStatusViewText:_statusView.userLocation];
                 
                 _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
@@ -619,7 +641,7 @@
             }
         }];
     }
-    else {
+    else if (show) {
         [self setStatusViewText:_statusView.userLocation];
     }
     

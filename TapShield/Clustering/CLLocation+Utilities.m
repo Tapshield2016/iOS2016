@@ -32,4 +32,10 @@ CLLocationCoordinate2D CLLocationCoordinate2DRoundedLonLat(CLLocationCoordinate2
     return CLLocationCoordinate2DMake(lat, lon);
 }
 
+BOOL MKMapRectSizeIsEqual(MKMapRect rect1, MKMapRect rect2) {
+    
+    return (round(rect1.size.height) == round(rect2.size.height) &&
+            round(rect1.size.width) == round(rect2.size.width));
+}
+
 @end

@@ -228,15 +228,20 @@
         [mutableArray addObject:heatMarker];
     }
     
-    [_mapView addOverlays:mutableArray level:MKOverlayLevelAboveRoads];
-    
-    if (!_heatMarkers) {
-        _heatMarkers = mutableArray;
-    }
-    else {
-        [_heatMarkers addObjectsFromArray:mutableArray];
-    }
-    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!_shouldAddHeatMap) {
+            return;
+        }
+        
+        [_mapView addOverlays:mutableArray level:MKOverlayLevelAboveRoads];
+        
+        if (!_heatMarkers) {
+            _heatMarkers = mutableArray;
+        }
+        else {
+            [_heatMarkers addObjectsFromArray:mutableArray];
+        }
+    }];
 }
 
 - (void)hideHeatMapOverlays {

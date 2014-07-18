@@ -37,6 +37,7 @@
 @property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
 @property (assign, nonatomic) BOOL annotationsLoaded;
+@property (assign, nonatomic) BOOL firstMapLoad;
 
 @end
 
@@ -46,6 +47,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    _firstMapLoad = YES;
+    _isTrackingUser = YES;
+    _statusView.hidden = YES;
     
     _annotationsLoaded = NO;
     
@@ -130,6 +134,11 @@
     if (_shouldSendAlert) {
         [self sendYankAlert];
     }
+    
+    if (_firstMapLoad) {
+        _firstMapLoad = NO;
+        [_mapView setRegionAtAppearanceAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -140,6 +149,12 @@
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {
+    
+    [super willMoveToParentViewController:parent];
+    
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent {
     
     [super willMoveToParentViewController:parent];
     
@@ -183,11 +198,10 @@
         [_mapView refreshRegionBoundariesOverlay];
         
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
-            
-            [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
             [[TSLocationController sharedLocationController].geofence updateNearbyAgencies];
-            [_reportManager loadSpotCrimeAndSocialAnnotations:location];
+            [_reportManager performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
             [self addUserLocationAnnotation:location];
+            [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
         }];
     }
 }
@@ -196,7 +210,7 @@
     
     if (!_mapView.userLocationAnnotation) {
         _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                      placeName:@"Searching for address..."
+                                                                                      placeName:nil
                                                                                     description:nil];
         
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
@@ -256,7 +270,7 @@
 - (void)entourageModeOn {
     
     [_reportManager showSpotCrimes];
-    [self setIsTrackingUser:YES];
+    self.isTrackingUser = YES;
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
     
@@ -272,7 +286,6 @@
     [_menuViewController showMenuButton:self];
     [[TSVirtualEntourageManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
-    self.isTrackingUser = YES;
     
     [self stopClockTimer];
 }
@@ -358,9 +371,6 @@
         TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
         pageview.homeViewController = self;
         
-        _isTrackingUser = YES;
-        [_mapView setRegionAtAppearanceAnimated:YES];
-        
         [self showOnlyMap];
         [_reportManager hideSpotCrimes];
     });
@@ -376,9 +386,6 @@
     TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
     pageview.homeViewController = self;
     pageview.isChatPresentation = YES;
-    
-    _isTrackingUser = YES;
-    [_mapView setRegionAtAppearanceAnimated:YES];
     
     [self showOnlyMap];
 }
@@ -424,7 +431,7 @@
             [_mapView setRegionAtAppearanceAnimated:YES];
         }
         else {
-            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:_viewDidAppear];
         }
     }
     
@@ -464,10 +471,16 @@
         height = 0;
     }
     
+    _statusView.hidden = NO;
+    
     [UIView animateWithDuration:0.2 animations:^{
         _statusViewHeight.constant = height;
         
         [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        if (!height) {
+            _statusView.hidden = YES;
+        }
     }];
 }
 
@@ -521,27 +534,19 @@
         [[TSVirtualEntourageManager sharedManager] checkRegion:location];
     }
     
-    if (!_mapView.userLocationAnnotation) {
-        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                       placeName:@"Searching for address..."
-                                                                                     description:nil];
-        
-        [_mapView addAnnotation:_mapView.userLocationAnnotation];
-        [_mapView updateAccuracyCircleWithLocation:location];
-    }
-    else {
+    if (_mapView.userLocationAnnotation) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [_mapView updateAccuracyCircleWithLocation:location];
+            _mapView.userLocationAnnotation.coordinate = location.coordinate;
         });
-        _mapView.userLocationAnnotation.coordinate = location.coordinate;
     }
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
         //avoid loop from negligible differences in region change
         if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
             fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
-            [_mapView setCenterCoordinate:location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:location.coordinate animated:_viewDidAppear];
         }
     }
     
@@ -576,6 +581,11 @@
         _mapView.lastReverseGeocodeLocation = location;
         
         [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            
+            if (error) {
+                _mapView.lastReverseGeocodeLocation = nil;
+            }
+            
             if (placemarks) {
                 CLPlacemark *placemark = [placemarks firstObject];
                 NSString *title = @"";
@@ -601,10 +611,11 @@
                     subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
                 }
                 
-                _statusView.userLocation = [NSString stringWithFormat:@"Approx: %@", title];
+                _statusView.userLocation = [NSString stringWithFormat:@"Approx: %@, %@", title, subtitle];
                 [self setStatusViewText:_statusView.userLocation];
                 
-                _mapView.userLocationAnnotation.subtitle = [NSString stringWithFormat:@"Approx: %@", title];
+                _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
+                _mapView.userLocationAnnotation.subtitle = subtitle;
             }
         }];
     }
@@ -612,7 +623,7 @@
         [self setStatusViewText:_statusView.userLocation];
     }
     
-    _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
+//    _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
 #pragma mark - MKMapViewDelegate methods
@@ -672,6 +683,7 @@
         }
         
         _mapView.userLocationAnnotationView = (TSUserAnnotationView *)annotationView;
+        _mapView.userLocationAnnotationView.canShowCallout = NO;
     }
     else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
 
@@ -792,7 +804,7 @@
         //avoid loop from negligible differences in region change during zoom
         if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
             fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
-            [_mapView setCenterCoordinate:location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:location.coordinate animated:_viewDidAppear];
         }
     }
     else {
@@ -924,8 +936,19 @@
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error {
     
+//    if (_firstMapLoad) {
+//        _firstMapLoad = NO;
+//        [_mapView setRegionAtAppearanceAnimated:YES];
+//    }
     NSLog(@"Failed Loading Map");
 }
+//- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
+//    
+//    if (_firstMapLoad) {
+//        _firstMapLoad = NO;
+//        [_mapView setRegionAtAppearanceAnimated:YES];
+//    }
+//}
 
 
 - (void)flipIntersectingRouteAnnotation {

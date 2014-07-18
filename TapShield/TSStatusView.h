@@ -15,6 +15,6 @@
 
 - (void)setText:(NSString *)string;
 
-- (id)initWithFrame:(CGRect)frame navigationBar:(UINavigationBar *)bar;
+- (id)initWithFrame:(CGRect)frame;
 
 @end

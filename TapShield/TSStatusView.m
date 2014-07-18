@@ -19,22 +19,25 @@
 
 @implementation TSStatusView
 
-- (id)initWithFrame:(CGRect)frame navigationBar:(UINavigationBar *)bar
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         
-        _statusToolbar = [[UIToolbar alloc] initWithFrame:frame];
+        _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
         [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
+        _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        _statusToolbar.barTintColor = [TSColorPalette alertRed];
         
-        _label = [[TSBaseLabel alloc] initWithFrame:frame];
+        _label = [[TSBaseLabel alloc] initWithFrame:self.bounds];
         _label.text = @"Searching for location";
         _label.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:12];
         _label.textAlignment = NSTextAlignmentCenter;
+        _label.textColor = [UIColor whiteColor];
+        _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         
-        frame.origin.y = bar.frame.size.height;
-        self.frame = frame;
+        self.autoresizesSubviews = YES;
         self.backgroundColor = [TSColorPalette clearColor];
         [self addSubview:_statusToolbar];
         [self addSubview:_label];
@@ -51,17 +54,17 @@
         _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
         [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
         _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        _statusToolbar.barTintColor = [TSColorPalette listBackgroundColor];
+        _statusToolbar.barTintColor = [TSColorPalette tapshieldBlue];
         
         _label = [[TSBaseLabel alloc] initWithFrame:self.bounds];
         _label.text = @"Searching for location";
         _label.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:12];
         _label.textAlignment = NSTextAlignmentCenter;
+        _label.textColor = [UIColor whiteColor];
         _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         
         self.autoresizesSubviews = YES;
         self.backgroundColor = [TSColorPalette clearColor];
-//        self.clipsToBounds = YES;
         [self addSubview:_statusToolbar];
         [self addSubview:_label];
         

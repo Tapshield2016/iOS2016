@@ -577,6 +577,17 @@ static dispatch_once_t predicate;
 
 - (void)setNextTimer {
     
+    NSError *error = NULL;
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:&error];
+    if(error) {
+        // Do some error handling
+    }
+    [session setActive:YES error:&error];
+    if (error) {
+        // Do some error handling
+    }
+    
     NSArray *times = [NSArray arrayWithObjects:NOTIFICATION_TIMES];
     for (NSNumber *time in times) {
         if ([[_endTimer.fireDate dateByAddingTimeInterval:-time.integerValue] timeIntervalSinceNow] > 1) {

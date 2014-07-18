@@ -7,10 +7,11 @@
 //
 
 #import "TSPageViewController.h"
-
+#import "FBKVOController.h"
 
 @interface TSPageViewController ()
 
+@property (nonatomic, strong) FBKVOController *kvoController;
 
 @end
 
@@ -34,16 +35,23 @@
     
     [self initPages];
     
-    _animatedView = [[UIView alloc] initWithFrame:self.view.frame];
+    CGRect frame = self.view.frame;
+    _animatedView = [[UIView alloc] initWithFrame:frame];
     _animatedView.backgroundColor = [UIColor clearColor];
     _animatedView.opaque = NO;
     _animatedView.clipsToBounds = YES;
     
-    CGRect frame = self.view.frame;
+    frame = self.view.frame;
     frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     self.toolbar.frame = frame;
     [_animatedView addSubview:self.toolbar];
     [self.view insertSubview:_animatedView atIndex:0];
+    
+    CGRect statusFrame = [UIApplication sharedApplication].statusBarFrame;
+    statusFrame.origin.y = self.view.frame.size.height;
+    _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
+    [self.view insertSubview:_statusView belowSubview:_animatedView];
+    
     [self createCountdownView];
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -55,6 +63,12 @@
     
     _isPhoneView = NO;
     
+    _kvoController = [FBKVOController controllerWithObserver:self];
+    
+    [_kvoController observe:_homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
+        
+        [pageVC.statusView setText:change[NSKeyValueChangeNewKey]];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,27 +136,6 @@
 }
 
 #pragma mark - Init UI Features
-
-- (void)createSplitTranslucentBackground {
-    
-    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2);
-    _topToolbar = [[UIToolbar alloc] initWithFrame:frame];
-    _bottomToolbar = [[UIToolbar alloc] initWithFrame:frame];
-    _topTintView = [[UIView alloc] initWithFrame:frame];
-    frame.origin.y = frame.size.height;
-    _bottomTintView = [[UIView alloc] initWithFrame:frame];
-    
-    _topTintView.backgroundColor = [UIColor clearColor];
-    _bottomTintView.backgroundColor = [UIColor clearColor];
-    
-    _topToolbar.barStyle = UIBarStyleBlack;
-    _bottomToolbar.barStyle = UIBarStyleBlack;
-    
-    [_topTintView addSubview:_topToolbar];
-    [_bottomTintView addSubview:_bottomToolbar];
-    [self.view insertSubview:_topTintView atIndex:0];
-    [self.view insertSubview:_bottomTintView atIndex:0];
-}
 
 - (void)createCountdownView {
     
@@ -244,7 +237,12 @@
         _isFirstTimeViewed = NO;
     }
     
-    [self disarmBarButton];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_homeViewController.mapView setRegionAtAppearanceAnimated:YES];
+        _homeViewController.isTrackingUser = YES;
+        
+        [self disarmBarButton];
+    }];
 }
 
 
@@ -312,6 +310,10 @@
     CGRect frame = _animatedView.frame;
     frame.size.height = toolbarFrameHeight;
     _animatedView.frame = frame;
+    
+    CGRect statusViewFrame = _statusView.frame;
+    statusViewFrame.origin.y = toolbarFrameHeight;
+    _statusView.frame = statusViewFrame;
     
     frame = _disarmPadViewController.view.frame;
     frame.origin.x = disarmOffset;

@@ -324,6 +324,10 @@ int nearestEvenInt(int to) {
         }
         
         NSLog(@"Finished mainqueue");
+        
+        if (_finishedBlock) {
+            _finishedBlock(nil);
+        }
     });
 }
 

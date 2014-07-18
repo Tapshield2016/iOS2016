@@ -19,7 +19,6 @@
     id <ADClusterMapViewDelegate>  _secondaryDelegate;
     ADMapCluster *                 _rootMapCluster;
     BOOL                           _isAnimatingClusters;
-    BOOL                           _shouldComputeClusters;
     BOOL                           _isSettingAnnotations;
 }
 
@@ -27,10 +26,12 @@
 @property (nonatomic, strong) NSMutableSet *clusterAnnotationsPool;
 @property (nonatomic, strong) NSMutableSet *clusterableAnnotationsAdded;
 @property (nonatomic, strong) NSSet *annotationsToBeSet;
-@property (nonatomic, strong) NSSet *originalAnnotations;
+@property (nonatomic, strong) NSMutableSet *originalAnnotations;
 @property (nonatomic, strong) id<MKAnnotation> previouslySelectedAnnotation;
 @property (nonatomic) BOOL shouldReselectAnnotation;
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
+@property (nonatomic, strong) NSDate *lastAnnotationSet;
+@property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
 
 @end
 
@@ -78,10 +79,49 @@
 }
 
 - (void)setAnnotations:(NSSet *)annotations {
-    if (!_isSettingAnnotations && !_isAnimatingClusters && ! _operationQueue.operationCount) {
+    
+    if (!_lastAnnotationSet) {
+        _lastAnnotationSet = [NSDate dateWithTimeIntervalSince1970:0];
+    }
+    
+    BOOL shouldShowIndicator = YES;
+    BOOL shouldContinue = NO;
+    if ([[NSDate date] timeIntervalSinceDate:_lastAnnotationSet] >= 5) {
+        shouldContinue = YES;
+    }
+    else {
+        shouldShowIndicator = NO;
+    }
+    
+    if (_originalAnnotations.count > annotations.count) {
+        shouldContinue = YES;
+        shouldShowIndicator = NO;
+    }
+    
+    if (!_originalAnnotations.count) {
+        shouldContinue = YES;
+        shouldShowIndicator = NO;
+    }
+    
+    if (!_isSettingAnnotations && !_isAnimatingClusters && ! _operationQueue.operationCount && shouldContinue) {
         _isSettingAnnotations = YES;
+        _lastAnnotationSet = [NSDate date];
         NSLog(@"isSettingAnnoatations");
-        _originalAnnotations = annotations;
+        
+        if (shouldShowIndicator) {
+            [self insertSubview:_indicatorView atIndex:1];
+            [_indicatorView startAnimating];
+        }
+        
+        if (!_indicatorView) {
+            _indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+            _indicatorView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+            _indicatorView.layer.cornerRadius = 5;
+            _indicatorView.center = self.center;
+            [_indicatorView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        }
+        
+        _originalAnnotations = [[NSMutableSet alloc] initWithSet:annotations];
     
         NSInteger numberOfAnnotationsInPool = 2 * [self numberOfClusters]; //We manage a pool of annotations. In case we have N splits and N joins in a single animation we have to double up the actual number of annotations that belongs to the pool.
         if (_clusterAnnotations.count != numberOfAnnotationsInPool * 2) {
@@ -122,16 +162,13 @@
                     [_secondaryDelegate mapViewDidFinishClustering:self];
                 }
                 _isSettingAnnotations = NO;
-                if (_annotationsToBeSet) {
-                    NSSet *annotations = _annotationsToBeSet;
-                    _annotationsToBeSet = nil;
-                    [self setAnnotations:annotations];
-                }
+                [self checkAnnotationsToBeSet];
             });
         });
     } else {
         // keep the annotations for setting them later
         _annotationsToBeSet = annotations;
+        [self checkAnnotationsToBeSet];
     }
 }
 
@@ -189,9 +226,10 @@
 - (void)removeAnnotations:(NSArray *)annotations {
     
     int previousCount = _clusterableAnnotationsAdded.count;
-    [_clusterableAnnotationsAdded minusSet:[NSSet setWithArray:annotations]];
+    NSSet *set = [NSSet setWithArray:annotations];
+    [_clusterableAnnotationsAdded minusSet:set];
     
-    if (_clusterableAnnotationsAdded.count != previousCount) {;
+    if (_clusterableAnnotationsAdded.count != previousCount) {
         [self setAnnotations:_clusterableAnnotationsAdded];
     }
     
@@ -286,18 +324,36 @@
     if (_annotationsToBeSet) {
         NSSet *annotations = _annotationsToBeSet;
         _annotationsToBeSet = nil;
-        _shouldComputeClusters = NO;
         [self setAnnotations:annotations];
     }
-//    else if (_shouldComputeClusters) { // do one more computation if the user moved the map while animating
-//        _shouldComputeClusters = NO;
-//        [self _clusterInMapRect:self.visibleMapRect];
-//    }
     if ([_secondaryDelegate respondsToSelector:@selector(clusterAnimationDidStopForMapView:)]) {
         [_secondaryDelegate clusterAnimationDidStopForMapView:self];
     }
     
     NSLog(@"Finished Animating");
+}
+
+- (void)checkAnnotationsToBeSet {
+    
+    if (_annotationsToBeSet) {
+        if (_annotationsToBeSet.count < _originalAnnotations.count) {
+            [self setAwaitingAnnotations];
+        }
+        else {
+            [self performSelector:@selector(setAwaitingAnnotations) withObject:nil afterDelay:5];
+        }
+    }
+}
+
+- (void)setAwaitingAnnotations {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (_annotationsToBeSet) {
+            NSSet *annotations = _annotationsToBeSet;
+            _annotationsToBeSet = nil;
+            [self setAnnotations:annotations];
+        }
+    }];
 }
 
 #pragma mark - MKMapViewDelegate
@@ -337,12 +393,7 @@
         return;
     }
     
-//    if (_isAnimatingClusters) {
-//        _shouldComputeClusters = YES;
-//    } else
     if (!_isSettingAnnotations){
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//        [self performSelector:@selector(_clusterInMapRect:) withObject:nil afterDelay:.2];
         [self _clusterInMapRect:self.visibleMapRect];
     }
     if (_previouslySelectedAnnotation) {
@@ -422,6 +473,8 @@
     TSClusterOperation *clusterOperation = [[TSClusterOperation alloc] initWithMapView:self
                                                                            rootCluster:_rootMapCluster
                                                                             completion:^(ADClusterMapView *mapView) {
+                                                                                [_indicatorView stopAnimating];
+                                                                                [_indicatorView removeFromSuperview];
                                                                             }];
     [_operationQueue addOperation:clusterOperation];
     [_operationQueue setSuspended:NO];

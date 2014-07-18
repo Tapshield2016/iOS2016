@@ -241,12 +241,14 @@
     float minimumHeight = ((TSPageViewController *)self.parentViewController).navigationController.navigationBar.frame.size.height*3 + topBarHeight;
     CGRect toolbarFrame = ((TSPageViewController *)self.parentViewController).animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
+    CGRect statusViewFrame = ((TSPageViewController *)self.parentViewController).statusView.frame;
+    statusViewFrame.origin.y = toolbarFrame.size.height;
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
         _voipController.view.frame = self.view.bounds;
         ((TSPageViewController *)self.parentViewController).animatedView.frame = toolbarFrame;
-        
+        ((TSPageViewController *)self.parentViewController).statusView.frame = statusViewFrame;
         _alertButtonView.alpha = 0.0f;
         _detailsButtonView.alpha = 0.0f;
         _chatButtonView.alpha = 0.0f;
@@ -283,6 +285,8 @@
     float minimumHeight = ((TSPageViewController *)self.parentViewController).navigationController.navigationBar.frame.size.height + topBarHeight;
     CGRect toolbarFrame = ((TSPageViewController *)self.parentViewController).animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
+    CGRect statusViewFrame = ((TSPageViewController *)self.parentViewController).statusView.frame;
+    statusViewFrame.origin.y = toolbarFrame.size.height;
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
@@ -290,6 +294,7 @@
         
         if (((TSPageViewController *)self.parentViewController).halfPage == 1) {
             ((TSPageViewController *)self.parentViewController).animatedView.frame = toolbarFrame;
+            ((TSPageViewController *)self.parentViewController).statusView.frame = statusViewFrame;
         }
         
         _alertButtonView.alpha = 1.0f;

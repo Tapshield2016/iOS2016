@@ -50,5 +50,9 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 
 - (void)stopLocationUpdates;
 - (void)cycleGPSSignalStrengthUntilDate:(NSDate *)date;
+- (void)bestAccuracyForAlert;
+- (void)bestAccuracyForBattery;
+- (void)bestAccuracyRefresh;
+- (void)enterLowPowerState;
 
 @end

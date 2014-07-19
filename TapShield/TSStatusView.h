@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString * const kTSStatusViewApproxAddress;
+extern NSString * const kTSStatusViewTimeRemaining;
+
 @interface TSStatusView : UIView
 
 @property (assign, nonatomic) float originalHeight;
 @property (strong, nonatomic) NSString *userLocation;
+@property (strong, nonatomic) NSString *timeLeft;
 
 - (void)setText:(NSString *)string;
 
 - (id)initWithFrame:(CGRect)frame;
+- (void)setTitle:(NSString *)title message:(NSString *)message;
 
 @end

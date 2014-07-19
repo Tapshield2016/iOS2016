@@ -9,9 +9,13 @@
 #import "TSStatusView.h"
 #import "TSBaseLabel.h"
 
+NSString * const kTSStatusViewApproxAddress = @"Approximate Location";
+NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
+
 @interface TSStatusView ()
 
 @property (strong, nonatomic) TSBaseLabel *label;
+@property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIView *view;
 @property (strong, nonatomic) UIToolbar *statusToolbar;
 
@@ -42,18 +46,18 @@
         
         frame = self.bounds;
         frame.size.height *= .4;
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:frame];
-        titleLabel.text = @"Approximate Location";
-        titleLabel.font = [UIFont systemFontOfSize:10];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        _titleLabel = [[UILabel alloc] initWithFrame:frame];
+        _titleLabel.text = kTSStatusViewApproxAddress;
+        _titleLabel.font = [UIFont systemFontOfSize:10];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         
         self.autoresizesSubviews = YES;
         self.backgroundColor = [TSColorPalette clearColor];
         [self addSubview:_statusToolbar];
         [self addSubview:_label];
-        [self addSubview:titleLabel];
+        [self addSubview:_titleLabel];
         
         _originalHeight = self.frame.size.height;
     }
@@ -81,18 +85,18 @@
         
         frame = self.bounds;
         frame.size.height *= .4;
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:frame];
-        titleLabel.text = @"Approximate Location";
-        titleLabel.font = [UIFont systemFontOfSize:10];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        _titleLabel = [[UILabel alloc] initWithFrame:frame];
+        _titleLabel.text = kTSStatusViewApproxAddress;
+        _titleLabel.font = [UIFont systemFontOfSize:10];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         
         self.autoresizesSubviews = YES;
         self.backgroundColor = [TSColorPalette clearColor];
         [self addSubview:_statusToolbar];
         [self addSubview:_label];
-        [self addSubview:titleLabel];
+        [self addSubview:_titleLabel];
         
         _originalHeight = self.frame.size.height;
     }
@@ -110,10 +114,48 @@
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     animation.type = kCATransitionFade;
     animation.duration = duration;
-    [self.label.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [_label.layer addAnimation:animation forKey:@"kCATransitionFade"];
     
     
     _label.text = string;
 }
+
+- (void)setTitle:(NSString *)title message:(NSString *)message {
+    
+    float duration = 0.2;
+    if (!title) {
+        duration = 0.1;
+    }
+    
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = duration;
+    [_label.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [_titleLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    
+    
+    _label.text = message;
+    _titleLabel.text = title;
+}
+
+- (void)alternateMessages {
+    
+    int timeRemaining = [_timeLeft intValue];
+    
+    if ([_titleLabel.text isEqualToString:kTSStatusViewTimeRemaining] || timeRemaining < 10) {
+        _label.text = _userLocation;
+        _titleLabel.text = kTSStatusViewApproxAddress;
+    }
+    else {
+        _label.text = _timeLeft;
+        _titleLabel.text = kTSStatusViewTimeRemaining;
+    }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self performSelector:@selector(alternateMessages) withObject:nil afterDelay:5.0];
+}
+
+
 
 @end

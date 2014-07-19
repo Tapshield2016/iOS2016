@@ -10,6 +10,7 @@
 #define MAX_SECONDS 200
 
 #import "TSLocationController.h"
+#import "TSAlertManager.h"
 
 @interface TSLocationController ()
 
@@ -43,7 +44,18 @@ static dispatch_once_t predicate;
         
         UIDevice *device = [UIDevice currentDevice];
         device.batteryMonitoringEnabled = YES;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(batteryChanged:) name:UIDeviceBatteryLevelDidChangeNotification object:device];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(batteryChanged:)
+                                                     name:UIDeviceBatteryLevelDidChangeNotification
+                                                   object:device];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(batteryChanged:)
+                                                     name:UIDeviceBatteryStateDidChangeNotification
+                                                   object:device];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -51,10 +63,18 @@ static dispatch_once_t predicate;
 
 #pragma mark - Battery Management
 
-- (void)batteryChanged:(NSNotification *)notification
-{
-    UIDevice *device = [UIDevice currentDevice];
-    NSLog(@"State: %i Charge: %f", device.batteryState, device.batteryLevel);
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(enterLowPowerState)
+                                               object:nil];
+    
+    [self bestAccuracyForBattery];
+}
+
+- (void)batteryChanged:(NSNotification *)notification {
+    
+    [self bestAccuracyForBattery];
 }
 
 #pragma mark - Region Methods
@@ -149,16 +169,63 @@ static dispatch_once_t predicate;
     
     NSTimeInterval timeInterval = [date timeIntervalSinceNow];
     
-    if (timeInterval < 0) {
+    if (timeInterval < 120) {
         return;
     }
     
+    [self scheduleStrengthCycleTimer:timeInterval/2];
     
+    [self enterLowPowerState];
 }
 
-- (void)scheduleStrengthCycleTimer {
+- (void)scheduleStrengthCycleTimer:(NSTimeInterval)timeInterval {
     
+    [self timerReset];
     
+    if (!_cycleTimer) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            _cycleTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                                           target:self
+                                                         selector:@selector(timerFired:)
+                                                         userInfo:nil
+                                                          repeats:NO];
+            _cycleTimer.tolerance = 5;
+        }];
+    }
+}
+
+- (void)timerReset {
+    [_cycleTimer invalidate];
+    _cycleTimer = nil;
+}
+
+- (void)timerFired:(NSTimer *)timer {
+    
+    [self bestAccuracy];
+    
+    if (timer.timeInterval/2 < 60) {
+        return;
+    }
+    
+    [self scheduleStrengthCycleTimer:timer.timeInterval/2];
+    
+    [self performSelector:@selector(enterLowPowerState) withObject:nil afterDelay:15.0];
+}
+
+- (void)bestAccuracyRefresh {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self bestAccuracy];
+    
+    [_locationManager startUpdatingLocation];
+    
+    if (![TSAlertManager sharedManager].isAlertInProgress &&
+        ![TSAlertManager sharedManager].countdownTimer) {
+        [self performSelector:@selector(bestAccuracyForBattery)
+                   withObject:nil
+                   afterDelay:20];
+    }
 }
 
 - (void)enterLowPowerState {
@@ -169,7 +236,7 @@ static dispatch_once_t predicate;
     [_locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
 }
 
-- (void)conserveBatteryInAlert {
+- (void)tenMetersAccuracy {
     [_locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
 }
 
@@ -177,8 +244,42 @@ static dispatch_once_t predicate;
     [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
 }
 
-- (void)wifiAccuracy {
+- (void)hundredMetersAccuracy {
     [_locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+}
+
+- (void)bestAccuracyForAlert {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self bestAccuracy];
+}
+
+- (void)bestAccuracyForBattery {
+    
+    UIDeviceBatteryState batteryState = [UIDevice currentDevice].batteryState;
+    float batteryLevel = [UIDevice currentDevice].batteryLevel;
+    
+    NSLog(@"State: %i Charge: %f", batteryState, batteryLevel);
+    
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        return;
+    }
+    
+    if (batteryState == UIDeviceBatteryStateCharging) {
+        [self navigationAccuracy];
+        return;
+    }
+    
+    if (batteryLevel > .20 || [TSAlertManager sharedManager].countdownTimer) {
+        [self bestAccuracy];
+    }
+    else if (batteryLevel > .10) {
+        [self tenMetersAccuracy];
+    }
+    else {
+        [self hundredMetersAccuracy];
+    }
 }
 
 #pragma mark - CLLocationManagerDelegate Methods

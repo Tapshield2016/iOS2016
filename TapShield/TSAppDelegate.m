@@ -169,7 +169,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
                 [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSVirtualEntourageManager sharedManager].endTimer.fireDate];
             }
             else {
-                
+                [[TSLocationController sharedLocationController] enterLowPowerState];
             }
         }
     }

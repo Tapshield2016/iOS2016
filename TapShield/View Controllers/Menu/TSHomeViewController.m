@@ -93,6 +93,8 @@
                                                object:nil];
     
     _statusViewHeight.constant = 0;
+    
+    [[TSLocationController sharedLocationController] bestAccuracyRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -433,6 +435,8 @@
 - (IBAction)userLocationTUI:(id)sender {
     
     self.isTrackingUser = YES;
+    
+    [[TSLocationController sharedLocationController] bestAccuracyRefresh];
 }
 
 - (void)setIsTrackingUser:(BOOL)isTrackingUser {

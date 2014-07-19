@@ -615,9 +615,11 @@ static dispatch_once_t predicate;
     
     [self resetSpeechTimer];
     
-    [self saySecondsRemaining:[_endTimer.fireDate timeIntervalSinceDate:[NSDate date]]];
-    
-    [self setNextTimer];
+    if (_isEnabled) {
+        [self saySecondsRemaining:[_endTimer.fireDate timeIntervalSinceDate:[NSDate date]]];
+        
+        [self setNextTimer];
+    }
 }
 
 - (void)resetSpeechTimer {

@@ -89,6 +89,7 @@ static dispatch_once_t predicate;
         return;
     }
     _shouldStartTimer = NO;
+    [[TSLocationController sharedLocationController] bestAccuracyForAlert];
     
     [self stopAlertCountdown];
     
@@ -264,6 +265,8 @@ static dispatch_once_t predicate;
     _status = kAlertSend;
     _isAlertInProgress = NO;
     _shouldStartTimer = YES;
+    
+    [[TSLocationController sharedLocationController] bestAccuracyForBattery];
 }
 
 

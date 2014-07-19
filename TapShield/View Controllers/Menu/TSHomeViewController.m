@@ -601,7 +601,8 @@
     if (_mapView.shouldUpdateCallOut || _isTrackingUser) {
         show = YES;
         if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 10 ||
-            !_mapView.lastReverseGeocodeLocation) {
+            !_mapView.lastReverseGeocodeLocation ||
+            !_statusView.userLocation) {
             search = YES;
         }
     }
@@ -646,6 +647,10 @@
                 
                 _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
                 _mapView.userLocationAnnotation.subtitle = subtitle;
+            }
+            else {
+                _statusView.userLocation = nil;
+                [self setStatusViewText:@"Searching"];
             }
         }];
     }

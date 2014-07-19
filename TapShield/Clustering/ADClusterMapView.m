@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) NSDate *lastAnnotationSet;
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
+@property (nonatomic, assign) BOOL shouldRefreshMap;
 @property (assign) MKMapRect previousVisibleMapRectClustered;
 
 @end
@@ -92,13 +93,17 @@
 
 - (void)setAnnotations:(NSSet *)annotations {
     
+    if (!annotations || !annotations.count) {
+        return;
+    }
+    
     if (!_lastAnnotationSet) {
         _lastAnnotationSet = [NSDate dateWithTimeIntervalSince1970:0];
     }
     
     BOOL shouldShowIndicator = YES;
     BOOL shouldContinue = NO;
-    if ([[NSDate date] timeIntervalSinceDate:_lastAnnotationSet] >= 5) {
+    if ([[NSDate date] timeIntervalSinceDate:_lastAnnotationSet] >= 5 || _shouldRefreshMap) {
         shouldContinue = YES;
     }
     else {
@@ -117,6 +122,7 @@
     
     if (!_isSettingAnnotations && !_isAnimatingClusters && ! _operationQueue.operationCount && shouldContinue) {
         _isSettingAnnotations = YES;
+        _shouldRefreshMap = NO;
         _lastAnnotationSet = [NSDate date];
         NSLog(@"isSettingAnnoatations");
         
@@ -355,11 +361,8 @@
         }
     }
     _isAnimatingClusters = NO;
-    if (_annotationsToBeSet) {
-        NSSet *annotations = _annotationsToBeSet;
-        _annotationsToBeSet = nil;
-        [self setAnnotations:annotations];
-    }
+    [self checkAnnotationsToBeSet];
+    
     if ([_secondaryDelegate respondsToSelector:@selector(clusterAnimationDidStopForMapView:)]) {
         [_secondaryDelegate clusterAnimationDidStopForMapView:self];
     }
@@ -370,7 +373,7 @@
 - (void)checkAnnotationsToBeSet {
     
     if (_annotationsToBeSet) {
-        if (_annotationsToBeSet.count < _originalAnnotations.count) {
+        if (_annotationsToBeSet.count < _originalAnnotations.count || _shouldRefreshMap) {
             [self setAwaitingAnnotations];
         }
         else {
@@ -388,6 +391,11 @@
             [self setAnnotations:annotations];
         }
     }];
+}
+
+- (void)needsRefresh {
+    
+    _shouldRefreshMap = YES;
 }
 
 #pragma mark - MKMapViewDelegate

@@ -29,37 +29,9 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     if (self) {
         // Initialization code
         
-        _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
-        [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
-        _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self setupViews];
         _statusToolbar.barTintColor = [TSColorPalette alertRed];
         
-        CGRect frame = self.bounds;
-        frame.origin.y = frame.size.height*.35;
-        frame.size.height *= .65;
-        _label = [[TSBaseLabel alloc] initWithFrame:frame];
-        _label.text = @"Searching for location";
-        _label.font = [UIFont systemFontOfSize:18];
-        _label.textAlignment = NSTextAlignmentCenter;
-        _label.textColor = [UIColor whiteColor];
-        _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        
-        frame = self.bounds;
-        frame.size.height *= .4;
-        _titleLabel = [[UILabel alloc] initWithFrame:frame];
-        _titleLabel.text = kTSStatusViewApproxAddress;
-        _titleLabel.font = [UIFont systemFontOfSize:10];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        
-        self.autoresizesSubviews = YES;
-        self.backgroundColor = [TSColorPalette clearColor];
-        [self addSubview:_statusToolbar];
-        [self addSubview:_label];
-        [self addSubview:_titleLabel];
-        
-        _originalHeight = self.frame.size.height;
     }
     return self;
 }
@@ -68,39 +40,43 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
 {
     self = [super initWithCoder:coder];
     if (self) {
-        _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
-        [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
-        _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self setupViews];
         _statusToolbar.barTintColor = [TSColorPalette tapshieldBlue];
-        
-        CGRect frame = self.bounds;
-        frame.origin.y = frame.size.height*.35 + 1;
-        frame.size.height *= .65;
-        _label = [[TSBaseLabel alloc] initWithFrame:frame];
-        _label.text = @"Searching for location";
-        _label.font = [UIFont systemFontOfSize:18];
-        _label.textAlignment = NSTextAlignmentCenter;
-        _label.textColor = [UIColor whiteColor];
-        _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        
-        frame = self.bounds;
-        frame.size.height *= .4;
-        _titleLabel = [[UILabel alloc] initWithFrame:frame];
-        _titleLabel.text = kTSStatusViewApproxAddress;
-        _titleLabel.font = [UIFont systemFontOfSize:10];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        
-        self.autoresizesSubviews = YES;
-        self.backgroundColor = [TSColorPalette clearColor];
-        [self addSubview:_statusToolbar];
-        [self addSubview:_label];
-        [self addSubview:_titleLabel];
-        
-        _originalHeight = self.frame.size.height;
     }
     return self;
+}
+
+- (void)setupViews {
+    _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
+    [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
+    _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    CGRect frame = self.bounds;
+    frame.origin.y = frame.size.height*.35 + 1;
+    frame.size.height *= .65;
+    _label = [[TSBaseLabel alloc] initWithFrame:frame];
+    _label.text = @"Searching for location";
+    _label.font = [UIFont systemFontOfSize:18];
+    _label.textAlignment = NSTextAlignmentCenter;
+    _label.textColor = [UIColor whiteColor];
+    _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    frame = self.bounds;
+    frame.size.height *= .4;
+    _titleLabel = [[UILabel alloc] initWithFrame:frame];
+    _titleLabel.text = kTSStatusViewApproxAddress;
+    _titleLabel.font = [UIFont systemFontOfSize:10];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    self.autoresizesSubviews = YES;
+    self.backgroundColor = [TSColorPalette clearColor];
+    [self addSubview:_statusToolbar];
+    [self addSubview:_label];
+    [self addSubview:_titleLabel];
+    
+    _originalHeight = self.frame.size.height;
 }
 
 - (void)setText:(NSString *)string {

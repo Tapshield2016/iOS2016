@@ -285,6 +285,7 @@
     TSSpotCrimeAnnotation *annotation = [[TSSpotCrimeAnnotation alloc] initWithSpocialReport:report];
     
     [self addNewSocialReports:@[annotation]];
+    [_mapView needsRefresh];
 }
 
 - (void)addSocialReports:(NSArray *)socialReports {

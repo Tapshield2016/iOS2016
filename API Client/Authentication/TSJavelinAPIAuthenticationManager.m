@@ -237,7 +237,7 @@ static dispatch_once_t onceToken;
     NSDictionary *parameters = [user parametersForRegistration];
     
     if (user.agency.requireDomainEmails) {
-        if ([user.email rangeOfString:user.agency.domain].location == NSNotFound) {
+        if (![user isAvailableForDomain:user.agency.domain]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain object:user.agency.domain];
             return;
         }

@@ -35,5 +35,6 @@
 - (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
+- (BOOL)isAvailableForDomain:(NSString *)emailDomain;
 
 @end

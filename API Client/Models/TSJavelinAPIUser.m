@@ -237,5 +237,17 @@
     return nil;
 }
 
+- (BOOL)isAvailableForDomain:(NSString *)emailDomain {
+    
+    emailDomain = [emailDomain stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    NSArray *userEmailDomain = [_email componentsSeparatedByString:@"@"];
+    
+    if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location == NSNotFound) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 @end

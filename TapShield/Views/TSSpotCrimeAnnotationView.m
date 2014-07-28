@@ -27,6 +27,7 @@
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         detailButton.tintColor = [TSColorPalette tapshieldBlue];
         self.rightCalloutAccessoryView = detailButton;
+        self.accessibilityLabel = @"Crime Report";
     }
     return self;
     

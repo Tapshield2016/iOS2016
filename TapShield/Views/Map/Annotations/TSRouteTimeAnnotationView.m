@@ -24,6 +24,7 @@
         
         [self addSubview:self.label];
         [self setCanShowCallout:NO];
+        self.accessibilityLabel = @"Route estimated time of arrival";
     }
     return self;
     

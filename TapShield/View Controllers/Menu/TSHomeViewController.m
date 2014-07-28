@@ -30,6 +30,10 @@
 #import "TSHeatMapOverlay.h"
 #import "ADClusterAnnotation.h"
 
+static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
+static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
+
+
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
@@ -66,6 +70,9 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(toggleYank:)];
+    self.navigationItem.rightBarButtonItem.accessibilityLabel = @"Yank";
+    self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
+    self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
     
     _transitionController = [[TSTransitionDelegate alloc] init];
 
@@ -110,9 +117,13 @@
     
     if ([TSYankManager sharedYankManager].isEnabled) {
         [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        self.navigationItem.rightBarButtonItem.accessibilityValue = @"On";
+        self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOn;
     }
     else {
         [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
+        self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
+        self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
     }
 }
 
@@ -332,9 +343,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (enabled) {
                 [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+                self.navigationItem.rightBarButtonItem.accessibilityValue = @"On";
+                self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOn;
             }
             else {
                 [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
+                self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
+                self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
             }
         });
     }];
@@ -646,7 +661,7 @@
                 [self setStatusViewText:_statusView.userLocation];
                 
                 _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
-                _mapView.userLocationAnnotation.subtitle = subtitle;
+//                _mapView.userLocationAnnotation.accessibilityLabel 
             }
             else {
                 _statusView.userLocation = nil;
@@ -1017,15 +1032,6 @@
 }
 
 #pragma mark - ADClusterMapViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"did scroll");
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    
-    NSLog(@"did zoom");
-}
 
 - (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id<MKAnnotation>)annotation {
     TSClusterAnnotationView * pinView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ADMapCluster"];

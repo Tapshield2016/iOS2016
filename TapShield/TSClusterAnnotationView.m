@@ -49,8 +49,8 @@
         count = clusterAnnotation.originalAnnotations.count;
     }
     // set title
-    clusterAnnotation.title = @"Cluster";
-    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", count];
+    clusterAnnotation.title = [NSString stringWithFormat:@"Contains %i annotations", count];
+//    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", count];
     
     // change pin image for group
 //    if ([clusterAnnotation. isEqualToString:kTYPESpotCrime]) {
@@ -71,6 +71,8 @@
 //    });
     
 //    clusterAnnotation.title = clusterAnnotation.groupTag;
+    
+    self.accessibilityLabel = @"Map annotation cluster";
 }
 
 @end

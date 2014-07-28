@@ -19,6 +19,9 @@
         // Initialization code
         self.image = [UIImage imageNamed:@"user_icon"];
         
+//        self.accessibilityValue = @"";
+        self.accessibilityLabel = @"Your Location";
+        
         UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
         if (image) {
             CGSize size = self.image.size;

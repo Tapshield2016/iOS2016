@@ -142,6 +142,8 @@
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
                                                              action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+        _leftBarButtonItem.accessibilityLabel = @"menu";
+        _leftBarButtonItem.accessibilityHint = @"opens list to navigate app";
     }
     
     [viewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:NO];

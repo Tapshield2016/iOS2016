@@ -255,9 +255,11 @@
         if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl.length) {
             cell.textLabel.text = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name;
             [cell setHidden:NO];
+            [cell setAccessibilityElementsHidden:NO];
         }
         else {
             [cell setHidden:YES];
+            [cell setAccessibilityElementsHidden:YES];
         }
     }
     

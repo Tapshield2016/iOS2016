@@ -62,24 +62,25 @@
 
 - (void)animation {
     
-    CGRect frame = _smallSplashLogoImageView.frame;
-    
-    [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        _splashLargeLogoImageView.frame = frame;
-    } completion:^(BOOL finished) {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        CGRect frame = _smallSplashLogoImageView.frame;
         
-        TSIntroPageViewController *pageView = (TSIntroPageViewController *)self.parentViewController;
-        [pageView.logoImage setHidden:NO];
-        pageView.logoImage.frame = _smallSplashLogoImageView.frame;
+        [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            _splashLargeLogoImageView.frame = frame;
+        } completion:^(BOOL finished) {
+            
+            TSIntroPageViewController *pageView = (TSIntroPageViewController *)self.parentViewController;
+            [pageView.logoImage setHidden:NO];
+            pageView.logoImage.frame = _smallSplashLogoImageView.frame;
+            [_splashLargeLogoImageView setHidden:YES];
+            [pageView.view setUserInteractionEnabled:YES];
+        }];
         
-        [_splashLargeLogoImageView setHidden:YES];
+        [UIView animateWithDuration:0.5 delay:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            _swipeLabelView.alpha = 1.0f;
+            _welcomeLabel.alpha = 1.0f;
+        } completion:nil];
     }];
-    
-    [UIView animateWithDuration:0.5 delay:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        _swipeLabelView.alpha = 1.0f;
-        _welcomeLabel.alpha = 1.0f;
-    } completion:nil];
-    
 }
 
 

@@ -94,7 +94,7 @@
 
 - (IBAction)skipSlides:(id)sender {
     [self setViewControllers:@[_logInOrSignUpViewController] direction:UIPageViewControllerNavigationDirectionForward invalidateCache:YES animated:YES completion:nil];
-//    [self setViewControllers:@[_logInOrSignUpViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    
     [_skipButton setHidden:YES];
 }
 

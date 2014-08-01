@@ -67,8 +67,7 @@
     _kvoController = [FBKVOController controllerWithObserver:self];
     
     [_kvoController observe:_homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
-        
-        [pageVC.statusView setText:change[NSKeyValueChangeNewKey]];
+        [pageVC.statusView setText:statusView.userLocation];
     }];
 }
 

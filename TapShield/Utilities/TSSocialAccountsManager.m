@@ -23,66 +23,49 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 static TSSocialAccountsManager *_sharedSocialAccountsManagerInstance = nil;
 static dispatch_once_t predicate;
 
-+ (instancetype)initializeShareSocialAccountsManager {
-    
-    if (_sharedSocialAccountsManagerInstance == nil) {
-        dispatch_once(&predicate, ^{
-            _sharedSocialAccountsManagerInstance = [[self alloc] init];
-        });
-    }
-    return _sharedSocialAccountsManagerInstance;
-}
-
 - (id)init {
     
     self = [super init];
     
     if (self) {
         
-        //Facebook
-        [self initializeFacebookView];
-        
-        // Twitter setup
-        self.accountStore = [[ACAccountStore alloc] init];
-        self.apiManager = [[TWAPIManager alloc] init];
-        
-        // Google+ setup
-        GPPSignIn *signIn = [GPPSignIn sharedInstance];
-        signIn.shouldFetchGooglePlusUser = YES;
-        signIn.shouldFetchGoogleUserEmail = YES;
-        
-        // You previously set kClientId in the "Initialize the Google+ client" step
-        signIn.clientID = kGooglePlusClientId;
-        
-        // Uncomment one of these two statements for the scope you chose in the previous step
-        signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
-        //signIn.scopes = @[ @"profile" ];            // "profile" scope
-        // Optional: declare signIn.actions, see "app activities"
-        signIn.delegate = self;
-        
-        // LinkedIn setup
-        // https://github.com/jeyben/IOSLinkedInAPI
-        LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
-                                                                                        clientId:@"75cqjrach211kt"
-                                                                                    clientSecret:@"wAdZqm3bZJkKgq0l"
-                                                                                           state:@"DCEEFWF45453sdffef424"
-                                                                                   grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
-        self.linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
     }
     
     return self;
 }
 
 + (instancetype)sharedSocialAccountsManager {
+    
     if (_sharedSocialAccountsManagerInstance == nil) {
-        [NSException raise:@"Shared Client Not Initialized"
-                    format:@"Before calling [TSJavelinAPIClient sharedClient] you must first initialize the shared client"];
+        dispatch_once(&predicate, ^{
+            _sharedSocialAccountsManagerInstance = [[self alloc] init];
+        });
     }
     
     return _sharedSocialAccountsManagerInstance;
 }
 
-- (void)initializeFacebookView {
+- (void)logInWithFacebook {
+    
+    [self initFacebookView];
+}
+
+- (void)logInWithGooglePlus {
+    
+    [self initGooglePlus];
+}
+
+- (void)logInWithTwitter {
+    
+    [self initTwitter];
+}
+
+- (void)logInWithLinkedIn {
+    
+    [self initLinkedIn];
+}
+
+- (void)initFacebookView {
     
     // Facebook setup
     if (!self.facebookLoginView) {
@@ -92,10 +75,39 @@ static dispatch_once_t predicate;
     }
 }
 
-- (void)deallocFacebookView {
+- (void)initLinkedIn {
+    // LinkedIn setup
+    // https://github.com/jeyben/IOSLinkedInAPI
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
+                                                                                    clientId:@"75cqjrach211kt"
+                                                                                clientSecret:@"wAdZqm3bZJkKgq0l"
+                                                                                       state:@"DCEEFWF45453sdffef424"
+                                                                               grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
+    self.linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
+}
+
+- (void)initGooglePlus {
     
-    self.facebookLoginView = nil;
-    self.facebookLoginView.delegate = nil;
+    // Google+ setup
+    GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;
+    
+    // You previously set kClientId in the "Initialize the Google+ client" step
+    signIn.clientID = kGooglePlusClientId;
+    
+    // Uncomment one of these two statements for the scope you chose in the previous step
+    signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
+    //signIn.scopes = @[ @"profile" ];            // "profile" scope
+    // Optional: declare signIn.actions, see "app activities"
+    signIn.delegate = self;
+}
+
+- (void)initTwitter {
+    
+    // Twitter setup
+    self.accountStore = [[ACAccountStore alloc] init];
+    self.apiManager = [[TWAPIManager alloc] init];
 }
 
 - (void)addSocialViewsTo:(UIView *)view {

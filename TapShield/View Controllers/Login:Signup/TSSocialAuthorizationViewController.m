@@ -81,36 +81,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     backgroundImage.frame = self.view.frame;
     [self.view insertSubview:backgroundImage atIndex:0];
     
-    
-    // Twitter setup
-    _accountStore = [[ACAccountStore alloc] init];
-    _apiManager = [[TWAPIManager alloc] init];
-
-    // Facebook setup
-    _facebookLoginView.readPermissions = @[@"basic_info", @"email", @"user_likes"];
-
-    // Google+ setup
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;
-    
-    // You previously set kClientId in the "Initialize the Google+ client" step
-    signIn.clientID = kGooglePlusClientId;
-    
-    // Uncomment one of these two statements for the scope you chose in the previous step
-    signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
-    //signIn.scopes = @[ @"profile" ];            // "profile" scope
-    // Optional: declare signIn.actions, see "app activities"
-    signIn.delegate = self;
-
-    // LinkedIn setup
-    // https://github.com/jeyben/IOSLinkedInAPI
-    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
-                                                                                    clientId:@"75cqjrach211kt"
-                                                                                clientSecret:@"wAdZqm3bZJkKgq0l"
-                                                                                       state:@"DCEEFWF45453sdffef424"
-                                                                               grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
-    _linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -161,36 +131,10 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 #pragma mark - LinkedIn methods
 
 - (IBAction)didTapConnectWithLinkedIn:(id)sender {
-    [_linkedInClient getAuthorizationCode:^(NSString *code) {
-        [_linkedInClient getAccessToken:code success:^(NSDictionary *accessTokenData) {
-            NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
-            [[[TSJavelinAPIClient sharedClient] authenticationManager] createLinkedInUser:accessToken];
-            [self requestMeWithToken:accessToken];
-        }                   failure:^(NSError *error) {
-            NSLog(@"Quering accessToken failed %@", error);
-        }];
-    }                      cancel:^{
-        NSLog(@"Authorization was cancelled by user");
-    }                     failure:^(NSError *error) {
-        NSLog(@"Authorization failed %@", error);
-    }];
+    
 }
 
 
-- (void)requestMeWithToken:(NSString *)accessToken {
-    [_linkedInClient GET:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *result) {
-        NSLog(@"current user %@", result);
-    }        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"failed to fetch current user %@", error);
-    }];
-}
-
-#pragma mark - Google+ Delegate methods
-
-- (void)finishedWithAuth: (GTMOAuth2Authentication *)auth error: (NSError *) error {
-    NSLog(@"Received error %@ and auth object %@", error, auth);
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"]];
-}
 
 #pragma mark - UIActionSheetDelegate
 
@@ -228,74 +172,9 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     }
 }
 
-#pragma mark - Twitter-related methods
-/**
- *  Checks for the current Twitter configuration on the device / simulator.
- *
- *  First, we check to make sure that we've got keys to work with inside Info.plist (see README)
- *
- *  Then we check to see if the device has accounts available via +[TWAPIManager isLocalTwitterAccountAvailable].
- *
- *  Next, we ask the user for permission to access his/her accounts.
- *
- *  Upon completion, the button to continue will be displayed, or the user will be presented with a status message.
- */
 
-- (IBAction)refreshTwitterAccounts:(id)sender
-{
-    NSLog(@"Refreshing Twitter Accounts \n");
+- (IBAction)refreshTwitterAccounts:(id)sender {
     
-    if (![TWAPIManager hasAppKeys]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_NO_KEYS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
-        [alert show];
-    }
-    else if (![TWAPIManager isLocalTwitterAccountAvailable]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_NO_ACCOUNTS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
-        [alert show];
-    }
-    else {
-        [self _obtainAccessToAccountsWithBlock:^(BOOL granted) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (granted) {
-                    [self performReverseAuth:nil];
-                }
-                else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_PERM_ACCESS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
-                    [alert show];
-                    NSLog(@"You were not granted access to the Twitter accounts.");
-                }
-            });
-        }];
-    }
-}
-
-
-- (void)_obtainAccessToAccountsWithBlock:(void (^)(BOOL))block
-{
-    ACAccountType *twitterType = [_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    ACAccountStoreRequestAccessCompletionHandler handler = ^(BOOL granted, NSError *error) {
-        if (granted) {
-            self.accounts = [_accountStore accountsWithAccountType:twitterType];
-        }
-        
-        block(granted);
-    };
-    [_accountStore requestAccessToAccountsWithType:twitterType options:NULL completion:handler];
-}
-
-/**
- *  Handles the button press that initiates the token exchange.
- *
- *  We check the current configuration inside -[UIViewController viewDidAppear].
- */
-- (void)performReverseAuth:(id)sender
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-    for (ACAccount *acct in _accounts) {
-        [sheet addButtonWithTitle:acct.username];
-    }
-    sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"Cancel"];
-    [sheet showInView:self.view];
 }
 
 
@@ -315,7 +194,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 
 #pragma mark - Animations
-
 
 - (void)animateLoginButtons {
     

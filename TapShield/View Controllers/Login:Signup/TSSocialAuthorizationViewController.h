@@ -16,7 +16,7 @@
 
 @class GPPSignInButton;
 
-@interface TSSocialAuthorizationViewController : TSBaseViewController <UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate>
+@interface TSSocialAuthorizationViewController : TSBaseViewController <UIActionSheetDelegate, TSJavelinAuthenticationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet TSCircularButton *loginButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *signUpButton;

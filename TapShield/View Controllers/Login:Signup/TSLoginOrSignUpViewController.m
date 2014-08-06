@@ -40,23 +40,11 @@
 - (IBAction)showLoginView:(id)sender {
     
     [self socialLogInView:YES];
-    
-//    TSLoginViewController *viewController = (TSLoginViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginViewController class])];
-//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-//    [navigationController setNavigationBarHidden:YES];
-//    
-//    [self presentViewController:navigationController animated:NO completion:nil];
 }
 
 - (IBAction)showSignUpView:(id)sender {
     
     [self socialLogInView:NO];
-    
-//    TSAskOrganizationViewController *viewController = (TSAskOrganizationViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAskOrganizationViewController class])];
-//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-//    [navigationController setNavigationBarHidden:YES];
-//    
-//    [self presentViewController:navigationController animated:NO completion:nil];
 }
 
 - (IBAction)requestDemo:(id)sender {

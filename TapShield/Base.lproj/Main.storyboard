@@ -1828,7 +1828,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u2i-O2-pH1" customClass="TSAnimatedView">
-                                <rect key="frame" x="20" y="20" width="62" height="85"/>
+                                <rect key="frame" x="-62" y="20" width="62" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="facebook_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="RYF-lQ-urp">
@@ -1851,7 +1851,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oey-Ge-8ny" customClass="TSAnimatedView">
-                                <rect key="frame" x="100" y="20" width="62" height="85"/>
+                                <rect key="frame" x="-62" y="20" width="62" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitter_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3vc-o0-jG9">
@@ -1881,7 +1881,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sAu-At-s8f" customClass="TSAnimatedView">
-                                <rect key="frame" x="180" y="20" width="62" height="85"/>
+                                <rect key="frame" x="-62" y="20" width="62" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="google_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nMd-FA-jrf">
@@ -1908,7 +1908,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5dB-sI-GdT" customClass="TSAnimatedView">
-                                <rect key="frame" x="20" y="120" width="62" height="85"/>
+                                <rect key="frame" x="-62" y="120" width="62" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="linkedin_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="ogz-bH-3gH">
@@ -1938,7 +1938,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="No1-OM-mEv" customClass="TSAnimatedView">
-                                <rect key="frame" x="100" y="120" width="62" height="85"/>
+                                <rect key="frame" x="-62" y="120" width="62" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="LUl-ls-ksP">

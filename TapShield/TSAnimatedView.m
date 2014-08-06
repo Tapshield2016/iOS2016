@@ -27,12 +27,11 @@
     pathAnimation.fillMode = kCAFillModeForwards;
     pathAnimation.removedOnCompletion = NO;
     pathAnimation.repeatCount = 1;
-    //pathAnimation.rotationMode = @"auto";
+//    pathAnimation.rotationMode = kCAAnimationRotateAuto;
     pathAnimation.delegate = self;
     pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     pathAnimation.duration = duration;
     pathAnimation.beginTime = CACurrentMediaTime() + delay;
-    
     
     // Create a circle path
     CGMutablePathRef curvedPath = CGPathCreateMutable();

@@ -39,43 +39,27 @@
 
 - (IBAction)showLoginView:(id)sender {
     
-//    [self socialLogInView:YES];
+    [self socialLogInView:YES];
     
-    TSLoginViewController *viewController = (TSLoginViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginViewController class])];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [navigationController setNavigationBarHidden:YES];
-    
-    [self presentViewController:navigationController animated:NO completion:nil];
+//    TSLoginViewController *viewController = (TSLoginViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSLoginViewController class])];
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+//    [navigationController setNavigationBarHidden:YES];
+//    
+//    [self presentViewController:navigationController animated:NO completion:nil];
 }
 
 - (IBAction)showSignUpView:(id)sender {
     
-//    [self socialLogInView:NO];
+    [self socialLogInView:NO];
     
-    TSAskOrganizationViewController *viewController = (TSAskOrganizationViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAskOrganizationViewController class])];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [navigationController setNavigationBarHidden:YES];
-    
-    [self presentViewController:navigationController animated:NO completion:nil];
-    
-//    Class class;
+//    TSAskOrganizationViewController *viewController = (TSAskOrganizationViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAskOrganizationViewController class])];
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+//    [navigationController setNavigationBarHidden:YES];
 //    
-//    if (_logIn) {
-//        class = [TSLoginViewController class];
-//    }
-//    else {
-//        class = [TSAskOrganizationViewController class];
-//    }
-//    
-//    _transitionDelegate = [[TSTransitionDelegate alloc] init];
-//    
-//    [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
+//    [self presentViewController:navigationController animated:NO completion:nil];
 }
 
 - (IBAction)requestDemo:(id)sender {
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://tapshield.com/demo-landing-page/"]] ;
-//    [_webView loadRequest: request];
-//    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://tapshield.com/demo-landing-page/"]];
 }
 

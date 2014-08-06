@@ -33,6 +33,9 @@
 #define ERROR_NO_KEYS @"You need to add your Twitter app keys to Info.plist to use this demo.\nPlease see README.md for more info."
 #define ERROR_OK @"OK"
 
+#define SignUpStartAngle (float)2*M_PI
+#define LogInStartAngle (float)M_PI
+
 static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0oj69ab32ces5n.apps.googleusercontent.com";
 
 @interface TSSocialAuthorizationViewController ()
@@ -66,7 +69,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissViewController:)];
     [self.toolbar addGestureRecognizer:tap];
-    
     
     if (_logIn) {
         [self.view sendSubviewToBack:_signUpButton];
@@ -211,20 +213,32 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     [self animateButtons:_buttonArray aroundFrame:_signUpButton startingFromAngle:2*M_PI firstEndingAngle:endAngle separatedByAngle:increment];
 }
 
-- (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)increment {
+- (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)angleIncrement {
     
     _hasAnimated = YES;
-    int delay = 0.0f;
+    float delay = 0.0f;
+    float delayIncrement = 0.025f;
+    float angle = SignUpStartAngle;
+    if (startAngle == angle) {
+        delay = delayIncrement * buttons.count;
+    }
+    float duration = 0.15f;
     
     for (TSAnimatedView *circleButtons in buttons) {
         if (endAngle >= 2 * M_PI) {
             endAngle -= 2 * M_PI;
         }
         
-        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:0.3f delay:delay];
+        [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:duration delay:delay];
         
-        delay += 0.0f;
-        endAngle += increment;
+        if (startAngle == angle) {
+            delay -= delayIncrement;
+        }
+        else {
+            delay += delayIncrement;
+        }
+        
+        endAngle += angleIncrement;
     }
 }
 

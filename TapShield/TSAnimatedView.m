@@ -37,7 +37,12 @@
     CGMutablePathRef curvedPath = CGPathCreateMutable();
     float radius = frame.size.width/2 + 20.0f + self.frame.size.width/2 + 20;
     
-    CGPathAddArc(curvedPath, NULL, center.x, center.y, radius, startAngle , endAngle, NO);
+    BOOL clockwise = NO;
+    if (startAngle != (float)M_PI) {
+        clockwise = YES;
+    }
+    
+    CGPathAddArc(curvedPath, NULL, center.x, center.y, radius, startAngle , endAngle, clockwise);
     pathAnimation.path = curvedPath;
     CGPathRelease(curvedPath);
     

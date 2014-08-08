@@ -8,7 +8,6 @@
 
 #import "TSWelcomeViewController.h"
 #import "TSIntroPageViewController.h"
-#import "TSGradientSwipeViewController.h"
 
 @interface TSWelcomeViewController ()
 
@@ -27,18 +26,11 @@
     _welcomeLabel.alpha = 0.0f;
     
     _isFirstTimeViewed = YES;
-    
-    _swipeViewController = [[TSGradientSwipeViewController alloc] initWithTitleText:@"Swipe screen"];
-    _swipeViewController.view.frame = _swipeLabelView.bounds;
-    _swipeViewController.label.frame = _swipeLabelView.bounds;
-    _swipeViewController.imageView.frame = _swipeLabelView.bounds;
-    [_swipeLabelView addSubview:_swipeViewController.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
     
 }
 

@@ -206,7 +206,7 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
 	NSDateComponents *components2 = [[NSDate currentCalendar] components:componentFlags fromDate:aDate];
     
 	// Must be same week. 12/31 and 1/1 will both be week "1" if they are in the same week
-	if (components1.week != components2.week) return NO;
+	if (components1.weekOfYear != components2.weekOfYear) return NO;
     
 	// Must have a time interval under 1 week. Thanks @aclark
 	return (abs([self timeIntervalSinceDate:aDate]) < D_WEEK);
@@ -519,7 +519,7 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
 - (NSInteger) week
 {
 	NSDateComponents *components = [[NSDate currentCalendar] components:componentFlags fromDate:self];
-	return components.week;
+	return components.weekOfYear;
 }
 
 - (NSInteger) weekday
@@ -567,7 +567,7 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
                                                    fromDate:today];
     
     [nowComponents setWeekday:day];
-    [nowComponents setWeek: [nowComponents week]];
+    [nowComponents setWeekOfYear: [nowComponents weekOfYear]];
     [nowComponents setHour:0];
     [nowComponents setMinute:0];
     [nowComponents setSecond:0];
@@ -575,7 +575,7 @@ static const unsigned componentFlags = (NSYearCalendarUnit| NSMonthCalendarUnit 
     NSDate *weekday = [[NSDate currentCalendar] dateFromComponents:nowComponents];
     
     if (weekday.isInPast && !weekday.isToday) {
-        [nowComponents setWeek: [nowComponents week] + 1];
+        [nowComponents setWeekOfYear: [nowComponents weekOfYear] + 1];
         weekday = [[NSDate currentCalendar] dateFromComponents:nowComponents];
     }
     

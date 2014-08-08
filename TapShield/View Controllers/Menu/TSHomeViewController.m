@@ -173,12 +173,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_reportManager removeOldSpotCrimes];
 }
 
-- (void)willMoveToParentViewController:(UIViewController *)parent {
-    
-    [super willMoveToParentViewController:parent];
-    
-}
-
 - (void)didMoveToParentViewController:(UIViewController *)parent {
     
     [super willMoveToParentViewController:parent];
@@ -190,6 +184,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [_mapView removeFromSuperview];
         _mapView = nil;
     }
+}
+
+- (void)dealloc {
+    
+    [TSLocationController sharedLocationController].delegate = nil;
+    [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
+    _mapView.mapType = MKMapTypeStandard;
+    [_mapView removeFromSuperview];
+    _mapView = nil;
+    
 }
 
 - (void)checkLoggedInUser {

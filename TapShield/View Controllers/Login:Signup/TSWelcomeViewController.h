@@ -7,16 +7,13 @@
 //
 
 #import "TSBaseViewController.h"
-#import "TSGradientSwipeViewController.h"
+#import "TSSwipeView.h"
 
 @interface TSWelcomeViewController : TSBaseViewController
 @property (weak, nonatomic) IBOutlet UIImageView *splashLargeLogoImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *smallSplashLogoImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
-@property (weak, nonatomic) IBOutlet UIView *swipeLabelView;
+@property (weak, nonatomic) IBOutlet TSSwipeView *swipeLabelView;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-
-@property (strong, nonatomic) TSGradientSwipeViewController *swipeViewController;
 
 @property (nonatomic) BOOL isFirstTimeViewed;
 

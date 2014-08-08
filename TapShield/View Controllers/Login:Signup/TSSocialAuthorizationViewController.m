@@ -216,13 +216,9 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 - (void)animateButtons:(NSArray *)buttons aroundFrame:(UIView *)view startingFromAngle:(float)startAngle firstEndingAngle:(float)endAngle separatedByAngle:(float)angleIncrement {
     
     _hasAnimated = YES;
-    float delay = 0.0f;
-    float delayIncrement = 0.025f;
-    float angle = SignUpStartAngle;
-    if (startAngle == angle) {
-        delay = delayIncrement * buttons.count;
-    }
-    float duration = 0.15f;
+    float delayIncrement = 0.05f;
+    float delay = delayIncrement * buttons.count;
+    float duration = 0.1f;
     
     for (TSAnimatedView *circleButtons in buttons) {
         if (endAngle >= 2 * M_PI) {
@@ -231,12 +227,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         
         [((TSAnimatedView *)circleButtons) addCircularAnimationWithCircleFrame:view.frame arcCenter:view.center startAngle:startAngle endAngle:endAngle duration:duration delay:delay];
         
-        if (startAngle == angle) {
-            delay -= delayIncrement;
-        }
-        else {
-            delay += delayIncrement;
-        }
+        delay -= delayIncrement;
+        duration += delayIncrement;
         
         endAngle += angleIncrement;
     }

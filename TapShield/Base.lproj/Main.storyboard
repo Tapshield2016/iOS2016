@@ -59,7 +59,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_menu_icon_active.png" id="Z96-1S-jrI">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_menu_icon_active" id="Z96-1S-jrI">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -81,7 +81,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="home_menu_icon_active.png" id="9Wi-Nu-eE3">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="home_menu_icon_active" id="9Wi-Nu-eE3">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -103,7 +103,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="notifications_menu_icon_active.png" id="lzP-wT-6Xb">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="notifications_menu_icon_active" id="lzP-wT-6Xb">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -125,7 +125,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="settings_menu_icon_active.png" id="OXv-ma-nfv">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="settings_menu_icon_active" id="OXv-ma-nfv">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -147,7 +147,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="help_menu_icon_active.png" id="rrM-8M-AzA">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="help_menu_icon_active" id="rrM-8M-AzA">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -237,7 +237,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on.png" offImage="switch_off.png" translatesAutoresizingMaskIntoConstraints="NO" id="oYt-K8-fpg" customClass="TSSettingsSwitch">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on" offImage="switch_off" translatesAutoresizingMaskIntoConstraints="NO" id="oYt-K8-fpg" customClass="TSSettingsSwitch">
                                                     <rect key="frame" x="251" y="16" width="51" height="31"/>
                                                     <accessibility key="accessibilityConfiguration" label="Auto enable yank"/>
                                                     <connections>
@@ -302,7 +302,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on.png" offImage="switch_off.png" translatesAutoresizingMaskIntoConstraints="NO" id="tHP-PV-4nT" customClass="TSSettingsSwitch">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on" offImage="switch_off" translatesAutoresizingMaskIntoConstraints="NO" id="tHP-PV-4nT" customClass="TSSettingsSwitch">
                                                     <rect key="frame" x="251" y="20" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
@@ -331,7 +331,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on.png" offImage="switch_off.png" translatesAutoresizingMaskIntoConstraints="NO" id="aMm-Tq-9Yb" customClass="TSSettingsSwitch">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on" offImage="switch_off" translatesAutoresizingMaskIntoConstraints="NO" id="aMm-Tq-9Yb" customClass="TSSettingsSwitch">
                                                     <rect key="frame" x="251" y="16" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="notificationsToggle:" destination="GhP-Ki-1aV" eventType="valueChanged" id="ebj-a4-Cxg"/>
@@ -370,7 +370,7 @@
                                                             </constraints>
                                                             <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="-7" maxY="0.0"/>
                                                             <inset key="imageEdgeInsets" minX="-15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                            <state key="normal" title="Sign Out" image="settings_signout.png">
+                                                            <state key="normal" title="Sign Out" image="settings_signout">
                                                                 <color key="titleColor" red="0.37647058820000001" green="0.38823529410000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -439,7 +439,7 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem image="back_button.png" id="gz9-nF-MSc">
+                        <barButtonItem image="back_button" id="gz9-nF-MSc">
                             <color key="tintColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="goBack:" destination="dVr-FQ-hmx" id="mkS-ei-cmn"/>
@@ -618,11 +618,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="IEK-Fn-BqZ">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image" translatesAutoresizingMaskIntoConstraints="NO" id="IEK-Fn-BqZ">
                                 <rect key="frame" x="0.0" y="64" width="320" height="180"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="g5X-Ga-QbO" customClass="TSRoundImageView">
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image" translatesAutoresizingMaskIntoConstraints="NO" id="g5X-Ga-QbO" customClass="TSRoundImageView">
                                 <rect key="frame" x="100" y="84" width="120" height="120"/>
                                 <accessibility key="accessibilityConfiguration" hint="Tap to change" label="Your profile picture">
                                     <bool key="isElement" value="YES"/>
@@ -649,7 +649,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_basic_ico.png" id="Ud7-r4-CI8">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_basic_ico" id="Ud7-r4-CI8">
                                                     <rect key="frame" x="15" y="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -678,7 +678,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_contact_ico.png" id="DO4-st-spD">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_contact_ico" id="DO4-st-spD">
                                                     <rect key="frame" x="15" y="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -707,7 +707,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_appearance_ico.png" id="5Re-Wc-OyN">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_appearance_ico" id="5Re-Wc-OyN">
                                                     <rect key="frame" x="15" y="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -735,7 +735,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_med_ico.png" id="cwP-Gy-pJo">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_med_ico" id="cwP-Gy-pJo">
                                                     <rect key="frame" x="15" y="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -763,7 +763,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_ice_ico.png" id="4LB-vr-cav">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_ice_ico" id="4LB-vr-cav">
                                                     <rect key="frame" x="15" y="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -784,7 +784,7 @@
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I0C-Yf-uID" customClass="TSBaseButton">
                                 <rect key="frame" x="123" y="186" width="75" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Change Photo" backgroundImage="change_photo_bg.png">
+                                <state key="normal" title="Change Photo" backgroundImage="change_photo_bg">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -1008,7 +1008,7 @@
                                     <outlet property="delegate" destination="Me5-cN-nf1" id="hhc-9Z-Bnt"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-Xi-iQ3">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about_logo" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-Xi-iQ3">
                                 <rect key="frame" x="40" y="65" width="240" height="128"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Tta-bg-b0h">
@@ -1160,7 +1160,7 @@
                                         <accessibility key="accessibilityConfiguration" hint="Report crime tips" label="Report"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
-                                        <state key="normal" image="report_icon.png">
+                                        <state key="normal" image="report_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1191,7 +1191,7 @@
                                         <accessibility key="accessibilityConfiguration" hint="Send alert to authorities" label="Alert"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" image="alert_icon.png">
+                                        <state key="normal" image="alert_icon">
                                             <color key="titleColor" red="0.86666667460000002" green="0.2941176593" blue="0.22352941330000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1222,7 +1222,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <accessibility key="accessibilityConfiguration" hint="Text with authorities" label="Chat"/>
                                         <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
-                                        <state key="normal" image="chat_icon.png">
+                                        <state key="normal" image="chat_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1261,7 +1261,7 @@
                                         <accessibility key="accessibilityConfiguration" hint="Centers map on your location" label="My Location"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="tintColor" red="0.25490197539999998" green="0.76862746479999999" blue="0.94901961089999998" alpha="1" colorSpace="deviceRGB"/>
-                                        <state key="normal" image="locate_me_icon.png">
+                                        <state key="normal" image="locate_me_icon">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1282,7 +1282,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-tK-QET" customClass="TSUserLocationButton">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                         <accessibility key="accessibilityConfiguration" hint="Tracks your progress to a destination" label="Entourage"/>
-                                        <state key="normal" image="entourage_icon.png">
+                                        <state key="normal" image="entourage_icon">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1348,14 +1348,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568.png" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-Eo-5LD">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-Eo-5LD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-6B-3HB">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BdZ-87-B7I" customClass="FBShimmeringView">
-                                        <rect key="frame" x="87" y="65" width="146" height="87"/>
+                                        <rect key="frame" x="87" y="64" width="146" height="87"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Lh-7A-8lx">
@@ -1381,10 +1381,10 @@
                                                     <outlet property="delegate" destination="dof-Su-aKb" id="Cz7-J7-2RN"/>
                                                 </connections>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_input_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZRW-AW-wQF">
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_input_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ZRW-AW-wQF">
                                                 <rect key="frame" x="7" y="0.0" width="25" height="40"/>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="password_input_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="21E-IH-0sg">
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="password_input_icon" translatesAutoresizingMaskIntoConstraints="NO" id="21E-IH-0sg">
                                                 <rect key="frame" x="7" y="60" width="25" height="40"/>
                                             </imageView>
                                         </subviews>
@@ -1399,10 +1399,10 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAk-v2-ZLC">
                                         <rect key="frame" x="59" y="362" width="203" height="40"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                        <state key="normal" title="LOG IN" backgroundImage="btn_login_normal.png">
+                                        <state key="normal" title="LOG IN" backgroundImage="btn_login_normal">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted" backgroundImage="btn_login_pressed.png"/>
+                                        <state key="highlighted" backgroundImage="btn_login_pressed"/>
                                         <connections>
                                             <action selector="loginUser:" destination="dof-Su-aKb" eventType="touchUpInside" id="B4E-CR-2dk"/>
                                         </connections>
@@ -1412,8 +1412,12 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="OnW-Eo-5LD" secondAttribute="trailing" id="1fZ-dQ-2LZ"/>
+                            <constraint firstItem="by8-hq-41L" firstAttribute="top" secondItem="OnW-Eo-5LD" secondAttribute="bottom" id="5OE-f4-VDM"/>
+                            <constraint firstItem="OnW-Eo-5LD" firstAttribute="leading" secondItem="hLq-5K-yhQ" secondAttribute="leading" id="78z-aV-btB"/>
                             <constraint firstItem="by8-hq-41L" firstAttribute="top" secondItem="YjK-6B-3HB" secondAttribute="bottom" id="J5r-gU-0vd"/>
                             <constraint firstAttribute="trailing" secondItem="YjK-6B-3HB" secondAttribute="trailing" id="PU4-oZ-ABd"/>
+                            <constraint firstItem="OnW-Eo-5LD" firstAttribute="top" secondItem="hLq-5K-yhQ" secondAttribute="top" id="VE7-S9-Bt7"/>
                             <constraint firstItem="YjK-6B-3HB" firstAttribute="top" secondItem="hLq-5K-yhQ" secondAttribute="top" id="az1-6M-bnh"/>
                             <constraint firstItem="YjK-6B-3HB" firstAttribute="leading" secondItem="hLq-5K-yhQ" secondAttribute="leading" id="gic-bZ-Snu"/>
                         </constraints>
@@ -1455,10 +1459,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="4Mz-rg-3WC">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small" translatesAutoresizingMaskIntoConstraints="NO" id="4Mz-rg-3WC">
                                 <rect key="frame" x="87" y="64" width="146" height="87"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo_big.png" translatesAutoresizingMaskIntoConstraints="NO" id="tMT-fg-WfF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo_big" translatesAutoresizingMaskIntoConstraints="NO" id="tMT-fg-WfF">
                                 <rect key="frame" x="14" y="214" width="292" height="175"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="b4D-h0-csv"/>
@@ -1511,7 +1515,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="utb-YG-UXe">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide_2" translatesAutoresizingMaskIntoConstraints="NO" id="utb-YG-UXe">
                                 <rect key="frame" x="0.0" y="151" width="320" height="277"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="JzL-wh-ftt" customClass="TSBaseLabel">
@@ -1524,7 +1528,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="Pnn-9t-peu">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo_small" translatesAutoresizingMaskIntoConstraints="NO" id="Pnn-9t-peu">
                                 <rect key="frame" x="87" y="64" width="146" height="87"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="146" id="csI-a0-8Eo"/>
@@ -1645,10 +1649,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568.png" translatesAutoresizingMaskIntoConstraints="NO" id="pqx-OH-XJF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="pqx-OH-XJF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="ts3-H8-51C">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small" translatesAutoresizingMaskIntoConstraints="NO" id="ts3-H8-51C">
                                 <rect key="frame" x="87" y="64" width="146" height="87"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Do you belong to an organization that uses TapShield?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="306" translatesAutoresizingMaskIntoConstraints="NO" id="w2v-nS-SgA" customClass="TSBaseLabel">
@@ -1660,7 +1664,7 @@
                             <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6GM-D7-soT">
                                 <rect key="frame" x="35" y="341" width="96" height="41"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="NO" backgroundImage="btn_yes_no_normal.png">
+                                <state key="normal" title="NO" backgroundImage="btn_yes_no_normal">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1671,7 +1675,7 @@
                             <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDb-mH-JRI">
                                 <rect key="frame" x="189" y="341" width="96" height="41"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="YES" backgroundImage="btn_yes_no_normal.png">
+                                <state key="normal" title="YES" backgroundImage="btn_yes_no_normal">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1704,7 +1708,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="uhh-6p-qfu">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small" translatesAutoresizingMaskIntoConstraints="NO" id="uhh-6p-qfu">
                                 <rect key="frame" x="87" y="64" width="146" height="87"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azg-bg-LQL" customClass="TSCircularButton">
@@ -1730,7 +1734,7 @@
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u2i-O2-pH1" customClass="TSAnimatedView">
                                 <rect key="frame" x="-100" y="20" width="62" height="85"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="facebook_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="RYF-lQ-urp">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="facebook_icon" translatesAutoresizingMaskIntoConstraints="NO" id="RYF-lQ-urp">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="facebook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byu-5u-a9r" customClass="TSButtonLabel">
@@ -1749,7 +1753,7 @@
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oey-Ge-8ny" customClass="TSAnimatedView">
                                 <rect key="frame" x="-100" y="20" width="62" height="85"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitter_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3vc-o0-jG9">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitter_icon" translatesAutoresizingMaskIntoConstraints="NO" id="3vc-o0-jG9">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="twitter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UdI-S7-nof" customClass="TSButtonLabel">
@@ -1775,7 +1779,7 @@
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sAu-At-s8f" customClass="TSAnimatedView">
                                 <rect key="frame" x="-100" y="20" width="62" height="85"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="google_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nMd-FA-jrf">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="google_icon" translatesAutoresizingMaskIntoConstraints="NO" id="nMd-FA-jrf">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="google" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upp-Zw-UF0" customClass="TSButtonLabel">
@@ -1798,7 +1802,7 @@
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5dB-sI-GdT" customClass="TSAnimatedView">
                                 <rect key="frame" x="-100" y="120" width="62" height="85"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="linkedin_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="ogz-bH-3gH">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="linkedin_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ogz-bH-3gH">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="linkedin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WfP-j1-eDv" customClass="TSButtonLabel">
@@ -1824,7 +1828,7 @@
                             <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="No1-OM-mEv" customClass="TSAnimatedView">
                                 <rect key="frame" x="-100" y="120" width="62" height="85"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="LUl-ls-ksP">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_icon" translatesAutoresizingMaskIntoConstraints="NO" id="LUl-ls-ksP">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="e-mail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CdI-Qh-ACh" customClass="TSButtonLabel">
@@ -1972,7 +1976,7 @@
                                                             <outlet property="delegate" destination="jUA-Jf-8RT" id="fvM-jq-tN1"/>
                                                         </connections>
                                                     </textField>
-                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="aNc-lD-Iow">
+                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon" translatesAutoresizingMaskIntoConstraints="NO" id="aNc-lD-Iow">
                                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                     </imageView>
                                                 </subviews>
@@ -1989,7 +1993,7 @@
                                                             <outlet property="delegate" destination="jUA-Jf-8RT" id="gmq-hU-hpf"/>
                                                         </connections>
                                                     </textField>
-                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_email_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="MnK-ms-HhU">
+                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_email_icon" translatesAutoresizingMaskIntoConstraints="NO" id="MnK-ms-HhU">
                                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                     </imageView>
                                                 </subviews>
@@ -2006,7 +2010,7 @@
                                                             <outlet property="delegate" destination="jUA-Jf-8RT" id="Bgw-um-D7B"/>
                                                         </connections>
                                                     </textField>
-                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_password_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="EFo-C5-1nx">
+                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_password_icon" translatesAutoresizingMaskIntoConstraints="NO" id="EFo-C5-1nx">
                                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                     </imageView>
                                                 </subviews>
@@ -2135,7 +2139,7 @@
                                             <outlet property="delegate" destination="3Ml-FN-RnH" id="uQD-q5-NZc"/>
                                         </connections>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ehh-sF-iWa">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ehh-sF-iWa">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                     </imageView>
                                 </subviews>
@@ -2208,13 +2212,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-tQ-ezo" customClass="TSRoundImageView">
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-tQ-ezo" customClass="TSRoundImageView">
                                 <rect key="frame" x="10" y="95" width="100" height="100"/>
                             </imageView>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFa-xT-Z2p" customClass="TSBaseButton">
                                 <rect key="frame" x="23" y="177" width="75" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Add Photo" backgroundImage="change_photo_bg.png">
+                                <state key="normal" title="Add Photo" backgroundImage="change_photo_bg">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2240,11 +2244,11 @@
                                     </button>
                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sS7-A6-NKE">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <state key="normal" image="CheckBox_Unselected.png">
+                                        <state key="normal" image="CheckBox_Unselected">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="selected" image="CheckBox_Selected.png"/>
-                                        <state key="highlighted" image="CheckBox_UnselectedDown.png"/>
+                                        <state key="selected" image="CheckBox_Selected"/>
+                                        <state key="highlighted" image="CheckBox_UnselectedDown"/>
                                         <connections>
                                             <action selector="selectBox:" destination="vZE-6o-F4y" eventType="touchUpInside" id="nWQ-22-w28"/>
                                         </connections>
@@ -2340,7 +2344,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_email_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="zYs-Wb-2IK">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_email_icon" translatesAutoresizingMaskIntoConstraints="NO" id="zYs-Wb-2IK">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                     </imageView>
                                 </subviews>
@@ -2378,7 +2382,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBs-rZ-hGQ" customClass="TSCircularButton">
                                 <rect key="frame" x="20" y="170" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="1" backgroundImage="number_1.png">
+                                <state key="normal" title="1" backgroundImage="number_1">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -2391,7 +2395,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixX-I1-74f" customClass="TSCircularButton">
                                 <rect key="frame" x="123" y="170" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="2" backgroundImage="number_2.png">
+                                <state key="normal" title="2" backgroundImage="number_2">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2402,7 +2406,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19S-0Y-ewY" customClass="TSCircularButton">
                                 <rect key="frame" x="225" y="170" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="3" backgroundImage="number_3.png">
+                                <state key="normal" title="3" backgroundImage="number_3">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2413,7 +2417,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irN-Cs-I6f" customClass="TSCircularButton">
                                 <rect key="frame" x="20" y="271" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="4" backgroundImage="number_4.png">
+                                <state key="normal" title="4" backgroundImage="number_4">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2424,7 +2428,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nip-CZ-EoM" customClass="TSCircularButton">
                                 <rect key="frame" x="123" y="271" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="5" backgroundImage="number_5.png">
+                                <state key="normal" title="5" backgroundImage="number_5">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2435,7 +2439,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nbk-ul-tKS" customClass="TSCircularButton">
                                 <rect key="frame" x="225" y="271" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="6" backgroundImage="number_6.png">
+                                <state key="normal" title="6" backgroundImage="number_6">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2446,7 +2450,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9v-ag-W5j" customClass="TSCircularButton">
                                 <rect key="frame" x="20" y="372" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="7" backgroundImage="number_7.png">
+                                <state key="normal" title="7" backgroundImage="number_7">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2457,7 +2461,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5m-Vm-1Af" customClass="TSCircularButton">
                                 <rect key="frame" x="123" y="372" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="8" backgroundImage="number_8.png">
+                                <state key="normal" title="8" backgroundImage="number_8">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2468,7 +2472,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6C-eV-lZ3" customClass="TSCircularButton">
                                 <rect key="frame" x="225" y="372" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="9" backgroundImage="number_9.png">
+                                <state key="normal" title="9" backgroundImage="number_9">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2479,7 +2483,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCX-a5-fPl" customClass="TSCircularButton">
                                 <rect key="frame" x="123" y="473" width="75" height="75"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="0" backgroundImage="number_0.png">
+                                <state key="normal" title="0" backgroundImage="number_0">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2597,7 +2601,7 @@
                                                 <accessibility key="accessibilityConfiguration" hint="Add details about your alert" label="Alert Details"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
-                                                <state key="normal" image="report_icon.png">
+                                                <state key="normal" image="report_icon">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -2624,7 +2628,7 @@
                                                 <accessibility key="accessibilityConfiguration" hint="Call authorities" label="Call"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <inset key="imageEdgeInsets" minX="32" minY="10" maxX="32" maxY="30"/>
-                                                <state key="normal" image="iphoneIcon.png">
+                                                <state key="normal" image="iphoneIcon">
                                                     <color key="titleColor" red="1" green="0.32549020648002625" blue="0.30588236451148987" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -2652,7 +2656,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                 <accessibility key="accessibilityConfiguration" hint="Text with authorities" label="Chat"/>
                                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
-                                                <state key="normal" image="chat_icon.png">
+                                                <state key="normal" image="chat_icon">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -2705,7 +2709,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alert_view_time_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="MAP-6Z-Pl1">
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alert_view_time_icon" translatesAutoresizingMaskIntoConstraints="NO" id="MAP-6Z-Pl1">
                                                 <rect key="frame" x="94" y="10" width="15" height="15"/>
                                             </imageView>
                                         </subviews>
@@ -2849,7 +2853,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="time_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="dPZ-e3-4VU">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="time_icon" translatesAutoresizingMaskIntoConstraints="NO" id="dPZ-e3-4VU">
                                         <rect key="frame" x="20" y="153" width="10" height="10"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rYx-jc-8Dj" customClass="TSBaseLabel">
@@ -2857,7 +2861,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pointer_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="a1G-16-B7l">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pointer_icon" translatesAutoresizingMaskIntoConstraints="NO" id="a1G-16-B7l">
                                         <rect key="frame" x="20" y="135" width="10" height="10"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ry5-yx-CwD">
@@ -2881,7 +2885,7 @@
                                             <action selector="chooseMedia:" destination="OsC-XN-zUh" eventType="touchUpInside" id="uCp-td-gHo"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image_deafult.png" translatesAutoresizingMaskIntoConstraints="NO" id="oxR-8u-gFL">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image_deafult" translatesAutoresizingMaskIntoConstraints="NO" id="oxR-8u-gFL">
                                         <rect key="frame" x="20" y="358" width="280" height="200"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uTP-1t-rhP" customClass="FBShimmeringView">
@@ -2896,14 +2900,14 @@
                                         <rect key="frame" x="20" y="275" width="200" height="23"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <inset key="titleEdgeInsets" minX="3" minY="1" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Report anonymously" image="CheckBox_Unselected.png">
+                                        <state key="normal" title="Report anonymously" image="CheckBox_Unselected">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="selected" title="Reporting anonymously" image="CheckBox_Selected.png">
+                                        <state key="selected" title="Reporting anonymously" image="CheckBox_Selected">
                                             <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="highlighted" image="CheckBox_UnselectedDown.png"/>
+                                        <state key="highlighted" image="CheckBox_UnselectedDown"/>
                                         <connections>
                                             <action selector="reportAnonymously:" destination="OsC-XN-zUh" eventType="touchUpInside" id="JdA-vE-7gU"/>
                                         </connections>
@@ -3013,7 +3017,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alert_view_time_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="ocQ-ay-Abv">
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alert_view_time_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ocQ-ay-Abv">
                                                 <rect key="frame" x="94" y="10" width="15" height="15"/>
                                             </imageView>
                                         </subviews>
@@ -3029,7 +3033,7 @@
                                         <rect key="frame" x="20" y="128" width="70" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="alert_volume_icon.png">
+                                        <state key="normal" image="alert_volume_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -3040,7 +3044,7 @@
                                         <rect key="frame" x="125" y="128" width="70" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="alert_mute_icon.png">
+                                        <state key="normal" image="alert_mute_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -3051,7 +3055,7 @@
                                         <rect key="frame" x="230" y="128" width="70" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="chat_icon.png">
+                                        <state key="normal" image="chat_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -3145,7 +3149,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="chat_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="wJ3-Sh-Pgd">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="chat_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wJ3-Sh-Pgd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lsq-WK-GMC">
@@ -3366,7 +3370,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-LN-T6n">
                                                     <rect key="frame" x="10" y="0.0" width="80" height="77"/>
-                                                    <state key="normal" image="user_new_icon.png">
+                                                    <state key="normal" image="user_new_icon">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -3392,10 +3396,10 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="center" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fnd-rV-Iak">
                                                     <rect key="frame" x="10" y="0.0" width="80" height="77"/>
-                                                    <state key="normal" backgroundImage="user_default_icon.png">
+                                                    <state key="normal" backgroundImage="user_default_icon">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <state key="selected" image="user_tick_icon.png" backgroundImage="user_default_icon.png"/>
+                                                    <state key="selected" image="user_tick_icon" backgroundImage="user_default_icon"/>
                                                 </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiQ-t5-1v9" customClass="TSBaseLabel">
                                                     <rect key="frame" x="0.0" y="77" width="100" height="24"/>
@@ -4004,7 +4008,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOK-62-DMP" customClass="TSPasscodeButton">
                                 <rect key="frame" x="40" y="160" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="1" backgroundImage="number_1.png">
+                                <state key="normal" title="1" backgroundImage="number_1">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -4017,7 +4021,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOh-e6-tLI" customClass="TSPasscodeButton">
                                 <rect key="frame" x="128" y="160" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="2" backgroundImage="number_2.png">
+                                <state key="normal" title="2" backgroundImage="number_2">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4028,7 +4032,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbY-xH-aib" customClass="TSPasscodeButton">
                                 <rect key="frame" x="215" y="160" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="3" backgroundImage="number_3.png">
+                                <state key="normal" title="3" backgroundImage="number_3">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4039,7 +4043,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9V-sp-Ewk" customClass="TSPasscodeButton">
                                 <rect key="frame" x="40" y="240" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="4" backgroundImage="number_4.png">
+                                <state key="normal" title="4" backgroundImage="number_4">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4050,7 +4054,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H07-lF-crj" customClass="TSPasscodeButton">
                                 <rect key="frame" x="128" y="240" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="5" backgroundImage="number_5.png">
+                                <state key="normal" title="5" backgroundImage="number_5">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4061,7 +4065,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-FS-CLz" customClass="TSPasscodeButton">
                                 <rect key="frame" x="215" y="240" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="6" backgroundImage="number_6.png">
+                                <state key="normal" title="6" backgroundImage="number_6">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4072,7 +4076,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Guo-V5-Qxg" customClass="TSPasscodeButton">
                                 <rect key="frame" x="40" y="320" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="7" backgroundImage="number_7.png">
+                                <state key="normal" title="7" backgroundImage="number_7">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4083,7 +4087,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nOb-hY-OWm" customClass="TSPasscodeButton">
                                 <rect key="frame" x="128" y="320" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="8" backgroundImage="number_8.png">
+                                <state key="normal" title="8" backgroundImage="number_8">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4094,7 +4098,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqv-Ob-6eQ" customClass="TSPasscodeButton">
                                 <rect key="frame" x="215" y="320" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="9" backgroundImage="number_9.png">
+                                <state key="normal" title="9" backgroundImage="number_9">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4105,7 +4109,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KrU-r8-jyy" customClass="TSPasscodeButton">
                                 <rect key="frame" x="128" y="400" width="65" height="65"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="0" backgroundImage="number_0.png">
+                                <state key="normal" title="0" backgroundImage="number_0">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4224,7 +4228,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568.png" translatesAutoresizingMaskIntoConstraints="NO" id="wM5-oI-bLd">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="wM5-oI-bLd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="uB8-I8-7yJ">
@@ -4247,7 +4251,7 @@
                                                     <outlet property="delegate" destination="Wl2-AH-zte" id="YhH-OI-NGf"/>
                                                 </connections>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_input_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="4ZS-oH-Bl8">
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email_input_icon" translatesAutoresizingMaskIntoConstraints="NO" id="4ZS-oH-Bl8">
                                                 <rect key="frame" x="7" y="0.0" width="25" height="40"/>
                                             </imageView>
                                         </subviews>
@@ -4262,10 +4266,10 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VIP-Id-r9e">
                                         <rect key="frame" x="59" y="362" width="203" height="40"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                        <state key="normal" title="RESET PASSWORD" backgroundImage="btn_login_normal.png">
+                                        <state key="normal" title="RESET PASSWORD" backgroundImage="btn_login_normal">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted" backgroundImage="btn_login_pressed.png"/>
+                                        <state key="highlighted" backgroundImage="btn_login_pressed"/>
                                         <connections>
                                             <action selector="sendPasswordReset:" destination="Wl2-AH-zte" eventType="touchUpInside" id="y6S-1a-h8g"/>
                                         </connections>
@@ -4276,9 +4280,13 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                         <constraints>
                             <constraint firstItem="we3-DI-9Ht" firstAttribute="top" secondItem="uB8-I8-7yJ" secondAttribute="bottom" id="4V3-3j-ciM"/>
+                            <constraint firstItem="we3-DI-9Ht" firstAttribute="top" secondItem="wM5-oI-bLd" secondAttribute="bottom" id="M8b-b6-uSf"/>
                             <constraint firstItem="uB8-I8-7yJ" firstAttribute="leading" secondItem="Sop-DX-lKa" secondAttribute="leading" id="fQw-bC-RDw"/>
+                            <constraint firstItem="wM5-oI-bLd" firstAttribute="top" secondItem="Sop-DX-lKa" secondAttribute="top" id="hZz-7t-lMN"/>
+                            <constraint firstAttribute="trailing" secondItem="wM5-oI-bLd" secondAttribute="trailing" id="lxS-oD-XnW"/>
                             <constraint firstAttribute="trailing" secondItem="uB8-I8-7yJ" secondAttribute="trailing" id="r37-b2-58A"/>
                             <constraint firstItem="uB8-I8-7yJ" firstAttribute="top" secondItem="Sop-DX-lKa" secondAttribute="top" id="tMA-Jc-FXH"/>
+                            <constraint firstItem="wM5-oI-bLd" firstAttribute="leading" secondItem="Sop-DX-lKa" secondAttribute="leading" id="v61-kn-HiI"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Log In" id="S6f-aQ-A7H"/>
@@ -4545,7 +4553,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="time_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="UoI-QN-nQW">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="time_icon" translatesAutoresizingMaskIntoConstraints="NO" id="UoI-QN-nQW">
                                         <rect key="frame" x="20" y="153" width="10" height="10"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gg-mk-H5H" customClass="TSBaseLabel">
@@ -4553,7 +4561,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pointer_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="O62-Hu-ExI">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pointer_icon" translatesAutoresizingMaskIntoConstraints="NO" id="O62-Hu-ExI">
                                         <rect key="frame" x="20" y="135" width="10" height="10"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xD4-uq-EVO">
@@ -4664,69 +4672,69 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CheckBox_Selected.png" width="16" height="16"/>
-        <image name="CheckBox_Unselected.png" width="16" height="16"/>
-        <image name="CheckBox_UnselectedDown.png" width="16" height="16"/>
-        <image name="about_logo.png" width="154" height="93"/>
-        <image name="alert_icon.png" width="50" height="41"/>
-        <image name="alert_mute_icon.png" width="21" height="25"/>
-        <image name="alert_view_time_icon.png" width="15" height="15"/>
-        <image name="alert_volume_icon.png" width="30" height="25"/>
-        <image name="back_button.png" width="8" height="15"/>
-        <image name="background568.png" width="640" height="1136"/>
-        <image name="btn_login_normal.png" width="201" height="41"/>
-        <image name="btn_login_pressed.png" width="201" height="41"/>
-        <image name="btn_yes_no_normal.png" width="96" height="41"/>
-        <image name="change_photo_bg.png" width="75" height="18"/>
-        <image name="chat_bg.png" width="320" height="568"/>
-        <image name="chat_icon.png" width="26" height="25"/>
-        <image name="email_icon.png" width="30" height="30"/>
-        <image name="email_input_icon.png" width="25" height="26"/>
-        <image name="entourage_icon.png" width="28" height="24"/>
-        <image name="facebook_icon.png" width="30" height="30"/>
-        <image name="google_icon.png" width="30" height="30"/>
-        <image name="help_menu_icon_active.png" width="52" height="52"/>
-        <image name="home_menu_icon_active.png" width="52" height="52"/>
-        <image name="image_deafult.png" width="100" height="88"/>
-        <image name="input_email_icon.png" width="26" height="26"/>
-        <image name="input_password_icon.png" width="26" height="26"/>
-        <image name="input_phone_icon.png" width="26" height="26"/>
-        <image name="iphoneIcon.png" width="139" height="255"/>
-        <image name="linkedin_icon.png" width="30" height="30"/>
-        <image name="locate_me_icon.png" width="17" height="20"/>
-        <image name="no_image.png" width="362" height="359"/>
-        <image name="notifications_menu_icon_active.png" width="52" height="52"/>
-        <image name="number_0.png" width="75" height="75"/>
-        <image name="number_1.png" width="75" height="75"/>
-        <image name="number_2.png" width="75" height="75"/>
-        <image name="number_3.png" width="75" height="75"/>
-        <image name="number_4.png" width="75" height="75"/>
-        <image name="number_5.png" width="75" height="75"/>
-        <image name="number_6.png" width="75" height="75"/>
-        <image name="number_7.png" width="75" height="75"/>
-        <image name="number_8.png" width="75" height="75"/>
-        <image name="number_9.png" width="75" height="75"/>
-        <image name="password_input_icon.png" width="25" height="26"/>
-        <image name="pointer_icon.png" width="6" height="10"/>
-        <image name="profile_appearance_ico.png" width="30" height="30"/>
-        <image name="profile_basic_ico.png" width="30" height="30"/>
-        <image name="profile_contact_ico.png" width="30" height="30"/>
-        <image name="profile_ice_ico.png" width="30" height="30"/>
-        <image name="profile_med_ico.png" width="30" height="30"/>
-        <image name="profile_menu_icon_active.png" width="52" height="52"/>
-        <image name="report_icon.png" width="30" height="18"/>
-        <image name="settings_menu_icon_active.png" width="52" height="52"/>
-        <image name="settings_signout.png" width="20" height="18"/>
-        <image name="slide_2.png" width="320" height="165"/>
-        <image name="splash_logo_big.png" width="292" height="175"/>
-        <image name="splash_logo_small.png" width="146" height="87"/>
-        <image name="switch_off.png" width="29" height="30"/>
-        <image name="switch_on.png" width="29" height="30"/>
-        <image name="time_icon.png" width="9" height="10"/>
-        <image name="twitter_icon.png" width="30" height="30"/>
-        <image name="user_default_icon.png" width="77" height="77"/>
-        <image name="user_new_icon.png" width="77" height="77"/>
-        <image name="user_tick_icon.png" width="21" height="15"/>
+        <image name="CheckBox_Selected" width="16" height="16"/>
+        <image name="CheckBox_Unselected" width="16" height="16"/>
+        <image name="CheckBox_UnselectedDown" width="16" height="16"/>
+        <image name="about_logo" width="154" height="93"/>
+        <image name="alert_icon" width="50" height="41"/>
+        <image name="alert_mute_icon" width="21" height="25"/>
+        <image name="alert_view_time_icon" width="15" height="15"/>
+        <image name="alert_volume_icon" width="30" height="25"/>
+        <image name="back_button" width="8" height="15"/>
+        <image name="background568" width="640" height="1136"/>
+        <image name="btn_login_normal" width="201" height="41"/>
+        <image name="btn_login_pressed" width="201" height="41"/>
+        <image name="btn_yes_no_normal" width="96" height="41"/>
+        <image name="change_photo_bg" width="75" height="18"/>
+        <image name="chat_bg" width="320" height="568"/>
+        <image name="chat_icon" width="26" height="25"/>
+        <image name="email_icon" width="30" height="30"/>
+        <image name="email_input_icon" width="25" height="26"/>
+        <image name="entourage_icon" width="28" height="24"/>
+        <image name="facebook_icon" width="30" height="30"/>
+        <image name="google_icon" width="30" height="30"/>
+        <image name="help_menu_icon_active" width="52" height="52"/>
+        <image name="home_menu_icon_active" width="52" height="52"/>
+        <image name="image_deafult" width="100" height="88"/>
+        <image name="input_email_icon" width="26" height="26"/>
+        <image name="input_password_icon" width="26" height="26"/>
+        <image name="input_phone_icon" width="26" height="26"/>
+        <image name="iphoneIcon" width="139" height="255"/>
+        <image name="linkedin_icon" width="30" height="30"/>
+        <image name="locate_me_icon" width="17" height="20"/>
+        <image name="no_image" width="362" height="359"/>
+        <image name="notifications_menu_icon_active" width="52" height="52"/>
+        <image name="number_0" width="75" height="75"/>
+        <image name="number_1" width="75" height="75"/>
+        <image name="number_2" width="75" height="75"/>
+        <image name="number_3" width="75" height="75"/>
+        <image name="number_4" width="75" height="75"/>
+        <image name="number_5" width="75" height="75"/>
+        <image name="number_6" width="75" height="75"/>
+        <image name="number_7" width="75" height="75"/>
+        <image name="number_8" width="75" height="75"/>
+        <image name="number_9" width="75" height="75"/>
+        <image name="password_input_icon" width="25" height="26"/>
+        <image name="pointer_icon" width="6" height="10"/>
+        <image name="profile_appearance_ico" width="30" height="30"/>
+        <image name="profile_basic_ico" width="30" height="30"/>
+        <image name="profile_contact_ico" width="30" height="30"/>
+        <image name="profile_ice_ico" width="30" height="30"/>
+        <image name="profile_med_ico" width="30" height="30"/>
+        <image name="profile_menu_icon_active" width="52" height="52"/>
+        <image name="report_icon" width="30" height="18"/>
+        <image name="settings_menu_icon_active" width="52" height="52"/>
+        <image name="settings_signout" width="20" height="18"/>
+        <image name="slide_2" width="320" height="165"/>
+        <image name="splash_logo_big" width="292" height="175"/>
+        <image name="splash_logo_small" width="146" height="87"/>
+        <image name="switch_off" width="29" height="30"/>
+        <image name="switch_on" width="29" height="30"/>
+        <image name="time_icon" width="9" height="10"/>
+        <image name="twitter_icon" width="30" height="30"/>
+        <image name="user_default_icon" width="77" height="77"/>
+        <image name="user_new_icon" width="77" height="77"/>
+        <image name="user_tick_icon" width="21" height="15"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

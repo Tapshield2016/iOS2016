@@ -144,6 +144,14 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([[FBSession activeSession] handleOpenURL:url]) {
+        [[TSSocialAccountsManager sharedSocialAccountsManager] facebookLoggedIn];
+    }
+    
+    return YES;
+}
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -1743,9 +1742,12 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7lG-Mv-mme" customClass="TSFacebookLogin">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7lG-Mv-mme" customClass="TSCircularButton">
                                         <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="logInWithFacebook:" destination="Xiw-7p-sRv" eventType="touchUpInside" id="To1-gn-Pia"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1858,7 +1860,7 @@
                     <connections>
                         <outlet property="emailButton" destination="t6M-cr-nDc" id="M9v-ku-oVx"/>
                         <outlet property="emailView" destination="No1-OM-mEv" id="HLN-ke-9uD"/>
-                        <outlet property="facebookLoginView" destination="7lG-Mv-mme" id="yki-hj-l5N"/>
+                        <outlet property="facebookButton" destination="7lG-Mv-mme" id="2iA-NT-H6I"/>
                         <outlet property="facebookView" destination="u2i-O2-pH1" id="6vs-Yk-eT6"/>
                         <outlet property="googleView" destination="sAu-At-s8f" id="Id2-cj-yw4"/>
                         <outlet property="linkedInButton" destination="LZl-lV-qe9" id="kVv-hE-cPo"/>

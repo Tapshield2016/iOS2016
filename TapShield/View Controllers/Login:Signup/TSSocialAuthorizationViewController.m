@@ -129,54 +129,25 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
 }
 
+- (IBAction)logInWithFacebook:(id)sender {
+    
+    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithFacebook];
+}
+
 
 #pragma mark - LinkedIn methods
 
 - (IBAction)didTapConnectWithLinkedIn:(id)sender {
     
+    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithLinkedIn:self];
 }
 
 
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (buttonIndex != actionSheet.cancelButtonIndex) {
-        [_apiManager performReverseAuthForAccount:_accounts[buttonIndex] withHandler:^(NSData *responseData, NSError *error) {
-            if (responseData) {
-                NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-                
-                NSLog(@"Reverse Auth process returned: %@", responseStr);
-                
-                NSArray *parts = [responseStr componentsSeparatedByString:@"&"];
-                NSString *lined = [parts componentsJoinedByString:@"\n"];
-
-                // Turn response into dictionary for ease of use...
-                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                for (NSString *param in [responseStr componentsSeparatedByString:@"&"]) {
-                    NSArray *elements = [param componentsSeparatedByString:@"="];
-                    if([elements count] < 2) continue;
-                    [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
-                }
-
-                [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"]];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success!" message:lined delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alert show];
-                });
-            }
-            else {
-                NSLog(@"Reverse Auth process failed. Error returned was: %@\n", [error localizedDescription]);
-            }
-        }];
-    }
-}
-
+#pragma mark - Twitter
 
 - (IBAction)refreshTwitterAccounts:(id)sender {
     
+    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithTwitter:self.view];
 }
 
 

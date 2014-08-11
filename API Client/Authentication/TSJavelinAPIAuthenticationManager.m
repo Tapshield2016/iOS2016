@@ -879,6 +879,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)storeUserCredentials:(NSString *)emailAddress password:(NSString *)password {
+    
+    if (!password) {
+        return;
+    }
+    
     NSError *error;
     [SSKeychain setPassword:password forService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress error:&error];
 

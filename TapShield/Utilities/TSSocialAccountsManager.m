@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 #import "TSSocialAccountsManager.h"
-
+#import <AFNetworking/UIImageView+AFNetworking.h>
+#import <FacebookSDK/FBRequestConnection+Internal.h>
 
 #define ERROR_TITLE_MSG @"Whoa, there cowboy"
 #define ERROR_NO_ACCOUNTS @"You must add a Twitter account in Settings.app to use this demo."
@@ -15,6 +16,12 @@
 #define ERROR_OK @"OK"
 
 static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0oj69ab32ces5n.apps.googleusercontent.com";
+
+@interface TSSocialAccountsManager ()
+
+@property (weak, nonatomic) UIView *currentView;
+
+@end
 
 
 @implementation TSSocialAccountsManager
@@ -47,7 +54,7 @@ static dispatch_once_t predicate;
 
 - (void)logInWithFacebook {
     
-    [self initFacebookView];
+    [self loginFacebook];
 }
 
 - (void)logInWithGooglePlus {
@@ -55,27 +62,20 @@ static dispatch_once_t predicate;
     [self initGooglePlus];
 }
 
-- (void)logInWithTwitter {
+- (void)logInWithTwitter:(UIView *)currentView {
     
+    _currentView = currentView;
     [self initTwitter];
+    [self loginTwitter];
 }
 
-- (void)logInWithLinkedIn {
+- (void)logInWithLinkedIn:(id)currentViewController {
     
-    [self initLinkedIn];
+    [self initLinkedIn:currentViewController];
+    [self loginLinkedIn];
 }
 
-- (void)initFacebookView {
-    
-    // Facebook setup
-    if (!self.facebookLoginView) {
-        self.facebookLoginView = [[FBLoginView alloc] init];
-        self.facebookLoginView.readPermissions = @[@"basic_info", @"email", @"user_likes"];
-        self.facebookLoginView.delegate = self;
-    }
-}
-
-- (void)initLinkedIn {
+- (void)initLinkedIn:(id)currentViewController {
     // LinkedIn setup
     // https://github.com/jeyben/IOSLinkedInAPI
     LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
@@ -83,7 +83,7 @@ static dispatch_once_t predicate;
                                                                                 clientSecret:@"wAdZqm3bZJkKgq0l"
                                                                                        state:@"DCEEFWF45453sdffef424"
                                                                                grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
-    self.linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:self];
+    self.linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:currentViewController];
 }
 
 - (void)initGooglePlus {
@@ -112,43 +112,29 @@ static dispatch_once_t predicate;
 
 - (void)addSocialViewsTo:(UIView *)view {
     
-    [view addSubview:_facebookLoginView];
-    [view addSubview:_signInGooglePlusButton];
     
-    [_facebookLoginView setHidden:YES];
-    [_signInGooglePlusButton setHidden:YES];
 }
 
 
 - (void)logoutAllUserTypesCompletion:(LoggedOutBlock)completion {
     
-    if (_facebookLoggedIn) {
-        
-        [((UIButton *)[_facebookLoginView.subviews firstObject]) sendActionsForControlEvents: UIControlEventTouchUpInside];
-        if (completion) {
-            _loggedOutBlock = completion;
+    [self logoutFacebook];
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
+        if (success) {
+            [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
+            
         }
-    }
-    else {
-        _facebookLoginView.delegate = nil;
-        _facebookLoginView = nil;
-        
-        [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
-            if (success) {
-                [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutSocial];
-                
-            }
-            if (completion) {
-                completion(success);
-            }
-        }];
-    }
+        if (completion) {
+            completion(success);
+        }
+    }];
 }
 
 
 #pragma mark - LinkedIn methods
 
-- (IBAction)didTapConnectWithLinkedIn:(id)sender {
+- (void)loginLinkedIn {
     [_linkedInClient getAuthorizationCode:^(NSString *code) {
         [_linkedInClient getAccessToken:code success:^(NSDictionary *accessTokenData) {
             NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
@@ -180,31 +166,6 @@ static dispatch_once_t predicate;
     [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"]];
 }
 
-#pragma mark - FBLoginViewDelegate methods
-
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
-    NSLog(@"Something went wrong: %@", error);
-}
-
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
-    NSLog(@"%@", user);
-}
-
-- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView; {
-    NSLog(@"User is logged in. Access token is %@", [[FBSession.activeSession accessTokenData] accessToken]);
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
-    _facebookLoggedIn = YES;
-}
-
-- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-    NSLog(@"User is logged out...");
-    
-    if (_facebookLoggedIn) {
-        _facebookLoggedIn = NO;
-        [self logoutAllUserTypesCompletion:_loggedOutBlock];
-    }
-}
-
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -229,10 +190,7 @@ static dispatch_once_t predicate;
                 
                 [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"]];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success!" message:lined delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alert show];
-                });
+                NSLog(@"%@", lined);
             }
             else {
                 NSLog(@"Reverse Auth process failed. Error returned was: %@\n", [error localizedDescription]);
@@ -254,7 +212,7 @@ static dispatch_once_t predicate;
  *  Upon completion, the button to continue will be displayed, or the user will be presented with a status message.
  */
 
-- (IBAction)refreshTwitterAccounts:(id)sender
+- (void)loginTwitter
 {
     NSLog(@"Refreshing Twitter Accounts \n");
     
@@ -308,7 +266,103 @@ static dispatch_once_t predicate;
         [sheet addButtonWithTitle:acct.username];
     }
     sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"Cancel"];
-//    [sheet showInView:self.view];
+    [sheet showInView:_currentView];
+}
+
+- (void)loginFacebook {
+    
+    // Open session with public_profile (required) and user_birthday read permissions
+    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+                                       allowLoginUI:YES
+                                  completionHandler:
+     ^(FBSession *session, FBSessionState state, NSError *error) {
+         __block NSString *alertText;
+         __block NSString *alertTitle;
+         if (!error){
+             [self facebookLoggedIn];
+             
+         } else {
+             // There was an error, handle it
+             if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
+                 // Error requires people using an app to make an action outside of the app to recover
+                 // The SDK will provide an error message that we have to show the user
+                 alertTitle = @"Something went wrong";
+                 alertText = [FBErrorUtility userMessageForError:error];
+                 [[[UIAlertView alloc] initWithTitle:alertTitle
+                                             message:alertText
+                                            delegate:self
+                                   cancelButtonTitle:@"OK!"
+                                   otherButtonTitles:nil] show];
+                 
+             } else {
+                 // If the user cancelled login
+                 if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
+                     alertTitle = @"Login cancelled";
+                     alertText = @"Your birthday will not be entered in our calendar because you didn't grant the permission.";
+                     [[[UIAlertView alloc] initWithTitle:alertTitle
+                                                 message:alertText
+                                                delegate:self
+                                       cancelButtonTitle:@"OK!"
+                                       otherButtonTitles:nil] show];
+                     
+                 } else {
+                     // For simplicity, in this sample, for all other errors we show a generic message
+                     // You can read more about how to handle other errors in our Handling errors guide
+                     // https://developers.facebook.com/docs/ios/errors/
+                     NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"]
+                                                        objectForKey:@"body"]
+                                                       objectForKey:@"error"];
+                     alertTitle = @"Something went wrong";
+                     alertText = [NSString stringWithFormat:@"Please retry.\nIf the problem persists contact us and mention this error code: %@",
+                                  [errorInformation objectForKey:@"message"]];
+                     [[[UIAlertView alloc] initWithTitle:alertTitle
+                                                 message:alertText
+                                                delegate:self
+                                       cancelButtonTitle:@"OK!"
+                                       otherButtonTitles:nil] show];
+                 }
+             }
+         }
+     }];
+}
+
+- (void)facebookLoggedIn {
+    
+    FBSession *session = [FBSession activeSession];
+    // If the session was opened successfully
+    if (session.state == FBSessionStateOpen){
+        // Your code here
+        
+        FBRequestHandler requestHandler = ^(FBRequestConnection *connection, NSMutableDictionary<FBGraphUser> *result, NSError *error) {
+            
+            NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture", ((NSDictionary<FBGraphUser> *) result).objectID];
+            UIImageView *imageView = [[UIImageView alloc] init];
+            [imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"profile"]];
+        };
+        
+        FBRequest *request = [FBRequest requestForMe];
+        [request setSession:session];
+        FBRequestConnection *requestConnection = [[FBRequestConnection alloc] init];
+        [requestConnection addRequest:request
+                    completionHandler:requestHandler];
+        [requestConnection startWithCacheIdentity:@"FBLoginView"
+                            skipRoundtripIfCached:YES];
+        
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
+    }
+}
+
+- (void)logoutFacebook {
+    
+    if (FBSession.activeSession.state == FBSessionStateOpen
+        || FBSession.activeSession.state == FBSessionStateOpenTokenExtended)
+    {
+        
+        // Close the session and remove the access token from the cache
+        // The session state handler (in the app delegate) will be called automatically
+        [FBSession.activeSession closeAndClearTokenInformation];
+        
+    }
 }
 
 

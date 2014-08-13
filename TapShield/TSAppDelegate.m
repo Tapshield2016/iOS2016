@@ -150,6 +150,12 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         [[TSSocialAccountsManager sharedSocialAccountsManager] facebookLoggedIn];
     }
     
+    if ([[GPPSignIn sharedInstance] handleURL:url
+                            sourceApplication:sourceApplication
+                                   annotation:annotation]) {
+        
+    }
+    
     return YES;
 }
 							

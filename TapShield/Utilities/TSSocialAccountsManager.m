@@ -8,18 +8,27 @@
 #import "TSSocialAccountsManager.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <FacebookSDK/FBRequestConnection+Internal.h>
+#import "TSUtilities.h"
 
-#define ERROR_TITLE_MSG @"Whoa, there cowboy"
-#define ERROR_NO_ACCOUNTS @"You must add a Twitter account in Settings.app to use this demo."
+#define ERROR_TITLE_MSG @"Sorry"
+#define ERROR_NO_ACCOUNTS @"No Twitter account could be found. Please add a Twitter account in the Settings app"
 #define ERROR_PERM_ACCESS @"We weren't granted access to the user's accounts"
 #define ERROR_NO_KEYS @"You need to add your Twitter app keys to Info.plist to use this demo.\nPlease see README.md for more info."
 #define ERROR_OK @"OK"
 
-static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0oj69ab32ces5n.apps.googleusercontent.com";
+#ifdef APP_STORE
+static NSString * const kGooglePlusClientId = @"165780496026-67m6s318srt26dslrgdb8uf63broljtp.apps.googleusercontent.com";
+#else
+static NSString * const kGooglePlusClientId = @"165780496026-5o2spgecpi0hh0jov666uekae2tshdj2.apps.googleusercontent.com";
+#endif
+
+static NSString * const kLinkedInClientId = @"75cqjrach211kt";
+static NSString * const kLinkedInSecretKey = @"wAdZqm3bZJkKgq0l";
 
 @interface TSSocialAccountsManager ()
 
 @property (weak, nonatomic) UIView *currentView;
+@property (nonatomic, strong) UIAlertView *passcodeAlertView;
 
 @end
 
@@ -60,6 +69,13 @@ static dispatch_once_t predicate;
 - (void)logInWithGooglePlus {
     
     [self initGooglePlus];
+    [[GPPSignIn sharedInstance] authenticate];
+}
+
+- (BOOL)silentLogInWithGooglePlus {
+    
+    [self initGooglePlus];
+    return [[GPPSignIn sharedInstance] trySilentAuthentication];
 }
 
 - (void)logInWithTwitter:(UIView *)currentView {
@@ -76,9 +92,8 @@ static dispatch_once_t predicate;
 }
 
 - (void)initLinkedIn:(id)currentViewController {
-    // LinkedIn setup
-    // https://github.com/jeyben/IOSLinkedInAPI
-    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.tapshield.com"
+    
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"https://tapshield.com/"
                                                                                     clientId:@"75cqjrach211kt"
                                                                                 clientSecret:@"wAdZqm3bZJkKgq0l"
                                                                                        state:@"DCEEFWF45453sdffef424"
@@ -92,14 +107,8 @@ static dispatch_once_t predicate;
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
     signIn.shouldFetchGooglePlusUser = YES;
     signIn.shouldFetchGoogleUserEmail = YES;
-    
-    // You previously set kClientId in the "Initialize the Google+ client" step
     signIn.clientID = kGooglePlusClientId;
-    
-    // Uncomment one of these two statements for the scope you chose in the previous step
-    signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
-    //signIn.scopes = @[ @"profile" ];            // "profile" scope
-    // Optional: declare signIn.actions, see "app activities"
+    signIn.scopes = @[ kGTLAuthScopePlusLogin ];
     signIn.delegate = self;
 }
 
@@ -110,15 +119,11 @@ static dispatch_once_t predicate;
     self.apiManager = [[TWAPIManager alloc] init];
 }
 
-- (void)addSocialViewsTo:(UIView *)view {
-    
-    
-}
-
 
 - (void)logoutAllUserTypesCompletion:(LoggedOutBlock)completion {
     
     [self logoutFacebook];
+    [self logoutGooglePlus];
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
         if (success) {
@@ -129,6 +134,11 @@ static dispatch_once_t predicate;
             completion(success);
         }
     }];
+}
+
+- (void)logoutGooglePlus {
+    
+    [[GPPSignIn sharedInstance] signOut];
 }
 
 
@@ -365,5 +375,84 @@ static dispatch_once_t predicate;
     }
 }
 
+
+#pragma mark - Finish User Signup
+
+- (void)loggedInViaSocialCheckUserStatus {
+    
+//    NSLog(@"%@", [UIApplication sharedApplication].delegate.window.rootViewController);
+//    NSLog(@"%@", [[UIApplication sharedApplication].delegate.window.rootViewController presentedViewController]);
+    
+    TSJavelinAPIUser *user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
+    if (user) {
+        if (!user.disarmCode || !user.disarmCode.length) {
+            _passcodeAlertView = [[UIAlertView alloc] initWithTitle:@"Enter a 4-digit passcode"
+                                                            message:@"This code will be used to quickly verify your identity within the application"
+                                                           delegate:self
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:nil];
+            _passcodeAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            UITextField *textField = [_passcodeAlertView textFieldAtIndex:0];
+            [textField setPlaceholder:@"1234"];
+            [textField setTextAlignment:NSTextAlignmentCenter];
+            [textField setSecureTextEntry:YES];
+            [textField setKeyboardType:UIKeyboardTypeNumberPad];
+            [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+            [textField setDelegate:self];
+            
+            [_passcodeAlertView show];
+        }
+    }
+}
+
+
+#pragma mark - Alert View Delegate
+
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (alertView == _passcodeAlertView) {
+        if (buttonIndex == 1) {
+            [self saveUser];
+        }
+    }
+}
+
+- (void)saveUser {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] updateLoggedInUser:nil];
+}
+
+#pragma mark - Text Field Delegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if ([textField.text length] + [string length] - range.length == 4) {
+        textField.text = [textField.text stringByAppendingString:string];
+        [self checkDisarmCode:textField];
+        return NO;
+    }
+    else if ([textField.text length] + [string length] - range.length > 4) {
+        [self checkDisarmCode:textField];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)checkDisarmCode:(UITextField *)textField {
+    
+    if ([TSUtilities removeNonNumericalCharacters:textField.text].length == 4) {
+        
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode = textField.text;
+        [_passcodeAlertView dismissWithClickedButtonIndex:1 animated:YES];
+        
+    }
+    else {
+        textField.text = @"";
+        textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
+    }
+}
 
 @end

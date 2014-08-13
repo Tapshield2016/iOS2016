@@ -35,6 +35,16 @@
 				<string>com.tapshield.TapShield</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.TapShieldLLC.TapShield</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.TapShieldLLC.TapShield</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>829</string>

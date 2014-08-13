@@ -240,4 +240,6 @@
     _checkBox.superview.backgroundColor = [UIColor clearColor];
     _checkBox.selected = !_checkBox.selected;
 }
+
+
 @end

@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet TSCircularButton *signUpButton;
 
 @property (nonatomic, weak) IBOutlet TSCircularButton *facebookButton;
-@property (nonatomic, weak) IBOutlet TSGooglePlusButton *signInGooglePlusButton;
+@property (nonatomic, weak) IBOutlet TSCircularButton *signInGooglePlusButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *twitterButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *linkedInButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *emailButton;
@@ -47,7 +47,7 @@
 - (IBAction)didTapConnectWithLinkedIn:(id)sender;
 - (IBAction)emailLoginSignup:(id)sender;
 - (IBAction)logInWithFacebook:(id)sender;
-
+- (IBAction)logInWithGooglePlus:(id)sender;
 
 
 @end

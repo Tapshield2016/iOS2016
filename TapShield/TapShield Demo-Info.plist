@@ -44,10 +44,19 @@
 				<string>com.TapShieldLLC.TapShield</string>
 			</array>
 		</dict>
-		<dict/>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>fb412321438904850</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb412321438904850</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>829</string>
+	<string>830</string>
 	<key>FacebookAppID</key>
 	<string>412321438904850</string>
 	<key>FacebookDisplayName</key>

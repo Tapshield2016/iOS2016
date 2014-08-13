@@ -65,6 +65,10 @@
 		C501CC9E18F48E40005A0B98 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
 		C501CC9F18F48E40005A0B98 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
 		C501CCA018F48E40005A0B98 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
+		C502515D199BD68700717E6D /* TSUserSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C502515C199BD68700717E6D /* TSUserSessionManager.m */; };
+		C502515E199BD68800717E6D /* TSUserSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C502515C199BD68700717E6D /* TSUserSessionManager.m */; };
+		C502515F199BD68800717E6D /* TSUserSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C502515C199BD68700717E6D /* TSUserSessionManager.m */; };
+		C5025160199BD68800717E6D /* TSUserSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C502515C199BD68700717E6D /* TSUserSessionManager.m */; };
 		C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918918E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
@@ -942,6 +946,8 @@
 		C501CC9718F337A0005A0B98 /* TSRoundRectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRoundRectButton.m; sourceTree = "<group>"; };
 		C501CC9C18F48E40005A0B98 /* TSLogoImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSLogoImageView.h; path = Views/TSLogoImageView.h; sourceTree = "<group>"; };
 		C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSLogoImageView.m; path = Views/TSLogoImageView.m; sourceTree = "<group>"; };
+		C502515B199BD68700717E6D /* TSUserSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUserSessionManager.h; sourceTree = "<group>"; };
+		C502515C199BD68700717E6D /* TSUserSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUserSessionManager.m; sourceTree = "<group>"; };
 		C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRoutePickerViewController.h; path = "View Controllers/Map/TSRoutePickerViewController.h"; sourceTree = "<group>"; };
 		C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoutePickerViewController.m; path = "View Controllers/Map/TSRoutePickerViewController.m"; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
@@ -1554,6 +1560,8 @@
 				C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */,
 				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
 				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
+				C502515B199BD68700717E6D /* TSUserSessionManager.h */,
+				C502515C199BD68700717E6D /* TSUserSessionManager.m */,
 				B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */,
 				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
 				C532E62D18BBF1E900FC111A /* UIImage+Color.h */,
@@ -2648,6 +2656,7 @@
 				C5EAABED1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
+				C502515D199BD68700717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63401970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C55644F718E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C5662BF318DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
@@ -2878,6 +2887,7 @@
 				C5AFBBA5192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
 				C5AFBF071922BE3600EC62A5 /* TSIconBadgeView.m in Sources */,
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
+				C5025160199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C599C03B193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C532E63618BBF1E900FC111A /* TSConstants.m in Sources */,
 				C5AFBB9F191FA5A500EC62A5 /* TSChangePasscodeViewController.m in Sources */,
@@ -3041,6 +3051,7 @@
 				C5EAABEE1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C502515E199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63411970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
@@ -3238,6 +3249,7 @@
 				C5AFB948191D35DE00EC62A5 /* TSBasicInfoTableViewController.m in Sources */,
 				C5AFB949191D35DE00EC62A5 /* TSBasicInfoViewController.m in Sources */,
 				C5AFB94A191D35DE00EC62A5 /* TWAPIManager.m in Sources */,
+				C502515F199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63421970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C5AFB94B191D35DE00EC62A5 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C5AFB94C191D35DE00EC62A5 /* TSJavelinS3UploadManager.m in Sources */,

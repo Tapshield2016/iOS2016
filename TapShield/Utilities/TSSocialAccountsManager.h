@@ -41,7 +41,7 @@ typedef void (^LoggedOutBlock)(BOOL loggedOut);
 @property (nonatomic, strong) NSArray *accounts;
 @property (nonatomic, strong) LIALinkedInHttpClient *linkedInClient;
 
-+ (instancetype)sharedSocialAccountsManager;
++ (instancetype)sharedManager;
 
 - (void)logoutAllUserTypesCompletion:(LoggedOutBlock)completion;
 

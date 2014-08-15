@@ -50,7 +50,7 @@ static dispatch_once_t predicate;
     return self;
 }
 
-+ (instancetype)sharedSocialAccountsManager {
++ (instancetype)sharedManager {
     
     if (_sharedSocialAccountsManagerInstance == nil) {
         dispatch_once(&predicate, ^{

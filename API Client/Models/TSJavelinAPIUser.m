@@ -38,6 +38,7 @@
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     _userProfile = [self unarchiveUserProfile];
+    _apiToken = [attributes nonNullObjectForKey:@"token"];
         
     return self;
 }
@@ -128,6 +129,10 @@
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
+    
+    if ([attributes nonNullObjectForKey:@"token"]) {
+        _apiToken = [attributes nonNullObjectForKey:@"token"];
+    }
     
     return self;
 }

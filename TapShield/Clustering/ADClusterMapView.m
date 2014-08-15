@@ -93,7 +93,7 @@
 
 - (void)setAnnotations:(NSSet *)annotations {
     
-    if (!annotations || !annotations.count) {
+    if (!annotations) {
         return;
     }
     

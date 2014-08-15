@@ -10,4 +10,8 @@
 
 @interface TSUserSessionManager : NSObject
 
++ (instancetype)sharedManager;
+
+- (void)checkForUserAgency;
+
 @end

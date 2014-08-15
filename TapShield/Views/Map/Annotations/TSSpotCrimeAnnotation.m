@@ -9,8 +9,8 @@
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUtilities.h"
 
-static NSString * const TSSpotCrimeAnnotationPoweredBy = @"Powered by SpotCrime";
-static NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip";
+NSString * const TSSpotCrimeAnnotationPoweredBy = @"";
+NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip";
 
 @implementation TSSpotCrimeAnnotation
 

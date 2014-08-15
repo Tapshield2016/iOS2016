@@ -114,15 +114,16 @@ static dispatch_once_t onceToken;
 
 - (void)socialLoggedInUserWithAttributes:(NSDictionary *)attributes {
     
-    if (_loggedInUser) {
-        return;
-    }
-    
     [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:attributes]];
     
     if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
         [_delegate loginSuccessful:nil];
     }
+    
+    if (!_emailAddress) {
+        _emailAddress = _loggedInUser.username;
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:nil];
     [self storeUserCredentials:_emailAddress password:_password];
     _emailAddress = nil;
@@ -177,14 +178,17 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret {
+    
+    _password = twitterOauthTokenSecret;
+    
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-twitter-user/"
     parameters:@{ @"oauth_token": twitterOauthToken,
-                  @"oauth_token_secret": twitterOauthTokenSecret }
+                  @"oauth_token_secret": twitterOauthTokenSecret,
+                  @"next": @"api/retrieve-token/" }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
-           
            [self socialLoggedInUserWithAttributes:responseObject];
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -251,7 +255,7 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            [self storeUserCredentials:user.email password:user.password];
-           _emailAddress = user.email;
+           _emailAddress = user.username;
            _password = user.password;
            
            if (completion) {
@@ -764,12 +768,14 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    NSString *emailAddress = _loggedInUser.email;
-    NSString *password = [self getPasswordForEmailAddress:_loggedInUser.email];
+    NSString *username = _loggedInUser.username;
+    NSString *password = [self getPasswordForEmailAddress:_loggedInUser.username];
 
-    if (emailAddress && password) {
+    if (username && password) {
+        [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
+                      forHTTPHeaderField:@"Authorization"];
         [self POST:[NSString stringWithFormat:@"%@api/retrieve-token/", self.baseURL]
-        parameters:@{ @"username": emailAddress, @"password": password }
+        parameters:@{ @"username": username, @"password": password }
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                [self setAPITokenForLoggedInUser:responseObject[@"token"]];
                if (completion) {
@@ -817,8 +823,9 @@ static dispatch_once_t onceToken;
     if (!_loggedInUser.apiToken) {
         [self retrieveAPITokenForLoggedInUser:nil];
     }
+    NSString *token = [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
     
-    return [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
+    return token;
 }
 
 #pragma mark - APNS Token Methods

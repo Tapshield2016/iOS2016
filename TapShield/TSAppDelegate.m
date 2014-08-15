@@ -25,6 +25,7 @@
 #import "GAITracker.h"
 #import "GAIDictionaryBuilder.h"
 #import "TSNoNetworkWindow.h"
+#import "TSUserSessionManager.h"
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -147,7 +148,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     if ([[FBSession activeSession] handleOpenURL:url]) {
-        [[TSSocialAccountsManager sharedSocialAccountsManager] facebookLoggedIn];
+        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
     }
     
     if ([[GPPSignIn sharedInstance] handleURL:url

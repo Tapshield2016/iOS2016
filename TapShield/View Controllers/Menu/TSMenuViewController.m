@@ -224,14 +224,15 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    CGSize size = [UIImage imageNamed:@"profile_menu_icon_active"].size;
     if ([cell.textLabel.text isEqualToString:@"Profile"]) {
         UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
         if (image) {
-            CGSize size = cell.imageView.bounds.size;
             cell.imageView.image = [[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size];
         }
     }
-    cell.imageView.layer.cornerRadius = cell.imageView.bounds.size.height/2;
+    
+    cell.imageView.layer.cornerRadius = size.height/2;
     cell.imageView.layer.borderColor = [UIColor whiteColor].CGColor;
     cell.imageView.layer.borderWidth = 1.0f;
     cell.imageView.layer.shadowColor = [UIColor blackColor].CGColor;

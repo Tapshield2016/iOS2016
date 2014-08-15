@@ -129,12 +129,12 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (IBAction)logInWithFacebook:(id)sender {
     
-    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithFacebook];
+    [[TSSocialAccountsManager sharedManager] logInWithFacebook];
 }
 
 - (IBAction)logInWithGooglePlus:(id)sender {
     
-    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithGooglePlus];
+    [[TSSocialAccountsManager sharedManager] logInWithGooglePlus];
 }
 
 
@@ -142,7 +142,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (IBAction)didTapConnectWithLinkedIn:(id)sender {
     
-    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithLinkedIn:self];
+    [[TSSocialAccountsManager sharedManager] logInWithLinkedIn:self];
 }
 
 
@@ -150,7 +150,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (IBAction)refreshTwitterAccounts:(id)sender {
     
-    [[TSSocialAccountsManager sharedSocialAccountsManager] logInWithTwitter:self.view];
+    [[TSSocialAccountsManager sharedManager] logInWithTwitter:self.view];
 }
 
 
@@ -161,7 +161,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
     
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [[TSSocialAccountsManager sharedSocialAccountsManager] loggedInViaSocialCheckUserStatus];
+        [[TSSocialAccountsManager sharedManager] loggedInViaSocialCheckUserStatus];
     }];
 }
 

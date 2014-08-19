@@ -15,7 +15,4 @@
 @property (assign, nonatomic) BOOL isActive;
 @property (assign, nonatomic) BOOL isActivationSent;
 
-
-
-
 @end

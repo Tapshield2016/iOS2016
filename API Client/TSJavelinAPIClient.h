@@ -83,6 +83,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 - (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 - (void)makeSecondaryEmailPrimary:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
+- (void)isSecondaryEmailVerified:(NSString *)email completion:(void(^)(BOOL verified, NSString *errorMessage))completion;
 - (void)resendSecondaryEmailActivation:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 - (void)removeSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 
@@ -124,6 +125,10 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 + (instancetype)initializeSharedClientWithBaseURL:(NSString *)baseURL andBaseAuthURL:(NSString *)baseAuthURL;
 + (instancetype)initializeSharedClientWithBaseURL:(NSString *)baseURL;
 + (instancetype)sharedClient;
+
+//Quick methods
++ (TSJavelinAPIUser *)loggedInUser;
++ (TSJavelinAPIAgency *)userAgency;
 
 // Agency actions
 - (void)getAgencies:(void (^)(NSArray *agencies))completion;

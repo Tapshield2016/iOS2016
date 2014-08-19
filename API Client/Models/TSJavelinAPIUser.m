@@ -9,7 +9,7 @@
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIEntourageMember.h"
-#import "TSJavelinAPIEmail.h"
+#import "TSJavelinAPIClient.h"
 
 @implementation TSJavelinAPIUser
 
@@ -116,6 +116,14 @@
     
     if ([[attributes nonNullObjectForKey:@"agency"] isKindOfClass:[NSDictionary class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
+    }
+    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
+        TSJavelinAPIAgency *agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
+        
+        if (agency.identifier != _agency.identifier) {
+            _agency = agency;
+            [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+        }
     }
     else if (![attributes nonNullObjectForKey:@"agency"]) {
         _agency = nil;
@@ -254,5 +262,27 @@
     return YES;
 }
 
+- (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email {
+    
+    for (TSJavelinAPIEmail *secondaryEmail in _secondaryEmails) {
+        if ([secondaryEmail.email isEqualToString:email]) {
+            return secondaryEmail;
+        }
+    }
+    
+    return nil;
+}
+
+- (BOOL)setSecondaryEmailVerified:(NSString *)email {
+    
+    for (TSJavelinAPIEmail *secondaryEmail in _secondaryEmails) {
+        if ([secondaryEmail.email isEqualToString:email]) {
+            secondaryEmail.isActive = YES;
+            return YES;
+        }
+    }
+    
+    return NO;
+}
 
 @end

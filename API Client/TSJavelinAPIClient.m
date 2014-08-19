@@ -994,4 +994,15 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSJavelinAPIClientDidUpdateAgency object:nil];
 }
 
++ (TSJavelinAPIUser *)loggedInUser {
+    
+    return [[[self sharedClient] authenticationManager] loggedInUser];
+}
+
++ (TSJavelinAPIAgency *)userAgency {
+    
+    return [[[self sharedClient] authenticationManager] loggedInUser].agency;
+}
+
+
 @end

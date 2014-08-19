@@ -461,6 +461,10 @@
 		C586E6A0197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
 		C586E6A1197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
 		C586E6A2197390430047002B /* TSClusterOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C586E69E197390430047002B /* TSClusterOperation.m */; };
+		C58B31EE199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
+		C58B31EF199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
+		C58B31F0199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
+		C58B31F1199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
 		C596C63B1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
 		C596C63C1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
 		C596C63D1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
@@ -1173,6 +1177,8 @@
 		C586E698197335B10047002B /* CLLocation+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Utilities.m"; sourceTree = "<group>"; };
 		C586E69D197390430047002B /* TSClusterOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClusterOperation.h; sourceTree = "<group>"; };
 		C586E69E197390430047002B /* TSClusterOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClusterOperation.m; sourceTree = "<group>"; };
+		C58B31EC199EBEB100F9C3A4 /* TSAddSecondaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAddSecondaryViewController.h; path = "View Controllers/Login:Signup/Post/TSAddSecondaryViewController.h"; sourceTree = "<group>"; };
+		C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAddSecondaryViewController.m; path = "View Controllers/Login:Signup/Post/TSAddSecondaryViewController.m"; sourceTree = "<group>"; };
 		C596C6391979A26200DF2E29 /* NSNull+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+JSON.h"; sourceTree = "<group>"; };
 		C596C63A1979A26200DF2E29 /* NSNull+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+JSON.m"; sourceTree = "<group>"; };
 		C599C036193FD7CA00B77410 /* NSURL+FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileType.h"; sourceTree = "<group>"; };
@@ -1760,20 +1766,6 @@
 			isa = PBXGroup;
 			children = (
 				C5662BEB18DCE43B00FD4F44 /* Signup */,
-				C585F1AE18CF8B44009EEF16 /* TSSocialAuthorizationViewController.h */,
-				C585F1AF18CF8B44009EEF16 /* TSSocialAuthorizationViewController.m */,
-				B5EE898418A025EF00BB3B81 /* TSLoginOrSignUpViewController.h */,
-				B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */,
-				C5372DA218AEC99900D22682 /* TSLoginViewController.h */,
-				C5372DA318AEC99900D22682 /* TSLoginViewController.m */,
-				C55568E61911809300685FB0 /* TSForgotPasswordViewController.h */,
-				C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */,
-				C585F18E18CF7E73009EEF16 /* TSIntroPageViewController.h */,
-				C585F18F18CF7E73009EEF16 /* TSIntroPageViewController.m */,
-				C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */,
-				C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */,
-				C55568E11910082000685FB0 /* TSIntroSlideViewController.h */,
-				C55568E21910082000685FB0 /* TSIntroSlideViewController.m */,
 			);
 			name = Login/Signup;
 			path = TapShield;
@@ -1948,22 +1940,9 @@
 		C5662BEB18DCE43B00FD4F44 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				C5662BE618DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.h */,
-				C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */,
-				C5372DAE18B27C1F00D22682 /* TSAskOrganizationViewController.h */,
-				C5372DAF18B27C1F00D22682 /* TSAskOrganizationViewController.m */,
-				C5372DB218B27C3600D22682 /* TSOrganizationSearchViewController.h */,
-				C5372DB318B27C3600D22682 /* TSOrganizationSearchViewController.m */,
-				C5372DB618B2AB7400D22682 /* TSRegisterViewController.h */,
-				C5372DB718B2AB7400D22682 /* TSRegisterViewController.m */,
-				C5FD5EA118B3D58400E27EE9 /* TSEmailVerificationViewController.h */,
-				C5FD5EA218B3D58400E27EE9 /* TSEmailVerificationViewController.m */,
-				C5FD5EA518B4009000E27EE9 /* TSPhoneVerificationViewController.h */,
-				C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */,
-				C5372DAA18B270E100D22682 /* TSAgreementViewController.h */,
-				C5372DAB18B270E100D22682 /* TSAgreementViewController.m */,
-				C5AFBC001921044000EC62A5 /* TSNamePictureViewController.h */,
-				C5AFBC011921044000EC62A5 /* TSNamePictureViewController.m */,
+				C58B31EA199EBE3C00F9C3A4 /* Pre */,
+				C58B31E9199EBE1200F9C3A4 /* Registration */,
+				C58B31EB199EBE5000F9C3A4 /* Post */,
 			);
 			name = Signup;
 			sourceTree = "<group>";
@@ -2120,6 +2099,59 @@
 				C585F2F318DB6E2E009EEF16 /* SIL Open Font License.txt */,
 			);
 			path = Raleway;
+			sourceTree = "<group>";
+		};
+		C58B31E9199EBE1200F9C3A4 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				C5662BE618DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.h */,
+				C5662BE718DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m */,
+				C5372DAE18B27C1F00D22682 /* TSAskOrganizationViewController.h */,
+				C5372DAF18B27C1F00D22682 /* TSAskOrganizationViewController.m */,
+				C5372DB218B27C3600D22682 /* TSOrganizationSearchViewController.h */,
+				C5372DB318B27C3600D22682 /* TSOrganizationSearchViewController.m */,
+				C5372DB618B2AB7400D22682 /* TSRegisterViewController.h */,
+				C5372DB718B2AB7400D22682 /* TSRegisterViewController.m */,
+				C5FD5EA118B3D58400E27EE9 /* TSEmailVerificationViewController.h */,
+				C5FD5EA218B3D58400E27EE9 /* TSEmailVerificationViewController.m */,
+				C5FD5EA518B4009000E27EE9 /* TSPhoneVerificationViewController.h */,
+				C5FD5EA618B4009000E27EE9 /* TSPhoneVerificationViewController.m */,
+				C5372DAA18B270E100D22682 /* TSAgreementViewController.h */,
+				C5372DAB18B270E100D22682 /* TSAgreementViewController.m */,
+				C5AFBC001921044000EC62A5 /* TSNamePictureViewController.h */,
+				C5AFBC011921044000EC62A5 /* TSNamePictureViewController.m */,
+			);
+			name = Registration;
+			sourceTree = "<group>";
+		};
+		C58B31EA199EBE3C00F9C3A4 /* Pre */ = {
+			isa = PBXGroup;
+			children = (
+				C585F1AE18CF8B44009EEF16 /* TSSocialAuthorizationViewController.h */,
+				C585F1AF18CF8B44009EEF16 /* TSSocialAuthorizationViewController.m */,
+				B5EE898418A025EF00BB3B81 /* TSLoginOrSignUpViewController.h */,
+				B5EE898518A025EF00BB3B81 /* TSLoginOrSignUpViewController.m */,
+				C5372DA218AEC99900D22682 /* TSLoginViewController.h */,
+				C5372DA318AEC99900D22682 /* TSLoginViewController.m */,
+				C55568E61911809300685FB0 /* TSForgotPasswordViewController.h */,
+				C55568E71911809300685FB0 /* TSForgotPasswordViewController.m */,
+				C585F18E18CF7E73009EEF16 /* TSIntroPageViewController.h */,
+				C585F18F18CF7E73009EEF16 /* TSIntroPageViewController.m */,
+				C585F2DA18DA551F009EEF16 /* TSWelcomeViewController.h */,
+				C585F2DB18DA551F009EEF16 /* TSWelcomeViewController.m */,
+				C55568E11910082000685FB0 /* TSIntroSlideViewController.h */,
+				C55568E21910082000685FB0 /* TSIntroSlideViewController.m */,
+			);
+			name = Pre;
+			sourceTree = "<group>";
+		};
+		C58B31EB199EBE5000F9C3A4 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				C58B31EC199EBEB100F9C3A4 /* TSAddSecondaryViewController.h */,
+				C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */,
+			);
+			name = Post;
 			sourceTree = "<group>";
 		};
 		C5AFBB93191F99A800EC62A5 /* Select */ = {
@@ -2655,6 +2687,7 @@
 				C563570018ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5EAABED1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
+				C58B31EE199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C502515D199BD68700717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63401970533500C34BF0 /* ADMapCluster.m in Sources */,
@@ -2982,6 +3015,7 @@
 				C53A6306196F0DE500C34BF0 /* TSHeatMapOverlay.m in Sources */,
 				C5FFB4CE195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
+				C58B31F1199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C56B3D5D18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C532E63C18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5CC4593193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
@@ -3050,6 +3084,7 @@
 				C563570118ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5EAABEE1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
 				C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
+				C58B31EF199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
 				C502515E199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63411970533500C34BF0 /* ADMapCluster.m in Sources */,
@@ -3248,6 +3283,7 @@
 				C5AFB947191D35DE00EC62A5 /* TSBaseAnnotationView.m in Sources */,
 				C5AFB948191D35DE00EC62A5 /* TSBasicInfoTableViewController.m in Sources */,
 				C5AFB949191D35DE00EC62A5 /* TSBasicInfoViewController.m in Sources */,
+				C58B31F0199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C5AFB94A191D35DE00EC62A5 /* TWAPIManager.m in Sources */,
 				C502515F199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63421970533500C34BF0 /* ADMapCluster.m in Sources */,

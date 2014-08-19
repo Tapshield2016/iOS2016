@@ -124,22 +124,13 @@ static dispatch_once_t onceToken;
         _emailAddress = _loggedInUser.username;
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+                                                        object:nil];
     [self storeUserCredentials:_emailAddress password:_password];
     _emailAddress = nil;
     _password = nil;
     
     [self deleteCookiesForLoginDomain];
-    
-    [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
-        if (token) {
-            [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
-            
-        }
-        else {
-            NSLog(@"Social Loggin failed to retrieve token");
-        }
-    }];
 }
 
 
@@ -484,7 +475,7 @@ static dispatch_once_t onceToken;
                 // Delay execution of my block for 10 seconds.
                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
                 dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                    [self updateLoggedInUser:completion];
+                    [self updateLoggedInUserAgency:completion];
                 });
             }
             else {
@@ -622,6 +613,9 @@ static dispatch_once_t onceToken;
 - (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -657,6 +651,48 @@ static dispatch_once_t onceToken;
 - (void)makeSecondaryEmailPrimary:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
+        return;
+    }
+    
+    email = [email lowercaseString];
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/email/make_primary/"
+    parameters:@{ @"email": email}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [_loggedInUser updateWithAttributes:responseObject];
+           
+           if (completion) {
+               completion(YES, nil);
+           }
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
+           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           if (!errorMessage) {
+               errorMessage = error.localizedDescription;
+           }
+           
+           NSLog(@"%@", errorMessage);
+           if (completion) {
+               completion(NO, errorMessage);
+           }
+       }];
+}
+
+
+- (void)isSecondaryEmailVerified:(NSString *)email completion:(void(^)(BOOL verified, NSString *errorMessage))completion {
+    
+    if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -692,6 +728,9 @@ static dispatch_once_t onceToken;
 - (void)resendSecondaryEmailActivation:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -725,6 +764,9 @@ static dispatch_once_t onceToken;
 - (void)removeSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     

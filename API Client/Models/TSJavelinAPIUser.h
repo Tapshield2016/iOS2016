@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
+#import "TSJavelinAPIEmail.h"
 
 @class TSJavelinAPIGroup;
 @class TSJavelinAPIAgency;
@@ -36,5 +37,7 @@
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain;
+- (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email;
+- (BOOL)setSecondaryEmailVerified:(NSString *)email;
 
 @end

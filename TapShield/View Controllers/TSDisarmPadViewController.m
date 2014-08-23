@@ -11,7 +11,6 @@
 
 @interface TSDisarmPadViewController ()
 
-@property (strong, nonatomic) TSPageViewController *pageViewController;
 @property (assign, nonatomic) NSUInteger failAttempts;
 @property (strong, nonatomic) UIAlertView *passwordAttemptAlertView;
 @property (assign, nonatomic) BOOL didSendReset;
@@ -51,15 +50,6 @@
     
     [super viewDidAppear:animated];
     
-}
-
-- (void)setSuperviewViewController:(UIViewController *)superviewViewController {
-    
-    _superviewViewController = superviewViewController;
-    
-    if ([superviewViewController isKindOfClass:[TSPageViewController class]]) {
-        _pageViewController = (TSPageViewController *)superviewViewController;
-    }
 }
 
 #pragma mark - Disarm Code
@@ -199,14 +189,15 @@
     [[TSJavelinAPIClient sharedClient] disarmAlert];
     [[TSJavelinAPIClient sharedClient] cancelAlert];
     
-    [_pageViewController.homeViewController mapAlertModeToggle];
-    [_pageViewController.toolbar setTranslucent:NO];
-    [_pageViewController.toolbar setAlpha:0.5f];
-    [_pageViewController.homeViewController viewWillAppear:NO];
-    [_pageViewController.homeViewController viewDidAppear:NO];
-    [_pageViewController.homeViewController whiteNavigationBar];
-    [_pageViewController.homeViewController.reportManager showSpotCrimes];
-    [_pageViewController dismissViewControllerAnimated:YES completion:nil];
+    TSPageViewController *pageViewController = (TSPageViewController *)self.parentViewController;
+    [pageViewController.homeViewController mapAlertModeToggle];
+    [pageViewController.toolbar setTranslucent:NO];
+    [pageViewController.toolbar setAlpha:0.5f];
+    [pageViewController.homeViewController viewWillAppear:NO];
+    [pageViewController.homeViewController viewDidAppear:NO];
+    [pageViewController.homeViewController whiteNavigationBar];
+    [pageViewController.homeViewController.reportManager showSpotCrimes];
+    [pageViewController dismissViewControllerAnimated:YES completion:nil];
     
     if ([TSVirtualEntourageManager sharedManager].isEnabled &&
         ![TSVirtualEntourageManager sharedManager].endTimer) {

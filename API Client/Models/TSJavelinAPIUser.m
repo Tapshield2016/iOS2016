@@ -9,7 +9,7 @@
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIEntourageMember.h"
-#import "TSJavelinAPIEmail.h"
+#import "TSJavelinAPIClient.h"
 
 @implementation TSJavelinAPIUser
 
@@ -36,6 +36,9 @@
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
+    
+    _userProfile = [self unarchiveUserProfile];
+    _apiToken = [attributes nonNullObjectForKey:@"token"];
         
     return self;
 }
@@ -114,6 +117,14 @@
     if ([[attributes nonNullObjectForKey:@"agency"] isKindOfClass:[NSDictionary class]]) {
         _agency = [[TSJavelinAPIAgency alloc] initWithAttributes:attributes[@"agency"]];
     }
+    else if ([attributes[@"agency"] isKindOfClass:[NSString class]]) {
+        TSJavelinAPIAgency *agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
+        
+        if (agency.identifier != _agency.identifier) {
+            _agency = agency;
+            [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
+        }
+    }
     else if (![attributes nonNullObjectForKey:@"agency"]) {
         _agency = nil;
     }
@@ -126,6 +137,10 @@
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
     self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
+    
+    if ([attributes nonNullObjectForKey:@"token"]) {
+        _apiToken = [attributes nonNullObjectForKey:@"token"];
+    }
     
     return self;
 }
@@ -175,6 +190,9 @@
     if (_lastName) {
         [mutableDictionary setObject:_lastName forKey:@"last_name"];
     }
+    if (_agency) {
+        [mutableDictionary setObject:_agency.url forKey:@"agency"];
+    }
     
     return mutableDictionary;
 }
@@ -205,6 +223,84 @@
     }
     
     return mutableDictionary;
+}
+
+- (void)setUserProfile:(TSJavelinAPIUserProfile *)userProfile {
+    
+    _userProfile = userProfile;
+    
+    [self archiveUserProfile];
+}
+
+- (void)archiveUserProfile {
+    
+    if (_userProfile) {
+        NSString *string = [NSString stringWithFormat:@"%@-profile", _username];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_userProfile];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:string];
+    }
+}
+
+- (TSJavelinAPIUserProfile *)unarchiveUserProfile {
+    
+    NSString *string = [NSString stringWithFormat:@"%@-profile", _username];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:string];
+    
+    if (data) {
+        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    
+    return nil;
+}
+
+- (BOOL)isAvailableForDomain:(NSString *)emailDomain {
+    
+    if (!emailDomain) {
+        return NO;
+    }
+    
+    emailDomain = [emailDomain stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    NSArray *userEmailDomain = [_email componentsSeparatedByString:@"@"];
+    
+    if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location != NSNotFound) {
+        return YES;
+    }
+    
+    for (TSJavelinAPIEmail *email in _secondaryEmails) {
+        
+        if (email.isActive) {
+            userEmailDomain = [email.email componentsSeparatedByString:@"@"];
+            
+            if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location != NSNotFound) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+- (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email {
+    
+    for (TSJavelinAPIEmail *secondaryEmail in _secondaryEmails) {
+        if ([secondaryEmail.email isEqualToString:email]) {
+            return secondaryEmail;
+        }
+    }
+    
+    return nil;
+}
+
+- (BOOL)setSecondaryEmailVerified:(NSString *)email {
+    
+    for (TSJavelinAPIEmail *secondaryEmail in _secondaryEmails) {
+        if ([secondaryEmail.email isEqualToString:email]) {
+            secondaryEmail.isActive = YES;
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 @end

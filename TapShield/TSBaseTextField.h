@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TSRalewayFont.h"
 #import "TSColorPalette.h"
+#import "UITextField+Selection.h"
 
 @interface TSBaseTextField : UITextField
 

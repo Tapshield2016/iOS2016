@@ -24,6 +24,8 @@
 #import "GAIFields.h"
 #import "GAITracker.h"
 #import "GAIDictionaryBuilder.h"
+#import "TSNoNetworkWindow.h"
+#import "TSUserSessionManager.h"
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
@@ -35,6 +37,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *windowBackground;
+@property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
 
 @end
 
@@ -52,10 +55,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #elif DEMO
 
 //internal
-//    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     
 //Demo
-    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
+//    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";
@@ -98,7 +101,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
-//    [TSSocialAccountsManager initializeShareSocialAccountsManager];
     [TSYankManager sharedYankManager];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
@@ -139,7 +141,23 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.window makeKeyAndVisible];
     [self.window addSubview:self.windowBackground];
     [self.window sendSubviewToBack:self.windowBackground];
+    
+    [[TSUserSessionManager sharedManager] userStatusCheck];
 
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([[FBSession activeSession] handleOpenURL:url]) {
+        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
+    }
+    
+    if ([[GPPSignIn sharedInstance] handleURL:url
+                            sourceApplication:sourceApplication
+                                   annotation:annotation]) {
+        
+    }
+    
     return YES;
 }
 							
@@ -157,11 +175,19 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     if ([[TSJavelinAPIClient sharedClient] isStillActiveAlert] ||
         [TSYankManager sharedYankManager].isEnabled ||
         [TSVirtualEntourageManager sharedManager].isEnabled ||
-        [TSAlertManager sharedManager].countdownTimer) {
-//        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-//            NSLog(@"BackgroundTaskExpirationHandler");
-//            [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
-//        }];
+        [TSAlertManager sharedManager].countdownTimer ||
+        [TSAlertManager sharedManager].isAlertInProgress) {
+        
+        if (![TSAlertManager sharedManager].countdownTimer &&
+            ![TSAlertManager sharedManager].isAlertInProgress ) {
+            
+            if ([TSVirtualEntourageManager sharedManager].isEnabled) {
+                [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSVirtualEntourageManager sharedManager].endTimer.fireDate];
+            }
+            else {
+                [[TSLocationController sharedLocationController] enterLowPowerState];
+            }
+        }
     }
     else {
         [[TSLocationController sharedLocationController] stopLocationUpdates];
@@ -209,6 +235,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
+    NSLog(@"Device token - %@", deviceToken);
     [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLatestAPNSDeviceToken:deviceToken];
 }
 
@@ -307,10 +334,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         _isConnected = reachable;
         
         if (reachable) {
+            if (_noNetworkWindow) {
+                [_noNetworkWindow dismiss:^(BOOL finished) {
+                    _noNetworkWindow = nil;
+                    [self.window makeKeyAndVisible];
+                }];
+            }
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidFindConnection object:nil];
             NSLog(@"Connected");
         }
         else {
+            _noNetworkWindow = [[TSNoNetworkWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+            [_noNetworkWindow show];
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidLoseConnection object:nil];
             NSLog(@"No Connection");
         }

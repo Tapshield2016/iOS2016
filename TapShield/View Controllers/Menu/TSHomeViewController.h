@@ -12,14 +12,17 @@
 #import "TSVirtualEntourageManager.h"
 #import "TSMenuViewController.h"
 #import "TSReportAnnotationManager.h"
+#import "TSStatusView.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (strong, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *entourageButton;
+@property (weak, nonatomic) IBOutlet TSStatusView *statusView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusViewHeight;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (assign, nonatomic) BOOL isTrackingUser;

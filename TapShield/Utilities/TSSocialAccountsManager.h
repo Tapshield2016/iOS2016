@@ -30,26 +30,28 @@
 
 @class GPPSignInButton;
 
-@interface TSSocialAccountsManager : NSObject <FBLoginViewDelegate, UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate>
+@interface TSSocialAccountsManager : NSObject <UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate>
 
 typedef void (^LoggedOutBlock)(BOOL loggedOut);
 
 @property (nonatomic, copy) LoggedOutBlock loggedOutBlock;
-@property (nonatomic, strong) FBLoginView *facebookLoginView;
 @property (nonatomic, strong) GPPSignInButton *signInGooglePlusButton;
 @property (nonatomic, strong) ACAccountStore *accountStore;
 @property (nonatomic, strong) TWAPIManager *apiManager;
 @property (nonatomic, strong) NSArray *accounts;
 @property (nonatomic, strong) LIALinkedInHttpClient *linkedInClient;
 
-@property (nonatomic) BOOL facebookLoggedIn;
++ (instancetype)sharedManager;
 
-+ (instancetype)initializeShareSocialAccountsManager;
-+ (instancetype)sharedSocialAccountsManager;
-
-- (void)initializeFacebookView;
-- (void)deallocFacebookView;
 - (void)logoutAllUserTypesCompletion:(LoggedOutBlock)completion;
-- (void)addSocialViewsTo:(UIView *)view ;
+
+- (void)logInWithFacebook;
+- (void)logInWithGooglePlus;
+- (void)logInWithTwitter:(UIView *)currentView;
+- (void)logInWithLinkedIn:(id)currentViewController;
+
+- (BOOL)silentLogInWithGooglePlus;
+
+- (void)facebookLoggedIn;
 
 @end

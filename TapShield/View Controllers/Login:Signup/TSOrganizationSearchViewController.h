@@ -19,12 +19,12 @@
 @property (strong, nonatomic) NSArray *allOrganizationsArray;
 @property (strong, nonatomic) NSArray *nearbyOrganizationArray;
 @property (strong, nonatomic) UISearchDisplayController *searchDisplay;
-@property (strong, nonatomic) TSJavelinAPIUser *user;
+@property (strong, nonatomic) TSJavelinAPIAgency *agency;
 @property (strong, nonatomic) TSJavelinAPIAgency *previousAgencySelected;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *skipCancelButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBarButton;
 
 

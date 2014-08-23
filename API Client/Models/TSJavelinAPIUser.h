@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
+#import "TSJavelinAPIEmail.h"
 
 @class TSJavelinAPIGroup;
 @class TSJavelinAPIAgency;
@@ -29,11 +30,14 @@
 @property (nonatomic, strong) NSArray *secondaryEmails;
 
 @property (assign) BOOL isEmailVerified;
-@property (assign) BOOL phoneNumberVerified;
+@property (assign, getter=isPhoneNumberVerified) BOOL phoneNumberVerified;
 @property (nonatomic, strong) NSString *apiToken;
 
 - (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
+- (BOOL)isAvailableForDomain:(NSString *)emailDomain;
+- (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email;
+- (BOOL)setSecondaryEmailVerified:(NSString *)email;
 
 @end

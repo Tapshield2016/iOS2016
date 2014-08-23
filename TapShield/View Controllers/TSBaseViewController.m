@@ -17,6 +17,8 @@
 
 - (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated {
     
+    [self viewWillDisappear:animated];
+    
     UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
     
     UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:viewController];

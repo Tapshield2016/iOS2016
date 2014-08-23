@@ -18,7 +18,7 @@
 
 @interface TSRouteManager : NSObject
 
-@property (nonatomic, strong) TSMapView *mapView;
+@property (nonatomic, weak) TSMapView *mapView;
 @property (nonatomic, strong) TSRouteOption *selectedRoute;
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) NSArray *routeOptions;

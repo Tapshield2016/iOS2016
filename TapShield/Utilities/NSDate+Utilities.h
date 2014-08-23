@@ -39,6 +39,7 @@
 @property (nonatomic, readonly) NSString *longString;
 @property (nonatomic, readonly) NSString *longDateString;
 @property (nonatomic, readonly) NSString *longTimeString;
+@property (nonatomic, readonly) NSString *iso8601String;
 
 + (NSString *) fileDateTimeNowString;
 
@@ -100,6 +101,7 @@
 - (NSInteger) daysAfterDate: (NSDate *) aDate;
 - (NSInteger) daysBeforeDate: (NSDate *) aDate;
 - (NSInteger)distanceInDaysToDate:(NSDate *)anotherDate;
++ (NSInteger)daysInMonth:(NSInteger)month;
 
 // Decomposing dates
 @property (readonly) NSInteger nearestHour;

@@ -16,10 +16,13 @@
 
 @property (strong, nonatomic) NSMutableArray *spotCrimes;
 @property (strong, nonatomic) NSMutableArray *socialReports;
+@property (strong, nonatomic) NSMutableArray *heatMarkers;
 
 - (instancetype)initWithMapView:(TSMapView *)mapView;
 
 - (void)loadSpotCrimeAndSocialAnnotations:(CLLocation *)location;
+
+- (void)getReportsForMapCenter:(CLLocation *)location;
 
 - (void)addUserSocialReport:(TSJavelinAPISocialCrimeReport *)report;
 
@@ -28,5 +31,7 @@
 - (void)showSpotCrimes;
 
 - (void)hideSpotCrimes;
+
+- (void)removeOldSpotCrimes;
 
 @end

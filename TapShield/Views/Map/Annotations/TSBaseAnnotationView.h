@@ -14,4 +14,6 @@
 
 @property (strong, nonatomic) UILabel *label;
 
+- (void)refreshView;
+
 @end

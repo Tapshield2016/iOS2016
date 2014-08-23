@@ -16,13 +16,13 @@
 
 @class GPPSignInButton;
 
-@interface TSSocialAuthorizationViewController : TSBaseViewController <UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate>
+@interface TSSocialAuthorizationViewController : TSBaseViewController <UIActionSheetDelegate, TSJavelinAuthenticationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet TSCircularButton *loginButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *signUpButton;
 
-@property (nonatomic, weak) IBOutlet TSFacebookLogin *facebookLoginView;
-@property (nonatomic, weak) IBOutlet TSGooglePlusButton *signInGooglePlusButton;
+@property (nonatomic, weak) IBOutlet TSCircularButton *facebookButton;
+@property (nonatomic, weak) IBOutlet TSCircularButton *signInGooglePlusButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *twitterButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *linkedInButton;
 @property (weak, nonatomic) IBOutlet TSCircularButton *emailButton;
@@ -46,7 +46,9 @@
 - (IBAction)refreshTwitterAccounts:(id)sender;
 - (IBAction)didTapConnectWithLinkedIn:(id)sender;
 - (IBAction)emailLoginSignup:(id)sender;
-
+- (IBAction)logInWithFacebook:(id)sender;
+- (IBAction)logInWithGooglePlus:(id)sender;
+- (IBAction)showEULA:(id)sender;
 
 
 @end

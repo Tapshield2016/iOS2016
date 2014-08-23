@@ -11,9 +11,10 @@
 #import "TSHomeViewController.h"
 #import "MKMapItem+EncodeDecode.h"
 #import "TSLocalNotification.h"
+#import "NSDate+Utilities.h"
 
-#define WALKING_RADIUS 100
-#define DRIVING_RADIUS 200
+#define WALKING_RADIUS_MIN 25
+#define DRIVING_RADIUS_MIN 50
 
 #define ARRIVAL_MESSAGE @"%@ has arrived at %@, %@."
 #define NON_ARRIVAL_MESSAGE @"%@ has not made it to %@, %@, within their estimated time of arrival."
@@ -22,6 +23,10 @@
 
 #define WARNING_TITLE @"WARNING"
 #define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
+
+static NSString * const kSpeechRemaining = @"%@ remaining";
+static NSString * const kSpeechEntourageNotify = @"Entourage will be notified in 10 seconds, please enter your pass code.";
+static NSString * const kLocalNoteEnterPasscode = @"Entourage will be notified in 10 seconds, please enter passcode.";
 
 static NSString * const kGoogleMapsPath = @"http://maps.google.com/maps?q=%f,%f";
 
@@ -37,6 +42,7 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 @property (strong, nonatomic) UIAlertView *recalculateAlertView;
 @property (strong, nonatomic) UIAlertView *notifyEntourageAlertView;
 @property (strong, nonatomic) TSPopUpWindow *warningWindow;
+@property (strong, nonatomic) NSTimer *textToSpeechTimer;
 
 @end
 
@@ -86,14 +92,14 @@ static dispatch_once_t predicate;
     [_homeView entourageModeOn];
     [_routeManager showOnlySelectedRoute];
     
-    NSLog(@"%@", _routeManager.destinationMapItem.placemark.region);
-    _endRegion = [self regionForEndPoint];
+    _endRegions = [self regionsForEndPoint];
     
     __weak typeof(self) weakSelf = self;
     [self addOrRemoveMembers:members completion:^(BOOL finished) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
             [strongSelf resetTimerWithTimeInterval:eta];
+            [strongSelf checkRegion:[TSLocationController sharedLocationController].location];
             
             if (completion) {
                 completion(finished);
@@ -110,48 +116,96 @@ static dispatch_once_t predicate;
     }
 }
 
-- (CLCircularRegion *)regionForEndPoint {
+- (NSArray *)regionsForEndPoint {
     
     float radius;
     if (_routeManager.destinationTransportType == MKDirectionsTransportTypeWalking) {
-        radius = WALKING_RADIUS;
+        radius = WALKING_RADIUS_MIN;
     }
     else {
-        radius = DRIVING_RADIUS;
+        radius = DRIVING_RADIUS_MIN;
     }
     
-    MKMapPoint destination = _routeManager.selectedRoute.route.polyline.points[_routeManager.selectedRoute.route.polyline.pointCount - 1];
-    CLLocationCoordinate2D coordinate = MKCoordinateForMapPoint(destination);
+    CLLocationCoordinate2D destinationCoord = _routeManager.destinationAnnotation.coordinate;
+    MKMapPoint routeEnd = _routeManager.selectedRoute.route.polyline.points[_routeManager.selectedRoute.route.polyline.pointCount - 1];
+    CLLocationCoordinate2D routeEndcoord = MKCoordinateForMapPoint(routeEnd);
     
-    return [[CLCircularRegion alloc] initWithCenter:coordinate
-                                             radius:radius
-                                         identifier:_routeManager.selectedRoute.route.name];
+    CLCircularRegion *destinationRegion = [[CLCircularRegion alloc] initWithCenter:destinationCoord
+                                                                           radius:radius
+                                                                       identifier:_routeManager.destinationAnnotation.title];
+    CLCircularRegion *routeEndRegion = [[CLCircularRegion alloc] initWithCenter:routeEndcoord
+                                                                            radius:radius
+                                                                        identifier:_routeManager.selectedRoute.route.name];
+    
+    return @[destinationRegion, routeEndRegion];
 }
 
-- (void)checkRegion:(CLLocation *)userLocation {
+- (void)checkRegion:(CLLocation *)userLocation  {
     
-    if ([_endRegion containsCoordinate:userLocation.coordinate]) {
-        
-        _endRegion = nil;
-        [self arrivedAtDestination];
+    BOOL contains = NO;
+    
+    for (CLCircularRegion *region in [_endRegions copy]) {
+        if ([region containsCoordinate:userLocation.coordinate]) {
+            contains = YES;
+        }
+    }
+    
+    if (userLocation.horizontalAccuracy > 100) {
+        if (contains) {
+            
+            [self performSelector:@selector(arrivedAtDestination) withObject:nil afterDelay:5.0];
+        }
+    }
+    else {
+        if (contains) {
+            
+            [self arrivedAtDestination];
+        }
+    }
+    
+    contains = NO;
+    CLCircularRegion *bufferCircle;
+    
+    for (CLCircularRegion *region in [_endRegions copy]) {
+        bufferCircle = [[CLCircularRegion alloc] initWithCenter:region.center
+                                                         radius:region.radius*2
+                                                     identifier:[NSString stringWithFormat:@"%@-bufferCircle", region.identifier]];
+        if ([bufferCircle containsCoordinate:userLocation.coordinate]) {
+            contains = YES;
+        }
+    }
+    
+    if (contains) {
+        [self performSelector:@selector(arrivedAtDestination) withObject:nil afterDelay:30.0];
+    }
+    else {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(arrivedAtDestination) object:nil];
     }
 }
+
 
 - (void)arrivedAtDestination {
     
-    if (!_isEnabled) {
-        return;
-    }
+    _endRegions = nil;
     
-    [_homeView clearEntourageAndResetMap];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(arrivedAtDestination) object:nil];
     
-    NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName];
-    NSString *destinationName = _routeManager.destinationMapItem.name;
-    NSString *message = [NSString stringWithFormat:ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
-    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        
+        if (!_isEnabled) {
+            return;
+        }
+        
+        [_homeView clearEntourageAndResetMap];
+        
+        NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName];
+        NSString *destinationName = _routeManager.destinationMapItem.name;
+        NSString *message = [NSString stringWithFormat:ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
+        
         [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {
             
         }];
+    }];
 }
 
 - (void)failedToArriveAtDestination {
@@ -242,6 +296,7 @@ static dispatch_once_t predicate;
                                                    userInfo:nil
                                                     repeats:NO];
         [self scheduleLocalNotifications];
+        [self setNextTimer];
     });
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
@@ -251,7 +306,9 @@ static dispatch_once_t predicate;
     
     [self resetEndTimer];
     
-    [TSLocalNotification presentLocalNotification:@"Entourage will be notified in 10 seconds, please enter passcode."];
+    [TSLocalNotification say:kSpeechEntourageNotify];
+    
+    [TSLocalNotification presentLocalNotification:kLocalNoteEnterPasscode];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"T"];
 }
@@ -262,6 +319,7 @@ static dispatch_once_t predicate;
     [_endTimer invalidate];
     _endTimer = nil;
     
+    [self resetSpeechTimer];
 }
 
 - (void)recalculateEntourageTimerETA {
@@ -484,7 +542,7 @@ static dispatch_once_t predicate;
     }
 }
 
-#pragma mark - Pop Up Window Delegat 
+#pragma mark - Pop Up Window Delegate
 
 - (void)didDismissWindow:(UIWindow *)window {
     
@@ -499,6 +557,75 @@ static dispatch_once_t predicate;
 - (void)removeHomeViewController {
     
     [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:nil];
+}
+
+#pragma mark - Text To Speech
+
+- (void)saySecondsRemaining:(NSTimeInterval)seconds {
+    
+//    NSString *destination = _routeManager.destinationMapItem.name;
+//    if (!destination) {
+//        destination = @"destination";
+//    }
+    NSString *message = [NSString stringWithFormat:kSpeechRemaining, [TSUtilities formattedDescriptiveStringForDuration:seconds]];
+//    [NSString stringWithFormat:@"%@ remaining to reach %@", [TSUtilities formattedDescriptiveStringForDuration:seconds], destination];
+    [TSLocalNotification say:message];
+    
+}
+
+#pragma mark - Timer
+
+- (void)setNextTimer {
+    
+    NSError *error = NULL;
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:&error];
+    if(error) {
+        // Do some error handling
+    }
+    [session setActive:YES error:&error];
+    if (error) {
+        // Do some error handling
+    }
+    
+    NSArray *times = [NSArray arrayWithObjects:NOTIFICATION_TIMES];
+    for (NSNumber *time in times) {
+        if ([[_endTimer.fireDate dateByAddingTimeInterval:-time.integerValue] timeIntervalSinceNow] > 1) {
+            [self speechTimerWithTimeInterval:[_endTimer.fireDate dateByAddingTimeInterval:-time.integerValue]];
+            return;
+        }
+    }
+}
+
+- (void)speechTimerWithTimeInterval:(NSDate *)date {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self resetSpeechTimer];
+        
+        _textToSpeechTimer = [NSTimer scheduledTimerWithTimeInterval:[date timeIntervalSinceNow]-1
+                                                     target:self
+                                                   selector:@selector(sayTimerTarget:)
+                                                   userInfo:nil
+                                                    repeats:NO];
+        [_textToSpeechTimer setFireDate:date];
+    });
+}
+
+- (void)sayTimerTarget:(NSTimer *)timer {
+    
+    [self resetSpeechTimer];
+    
+    if (_isEnabled) {
+        [self saySecondsRemaining:[_endTimer.fireDate timeIntervalSinceDate:[NSDate date]]];
+        
+        [self setNextTimer];
+    }
+}
+
+- (void)resetSpeechTimer {
+    
+    [_textToSpeechTimer invalidate];
+    _textToSpeechTimer = nil;
 }
 
 @end

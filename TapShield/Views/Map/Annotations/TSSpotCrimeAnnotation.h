@@ -10,6 +10,11 @@
 #import "TSSpotCrimeAPIClient.h"
 #import "TSJavelinAPISocialCrimeReport.h"
 
+extern NSString * const TSSpotCrimeAnnotationPoweredBy;
+extern NSString * const TSSpotCrimeAnnotationSocialReport;
+static NSString *const kTYPESocialReport = @"SocialReport";
+static NSString *const kTYPESpotCrime = @"SpotCrime";
+
 @interface TSSpotCrimeAnnotation : TSBaseMapAnnotation
 
 @property (strong, nonatomic) NSString *type;

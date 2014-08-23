@@ -252,6 +252,65 @@
     return returnPoint;
 }
 
+//- (CLLocationCoordinate2D)centroidOfPolygon:(MKPolygon *)polygon
+//{
+//    if (polygon.pointCount == 0) {
+//        return CLLocationCoordinate2DMake(0, 0);
+//    }
+//    
+//    if (polygon.pointCount == 1) {
+//        return [[_annotationsInCluster firstObject] coordinate];
+//    }
+//    
+//    if (polygon.pointCount == 2) {
+//        CLLocationCoordinate2D point1 = polygon.points[0].x;
+//        CLLocationCoordinate2D point2 = [polygon.points lastObject].y;
+//        
+//        CLLocationCoordinate2D center = point1;
+//        center.latitude += (point1.latitude-point2.latitude)/2.0;
+//        center.longitude += (point1.longitude-point2.longitude)/2.0;
+//        
+//        return center;
+//    }
+//    
+//    CLLocationCoordinate2D centroid = CLLocationCoordinate2DMake(0.0, 0.0);
+//    double signedArea = 0.0;
+//    double x0 = 0.0; // Current vertex X
+//    double y0 = 0.0; // Current vertex Y
+//    double x1 = 0.0; // Next vertex X
+//    double y1 = 0.0; // Next vertex Y
+//    double a = 0.0;  // Partial signed area
+//    
+//    for (int i=0; i<_annotationsInCluster.count; ++i)
+//    {
+//        x0 = [_annotationsInCluster[i] coordinate].longitude;
+//        y0 = [_annotationsInCluster[i] coordinate].latitude;
+//        
+//        if (i+1 >= _annotationsInCluster.count) {
+//            x1 = [_annotationsInCluster[0] coordinate].longitude;
+//            y1 = [_annotationsInCluster[0] coordinate].latitude;
+//        }
+//        else {
+//            x1 = [_annotationsInCluster[i+1] coordinate].longitude;
+//            y1 = [_annotationsInCluster[i+1] coordinate].latitude;
+//        }
+//        
+//        a = x0*y1 - x1*y0;
+//        signedArea += a;
+//        centroid.longitude += (x0 + x1)*a;
+//        centroid.latitude += (y0 + y1)*a;
+//    }
+//    
+//    signedArea *= 0.5;
+//    centroid.latitude /= (6.0*signedArea);
+//    centroid.longitude /= (6.0*signedArea);
+//    
+//    return centroid;
+//}
+
+
+#pragma mark - String formatting
+
 + (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem {
     
     NSArray *formattedAddressLines = mapItem.placemark.addressDictionary[@"FormattedAddressLines"];
@@ -356,6 +415,8 @@
     return [TSUtilities formattedDateTime:date];
 }
 
+
+#pragma mark - File Management
 
 + (void)videoThumbnailFromBeginning:(NSURL *)videoUrl completion:(void(^)(UIImage *image))completion {
     

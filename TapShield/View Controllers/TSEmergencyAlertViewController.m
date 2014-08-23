@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) TSVoipViewController *voipController;
 @property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
-@property (strong, nonatomic) TSPageViewController *pageViewController;
 
 @end
 
@@ -41,7 +40,7 @@
     }
     
     if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
-        [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
+        [((TSPageViewController *)self.parentViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)self.parentViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
     }
     
     _alertInfoLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0, 64, 320, 44)];
@@ -93,15 +92,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setSuperviewViewController:(UIViewController *)superviewViewController {
-    
-    _superviewViewController = superviewViewController;
-    
-    if ([superviewViewController isKindOfClass:[TSPageViewController class]]) {
-        _pageViewController = (TSPageViewController *)superviewViewController;
-    }
-}
-
 - (void)revealBottomButtons {
     
     if (self.toolbar.frame.size.height != self.view.frame.size.height) {
@@ -151,11 +141,11 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if ([status isEqualToString:kAlertSending]) {
-            [(TSPageViewController *)_pageViewController showAlertViewController];
+            [(TSPageViewController *)self.parentViewController showAlertViewController];
         }
         
         if ([status isEqualToString:kAlertSent]) {
-            [_pageViewController.homeViewController mapAlertModeToggle];
+            [((TSPageViewController *)self.parentViewController).homeViewController mapAlertModeToggle];
         }
         
         if ([status isEqualToString:kAlertOutsideGeofence] ||
@@ -164,9 +154,10 @@
             [_chatButtonView setHidden:YES];
         }
         
-        [((TSPageViewController *)_pageViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)_pageViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
-        [((TSPageViewController *)_pageViewController).disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
-        [((TSPageViewController *)_pageViewController).chatViewController setNavigationItemPrompt:status];
+        TSPageViewController *pageView = (TSPageViewController *)self.parentViewController;
+        [pageView.homeViewController.mapView selectAnnotation:pageView.homeViewController.mapView.userLocationAnnotation animated:YES];
+        [pageView.disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
+        [pageView.chatViewController setNavigationItemPrompt:status];
     });
 }
 
@@ -185,7 +176,7 @@
     [_badgeView clearBadge];
     [_voipController.badgeView clearBadge];
     
-    UIViewController *viewController = _pageViewController.chatViewController;
+    UIViewController *viewController = ((TSPageViewController *)self.parentViewController).chatViewController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     if (!_transitionDelegate) {
@@ -194,14 +185,14 @@
     navigationController.transitioningDelegate = _transitionDelegate;
     navigationController.modalPresentationStyle = UIModalPresentationCustom;
     
-    [_pageViewController.navigationController presentViewController:navigationController animated:YES completion:nil];
+    [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 
 - (IBAction)addAlertDetails:(id)sender {
     
     TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
-    viewController.reportManager = _pageViewController.homeViewController.reportManager;
+    viewController.reportManager = ((TSPageViewController *)self.parentViewController).homeViewController.reportManager;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     if (!_transitionDelegate) {
@@ -210,7 +201,7 @@
     navigationController.transitioningDelegate = _transitionDelegate;
     navigationController.modalPresentationStyle = UIModalPresentationCustom;
     
-    [_pageViewController.navigationController presentViewController:navigationController animated:YES completion:nil];
+    [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Phone View Transition Animations
@@ -231,7 +222,7 @@
 
 - (void)initPhoneView {
     
-    _pageViewController.isPhoneView = YES;
+    ((TSPageViewController *)self.parentViewController).isPhoneView = YES;
     
     if (!_voipController) {
         _voipController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSVoipViewController class])];
@@ -246,16 +237,18 @@
     CGRect infoLabelFrame = _alertInfoLabel.frame;
     infoLabelFrame.origin.y += 88;
     
-    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + _pageViewController.navigationController.navigationBar.frame.size.height;
-    float minimumHeight = _pageViewController.navigationController.navigationBar.frame.size.height*3 + topBarHeight;
-    CGRect toolbarFrame = _pageViewController.animatedView.frame;
+    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + ((TSPageViewController *)self.parentViewController).navigationController.navigationBar.frame.size.height;
+    float minimumHeight = ((TSPageViewController *)self.parentViewController).navigationController.navigationBar.frame.size.height*3 + topBarHeight;
+    CGRect toolbarFrame = ((TSPageViewController *)self.parentViewController).animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
+    CGRect statusViewFrame = ((TSPageViewController *)self.parentViewController).statusView.frame;
+    statusViewFrame.origin.y = toolbarFrame.size.height;
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
         _voipController.view.frame = self.view.bounds;
-        _pageViewController.animatedView.frame = toolbarFrame;
-        
+        ((TSPageViewController *)self.parentViewController).animatedView.frame = toolbarFrame;
+        ((TSPageViewController *)self.parentViewController).statusView.frame = statusViewFrame;
         _alertButtonView.alpha = 0.0f;
         _detailsButtonView.alpha = 0.0f;
         _chatButtonView.alpha = 0.0f;
@@ -274,7 +267,7 @@
 
 - (void)dismissPhoneView {
     
-    _pageViewController.isPhoneView = NO;
+    ((TSPageViewController *)self.parentViewController).isPhoneView = NO;
     
     [self returnToAlertView];
 }
@@ -284,21 +277,24 @@
     CGRect frame = self.view.bounds;
     frame.origin.y = frame.size.height;
     
-    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + _pageViewController.navigationController.navigationBar.frame.size.height;
+    float topBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + ((TSPageViewController *)self.parentViewController).navigationController.navigationBar.frame.size.height;
     
     CGRect infoLabelFrame = _alertInfoLabel.frame;
     infoLabelFrame.origin.y = topBarHeight;
     
-    float minimumHeight = _pageViewController.navigationController.navigationBar.frame.size.height + topBarHeight;
-    CGRect toolbarFrame = _pageViewController.animatedView.frame;
+    float minimumHeight = ((TSPageViewController *)self.parentViewController).navigationController.navigationBar.frame.size.height + topBarHeight;
+    CGRect toolbarFrame = ((TSPageViewController *)self.parentViewController).animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
+    CGRect statusViewFrame = ((TSPageViewController *)self.parentViewController).statusView.frame;
+    statusViewFrame.origin.y = toolbarFrame.size.height;
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
         _voipController.view.frame = frame;
         
-        if (_pageViewController.halfPage == 1) {
-            _pageViewController.animatedView.frame = toolbarFrame;
+        if (((TSPageViewController *)self.parentViewController).halfPage == 1) {
+            ((TSPageViewController *)self.parentViewController).animatedView.frame = toolbarFrame;
+            ((TSPageViewController *)self.parentViewController).statusView.frame = statusViewFrame;
         }
         
         _alertButtonView.alpha = 1.0f;
@@ -346,7 +342,7 @@
     _phoneInfoLabelsView.frame = frame;
     
     
-    if (_pageViewController.isPhoneView) {
+    if (((TSPageViewController *)self.parentViewController).isPhoneView) {
         frame = _voipController.view.frame;
         frame.origin.x = labelOffset;
         frame.origin.y = voipOffsetY;

@@ -8,6 +8,7 @@
 
 #import "TSLoginViewController.h"
 #import "TSForgotPasswordViewController.h"
+#import "TSUserSessionManager.h"
 
 @interface TSLoginViewController ()
 
@@ -39,6 +40,12 @@
     imageView.frame = _shimmeringView.bounds;
     imageView.contentMode = UIViewContentModeCenter;
     _shimmeringView.contentView = imageView;
+    
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background568"]];
+    CGRect frame = self.view.frame;
+    frame.size.height = 568.0;
+    background.frame = frame;
+    [self.view insertSubview:background atIndex:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -260,7 +267,11 @@
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
     _shimmeringView.shimmering = NO;
     
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
+    
+    [[TSUserSessionManager sharedManager] dismissWindow:^(BOOL finished) {
+        [[TSUserSessionManager sharedManager] userStatusCheck];
+    }];
 }
 
 - (void)loginFailed:(TSJavelinAPIAuthenticationResult *)result error:(NSError *)error {

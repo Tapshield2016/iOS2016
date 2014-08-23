@@ -8,7 +8,6 @@
 
 #import "TSWelcomeViewController.h"
 #import "TSIntroPageViewController.h"
-#import "TSGradientSwipeViewController.h"
 
 @interface TSWelcomeViewController ()
 
@@ -27,18 +26,11 @@
     _welcomeLabel.alpha = 0.0f;
     
     _isFirstTimeViewed = YES;
-    
-    _swipeViewController = [[TSGradientSwipeViewController alloc] initWithTitleText:@"Swipe screen"];
-    _swipeViewController.view.frame = _swipeLabelView.bounds;
-    _swipeViewController.label.frame = _swipeLabelView.bounds;
-    _swipeViewController.imageView.frame = _swipeLabelView.bounds;
-    [_swipeLabelView addSubview:_swipeViewController.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
     
 }
 
@@ -62,24 +54,25 @@
 
 - (void)animation {
     
-    CGRect frame = _smallSplashLogoImageView.frame;
-    
-    [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        _splashLargeLogoImageView.frame = frame;
-    } completion:^(BOOL finished) {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        CGRect frame = _smallSplashLogoImageView.frame;
         
-        TSIntroPageViewController *pageView = (TSIntroPageViewController *)self.parentViewController;
-        [pageView.logoImage setHidden:NO];
-        pageView.logoImage.frame = _smallSplashLogoImageView.frame;
+        [UIView animateWithDuration:1.0f delay:0.0f usingSpringWithDamping:0.5f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            _splashLargeLogoImageView.frame = frame;
+        } completion:^(BOOL finished) {
+            
+            TSIntroPageViewController *pageView = (TSIntroPageViewController *)self.parentViewController;
+            [pageView.logoImage setHidden:NO];
+            pageView.logoImage.frame = _smallSplashLogoImageView.frame;
+            [_splashLargeLogoImageView setHidden:YES];
+            [pageView.view setUserInteractionEnabled:YES];
+        }];
         
-        [_splashLargeLogoImageView setHidden:YES];
+        [UIView animateWithDuration:0.5 delay:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            _swipeLabelView.alpha = 1.0f;
+            _welcomeLabel.alpha = 1.0f;
+        } completion:nil];
     }];
-    
-    [UIView animateWithDuration:0.5 delay:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        _swipeLabelView.alpha = 1.0f;
-        _welcomeLabel.alpha = 1.0f;
-    } completion:nil];
-    
 }
 
 

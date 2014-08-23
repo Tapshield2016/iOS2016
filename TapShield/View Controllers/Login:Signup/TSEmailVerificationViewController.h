@@ -11,7 +11,7 @@
 #import "TSRegistrationButton.h"
 #import "TSRegistrationLabel.h"
 
-@interface TSEmailVerificationViewController : TSNavigationViewController
+@interface TSEmailVerificationViewController : TSNavigationViewController <TSJavelinAuthenticationManagerDelegate>
 
 @property (strong, nonatomic) TSJavelinAPIUser *user;
 
@@ -19,7 +19,5 @@
 @property (weak, nonatomic) IBOutlet TSRegistrationLabel *errorMessageLabel;
 @property (weak, nonatomic) IBOutlet TSRegistrationButton *completeVerificationButton;
 @property (weak, nonatomic) IBOutlet TSRegistrationButton *resendEmailButton;
-
-- (void)segueToPhoneVerification;
 
 @end

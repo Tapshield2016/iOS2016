@@ -114,31 +114,23 @@ static dispatch_once_t onceToken;
 
 - (void)socialLoggedInUserWithAttributes:(NSDictionary *)attributes {
     
-    if (_loggedInUser) {
-        return;
-    }
-    
     [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:attributes]];
     
     if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
         [_delegate loginSuccessful:nil];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:nil];
+    
+    if (!_emailAddress) {
+        _emailAddress = _loggedInUser.username;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+                                                        object:nil];
     [self storeUserCredentials:_emailAddress password:_password];
     _emailAddress = nil;
     _password = nil;
     
     [self deleteCookiesForLoginDomain];
-    
-    [self retrieveAPITokenForLoggedInUser:^(NSString *token) {
-        if (token) {
-            [[TSJavelinAPIClient sharedClient] getAgencyForLoggedInUser:nil];
-            
-        }
-        else {
-            NSLog(@"Social Loggin failed to retrieve token");
-        }
-    }];
 }
 
 
@@ -177,14 +169,17 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret {
+    
+    _password = twitterOauthTokenSecret;
+    
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-twitter-user/"
     parameters:@{ @"oauth_token": twitterOauthToken,
-                  @"oauth_token_secret": twitterOauthTokenSecret }
+                  @"oauth_token_secret": twitterOauthTokenSecret,
+                  @"next": @"api/retrieve-token/" }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
-           
            [self socialLoggedInUserWithAttributes:responseObject];
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -237,7 +232,7 @@ static dispatch_once_t onceToken;
     NSDictionary *parameters = [user parametersForRegistration];
     
     if (user.agency.requireDomainEmails) {
-        if ([user.email rangeOfString:user.agency.domain].location == NSNotFound) {
+        if (![user isAvailableForDomain:user.agency.domain]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain object:user.agency.domain];
             return;
         }
@@ -251,7 +246,7 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            [self storeUserCredentials:user.email password:user.password];
-           _emailAddress = user.email;
+           _emailAddress = user.username;
            _password = user.password;
            
            if (completion) {
@@ -295,9 +290,10 @@ static dispatch_once_t onceToken;
 }
 
 - (void)logoutUser:(void (^)(BOOL success))completion {
-    _loggedInUser = nil;
     
     [self removeArchivedLoggedInUser];
+    
+    _loggedInUser = nil;
     
     if (completion) {
         completion(YES);
@@ -386,13 +382,18 @@ static dispatch_once_t onceToken;
            _loggedInUser.isEmailVerified = isVerified;
            [self archiveLoggedInUser];
            [self.requestSerializer clearAuthorizationHeader];
-           completion(isVerified);
+           if (completion) {
+               completion(isVerified);
+           }
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidVerifyUserNotification
                                                                object:responseObject];
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
            [self.requestSerializer clearAuthorizationHeader];
+           if (completion) {
+               completion(NO);
+           }
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToVerifyUserNotification
                                                                object:error];
        }
@@ -479,7 +480,7 @@ static dispatch_once_t onceToken;
                 // Delay execution of my block for 10 seconds.
                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
                 dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                    [self updateLoggedInUser:completion];
+                    [self updateLoggedInUserAgency:completion];
                 });
             }
             else {
@@ -597,11 +598,12 @@ static dispatch_once_t onceToken;
     parameters:@{ @"code": codeFromUser }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"Code Verified");
+           _loggedInUser.phoneNumberVerified = YES;
+           [self archiveLoggedInUser];
+           
            if (completion) {
                completion(nil);
            }
-           _loggedInUser.phoneNumberVerified = YES;
-           [self archiveLoggedInUser];
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"Code Verification Failed");
@@ -617,6 +619,9 @@ static dispatch_once_t onceToken;
 - (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -652,6 +657,48 @@ static dispatch_once_t onceToken;
 - (void)makeSecondaryEmailPrimary:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
+        return;
+    }
+    
+    email = [email lowercaseString];
+    
+    [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:@"api/email/make_primary/"
+    parameters:@{ @"email": email}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"%@", responseObject);
+           
+           [_loggedInUser updateWithAttributes:responseObject];
+           
+           if (completion) {
+               completion(YES, nil);
+           }
+           
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           
+           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           if (!errorMessage) {
+               errorMessage = error.localizedDescription;
+           }
+           
+           NSLog(@"%@", errorMessage);
+           if (completion) {
+               completion(NO, errorMessage);
+           }
+       }];
+}
+
+
+- (void)isSecondaryEmailVerified:(NSString *)email completion:(void(^)(BOOL verified, NSString *errorMessage))completion {
+    
+    if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -687,6 +734,9 @@ static dispatch_once_t onceToken;
 - (void)resendSecondaryEmailActivation:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -720,6 +770,9 @@ static dispatch_once_t onceToken;
 - (void)removeSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion {
     
     if (!email) {
+        if (completion) {
+            completion(NO, @"Email nil");
+        }
         return;
     }
     
@@ -763,12 +816,14 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    NSString *emailAddress = _loggedInUser.email;
-    NSString *password = [self getPasswordForEmailAddress:_loggedInUser.email];
+    NSString *username = _loggedInUser.username;
+    NSString *password = [self getPasswordForEmailAddress:_loggedInUser.username];
 
-    if (emailAddress && password) {
+    if (username && password) {
+        [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
+                      forHTTPHeaderField:@"Authorization"];
         [self POST:[NSString stringWithFormat:@"%@api/retrieve-token/", self.baseURL]
-        parameters:@{ @"username": emailAddress, @"password": password }
+        parameters:@{ @"username": username, @"password": password }
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                [self setAPITokenForLoggedInUser:responseObject[@"token"]];
                if (completion) {
@@ -816,8 +871,9 @@ static dispatch_once_t onceToken;
     if (!_loggedInUser.apiToken) {
         [self retrieveAPITokenForLoggedInUser:nil];
     }
+    NSString *token = [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
     
-    return [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
+    return token;
 }
 
 #pragma mark - APNS Token Methods
@@ -878,6 +934,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)storeUserCredentials:(NSString *)emailAddress password:(NSString *)password {
+    
+    if (!password) {
+        return;
+    }
+    
     NSError *error;
     [SSKeychain setPassword:password forService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress error:&error];
 
@@ -889,6 +950,11 @@ static dispatch_once_t onceToken;
 - (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress {
     NSString *password = [SSKeychain passwordForService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress];
     return password;
+}
+
+- (void)removePasswordFromKeychainForEmailAddress:(NSString *)emailAddress {
+    
+    [SSKeychain deletePasswordForService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress];
 }
 
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password {
@@ -931,7 +997,8 @@ static dispatch_once_t onceToken;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
-//    [defaults removeObjectForKey:kTSJavelinAPIAuthenticationManagerEncodedLoggedInUserArchiveKey];
+    [self removePasswordFromKeychainForEmailAddress:_loggedInUser.username];
+    [_loggedInUser setUserProfile:_loggedInUser.userProfile];
     [defaults synchronize];
 }
 
@@ -960,6 +1027,10 @@ static dispatch_once_t onceToken;
     
     if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
         [_delegate loginFailed:nil error:error];
+    }
+    
+    if (_loginCompletionBlock) {
+        _loginCompletionBlock(nil);
     }
 }
 
@@ -991,6 +1062,10 @@ static dispatch_once_t onceToken;
                         [_delegate loginFailed:result error:nil];
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+                    
+                    if (_loginCompletionBlock) {
+                        _loginCompletionBlock(nil);
+                    }
                 }
                 else if ([authResponse isEqualToString:@"Email unverified"]) {
                     // Unverified email address
@@ -999,6 +1074,10 @@ static dispatch_once_t onceToken;
                         [_delegate loginFailed:result error:nil];
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+                    
+                    if (_loginCompletionBlock) {
+                        _loginCompletionBlock(nil);
+                    }
                 }
             }
             else {
@@ -1020,6 +1099,9 @@ static dispatch_once_t onceToken;
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
 
+            if (_loginCompletionBlock) {
+                _loginCompletionBlock(nil);
+            }
         }
         else if (result.statusCode == 500) {
             
@@ -1029,6 +1111,10 @@ static dispatch_once_t onceToken;
                 [_delegate loginFailed:result error:nil];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
+            
+            if (_loginCompletionBlock) {
+                _loginCompletionBlock(nil);
+            }
         }
         else {
             //I don't know

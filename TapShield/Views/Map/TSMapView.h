@@ -18,8 +18,12 @@
 #import "TSRouteOption.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUserAnnotationView.h"
+//#import "OCMapview.h"
+#import "ADClusterMapView.h"
 
-@interface TSMapView : MKMapView
+#define kMaxLonDeltaCluster 0.1
+
+@interface TSMapView : ADClusterMapView
 
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
@@ -37,7 +41,6 @@
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)refreshRegionBoundariesOverlay;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
-- (void)adjustAnnotationAlphaForPan;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

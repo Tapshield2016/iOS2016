@@ -597,7 +597,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         if (!granted) {
             NSLog(@"Denied access");
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Contacts Access denied"
+                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
                                             message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
                                            delegate:nil
                                   cancelButtonTitle:@"Ok"

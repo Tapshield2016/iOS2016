@@ -47,5 +47,6 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 
 - (NSArray *)openDispatchCenters;
 - (NSDate *)nextOpeningHoursStatusChange;
+- (BOOL)domainMatchesEmail:(NSString *)email;
 
 @end

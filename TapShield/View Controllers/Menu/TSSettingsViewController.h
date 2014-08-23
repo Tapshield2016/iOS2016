@@ -17,6 +17,7 @@ extern NSString * const TSSettingsViewControllerDidLogOut;
 
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 
+@property (weak, nonatomic) IBOutlet TSBaseLabel *currentOrgLabel;
 @property (weak, nonatomic) IBOutlet TSSettingsSwitch *iCloudSwitch;
 @property (weak, nonatomic) IBOutlet TSSettingsSwitch *pushNotificationsSwitch;
 @property (weak, nonatomic) IBOutlet TSSettingsSwitch *autoYankSwitch;

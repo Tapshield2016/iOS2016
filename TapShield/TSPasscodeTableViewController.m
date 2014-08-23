@@ -10,6 +10,7 @@
 
 @interface TSPasscodeTableViewController ()
 
+
 @end
 
 @implementation TSPasscodeTableViewController
@@ -87,7 +88,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 3;
+    return 4;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -105,5 +106,11 @@
     
     return NO;
 }
+
+- (IBAction)forgotPassword:(id)sender {
+    
+    [self.parentViewController performSelector:@selector(forgotPassword:) withObject:self];
+}
+
 
 @end

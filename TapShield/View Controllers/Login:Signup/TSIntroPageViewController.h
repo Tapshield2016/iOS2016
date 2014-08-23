@@ -19,7 +19,6 @@
 @property (strong, nonatomic) TSSocialAuthorizationViewController *socialAuthorizationViewController;
 @property (strong, nonatomic) TSLoginViewController *loginViewController;
 
-@property (strong, nonatomic) UIImageView *backgroundImage;
 @property (strong, nonatomic) UIImageView *logoImage;
 @property (strong, nonatomic) UIButton *skipButton;
 

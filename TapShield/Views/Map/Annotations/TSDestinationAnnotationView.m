@@ -20,6 +20,8 @@
         [self displayTransportationType:annotation];
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
+        
+        self.accessibilityLabel = @"Destination";
     }
     return self;
 

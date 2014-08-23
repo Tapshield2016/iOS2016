@@ -11,4 +11,6 @@
 @interface TSChangePasscodeViewController : TSNavigationViewController
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+- (IBAction)forgotPassword:(id)sender;
+
 @end

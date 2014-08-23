@@ -10,6 +10,7 @@
 #import "TSJavelinAPIAuthenticationManager.h"
 #import "TSPhoneVerificationViewController.h"
 #import "TSNamePictureViewController.h"
+#import "TSUserSessionManager.h"
 
 @interface TSEmailVerificationViewController ()
 
@@ -25,7 +26,7 @@
     
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
     
-    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(completeVerification:)];
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Complete" style:UIBarButtonItemStylePlain target:self action:@selector(completeVerification:)];
     self.navigationItem.rightBarButtonItem = nextButton;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -45,6 +46,8 @@
     
     _emailTextField.text = _user.email;
     _emailTextField.userInteractionEnabled = NO;
+    
+    [TSJavelinAPIAuthenticationManager sharedManager].delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,40 +68,9 @@
     [super viewDidAppear:animated];
 }
 
-- (void)segueToPhoneVerification {
-    
-    _errorMessageLabel.text = @"";
-    
-    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumberVerified) {
-        
-        if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode &&
-            [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode.length == 4) {
-            if (self.presentingViewController.presentingViewController.presentingViewController) {
-                [self.presentingViewController.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            }
-            else {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            }
-        }
-        else {
-            [self pushViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
-        }
-    }
-    else {
-         TSPhoneVerificationViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TSPhoneVerificationViewController"];
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-
 - (void)checkForEmailVerificationAndLogIn {
     
     _errorMessageLabel.text = @"";
-    
-    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].isEmailVerified) {
-        [self segueToPhoneVerification];
-        return;
-    }
     
     _completeVerificationButton.enabled = NO;
     [[self.navigationItem rightBarButtonItem] setEnabled:NO];
@@ -106,25 +78,26 @@
     [[[TSJavelinAPIClient sharedClient] authenticationManager] isLoggedInUserEmailVerified:^(BOOL success) {
         if (success) {
             if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-                [self segueToPhoneVerification];
-                
-                _completeVerificationButton.enabled = YES;
-                [[self.navigationItem rightBarButtonItem] setEnabled:YES];
+                [[TSUserSessionManager sharedManager] dismissWindow:^(BOOL finished) {
+                    [[TSUserSessionManager sharedManager] userStatusCheck];
+                }];
                 return;
             }
             
             [[[TSJavelinAPIClient sharedClient] authenticationManager] logInUser:_user.email password:_user.password completion:^(TSJavelinAPIUser *user) {
-                if (user) {
-                    [self segueToPhoneVerification];
-                }
                 
                 _completeVerificationButton.enabled = YES;
-                [[self.navigationItem rightBarButtonItem] setEnabled:YES];
+                
+                if (user) {
+                    [[TSUserSessionManager sharedManager] dismissWindow:^(BOOL finished) {
+                        [[TSUserSessionManager sharedManager] userStatusCheck];
+                    }];
+                }
             }];
         }
         else {
             _errorMessageLabel.text = @"Email has not been verified.";
-            
+            _errorMessageLabel.textColor = [TSColorPalette alertRed];
             _completeVerificationButton.enabled = YES;
             [[self.navigationItem rightBarButtonItem] setEnabled:YES];
         }

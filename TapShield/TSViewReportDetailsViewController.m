@@ -9,6 +9,7 @@
 #import "TSViewReportDetailsViewController.h"
 #import "TSReportTypeTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "TSSpotCrimeAnnotation.h"
 
 static NSString * const kDefaultMediaImage = @"image_deafult";
 
@@ -68,7 +69,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
         else {
             _detailsTextView.text = _spotCrimeAnnotation.spotCrime.eventDescription;
         }
-        _submittedByLabel.text = @"Data Powered by SpotCrime.com";
+        _submittedByLabel.text = TSSpotCrimeAnnotationPoweredBy;
         
         location = _spotCrimeAnnotation.spotCrime;
     }

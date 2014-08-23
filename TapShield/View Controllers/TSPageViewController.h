@@ -30,8 +30,7 @@
 @property (strong, nonatomic) UIView *countdownTintView;
 @property (strong, nonatomic) UIView *topTintView;
 @property (strong, nonatomic) UIView *bottomTintView;
-@property (strong, nonatomic) UIToolbar *bottomToolbar;
-@property (strong, nonatomic) UIToolbar *topToolbar;
+@property (strong, nonatomic) TSStatusView *statusView;
 
 //Alert sending
 @property (nonatomic) BOOL isFirstTimeViewed;

@@ -7,6 +7,7 @@
 //
 
 #import "TSOrganizationSearchViewController.h"
+#import "TSUserSessionManager.h"
 
 @interface TSOrganizationSearchViewController ()
 
@@ -40,17 +41,11 @@
     
     [self customizeTableView:_tableView];
     [self customizeSearchBarAppearance:_searchBar];
-    
-    _user = [[TSJavelinAPIUser alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    if ([self.presentingViewController.restorationIdentifier isEqualToString:@"TSLoginOrSignUpNavigationController"]) {
-        _skipCancelButton.title = @"Cancel";
-    }
     
 }
 
@@ -67,22 +62,16 @@
 
 #pragma mark - Bar Button Action
 
-- (IBAction)skipOrCancel:(id)sender {
+- (IBAction)next:(id)sender {
     
-    [self segueSendingAgency:nil];
+    if (!_agency) {
+        return;
+    }
+    
+    [TSUserSessionManager showAddSecondaryWithAgency:_agency];
 }
 
 #pragma mark - Organization Methods
-
-- (void)segueSendingAgency:(TSJavelinAPIAgency *)agency {
-    
-    TSRegisterViewController *registerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSRegisterViewController class])];
-    if (_user) {
-        registerViewController.user = _user;
-    }
-    
-    [self.navigationController pushViewController:registerViewController animated:YES];
-}
 
 - (void)getOrganizationsToDisplay {
     [[TSJavelinAPIClient sharedClient] getAgencies:^(NSArray *agencies) {
@@ -156,14 +145,11 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
-//    _user.agency = _previousAgencySelected;
-    
     [_tableView reloadData];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     
-//    _previousAgencySelected = _user.agency;
 }
 
 #pragma mark - TableView Delegate
@@ -205,7 +191,7 @@
     cell.selectedBackgroundView = selectedView;
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     
-    if ([_user.agency.name isEqualToString:cell.agency.name]) {
+    if ([_agency.name isEqualToString:cell.agency.name]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         
         if (!cell.selected) {
@@ -292,7 +278,7 @@
     if (cell.selected) {
         cell.selected = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
-        _user.agency = nil;
+        _agency = nil;
         
         [tableView reloadData];
         return nil;
@@ -307,19 +293,28 @@
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        _user.agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
+        _agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
         [self.searchDisplayController setActive:NO animated:YES];
     }
     else {
         if (indexPath.section == 0) {
-            _user.agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
+            _agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
         }
         else {
-            _user.agency = (TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row];
+            _agency = (TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row];
         }
     }
     
     [_tableView reloadData];
+    
+    _nextButton.enabled = YES;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    _nextButton.enabled = NO;
+    
+    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -336,8 +331,6 @@
 
 - (IBAction)dismissRegistration:(id)sender {
     
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    }];
+    [[TSUserSessionManager sharedManager] dismissWindow:nil];
 }
 @end

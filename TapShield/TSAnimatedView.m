@@ -8,6 +8,12 @@
 
 #import "TSAnimatedView.h"
 
+@interface TSAnimatedView ()
+
+@property (nonatomic, assign) CGRect endFrame;
+
+@end
+
 @implementation TSAnimatedView
 
 - (id)initWithFrame:(CGRect)frame
@@ -27,18 +33,22 @@
     pathAnimation.fillMode = kCAFillModeForwards;
     pathAnimation.removedOnCompletion = NO;
     pathAnimation.repeatCount = 1;
-    //pathAnimation.rotationMode = @"auto";
+//    pathAnimation.rotationMode = kCAAnimationRotateAuto;
     pathAnimation.delegate = self;
     pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     pathAnimation.duration = duration;
     pathAnimation.beginTime = CACurrentMediaTime() + delay;
     
-    
     // Create a circle path
     CGMutablePathRef curvedPath = CGPathCreateMutable();
     float radius = frame.size.width/2 + 20.0f + self.frame.size.width/2 + 20;
     
-    CGPathAddArc(curvedPath, NULL, center.x, center.y, radius, startAngle , endAngle, NO);
+    BOOL clockwise = NO;
+    if (startAngle != (float)M_PI) {
+        clockwise = YES;
+    }
+    
+    CGPathAddArc(curvedPath, NULL, center.x, center.y, radius, startAngle , endAngle, clockwise);
     pathAnimation.path = curvedPath;
     CGPathRelease(curvedPath);
     
@@ -53,6 +63,12 @@
     
     CALayer *layer = [self.layer presentationLayer];
     self.frame = layer.frame;
+    _endFrame = layer.frame;
+}
+
+- (void)resetToEndFrame {
+    
+    self.frame = _endFrame;
 }
 
 @end

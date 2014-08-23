@@ -10,6 +10,9 @@
 #import "TSSpotCrimeAnnotation.h"
 #import "NSDate+Utilities.h"
 #import "TSReportAnnotationManager.h"
+#import <KVOController/FBKVOController.h>
+#import "ADClusterAnnotation.h"
+
 
 @implementation TSSpotCrimeAnnotationView
 
@@ -18,44 +21,76 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        
-        [self setImageForType:annotation];
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         detailButton.tintColor = [TSColorPalette tapshieldBlue];
         self.rightCalloutAccessoryView = detailButton;
+        self.accessibilityLabel = @"Crime Report";
     }
     return self;
     
 }
 
-
-- (void)setImageForType:(id<MKAnnotation>)annotation {
+- (void)setAnnotation:(id<MKAnnotation>)annotation {
     
-    if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
-        TSSpotCrimeAnnotation *spotCrime = (TSSpotCrimeAnnotation *)annotation;
+    [super setAnnotation:annotation];
+    
+    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        ((ADClusterAnnotation *)annotation).annotationView = self;
+    }
+    
+    if (annotation) {
+        [self refreshView];
+    }
+}
+
+- (void)refreshView {
+    
+    id<MKAnnotation> annotation = self.annotation;
+    
+    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
         
-        if (spotCrime.socialReport) {
-            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:spotCrime.type];
-        }
-        else {
-            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:spotCrime.type];
+        if (((ADClusterAnnotation *)annotation).cluster) {
+            annotation = [((ADClusterAnnotation *)annotation).originalAnnotations firstObject];
         }
     }
+    
+    if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
+        TSSpotCrimeAnnotation *crimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
+        if (crimeAnnotation.socialReport) {
+            self.image = [TSSpotCrimeLocation mapImageFromSocialCrimeType:[TSJavelinAPISocialCrimeReport socialReportTypesToString:crimeAnnotation.socialReport.reportType]];
+        }
+        else {
+            self.image = [TSSpotCrimeLocation mapImageFromSpotCrimeType:crimeAnnotation.spotCrime.type];
+        }
+    }
+    
+    self.alpha = [self alphaForReportDate];
 }
 
 - (float)alphaForReportDate {
     
     float hours;
     
-    TSSpotCrimeAnnotation *annotation = (TSSpotCrimeAnnotation *)self.annotation;
-    if (annotation.spotCrime) {
-        hours = [annotation.spotCrime.date hoursBeforeDate:[NSDate date]];
+    id<MKAnnotation> annotation = self.annotation;
+    
+    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        if (((ADClusterAnnotation *)annotation).cluster) {
+            annotation = [((ADClusterAnnotation *)annotation).originalAnnotations firstObject];
+        }
+        else {
+            return 1.0;
+        }
+    }
+    
+    TSSpotCrimeAnnotation *spotCrimeAnnotation = (TSSpotCrimeAnnotation *)annotation;
+    if (spotCrimeAnnotation.spotCrime) {
+        hours = [spotCrimeAnnotation.spotCrime.date hoursBeforeDate:[NSDate date]];
     }
     else {
-        hours = [annotation.socialReport.creationDate hoursBeforeDate:[NSDate date]];
+        hours = [spotCrimeAnnotation.socialReport.creationDate hoursBeforeDate:[NSDate date]];
     }
     
     if (hours == 0) {
@@ -63,16 +98,16 @@
     }
     
     if (hours >= MAX_HOURS) {
-        return 0.1;
+        return 0.2;
     }
     
     float ratio = (MAX_HOURS - hours)/MAX_HOURS;
     
-    if (ratio > 0.1) {
+    if (ratio > 0.3) {
         return ratio;
     }
     
-    return 0.1;
+    return 0.3;
 }
 
 

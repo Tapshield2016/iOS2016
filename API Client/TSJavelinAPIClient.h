@@ -16,6 +16,7 @@
 #import "TSJavelinAPISocialCrimeReport.h"
 #import "TSJavelinAPIRegion.h"
 #import "TSJavelinAPIDispatchCenter.h"
+#import "NSNull+JSON.h"
 
 @class TSJavelinAPIUser;
 @class TSJavelinAPIAlert;
@@ -82,6 +83,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 
 - (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 - (void)makeSecondaryEmailPrimary:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
+- (void)isSecondaryEmailVerified:(NSString *)email completion:(void(^)(BOOL verified, NSString *errorMessage))completion;
 - (void)resendSecondaryEmailActivation:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 - (void)removeSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 
@@ -124,6 +126,10 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 + (instancetype)initializeSharedClientWithBaseURL:(NSString *)baseURL;
 + (instancetype)sharedClient;
 
+//Quick methods
++ (TSJavelinAPIUser *)loggedInUser;
++ (TSJavelinAPIAgency *)userAgency;
+
 // Agency actions
 - (void)getAgencies:(void (^)(NSArray *agencies))completion;
 - (void)getAgenciesNearby:(CLLocation *)currentLocation radius:(float)radius completion:(void (^)(NSArray *agencies))completion;
@@ -165,7 +171,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 - (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion;
 
 //Report
-- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius completion:(void (^)(NSArray *reports))completion;
+- (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius since:(NSDate *)date completion:(void (^)(NSArray *reports))completion;
 - (void)postSocialCrimeReport:(TSJavelinAPISocialCrimeReport *)report completion:(void (^)(TSJavelinAPISocialCrimeReport *report))completion;
 - (void)removeUrl:(NSString *)url completion:(void(^)(BOOL finished))completion;
 

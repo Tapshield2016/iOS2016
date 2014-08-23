@@ -26,6 +26,13 @@
 #import "TSNamePictureViewController.h"
 #import "TSGeofence.h"
 #import "TSViewReportDetailsViewController.h"
+#import "TSClusterAnnotationView.h"
+#import "TSHeatMapOverlay.h"
+#import "ADClusterAnnotation.h"
+
+static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
+static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
+
 
 @interface TSHomeViewController ()
 
@@ -34,6 +41,7 @@
 @property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
 @property (assign, nonatomic) BOOL annotationsLoaded;
+@property (assign, nonatomic) BOOL firstMapLoad;
 
 @end
 
@@ -43,10 +51,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    _firstMapLoad = YES;
+    _isTrackingUser = YES;
+    _statusView.hidden = YES;
     
     _annotationsLoaded = NO;
-    
-    [self checkLoggedInUser];
     
     self.showSmallLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
@@ -59,12 +68,11 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(toggleYank:)];
+    self.navigationItem.rightBarButtonItem.accessibilityLabel = @"Yank";
+    self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
+    self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
     
     _transitionController = [[TSTransitionDelegate alloc] init];
-    
-    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
-    [panRecognizer setDelegate:self];
-    [_mapView addGestureRecognizer:panRecognizer];
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -88,6 +96,10 @@
                                              selector:@selector(sendAlert:)
                                                  name:TSVirtualEntourageManagerTimerDidEnd
                                                object:nil];
+    
+    _statusViewHeight.constant = 0;
+    
+    [[TSLocationController sharedLocationController] bestAccuracyRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,9 +115,13 @@
     
     if ([TSYankManager sharedYankManager].isEnabled) {
         [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        self.navigationItem.rightBarButtonItem.accessibilityValue = @"On";
+        self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOn;
     }
     else {
         [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
+        self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
+        self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
     }
 }
 
@@ -113,7 +129,9 @@
 
     [super viewDidAppear:animated];
     
-    [self whiteNavigationBar];
+    if ([TSJavelinAPIClient loggedInUser]) {
+        [self whiteNavigationBar];
+    }
     
     _mapView.isAnimatingToRegion = NO;
     
@@ -121,35 +139,61 @@
     
     [self showAllSubviews];
     
+    if (_viewDidAppear) {
+        [self performSelector:@selector(geocoderUpdateUserLocationAnnotationCallOutForLocation:)
+                   withObject:[TSLocationController sharedLocationController].location
+                   afterDelay:0.5];
+    }
+    
     //To determine animation of first region
     _viewDidAppear = YES;
     
     if (_shouldSendAlert) {
         [self sendYankAlert];
     }
+    
+    if (_firstMapLoad) {
+        _firstMapLoad = NO;
+        [_mapView setRegionAtAppearanceAnimated:YES];
+    }
+    
 }
 
-- (void)willMoveToParentViewController:(UIViewController *)parent {
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    [self setStatusViewText:nil];
+}
+
+- (void)didReceiveMemoryWarning {
+    
+    [super didReceiveMemoryWarning];
+    
+    [_reportManager removeOldSpotCrimes];
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent {
     
     [super willMoveToParentViewController:parent];
     
     if (!parent) {
         [TSLocationController sharedLocationController].delegate = nil;
         [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView removeFromSuperview];
+        _mapView = nil;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)checkLoggedInUser {
+- (void)dealloc {
     
-    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:NO];
-    }
+    [TSLocationController sharedLocationController].delegate = nil;
+    [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
+    _mapView.mapType = MKMapTypeStandard;
+    [_mapView removeFromSuperview];
+    _mapView = nil;
+    
 }
 
 - (void)checkUserRegistration {
@@ -171,16 +215,16 @@
     
     [TSLocationController sharedLocationController].delegate = self;
     if (!_annotationsLoaded) {
-        _annotationsLoaded = YES;
         
         [_mapView refreshRegionBoundariesOverlay];
         
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
             
-            [_mapView setRegionAtAppearanceAnimated:_viewDidAppear];
+            _annotationsLoaded = YES;
             [[TSLocationController sharedLocationController].geofence updateNearbyAgencies];
-            [_reportManager loadSpotCrimeAndSocialAnnotations:location];
+            [_reportManager performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
             [self addUserLocationAnnotation:location];
+            [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
         }];
     }
 }
@@ -189,8 +233,8 @@
     
     if (!_mapView.userLocationAnnotation) {
         _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                      placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
-                                                                                    description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
+                                                                                      placeName:nil
+                                                                                    description:nil];
         
         [_mapView addAnnotation:_mapView.userLocationAnnotation];
         [_mapView updateAccuracyCircleWithLocation:location];
@@ -249,7 +293,7 @@
 - (void)entourageModeOn {
     
     [_reportManager showSpotCrimes];
-    [self setIsTrackingUser:YES];
+    self.isTrackingUser = YES;
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
     
@@ -265,7 +309,6 @@
     [_menuViewController showMenuButton:self];
     [[TSVirtualEntourageManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
-    self.isTrackingUser = YES;
     
     [self stopClockTimer];
 }
@@ -298,9 +341,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (enabled) {
                 [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+                self.navigationItem.rightBarButtonItem.accessibilityValue = @"On";
+                self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOn;
             }
             else {
                 [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
+                self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
+                self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
             }
         });
     }];
@@ -314,6 +361,7 @@
 - (IBAction)sendAlert:(id)sender {
     
     _shouldSendAlert = NO;
+    _mapView.shouldUpdateCallOut = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -329,7 +377,7 @@
                 else {
                     
                     [viewController dismissViewControllerAnimated:YES completion:^{
-                        [self performSelectorOnMainThread:@selector(sendAlert:) withObject:sender waitUntilDone:NO];
+                        [self performSelector:@selector(sendAlert:) withObject:sender];
                     }];
                     return;
                 }
@@ -351,9 +399,6 @@
         TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
         pageview.homeViewController = self;
         
-        _isTrackingUser = YES;
-        [_mapView setRegionAtAppearanceAnimated:YES];
-        
         [self showOnlyMap];
         [_reportManager hideSpotCrimes];
     });
@@ -369,9 +414,6 @@
     TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
     pageview.homeViewController = self;
     pageview.isChatPresentation = YES;
-    
-    _isTrackingUser = YES;
-    [_mapView setRegionAtAppearanceAnimated:YES];
     
     [self showOnlyMap];
 }
@@ -406,6 +448,8 @@
 - (IBAction)userLocationTUI:(id)sender {
     
     self.isTrackingUser = YES;
+    
+    [[TSLocationController sharedLocationController] bestAccuracyRefresh];
 }
 
 - (void)setIsTrackingUser:(BOOL)isTrackingUser {
@@ -417,12 +461,16 @@
             [_mapView setRegionAtAppearanceAnimated:YES];
         }
         else {
-            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:_viewDidAppear];
         }
     }
+    
+    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
 }
 
 - (void)showAllSubviews {
+    
+    _statusView.alpha = 1.0;
     
     [UIView animateWithDuration:0.3f animations:^{
         for (UIView *view in self.view.subviews) {
@@ -445,7 +493,31 @@
 }
 
 
-
+- (void)setStatusViewText:(NSString *)string {
+    
+    [_statusView setText:string];
+    
+    float height = _statusView.originalHeight;
+    
+    if (!string) {
+        height = 0;
+    }
+    
+    _statusView.hidden = NO;
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _statusViewHeight.constant = height;
+                         
+                         [self.view layoutIfNeeded];
+                     } completion:^(BOOL finished) {
+                         if (!height) {
+                             _statusView.hidden = YES;
+                         }
+                     }];
+}
 
 #pragma mark - UIGestureRecognizerDelegate methods
 
@@ -455,11 +527,14 @@
 
 #pragma mark - Gesture handlers
 
-- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+- (void)userDidPanMapView:(ADClusterMapView *)mapView {
     
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-        _isTrackingUser = NO;
-    }
+}
+
+- (void)userWillPanMapView:(ADClusterMapView *)mapView {
+    
+    _isTrackingUser = NO;
+    [self setStatusViewText:nil];
 }
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
@@ -492,37 +567,27 @@
 
 - (void)locationDidUpdate:(CLLocation *)location {
     
-    if ([[TSVirtualEntourageManager sharedManager].endRegion containsCoordinate:location.coordinate]) {
+    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
         [[TSVirtualEntourageManager sharedManager] checkRegion:location];
     }
     
-    if (!_mapView.userLocationAnnotation) {
-        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                       placeName:[NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude]
-                                                                                     description:[NSString stringWithFormat:@"Accuracy: %f", location.horizontalAccuracy]];
-        
-        [_mapView addAnnotation:_mapView.userLocationAnnotation];
-        [_mapView updateAccuracyCircleWithLocation:location];
-    }
-    else {
+    if (_mapView.userLocationAnnotation) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [_mapView updateAccuracyCircleWithLocation:location];
+            _mapView.userLocationAnnotation.coordinate = location.coordinate;
         });
-        _mapView.userLocationAnnotation.coordinate = location.coordinate;
     }
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
         //avoid loop from negligible differences in region change
         if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
             fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
-            [_mapView setCenterCoordinate:location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:location.coordinate animated:_viewDidAppear];
         }
     }
     
-    if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 15 && _mapView.shouldUpdateCallOut) {
-        [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
-    }
+    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
     
     _mapView.previousLocation = location;
     
@@ -539,48 +604,86 @@
 
 - (void)geocoderUpdateUserLocationAnnotationCallOutForLocation:(CLLocation *)location {
     
-    _mapView.lastReverseGeocodeLocation = location;
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        return;
+    }
     
-    [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks) {
-            CLPlacemark *placemark = [placemarks firstObject];
-            NSString *title = @"";
-            NSString *subtitle = @"";
-            if (placemark.subThoroughfare) {
-                title = placemark.subThoroughfare;
-            }
-            if (placemark.thoroughfare) {
-                title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
-            }
-            if (placemark.locality) {
-                subtitle = placemark.locality;
-            }
-            if (placemark.administrativeArea) {
-                if (placemark.locality) {
-                    subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
-                }
-                else {
-                    subtitle = placemark.administrativeArea;
-                }
-            }
-            if (placemark.postalCode) {
-                subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
+    BOOL search = NO;
+    BOOL show = NO;
+    
+    if (_mapView.shouldUpdateCallOut || _isTrackingUser) {
+        show = YES;
+        if ([_mapView.lastReverseGeocodeLocation distanceFromLocation:location] > 10 ||
+            !_mapView.lastReverseGeocodeLocation ||
+            !_statusView.userLocation) {
+            search = YES;
+        }
+    }
+    
+    if (search) {
+        
+        _mapView.lastReverseGeocodeLocation = location;
+        
+        [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            
+            if (error) {
+                _mapView.lastReverseGeocodeLocation = nil;
             }
             
-            _mapView.userLocationAnnotation.title = title;
-            _mapView.userLocationAnnotation.subtitle = subtitle;
-        }
-    }];
+            if (placemarks) {
+                CLPlacemark *placemark = [placemarks firstObject];
+                NSString *title = @"";
+                NSString *subtitle = @"";
+                if (placemark.subThoroughfare) {
+                    title = placemark.subThoroughfare;
+                }
+                if (placemark.thoroughfare) {
+                    title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
+                }
+                if (placemark.locality) {
+                    subtitle = placemark.locality;
+                }
+                if (placemark.administrativeArea) {
+                    if (placemark.locality) {
+                        subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
+                    }
+                    else {
+                        subtitle = placemark.administrativeArea;
+                    }
+                }
+                if (placemark.postalCode) {
+                    subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
+                }
+                
+                _statusView.userLocation = [NSString stringWithFormat:@"%@", title];
+                [self setStatusViewText:_statusView.userLocation];
+                
+                _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
+//                _mapView.userLocationAnnotation.accessibilityLabel 
+            }
+            else {
+                _statusView.userLocation = nil;
+                [self setStatusViewText:@"Searching"];
+            }
+        }];
+    }
+    else if (show) {
+        [self setStatusViewText:_statusView.userLocation];
+    }
+    
+//    _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
 #pragma mark - MKMapViewDelegate methods
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    
     if([overlay isKindOfClass:[MKPolygon class]]){
         
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
-    else if ([overlay isKindOfClass:[MKCircle class]]) {
+    else if ([overlay isKindOfClass:[MKCircle class]] ||
+             [overlay isKindOfClass:[TSHeatMapOverlay class]]) {
         
         return [TSMapView mapViewCircleOverlay:overlay];
     }
@@ -628,6 +731,7 @@
         }
         
         _mapView.userLocationAnnotationView = (TSUserAnnotationView *)annotationView;
+        _mapView.userLocationAnnotationView.canShowCallout = NO;
     }
     else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
 
@@ -654,7 +758,23 @@
     }
     else if ([annotation isKindOfClass:[TSSpotCrimeAnnotation class]]) {
         
-        NSString *reuseIdentifier = [NSString stringWithFormat:@"%@-%@", [(TSSpotCrimeAnnotation *)annotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[(TSSpotCrimeAnnotation *)annotation socialReport].reportType]];
+        NSString *reuseIdentifier = NSStringFromClass([TSSpotCrimeAnnotation class]);//[NSString stringWithFormat:@"%@-%@", [(TSSpotCrimeAnnotation *)annotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[(TSSpotCrimeAnnotation *)annotation socialReport].reportType]];
+        
+        annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
+        
+        if (!annotationView) {
+            annotationView = [[TSSpotCrimeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+        }
+    }
+    else if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
+        
+        ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)annotation;
+        TSSpotCrimeAnnotation *spotCrimeAnnotation;
+        if (clusterAnnotation.cluster) {
+            spotCrimeAnnotation = [clusterAnnotation.originalAnnotations firstObject];
+        }
+        
+        NSString *reuseIdentifier = [NSString stringWithFormat:@"%@-%@", [spotCrimeAnnotation spotCrime].type, [TSJavelinAPISocialCrimeReport socialReportTypesToString:[spotCrimeAnnotation socialReport].reportType]];
         
         annotationView = (TSSpotCrimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
         [annotationView setAnnotation:annotation];
@@ -664,6 +784,14 @@
         }
         
         ((TSSpotCrimeAnnotationView *)annotationView).alpha = [annotationView alphaForReportDate];
+    }
+    else {
+        annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"errorAnnotationView"];
+        if (!annotationView) {
+            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"errorAnnotationView"];
+            ((MKPinAnnotationView *)annotationView).canShowCallout = NO;
+            ((MKPinAnnotationView *)annotationView).pinColor = MKPinAnnotationColorRed;
+        }
     }
     
     return annotationView;
@@ -679,6 +807,10 @@
     for (TSBaseAnnotationView *view in views) {
         
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
+            
+            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]]) {
+                return;
+            }
             
             if (((TSBaseMapAnnotation *)view.annotation).firstAdd) {
                 ((TSBaseMapAnnotation *)view.annotation).firstAdd = NO;
@@ -705,8 +837,6 @@
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
-    [_mapView adjustAnnotationAlphaForPan];
-    
     [_mapView removeAnimatedOverlay];
 }
 
@@ -722,11 +852,14 @@
         //avoid loop from negligible differences in region change during zoom
         if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
             fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
-            [_mapView setCenterCoordinate:location.coordinate animated:YES];
+            [_mapView setCenterCoordinate:location.coordinate animated:_viewDidAppear];
         }
     }
-    
-    [self flipIntersectingRouteAnnotation];
+    else {
+        CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude
+                                                                longitude:[mapView centerCoordinate].longitude];
+        [_reportManager getReportsForMapCenter:centerLocation];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
@@ -737,13 +870,27 @@
         [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
     }
     
+    
+    MKCoordinateSpan span = mapView.region.span;
+    
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         view.alpha = 1.0;
         
         NSString *subtitle;
         
-        TSSpotCrimeLocation *location = ((TSSpotCrimeAnnotation *)view.annotation).spotCrime;
-        TSJavelinAPISocialCrimeReport *report = ((TSSpotCrimeAnnotation *)view.annotation).socialReport;
+        TSSpotCrimeAnnotation *annotation;
+        
+        if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
+            if (((ADClusterAnnotation *)view.annotation).cluster) {
+                annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+            }
+        }
+        else {
+            annotation = (TSSpotCrimeAnnotation *)view.annotation;
+        }
+        
+        TSSpotCrimeLocation *location = annotation.spotCrime;
+        TSJavelinAPISocialCrimeReport *report = annotation.socialReport;
         
         if (report) {
             subtitle = [TSUtilities dateDescriptionSinceNow:report.creationDate];
@@ -752,7 +899,14 @@
             subtitle = [TSUtilities dateDescriptionSinceNow:location.date];
         }
         
-        ((TSSpotCrimeAnnotation *)view.annotation).subtitle = subtitle;
+        annotation.subtitle = subtitle;
+        ((ADClusterAnnotation *)view.annotation).subtitle = subtitle;
+        ((ADClusterAnnotation *)view.annotation).title = annotation.title;
+        
+        if (span.longitudeDelta > kMaxLonDeltaCluster) {
+            
+            [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:kMaxLonDeltaCluster];
+        }
     }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
@@ -760,7 +914,39 @@
         [self flipIntersectingRouteAnnotation];
     }
     
+    if ([view isKindOfClass:[TSClusterAnnotationView class]]){
+        
+        float delta;
+        
+        if (span.longitudeDelta > .4) {
+            delta = span.longitudeDelta*.3;
+        }
+//        else if (span.longitudeDelta > kMaxLonDeltaCluster) {
+//            delta = kMaxLonDeltaCluster;
+//        }
+        else {
+            delta = span.longitudeDelta*.5;
+        }
+        
+        [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:delta];
+    }
+    
     [_mapView bringSubviewToFront:view];
+}
+
+- (void)moveMapView:(MKMapView *)mapView coordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
+    
+    _isTrackingUser = NO;
+    
+    MKCoordinateRegion region = mapView.region;
+    MKCoordinateSpan span = mapView.region.span;
+    
+    span.latitudeDelta = delta;
+    span.longitudeDelta = delta;
+    
+    region.span = span;
+    region.center = coordinate;
+    [mapView setRegion:region animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
@@ -779,86 +965,38 @@
     
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         
-        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:view.annotation
+        id<MKAnnotation> annotation;
+        if ([view.annotation isKindOfClass:[ADClusterAnnotation class]]) {
+            if (((ADClusterAnnotation *)view.annotation).cluster) {
+                annotation = [((ADClusterAnnotation *)view.annotation).originalAnnotations firstObject];
+            }
+        }
+        else {
+            annotation = view.annotation;
+        }
+        
+        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)annotation
                                                                                                      from:self];
         controller.reportManager = _reportManager;
-        
-//        TSSpotCrimeLocation *location = ((TSSpotCrimeAnnotation *)view.annotation).spotCrime;
-//        TSJavelinAPISocialCrimeReport *report = ((TSSpotCrimeAnnotation *)view.annotation).socialReport;
-//        
-//        if (location) {
-//            if (!location.eventDescription) {
-//                
-//                [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeDescription:location completion:^(TSSpotCrimeLocation *location) {
-//                    
-//                    ((TSSpotCrimeAnnotation *)view.annotation).spotCrime = location;
-//                    ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.eventDescription;
-//                }];
-//            }
-//            else {
-//                if ([((TSSpotCrimeAnnotation *)view.annotation).subtitle isEqualToString:location.address]) {
-//                    ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.eventDescription;
-//                }
-//                else {
-//                    ((TSSpotCrimeAnnotation *)view.annotation).subtitle = location.address;
-//                }
-//            }
-//        }
-//        if (report) {
-//            
-//            if (!((TSSpotCrimeAnnotation *)view.annotation).subtitle) {
-//                CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-//                [geocoder reverseGeocodeLocation:((TSSpotCrimeAnnotation *)view.annotation).socialReport.location completionHandler:^(NSArray *placemarks, NSError *error) {
-//                    if (placemarks) {
-//                        CLPlacemark *placemark = [placemarks firstObject];
-//                        NSString *title = @"";
-//                        NSString *subtitle = @"";
-//                        if (placemark.subThoroughfare) {
-//                            title = placemark.subThoroughfare;
-//                        }
-//                        if (placemark.thoroughfare) {
-//                            title = [NSString stringWithFormat:@"%@ %@", title, placemark.thoroughfare];
-//                        }
-//                        if (placemark.locality) {
-//                            subtitle = placemark.locality;
-//                        }
-//                        if (placemark.administrativeArea) {
-//                            if (placemark.locality) {
-//                                subtitle = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
-//                            }
-//                            else {
-//                                subtitle = placemark.administrativeArea;
-//                            }
-//                        }
-//                        if (placemark.postalCode) {
-//                            subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
-//                        }
-//                        
-//                        if (!title) {
-//                            title = subtitle;
-//                        }
-//                        
-//                        ((TSSpotCrimeAnnotation *)view.annotation).subtitle = title;
-//                        ((TSSpotCrimeAnnotation *)view.annotation).socialReport.address = title;
-//                    }
-//                }];
-//            }
-//            
-//            if ([((TSSpotCrimeAnnotation *)view.annotation).subtitle isEqualToString:report.address]) {
-//                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = report.body;
-//            }
-//            else {
-//                ((TSSpotCrimeAnnotation *)view.annotation).subtitle = report.address;
-//            }
-//        }
     }
 }
 
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error {
     
+//    if (_firstMapLoad) {
+//        _firstMapLoad = NO;
+//        [_mapView setRegionAtAppearanceAnimated:YES];
+//    }
     NSLog(@"Failed Loading Map");
 }
+//- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
+//    
+//    if (_firstMapLoad) {
+//        _firstMapLoad = NO;
+//        [_mapView setRegionAtAppearanceAnimated:YES];
+//    }
+//}
 
 
 - (void)flipIntersectingRouteAnnotation {
@@ -889,6 +1027,34 @@
             }
         }
     }
+}
+
+#pragma mark - ADClusterMapViewDelegate
+
+- (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id<MKAnnotation>)annotation {
+    TSClusterAnnotationView * pinView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ADMapCluster"];
+    if (!pinView) {
+        pinView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation
+                                               reuseIdentifier:@"ADMapCluster"];
+    }
+    else {
+        pinView.annotation = annotation;
+    }
+    return pinView;
+}
+
+
+- (void)mapViewDidFinishClustering:(ADClusterMapView *)mapView {
+    NSLog(@"Done");
+}
+
+- (NSUInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView {
+    
+    return 25;
+}
+
+- (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView {
+    return 1.8;
 }
 
 

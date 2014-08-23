@@ -15,10 +15,21 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        
+        self.accessibilityValue = @"";
+        self.accessibilityLabel = @"Map Annotation";
     }
     return self;
     
+}
+
+- (void)refreshView {
+    
+    
+}
+
+- (NSString *)accessibilityValue {
+    
+    return self.annotation.title;
 }
 
 @end

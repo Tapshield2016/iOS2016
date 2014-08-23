@@ -27,11 +27,11 @@
     
     _isFirstTimeViewed = YES;
     
-    _backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background568"]];
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background568"]];
     CGRect frame = self.view.frame;
     frame.size.height = 568.0;
-    _backgroundImage.frame = frame;
-    [self.view insertSubview:_backgroundImage atIndex:0];
+    background.frame = frame;
+    [self.view insertSubview:background atIndex:0];
     
     _logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
     [_logoImage setHidden:YES];
@@ -42,7 +42,7 @@
     [_skipButton addTarget:self action:@selector(skipSlides:) forControlEvents:UIControlEventTouchUpInside];
     _skipButton.titleLabel.font = [TSRalewayFont customFontFromStandardFont:[UIFont systemFontOfSize:18]];
     _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, [UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width/10 * 2, self.navigationController.navigationBar.frame.size.height);
-//    [self.view addSubview:_skipButton];
+    [self.view addSubview:_skipButton];
     
     _pageViewControllers = [self pages];
     
@@ -50,6 +50,8 @@
     
     self.delegate = self;
     self.dataSource = self;
+    
+    [self.view setUserInteractionEnabled:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,9 +93,49 @@
 }
 
 - (IBAction)skipSlides:(id)sender {
+    [self setViewControllers:@[_logInOrSignUpViewController] direction:UIPageViewControllerNavigationDirectionForward invalidateCache:YES animated:YES completion:nil];
     
-    [self setViewControllers:@[_logInOrSignUpViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     [_skipButton setHidden:YES];
+}
+
+- (BOOL)accessibilityScroll:(UIAccessibilityScrollDirection)direction {
+    
+    if (direction == UIAccessibilityScrollDirectionLeft) {
+        [self changePage:UIPageViewControllerNavigationDirectionForward];
+    }
+    else if (direction == UIAccessibilityScrollDirectionRight) {
+        [self changePage:UIPageViewControllerNavigationDirectionReverse];
+    }
+    
+    return YES;
+}
+
+- (BOOL)changePage:(UIPageViewControllerNavigationDirection)direction {
+    NSUInteger pageIndex = [_pageViewControllers indexOfObject:[self.viewControllers objectAtIndex:0]];
+    
+    
+    if (direction == UIPageViewControllerNavigationDirectionForward) {
+        pageIndex++;
+    }
+    else {
+        pageIndex--;
+    }
+    
+    if (pageIndex>=_pageViewControllers.count) {
+        return NO;
+    }
+    
+    UIViewController *viewController = [_pageViewControllers objectAtIndex:pageIndex];
+    
+    if (viewController == nil) {
+        return NO;
+    }
+    
+    [self setViewControllers:@[viewController]
+                   direction:direction
+                    animated:YES
+                  completion:nil];
+    return YES;
 }
 
 
@@ -108,6 +150,7 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     
+    [_logoImage setHidden:NO];
 }
 
 - (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {
@@ -154,8 +197,33 @@
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent
+                                                animated:YES];
     
-    return 0;
+    int index = [_pageViewControllers indexOfObject:self.viewControllers[0]];
+    
+    if (index < _pageViewControllers.count - 1) {
+        [_skipButton setHidden:NO];
+    }
+    
+    return index;
+}
+
+- (void)setViewControllers:(NSArray *)viewControllers direction:(UIPageViewControllerNavigationDirection)direction invalidateCache:(BOOL)invalidateCache animated:(BOOL)animated completion:(void (^)(BOOL finished))completion {
+    NSArray *vcs = viewControllers;
+    __weak UIPageViewController *mySelf = self;
+    
+    if (invalidateCache && self.transitionStyle == UIPageViewControllerTransitionStyleScroll) {
+        UIViewController *neighborViewController = (direction == UIPageViewControllerNavigationDirectionForward
+                                                    ? [self.dataSource pageViewController:self viewControllerBeforeViewController:viewControllers[0]]
+                                                    : [self.dataSource pageViewController:self viewControllerAfterViewController:viewControllers[0]]);
+        [self setViewControllers:@[neighborViewController] direction:direction animated:NO completion:^(BOOL finished) {
+            [mySelf setViewControllers:vcs direction:direction animated:animated completion:completion];
+        }];
+    }
+    else {
+        [mySelf setViewControllers:vcs direction:direction animated:animated completion:completion];
+    }
 }
 
 @end

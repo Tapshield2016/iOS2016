@@ -152,14 +152,14 @@
         parentNavigationController = (UINavigationController *)self.presentingViewController;
     }
     
-    [[parentNavigationController.topViewController.childViewControllers lastObject] viewWillAppear:NO];
+    [[parentNavigationController.topViewController.childViewControllers lastObject] viewWillAppear:YES];
     
     [self dismissViewControllerAnimated:YES completion:^{
         
-        [parentNavigationController.topViewController viewWillAppear:NO];
-        [parentNavigationController.topViewController viewDidAppear:NO];
+        [parentNavigationController.topViewController viewWillAppear:YES];
+        [parentNavigationController.topViewController viewDidAppear:YES];
         
-        [[parentNavigationController.topViewController.childViewControllers lastObject] viewDidAppear:NO];
+        [[parentNavigationController.topViewController.childViewControllers lastObject] viewDidAppear:YES];
     }];
 }
 

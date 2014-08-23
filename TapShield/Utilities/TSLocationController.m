@@ -10,6 +10,14 @@
 #define MAX_SECONDS 200
 
 #import "TSLocationController.h"
+#import "TSAlertManager.h"
+
+@interface TSLocationController ()
+
+@property (nonatomic, strong) NSTimer *cycleTimer;
+@property (nonatomic, strong) NSMutableArray *locationCompletions;
+
+@end
 
 @implementation TSLocationController
 
@@ -34,8 +42,44 @@ static dispatch_once_t predicate;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locationManager.distanceFilter = 1.0;
         self.geofence = [[TSGeofence alloc] init];
+        
+        if ([UIDevice currentDevice].systemVersion.integerValue >= 8) {
+            [self.locationManager requestAlwaysAuthorization];
+        }
+        
+        UIDevice *device = [UIDevice currentDevice];
+        device.batteryMonitoringEnabled = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(batteryChanged:)
+                                                     name:UIDeviceBatteryLevelDidChangeNotification
+                                                   object:device];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(batteryChanged:)
+                                                     name:UIDeviceBatteryStateDidChangeNotification
+                                                   object:device];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
     }
     return self;
+}
+
+
+#pragma mark - Battery Management
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(enterLowPowerState)
+                                               object:nil];
+    
+    [self bestAccuracyForBattery];
+}
+
+- (void)batteryChanged:(NSNotification *)notification {
+    
+    [self bestAccuracyForBattery];
 }
 
 #pragma mark - Region Methods
@@ -65,6 +109,14 @@ static dispatch_once_t predicate;
 
 #pragma mark - Location Methods
 
+- (void)addAwaitingCompletion:(TSLocationControllerLocationReceived)completion {
+    
+    if (!_locationCompletions) {
+        _locationCompletions = [[NSMutableArray alloc] initWithCapacity:5];
+    }
+    [_locationCompletions addObject:completion];
+}
+
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion {
     
     
@@ -73,7 +125,7 @@ static dispatch_once_t predicate;
             completion(_location);
         }
         else {
-            _locationReceivedBlock = completion;
+            [self addAwaitingCompletion:completion];
         }
     }
     
@@ -83,11 +135,12 @@ static dispatch_once_t predicate;
 - (void)startSignificantChangeUpdates:(TSLocationControllerLocationReceived)completion {
   
     if (completion) {
-        _locationReceivedBlock = completion;
+        [self addAwaitingCompletion:completion];
     }
         
     [_locationManager startMonitoringSignificantLocationChanges];
 }
+
 
 
 - (void)latestLocation:(TSLocationControllerLocationReceived)completion {
@@ -97,7 +150,7 @@ static dispatch_once_t predicate;
         return;
     }
     else if (completion) {
-        _locationReceivedBlock = completion;
+        [self addAwaitingCompletion:completion];
     }
     
     [_locationManager startUpdatingLocation];
@@ -119,11 +172,127 @@ static dispatch_once_t predicate;
 - (void)stopLocationUpdates {
     [_locationManager stopUpdatingLocation];
     
-    if (_locationReceivedBlock) {
-        _locationReceivedBlock = nil;
+    _locationCompletions = nil;
+}
+
+#pragma mark - GPS Strength
+
+- (void)cycleGPSSignalStrengthUntilDate:(NSDate *)date {
+    
+    NSTimeInterval timeInterval = [date timeIntervalSinceNow];
+    
+    if (timeInterval < 120) {
+        return;
+    }
+    
+    [self scheduleStrengthCycleTimer:timeInterval/2];
+    
+    [self enterLowPowerState];
+}
+
+- (void)scheduleStrengthCycleTimer:(NSTimeInterval)timeInterval {
+    
+    [self timerReset];
+    
+    if (!_cycleTimer) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            _cycleTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                                           target:self
+                                                         selector:@selector(timerFired:)
+                                                         userInfo:nil
+                                                          repeats:NO];
+            _cycleTimer.tolerance = 5;
+        }];
     }
 }
 
+- (void)timerReset {
+    [_cycleTimer invalidate];
+    _cycleTimer = nil;
+}
+
+- (void)timerFired:(NSTimer *)timer {
+    
+    [self bestAccuracy];
+    
+    if (timer.timeInterval/2 < 60) {
+        return;
+    }
+    
+    [self scheduleStrengthCycleTimer:timer.timeInterval/2];
+    
+    [self performSelector:@selector(enterLowPowerState) withObject:nil afterDelay:15.0];
+}
+
+- (void)bestAccuracyRefresh {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self bestAccuracy];
+    
+    [_locationManager startUpdatingLocation];
+    
+    if (![TSAlertManager sharedManager].isAlertInProgress &&
+        ![TSAlertManager sharedManager].countdownTimer) {
+        [self performSelector:@selector(bestAccuracyForBattery)
+                   withObject:nil
+                   afterDelay:20];
+    }
+}
+
+- (void)enterLowPowerState {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+}
+
+- (void)navigationAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
+}
+
+- (void)tenMetersAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+}
+
+- (void)bestAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+}
+
+- (void)hundredMetersAccuracy {
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+}
+
+- (void)bestAccuracyForAlert {
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self bestAccuracy];
+}
+
+- (void)bestAccuracyForBattery {
+    
+    UIDeviceBatteryState batteryState = [UIDevice currentDevice].batteryState;
+    float batteryLevel = [UIDevice currentDevice].batteryLevel;
+    
+    NSLog(@"State: %i Charge: %f", batteryState, batteryLevel);
+    
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        return;
+    }
+    
+    if (batteryState == UIDeviceBatteryStateCharging) {
+        [self navigationAccuracy];
+        return;
+    }
+    
+    if (batteryLevel > .20 || [TSAlertManager sharedManager].countdownTimer) {
+        [self bestAccuracy];
+    }
+    else if (batteryLevel > .10) {
+        [self tenMetersAccuracy];
+    }
+    else {
+        [self hundredMetersAccuracy];
+    }
+}
 
 #pragma mark - CLLocationManagerDelegate Methods
 
@@ -138,9 +307,13 @@ static dispatch_once_t predicate;
         }
     }
     
-    if (_locationReceivedBlock) {
-        _locationReceivedBlock(_location);
-        _locationReceivedBlock = nil;
+    if (_locationCompletions.count) {
+        NSMutableArray *toRemove = [[NSMutableArray alloc] initWithCapacity:_locationCompletions.count];
+        for (TSLocationControllerLocationReceived completion in [NSArray arrayWithArray:_locationCompletions]) {
+            completion(_location);
+            [toRemove addObject:completion];
+        }
+        [_locationCompletions removeObjectsInArray:toRemove];
     }
     
     [[TSJavelinAPIClient sharedClient] locationUpdated:_location];

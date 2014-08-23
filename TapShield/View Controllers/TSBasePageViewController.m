@@ -24,12 +24,18 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     _navigationBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
+    [self setAccessibilityTraits:UIAccessibilityTraitCausesPageTurn];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)accessibilityScroll:(UIAccessibilityScrollDirection)direction {
+    
+    return YES;
 }
 
 - (void)setTranslucentBackground:(BOOL)translucentBackground {

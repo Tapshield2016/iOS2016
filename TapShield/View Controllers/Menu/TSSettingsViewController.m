@@ -10,11 +10,14 @@
 #import "TSYankManager.h"
 #import "TSIntroPageViewController.h"
 #import "TSChangePasscodeViewController.h"
+#import "TSUserSessionManager.h"
 
 NSString * const TSSettingsNotificationsEnabled = @"TSSettingsNotificationsEnabled";
 NSString * const TSSettingsICloudSyncEnabled = @"TSSettingsICloudSyncEnabled";
 
 NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerDidLogOut";
+
+NSString * const TSSettingsCurrentOrg = @"Your current organization: %@";
 
 @interface TSSettingsViewController ()
 
@@ -27,8 +30,6 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-//    [[TSSocialAccountsManager sharedSocialAccountsManager] addSocialViewsTo:self.view];
-    
     _autoYankSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:TSYankManagerSettingAutoEnableYank];
 }
 
@@ -39,6 +40,8 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
     [self.tableView reloadData];
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
+    [self updateCurrentOrgLabel];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -49,6 +52,19 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)updateCurrentOrgLabel {
+    
+    NSString *orgName;
+    if ([TSJavelinAPIClient loggedInUser].agency) {
+        orgName = [TSJavelinAPIClient loggedInUser].agency.name;
+    }
+    else {
+        orgName = @"Not selected";
+    }
+    
+    _currentOrgLabel.text = [NSString stringWithFormat:TSSettingsCurrentOrg, orgName];
 }
 
 - (IBAction)iCloudToggle:(id)sender {
@@ -73,20 +89,16 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
         if (success) {
             [[NSNotificationCenter defaultCenter] postNotificationName:TSSettingsViewControllerDidLogOut object:nil];
         }
+        
+        [[TSUserSessionManager sharedManager] userStatusCheck];
     }];
-
-//    [[TSSocialAccountsManager sharedSocialAccountsManager] logoutAllUserTypesCompletion:^(BOOL loggedOut) {
-//        if (loggedOut) {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:TSSettingsViewControllerDidLogOut object:nil];
-//        }
-//    }];
 }
 
 #pragma mark - Table view delegate
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == 1) {
+    if (indexPath.row == 1 || indexPath.row == 2) {
         return YES;
     }
     
@@ -99,6 +111,10 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
         TSChangePasscodeViewController *viewController = (TSChangePasscodeViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSChangePasscodeViewController class])];
         [self.navigationController pushViewController:viewController animated:YES];
     }
+    else if (indexPath.row == 2) {
+        
+        [[TSUserSessionManager sharedManager] showAgencyPicker];
+    }
 }
 
 #pragma mark - Table view data source
@@ -109,7 +125,7 @@ NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerD
     tableView.separatorColor = [TSColorPalette tapshieldBlue];
     tableView.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     
-    if (indexPath.row == 1) {
+    if (indexPath.row == 1 || indexPath.row == 2) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
     }
 }

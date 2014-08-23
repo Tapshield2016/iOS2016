@@ -54,6 +54,4 @@ typedef void (^LoggedOutBlock)(BOOL loggedOut);
 
 - (void)facebookLoggedIn;
 
-- (void)loggedInViaSocialCheckUserStatus;
-
 @end

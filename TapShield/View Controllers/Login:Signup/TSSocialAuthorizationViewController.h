@@ -48,6 +48,7 @@
 - (IBAction)emailLoginSignup:(id)sender;
 - (IBAction)logInWithFacebook:(id)sender;
 - (IBAction)logInWithGooglePlus:(id)sender;
+- (IBAction)showEULA:(id)sender;
 
 
 @end

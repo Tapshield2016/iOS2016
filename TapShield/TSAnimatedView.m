@@ -8,6 +8,12 @@
 
 #import "TSAnimatedView.h"
 
+@interface TSAnimatedView ()
+
+@property (nonatomic, assign) CGRect endFrame;
+
+@end
+
 @implementation TSAnimatedView
 
 - (id)initWithFrame:(CGRect)frame
@@ -57,6 +63,12 @@
     
     CALayer *layer = [self.layer presentationLayer];
     self.frame = layer.frame;
+    _endFrame = layer.frame;
+}
+
+- (void)resetToEndFrame {
+    
+    self.frame = _endFrame;
 }
 
 @end

@@ -22,6 +22,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://tapshield.com/eula/"]] ;
     [_webView loadRequest: request];
     _webView.delegate = self;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

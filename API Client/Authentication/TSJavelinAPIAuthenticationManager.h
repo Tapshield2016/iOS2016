@@ -72,6 +72,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserR
 - (void)removeSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 
 - (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
+- (void)removePasswordFromKeychainForEmailAddress:(NSString *)emailAddress;
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 
 - (NSString *)masterAccessTokenAuthorizationHeader;

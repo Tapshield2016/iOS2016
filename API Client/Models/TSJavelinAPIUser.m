@@ -190,6 +190,9 @@
     if (_lastName) {
         [mutableDictionary setObject:_lastName forKey:@"last_name"];
     }
+    if (_agency) {
+        [mutableDictionary setObject:_agency.url forKey:@"agency"];
+    }
     
     return mutableDictionary;
 }
@@ -252,14 +255,29 @@
 
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain {
     
-    emailDomain = [emailDomain stringByReplacingOccurrencesOfString:@"@" withString:@""];
-    NSArray *userEmailDomain = [_email componentsSeparatedByString:@"@"];
-    
-    if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location == NSNotFound) {
+    if (!emailDomain) {
         return NO;
     }
     
-    return YES;
+    emailDomain = [emailDomain stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    NSArray *userEmailDomain = [_email componentsSeparatedByString:@"@"];
+    
+    if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location != NSNotFound) {
+        return YES;
+    }
+    
+    for (TSJavelinAPIEmail *email in _secondaryEmails) {
+        
+        if (email.isActive) {
+            userEmailDomain = [email.email componentsSeparatedByString:@"@"];
+            
+            if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location != NSNotFound) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
 }
 
 - (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email {

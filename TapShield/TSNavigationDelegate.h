@@ -1,18 +1,14 @@
 //
-//  TSRegistrationNavigationController.h
+//  TSNavigationDelegate.h
 //  TapShield
 //
-//  Created by Adam Share on 3/21/14.
+//  Created by Adam Share on 8/19/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "TSOrganizationSearchViewController.h"
-#import "TSRegisterViewController.h"
-#import "TSEmailVerificationViewController.h"
-#import "TSPhoneVerificationViewController.h"
+#import <Foundation/Foundation.h>
 
-@interface TSRegistrationNavigationDelegate : NSObject <UINavigationBarDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
+@interface TSNavigationDelegate : NSObject <UINavigationBarDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
 
 - (void)customizeRegistrationNavigationController:(UINavigationController *)navigationController;
 
@@ -21,6 +17,5 @@
 @property (nonatomic, strong) UIBarButtonItem *nextButton;
 
 @property (nonatomic, strong) NSArray *registrationViewControllers;
-
 
 @end

@@ -12,6 +12,8 @@
 #import "TSAskOrganizationViewController.h"
 #import "TSAnimatedView.h"
 #import "TSSocialAccountsManager.h"
+#import "TSUserSessionManager.h"
+#import "TSAgreementViewController.h"
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>
@@ -55,8 +57,6 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 {
     [super viewDidLoad];
     
-    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = self;
-    
     _buttonArray = @[_facebookView, _twitterView, _googleView, _linkedinView, _emailView];
     
     [self.view setBackgroundColor:[UIColor clearColor]];
@@ -83,9 +83,19 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    
+    [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = self;
     
     if (!_hasAnimated) {
         if (_logIn) {
@@ -94,6 +104,15 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         else {
             [self animateSignupButtons];
         }
+    }
+}
+
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    
+    if (_hasAnimated) {
+        [self reframeButtons];
     }
 }
 
@@ -117,14 +136,16 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     
     if (_logIn) {
         class = [TSLoginViewController class];
+        
+        _transitionDelegate = [[TSTransitionDelegate alloc] init];
+        
+        [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
     }
     else {
-        class = [TSAskOrganizationViewController class];
+        class = [TSRegisterViewController class];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        [self presentViewControllerWithClass:class transitionDelegate:nil animated:YES];
     }
-    
-    _transitionDelegate = [[TSTransitionDelegate alloc] init];
-    
-    [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
 }
 
 - (IBAction)logInWithFacebook:(id)sender {
@@ -135,6 +156,12 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 - (IBAction)logInWithGooglePlus:(id)sender {
     
     [[TSSocialAccountsManager sharedManager] logInWithGooglePlus];
+}
+
+- (IBAction)showEULA:(id)sender {
+    
+    [self pushViewControllerWithClass:[TSAgreementViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 
@@ -160,8 +187,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     
     [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
     
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [[TSSocialAccountsManager sharedManager] loggedInViaSocialCheckUserStatus];
+    [[TSUserSessionManager sharedManager] dismissWindow:^(BOOL finished) {
+        [[TSUserSessionManager sharedManager] userStatusCheck];
     }];
 }
 
@@ -209,6 +236,14 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
         endAngle += angleIncrement;
     }
 }
+
+- (void)reframeButtons {
+    
+    for (TSAnimatedView *circleButtons in _buttonArray) {
+        [circleButtons resetToEndFrame];
+    }
+}
+
 
 
 @end

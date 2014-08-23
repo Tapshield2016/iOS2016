@@ -12,4 +12,6 @@
 
 - (void)addCircularAnimationWithCircleFrame:(CGRect)frame arcCenter:(CGPoint)center startAngle:(float)startAngle endAngle:(float)endAngle duration:(float)duration delay:(float)delay;
 
+- (void)resetToEndFrame;
+
 @end

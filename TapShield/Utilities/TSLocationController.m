@@ -15,6 +15,7 @@
 @interface TSLocationController ()
 
 @property (nonatomic, strong) NSTimer *cycleTimer;
+@property (nonatomic, strong) NSMutableArray *locationCompletions;
 
 @end
 
@@ -108,6 +109,14 @@ static dispatch_once_t predicate;
 
 #pragma mark - Location Methods
 
+- (void)addAwaitingCompletion:(TSLocationControllerLocationReceived)completion {
+    
+    if (!_locationCompletions) {
+        _locationCompletions = [[NSMutableArray alloc] initWithCapacity:5];
+    }
+    [_locationCompletions addObject:completion];
+}
+
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion {
     
     
@@ -116,7 +125,7 @@ static dispatch_once_t predicate;
             completion(_location);
         }
         else {
-            _locationReceivedBlock = completion;
+            [self addAwaitingCompletion:completion];
         }
     }
     
@@ -126,11 +135,12 @@ static dispatch_once_t predicate;
 - (void)startSignificantChangeUpdates:(TSLocationControllerLocationReceived)completion {
   
     if (completion) {
-        _locationReceivedBlock = completion;
+        [self addAwaitingCompletion:completion];
     }
         
     [_locationManager startMonitoringSignificantLocationChanges];
 }
+
 
 
 - (void)latestLocation:(TSLocationControllerLocationReceived)completion {
@@ -140,7 +150,7 @@ static dispatch_once_t predicate;
         return;
     }
     else if (completion) {
-        _locationReceivedBlock = completion;
+        [self addAwaitingCompletion:completion];
     }
     
     [_locationManager startUpdatingLocation];
@@ -162,9 +172,7 @@ static dispatch_once_t predicate;
 - (void)stopLocationUpdates {
     [_locationManager stopUpdatingLocation];
     
-    if (_locationReceivedBlock) {
-        _locationReceivedBlock = nil;
-    }
+    _locationCompletions = nil;
 }
 
 #pragma mark - GPS Strength
@@ -299,9 +307,13 @@ static dispatch_once_t predicate;
         }
     }
     
-    if (_locationReceivedBlock) {
-        _locationReceivedBlock(_location);
-        _locationReceivedBlock = nil;
+    if (_locationCompletions.count) {
+        NSMutableArray *toRemove = [[NSMutableArray alloc] initWithCapacity:_locationCompletions.count];
+        for (TSLocationControllerLocationReceived completion in [NSArray arrayWithArray:_locationCompletions]) {
+            completion(_location);
+            [toRemove addObject:completion];
+        }
+        [_locationCompletions removeObjectsInArray:toRemove];
     }
     
     [[TSJavelinAPIClient sharedClient] locationUpdated:_location];

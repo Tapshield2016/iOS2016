@@ -57,8 +57,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _annotationsLoaded = NO;
     
-    [self checkLoggedInUser];
-    
     self.showSmallLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
@@ -131,7 +129,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
     [super viewDidAppear:animated];
     
-    [self whiteNavigationBar];
+    if ([TSJavelinAPIClient loggedInUser]) {
+        [self whiteNavigationBar];
+    }
     
     _mapView.isAnimatingToRegion = NO;
     
@@ -196,13 +196,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
 }
 
-- (void)checkLoggedInUser {
-    
-    if (![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
-        [self presentViewControllerWithClass:[TSIntroPageViewController class] transitionDelegate:nil animated:NO];
-    }
-}
-
 - (void)checkUserRegistration {
     
     TSJavelinAPIUser *user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
@@ -222,11 +215,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [TSLocationController sharedLocationController].delegate = self;
     if (!_annotationsLoaded) {
-        _annotationsLoaded = YES;
         
         [_mapView refreshRegionBoundariesOverlay];
         
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+            
+            _annotationsLoaded = YES;
             [[TSLocationController sharedLocationController].geofence updateNearbyAgencies];
             [_reportManager performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
             [self addUserLocationAnnotation:location];

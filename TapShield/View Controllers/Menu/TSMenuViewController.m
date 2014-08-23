@@ -88,7 +88,7 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:YES];
+        [self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:NO];
         [self.tableView reloadData];
     });
 }
@@ -132,6 +132,7 @@
 }
 
 - (void)dynamicsDrawerRevealLeftBarButtonItemTapped:(id)sender {
+    [self.tableView reloadData];
     [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
 }
 

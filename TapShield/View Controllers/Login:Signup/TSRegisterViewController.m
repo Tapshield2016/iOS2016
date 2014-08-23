@@ -25,7 +25,7 @@
                                                  name:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserRequiresDomain
                                                object:nil];
     
-    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Up" style:UIBarButtonItemStylePlain target:self action:@selector(registerUser:)];
     self.navigationItem.rightBarButtonItem = nextButton;
 
     if (self.navigationController.viewControllers.count <= 1) {
@@ -52,7 +52,7 @@
     if (_user) {
         _emailTextField.text = _user.email;
         _passwordTextField.text = _user.password;
-        _phoneNumberTextField.text = _user.phoneNumber;
+//        _phoneNumberTextField.text = _user.phoneNumber;
     }
     else {
         _user = [[TSJavelinAPIUser alloc] init];
@@ -63,7 +63,7 @@
     
     [super viewWillAppear:animated];
     
-    NSArray *textFieldArray = @[_phoneNumberTextField, _emailTextField, _passwordTextField];
+    NSArray *textFieldArray = @[_emailTextField, _passwordTextField];
     ;
     
     for (UITextField *textField in textFieldArray) {
@@ -129,7 +129,7 @@
     
     _user.email = _emailTextField.text;
     _user.password = _passwordTextField.text;
-    _user.phoneNumber = _phoneNumberTextField.text;
+//    _user.phoneNumber = _phoneNumberTextField.text;
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUser:_user completion:^(id responseObject) {
         NSLog(@"%@", responseObject);
@@ -322,10 +322,10 @@
         isValid = NO;
         _passwordView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
     }
-    if ([[TSUtilities removeNonNumericalCharacters:_phoneNumberTextField.text] length] != 10) {
-        isValid = NO;
-        _phoneView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
-    }
+//    if ([[TSUtilities removeNonNumericalCharacters:_phoneNumberTextField.text] length] != 10) {
+//        isValid = NO;
+//        _phoneView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
+//    }
 
     
     return isValid;

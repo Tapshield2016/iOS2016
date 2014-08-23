@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseViewController.h"
+#import "TSNavigationViewController.h"
 #import "TSRegistrationButton.h"
 #import "TSRegistrationTextField.h"
 #import "TSRegistrationLabel.h"
 
-@interface TSAddSecondaryViewController : TSBaseViewController <UITextFieldDelegate>
+@interface TSAddSecondaryViewController : TSNavigationViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet TSRegistrationTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet TSRegistrationButton *completeButton;

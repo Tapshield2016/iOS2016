@@ -1,25 +1,23 @@
 //
-//  TSRegistrationNavigationController.m
+//  TSNavigationDelegate.m
 //  TapShield
 //
-//  Created by Adam Share on 3/21/14.
+//  Created by Adam Share on 8/19/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSRegistrationNavigationDelegate.h"
-#import "TSNamePictureViewController.h"
+#import "TSNavigationDelegate.h"
+#import "TSOrganizationSearchViewController.h"
+#import "TSAddSecondaryViewController.h"
+#import "TSPhoneNumberViewController.h"
+#import "TSColorPalette.h"
 
-NSString * const prog1 = @"progress_bar_s1";
-NSString * const prog2 = @"progress_bar_s2";
-NSString * const prog3 = @"progress_bar_s3";
-NSString * const prog4 = @"progress_bar_s4";
+NSString * const progress1 = @"progress_bar_s1";
+NSString * const progress2 = @"progress_bar_s2";
+NSString * const progress3 = @"progress_bar_s3";
+NSString * const progress4 = @"progress_bar_s4";
 
-@interface TSRegistrationNavigationDelegate ()
-
-@end
-
-@implementation TSRegistrationNavigationDelegate
-
+@implementation TSNavigationDelegate
 
 - (id)init {
     
@@ -38,12 +36,12 @@ NSString * const prog4 = @"progress_bar_s4";
     
     navigationController.delegate = self;
     
-    _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSRegisterViewController class], [TSEmailVerificationViewController class],  [TSNamePictureViewController class]];
+    _registrationViewControllers = @[[TSOrganizationSearchViewController class], [TSAddSecondaryViewController class], [TSPhoneNumberViewController class]];
     
     navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:-10.0f forBarMetrics:UIBarMetricsDefault];
     
-    _progressImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:prog1]];
+    _progressImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:progress1]];
     [_progressImageView setContentMode:UIViewContentModeCenter];
     
     _progressView = [[UIView alloc] initWithFrame:CGRectMake(navigationController.navigationBar.frame.size.width/2 - _progressImageView.frame.size.width/2, navigationController.navigationBar.frame.size.height/2 + 8.0f, _progressImageView.frame.size.width, _progressImageView.frame.size.width)];
@@ -83,7 +81,7 @@ NSString * const prog4 = @"progress_bar_s4";
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     
-    NSArray *progressArray = @[prog1, prog2, prog3, prog4];
+    NSArray *progressArray = @[progress2, progress3, progress4];
     
     int i = 0;
     

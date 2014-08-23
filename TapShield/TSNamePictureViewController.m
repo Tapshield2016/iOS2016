@@ -86,21 +86,21 @@
         return;
     }
     
-    _passcodeAlertView = [[UIAlertView alloc] initWithTitle:@"Enter a 4-digit passcode"
-                                                    message:@"This code will be used to quickly verify your identity within the application"
-                                                   delegate:self
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:nil];
-    _passcodeAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [_passcodeAlertView textFieldAtIndex:0];
-    [textField setPlaceholder:@"1234"];
-    [textField setTextAlignment:NSTextAlignmentCenter];
-    [textField setSecureTextEntry:YES];
-    [textField setKeyboardType:UIKeyboardTypeNumberPad];
-    [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
-    [textField setDelegate:self];
-    
-    [_passcodeAlertView show];
+//    _passcodeAlertView = [[UIAlertView alloc] initWithTitle:@"Enter a 4-digit passcode"
+//                                                    message:@"This code will be used to quickly verify your identity within the application"
+//                                                   delegate:self
+//                                          cancelButtonTitle:nil
+//                                          otherButtonTitles:nil];
+//    _passcodeAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    UITextField *textField = [_passcodeAlertView textFieldAtIndex:0];
+//    [textField setPlaceholder:@"1234"];
+//    [textField setTextAlignment:NSTextAlignmentCenter];
+//    [textField setSecureTextEntry:YES];
+//    [textField setKeyboardType:UIKeyboardTypeNumberPad];
+//    [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+//    [textField setDelegate:self];
+//    
+//    [_passcodeAlertView show];
 }
 
 - (IBAction)displayAgreement:(id)sender {

@@ -49,6 +49,12 @@
     imageView.frame = _shimmeringView.bounds;
     imageView.contentMode = UIViewContentModeCenter;
     _shimmeringView.contentView = imageView;
+    
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background568"]];
+    CGRect frame = self.view.frame;
+    frame.size.height = 568.0;
+    background.frame = frame;
+    [self.view insertSubview:background atIndex:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

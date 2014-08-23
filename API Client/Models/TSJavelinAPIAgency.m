@@ -457,5 +457,17 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     return nil;
 }
 
+- (BOOL)domainMatchesEmail:(NSString *)email {
+    
+    NSString  *emailDomain = [[_domain lowercaseString] stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    NSArray *userEmailDomain = [[email lowercaseString] componentsSeparatedByString:@"@"];
+    
+    if ([[userEmailDomain lastObject] rangeOfString:emailDomain].location == NSNotFound) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 @end

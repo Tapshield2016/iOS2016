@@ -382,13 +382,18 @@ static dispatch_once_t onceToken;
            _loggedInUser.isEmailVerified = isVerified;
            [self archiveLoggedInUser];
            [self.requestSerializer clearAuthorizationHeader];
-           completion(isVerified);
+           if (completion) {
+               completion(isVerified);
+           }
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidVerifyUserNotification
                                                                object:responseObject];
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
            [self.requestSerializer clearAuthorizationHeader];
+           if (completion) {
+               completion(NO);
+           }
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToVerifyUserNotification
                                                                object:error];
        }
@@ -593,11 +598,12 @@ static dispatch_once_t onceToken;
     parameters:@{ @"code": codeFromUser }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"Code Verified");
+           _loggedInUser.phoneNumberVerified = YES;
+           [self archiveLoggedInUser];
+           
            if (completion) {
                completion(nil);
            }
-           _loggedInUser.phoneNumberVerified = YES;
-           [self archiveLoggedInUser];
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"Code Verification Failed");
@@ -946,6 +952,11 @@ static dispatch_once_t onceToken;
     return password;
 }
 
+- (void)removePasswordFromKeychainForEmailAddress:(NSString *)emailAddress {
+    
+    [SSKeychain deletePasswordForService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress];
+}
+
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password {
     _emailAddress = email;
     _password = password;
@@ -986,6 +997,7 @@ static dispatch_once_t onceToken;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    [self removePasswordFromKeychainForEmailAddress:_loggedInUser.username];
     [_loggedInUser setUserProfile:_loggedInUser.userProfile];
     [defaults synchronize];
 }

@@ -101,7 +101,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
-//    [TSSocialAccountsManager initializeShareSocialAccountsManager];
     [TSYankManager sharedYankManager];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
@@ -142,6 +141,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.window makeKeyAndVisible];
     [self.window addSubview:self.windowBackground];
     [self.window sendSubviewToBack:self.windowBackground];
+    
+    [[TSUserSessionManager sharedManager] userStatusCheck];
 
     return YES;
 }

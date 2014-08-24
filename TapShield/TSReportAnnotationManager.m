@@ -120,6 +120,10 @@
         radius = .25;
     }
     
+    if (![TSJavelinAPIClient loggedInUser]) {
+        return;
+    }
+    
     
     [[TSSpotCrimeAPIClient sharedClient] getSpotCrimeAtLocation:location radiusMiles:radius since:[NSDate dateWithHoursBeforeNow:_maxSpotCrimeHours] maxReturned:500 sortBy:sortByDate order:orderDescending type:0 completion:^(NSArray *crimes) {
         
@@ -147,6 +151,10 @@
     if (![location isKindOfClass:[CLLocation class]]) {
         location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
                                               longitude:_mapView.region.center.longitude];
+    }
+    
+    if (![TSJavelinAPIClient loggedInUser]) {
+        return;
     }
     
     [[TSJavelinAPIClient sharedClient] getSocialCrimeReports:location radius:distanceInMiles since:[NSDate dateWithHoursBeforeNow:_maxSocialHours] completion:^(NSArray *reports) {

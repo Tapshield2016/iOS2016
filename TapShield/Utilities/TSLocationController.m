@@ -379,4 +379,63 @@ static dispatch_once_t predicate;
 }
 
 
+#pragma mark - Geocoder 
+
+- (void)geocodeAddressString:(NSString *)address completion:(void(^)(NSString *street, NSString *cityStateZip))completion {
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error) {
+            NSString *street = @"";
+            NSString *cityStateZip = @"";
+            
+            if (placemarks) {
+                CLPlacemark *placemark = [placemarks firstObject];
+                
+                if (placemark.subThoroughfare) {
+                    street = placemark.subThoroughfare;
+                }
+                if (placemark.thoroughfare) {
+                    street = [NSString stringWithFormat:@"%@ %@", street, placemark.thoroughfare];
+                }
+                if (placemark.locality) {
+                    cityStateZip = placemark.locality;
+                }
+                if (placemark.administrativeArea) {
+                    if (placemark.locality) {
+                        cityStateZip = [NSString stringWithFormat:@"%@, %@", placemark.locality, placemark.administrativeArea];
+                    }
+                    else {
+                        cityStateZip = placemark.administrativeArea;
+                    }
+                }
+                if (placemark.postalCode) {
+                    cityStateZip = [NSString stringWithFormat:@"%@ %@", cityStateZip, placemark.postalCode];
+                }
+            }
+            
+            if (completion) {
+                completion(street, cityStateZip);
+            }
+        }];
+}
+
+- (void)geocodeAddressString:(NSString *)address dictionaryCompletion:(void(^)(NSDictionary *addressDictionary))completion {
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSDictionary *address;
+        
+        if (placemarks) {
+            CLPlacemark *placemark = [placemarks firstObject];
+            address = placemark.addressDictionary;
+        }
+        
+        if (completion) {
+            completion(address);
+        }
+    }];
+}
+
 @end

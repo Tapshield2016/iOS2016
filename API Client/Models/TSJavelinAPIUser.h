@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GooglePlus/GooglePlus.h>
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIEmail.h"
+#import <FacebookSDK/Facebook.h>
 
 @class TSJavelinAPIGroup;
 @class TSJavelinAPIAgency;
@@ -39,5 +41,10 @@
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain;
 - (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email;
 - (BOOL)setSecondaryEmailVerified:(NSString *)email;
+
+- (void)updateUserProfileFromFacebook:(NSDictionary<FBGraphUser>*)user;
+- (void)updateUserProfileFromTwitter:(NSDictionary *)attributes;
+- (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person;
+- (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes;
 
 @end

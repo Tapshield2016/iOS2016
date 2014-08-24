@@ -10,6 +10,15 @@
 #import "TSJavelinAPIAgency.h"
 #import "TSJavelinAPIEntourageMember.h"
 #import "TSJavelinAPIClient.h"
+#import "TSLocationController.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
+#import "GTLPlusPerson.h"
+
+@interface TSJavelinAPIUser ()
+
+@property (strong, nonatomic) UIImageView *imageView;
+
+@end
 
 @implementation TSJavelinAPIUser
 
@@ -38,6 +47,11 @@
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     _userProfile = [self unarchiveUserProfile];
+    
+    if (!_userProfile) {
+        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
+    }
+    
     _apiToken = [attributes nonNullObjectForKey:@"token"];
         
     return self;
@@ -302,5 +316,189 @@
     
     return NO;
 }
+
+
+#pragma mark - Social Login
+
+- (void)updateUserProfileFromFacebook:(NSDictionary<FBGraphUser> *)user {
+    
+    if (!_userProfile) {
+        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
+    }
+    
+    if (user.birthday) {
+        _userProfile.birthday = [user.birthday stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    }
+    
+    if (user.location && !_userProfile.addressDictionary) {
+        [[TSLocationController sharedLocationController] geocodeAddressString:user.location.name
+                                                         dictionaryCompletion:^(NSDictionary *addressDictionary) {
+            
+                                                             _userProfile.addressDictionary = addressDictionary;
+                                                             [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                                                         }];
+    }
+    
+    NSString *gender = [user objectForKey:@"gender"];
+    if (gender) {
+        
+        for (int i = 0; i < kGenderLongArray.count; i++) {
+            if ([[kGenderLongArray[i] lowercaseString] isEqualToString:[gender lowercaseString]]) {
+                _userProfile.gender = i;
+            }
+        }
+    }
+    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large&width=400&height=400", user.objectID];
+    [self profileImageFromURL:imageUrl];
+}
+
+- (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person {
+    
+    if (!_userProfile) {
+        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
+    }
+    
+    if (person.birthday) {
+        _userProfile.birthday = [TSJavelinAPIUserProfile unFormattedBirthday:person.birthday];
+    }
+    
+    NSString *gender = person.gender;
+    if (gender) {
+        
+        for (int i = 0; i < kGenderLongArray.count; i++) {
+            if ([[kGenderLongArray[i] lowercaseString] isEqualToString:[gender lowercaseString]]) {
+                _userProfile.gender = i;
+            }
+        }
+    }
+    
+    if (person.image) {
+        NSString *imageUrl = person.image.url;
+        imageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"sz=50" withString:@"sz=400"];
+        [self profileImageFromURL:imageUrl];
+    }
+    
+    if (person.placesLived) {
+        for (GTLPlusPersonPlacesLivedItem *item in person.placesLived) {
+            if (item.primary.boolValue) {
+                [[TSLocationController sharedLocationController] geocodeAddressString:item.value dictionaryCompletion:^(NSDictionary *addressDictionary) {
+                    _userProfile.addressDictionary = addressDictionary;
+                    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                }];
+            }
+        }
+    }
+}
+
+- (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes {
+    
+    static NSString *dateOfBirth = @"dateOfBirth";
+    static NSString *dayKey = @"day";
+    static NSString *monthKey = @"month";
+    static NSString *yearKey = @"year";
+    
+    
+    static NSString *mainAddress = @"mainAddress";
+    
+    static NSString *phoneNumbers = @"phoneNumbers";
+    static NSString *values = @"values";
+    
+    static NSString *phoneNumber = @"phoneNumber";
+    static NSString *phoneType = @"phoneType";
+    static NSString *mobile = @"mobile";
+    
+    static NSString *pictureUrl = @"pictureUrl";
+    
+    if (!_userProfile) {
+        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
+    }
+    
+    NSDictionary *dictionary = [attributes nonNullObjectForKey:dateOfBirth];
+    if (dictionary) {
+        
+        NSString *year = [[dictionary objectForKey:yearKey] stringValue];
+        NSString *month = [[dictionary objectForKey:monthKey] stringValue];
+        NSString *day = [[dictionary objectForKey:dayKey] stringValue];
+        
+        if (day.length == 1) {
+            day = [NSString stringWithFormat:@"0%@", day];
+        }
+        if (month.length == 1) {
+            month = [NSString stringWithFormat:@"0%@", month];
+        }
+        _userProfile.birthday = [NSString stringWithFormat:@"%@-%@-%@", month, day, year];
+    }
+    
+    if ([attributes nonNullObjectForKey:mainAddress]) {
+        [[TSLocationController sharedLocationController] geocodeAddressString:[attributes nonNullObjectForKey:mainAddress]
+                                                         dictionaryCompletion:^(NSDictionary *addressDictionary) {
+                                                             _userProfile.addressDictionary = addressDictionary;
+                                                             [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                                                         }];
+    }
+    
+    dictionary = [attributes nonNullObjectForKey:phoneNumbers];
+    if (dictionary) {
+        NSArray *array = [dictionary objectForKey:values];
+        
+        for (NSDictionary *dic in array) {
+            if ([[dic objectForKey:phoneType] isEqualToString:mobile]) {
+                if (!_phoneNumber) {
+                    _phoneNumber = [dic objectForKey:phoneNumber];
+                    [[[TSJavelinAPIClient sharedClient] authenticationManager] updateLoggedInUser:nil];
+                }
+            }
+        }
+    }
+    
+    if ([attributes objectForKey:pictureUrl]) {
+        
+        [self profileImageFromURL:[attributes objectForKey:pictureUrl]];
+    }
+}
+
+- (void)updateUserProfileFromTwitter:(NSDictionary *)attributes {
+    
+    if (!_userProfile) {
+        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
+    }
+    
+    static NSString *defaultProfileImage = @"default_profile_image";
+    static NSString *profileImageURL = @"profile_image_url";
+    static NSString *location = @"location";
+    
+    if (![[attributes objectForKey:defaultProfileImage] boolValue]) {
+        NSString *imageUrl = [attributes objectForKey:profileImageURL];
+        imageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+        [self profileImageFromURL:imageUrl];
+    }
+    
+    if ([attributes nonNullObjectForKey:location]) {
+        [[TSLocationController sharedLocationController] geocodeAddressString:[attributes nonNullObjectForKey:location]
+                                                         dictionaryCompletion:^(NSDictionary *addressDictionary) {
+                                                             _userProfile.addressDictionary = addressDictionary;
+                                                             [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                                                         }];
+    }
+}
+
+- (void)profileImageFromURL:(NSString *)urlPath {
+    
+    NSURL *url = [NSURL URLWithString:urlPath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    _imageView = [[UIImageView alloc] init];
+    
+    __weak __typeof(self)weakSelf = self;
+    [_imageView setImageWithURLRequest:request
+                      placeholderImage:nil
+                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                   weakSelf.userProfile.profileImage = image;
+                                   [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                               } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                   NSLog(@"%@", error.localizedDescription);
+                               }];
+}
+
 
 @end

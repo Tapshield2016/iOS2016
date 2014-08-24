@@ -143,24 +143,36 @@
     [_volumeHolder removeFromSuperview];
     
     if (media) {
-        if ([_media isKindOfClass:[NSURL class]]) {
+        if ([media isKindOfClass:[NSURL class]]) {
             
-            if ([(NSURL *)_media isAudio]) {
+            if ([(NSURL *)media isAudio]) {
                 [_mediaImageView setHidden:YES];
                 [_shimmeringView setHidden:YES];
                 _audioPlayButton.hidden = NO;
                 [self initAudioPlayer];
             }
         }
+        
+        NSString *buttonTitle;
+        if ([(NSURL *)media isVideo]) {
+            buttonTitle = [NSString stringWithFormat:@"Change %@", @"Video"];
+        }
+        else if ([(NSURL *)media isAudio]) {
+            buttonTitle = [NSString stringWithFormat:@"Change %@", @"Audio"];
+        }
+        else {
+            buttonTitle = [NSString stringWithFormat:@"Change %@", @"Image"];
+        }
+        
         _mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [_addMediaButton setTitle:@"Change media" forState:UIControlStateNormal];
+        [_addMediaButton setTitle:buttonTitle forState:UIControlStateNormal];
         _mediaImageView.backgroundColor = [UIColor clearColor];
     }
     else {
         _mediaImageView.contentMode = UIViewContentModeCenter;
         _mediaImageView.image = [UIImage imageNamed:kDefaultMediaImage];
         _mediaImageView.backgroundColor = [UIColor whiteColor];
-        [_addMediaButton setTitle:@"Add media" forState:UIControlStateNormal];
+        [_addMediaButton setTitle:@"Add Image, Video or Audio" forState:UIControlStateNormal];
     }
 }
 

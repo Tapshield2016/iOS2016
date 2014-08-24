@@ -9,6 +9,11 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <FacebookSDK/FBRequestConnection+Internal.h>
 #import "TSUtilities.h"
+#import <FBShimmeringView.h>
+#import "TSPopUpWindow.h"
+#import "TSJavelinAPIAuthenticationManager.h"
+#import <FacebookSDK/FBSession+Internal.h>
+#import <Social/Social.h>
 
 #define ERROR_TITLE_MSG @"Sorry"
 #define ERROR_NO_ACCOUNTS @"No Twitter account could be found. Please add a Twitter account in the Settings app"
@@ -25,10 +30,18 @@ static NSString * const kGooglePlusClientId = @"165780496026-5o2spgecpi0hh0jov66
 static NSString * const kLinkedInClientId = @"75cqjrach211kt";
 static NSString * const kLinkedInSecretKey = @"wAdZqm3bZJkKgq0l";
 
+typedef enum TSSocialService : NSUInteger {
+    facebook,
+    twitter,
+    google,
+    linkedIn,
+}TSSocialService;
+
 @interface TSSocialAccountsManager ()
 
 @property (weak, nonatomic) UIView *currentView;
-@property (nonatomic, strong) UIAlertView *passcodeAlertView;
+@property (strong, nonatomic) UIAlertView *passcodeAlertView;
+@property (strong, nonatomic) TSPopUpWindow *loadingWindow;
 
 @end
 
@@ -44,10 +57,32 @@ static dispatch_once_t predicate;
     self = [super init];
     
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(signUpDidFailToLogin:)
+                                                     name:kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL
+                                                   object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(signUpDidFailToLogin:)
+                                                     name:kTSJavelinAPIAuthenticationManagerDidFailToLogin
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(signUpDidLoginSuccessfully:)
+                                                     name:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+                                                   object:nil];
     }
     
     return self;
+}
+
+- (void)signUpDidLoginSuccessfully:(NSNotification *)note {
+    
+    [self finishedLoading];
+}
+
+- (void)signUpDidFailToLogin:(NSNotification *)note {
+    
+    [self finishedLoading];
 }
 
 + (instancetype)sharedManager {
@@ -63,11 +98,13 @@ static dispatch_once_t predicate;
 
 - (void)logInWithFacebook {
     
+    [self loading:facebook];
     [self loginFacebook];
 }
 
 - (void)logInWithGooglePlus {
     
+    [self loading:google];
     [self initGooglePlus];
     [[GPPSignIn sharedInstance] authenticate];
 }
@@ -79,7 +116,7 @@ static dispatch_once_t predicate;
 }
 
 - (void)logInWithTwitter:(UIView *)currentView {
-    
+
     _currentView = currentView;
     [self initTwitter];
     [self loginTwitter];
@@ -145,25 +182,35 @@ static dispatch_once_t predicate;
 #pragma mark - LinkedIn methods
 
 - (void)loginLinkedIn {
+    
     [_linkedInClient getAuthorizationCode:^(NSString *code) {
+        [self loading:linkedIn];
         [_linkedInClient getAccessToken:code success:^(NSDictionary *accessTokenData) {
             NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
-            [[[TSJavelinAPIClient sharedClient] authenticationManager] createLinkedInUser:accessToken];
-            [self requestMeWithToken:accessToken];
+            [[[TSJavelinAPIClient sharedClient] authenticationManager] createLinkedInUser:accessToken completion:^(BOOL finished) {
+                if (finished) {
+                    [self requestMeWithToken:accessToken];
+                }
+            }];
+            
         }                   failure:^(NSError *error) {
             NSLog(@"Quering accessToken failed %@", error);
+            [self finishedLoading];
         }];
     }                      cancel:^{
         NSLog(@"Authorization was cancelled by user");
+        [self finishedLoading];
     }                     failure:^(NSError *error) {
         NSLog(@"Authorization failed %@", error);
+        [self finishedLoading];
     }];
 }
 
 
 - (void)requestMeWithToken:(NSString *)accessToken {
-    [_linkedInClient GET:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *result) {
+    [_linkedInClient GET:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~:(date-of-birth,picture-url,phone-numbers,main-address)?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *result) {
         NSLog(@"current user %@", result);
+        [[TSJavelinAPIClient loggedInUser] updateUserProfileFromLinkedIn:result];
     }        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"failed to fetch current user %@", error);
     }];
@@ -173,7 +220,11 @@ static dispatch_once_t predicate;
 
 - (void)finishedWithAuth: (GTMOAuth2Authentication *)auth error: (NSError *) error {
     NSLog(@"Received error %@ and auth object %@", error, auth);
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"]];
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"] completion:^(BOOL finished) {
+        
+        GTLPlusPerson *user = [GPPSignIn sharedInstance].googlePlusUser;
+        [[TSJavelinAPIClient loggedInUser] updateUserProfileFromGoogle:user];
+    }];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -181,6 +232,8 @@ static dispatch_once_t predicate;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
+        
+        [self loading:twitter];
         [_apiManager performReverseAuthForAccount:_accounts[buttonIndex] withHandler:^(NSData *responseData, NSError *error) {
             if (responseData) {
                 NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
@@ -198,15 +251,76 @@ static dispatch_once_t predicate;
                     [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
                 }
                 
-                [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"]];
+                [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
+                    [self twitterRequest];
+                }];
                 
                 NSLog(@"%@", lined);
             }
             else {
                 NSLog(@"Reverse Auth process failed. Error returned was: %@\n", [error localizedDescription]);
+                [self finishedLoading];
             }
         }];
     }
+    else {
+        [self finishedLoading];
+    }
+}
+
+- (void)twitterRequest {
+    
+    //  Step 1:  Obtain access to the user's Twitter accounts
+    ACAccountType *twitterAccountType =
+    [self.accountStore accountTypeWithAccountTypeIdentifier:
+     ACAccountTypeIdentifierTwitter];
+    
+    //  Step 2:  Create a request
+    NSArray *twitterAccounts =
+    [self.accountStore accountsWithAccountType:twitterAccountType];
+    NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"
+                  @"/1.1/users/show.json"];
+    NSDictionary *params = @{@"screen_name" : [TSJavelinAPIClient loggedInUser].username};
+    SLRequest *request =
+    [SLRequest requestForServiceType:SLServiceTypeTwitter
+                       requestMethod:SLRequestMethodGET
+                                 URL:url
+                          parameters:params];
+    
+    //  Attach an account to the request
+    [request setAccount:[twitterAccounts lastObject]];
+    
+    //  Step 3:  Execute the request
+    [request performRequestWithHandler:
+     ^(NSData *responseData,
+       NSHTTPURLResponse *urlResponse,
+       NSError *error) {
+         
+         if (responseData) {
+             if (urlResponse.statusCode >= 200 &&
+                 urlResponse.statusCode < 300) {
+                 
+                 NSError *jsonError;
+                 NSDictionary *timelineData =
+                 [NSJSONSerialization
+                  JSONObjectWithData:responseData
+                  options:NSJSONReadingAllowFragments error:&jsonError];
+                 if (timelineData) {
+                     NSLog(@"Timeline Response: %@\n", timelineData);
+                     [[TSJavelinAPIClient loggedInUser] updateUserProfileFromTwitter:timelineData];
+                 }
+                 else {
+                     // Our JSON deserialization went awry
+                     NSLog(@"JSON Error: %@", [jsonError localizedDescription]);
+                 }
+             }
+             else {
+                 // The server did not respond ... were we rate-limited?
+                 NSLog(@"The response status code is %d",
+                       urlResponse.statusCode);
+             }
+         }
+     }];
 }
 
 #pragma mark - Twitter-related methods
@@ -224,8 +338,6 @@ static dispatch_once_t predicate;
 
 - (void)loginTwitter
 {
-    NSLog(@"Refreshing Twitter Accounts \n");
-    
     if (![TWAPIManager hasAppKeys]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_NO_KEYS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
         [alert show];
@@ -235,6 +347,7 @@ static dispatch_once_t predicate;
         [alert show];
     }
     else {
+        [self loading:twitter];
         [self _obtainAccessToAccountsWithBlock:^(BOOL granted) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (granted) {
@@ -245,6 +358,7 @@ static dispatch_once_t predicate;
                     [alert show];
                     NSLog(@"You were not granted access to the Twitter accounts.");
                 }
+                [self finishedLoading];
             });
         }];
     }
@@ -271,6 +385,7 @@ static dispatch_once_t predicate;
  */
 - (void)performReverseAuth:(id)sender
 {
+    [self finishedLoading];
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
     for (ACAccount *acct in _accounts) {
         [sheet addButtonWithTitle:acct.username];
@@ -279,13 +394,24 @@ static dispatch_once_t predicate;
     [sheet showInView:_currentView];
 }
 
+
+#pragma mark - Facebook
+
 - (void)loginFacebook {
     
-    // Open session with public_profile (required) and user_birthday read permissions
-    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
-                                       allowLoginUI:YES
-                                  completionHandler:
-     ^(FBSession *session, FBSessionState state, NSError *error) {
+    
+    
+    //    // Open session with public_profile (required) and user_birthday read permissions
+    //    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+    //                                       allowLoginUI:YES
+    //                                  completionHandler:
+    
+    
+    [FBSession openActiveSessionWithPermissions:@[@"public_profile", @"email"]
+                                  loginBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent
+                                         isRead:YES
+                                defaultAudience:FBSessionDefaultAudienceNone
+                              completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
          __block NSString *alertText;
          __block NSString *alertTitle;
          if (!error){
@@ -293,6 +419,7 @@ static dispatch_once_t predicate;
              
          } else {
              // There was an error, handle it
+             [self finishedLoading];
              if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
                  // Error requires people using an app to make an action outside of the app to recover
                  // The SDK will provide an error message that we have to show the user
@@ -304,17 +431,17 @@ static dispatch_once_t predicate;
                                    cancelButtonTitle:@"OK!"
                                    otherButtonTitles:nil] show];
                  
+                 
              } else {
                  // If the user cancelled login
                  if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-                     alertTitle = @"Login cancelled";
-                     alertText = @"Your birthday will not be entered in our calendar because you didn't grant the permission.";
+                     alertTitle = @"Facebook login cancelled";
+                     alertText = @"Please try again, or select another method";
                      [[[UIAlertView alloc] initWithTitle:alertTitle
                                                  message:alertText
                                                 delegate:self
                                        cancelButtonTitle:@"OK!"
                                        otherButtonTitles:nil] show];
-                     
                  } else {
                      // For simplicity, in this sample, for all other errors we show a generic message
                      // You can read more about how to handle other errors in our Handling errors guide
@@ -343,30 +470,22 @@ static dispatch_once_t predicate;
     if (session.state == FBSessionStateOpen){
         // Your code here
         
-        FBRequestHandler requestHandler = ^(FBRequestConnection *connection, NSMutableDictionary<FBGraphUser> *result, NSError *error) {
-            
-            NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture", ((NSDictionary<FBGraphUser> *) result).objectID];
-            UIImageView *imageView = [[UIImageView alloc] init];
-            [imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"profile"]];
-        };
-        
-        FBRequest *request = [FBRequest requestForMe];
-        [request setSession:session];
-        FBRequestConnection *requestConnection = [[FBRequestConnection alloc] init];
-        [requestConnection addRequest:request
-                    completionHandler:requestHandler];
-        [requestConnection startWithCacheIdentity:@"FBLoginView"
-                            skipRoundtripIfCached:YES];
-        
-        [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken]];
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken] completion:^(BOOL finished) {
+            [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                if (error) {
+                    NSLog(@"error:%@",error);
+                } else {
+                    [[TSJavelinAPIClient loggedInUser] updateUserProfileFromFacebook:user];
+                }
+            }];
+        }];
     }
 }
 
 - (void)logoutFacebook {
     
     if (FBSession.activeSession.state == FBSessionStateOpen
-        || FBSession.activeSession.state == FBSessionStateOpenTokenExtended)
-    {
+        || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
         
         // Close the session and remove the access token from the cache
         // The session state handler (in the app delegate) will be called automatically
@@ -376,5 +495,50 @@ static dispatch_once_t predicate;
 }
 
 
+#pragma mark - Loading Window
+
+- (void)loading:(TSSocialService)service {
+    
+    UIImage *logo;
+    
+    switch (service) {
+        case facebook:
+            logo = [UIImage imageNamed:@"facebook_icon"];
+            break;
+            
+        case twitter:
+            logo = [UIImage imageNamed:@"twitter_icon"];
+            break;
+            
+        case google:
+            logo = [UIImage imageNamed:@"google_icon"];
+            break;
+            
+        case linkedIn:
+            logo = [UIImage imageNamed:@"linkedin_icon"];
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:logo];
+    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:imageView.bounds];
+    shimmeringView.contentView = imageView;
+    shimmeringView.shimmering = YES;
+    shimmeringView.shimmeringSpeed = 150;
+    
+    _loadingWindow = [[TSPopUpWindow alloc] initWithView:imageView];
+    [_loadingWindow show];
+    _loadingWindow.windowLevel = UIWindowLevelNormal;
+}
+
+- (void)finishedLoading {
+    
+    [_loadingWindow dismiss:^(BOOL finished) {
+        
+    }];
+}
 
 @end

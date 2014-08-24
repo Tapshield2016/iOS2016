@@ -29,6 +29,7 @@
 #import "TSClusterAnnotationView.h"
 #import "TSHeatMapOverlay.h"
 #import "ADClusterAnnotation.h"
+#import <KVOController/FBKVOController.h>
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -37,6 +38,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @interface TSHomeViewController ()
 
 @property (nonatomic, strong) TSTransitionDelegate *transitionController;
+@property (strong, nonatomic) FBKVOController *kvoController;
 @property (nonatomic) BOOL viewDidAppear;
 @property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
@@ -232,12 +234,24 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)addUserLocationAnnotation:(CLLocation *)location {
     
     if (!_mapView.userLocationAnnotation) {
-        _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                      placeName:nil
-                                                                                    description:nil];
         
-        [_mapView addAnnotation:_mapView.userLocationAnnotation];
-        [_mapView updateAccuracyCircleWithLocation:location];
+        _kvoController = [FBKVOController controllerWithObserver:self];
+        [_kvoController observe:[TSJavelinAPIClient loggedInUser].userProfile
+                        keyPath:@"profileImage"
+                        options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSUserAnnotationView *view, TSJavelinAPIUserProfile *userProfile, NSDictionary *change) {
+                            
+                            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                
+                                [_mapView removeAnnotation:_mapView.userLocationAnnotation];
+                                
+                                _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
+                                                                                                              placeName:nil
+                                                                                                            description:nil];
+                                
+                                [_mapView addAnnotation:_mapView.userLocationAnnotation];
+                                [_mapView updateAccuracyCircleWithLocation:location];
+                            }];
+                        }];
     }
 }
 
@@ -808,7 +822,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
             
-            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]]) {
+            if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]] ||
+                [view isKindOfClass:[TSUserAnnotationView class]]) {
                 return;
             }
             

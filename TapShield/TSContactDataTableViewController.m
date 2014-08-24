@@ -27,10 +27,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _streetTextField.text = [self.userProfile.addressDictionary objectForKey:@"Street"];
-    _cityTextField.text = [self.userProfile.addressDictionary objectForKey:@"City"];
-    _stateTextField.text = [self.userProfile.addressDictionary objectForKey:@"State"];
-    _zipTextField.text = [self.userProfile.addressDictionary objectForKey:@"Zip code"];
+    _streetTextField.text = [self.userProfile.addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressStreetKey];
+    _cityTextField.text = [self.userProfile.addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressCityKey];
+    _stateTextField.text = [self.userProfile.addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressStateKey];
+    _zipTextField.text = [self.userProfile.addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressZIPKey];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,16 +44,16 @@
     NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
     
     if (_streetTextField.text && _streetTextField.text.length > 0) {
-        [addressDictionary setObject:_streetTextField.text forKey:@"Street"];
+        [addressDictionary setObject:_streetTextField.text forKey:(__bridge NSString *)kABPersonAddressStreetKey];
     }
     if (_cityTextField.text && _cityTextField.text.length > 0) {
-        [addressDictionary setObject:_cityTextField.text forKey:@"City"];
+        [addressDictionary setObject:_cityTextField.text forKey:(__bridge NSString *)kABPersonAddressCityKey];
     }
     if (_stateTextField.text && _stateTextField.text.length > 0) {
-        [addressDictionary setObject:_stateTextField.text forKey:@"State"];
+        [addressDictionary setObject:_stateTextField.text forKey:(__bridge NSString *)kABPersonAddressStateKey];
     }
     if (_zipTextField.text && _zipTextField.text.length > 0) {
-        [addressDictionary setObject:_zipTextField.text forKey:@"Zip code"];
+        [addressDictionary setObject:_zipTextField.text forKey:(__bridge NSString *)kABPersonAddressZIPKey];
     }
     
     return addressDictionary;

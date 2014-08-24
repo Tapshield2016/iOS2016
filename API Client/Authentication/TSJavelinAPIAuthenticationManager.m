@@ -152,7 +152,7 @@ static dispatch_once_t onceToken;
       }];
 }
 
-- (void)createFacebookUser:(NSString *)facebookAPIAuthToken {
+- (void)createFacebookUser:(NSString *)facebookAPIAuthToken completion:(void (^)(BOOL))completion {
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-facebook-user/"
@@ -162,13 +162,22 @@ static dispatch_once_t onceToken;
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
+           if (completion) {
+               completion(YES);
+           }
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
+           
            [self socialLoginFailed];
+           
+           if (completion) {
+               completion(NO);
+           }
        }];
 }
 
-- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret {
+- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret completion:(void (^)(BOOL))completion {
     
     _password = twitterOauthTokenSecret;
     
@@ -180,15 +189,25 @@ static dispatch_once_t onceToken;
                   @"next": @"api/retrieve-token/" }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"%@", responseObject);
+           
            [self socialLoggedInUserWithAttributes:responseObject];
+           
+           if (completion) {
+               completion(YES);
+           }
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
+           
            [self socialLoginFailed];
+           
+           if (completion) {
+               completion(NO);
+           }
        }];
 }
 
-- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken {
+- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken completion:(void (^)(BOOL))completion {
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-google-user/"
@@ -199,13 +218,21 @@ static dispatch_once_t onceToken;
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
+           if (completion) {
+               completion(YES);
+           }
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
            [self socialLoginFailed];
+           
+           if (completion) {
+               completion(NO);
+           }
        }];
 }
 
-- (void)createLinkedInUser:(NSString *)linkedInAccessToken {
+- (void)createLinkedInUser:(NSString *)linkedInAccessToken completion:(void(^)(BOOL finished))completion {
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-linkedin-user/"
@@ -215,9 +242,17 @@ static dispatch_once_t onceToken;
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
+           if (completion) {
+               completion(YES);
+           }
+           
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
            [self socialLoginFailed];
+           
+           if (completion) {
+               completion(NO);
+           }
        }];
 }
 
@@ -1028,6 +1063,7 @@ static dispatch_once_t onceToken;
     if ([_delegate respondsToSelector:@selector(loginFailed:error:)]) {
         [_delegate loginFailed:nil error:error];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:nil];
     
     if (_loginCompletionBlock) {
         _loginCompletionBlock(nil);

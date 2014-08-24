@@ -118,5 +118,7 @@ typedef enum {
 + (NSString*)relationshipToShortString:(ProfileRelationship)enumValue;
 + (int)indexOfShortRelationshipString:(NSString *)shortString;
 
++ (NSString *)formattedBirthday:(NSString *)birthday;
++ (NSString *)unFormattedBirthday:(NSString *)birthday;
 
 @end

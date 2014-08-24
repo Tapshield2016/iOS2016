@@ -8,7 +8,14 @@
 
 #import "TSUserAnnotationView.h"
 #import "TSJavelinAPIClient.h"
+#import "TSJavelinAPIAuthenticationManager.h"
 #import "UIImage+Resize.h"
+
+@interface TSUserAnnotationView ()
+
+@property (strong, nonatomic) UIImageView *imageView;
+
+@end
 
 @implementation TSUserAnnotationView
 
@@ -20,32 +27,37 @@
         self.image = [UIImage imageNamed:@"user_icon"];
         self.accessibilityLabel = @"Your Location";
         
-        UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
-        if (image) {
-            CGSize size = self.image.size;
-            size.height = size.height * 1.5;
-            size.width = size.height;
-//            self.image = [[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size];
-            
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size]];
-            imageView.layer.cornerRadius = imageView.frame.size.height/2;
-            imageView.clipsToBounds = YES;
-            [self addSubview:imageView];
-            
-            self.frame = imageView.bounds;
-            self.layer.cornerRadius = imageView.frame.size.height/2;
-            self.layer.borderColor = [UIColor whiteColor].CGColor;
-            self.layer.borderWidth = 2.0f;
-            self.layer.shadowColor = [UIColor blackColor].CGColor;
-            self.layer.shadowRadius = 1.0f;
-            self.layer.shadowOpacity = 1;
-            self.layer.shadowOffset = CGSizeZero;
-        }
-        
         [self setCanShowCallout:YES];
     }
     return self;
     
+}
+
+- (void)setAnnotation:(id<MKAnnotation>)annotation {
+    
+    [super setAnnotation:annotation];
+    
+    UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
+    if (image) {
+        CGSize size = self.image.size;
+        size.height = size.height * 1.5;
+        size.width = size.height;
+        
+        [_imageView removeFromSuperview];
+        _imageView = [[UIImageView alloc] initWithImage:[[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size]];
+        _imageView.layer.cornerRadius = _imageView.frame.size.height/2;
+        _imageView.clipsToBounds = YES;
+        [self addSubview:_imageView];
+        
+        self.frame = _imageView.bounds;
+        self.layer.cornerRadius = _imageView.frame.size.height/2;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.borderWidth = 2.0f;
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowRadius = 1.0f;
+        self.layer.shadowOpacity = 1;
+        self.layer.shadowOffset = CGSizeZero;
+    }
 }
 
 @end

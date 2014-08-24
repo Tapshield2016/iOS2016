@@ -231,6 +231,9 @@
         if (image) {
             cell.imageView.image = [[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size];
         }
+        else {
+            cell.imageView.image = [UIImage imageNamed:@"profile_menu_icon_active"];
+        }
     }
     
     cell.imageView.layer.cornerRadius = size.height/2;

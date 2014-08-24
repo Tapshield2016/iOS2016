@@ -396,6 +396,7 @@
 - (void)needsRefresh {
     
     _shouldRefreshMap = YES;
+    [self setAwaitingAnnotations];
 }
 
 #pragma mark - MKMapViewDelegate
@@ -520,6 +521,7 @@
         
         if (MKMapRectIntersectsRect(rect, halvedPreviousVisibleRect) &&
             MKMapRectSizeIsEqual(rect, _previousVisibleMapRectClustered)) {
+            _isAnimatingClusters = NO;
             return;
         }
     }

@@ -20,6 +20,7 @@
 
 @property (weak, nonatomic) id <TSPopUpWindowDelegate> popUpDelegate;
 
+- (id)initWithView:(UIView *)view;
 - (id)initWithMessage:(NSString *)message;
 - (instancetype)initWithActivityIndicator:(NSString *)message;
 - (instancetype)initWithRepeatCheckBox:(NSString *)archiveKey title:(NSString *)title message:(NSString *)message;

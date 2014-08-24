@@ -55,4 +55,7 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 - (void)bestAccuracyRefresh;
 - (void)enterLowPowerState;
 
+- (void)geocodeAddressString:(NSString *)address completion:(void(^)(NSString *street, NSString *cityStateZip))completion;
+- (void)geocodeAddressString:(NSString *)address dictionaryCompletion:(void(^)(NSDictionary *addressDictionary))completion;
+
 @end

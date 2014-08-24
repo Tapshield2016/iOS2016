@@ -23,12 +23,25 @@
 
 @implementation TSPopUpWindow
 
+- (id)initWithView:(UIView *)view {
+    
+    self = [super initWithFrame:[UIScreen mainScreen].bounds];
+    if (self) {
+        // Initialization code
+        [self windowViewWithFrame:CGRectMake(0, 0, view.frame.size.height*3, view.frame.size.height*3)];
+        [_view addSubview:view];
+        view.center = CGPointMake(_viewFrame.size.width/2, _viewFrame.size.height/2);
+    }
+    return self;
+}
+
 - (id)initWithMessage:(NSString *)message {
     
     self = [super initWithFrame:[UIScreen mainScreen].bounds];
     if (self) {
         // Initialization code
-        [self windowView];
+        [self windowViewWithFrame:CGRectMake(0.0f, 0.0f, 260, 150)];
+        [self dismissButton];
         [self addMessage:message];
     }
     return self;
@@ -38,7 +51,8 @@
     
     self = [super initWithFrame:[UIScreen mainScreen].bounds];
     if (self) {
-        [self windowView];
+        [self windowViewWithFrame:CGRectMake(0.0f, 0.0f, 260, 150)];
+        [self dismissButton];
         [self addMessage:message];
         [self addActivityIndicator];
     }
@@ -50,7 +64,8 @@
     self = [super initWithFrame:[UIScreen mainScreen].bounds];
     if (self) {
         
-        [self windowView];
+        [self windowViewWithFrame:CGRectMake(0.0f, 0.0f, 260, 150)];
+        [self dismissButton];
         [self addMessage:message];
         [self addCheckBox:archiveKey];
         [self addTitle:title];
@@ -58,13 +73,13 @@
     return self;
 }
 
-- (void)windowView {
+- (void)windowViewWithFrame:(CGRect)frame {
     
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
     self.alpha = 0.0f;
     self.windowLevel = UIWindowLevelAlert;
     
-    _viewFrame = CGRectMake(0.0f, 0.0f, 260, 150);
+    _viewFrame = frame;
     
     _view = [[UIView alloc] initWithFrame:_viewFrame];
     _view.center = self.center;
@@ -77,8 +92,6 @@
     [_view addSubview:toolbar];
     
     [self addSubview:_view];
-    
-    [self dismissButton];
 }
 
 - (void)addCheckBox:(NSString *)archiveKey {

@@ -23,6 +23,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
 @implementation TSPhoneNumberViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
@@ -37,6 +38,10 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     [self.view addGestureRecognizer:tap];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
+    if ([TSJavelinAPIClient loggedInUser].phoneNumber) {
+        _phoneNumberTextField.text = [TSJavelinAPIClient loggedInUser].phoneNumber;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

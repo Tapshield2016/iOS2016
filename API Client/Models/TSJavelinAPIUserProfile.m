@@ -8,6 +8,8 @@
 
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIUser.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 @implementation TSJavelinAPIUserProfile
 
@@ -330,48 +332,50 @@
 
 + (NSString *)stringFromAddressDictionary:(NSDictionary *)addressDictionary {
     
-    NSString *address;
-    
     if ([addressDictionary isMemberOfClass:[NSNull class]]) {
         return nil;
     }
     
-    NSString *street = [addressDictionary objectForKey:@"Street"];
-    if (street) {
-        address = street;
-    }
+    return ABCreateStringWithAddressDictionary(addressDictionary, NO);
     
-    NSString *city = [addressDictionary objectForKey:@"City"];
-    if (city) {
-        if (address) {
-            address = [NSString stringWithFormat:@"%@, %@", address, city];
-        }
-        else {
-            address = city;
-        }
-    }
-    
-    NSString *state = [addressDictionary objectForKey:@"State"];
-    if (state) {
-        if (address) {
-            address = [NSString stringWithFormat:@"%@, %@", address, state];
-        }
-        else {
-            address = state;
-        }
-    }
-    
-    NSString *zip = [addressDictionary objectForKey:@"Zip code"];
-    if (zip) {
-        if (address) {
-            address = [NSString stringWithFormat:@"%@ %@", address, zip];
-        }
-        else {
-            address = zip;
-        }
-    }
-    
-    return address;
+//    NSString *address;
+//    
+//    NSString *street = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressStreetKey];
+//    if (street) {
+//        address = street;
+//    }
+//    
+//    NSString *city = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressCityKey];
+//    if (city) {
+//        if (address) {
+//            address = [NSString stringWithFormat:@"%@, %@", address, city];
+//        }
+//        else {
+//            address = city;
+//        }
+//    }
+//    
+//    NSString *state = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressStateKey];
+//    if (state) {
+//        if (address) {
+//            address = [NSString stringWithFormat:@"%@, %@", address, state];
+//        }
+//        else {
+//            address = state;
+//        }
+//    }
+//    
+//    NSString *zip = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressZIPKey];
+//    if (zip) {
+//        if (address) {
+//            address = [NSString stringWithFormat:@"%@ %@", address, zip];
+//        }
+//        else {
+//            address = zip;
+//        }
+//    }
+//    
+//    return address;
 }
 
 
@@ -384,6 +388,38 @@
         NSString *year = [array lastObject];
         NSString *month = [array firstObject];
         NSString *day = array[1];
+        
+        if (day.length == 1) {
+            day = [NSString stringWithFormat:@"0%@", day];
+        }
+        if (month.length == 1) {
+            month = [NSString stringWithFormat:@"0%@", month];
+        }
+        
+        if (year.length == 4 && month.length == 2 && day.length == 2) {
+            formattedBirthday = [NSString stringWithFormat:@"%@-%@-%@", year, month, day];
+        }
+    }
+    
+    return formattedBirthday;
+}
+
++ (NSString *)unFormattedBirthday:(NSString *)birthday {
+    
+    NSString *formattedBirthday;
+    
+    NSArray *array = [birthday componentsSeparatedByString:@"-"];
+    if (array.count == 3) {
+        NSString *day = [array lastObject];
+        NSString *year = [array firstObject];
+        NSString *month = array[1];
+        
+        if (day.length == 1) {
+            day = [NSString stringWithFormat:@"0%@", day];
+        }
+        if (month.length == 1) {
+            month = [NSString stringWithFormat:@"0%@", month];
+        }
         
         if (year.length == 4 && month.length == 2 && day.length == 2) {
             formattedBirthday = [NSString stringWithFormat:@"%@-%@-%@", year, month, day];

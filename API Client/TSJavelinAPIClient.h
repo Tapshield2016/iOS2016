@@ -58,10 +58,10 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 + (instancetype)sharedManager;
 
 - (void)logoutSocial;
-- (void)createFacebookUser:(NSString *)facebookAPIAuthToken;
-- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret;
-- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken;
-- (void)createLinkedInUser:(NSString *)linkedInAccessToken;
+- (void)createFacebookUser:(NSString *)facebookAPIAuthToken completion:(void(^)(BOOL finished))completion;
+- (void)createTwitterUser:(NSString *)twitterOauthToken secretToken:(NSString *)twitterOauthTokenSecret completion:(void(^)(BOOL finished))completion;
+- (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken completion:(void(^)(BOOL finished))completion;
+- (void)createLinkedInUser:(NSString *)linkedInAccessToken completion:(void(^)(BOOL finished))completion;
 
 // User actions
 - (void)registerUser:(TSJavelinAPIUser *)user

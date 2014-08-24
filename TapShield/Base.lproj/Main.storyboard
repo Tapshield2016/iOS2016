@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -1347,11 +1346,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-Eo-5LD">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-Eo-5LD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="568" id="hz8-O2-NRt"/>
-                                </constraints>
                             </imageView>
                             <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-6B-3HB">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -1414,10 +1410,8 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="OnW-Eo-5LD" firstAttribute="leading" secondItem="hLq-5K-yhQ" secondAttribute="leading" id="78z-aV-btB"/>
                             <constraint firstItem="by8-hq-41L" firstAttribute="top" secondItem="YjK-6B-3HB" secondAttribute="bottom" id="J5r-gU-0vd"/>
                             <constraint firstAttribute="trailing" secondItem="YjK-6B-3HB" secondAttribute="trailing" id="PU4-oZ-ABd"/>
-                            <constraint firstItem="OnW-Eo-5LD" firstAttribute="top" secondItem="hLq-5K-yhQ" secondAttribute="top" id="VE7-S9-Bt7"/>
                             <constraint firstItem="YjK-6B-3HB" firstAttribute="top" secondItem="hLq-5K-yhQ" secondAttribute="top" id="az1-6M-bnh"/>
                             <constraint firstItem="YjK-6B-3HB" firstAttribute="leading" secondItem="hLq-5K-yhQ" secondAttribute="leading" id="gic-bZ-Snu"/>
                         </constraints>
@@ -2939,7 +2933,7 @@
                                         <rect key="frame" x="0.0" y="308" width="320" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                        <state key="normal" title="Add media">
+                                        <state key="normal" title="Add Image, Video or Audio">
                                             <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>

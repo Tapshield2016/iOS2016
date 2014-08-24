@@ -14,6 +14,7 @@
 #import "TSSocialAccountsManager.h"
 #import "TSUserSessionManager.h"
 #import "TSAgreementViewController.h"
+#import "TSPopUpWindow.h"
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>

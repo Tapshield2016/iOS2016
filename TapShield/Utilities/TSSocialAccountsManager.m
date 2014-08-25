@@ -222,8 +222,10 @@ static dispatch_once_t predicate;
     NSLog(@"Received error %@ and auth object %@", error, auth);
     [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"] completion:^(BOOL finished) {
         
-        GTLPlusPerson *user = [GPPSignIn sharedInstance].googlePlusUser;
-        [[TSJavelinAPIClient loggedInUser] updateUserProfileFromGoogle:user];
+        if (finished) {
+            GTLPlusPerson *user = [GPPSignIn sharedInstance].googlePlusUser;
+            [[TSJavelinAPIClient loggedInUser] updateUserProfileFromGoogle:user];
+        }
     }];
 }
 
@@ -252,7 +254,9 @@ static dispatch_once_t predicate;
                 }
                 
                 [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
-                    [self twitterRequest];
+                    if (finished) {
+                        [self twitterRequest];
+                    }
                 }];
                 
                 NSLog(@"%@", lined);
@@ -471,6 +475,11 @@ static dispatch_once_t predicate;
         // Your code here
         
         [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken] completion:^(BOOL finished) {
+            
+            if (!finished) {
+                return ;
+            }
+            
             [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
                 if (error) {
                     NSLog(@"error:%@",error);

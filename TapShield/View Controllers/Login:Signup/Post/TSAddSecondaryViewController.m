@@ -29,12 +29,35 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
     _topLabel.text = [NSString stringWithFormat:kPleaseEnterEmail, _agency.domain];
     
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
+    
+    if (self.navigationController.viewControllers.count == 1) {
+        [self addCancelButton];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    _topLabel.text = [NSString stringWithFormat:kPleaseEnterEmail, _agency.domain];
+}
+
+- (void)addCancelButton {
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    [self.navigationItem setLeftBarButtonItem:barButtonItem];
+}
+
+- (void)cancel {
+    
+    [[TSUserSessionManager sharedManager] dismissWindow:nil];
+}
+
 
 - (void)emailWasSent {
     

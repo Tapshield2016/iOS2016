@@ -11,5 +11,6 @@
 @interface UIViewController (Storyboard)
 
 + (instancetype)instantiateFromStoryboard:(Class)class;
++ (instancetype)instantiateFromStoryboardID:(NSString *)string;
 
 @end

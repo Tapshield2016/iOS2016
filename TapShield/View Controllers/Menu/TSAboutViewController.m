@@ -8,6 +8,7 @@
 
 #import "TSAboutViewController.h"
 #import "TSAgreementViewController.h"
+#import "UIViewController+Storyboard.h"
 
 @interface TSAboutViewController ()
 
@@ -19,10 +20,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    _versionBuildLabel.text =[NSString stringWithFormat:@"v%@ (%@)", appVersionString, appBuildString];
     
     self.view.backgroundColor = [TSColorPalette listBackgroundColor];
 }
@@ -40,7 +37,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -55,6 +52,11 @@
     if (indexPath.row == 0) {
         cell.textLabel.text = @"EULA";
     }
+    else if (indexPath.row == 1) {
+        NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        cell.textLabel.text = [NSString stringWithFormat:@"v%@ (%@)", appVersionString, appBuildString];
+    }
     
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     cell.textLabel.textColor = [TSColorPalette listCellTextColor];
@@ -67,6 +69,11 @@
     
     if (indexPath.row == 0) {
         [self pushViewControllerWithClass:[TSAgreementViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    }
+    else if (indexPath.row == 1) {
+        
+        [self.navigationController pushViewController:[UIViewController instantiateFromStoryboardID:@"TSThirdPartyLicenses"]
+                                             animated:YES];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

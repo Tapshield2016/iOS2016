@@ -669,6 +669,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                     subtitle = [NSString stringWithFormat:@"%@ %@", subtitle, placemark.postalCode];
                 }
                 
+                if (!title || !title.length) {
+                    title = subtitle;
+                }
+                
                 _statusView.userLocation = [NSString stringWithFormat:@"%@", title];
                 [self setStatusViewText:_statusView.userLocation];
                 

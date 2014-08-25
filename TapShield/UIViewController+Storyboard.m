@@ -15,4 +15,9 @@
     return [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass(class)];
 }
 
++ (instancetype)instantiateFromStoryboardID:(NSString *)string {
+    
+    return [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:string];
+}
+
 @end

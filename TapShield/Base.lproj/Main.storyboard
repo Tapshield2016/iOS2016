@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -218,7 +218,7 @@
             </objects>
             <point key="canvasLocation" x="-24" y="1329"/>
         </scene>
-        <!--Settings-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="7mQ-Cx-HH1">
             <objects>
                 <tableViewController storyboardIdentifier="TSSettingsViewController" title="Settings" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GhP-Ki-1aV" customClass="TSSettingsViewController" sceneMemberID="viewController">
@@ -411,7 +411,7 @@
             </objects>
             <point key="canvasLocation" x="1106" y="2792"/>
         </scene>
-        <!--Organization Info-->
+        <!--Help View Controller - Organization Info-->
         <scene sceneID="4iP-ll-26B">
             <objects>
                 <viewController storyboardIdentifier="TSHelpViewController" title="Organization Info" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dVr-FQ-hmx" customClass="TSHelpViewController" sceneMemberID="viewController">
@@ -456,7 +456,7 @@
             </objects>
             <point key="canvasLocation" x="1106" y="5712"/>
         </scene>
-        <!--Contact Info-->
+        <!--Contact Data Table View Controller - Contact Info-->
         <scene sceneID="Y30-gH-Asv">
             <objects>
                 <tableViewController storyboardIdentifier="TSContactDataTableViewController" title="Contact Info" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vKv-uN-eMT" customClass="TSContactDataTableViewController" sceneMemberID="viewController">
@@ -586,7 +586,7 @@
             </objects>
             <point key="canvasLocation" x="1918" y="5712"/>
         </scene>
-        <!--Gender-->
+        <!--Gender View Controller - Gender-->
         <scene sceneID="pIN-23-40v">
             <objects>
                 <tableViewController storyboardIdentifier="TSGenderViewController" title="Gender" useStoryboardIdentifierAsRestorationIdentifier="YES" id="311-n5-1iK" customClass="TSGenderViewController" sceneMemberID="viewController">
@@ -604,7 +604,7 @@
             </objects>
             <point key="canvasLocation" x="1913" y="6388"/>
         </scene>
-        <!--Profile-->
+        <!--Profile View Controller - Profile-->
         <scene sceneID="DnH-GH-uZ8">
             <objects>
                 <viewController storyboardIdentifier="TSProfileViewController" title="Profile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H05-fs-W0U" customClass="TSProfileViewController" sceneMemberID="viewController">
@@ -801,7 +801,7 @@
             </objects>
             <point key="canvasLocation" x="1106" y="5026"/>
         </scene>
-        <!--Basic Info-->
+        <!--Basic Info View Controller - Basic Info-->
         <scene sceneID="etI-H3-d71">
             <objects>
                 <viewController storyboardIdentifier="TSBasicInfoViewController" title="Basic Info" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jyz-MY-dZo" customClass="TSBasicInfoViewController" sceneMemberID="viewController">
@@ -931,7 +931,7 @@
             </objects>
             <point key="canvasLocation" x="3089" y="5026"/>
         </scene>
-        <!--Feedback-->
+        <!--Feedback View Controller - Feedback-->
         <scene sceneID="jVY-SF-AcE">
             <objects>
                 <viewController storyboardIdentifier="TSFeedbackViewController" title="Feedback" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ot1-fQ-f0B" customClass="TSFeedbackViewController" sceneMemberID="viewController">
@@ -950,7 +950,7 @@
             </objects>
             <point key="canvasLocation" x="1106" y="4292"/>
         </scene>
-        <!--About-->
+        <!--About View Controller - About-->
         <scene sceneID="uMm-8C-ejg">
             <objects>
                 <viewController storyboardIdentifier="TSAboutViewController" title="About" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Me5-cN-nf1" customClass="TSAboutViewController" sceneMemberID="viewController">
@@ -962,18 +962,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vx.x (x)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f0h-rG-tkN">
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="vx.x (x)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f0h-rG-tkN">
                                 <rect key="frame" x="0.0" y="528" width="320" height="40"/>
                                 <accessibility key="accessibilityConfiguration" label="TapShield Version and build number"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="BEN-fW-Yfw"/>
-                                    <constraint firstAttribute="height" constant="40" id="oV8-TN-o3e"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nmi-f3-9h9">
-                                <rect key="frame" x="0.0" y="364" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="364" width="320" height="88"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EULA" textLabel="f01-4d-k92" style="IBUITableViewCellStyleDefault" id="KPa-cF-wyS">
@@ -1036,11 +1032,6 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="zca-lS-TxY" firstAttribute="top" secondItem="f0h-rG-tkN" secondAttribute="bottom" id="WIj-v0-elI"/>
-                            <constraint firstItem="f0h-rG-tkN" firstAttribute="leading" secondItem="mCJ-Tt-OUL" secondAttribute="leading" id="Zg0-KM-Tyg"/>
-                            <constraint firstAttribute="trailing" secondItem="f0h-rG-tkN" secondAttribute="trailing" id="tNA-iS-M5d"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="tav-1t-zB3"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -1052,7 +1043,1220 @@
             </objects>
             <point key="canvasLocation" x="1106" y="3576"/>
         </scene>
-        <!--Mass Notifications-->
+        <!--View Controller - Version-->
+        <scene sceneID="ArO-bg-WO7">
+            <objects>
+                <viewController storyboardIdentifier="TSThirdPartyLicenses" title="Version" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AQO-xx-3Gs" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Abi-LA-O89"/>
+                        <viewControllerLayoutGuide type="bottom" id="8QR-Kc-7vW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uVV-9M-xbL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDZ-kc-S3H">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Libraries We Use
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">AFNetworking:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">AWSiOSSDK:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Apache License
+Version 2.0, January 2004
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. Definitions.
+
+"License" shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.
+
+"Licensor" shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.
+
+"Legal Entity" shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity. For the purposes of this definition, "control" means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.
+
+"You" (or "Your") shall mean an individual or Legal Entity exercising permissions granted by this License.
+
+"Source" form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files.
+
+"Object" form shall mean any form resulting from mechanical transformation or translation of a Source form, including but not limited to compiled object code, generated documentation, and conversions to other media types.
+
+"Work" shall mean the work of authorship, whether in Source or Object form, made available under the License, as indicated by a copyright notice that is included in or attached to the work (an example is provided in the Appendix below).
+
+"Derivative Works" shall mean any work, whether in Source or Object form, that is based on (or derived from) the Work and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship. For the purposes of this License, Derivative Works shall not include works that remain separable from, or merely link (or bind by name) to the interfaces of, the Work and Derivative Works thereof.
+
+"Contribution" shall mean any work of authorship, including the original version of the Work and any modifications or additions to that Work or Derivative Works thereof, that is intentionally submitted to Licensor for inclusion in the Work by the copyright owner or by an individual or Legal Entity authorized to submit on behalf of the copyright owner. For the purposes of this definition, "submitted" means any form of electronic, verbal, or written communication sent to the Licensor or its representatives, including but not limited to communication on electronic mailing lists, source code control systems, and issue tracking systems that are managed by, or on behalf of, the Licensor for the purpose of discussing and improving the Work, but excluding communication that is conspicuously marked or otherwise designated in writing by the copyright owner as "Not a Contribution."
+
+"Contributor" shall mean Licensor and any individual or Legal Entity on behalf of whom a Contribution has been received by Licensor and subsequently incorporated within the Work.
+
+2. Grant of Copyright License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form.
+
+3. Grant of Patent License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, have made, use, offer to sell, sell, import, and otherwise transfer the Work, where such license applies only to those patent claims licensable by such Contributor that are necessarily infringed by their Contribution(s) alone or by combination of their Contribution(s) with the Work to which such Contribution(s) was submitted. If You institute patent litigation against any entity (including a cross-claim or counterclaim in a lawsuit) alleging that the Work or a Contribution incorporated within the Work constitutes direct or contributory patent infringement, then any patent licenses granted to You under this License for that Work shall terminate as of the date such litigation is filed.
+
+4. Redistribution. You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications, and in Source or Object form, provided that You meet the following conditions:
+
+   1.   You must give any other recipients of the Work or Derivative Works a copy of this License; and
+   2.   You must cause any modified files to carry prominent notices stating that You changed the files; and
+   3.   You must retain, in the Source form of any Derivative Works that You distribute, all copyright, patent, trademark, and attribution notices from the Source form of the Work, excluding those notices that do not pertain to any part of the Derivative Works; and
+   4.   If the Work includes a "NOTICE" text file as part of its distribution, then any Derivative Works that You distribute must include a readable copy of the attribution notices contained within such NOTICE file, excluding those notices that do not pertain to any part of the Derivative Works, in at least one of the following places: within a NOTICE text file distributed as part of the Derivative Works; within the Source form or documentation, if provided along with the Derivative Works; or, within a display generated by the Derivative Works, if and wherever such third-party notices normally appear. The contents of the NOTICE file are for informational purposes only and do not modify the License. You may add Your own attribution notices within Derivative Works that You distribute, alongside or as an addendum to the NOTICE text from the Work, provided that such additional attribution notices cannot be construed as modifying the License.
+
+You may add Your own copyright statement to Your modifications and may provide additional or different license terms and conditions for use, reproduction, or distribution of Your modifications, or for any such Derivative Works as a whole, provided Your use, reproduction, and distribution of the Work otherwise complies with the conditions stated in this License.
+
+5. Submission of Contributions. Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.
+
+6. Trademarks. This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of the NOTICE file.
+
+7. Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License.
+
+8. Limitation of Liability. In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall any Contributor be liable to You for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising as a result of this License or out of the use or inability to use the Work (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if such Contributor has been advised of the possibility of such damages.
+
+9. Accepting Warranty or Additional Liability. While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.
+
+END OF TERMS AND CONDITIONS
+
+------------- 
+                  The PHP License, version 3.01
+Copyright (c) 1999 - 2012 The PHP Group. All rights reserved.
+------------- 
+
+Redistribution and use in source and binary forms, with or without
+modification, is permitted provided that the following conditions
+are met:
+
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+ 
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+ 
+  3. The name "PHP" must not be used to endorse or promote products
+     derived from this software without prior written permission. For
+     written permission, please contact group@php.net.
+  
+  4. Products derived from this software may not be called "PHP", nor
+     may "PHP" appear in their name, without prior written permission
+     from group@php.net.  You may indicate that your software works in
+     conjunction with PHP by saying "Foo for PHP" instead of calling
+     it "PHP Foo" or "phpfoo"
+ 
+  5. The PHP Group may publish revised and/or new versions of the
+     license from time to time. Each version will be given a
+     distinguishing version number.
+     Once covered code has been published under a particular version
+     of the license, you may always continue to use it under the terms
+     of that version. You may also choose to use such covered code
+     under the terms of any subsequent version of the license
+     published by the PHP Group. No one other than the PHP Group has
+     the right to modify the terms applicable to covered code created
+     under this License.
+
+  6. Redistributions of any form whatsoever must retain the following
+     acknowledgment:
+     "This product includes PHP software, freely available from
+     &lt;http://www.php.net/software/&gt;".
+
+THIS SOFTWARE IS PROVIDED BY THE PHP DEVELOPMENT TEAM ``AS IS'' AND 
+ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE PHP
+DEVELOPMENT TEAM OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+------------- 
+
+This software consists of voluntary contributions made by many
+individuals on behalf of the PHP Group.
+
+The PHP Group can be contacted via Email at group@php.net.
+
+For more information on the PHP Group and the PHP project, 
+please see &lt;http://www.php.net&gt;.
+
+PHP includes the Zend Engine, freely available at
+&lt;http://www.zend.com&gt;.
+
+Note: Other license terms may apply to certain, identified software files contained within or distributed with the accompanying software if such terms are included in the directory containing the accompanying software. Such other license terms will then apply in lieu of the terms of the software license above.
+
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Bolts:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">BSD License
+
+For Bolts software
+
+Copyright (c) 2013, Facebook, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+  disclaimer.
+  
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+  disclaimer in the documentation and/or other materials provided with the distribution.
+  
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Facebook-IOS-SDK:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  
+----------- 
+   
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">GoogleAnalytics-IOS-SDK:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">IOSLinkedInAPI:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Copyright (c) 2013 Ancientprogramming (http://www.ancientprogramming.com/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">KVOController:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">BSD License
+
+For KVOController software
+
+Copyright (c) 2014, Facebook, Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * Neither the name Facebook nor the names of its contributors may be used to
+   endorse or promote products derived from this software without specific
+   prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">MSDynamicsDrawerViewController:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Copyright (c) 2012-2013, Monospace Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">MediaRSSParser:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">`MediaRSSParser` is copyright (c) 2014 Joshua Greene (jrg.developer@gmail.com).
+
+`BlockRSSParser` (https://github.com/tibo/BlockRSSParser), which `MediaRSSParser is built upon, is copyright (c) 2012 Thibaut LE LEVIER (http://www.lelevier.fr).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">SSKeychain:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Copyright (c) 2010-2014 Sam Soffes, http://soff.es
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Shimmer:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">BSD License
+
+For Shimmer software
+
+Copyright (c) 2014, Facebook, Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * Neither the name Facebook nor the names of its contributors may be used to
+   endorse or promote products derived from this software without specific
+   prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+-----------
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Twilio:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Acknowledgments
+Portions of this Twilio, Inc software utilize the following copyrighted material, the use of which is hereby acknowledged.  
+
+
+Stig Brautaset (JSON Framework)
+Copyright (C) 2009 Stig Brautaset. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of the author nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Google, Inc.  (GTMBase64)
+Copyright 2006-2008 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
+
+
+Gentle Bytes (appledoc)
+Copyright (c) 2009-2011, Gentle Bytes All rights reserved.
+
+Redistribution and use in source, binary forms and generated documentation, with or without modification, are permitted provided that the following conditions are met:
+	•	Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	•	Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+	•	Redistributions of documentation generated by appledoc must include attribution to appledoc, either in documentation itself or other appropriate media.
+	•	Neither the name of the appledoc, Gentle Bytes nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+alaw/ulaw conversion algorithm
+This source code is a product of Sun Microsystems, Inc. and is provided for unrestricted use.  Users may copy or modify this source code without charge.
+
+SUN SOURCE CODE IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND INCLUDING THE WARRANTIES OF DESIGN, MERCHANTIBILITY  ND FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE OF DEALING, USAGE OR TRADE PRACTICE.
+
+Sun source code is provided with no support and without any obligation on the part of Sun Microsystems, Inc. to assist in its use, correction, modification or enhancement.
+
+SUN MICROSYSTEMS, INC. SHALL HAVE NO LIABILITY WITH RESPECT TO THE INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY PATENTS BY THIS SOFTWARE OR ANY PART THEREOF.
+
+In no event will Sun Microsystems, Inc. be liable for any lost revenue or profits or other special, indirect and consequential damages, even if Sun has been advised of the possibility of such damages.
+
+Sun Microsystems, Inc.
+2550 Garcia Avenue
+Mountain View, California  94043
+
+
+CRC32 algorithm
+This is an implementation of CRC32. See ISO 3309 and ITU-T V.42 for a formal specification
+
+This file is partly taken from Crypto++ library (http://www.cryptopp.com) and http://www.di-mgt.com.au/crypto.html#CRC.
+
+Since the original version of the code is put in public domain, this file is put on public domain as well.
+
+
+MD5 hashing implementation
+This code implements the MD5 message-digest algorithm. The algorithm is due to Ron Rivest.  This code was written by Colin Plumb in 1993, no copyright is claimed. This code is in the public domain; do with it what you wish.
+
+Equivalent code is available from RSA Data Security, Inc. This code has been tested against that, and is equivalent, except that you don't need to include two pages of legalese with every copy.
+
+To compute the message digest of a chunk of bytes, declare an MD5Context structure, pass it to MD5Init, call MD5Update as needed on buffers full of bytes, and then call MD5Final, which will fill a supplied 16-byte array with the digest.
+
+
+SHA1 encryption
+SHA-1 in C
+By Steve Reid 
+100% Public Domain
+-------
+Modified 7/98 
+By James H. Brown 
+Still 100% Public Domain
+-------
+Modified 4/01
+By Saul Kravitz 
+Still 100% PD
+Modified to run on Compaq Alpha hardware.  
+-------
+Modified 07/2002
+By Ralph Giles 
+Still 100% public domain
+
+
+Speex
+Copyright 2002-2005 
+Xiph.org Foundation
+Jean-Marc Valin
+David Rowe
+EpicGames
+Analog Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+- Neither the name of the Xiph.org Foundation nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">libSRTP
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Copyright (c) 2001-2006 Cisco Systems, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+Neither the name of the Cisco Systems, Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ 
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">OpenSSL
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Copyright (c) 1998-2011 The OpenSSL Project.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in
+   the documentation and/or other materials provided with the distribution.
+
+3. All advertising materials mentioning features or use of this software must display the following acknowledgment:
+   "This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)"
+
+4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact openssl-core@openssl.org.
+
+5. Products derived from this software may not be called "OpenSSL" nor may "OpenSSL" appear in their names without prior written permission of the OpenSSL Project.
+
+6. Redistributions of any form whatsoever must retain the following acknowledgment:  "This product includes software developed by the OpenSSL Project  for use in the OpenSSL Toolkit (http://www.openssl.org/)"
+
+THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">SSLeay
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">This product includes cryptographic software written by Eric Young (eay@cryptsoft.com).  This product includes software written by Tim Hudson (tjh@cryptsoft.com).
+
+Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+All rights reserved.
+
+This package is an SSL implementation written by Eric Young (eay@cryptsoft.com). The implementation was written so as to conform with Netscape's SSL.
+
+This library is free for commercial and non-commercial use as long as the following conditions are adhered to.  The following conditions apply to all code found in this distribution, be it the RC4, RSA, lhash, DES, etc., code; not just the SSL code.  The SSL documentation included with this distribution is covered by the same copyright terms except that the holder is Tim Hudson (tjh@cryptsoft.com).
+
+Copyright remains Eric Young's, and as such any Copyright notices in the code are not to be removed.
+If this package is used in a product, Eric Young should be given attribution as the author of the parts of the library used.
+This can be in the form of a textual message at program startup or in documentation (online or textual) provided with the package.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+3. All advertising materials mentioning features or use of this software must display the following acknowledgement: "This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)"   The word 'cryptographic' can be left out if the routines from the library being used are not cryptographic related :-).
+4. If you include any Windows specific code (or a derivative thereof) from the apps directory (application code) you must include an acknowledgement: "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
+
+THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The license and distribution terms for any publicly available version or derivative of this code cannot be changed.  i.e. this code cannot simply be copied and put under another distribution license [including the GNU Public License.]
+
+-----------
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">google-plus-ios-sdk:
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Cambria"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tailIndent="432" defaultTabInterval="36">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o4z-IE-gGQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1522" y="3576"/>
+        </scene>
+        <!--Mass Notifications View Controller - Mass Notifications-->
         <scene sceneID="Wd2-Md-eTe">
             <objects>
                 <viewController storyboardIdentifier="TSMassNotificationsViewController" title="Mass Notifications" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kKr-PL-4rL" customClass="TSMassNotificationsViewController" sceneMemberID="viewController">
@@ -1132,7 +2336,7 @@
             </objects>
             <point key="canvasLocation" x="1075" y="2075"/>
         </scene>
-        <!--Home View-->
+        <!--Home View Controller - Home View-->
         <scene sceneID="IYc-gp-Y7P">
             <objects>
                 <viewController storyboardIdentifier="TSHomeViewController" title="Home View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qEG-az-7FP" customClass="TSHomeViewController" sceneMemberID="viewController">
@@ -1334,7 +2538,7 @@
             </objects>
             <point key="canvasLocation" x="1075" y="1339"/>
         </scene>
-        <!--Log In-->
+        <!--Login View Controller - Log In-->
         <scene sceneID="21d-tb-3F1">
             <objects>
                 <viewController storyboardIdentifier="TSLoginViewController" title="Log In" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dof-Su-aKb" customClass="TSLoginViewController" sceneMemberID="viewController">
@@ -1349,7 +2553,7 @@
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-Eo-5LD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-6B-3HB">
+                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-6B-3HB">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BdZ-87-B7I" customClass="FBShimmeringView">
@@ -1441,7 +2645,7 @@
             </objects>
             <point key="canvasLocation" x="-673" y="-637"/>
         </scene>
-        <!--First View-->
+        <!--Welcome View Controller - First View-->
         <scene sceneID="CMq-hx-BJv">
             <objects>
                 <viewController storyboardIdentifier="TSWelcomeViewController" title="First View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1Um-Z8-9Di" customClass="TSWelcomeViewController" sceneMemberID="viewController">
@@ -1497,7 +2701,7 @@
             </objects>
             <point key="canvasLocation" x="-287" y="-637"/>
         </scene>
-        <!--Intro Slide-->
+        <!--Intro Slide View Controller - Intro Slide-->
         <scene sceneID="oFz-Ta-CLu">
             <objects>
                 <viewController storyboardIdentifier="TSIntroSlideViewController" title="Intro Slide" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4pm-nB-azJ" customClass="TSIntroSlideViewController" sceneMemberID="viewController">
@@ -1553,7 +2757,7 @@
             </objects>
             <point key="canvasLocation" x="118" y="-1375"/>
         </scene>
-        <!--Log In or Sign Up-->
+        <!--Login Or Sign Up View Controller - Log In or Sign Up-->
         <scene sceneID="UDG-nM-ZIw">
             <objects>
                 <viewController storyboardIdentifier="TSLoginOrSignUpViewController" title="Log In or Sign Up" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mdm-uj-E86" customClass="TSLoginOrSignUpViewController" sceneMemberID="viewController">
@@ -1643,7 +2847,7 @@
             </objects>
             <point key="canvasLocation" x="320" y="-650"/>
         </scene>
-        <!--Ask Organization-->
+        <!--Ask Organization View Controller - Ask Organization-->
         <scene sceneID="wwG-FC-Qak">
             <objects>
                 <viewController storyboardIdentifier="TSAskOrganizationViewController" title="Ask Organization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ax0-oI-OdA" customClass="TSAskOrganizationViewController" sceneMemberID="viewController">
@@ -1702,7 +2906,7 @@
             </objects>
             <point key="canvasLocation" x="1262" y="-295"/>
         </scene>
-        <!--Social Login-->
+        <!--Social Authorization View Controller - Social Login-->
         <scene sceneID="l9I-PY-ZLz">
             <objects>
                 <viewController storyboardIdentifier="TSSocialAuthorizationViewController" title="Social Login" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Xiw-7p-sRv" customClass="TSSocialAuthorizationViewController" sceneMemberID="viewController">
@@ -1857,7 +3061,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By continuing, I agree to the" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="262" translatesAutoresizingMaskIntoConstraints="NO" id="q3A-bB-ZdV">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By continuing, I agree to the" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="q3A-bB-ZdV">
                                 <rect key="frame" x="15" y="515" width="290" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="lrc-xd-ib6"/>
@@ -1930,7 +3134,7 @@
             </objects>
             <point key="canvasLocation" x="741" y="-650"/>
         </scene>
-        <!--Organization-->
+        <!--Organization Search View Controller - Organization-->
         <scene sceneID="mSi-eN-V3C">
             <objects>
                 <viewController storyboardIdentifier="TSOrganizationSearchViewController" title="Organization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U4Y-Qf-oML" customClass="TSOrganizationSearchViewController" sceneMemberID="viewController">
@@ -2002,7 +3206,7 @@
             </objects>
             <point key="canvasLocation" x="1656" y="-295"/>
         </scene>
-        <!--Create account-->
+        <!--Register View Controller - Create account-->
         <scene sceneID="ZYf-Vb-ZBE">
             <objects>
                 <viewController storyboardIdentifier="TSRegisterViewController" title="Create account" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jUA-Jf-8RT" customClass="TSRegisterViewController" sceneMemberID="viewController">
@@ -2071,7 +3275,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter your email address and password" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="Bfd-Ti-MOc" customClass="TSRegistrationLabel">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter your email address and password" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Bfd-Ti-MOc" customClass="TSRegistrationLabel">
                                                 <rect key="frame" x="20" y="0.0" width="280" height="80"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -2103,7 +3307,7 @@
             </objects>
             <point key="canvasLocation" x="2038" y="-295"/>
         </scene>
-        <!--EULA-->
+        <!--Agreement View Controller - EULA-->
         <scene sceneID="KvJ-x1-woK">
             <objects>
                 <viewController storyboardIdentifier="TSAgreementViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sE7-At-GIb" customClass="TSAgreementViewController" sceneMemberID="viewController">
@@ -2139,7 +3343,7 @@
             </objects>
             <point key="canvasLocation" x="2423" y="556"/>
         </scene>
-        <!--Phone Verification-->
+        <!--Phone Verification View Controller - Phone Verification-->
         <scene sceneID="ttN-4X-faa">
             <objects>
                 <viewController storyboardIdentifier="TSPhoneVerificationViewController" title="Phone Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
@@ -2228,7 +3432,7 @@
             </objects>
             <point key="canvasLocation" x="2990" y="-274"/>
         </scene>
-        <!--Complete Registration-->
+        <!--Name Picture View Controller - Complete Registration-->
         <scene sceneID="F2U-G7-XZk">
             <objects>
                 <viewController storyboardIdentifier="TSNamePictureViewController" title="Complete Registration" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vZE-6o-F4y" customClass="TSNamePictureViewController" sceneMemberID="viewController">
@@ -2338,7 +3542,7 @@
             </objects>
             <point key="canvasLocation" x="3383" y="-274"/>
         </scene>
-        <!--Email Verification-->
+        <!--Email Verification View Controller - Email Verification-->
         <scene sceneID="qtd-ze-SDF">
             <objects>
                 <viewController storyboardIdentifier="TSEmailVerificationViewController" title="Email Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mjo-E3-Aqu" customClass="TSEmailVerificationViewController" sceneMemberID="viewController">
@@ -2423,7 +3627,7 @@
             </objects>
             <point key="canvasLocation" x="2602" y="-274"/>
         </scene>
-        <!--Disarm-->
+        <!--Disarm Pad View Controller - Disarm-->
         <scene sceneID="nrl-0d-6y0">
             <objects>
                 <viewController storyboardIdentifier="TSDisarmPadViewController" title="Disarm" useStoryboardIdentifierAsRestorationIdentifier="YES" id="b9r-js-Ebz" customClass="TSDisarmPadViewController" sceneMemberID="viewController">
@@ -2634,7 +3838,7 @@
             </objects>
             <point key="canvasLocation" x="2004" y="2189"/>
         </scene>
-        <!--Alert-->
+        <!--Emergency Alert View Controller - Alert-->
         <scene sceneID="8vV-ne-SaL">
             <objects>
                 <viewController storyboardIdentifier="TSEmergencyAlertViewController" title="Alert" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cif-Vi-G9b" customClass="TSEmergencyAlertViewController" sceneMemberID="viewController">
@@ -2806,7 +4010,7 @@
             </objects>
             <point key="canvasLocation" x="2467" y="2195"/>
         </scene>
-        <!--Report Type-->
+        <!--Alert Details Table View Controller - Report Type-->
         <scene sceneID="ywP-SQ-84g">
             <objects>
                 <viewController storyboardIdentifier="TSAlertDetailsTableViewController" title="Report Type" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mg7-W6-y5e" customClass="TSAlertDetailsTableViewController" sceneMemberID="viewController">
@@ -3017,7 +4221,7 @@
             </objects>
             <point key="canvasLocation" x="2004" y="3618"/>
         </scene>
-        <!--Alert Page View-->
+        <!--Page View Controller - Alert Page View-->
         <scene sceneID="2wc-Yj-4GO">
             <objects>
                 <viewController storyboardIdentifier="TSPageViewController" title="Alert Page View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yTw-T0-XKu" customClass="TSPageViewController" sceneMemberID="viewController">
@@ -3035,7 +4239,7 @@
             </objects>
             <point key="canvasLocation" x="2457" y="2869"/>
         </scene>
-        <!--Phone-->
+        <!--Voip View Controller - Phone-->
         <scene sceneID="sSe-Y8-Jgw">
             <objects>
                 <viewController storyboardIdentifier="TSVoipViewController" title="Phone" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9zb-cU-CuH" customClass="TSVoipViewController" sceneMemberID="viewController">
@@ -3068,7 +4272,7 @@
                                         <rect key="frame" x="20" y="80" width="280" height="34"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wl-Lv-lIE" customClass="TSBaseLabel">
-                                                <rect key="frame" x="0.0" y="1" width="280" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="34"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -3193,7 +4397,7 @@
             </objects>
             <point key="canvasLocation" x="2905" y="2869"/>
         </scene>
-        <!--Chat-->
+        <!--Chat View Controller - Chat-->
         <scene sceneID="5GI-Z0-s2m">
             <objects>
                 <viewController storyboardIdentifier="TSChatViewController" title="Chat" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DqL-1a-yG4" customClass="TSChatViewController" sceneMemberID="viewController">
@@ -3249,7 +4453,7 @@
             </objects>
             <point key="canvasLocation" x="2934" y="2195"/>
         </scene>
-        <!--Destination-->
+        <!--Destination Search View Controller - Destination-->
         <scene sceneID="BsE-JY-VCu">
             <objects>
                 <viewController storyboardIdentifier="TSDestinationSearchViewController" title="Destination" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vuB-WZ-keb" customClass="TSDestinationSearchViewController" sceneMemberID="viewController">
@@ -3262,7 +4466,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HS1-2j-UMN" userLabel="View - Tap Dismiss">
-                                <rect key="frame" x="0.0" y="104" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <tableView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
@@ -3324,7 +4528,7 @@
             </objects>
             <point key="canvasLocation" x="1507" y="1339"/>
         </scene>
-        <!--Routing-->
+        <!--Route Picker View Controller - Routing-->
         <scene sceneID="l2p-ft-Ity">
             <objects>
                 <viewController storyboardIdentifier="TSRoutePickerViewController" title="Routing" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GTK-a7-ESV" customClass="TSRoutePickerViewController" sceneMemberID="viewController">
@@ -3379,7 +4583,7 @@
             </objects>
             <point key="canvasLocation" x="1918" y="1339"/>
         </scene>
-        <!--Notify-->
+        <!--Notify Selection View Controller - Notify-->
         <scene sceneID="ObZ-OU-9rh">
             <objects>
                 <viewController storyboardIdentifier="TSNotifySelectionViewController" title="Notify" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6vl-xP-Mpq" customClass="TSNotifySelectionViewController" sceneMemberID="viewController">
@@ -3533,7 +4737,7 @@
             </objects>
             <point key="canvasLocation" x="2326" y="1339"/>
         </scene>
-        <!--Basic Info-->
+        <!--Basic Info Table View Controller - Basic Info-->
         <scene sceneID="7VP-ie-99f">
             <objects>
                 <tableViewController storyboardIdentifier="TSBasicInfoTableViewController" title="Basic Info" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ejf-tD-djA" customClass="TSBasicInfoTableViewController" sceneMemberID="viewController">
@@ -3681,7 +4885,7 @@
             </objects>
             <point key="canvasLocation" x="1507" y="5712"/>
         </scene>
-        <!--Medical-->
+        <!--Medical Table View Controller - Medical-->
         <scene sceneID="BFD-RE-Wc1">
             <objects>
                 <tableViewController storyboardIdentifier="TSMedicalTableViewController" title="Medical" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y1Z-EP-saU" customClass="TSMedicalTableViewController" sceneMemberID="viewController">
@@ -3761,7 +4965,7 @@
             </objects>
             <point key="canvasLocation" x="2705" y="5712"/>
         </scene>
-        <!--Emergency Contact-->
+        <!--Emergency Contact Table View Controller - Emergency Contact-->
         <scene sceneID="TuM-Kh-Ccc">
             <objects>
                 <tableViewController storyboardIdentifier="TSEmergencyContactTableViewController" title="Emergency Contact" useStoryboardIdentifierAsRestorationIdentifier="YES" id="n4K-Hz-2xU" customClass="TSEmergencyContactTableViewController" sceneMemberID="viewController">
@@ -3902,7 +5106,7 @@
             </objects>
             <point key="canvasLocation" x="3089" y="5712"/>
         </scene>
-        <!--Appearance-->
+        <!--Appearance Table View Controller - Appearance-->
         <scene sceneID="VbJ-x5-wlo">
             <objects>
                 <tableViewController storyboardIdentifier="TSAppearanceTableViewController" title="Appearance" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ikX-c2-AOK" customClass="TSAppearanceTableViewController" sceneMemberID="viewController">
@@ -4272,7 +5476,7 @@
             </objects>
             <point key="canvasLocation" x="1634" y="2189"/>
         </scene>
-        <!--Forgot Password-->
+        <!--Forgot Password View Controller - Forgot Password-->
         <scene sceneID="cPI-KK-g63">
             <objects>
                 <viewController storyboardIdentifier="TSForgotPasswordViewController" title="Forgot Password" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wl2-AH-zte" customClass="TSForgotPasswordViewController" sceneMemberID="viewController">
@@ -4290,7 +5494,7 @@
                                     <constraint firstAttribute="height" constant="568" id="x4P-Yh-WVB"/>
                                 </constraints>
                             </imageView>
-                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="uB8-I8-7yJ">
+                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="uB8-I8-7yJ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bK2-lj-CRy" customClass="FBShimmeringView">
@@ -4360,7 +5564,7 @@
             </objects>
             <point key="canvasLocation" x="1831" y="-981"/>
         </scene>
-        <!--Hair Color-->
+        <!--Hair Color View Controller - Hair Color-->
         <scene sceneID="hD9-dg-3mf">
             <objects>
                 <tableViewController storyboardIdentifier="TSHairColorViewController" title="Hair Color" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LWu-t1-cja" customClass="TSHairColorViewController" sceneMemberID="viewController">
@@ -4378,7 +5582,7 @@
             </objects>
             <point key="canvasLocation" x="2321" y="6388"/>
         </scene>
-        <!--Ethnicity-->
+        <!--Ethnicity View Controller - Ethnicity-->
         <scene sceneID="EPM-I2-LmH">
             <objects>
                 <tableViewController storyboardIdentifier="TSEthnicityViewController" title="Ethnicity" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9Pz-1k-UU2" customClass="TSEthnicityViewController" sceneMemberID="viewController">
@@ -4396,7 +5600,7 @@
             </objects>
             <point key="canvasLocation" x="2705" y="6388"/>
         </scene>
-        <!--Relationship-->
+        <!--Relationship View Controller - Relationship-->
         <scene sceneID="Pek-NR-UQl">
             <objects>
                 <tableViewController storyboardIdentifier="TSRelationshipViewController" title="Relationship" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bAb-jp-WPS" customClass="TSRelationshipViewController" sceneMemberID="viewController">
@@ -4414,7 +5618,7 @@
             </objects>
             <point key="canvasLocation" x="3089" y="6388"/>
         </scene>
-        <!--Change Passcode-->
+        <!--Passcode Table View Controller - Change Passcode-->
         <scene sceneID="vWZ-po-CMz">
             <objects>
                 <tableViewController storyboardIdentifier="TSPasscodeTableViewController" title="Change Passcode" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y52-o6-8mh" customClass="TSPasscodeTableViewController" sceneMemberID="viewController">
@@ -4553,7 +5757,7 @@
             </objects>
             <point key="canvasLocation" x="3489" y="5712"/>
         </scene>
-        <!--Change Passcode-->
+        <!--Change Passcode View Controller - Change Passcode-->
         <scene sceneID="cXj-V7-4Ul">
             <objects>
                 <viewController storyboardIdentifier="TSChangePasscodeViewController" title="Change Passcode" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FLc-bA-EWV" customClass="TSChangePasscodeViewController" sceneMemberID="viewController">
@@ -4579,7 +5783,7 @@
             </objects>
             <point key="canvasLocation" x="3489" y="5026"/>
         </scene>
-        <!--View Report-->
+        <!--View Report Details View Controller - View Report-->
         <scene sceneID="MsV-3u-Iqn">
             <objects>
                 <viewController storyboardIdentifier="TSViewReportDetailsViewController" title="View Report" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Bsd-Cp-2jr" customClass="TSViewReportDetailsViewController" sceneMemberID="viewController">
@@ -4699,7 +5903,7 @@
             </objects>
             <point key="canvasLocation" x="2395" y="3618"/>
         </scene>
-        <!--Saved Recordings-->
+        <!--Sound File Folder View Controller - Saved Recordings-->
         <scene sceneID="0cb-z4-rCl">
             <objects>
                 <tableViewController storyboardIdentifier="TSSoundFileFolderViewController" title="Saved Recordings" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yi8-3L-ZMP" customClass="TSSoundFileFolderViewController" sceneMemberID="viewController">
@@ -4728,7 +5932,7 @@
             </objects>
             <point key="canvasLocation" x="2797" y="3618"/>
         </scene>
-        <!--Email Verification-->
+        <!--Add Secondary View Controller - Email Verification-->
         <scene sceneID="W0p-sk-zRZ">
             <objects>
                 <viewController restorationIdentifier="TSAddSecondaryViewController" storyboardIdentifier="TSAddSecondaryViewController" title="Email Verification" id="MXU-CM-ZUp" customClass="TSAddSecondaryViewController" sceneMemberID="viewController">
@@ -4820,7 +6024,7 @@
             </objects>
             <point key="canvasLocation" x="2602" y="-906"/>
         </scene>
-        <!--Phone Verification-->
+        <!--Phone Number View Controller - Phone Verification-->
         <scene sceneID="Ixr-vh-mXE">
             <objects>
                 <viewController storyboardIdentifier="TSPhoneNumberViewController" title="Phone Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oKU-fE-9W7" customClass="TSPhoneNumberViewController" sceneMemberID="viewController">
@@ -4875,7 +6079,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your phone number is only shared, in the event of an emergency, to public safety dispatchers." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="k30-pR-TLw" customClass="TSRegistrationLabel">
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your phone number is only shared, in the event of an emergency, to public safety dispatchers." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="k30-pR-TLw" customClass="TSRegistrationLabel">
                                 <rect key="frame" x="20" y="145" width="280" height="80"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -4985,13 +6189,10 @@
         <image name="user_new_icon" width="77" height="77"/>
         <image name="user_tick_icon" width="21" height="15"/>
     </resources>
+    <color key="tintColor" red="0.070588235294117646" green="0.47843137254901957" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4">
-            <size key="portraitSize" width="320" height="568"/>
-            <size key="landscapeSize" width="568" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <color key="tintColor" red="0.070588235294117646" green="0.47843137254901957" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
 </document>

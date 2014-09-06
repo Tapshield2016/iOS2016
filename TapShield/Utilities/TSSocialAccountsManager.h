@@ -30,7 +30,7 @@
 
 @class GPPSignInButton;
 
-@interface TSSocialAccountsManager : NSObject <UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate>
+@interface TSSocialAccountsManager : NSObject <UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
 typedef void (^LoggedOutBlock)(BOOL loggedOut);
 
@@ -46,7 +46,7 @@ typedef void (^LoggedOutBlock)(BOOL loggedOut);
 - (void)logoutAllUserTypesCompletion:(LoggedOutBlock)completion;
 
 - (void)logInWithFacebook;
-- (void)logInWithGooglePlus;
+- (void)logInWithGooglePlus:(id)currentViewController;
 - (void)logInWithTwitter:(UIView *)currentView;
 - (void)logInWithLinkedIn:(id)currentViewController;
 

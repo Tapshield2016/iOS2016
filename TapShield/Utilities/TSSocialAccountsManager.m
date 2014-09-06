@@ -14,6 +14,8 @@
 #import "TSJavelinAPIAuthenticationManager.h"
 #import <FacebookSDK/FBSession+Internal.h>
 #import <Social/Social.h>
+#import "TSApplication.h"
+#import "TSWebViewController.h"
 
 #define ERROR_TITLE_MSG @"Sorry"
 #define ERROR_NO_ACCOUNTS @"No Twitter account could be found. Please add a Twitter account in the Settings app"
@@ -22,9 +24,9 @@
 #define ERROR_OK @"OK"
 
 #ifdef APP_STORE
-static NSString * const kGooglePlusClientId = @"165780496026-67m6s318srt26dslrgdb8uf63broljtp.apps.googleusercontent.com";
+static NSString * const kGooglePlusClientId = @"597251186165-6elcq16b3mb3tqvj1ctk33rg17ft5prs.apps.googleusercontent.com";
 #else
-static NSString * const kGooglePlusClientId = @"165780496026-5o2spgecpi0hh0jov666uekae2tshdj2.apps.googleusercontent.com";
+static NSString * const kGooglePlusClientId = @"597251186165-oijnav4c8e4r2v5i66ggg9kiob9prng7.apps.googleusercontent.com";
 #endif
 
 static NSString * const kLinkedInClientId = @"75cqjrach211kt";
@@ -39,9 +41,11 @@ typedef enum TSSocialService : NSUInteger {
 
 @interface TSSocialAccountsManager ()
 
+@property (weak, nonatomic) UIViewController *currentViewController;
 @property (weak, nonatomic) UIView *currentView;
 @property (strong, nonatomic) UIAlertView *passcodeAlertView;
 @property (strong, nonatomic) TSPopUpWindow *loadingWindow;
+@property (strong, nonatomic) TSWebViewController *webViewController;
 
 @end
 
@@ -57,6 +61,12 @@ static dispatch_once_t predicate;
     self = [super init];
     
     if (self) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loginGooglePlusWebView:)
+                                                     name:ApplicationOpenGoogleAuthNotification
+                                                   object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(signUpDidFailToLogin:)
                                                      name:kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL
@@ -69,6 +79,10 @@ static dispatch_once_t predicate;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(signUpDidLoginSuccessfully:)
                                                      name:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(signUpDidFailToLogin:)
+                                                     name:UIApplicationDidEnterBackgroundNotification
                                                    object:nil];
     }
     
@@ -102,8 +116,8 @@ static dispatch_once_t predicate;
     [self loginFacebook];
 }
 
-- (void)logInWithGooglePlus {
-    
+- (void)logInWithGooglePlus:(id)currentViewController {
+    _currentViewController = currentViewController;
     [self loading:google];
     [self initGooglePlus];
     [[GPPSignIn sharedInstance] authenticate];
@@ -187,6 +201,7 @@ static dispatch_once_t predicate;
         [self loading:linkedIn];
         [_linkedInClient getAccessToken:code success:^(NSDictionary *accessTokenData) {
             NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
+            [self loading:linkedIn];
             [[[TSJavelinAPIClient sharedClient] authenticationManager] createLinkedInUser:accessToken completion:^(BOOL finished) {
                 if (finished) {
                     [self requestMeWithToken:accessToken];
@@ -218,8 +233,33 @@ static dispatch_once_t predicate;
 
 #pragma mark - Google+ Delegate methods
 
+- (void)loginGooglePlusWebView:(NSNotification *)notification {
+    
+    [self finishedLoading];
+    if ([notification.object isKindOfClass:[NSURL class]]) {
+        [TSWebViewController controller:_currentViewController presentWebViewControllerWithURL:notification.object delegate:self];
+    }
+}
+
+- (void)googlePlusLoginCancelled {
+    
+    [self finishedLoading];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if ([[[request URL] absoluteString] hasPrefix:[[NSString stringWithFormat:@"%@:/oauth2callback", [[NSBundle mainBundle] bundleIdentifier]] lowercaseString]]) {
+        [GPPURLHandler handleURL:request.URL sourceApplication:@"com.google.chrome.ios" annotation:nil];
+        [_webViewController dismissViewControllerAnimated:YES completion:nil];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)finishedWithAuth: (GTMOAuth2Authentication *)auth error: (NSError *) error {
     NSLog(@"Received error %@ and auth object %@", error, auth);
+    
+    [self loading:google];
     [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"] completion:^(BOOL finished) {
         
         if (finished) {
@@ -253,6 +293,7 @@ static dispatch_once_t predicate;
                     [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
                 }
                 
+                [self loading:twitter];
                 [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
                     if (finished) {
                         [self twitterRequest];
@@ -474,6 +515,7 @@ static dispatch_once_t predicate;
     if (session.state == FBSessionStateOpen){
         // Your code here
         
+        [self loading:facebook];
         [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken] completion:^(BOOL finished) {
             
             if (!finished) {
@@ -531,6 +573,9 @@ static dispatch_once_t predicate;
             break;
     }
     
+    if (_loadingWindow) {
+        return;
+    }
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:logo];
     FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:imageView.bounds];
@@ -546,7 +591,7 @@ static dispatch_once_t predicate;
 - (void)finishedLoading {
     
     [_loadingWindow dismiss:^(BOOL finished) {
-        
+        _loadingWindow = nil;
     }];
 }
 

@@ -477,6 +477,14 @@
 		C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
 		C599C03B193FD7CA00B77410 /* NSURL+FileType.m in Sources */ = {isa = PBXBuildFile; fileRef = C599C037193FD7CA00B77410 /* NSURL+FileType.m */; };
+		C5A3970F19B90E270017F1D7 /* TSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3970E19B90E270017F1D7 /* TSApplication.m */; };
+		C5A3971019B90E270017F1D7 /* TSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3970E19B90E270017F1D7 /* TSApplication.m */; };
+		C5A3971119B90E270017F1D7 /* TSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3970E19B90E270017F1D7 /* TSApplication.m */; };
+		C5A3971219B90E270017F1D7 /* TSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3970E19B90E270017F1D7 /* TSApplication.m */; };
+		C5A3971519B90F140017F1D7 /* TSWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3971419B90F140017F1D7 /* TSWebViewController.m */; };
+		C5A3971619B90F140017F1D7 /* TSWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3971419B90F140017F1D7 /* TSWebViewController.m */; };
+		C5A3971719B90F140017F1D7 /* TSWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3971419B90F140017F1D7 /* TSWebViewController.m */; };
+		C5A3971819B90F140017F1D7 /* TSWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3971419B90F140017F1D7 /* TSWebViewController.m */; };
 		C5AFB9231919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
 		C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
 		C5AFB9251919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
@@ -1197,6 +1205,10 @@
 		C596C63A1979A26200DF2E29 /* NSNull+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+JSON.m"; sourceTree = "<group>"; };
 		C599C036193FD7CA00B77410 /* NSURL+FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileType.h"; sourceTree = "<group>"; };
 		C599C037193FD7CA00B77410 /* NSURL+FileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+FileType.m"; sourceTree = "<group>"; };
+		C5A3970D19B90E270017F1D7 /* TSApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSApplication.h; sourceTree = "<group>"; };
+		C5A3970E19B90E270017F1D7 /* TSApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSApplication.m; sourceTree = "<group>"; };
+		C5A3971319B90F140017F1D7 /* TSWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSWebViewController.h; sourceTree = "<group>"; };
+		C5A3971419B90F140017F1D7 /* TSWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSWebViewController.m; sourceTree = "<group>"; };
 		C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotation.h; path = Views/Map/Annotations/TSSpotCrimeAnnotation.h; sourceTree = "<group>"; };
 		C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSSpotCrimeAnnotation.m; path = Views/Map/Annotations/TSSpotCrimeAnnotation.m; sourceTree = "<group>"; };
 		C5AFB9261919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSSpotCrimeAnnotationView.h; path = Views/TSSpotCrimeAnnotationView.h; sourceTree = "<group>"; };
@@ -1584,6 +1596,8 @@
 				C5AFBB76191EE09900EC62A5 /* TSLocalNotification.m */,
 				C5D484F018E60A2C006EB287 /* TSSocialAccountsManager.h */,
 				C5D484F118E60A2C006EB287 /* TSSocialAccountsManager.m */,
+				C5A3970D19B90E270017F1D7 /* TSApplication.h */,
+				C5A3970E19B90E270017F1D7 /* TSApplication.m */,
 				B5F2DCE618B3E70A009A7CA4 /* TSUtilities.h */,
 				B5F2DCE718B3E70A009A7CA4 /* TSUtilities.m */,
 				C532E62D18BBF1E900FC111A /* UIImage+Color.h */,
@@ -2136,6 +2150,8 @@
 				C5372DAB18B270E100D22682 /* TSAgreementViewController.m */,
 				C5AFBC001921044000EC62A5 /* TSNamePictureViewController.h */,
 				C5AFBC011921044000EC62A5 /* TSNamePictureViewController.m */,
+				C5A3971319B90F140017F1D7 /* TSWebViewController.h */,
+				C5A3971419B90F140017F1D7 /* TSWebViewController.m */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -2813,6 +2829,7 @@
 				C56356EB18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
 				C56B3D5B18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C53A63441970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
+				C5A3971519B90F140017F1D7 /* TSWebViewController.m in Sources */,
 				C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C585F1D218D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
 				B543F09018AAB4B6004C2B26 /* TSHelpViewController.m in Sources */,
@@ -2848,6 +2865,7 @@
 				C5AFBB7D191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
 				C5BBF30118F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C5AFBBA2192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
+				C5A3970F19B90E270017F1D7 /* TSApplication.m in Sources */,
 				C5662BF818DD144800FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C5662BE818DCE42E00FD4F44 /* TSRegistrationNavigationDelegate.m in Sources */,
 				C55568E81911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
@@ -3012,6 +3030,7 @@
 				C5AFBF0D1922EC6E00EC62A5 /* TSPasscodeButton.m in Sources */,
 				C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C534ACF71975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
+				C5A3971219B90E270017F1D7 /* TSApplication.m in Sources */,
 				C57C48AB18BBA2E400DFFBCE /* TSUserProfileCell.m in Sources */,
 				C532E64518BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1B218CF8B44009EEF16 /* TSSocialAuthorizationViewController.m in Sources */,
@@ -3049,6 +3068,7 @@
 				C56B3D5D18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C532E63C18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5CC4593193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
+				C5A3971819B90F140017F1D7 /* TSWebViewController.m in Sources */,
 				C5EAABEA1905AF1C005EDD7B /* TSBaseTableViewController.m in Sources */,
 				C5662BDB18DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C585F1A718CF88CF009EEF16 /* OAuthCore.m in Sources */,
@@ -3216,6 +3236,7 @@
 				C56356EC18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */,
 				C56B3D5C18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C53A63451970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
+				C5A3971619B90F140017F1D7 /* TSWebViewController.m in Sources */,
 				C57C48D418BBDB1900DFFBCE /* TSPhoneVerificationViewController.m in Sources */,
 				C55644F818E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C57C48D518BBDB1900DFFBCE /* TSRegisterViewController.m in Sources */,
@@ -3251,6 +3272,7 @@
 				C5AFBB7E191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
 				C5BBF30218F63EBE008B5CB2 /* TSBottomMapAlertButton.m in Sources */,
 				C5AFBBA3192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
+				C5A3971019B90E270017F1D7 /* TSApplication.m in Sources */,
 				C585F1A618CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */,
 				C55568E91911809300685FB0 /* TSForgotPasswordViewController.m in Sources */,
@@ -3418,6 +3440,7 @@
 				C5AFB991191D35DE00EC62A5 /* TSRouteOption.m in Sources */,
 				C5AFB992191D35DE00EC62A5 /* TSMedicalInformationViewController.m in Sources */,
 				C53A63461970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
+				C5A3971719B90F140017F1D7 /* TSWebViewController.m in Sources */,
 				C5AFB993191D35DE00EC62A5 /* TSPhoneVerificationViewController.m in Sources */,
 				C5AFB994191D35DE00EC62A5 /* TSRegistrationButton.m in Sources */,
 				C5AFB995191D35DE00EC62A5 /* TSRegisterViewController.m in Sources */,
@@ -3453,6 +3476,7 @@
 				C5AFBB7F191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
 				C5AFB9AD191D35DE00EC62A5 /* TSBottomMapAlertButton.m in Sources */,
 				C5AFBBA4192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
+				C5A3971119B90E270017F1D7 /* TSApplication.m in Sources */,
 				C5AFB9AE191D35DE00EC62A5 /* OAuthCore.m in Sources */,
 				C5AFB9AF191D35DE00EC62A5 /* TSMenuViewController.m in Sources */,
 				C5AFB9B0191D35DE00EC62A5 /* TSForgotPasswordViewController.m in Sources */,

@@ -156,7 +156,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
 
 - (IBAction)logInWithGooglePlus:(id)sender {
     
-    [[TSSocialAccountsManager sharedManager] logInWithGooglePlus];
+    [[TSSocialAccountsManager sharedManager] logInWithGooglePlus:self];
 }
 
 - (IBAction)showEULA:(id)sender {

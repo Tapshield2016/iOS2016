@@ -55,10 +55,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #elif DEMO
 
 //internal
-//    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94798b7eb37"];
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94798b7eb37"];
     
 //Demo
-    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
+//    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";
@@ -131,7 +131,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
-    self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg"]];
+    self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg_talkaphone"]];
     self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller

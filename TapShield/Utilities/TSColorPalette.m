@@ -85,12 +85,15 @@
 }
 
 + (UIColor *)tapshieldBlue {
+    //Talkaphone
     //return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
     return UIColorFromRGB(0x3aa1d3);
+//    return UIColorFromRGB(0xb30838);
 }
 
 + (UIColor *)tapshieldDarkBlue {
-    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
+//    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
+    return UIColorFromRGB(0xb30838);
 }
 
 + (UIColor *)charcoalColor {
@@ -140,11 +143,15 @@
 + (UIColor *)alertRed {
     
     return UIColorFromRGB(0xff534e);
+    //Talkaphone
+//    return UIColorFromRGB(0x3aa1d3);
 }
 
 + (UIColor *)darkAlertRed {
     
     return UIColorFromRGB(0xff534e);
+    //Talkaphone
+//    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
 }
 
 + (UIColor *)lightChatRectGray {

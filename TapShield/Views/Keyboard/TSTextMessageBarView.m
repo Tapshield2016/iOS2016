@@ -10,6 +10,7 @@
 #import "TSColorPalette.h"
 #import "TSUtilities.h"
 
+
 #define Keyboard_Height 216
 #define Inset_Side 5
 #define Inset_Top 4
@@ -225,6 +226,33 @@
     if (_adjustedTableView.visibleCells.count > 1) {
         NSIndexPath *indexPath = [_adjustedTableView indexPathForCell:[_adjustedTableView.visibleCells lastObject]];
         [_adjustedTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
+}
+
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if (self.superview) {
+        [self.superview removeObserver:self
+                            forKeyPath:@"frame"];
+    }
+    
+    [newSuperview addObserver:self
+                   forKeyPath:@"frame"
+                      options:0
+                      context:NULL];
+    
+    [super willMoveToSuperview:newSuperview];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeFrame"
+                                                            object:self];
     }
 }
 

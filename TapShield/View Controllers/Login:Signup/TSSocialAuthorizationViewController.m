@@ -138,7 +138,7 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     if (_logIn) {
         class = [TSLoginViewController class];
         
-        _transitionDelegate = [[TSTransitionDelegate alloc] init];
+        _transitionDelegate = [[TSPushTransitionDelegate alloc] init];
         
         [self pushViewControllerWithClass:class transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
     }

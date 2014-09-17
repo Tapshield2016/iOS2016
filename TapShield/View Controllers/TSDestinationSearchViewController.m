@@ -23,7 +23,7 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
 @interface TSDestinationSearchViewController ()
 
 @property (nonatomic, strong) NSArray *searchResults;
-@property (nonatomic, strong) TSTransitionDelegate *transitionDelegate;
+@property (nonatomic, strong) TSPushTransitionDelegate *transitionDelegate;
 @property (nonatomic, strong) MKLocalSearch *search;
 @property (nonatomic, strong) TSPopUpWindow *tutorialWindow;
 
@@ -413,7 +413,7 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     
     [_searchBar resignFirstResponder];
     
-    _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    _transitionDelegate = [[TSPushTransitionDelegate alloc] init];
     
     UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
     ((TSRoutePickerViewController *)destinationViewController).homeViewController = _homeViewController;

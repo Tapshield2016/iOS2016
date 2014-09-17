@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSTransitionDelegate.h"
+#import "TSPushTransitionDelegate.h"
 #import "TSDestinationSearchViewController.h"
 #import "TSNotifySelectionViewController.h"
 #import "TSChatViewController.h"
 
-@implementation TSTransitionDelegate
+@implementation TSPushTransitionDelegate
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    TSTransitionAnimation *controller = [[TSTransitionAnimation alloc]init];
+    TSPushTransitionAnimation *controller = [[TSPushTransitionAnimation alloc]init];
     controller.isPresenting = YES;
     
     if ([presented isKindOfClass:[UINavigationController class]]) {
@@ -31,7 +31,7 @@
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
 
-    TSTransitionAnimation *controller = [[TSTransitionAnimation alloc]init];
+    TSPushTransitionAnimation *controller = [[TSPushTransitionAnimation alloc]init];
     controller.isDismissing = YES;
     
     if ([dismissed isKindOfClass:[UINavigationController class]]) {
@@ -68,7 +68,7 @@
     
     // Fade In - Push
     if (operation == UINavigationControllerOperationPush) {
-        TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
+        TSPushTransitionAnimation *animator = [[TSPushTransitionAnimation alloc] init];
         animator.isPushing = YES;
         
         if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSDestinationSearchViewController class]]) {
@@ -79,7 +79,7 @@
     }
     // Fade Out - Pop
     else if (operation == UINavigationControllerOperationPop) {
-        TSTransitionAnimation *animator = [[TSTransitionAnimation alloc] init];
+        TSPushTransitionAnimation *animator = [[TSPushTransitionAnimation alloc] init];
         animator.isPopping = YES;
         
         if ([[fromVC.navigationController.viewControllers firstObject] isKindOfClass:[TSDestinationSearchViewController class]]) {

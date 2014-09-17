@@ -53,8 +53,6 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    [self.navigationItem setHidesBackButton:_hideBackButton];
-    
     CGRect frame = _textMessageBarBaseView.frame;
     frame.origin.y = -frame.size.height;
     
@@ -66,7 +64,7 @@
     _textMessageBarBaseView.identicalAccessoryView = _textMessageBarAccessoryView;
     [_textMessageBarBaseView addButtonCoveringTextViewWithTarget:self action:@selector(showKeyboard)];
     
-    frame.size.height = 0;
+//    frame.size.height = 0;
     _inputAccessoryView = [[TSObservingInputAccessoryView alloc] initWithFrame:frame];
     _inputAccessoryView.clipsToBounds = NO;
     _inputAccessoryView.backgroundColor = [UIColor clearColor];
@@ -90,6 +88,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [self.navigationItem setHidesBackButton:_hideBackButton];
     
     [TSJavelinChatManager sharedManager].unreadMessages = 0;
     
@@ -132,12 +132,23 @@
     [_textMessageBarAccessoryView.textView resignFirstResponder];
 }
 
+
+
 - (void)leftAgencyBoundaries {
     
     if (![TSAlertManager sharedManager].isAlertInProgress) {
         [self dismissViewController];
         [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
     }
+}
+
+- (BOOL)canBecomeFirstResponder{
+    
+    return YES;
+}
+
+- (UIView *)inputView {
+    return _inputAccessoryView;
 }
 
 - (void)dismissViewController {
@@ -264,6 +275,7 @@
 - (void)keyboardDidHide:(NSNotification *)notification {
     
     _textMessageBarBaseView.identicalAccessoryViewShown = NO;
+    [self becomeFirstResponder];
 }
 
 

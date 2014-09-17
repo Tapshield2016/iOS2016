@@ -37,7 +37,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 @interface TSHomeViewController ()
 
-@property (nonatomic, strong) TSTransitionDelegate *transitionController;
+@property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
+@property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
+@property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
 @property (strong, nonatomic) FBKVOController *kvoController;
 @property (nonatomic) BOOL viewDidAppear;
 @property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
@@ -73,8 +75,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     self.navigationItem.rightBarButtonItem.accessibilityLabel = @"Yank";
     self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
     self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
-    
-    _transitionController = [[TSTransitionDelegate alloc] init];
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -408,9 +408,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             }
         }
         
+        _transformCenterTransitioningDelegate = [[TSTransformCenterTransitioningDelegate alloc] init];
+        
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
         
-        TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+        TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transformCenterTransitioningDelegate animated:YES];
         pageview.homeViewController = self;
         
         [self showOnlyMap];
@@ -425,7 +427,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         return;
     }
     
-    TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transitionController animated:YES];
+    if (!_bottomUpTransitioningDelegate) {
+        _bottomUpTransitioningDelegate = [[TSBottomUpTransitioningDelegate alloc] init];
+    }
+    
+    TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_bottomUpTransitioningDelegate animated:YES];
     pageview.homeViewController = self;
     pageview.isChatPresentation = YES;
     
@@ -443,18 +449,20 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [_reportManager hideSpotCrimes];
     
+    
+    if (!_topDownTransitioningDelegate) {
+        _topDownTransitioningDelegate = [[TSTopDownTransitioningDelegate alloc] init];
+    }
+    
     if (![TSVirtualEntourageManager sharedManager].isEnabled) {
-        TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_transitionController animated:YES];
+        TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
         
         [self showOnlyMap];
     }
     else {
-        if (!_transitionController) {
-            _transitionController = [[TSTransitionDelegate alloc] init];
-        }
         
-        TSNotifySelectionViewController *viewController = (TSNotifySelectionViewController *)[self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_transitionController animated:YES];
+        TSNotifySelectionViewController *viewController = (TSNotifySelectionViewController *)[self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
     }
 }

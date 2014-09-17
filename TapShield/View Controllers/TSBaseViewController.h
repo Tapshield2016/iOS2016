@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FacebookSDK/FacebookSDK.h>
-#import <GooglePlus/GooglePlus.h>
 #import "TSConstants.h"
 #import "TSAppDelegate.h"
 #import "TSJavelinAPIClient.h"
@@ -17,7 +15,7 @@
 #import "UIImage+Color.h"
 #import "UIView+FirstResponder.h"
 #import "TSLocationController.h"
-#import "TSTransitionDelegate.h"
+#import "TSPushTransitionDelegate.h"
 #import "TSCircularButton.h"
 #import "TSRalewayFont.h"
 #import "TSBaseLabel.h"
@@ -29,6 +27,10 @@
 #import "GAITrackedViewController.h"
 #import "FBShimmeringView.h"
 #import "NSDate+Utilities.h"
+#import "TSBasePresentationController.h"
+#import "TSTransformCenterTransitioner.h"
+#import "TSTopDownTransitioner.h"
+#import "TSBottomUpTransitioner.h"
 
 @interface TSBaseViewController : GAITrackedViewController
 

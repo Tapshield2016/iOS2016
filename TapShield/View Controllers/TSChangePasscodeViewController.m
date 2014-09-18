@@ -26,6 +26,8 @@ static NSString * const TSChangePasscodeViewControllerShouldLogin = @"TSChangePa
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _tableViewController.tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    
     _didSendReset = [[NSUserDefaults standardUserDefaults] boolForKey:TSChangePasscodeViewControllerShouldLogin];
     
     [[NSNotificationCenter defaultCenter] addObserver:self

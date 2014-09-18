@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     
-    
+    self.tableView.backgroundColor = [TSColorPalette listBackgroundColor];
 }
 
 - (void)didReceiveMemoryWarning

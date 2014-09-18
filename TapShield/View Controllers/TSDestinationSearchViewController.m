@@ -60,12 +60,19 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     
     self.view.backgroundColor = [UIColor clearColor];
     
-    [self showTutorial];
+    _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    if (!self.firstAppear) {
+        [self showTutorial];
+        self.tableViewTopLayout.constant = self.view.frame.size.height*2;
+        self.tableViewBottomLayout.constant = -self.view.frame.size.height*2;
+        self.firstAppear = YES;
+    }
     
     [_tableView reloadData];
 }
@@ -148,22 +155,22 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
 
 - (void)presentationAnimation {
     
-    CGRect frame = _tableView.frame;
-    frame.origin.y = _toolBarView.frame.origin.y + _toolBarView.frame.size.height;
-    frame.size.height = self.view.bounds.size.height - frame.origin.y;
-    
-    [UIView animateWithDuration:0.3 delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        _tableView.frame = frame;
+    [UIView animateWithDuration:0.3 delay:0.0f usingSpringWithDamping:300.0 initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.tableViewTopLayout.constant = 0;
+        self.tableViewBottomLayout.constant = 0;
+        [self.view layoutIfNeeded];
     } completion:nil];
+
 }
 
 - (void)dismissalAnimation {
     
-    CGRect frame = _tableView.frame;
-    frame.origin.y = self.view.bounds.size.height*2;
+    [_searchBar resignFirstResponder];
     
-    [UIView animateWithDuration:0.6 delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        _tableView.frame = frame;
+    [UIView animateWithDuration:0.5 delay:0.0f usingSpringWithDamping:300.0 initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.tableViewTopLayout.constant = self.view.frame.size.height*2;
+        self.tableViewBottomLayout.constant = -self.view.frame.size.height*2;
+        [self.view layoutIfNeeded];
     } completion:nil];
 }
 

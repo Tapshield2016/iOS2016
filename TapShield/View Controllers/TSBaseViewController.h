@@ -46,6 +46,7 @@
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;
 
+@property (assign, nonatomic) BOOL firstAppear;
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (strong, nonatomic) UIToolbar *toolbar;
 @property (strong, nonatomic) UIImage *clearButtonImage;

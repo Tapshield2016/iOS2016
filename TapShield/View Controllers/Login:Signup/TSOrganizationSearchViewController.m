@@ -19,6 +19,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    
     _statusString = @"Locating...";
     
     if (![(TSAppDelegate *)[UIApplication sharedApplication].delegate isConnected]) {

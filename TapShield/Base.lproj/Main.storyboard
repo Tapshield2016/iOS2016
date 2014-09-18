@@ -4457,8 +4457,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <tableView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
-                                <rect key="frame" x="0.0" y="1200" width="320" height="464"/>
+                            <tableView opaque="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
+                                <rect key="frame" x="0.0" y="104" width="320" height="464"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vuB-WZ-keb" id="4Mr-tb-Hfm"/>
@@ -4489,6 +4489,10 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <constraints>
                             <constraint firstItem="GgN-I0-Vx7" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="5Vt-n3-FSS"/>
                             <constraint firstItem="GgN-I0-Vx7" firstAttribute="top" secondItem="dTj-Wb-H6Q" secondAttribute="top" constant="60" id="BD5-Py-KS3"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="GgN-I0-Vx7" secondAttribute="bottom" id="OQt-sF-Avh"/>
+                            <constraint firstAttribute="trailing" secondItem="MMA-RX-ciz" secondAttribute="trailing" id="WOS-z3-zbg"/>
+                            <constraint firstItem="YcF-kv-V2o" firstAttribute="top" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="luT-vQ-5AP"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="uHu-xX-mcz"/>
                             <constraint firstAttribute="trailing" secondItem="GgN-I0-Vx7" secondAttribute="trailing" id="uII-Eq-Gei"/>
                         </constraints>
                     </view>
@@ -4509,6 +4513,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <outlet property="dismissalView" destination="HS1-2j-UMN" id="eSc-2w-671"/>
                         <outlet property="searchBar" destination="R8m-ie-HlH" id="STJ-J4-Okb"/>
                         <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
+                        <outlet property="tableViewBottomLayout" destination="luT-vQ-5AP" id="cw7-Ts-uHb"/>
+                        <outlet property="tableViewTopLayout" destination="OQt-sF-Avh" id="hK0-3P-US9"/>
                         <outlet property="toolBarView" destination="GgN-I0-Vx7" id="Z7t-GC-0LV"/>
                     </connections>
                 </viewController>
@@ -4900,7 +4906,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <color key="textColor" red="0.37647058820000001" green="0.38823529410000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-8i-ojU">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-8i-ojU" customClass="TSBaseTextView">
                                                     <rect key="frame" x="15" y="29" width="285" height="81"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <accessibility key="accessibilityConfiguration" label="Allergies"/>
@@ -4926,7 +4932,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <color key="textColor" red="0.37647058820000001" green="0.38823529410000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4J-xi-BbG">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4J-xi-BbG" customClass="TSBaseTextView">
                                                     <rect key="frame" x="15" y="29" width="290" height="81"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <accessibility key="accessibilityConfiguration" label="Medications"/>

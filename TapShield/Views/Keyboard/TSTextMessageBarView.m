@@ -12,7 +12,7 @@
 
 static NSString * const kTextMessagePlaceholder = @"Text Message";
 
-#define Inset_Side 5
+#define Inset_Side 3
 #define Inset_Top 4
 #define Font_Size 16
 
@@ -49,14 +49,12 @@ static NSString * const kTextMessagePlaceholder = @"Text Message";
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self insertSubview:self.toolbar atIndex:0];
     
-    CGRect textViewFrame = CGRectMake(self.frame.size.width/10 + 5, self.frame.size.height/10 * 2, self.frame.size.width/10 * 7, self.frame.size.height/10 * 6);
+    CGRect textViewFrame = CGRectMake(self.frame.size.width/10, self.frame.size.height/10 * 2, self.frame.size.width/10 * 7 + 6, self.frame.size.height/10 * 6);
     
     _textView = [[TSBaseTextView alloc] initWithFrame:textViewFrame];
     _textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    _textView.layer.cornerRadius = 5;
-    _textView.tintColor = [TSColorPalette tapshieldBlue];
-    _textView.font = [UIFont systemFontOfSize:Font_Size];
     [_textView setTextContainerInset:UIEdgeInsetsMake(Inset_Top, Inset_Side, 0, Inset_Side)];
+    _textView.font = [UIFont systemFontOfSize:Font_Size];
     _textView.placeholder = kTextMessagePlaceholder;
     
     [self addSubview:_textView];

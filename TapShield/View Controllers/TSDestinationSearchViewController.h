@@ -22,6 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIView *dismissalView;
 @property (weak, nonatomic) IBOutlet TSToolBarView *toolBarView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopLayout;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottomLayout;
+
 - (void)presentationAnimation;
 
 - (IBAction)dismissViewController:(id)sender;

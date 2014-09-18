@@ -105,6 +105,10 @@
 
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location {
     
+    if (!location) {
+        return;
+    }
+    
     MKCircle *previousCircle = _accuracyCircle;
     MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
     

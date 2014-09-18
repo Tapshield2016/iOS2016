@@ -42,10 +42,7 @@ static dispatch_once_t predicate;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locationManager.distanceFilter = 1.0;
         self.geofence = [[TSGeofence alloc] init];
-        
-//        if ([UIDevice currentDevice].systemVersion.integerValue >= 8) {
-//            [self.locationManager requestAlwaysAuthorization];
-//        }
+        [self.locationManager requestAlwaysAuthorization];
         
         UIDevice *device = [UIDevice currentDevice];
         device.batteryMonitoringEnabled = YES;

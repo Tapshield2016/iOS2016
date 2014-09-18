@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSTransitionAnimation.h"
+#import "TSPushTransitionAnimation.h"
 #import "TSDestinationSearchViewController.h"
 
-@implementation TSTransitionAnimation
+@implementation TSPushTransitionAnimation
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
     return 0.5f;

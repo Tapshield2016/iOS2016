@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TSTransitionAnimation.h"
+#import "TSPushTransitionAnimation.h"
 
-@interface TSTransitionDelegate : NSObject <UIViewControllerTransitioningDelegate, UINavigationControllerDelegate>
+@interface TSPushTransitionDelegate : NSObject <UIViewControllerTransitioningDelegate, UINavigationControllerDelegate>
 
 @end

@@ -30,6 +30,8 @@ NSString * const TSSettingsCurrentOrg = @"Your current organization: %@";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    
     _autoYankSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:TSYankManagerSettingAutoEnableYank];
 }
 

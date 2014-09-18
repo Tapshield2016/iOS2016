@@ -35,7 +35,7 @@
 @property (weak, nonatomic) IBOutlet TSAnimatedView *linkedinView;
 @property (weak, nonatomic) IBOutlet TSAnimatedView *emailView;
 
-@property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
+@property (strong, nonatomic) TSPushTransitionDelegate *transitionDelegate;
 
 
 @property (nonatomic) BOOL logIn;

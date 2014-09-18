@@ -27,6 +27,10 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    
+    _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    
     _cellIdentifiers = @[@"TSBasicInfoViewController",
                          @"TSContactDataViewController",
                          @"TSAppearanceViewController",

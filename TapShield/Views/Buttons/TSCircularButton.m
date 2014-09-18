@@ -41,6 +41,12 @@
     return self;
 }
 
+- (void)drawRect:(CGRect)rect {
+    
+    [self.circleLayer removeFromSuperlayer];
+    [[self layer] insertSublayer:self.circleLayer atIndex:0];
+}
+
 - (void)setHighlighted:(BOOL)highlighted {
     
     [super setHighlighted:highlighted];

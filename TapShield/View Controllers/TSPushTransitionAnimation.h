@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TSTransitionAnimation : NSObject <UIViewControllerAnimatedTransitioning>
+@interface TSPushTransitionAnimation : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign) BOOL isPresenting;
 @property (nonatomic, assign) BOOL isDismissing;

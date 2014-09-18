@@ -14,7 +14,7 @@
 @interface TSEmergencyAlertViewController ()
 
 @property (strong, nonatomic) TSVoipViewController *voipController;
-@property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
+@property (strong, nonatomic) TSTransformCenterTransitioningDelegate *transitionDelegate;
 
 @end
 
@@ -179,11 +179,11 @@
     UIViewController *viewController = ((TSPageViewController *)self.parentViewController).chatViewController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
-    if (!_transitionDelegate) {
-        _transitionDelegate = [[TSTransitionDelegate alloc] init];
-    }
-    navigationController.transitioningDelegate = _transitionDelegate;
-    navigationController.modalPresentationStyle = UIModalPresentationCustom;
+//    if (!_transitionDelegate) {
+//        _transitionDelegate = [[TSTransitionDelegate alloc] init];
+//    }
+//    navigationController.transitioningDelegate = _transitionDelegate;
+//    navigationController.modalPresentationStyle = UIModalPresentationCustom;
     
     [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];
 }
@@ -195,11 +195,11 @@
     viewController.reportManager = ((TSPageViewController *)self.parentViewController).homeViewController.reportManager;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
-    if (!_transitionDelegate) {
-        _transitionDelegate = [[TSTransitionDelegate alloc] init];
-    }
-    navigationController.transitioningDelegate = _transitionDelegate;
-    navigationController.modalPresentationStyle = UIModalPresentationCustom;
+//    if (!_transitionDelegate) {
+//        _transitionDelegate = [[TSTransitionDelegate alloc] init];
+//    }
+//    navigationController.transitioningDelegate = _transitionDelegate;
+//    navigationController.modalPresentationStyle = UIModalPresentationCustom;
     
     [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];
 }

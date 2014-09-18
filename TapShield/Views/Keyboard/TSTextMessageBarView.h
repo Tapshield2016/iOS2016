@@ -7,29 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSBaseTextView.h"
 
 @interface TSTextMessageBarView : UIView
 
-@property (strong, nonatomic) UITableView *adjustedTableView;
-@property (strong, nonatomic) UIView *identicalAccessoryView;
-@property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) TSBaseTextView *textView;
 @property (strong, nonatomic) UIButton *sendButton;
 @property (strong, nonatomic) UIButton *showKeyboardButton;
 @property (strong, nonatomic) UIToolbar *toolbar;
 
-@property (assign, nonatomic) BOOL identicalAccessoryViewShown;
-
 @property (assign, nonatomic) int originalBarHeight;
-@property (assign, nonatomic) int originalBarOriginY;
-@property (assign, nonatomic) int originalTextViewHeight;
 
 - (void)setupSubview;
 - (void)addCameraButtonWithTarget:(id)target action:(SEL)action;
-- (void)addButtonCoveringTextViewWithTarget:(id)target action:(SEL)action;
 - (void)setSendButtonTarget:(id)target action:(SEL)action;
-
 - (void)refreshBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar;
-- (void)resetBarHeightWithKeyboard:(UIView *)keyboard navigationBar:(UINavigationBar *)navigationBar;
-- (void)resizeBarToReflect:(TSTextMessageBarView *)barView;
 
 @end

@@ -4420,22 +4420,12 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <outlet property="delegate" destination="DqL-1a-yG4" id="FFE-ml-asO"/>
                                 </connections>
                             </tableView>
-                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q3j-Iq-ICn" customClass="TSTextMessageBarView">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Jhx-Yx-2cU"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Q3j-Iq-ICn" secondAttribute="trailing" id="7i5-j5-jgM"/>
                             <constraint firstItem="lsq-WK-GMC" firstAttribute="leading" secondItem="Zpu-W3-kLP" secondAttribute="leading" id="NdU-M6-hcR"/>
-                            <constraint firstItem="Fjp-4A-Bra" firstAttribute="top" secondItem="lsq-WK-GMC" secondAttribute="bottom" id="aEr-1O-ehl"/>
-                            <constraint firstItem="Fjp-4A-Bra" firstAttribute="top" secondItem="Q3j-Iq-ICn" secondAttribute="bottom" id="fs1-hs-3ds"/>
+                            <constraint firstItem="Fjp-4A-Bra" firstAttribute="top" secondItem="lsq-WK-GMC" secondAttribute="bottom" id="iAq-wR-Xsn"/>
                             <constraint firstAttribute="trailing" secondItem="lsq-WK-GMC" secondAttribute="trailing" id="jFe-Qk-DLo"/>
-                            <constraint firstItem="Q3j-Iq-ICn" firstAttribute="leading" secondItem="Zpu-W3-kLP" secondAttribute="leading" id="l8l-dl-OPL"/>
                             <constraint firstItem="lsq-WK-GMC" firstAttribute="top" secondItem="Zpu-W3-kLP" secondAttribute="top" id="yVk-T8-xEu"/>
                         </constraints>
                     </view>
@@ -4445,7 +4435,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="lsq-WK-GMC" id="BNT-SD-787"/>
-                        <outlet property="textMessageBarBaseView" destination="Q3j-Iq-ICn" id="N2x-kY-5gK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JNH-7u-eaS" userLabel="First Responder" sceneMemberID="firstResponder"/>

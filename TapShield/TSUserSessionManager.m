@@ -286,9 +286,14 @@ static dispatch_once_t predicate;
         frame.origin.y = [UIScreen mainScreen].bounds.size.height;
         _window.frame = frame;
         
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            _window.frame = [UIScreen mainScreen].bounds;
-        } completion:nil];
+        [UIView animateWithDuration:0.5
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             _window.frame = [UIScreen mainScreen].bounds;
+                         } completion:nil];
     }
 }
 
@@ -327,7 +332,12 @@ static dispatch_once_t predicate;
         
         [viewcontroller viewWillAppear:YES];
         
-        [UIView animateWithDuration:0.3f animations:^{
+        [UIView animateWithDuration:0.5
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
             _window.alpha = 0.0f;
         } completion:^(BOOL finished) {
             

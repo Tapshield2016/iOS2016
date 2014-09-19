@@ -8,7 +8,6 @@
 
 #import "TSRegisterViewController.h"
 #import "TSEmailVerificationViewController.h"
-#import "TSRegistrationNavigationDelegate.h"
 
 @interface TSRegisterViewController ()
 
@@ -106,7 +105,8 @@
 
 - (IBAction)dismissRegistration:(id)sender {
     
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+    [self.view.findFirstResponder resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }];
 }

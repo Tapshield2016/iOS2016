@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSBaseTextView : UITextView
+@interface TSBaseTextView : UITextView <UITextViewDelegate>
 
 @property(nonatomic, strong) NSString *placeholder;
 

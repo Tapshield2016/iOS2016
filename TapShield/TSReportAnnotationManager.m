@@ -218,7 +218,7 @@
         NSArray *newSpotCrimes = [spotCrimes objectsAtIndexes:addIndexSet];
         [self addAnnotations:newSpotCrimes];
         [_spotCrimes addObjectsFromArray:newSpotCrimes];
-        [self addHeatMapOverlays:[newSpotCrimes copy]];
+        [self addHeatMapOverlays:newSpotCrimes];
     }
 }
 
@@ -230,7 +230,7 @@
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     
-    for (TSSpotCrimeAnnotation *annotation in spotCrimes) {
+    for (TSSpotCrimeAnnotation *annotation in [spotCrimes copy]) {
         MKCircle *heatMarker = [MKCircle circleWithCenterCoordinate:annotation.coordinate radius:50];
         heatMarker.title = @"heat_marker";
         [mutableArray addObject:heatMarker];

@@ -8,8 +8,6 @@
 
 #import "TSEmailVerificationViewController.h"
 #import "TSJavelinAPIAuthenticationManager.h"
-#import "TSPhoneVerificationViewController.h"
-#import "TSNamePictureViewController.h"
 #import "TSUserSessionManager.h"
 
 @interface TSEmailVerificationViewController ()

@@ -7,10 +7,12 @@
 //
 
 #import "TSBaseTextView.h"
+#import "TSColorPalette.h"
 
 @interface TSBaseTextView ()
 
 @property (unsafe_unretained, nonatomic, readonly) NSString* realText;
+@property (strong, nonatomic) UILabel *placeholderLabel;
 
 @end
 
@@ -37,88 +39,78 @@
 
 
 - (void)awakeFromNib {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopEditing:) name:UITextViewTextDidEndEditingNotification object:self];
     
-    self.realTextColor = self.textColor;
+    self.layer.cornerRadius = 5;
+    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.layer.borderWidth = .5;
+    self.tintColor = [TSColorPalette tapshieldBlue];
+    
+    _placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _placeholderLabel.userInteractionEnabled = NO;
+    _placeholderLabel.textColor = _placeholderColor;
+    [self addSubview:_placeholderLabel];
+    
     self.placeholderColor = [UIColor lightGrayColor];
 }
 
 #pragma mark - Setter/Getters
 
 - (void) setPlaceholder:(NSString *)aPlaceholder {
-    if ([self.realText isEqualToString:_placeholder] && ![self isFirstResponder]) {
-        self.text = aPlaceholder;
-    }
-    if (aPlaceholder != _placeholder) {
-        _placeholder = aPlaceholder;
-    }
     
+    float offset = 6;
+    CGRect frame = CGRectMake(self.textContainerInset.left+offset, self.textContainerInset.top, self.frame.size.width - (self.textContainerInset.left+offset) - (self.textContainerInset.right+offset), self.frame.size.height - self.textContainerInset.top - self.textContainerInset.bottom);
+    _placeholderLabel.frame = frame;
+    _placeholderLabel.text = aPlaceholder;
+    _placeholderLabel.backgroundColor = [UIColor clearColor];
+    _placeholderLabel.numberOfLines = 0;
+    _placeholderLabel.font = self.font;
+    [_placeholderLabel sizeToFit];
     
-    [self stopEditing:nil];
+    if (!self.delegate) {
+        self.delegate = self;
+    }
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    [self text];
+}
+
+- (void)setFont:(UIFont *)font {
+    
+    [super setFont:font];
+    
+    _placeholderLabel.font = font;
 }
 
 - (void)setPlaceholderColor:(UIColor *)aPlaceholderColor {
     _placeholderColor = aPlaceholderColor;
     
-    if ([super.text isEqualToString:self.placeholder]) {
-        self.textColor = self.placeholderColor;
-    }
+    _placeholderLabel.textColor = _placeholderColor;
 }
 
-- (NSString *) text {
-    NSString* text = [super text];
-    if ([text isEqualToString:self.placeholder]) return @"";
+- (NSString *)text {
+    NSString *text = [super text];
+    
+    if ([text isEqualToString:@""] || !text) {
+        _placeholderLabel.hidden = NO;
+    }
+    else {
+        _placeholderLabel.hidden = YES;
+    }
+    
     return text;
 }
 
 - (void) setText:(NSString *)text {
-    if (([text isEqualToString:@""] || text == nil) && ![self isFirstResponder]) {
-        super.text = self.placeholder;
+    
+    if ([text isEqualToString:@""] || !text) {
+        _placeholderLabel.hidden = NO;
     }
     else {
-        super.text = text;
+        _placeholderLabel.hidden = YES;
     }
     
-    if ([text isEqualToString:self.placeholder] || text == nil) {
-        self.textColor = self.placeholderColor;
-    }
-    else {
-        self.textColor = self.realTextColor;
-    }
+    super.text = text;
 }
-
-- (NSString *) realText {
-    return [super text];
-}
-
-- (void) beginEditing:(NSNotification*) notification {
-    if ([self.realText isEqualToString:self.placeholder]) {
-        super.text = nil;
-        self.textColor = self.realTextColor;
-    }
-}
-
-- (void) stopEditing:(NSNotification*) notification {
-    if ([self.realText isEqualToString:@""] || self.realText == nil) {
-        super.text = self.placeholder;
-        self.textColor = self.placeholderColor;
-    }
-}
-
-- (void) setTextColor:(UIColor *)textColor {
-    if ([self.realText isEqualToString:self.placeholder]) {
-        if ([textColor isEqual:self.placeholderColor]){
-            [super setTextColor:textColor];
-        } else {
-            self.realTextColor = textColor;
-        }
-    }
-    else {
-        self.realTextColor = textColor;
-        [super setTextColor:textColor];
-    }
-}
-
 
 @end

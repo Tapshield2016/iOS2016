@@ -107,7 +107,7 @@
 
 - (IBAction)forgotPassword:(id)sender {
     
-    _transitionDelegate = [[TSTransitionDelegate alloc] init];
+    _transitionDelegate = [[TSPushTransitionDelegate alloc] init];
     
     TSForgotPasswordViewController *viewcontroller = (TSForgotPasswordViewController *)[self pushViewControllerWithClass:[TSForgotPasswordViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
     

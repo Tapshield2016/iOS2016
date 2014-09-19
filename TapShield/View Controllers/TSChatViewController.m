@@ -53,32 +53,14 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    [self.navigationItem setHidesBackButton:_hideBackButton];
-    
-    CGRect frame = _textMessageBarBaseView.frame;
-    frame.origin.y = -frame.size.height;
+    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
     
     _textMessageBarAccessoryView = [[TSTextMessageBarView alloc] initWithFrame:frame];
     _textMessageBarAccessoryView.textView.delegate = self;
-    _textMessageBarAccessoryView.adjustedTableView = _tableView;
-    
-    _textMessageBarBaseView.textView.delegate = self;
-    _textMessageBarBaseView.identicalAccessoryView = _textMessageBarAccessoryView;
-    [_textMessageBarBaseView addButtonCoveringTextViewWithTarget:self action:@selector(showKeyboard)];
-    
-    frame.size.height = 0;
-    _inputAccessoryView = [[TSObservingInputAccessoryView alloc] initWithFrame:frame];
-    _inputAccessoryView.clipsToBounds = NO;
-    _inputAccessoryView.backgroundColor = [UIColor clearColor];
-    
-    _textMessageBarAccessoryView.textView.inputAccessoryView = _inputAccessoryView;
-    [_inputAccessoryView addSubview:_textMessageBarAccessoryView];
-    
+    _textMessageBarAccessoryView.textView.inputAccessoryView = _textMessageBarAccessoryView;
     [_textMessageBarAccessoryView setSendButtonTarget:self action:@selector(sendMessage)];
-    [_textMessageBarBaseView setSendButtonTarget:self action:@selector(sendMessage)];
     
     _tableView.backgroundColor = [UIColor clearColor];
-    [_tableView setContentInset:UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, _textMessageBarBaseView.frame.size.height, 0.0f)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,6 +72,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [self.navigationItem setHidesBackButton:_hideBackButton];
     
     [TSJavelinChatManager sharedManager].unreadMessages = 0;
     
@@ -119,6 +103,7 @@
     self.navigationController.navigationBar.topItem.title = self.title;
     
     [self showKeyboard];
+//    [self becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -132,12 +117,23 @@
     [_textMessageBarAccessoryView.textView resignFirstResponder];
 }
 
+
+
 - (void)leftAgencyBoundaries {
     
     if (![TSAlertManager sharedManager].isAlertInProgress) {
         [self dismissViewController];
         [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
     }
+}
+
+- (BOOL)canBecomeFirstResponder{
+    
+    return YES;
+}
+
+- (UIView *)inputAccessoryView {
+    return _textMessageBarAccessoryView;
 }
 
 - (void)dismissViewController {
@@ -165,7 +161,7 @@
 
 - (void)showKeyboard {
     
-    [_textMessageBarBaseView.textView becomeFirstResponder];
+    [_textMessageBarAccessoryView.textView becomeFirstResponder];
 }
 
 - (void)updateTableViewCells {
@@ -190,11 +186,11 @@
 
 - (void)sendMessage {
     
-    if (_textMessageBarBaseView.textView.text.length < 1) {
+    if (_textMessageBarAccessoryView.textView.text.length < 1) {
         return;
     }
     
-    [[[TSJavelinAPIClient sharedClient] chatManager] sendChatMessage:_textMessageBarBaseView.textView.text];
+    [[[TSJavelinAPIClient sharedClient] chatManager] sendChatMessage:_textMessageBarAccessoryView.textView.text];
     [self updateTableViewCells];
     
     [self resetMessageBars];
@@ -204,16 +200,13 @@
         [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
         [self.navigationItem setHidesBackButton:NO animated:YES];
         [self.navigationItem setRightBarButtonItem:nil animated:YES];
-//        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStylePlain target:nil action:nil] animated:YES];
         [self.navigationItem setLeftItemsSupplementBackButton:YES];
     }
 }
 
 - (void)resetMessageBars {
     _textMessageBarAccessoryView.textView.text = @"";
-    _textMessageBarBaseView.textView.text = @"";
-    [_textMessageBarAccessoryView resetBarHeightWithKeyboard:_inputAccessoryView.superview navigationBar:self.navigationController.navigationBar];
-    [_textMessageBarBaseView resizeBarToReflect:_textMessageBarAccessoryView];
+    [_textMessageBarAccessoryView refreshBarHeightWithKeyboard:_textMessageBarAccessoryView.superview navigationBar:self.navigationController.navigationBar];
 }
 
 #pragma mark - Keyboard Notifications
@@ -237,7 +230,7 @@
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, _textMessageBarBaseView.frame.size.height + keyboardBounds.size.height, 0.0f);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0.0f, keyboardBounds.size.height + 2, 0.0f);
     _tableView.contentInset = contentInsets;
     _tableView.scrollIndicatorInsets = contentInsets;
     
@@ -252,8 +245,7 @@
 
 - (void)keyboardDidShow:(NSNotification *)notification {
     
-    [_textMessageBarAccessoryView.textView becomeFirstResponder];
-    _textMessageBarBaseView.identicalAccessoryViewShown = YES;
+    
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -263,16 +255,14 @@
 
 - (void)keyboardDidHide:(NSNotification *)notification {
     
-    _textMessageBarBaseView.identicalAccessoryViewShown = NO;
+//    [self becomeFirstResponder];
 }
 
 
 #pragma mark - Text View Delegate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    _textMessageBarBaseView.textView.text = textView.text;
-    [_textMessageBarAccessoryView refreshBarHeightWithKeyboard:_inputAccessoryView.superview navigationBar:self.navigationController.navigationBar];
-    [_textMessageBarBaseView resizeBarToReflect:_textMessageBarAccessoryView];
+    [_textMessageBarAccessoryView refreshBarHeightWithKeyboard:_textMessageBarAccessoryView.superview navigationBar:self.navigationController.navigationBar];
 }
 
 
@@ -308,42 +298,6 @@
     return [TSChatMessageCell heightForChatCellAtIndexPath:indexPath];
 }
 
-#pragma mark - Scroll View Delegate
-
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    [self setRealAccessoryView];
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-//    [self performSelectorOnMainThread:@selector(setDecoyAccessoryView) withObject:nil waitUntilDone:YES];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-    
-}
-
-
-- (void)setRealAccessoryView {
-    CGRect frame = _inputAccessoryView.frame;
-    frame.size.height = _textMessageBarAccessoryView.frame.size.height;
-    _inputAccessoryView.frame = frame;
-    _textMessageBarAccessoryView.frame = frame;
-}
-
-- (void)setDecoyAccessoryView {
-    
-    CGRect frame = _inputAccessoryView.frame;
-    frame.size.height = 0.0f;
-    frame.origin.y = 0.0f;
-    _inputAccessoryView.frame = frame;
-    
-    frame = _textMessageBarAccessoryView.frame;
-    frame.origin.y = -_textMessageBarAccessoryView.frame.size.height;
-    _textMessageBarAccessoryView.frame = frame;
-}
 
 #pragma mark Prompt Messages
 

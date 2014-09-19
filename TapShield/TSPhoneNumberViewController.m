@@ -39,8 +39,10 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
-    if ([TSJavelinAPIClient loggedInUser].phoneNumber) {
+    if ([TSJavelinAPIClient loggedInUser].phoneNumber.length) {
         _phoneNumberTextField.text = [TSJavelinAPIClient loggedInUser].phoneNumber;
+        _sendVerificationButton.enabled = YES;
+        [self smsWasSent];
     }
 }
 
@@ -92,22 +94,19 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
 - (void)smsWasSent {
     
     if (_codeView.hidden) {
-        
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            CGRect frame = _sendVerificationButton.frame;
-            frame.origin.y = _codeView.frame.origin.y + (_codeView.frame.size.height*2);
-            _sendVerificationButton.frame = frame;
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.3 animations:^{
-                for (UIView *view in self.view.subviews) {
-                    if (view.hidden) {
-                        view.hidden = NO;
+            [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                _sendButtonTopLayout.constant = _sendVerificationButton.frame.size.height*4;
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    for (UIView *view in self.view.subviews) {
+                        if (view.hidden) {
+                            view.hidden = NO;
+                        }
+                        view.alpha = 1.0;
                     }
-                    view.alpha = 1.0;
-                }
-                [_sendVerificationButton setTitle:kResendSMS forState:UIControlStateNormal];
+                    [_sendVerificationButton setTitle:kResendSMS forState:UIControlStateNormal];
+                }];
             }];
-        }];
     }
     
     [_codeTextField becomeFirstResponder];
@@ -124,10 +123,17 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
 
 - (void)sendVerificationCodeTo:(NSString *)phoneNumber {
     
+    _sendVerificationButton.enabled = NO;
+    
     [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPhoneNumberVerificationRequest:phoneNumber completion:^(id responseObject) {
+        _sendVerificationButton.enabled = YES;
         if (!responseObject) {
             [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumber = phoneNumber;
-            [self smsWasSent];
+            [[TSJavelinAPIAuthenticationManager sharedManager] updateLoggedInUser:nil];
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self smsWasSent];
+            }];
         }
         else {
             _topLabel.text = @"Failed to send verification code";
@@ -149,9 +155,6 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     _topLabel.text = kEnterPhoneNumber;
     _topLabel.textColor = [TSColorPalette activeTextColor];
 }
-
-
-#pragma mark - TextField Delegate
 
 - (void)dismissKeyboard {
     [[self.view findFirstResponder] resignFirstResponder];
@@ -180,13 +183,17 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
         }
     }
     else if (_phoneNumberTextField == textField) {
-        
-        if (textField.text.length > 1) {
+        NSString *afterString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        if (afterString.length == 0) {
+            _sendVerificationButton.enabled = NO;
+        }
+        else {
             _sendVerificationButton.enabled = YES;
         }
         
         NSString *alphaNumericTextField = [self removeNonNumericalCharacters:textField.text];
         if ([string isEqualToString:@""]) {
+            
             if ([alphaNumericTextField length] == 4) {
                 textField.text = [self removeNonNumericalCharacters:textField.text];
             }
@@ -195,6 +202,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
             }
             return YES;
         }
+        
         if ([alphaNumericTextField length] == 3) {
             textField.text = [NSString stringWithFormat:@"(%@) ",textField.text];
         }

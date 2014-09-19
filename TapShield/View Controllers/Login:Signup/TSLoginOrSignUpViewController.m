@@ -9,7 +9,6 @@
 #import "TSLoginOrSignUpViewController.h"
 #import "TSSocialAuthorizationViewController.h"
 #import "TSLoginViewController.h"
-#import "TSAskOrganizationViewController.h"
 
 @interface TSLoginOrSignUpViewController ()
 

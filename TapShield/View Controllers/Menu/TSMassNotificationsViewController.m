@@ -28,6 +28,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
     
     _massNotificationManager = [[TSJavelinMassNotificationManager alloc] init];
     [_tableView reloadData];

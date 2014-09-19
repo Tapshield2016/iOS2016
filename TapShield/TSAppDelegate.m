@@ -55,7 +55,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #elif DEMO
 
 //internal
-    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94798b7eb37"];
+    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     
 //Demo
 //    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
@@ -115,6 +115,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [UITableView appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UITableView appearance].separatorColor = [TSColorPalette cellSeparatorColor];
     [UITableView appearance].backgroundColor = [TSColorPalette listBackgroundColor];
+    [UITableViewCell appearance].backgroundColor = [TSColorPalette cellBackgroundColor];
 //    [UITableView appearance].sectionIndexTrackingBackgroundColor = [TSColorPalette tableViewHeaderColor];
     
     // Override point for customization after application launch.

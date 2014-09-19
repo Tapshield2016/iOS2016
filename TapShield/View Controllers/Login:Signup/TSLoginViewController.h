@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet FBShimmeringView *shimmeringView;
 
-@property (strong, nonatomic) TSTransitionDelegate *transitionDelegate;
+@property (strong, nonatomic) TSPushTransitionDelegate *transitionDelegate;
 
 - (IBAction)backToSignUp:(id)sender;
 

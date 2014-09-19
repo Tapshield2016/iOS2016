@@ -143,6 +143,9 @@
     [_volumeHolder removeFromSuperview];
     
     if (media) {
+        
+        NSString *buttonTitle;
+        
         if ([media isKindOfClass:[NSURL class]]) {
             
             if ([(NSURL *)media isAudio]) {
@@ -151,14 +154,13 @@
                 _audioPlayButton.hidden = NO;
                 [self initAudioPlayer];
             }
-        }
-        
-        NSString *buttonTitle;
-        if ([(NSURL *)media isVideo]) {
-            buttonTitle = [NSString stringWithFormat:@"Change %@", @"Video"];
-        }
-        else if ([(NSURL *)media isAudio]) {
-            buttonTitle = [NSString stringWithFormat:@"Change %@", @"Audio"];
+            
+            if ([(NSURL *)media isVideo]) {
+                buttonTitle = [NSString stringWithFormat:@"Change %@", @"Video"];
+            }
+            else if ([(NSURL *)media isAudio]) {
+                buttonTitle = [NSString stringWithFormat:@"Change %@", @"Audio"];
+            }
         }
         else {
             buttonTitle = [NSString stringWithFormat:@"Change %@", @"Image"];

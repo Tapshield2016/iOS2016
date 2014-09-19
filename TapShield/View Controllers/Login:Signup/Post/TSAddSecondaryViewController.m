@@ -33,6 +33,10 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
     if (self.navigationController.viewControllers.count == 1) {
         [self addCancelButton];
     }
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,11 +44,25 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    _topLabel.text = [NSString stringWithFormat:kPleaseEnterEmail, _agency.domain];
+    
+    for (TSJavelinAPIEmail *email in [TSJavelinAPIClient loggedInUser].secondaryEmails) {
+        if ([_agency domainMatchesEmail:email.email] && !email.isActive) {
+            _emailTextField.text = email.email;
+            [self emailWasSent];
+        }
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    _topLabel.text = [NSString stringWithFormat:kPleaseEnterEmail, _agency.domain];
+    
 }
 
 - (void)addCancelButton {
@@ -63,10 +81,8 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
     
     if (_completeButton.hidden) {
         
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            CGRect frame = _resendButton.frame;
-            frame.origin.y = _bottomLabel.frame.origin.y + _bottomLabel.frame.size.height;
-            _resendButton.frame = frame;
+        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:300.0 initialSpringVelocity:5.0 options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            _sendButtonTopLayout.constant = _resendButton.frame.size.height*4;
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.3 animations:^{
                 for (UIView *view in self.view.subviews) {
@@ -83,6 +99,7 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
     _topLabel.text = kEmailSent;
     _topLabel.textColor = [TSColorPalette activeTextColor];
     [_emailTextField resignFirstResponder];
+    _resendButton.enabled = YES;
 }
 
 - (void)emailWasVerified {
@@ -137,7 +154,9 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
         else {
             [[TSJavelinAPIAuthenticationManager sharedManager] resendSecondaryEmailActivation:_emailTextField.text completion:^(BOOL success, NSString *errorMessage) {
                 if (success) {
-                    [self emailWasSent];
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [self emailWasSent];
+                    }];
                 }
                 else {
                     _topLabel.text = errorMessage;
@@ -177,16 +196,20 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    if (textField.text.length > 1) {
-        _resendButton.enabled = YES;
-        _completeButton.enabled = YES;
+    NSString *afterString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if (afterString.length == 0) {
+        _resendButton.enabled = NO;
     }
     else {
-        _resendButton.enabled = NO;
+        _resendButton.enabled = YES;
+        _completeButton.enabled = YES;
     }
     
     return YES;
 }
 
+- (void)dismissKeyboard {
+    [[self.view findFirstResponder] resignFirstResponder];
+}
 
 @end

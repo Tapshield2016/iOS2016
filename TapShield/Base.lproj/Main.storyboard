@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Dynamics Drawer View Controller-->
@@ -2855,65 +2855,6 @@ http://www.apache.org/licenses/LICENSE-2.0
             </objects>
             <point key="canvasLocation" x="320" y="-650"/>
         </scene>
-        <!--Ask Organization-->
-        <scene sceneID="wwG-FC-Qak">
-            <objects>
-                <viewController storyboardIdentifier="TSAskOrganizationViewController" title="Ask Organization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ax0-oI-OdA" customClass="TSAskOrganizationViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ahz-WV-0xv"/>
-                        <viewControllerLayoutGuide type="bottom" id="1up-8e-7Ra"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="NGM-sW-zhS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="pqx-OH-XJF">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="splash_logo_small" translatesAutoresizingMaskIntoConstraints="NO" id="ts3-H8-51C">
-                                <rect key="frame" x="87" y="64" width="146" height="87"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Do you belong to an organization that uses TapShield?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="306" translatesAutoresizingMaskIntoConstraints="NO" id="w2v-nS-SgA" customClass="TSBaseLabel">
-                                <rect key="frame" x="7" y="233" width="306" height="50"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6GM-D7-soT">
-                                <rect key="frame" x="35" y="341" width="96" height="41"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="NO" backgroundImage="btn_yes_no_normal">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="noOrganization:" destination="ax0-oI-OdA" eventType="touchUpInside" id="aNF-cC-0bf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDb-mH-JRI">
-                                <rect key="frame" x="189" y="341" width="96" height="41"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="YES" backgroundImage="btn_yes_no_normal">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="yesOrganization:" destination="ax0-oI-OdA" eventType="touchUpInside" id="bwK-jh-H2H"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Sign Up" id="RVH-lg-uOI"/>
-                    <connections>
-                        <outlet property="noButton" destination="6GM-D7-soT" id="uqM-hp-rpj"/>
-                        <outlet property="yesButton" destination="XDb-mH-JRI" id="Slt-sz-FYv"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="c1X-hl-JsE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1262" y="-295"/>
-        </scene>
         <!--Social Login-->
         <scene sceneID="l9I-PY-ZLz">
             <objects>
@@ -3351,205 +3292,6 @@ http://www.apache.org/licenses/LICENSE-2.0
             </objects>
             <point key="canvasLocation" x="2423" y="556"/>
         </scene>
-        <!--Phone Verification-->
-        <scene sceneID="ttN-4X-faa">
-            <objects>
-                <viewController storyboardIdentifier="TSPhoneVerificationViewController" title="Phone Verification" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ml-FN-RnH" customClass="TSPhoneVerificationViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="oyY-O6-C7a"/>
-                        <viewControllerLayoutGuide type="bottom" id="NjR-rd-M8u"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Vy5-XR-B6F">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjk-W9-PjA" customClass="TSRegistrationButton">
-                                <rect key="frame" x="0.0" y="304" width="320" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="Resend Verification SMS">
-                                    <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="resendSMS:" destination="3Ml-FN-RnH" eventType="touchUpInside" id="Weh-Iv-CZX"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7gE-B1-0gW" userLabel="codeView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="224" width="320" height="41"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTM-fP-WXS" customClass="TSRegistrationTextField">
-                                        <rect key="frame" x="140" y="0.0" width="180" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3Ml-FN-RnH" id="z1w-Et-KSM"/>
-                                        </connections>
-                                    </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your code:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIo-3H-5pN" customClass="TSRegistrationLabel">
-                                        <rect key="frame" x="8" y="0.0" width="123" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="31h-H7-9WZ" userLabel="phoneView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="104" width="320" height="40"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(555) 555-5555" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Se8-ax-53X" customClass="TSRegistrationTextField">
-                                        <rect key="frame" x="40" y="0.0" width="280" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="3Ml-FN-RnH" id="uQD-q5-NZc"/>
-                                        </connections>
-                                    </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="input_phone_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ehh-sF-iWa">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="We've sent you a verification code to" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="War-Ca-7FO" customClass="TSRegistrationLabel">
-                                <rect key="frame" x="30" y="65" width="260" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="If the phone number above is incorrect, enter the correct number and tap resend" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="uIP-ZI-94h" customClass="TSRegistrationLabel">
-                                <rect key="frame" x="30" y="145" width="260" height="80"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Verification" id="oPS-Ds-7Al"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="errorLabel" destination="War-Ca-7FO" id="aOA-2F-SCf"/>
-                        <outlet property="phoneNumberTextField" destination="Se8-ax-53X" id="ZK3-lh-fBK"/>
-                        <outlet property="resendButton" destination="Qjk-W9-PjA" id="Kx2-Gc-Kod"/>
-                        <outlet property="verificationCodeTextField" destination="yTM-fP-WXS" id="b4X-IH-LGe"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hds-N3-zRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2990" y="-274"/>
-        </scene>
-        <!--Complete Registration-->
-        <scene sceneID="F2U-G7-XZk">
-            <objects>
-                <viewController storyboardIdentifier="TSNamePictureViewController" title="Complete Registration" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vZE-6o-F4y" customClass="TSNamePictureViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="nxp-Y2-Cad"/>
-                        <viewControllerLayoutGuide type="bottom" id="C60-1O-i76"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="JwC-z4-hAm">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kSA-0X-22l" userLabel="emailView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="144" width="320" height="41"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bIG-fn-RfF" customClass="TSRegistrationTextField">
-                                        <rect key="frame" x="120" y="0.0" width="200" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="vZE-6o-F4y" id="hL8-oc-vSX"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CcI-OK-4sW" userLabel="phoneNumberView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="104" width="320" height="41"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NOS-WW-5hf" customClass="TSRegistrationTextField">
-                                        <rect key="frame" x="120" y="0.0" width="200" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="vZE-6o-F4y" id="ur1-Dt-9HY"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-tQ-ezo" customClass="TSRoundImageView">
-                                <rect key="frame" x="10" y="95" width="100" height="100"/>
-                            </imageView>
-                            <button opaque="NO" userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFa-xT-Z2p" customClass="TSBaseButton">
-                                <rect key="frame" x="23" y="177" width="75" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Add Photo" backgroundImage="change_photo_bg">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gwQ-2g-kGG">
-                                <rect key="frame" x="0.0" y="200" width="320" height="50"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I have read, understand, and agree to the" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="262" translatesAutoresizingMaskIntoConstraints="NO" id="6FN-qX-fAN">
-                                        <rect key="frame" x="48" y="10" width="262" height="15"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ax6-Io-fZM">
-                                        <rect key="frame" x="48" y="25" width="175" height="15"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="End User License Agreement">
-                                            <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="displayAgreement:" destination="vZE-6o-F4y" eventType="touchUpInside" id="gaZ-Jd-AXm"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sS7-A6-NKE">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <state key="normal" image="CheckBox_Unselected">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="selected" image="CheckBox_Selected"/>
-                                        <state key="highlighted" image="CheckBox_UnselectedDown"/>
-                                        <connections>
-                                            <action selector="selectBox:" destination="vZE-6o-F4y" eventType="touchUpInside" id="nWQ-22-w28"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Complete Registration" id="nWm-bb-70a">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="N6a-DS-7pB">
-                            <color key="tintColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="done:" destination="vZE-6o-F4y" id="T5A-ad-T8z"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="checkBox" destination="sS7-A6-NKE" id="uxE-Je-GPe"/>
-                        <outlet property="doneButton" destination="N6a-DS-7pB" id="uSm-vL-1c9"/>
-                        <outlet property="firstNameTextField" destination="NOS-WW-5hf" id="gil-tT-VLQ"/>
-                        <outlet property="imageView" destination="UuZ-tQ-ezo" id="WuT-N8-lN0"/>
-                        <outlet property="lastNameTextField" destination="bIG-fn-RfF" id="Bh9-NZ-Om5"/>
-                        <outlet property="showAgreement" destination="Ax6-Io-fZM" id="hka-th-PRw"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PKb-D7-Dm9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3383" y="-274"/>
-        </scene>
         <!--Email Verification-->
         <scene sceneID="qtd-ze-SDF">
             <objects>
@@ -3628,7 +3370,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <outlet property="emailTextField" destination="TRp-7m-8rT" id="Gkt-Tb-UrM"/>
                         <outlet property="errorMessageLabel" destination="M60-iu-eON" id="vvf-gd-Nj7"/>
                         <outlet property="resendEmailButton" destination="Cpf-6A-a3M" id="GPi-c9-opn"/>
-                        <segue destination="3Ml-FN-RnH" kind="push" identifier="emailConfirmationToPhoneVerification" id="pkg-c2-ung"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ONg-Ul-62S" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4429,22 +4170,12 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <outlet property="delegate" destination="DqL-1a-yG4" id="FFE-ml-asO"/>
                                 </connections>
                             </tableView>
-                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q3j-Iq-ICn" customClass="TSTextMessageBarView">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Jhx-Yx-2cU"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Q3j-Iq-ICn" secondAttribute="trailing" id="7i5-j5-jgM"/>
                             <constraint firstItem="lsq-WK-GMC" firstAttribute="leading" secondItem="Zpu-W3-kLP" secondAttribute="leading" id="NdU-M6-hcR"/>
-                            <constraint firstItem="Fjp-4A-Bra" firstAttribute="top" secondItem="lsq-WK-GMC" secondAttribute="bottom" id="aEr-1O-ehl"/>
-                            <constraint firstItem="Fjp-4A-Bra" firstAttribute="top" secondItem="Q3j-Iq-ICn" secondAttribute="bottom" id="fs1-hs-3ds"/>
+                            <constraint firstItem="Fjp-4A-Bra" firstAttribute="top" secondItem="lsq-WK-GMC" secondAttribute="bottom" id="iAq-wR-Xsn"/>
                             <constraint firstAttribute="trailing" secondItem="lsq-WK-GMC" secondAttribute="trailing" id="jFe-Qk-DLo"/>
-                            <constraint firstItem="Q3j-Iq-ICn" firstAttribute="leading" secondItem="Zpu-W3-kLP" secondAttribute="leading" id="l8l-dl-OPL"/>
                             <constraint firstItem="lsq-WK-GMC" firstAttribute="top" secondItem="Zpu-W3-kLP" secondAttribute="top" id="yVk-T8-xEu"/>
                         </constraints>
                     </view>
@@ -4454,7 +4185,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="lsq-WK-GMC" id="BNT-SD-787"/>
-                        <outlet property="textMessageBarBaseView" destination="Q3j-Iq-ICn" id="N2x-kY-5gK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JNH-7u-eaS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4477,8 +4207,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <tableView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
-                                <rect key="frame" x="0.0" y="1200" width="320" height="464"/>
+                            <tableView opaque="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
+                                <rect key="frame" x="0.0" y="104" width="320" height="464"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vuB-WZ-keb" id="4Mr-tb-Hfm"/>
@@ -4509,6 +4239,10 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <constraints>
                             <constraint firstItem="GgN-I0-Vx7" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="5Vt-n3-FSS"/>
                             <constraint firstItem="GgN-I0-Vx7" firstAttribute="top" secondItem="dTj-Wb-H6Q" secondAttribute="top" constant="60" id="BD5-Py-KS3"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="top" secondItem="GgN-I0-Vx7" secondAttribute="bottom" id="OQt-sF-Avh"/>
+                            <constraint firstAttribute="trailing" secondItem="MMA-RX-ciz" secondAttribute="trailing" id="WOS-z3-zbg"/>
+                            <constraint firstItem="YcF-kv-V2o" firstAttribute="top" secondItem="MMA-RX-ciz" secondAttribute="bottom" id="luT-vQ-5AP"/>
+                            <constraint firstItem="MMA-RX-ciz" firstAttribute="leading" secondItem="dTj-Wb-H6Q" secondAttribute="leading" id="uHu-xX-mcz"/>
                             <constraint firstAttribute="trailing" secondItem="GgN-I0-Vx7" secondAttribute="trailing" id="uII-Eq-Gei"/>
                         </constraints>
                     </view>
@@ -4529,6 +4263,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <outlet property="dismissalView" destination="HS1-2j-UMN" id="eSc-2w-671"/>
                         <outlet property="searchBar" destination="R8m-ie-HlH" id="STJ-J4-Okb"/>
                         <outlet property="tableView" destination="MMA-RX-ciz" id="4uh-kP-o3S"/>
+                        <outlet property="tableViewBottomLayout" destination="luT-vQ-5AP" id="cw7-Ts-uHb"/>
+                        <outlet property="tableViewTopLayout" destination="OQt-sF-Avh" id="hK0-3P-US9"/>
                         <outlet property="toolBarView" destination="GgN-I0-Vx7" id="Z7t-GC-0LV"/>
                     </connections>
                 </viewController>
@@ -4920,7 +4656,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <color key="textColor" red="0.37647058820000001" green="0.38823529410000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-8i-ojU">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-8i-ojU" customClass="TSBaseTextView">
                                                     <rect key="frame" x="15" y="29" width="285" height="81"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <accessibility key="accessibilityConfiguration" label="Allergies"/>
@@ -4946,7 +4682,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <color key="textColor" red="0.37647058820000001" green="0.38823529410000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4J-xi-BbG">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4J-xi-BbG" customClass="TSBaseTextView">
                                                     <rect key="frame" x="15" y="29" width="290" height="81"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <accessibility key="accessibilityConfiguration" label="Medications"/>
@@ -5952,26 +5688,35 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your organization's email address" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="325" translatesAutoresizingMaskIntoConstraints="NO" id="4rs-gg-azo" customClass="TSRegistrationLabel">
-                                <rect key="frame" x="0.0" y="64" width="325" height="40"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your organization's email address" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="4rs-gg-azo" customClass="TSRegistrationLabel">
+                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="y5f-4u-6yi"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Head to your inbox and follow the instructions to verify your email address" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="3U6-8R-WTf" customClass="TSRegistrationLabel">
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Head to your inbox and follow the instructions to verify your email address" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="3U6-8R-WTf" customClass="TSRegistrationLabel">
                                 <rect key="frame" x="30" y="144" width="260" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="ahA-Yx-j81"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Haven't recieved confirmation email?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="WWK-JR-z0y" customClass="TSRegistrationLabel">
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Haven't recieved confirmation email?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="WWK-JR-z0y" customClass="TSRegistrationLabel">
                                 <rect key="frame" x="30" y="264" width="260" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="fPS-2B-aGz"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gXP-1i-uCm" userLabel="emailView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="104" width="320" height="41"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXP-1i-uCm" userLabel="emailView" customClass="TSBorderedView">
+                                <rect key="frame" x="0.0" y="104" width="320" height="40"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z0u-M3-uCl" customClass="TSRegistrationTextField">
                                         <rect key="frame" x="40" y="0.0" width="280" height="40"/>
@@ -5986,10 +5731,16 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5MS-1m-N59"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kc4-eD-qcS" customClass="TSRegistrationButton">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kc4-eD-qcS" customClass="TSRegistrationButton">
                                 <rect key="frame" x="0.0" y="184" width="320" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="W0B-tY-RWz"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Send Verification Email">
                                     <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -6002,9 +5753,12 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <action selector="sendVerification:" destination="MXU-CM-ZUp" eventType="touchUpInside" id="nhC-FJ-elv"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rlg-wv-DT6" customClass="TSRegistrationButton">
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rlg-wv-DT6" customClass="TSRegistrationButton">
                                 <rect key="frame" x="0.0" y="224" width="320" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Qxf-XH-Eyt"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Complete Verification">
                                     <color key="titleColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -6016,6 +5770,27 @@ http://www.apache.org/licenses/LICENSE-2.0
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4rs-gg-azo" firstAttribute="top" secondItem="Rnt-f5-Lan" secondAttribute="bottom" id="4Qt-d1-w3V"/>
+                            <constraint firstItem="WWK-JR-z0y" firstAttribute="leading" secondItem="7sd-3g-hEp" secondAttribute="leading" constant="30" id="8RN-Fn-IRc"/>
+                            <constraint firstAttribute="trailing" secondItem="kc4-eD-qcS" secondAttribute="trailing" id="9cf-Tn-tHn"/>
+                            <constraint firstAttribute="trailing" secondItem="Rlg-wv-DT6" secondAttribute="trailing" id="9fN-rd-2z7"/>
+                            <constraint firstItem="Rlg-wv-DT6" firstAttribute="leading" secondItem="7sd-3g-hEp" secondAttribute="leading" id="FCr-OH-S87"/>
+                            <constraint firstAttribute="trailing" secondItem="3U6-8R-WTf" secondAttribute="trailing" constant="30" id="IVd-K0-Yko"/>
+                            <constraint firstItem="WWK-JR-z0y" firstAttribute="top" secondItem="Rlg-wv-DT6" secondAttribute="bottom" id="IZ7-OT-LaV"/>
+                            <constraint firstAttribute="trailing" secondItem="gXP-1i-uCm" secondAttribute="trailing" id="Ke8-0t-45d"/>
+                            <constraint firstItem="3U6-8R-WTf" firstAttribute="top" secondItem="gXP-1i-uCm" secondAttribute="bottom" id="M6q-jJ-F6I"/>
+                            <constraint firstItem="3U6-8R-WTf" firstAttribute="leading" secondItem="7sd-3g-hEp" secondAttribute="leading" constant="30" id="Tf2-34-Xs6"/>
+                            <constraint firstItem="gXP-1i-uCm" firstAttribute="leading" secondItem="7sd-3g-hEp" secondAttribute="leading" id="Vjc-Hq-Lf2"/>
+                            <constraint firstItem="gXP-1i-uCm" firstAttribute="top" secondItem="4rs-gg-azo" secondAttribute="bottom" id="WYv-JI-VeQ"/>
+                            <constraint firstItem="gXP-1i-uCm" firstAttribute="top" secondItem="4rs-gg-azo" secondAttribute="bottom" id="YRe-Wg-723"/>
+                            <constraint firstItem="kc4-eD-qcS" firstAttribute="top" secondItem="gXP-1i-uCm" secondAttribute="bottom" constant="40" id="bEf-IF-hSl"/>
+                            <constraint firstItem="4rs-gg-azo" firstAttribute="leading" secondItem="7sd-3g-hEp" secondAttribute="leading" id="iwN-Tc-uBs"/>
+                            <constraint firstItem="kc4-eD-qcS" firstAttribute="leading" secondItem="7sd-3g-hEp" secondAttribute="leading" id="nch-nM-yuP"/>
+                            <constraint firstItem="Rlg-wv-DT6" firstAttribute="top" secondItem="gXP-1i-uCm" secondAttribute="bottom" constant="80" id="qWt-cU-Szp"/>
+                            <constraint firstAttribute="trailing" secondItem="WWK-JR-z0y" secondAttribute="trailing" constant="30" id="vgR-B9-8Qn"/>
+                            <constraint firstAttribute="trailing" secondItem="4rs-gg-azo" secondAttribute="trailing" id="wz5-nl-3PO"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Verification" id="v1n-DS-6oJ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -6025,6 +5800,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <outlet property="emailTextField" destination="z0u-M3-uCl" id="ZGG-3K-YkG"/>
                         <outlet property="middleLabel" destination="3U6-8R-WTf" id="nNz-xZ-KNW"/>
                         <outlet property="resendButton" destination="kc4-eD-qcS" id="7Qs-ZJ-NVP"/>
+                        <outlet property="sendButtonTopLayout" destination="bEf-IF-hSl" id="wHl-vr-dME"/>
                         <outlet property="topLabel" destination="4rs-gg-azo" id="kcZ-Qf-hlh"/>
                     </connections>
                 </viewController>
@@ -6044,8 +5820,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="geg-eh-05B" userLabel="codeView" customClass="TSBorderedView">
-                                <rect key="frame" x="0.0" y="224" width="320" height="41"/>
+                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="geg-eh-05B" userLabel="codeView" customClass="TSBorderedView">
+                                <rect key="frame" x="0.0" y="224" width="320" height="40"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d2V-nz-S6V" customClass="TSRegistrationTextField">
                                         <rect key="frame" x="140" y="0.0" width="180" height="40"/>
@@ -6063,8 +5839,11 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Kd0-yp-pgv"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9e-ZE-gPG" userLabel="phoneView" customClass="TSBorderedView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b9e-ZE-gPG" userLabel="phoneView" customClass="TSBorderedView">
                                 <rect key="frame" x="0.0" y="104" width="320" height="40"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(555) 555-5555" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GqR-RZ-ygm" customClass="TSRegistrationTextField">
@@ -6080,22 +5859,25 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="cZJ-eI-q06"/>
+                                </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter your 10-digit number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="syd-Ib-oKa" customClass="TSRegistrationLabel">
-                                <rect key="frame" x="15" y="65" width="290" height="40"/>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your phone number is only shared, in the event of an emergency, to public safety dispatchers." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="k30-pR-TLw" customClass="TSRegistrationLabel">
+                                <rect key="frame" x="20" y="144" width="280" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="vr2-uy-2l6"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your phone number is only shared, in the event of an emergency, to public safety dispatchers." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="k30-pR-TLw" customClass="TSRegistrationLabel">
-                                <rect key="frame" x="20" y="145" width="280" height="80"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uE9-HN-JDC" customClass="TSRegistrationButton">
-                                <rect key="frame" x="0.0" y="185" width="320" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uE9-HN-JDC" customClass="TSRegistrationButton">
+                                <rect key="frame" x="0.0" y="184" width="320" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="PaB-gM-JKZ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Send Verification SMS">
                                     <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
@@ -6114,8 +5896,35 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your 10-digit number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="syd-Ib-oKa" customClass="TSRegistrationLabel">
+                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="dSM-92-GwJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="geg-eh-05B" secondAttribute="trailing" id="1of-Rn-cTE"/>
+                            <constraint firstItem="b9e-ZE-gPG" firstAttribute="top" secondItem="syd-Ib-oKa" secondAttribute="bottom" id="2RS-xf-ab1"/>
+                            <constraint firstItem="b9e-ZE-gPG" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="6PO-Mf-2BQ"/>
+                            <constraint firstItem="k30-pR-TLw" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leadingMargin" constant="4" id="7fw-2e-fU1"/>
+                            <constraint firstItem="syd-Ib-oKa" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="AZP-qb-uXg"/>
+                            <constraint firstItem="syd-Ib-oKa" firstAttribute="top" secondItem="Xze-mx-zKU" secondAttribute="bottom" id="Eq6-PP-Tqq"/>
+                            <constraint firstItem="b9e-ZE-gPG" firstAttribute="top" secondItem="syd-Ib-oKa" secondAttribute="bottom" id="GbP-xQ-mfy"/>
+                            <constraint firstAttribute="trailing" secondItem="b9e-ZE-gPG" secondAttribute="trailing" id="LeZ-9g-GaX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="k30-pR-TLw" secondAttribute="trailing" constant="4" id="QjL-WW-57C"/>
+                            <constraint firstItem="geg-eh-05B" firstAttribute="top" secondItem="k30-pR-TLw" secondAttribute="bottom" id="Smc-65-JmE"/>
+                            <constraint firstItem="k30-pR-TLw" firstAttribute="top" secondItem="b9e-ZE-gPG" secondAttribute="bottom" id="ToH-k7-5Z0"/>
+                            <constraint firstItem="uE9-HN-JDC" firstAttribute="top" secondItem="b9e-ZE-gPG" secondAttribute="bottom" constant="40" id="alf-WX-h2T"/>
+                            <constraint firstItem="uE9-HN-JDC" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="gNi-Ix-8qh"/>
+                            <constraint firstAttribute="trailing" secondItem="syd-Ib-oKa" secondAttribute="trailing" id="kBt-Wv-l68"/>
+                            <constraint firstAttribute="trailing" secondItem="uE9-HN-JDC" secondAttribute="trailing" id="ntw-Ws-7TQ"/>
+                            <constraint firstItem="geg-eh-05B" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="w7F-Nm-KQV"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Verification" id="afZ-aM-rdi"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -6123,6 +5932,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <outlet property="codeTextField" destination="d2V-nz-S6V" id="Jhn-f6-7Qi"/>
                         <outlet property="codeView" destination="geg-eh-05B" id="jUJ-04-z8X"/>
                         <outlet property="phoneNumberTextField" destination="GqR-RZ-ygm" id="iKw-7a-tJe"/>
+                        <outlet property="sendButtonTopLayout" destination="alf-WX-h2T" id="4rf-s3-TGW"/>
                         <outlet property="sendVerificationButton" destination="uE9-HN-JDC" id="fm6-4l-Fm4"/>
                         <outlet property="topLabel" destination="syd-Ib-oKa" id="MTQ-wU-bSh"/>
                     </connections>
@@ -6190,7 +6000,6 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="background568" width="640" height="1136"/>
         <image name="btn_login_normal" width="201" height="41"/>
         <image name="btn_login_pressed" width="201" height="41"/>
-        <image name="btn_yes_no_normal" width="96" height="41"/>
         <image name="change_photo_bg" width="75" height="18"/>
         <image name="chat_bg" width="320" height="568"/>
         <image name="chat_icon" width="26" height="25"/>

@@ -8,15 +8,32 @@
 
 #import "TSRalewayFont.h"
 
-NSString * const kFontRalewayRegular = @"Raleway-Regular";
-NSString * const kFontRalewayBold = @"Raleway-Bold";
-NSString * const kFontRalewayExtraBold = @"Raleway-ExtraBold";
-NSString * const kFontRalewayExtraLight = @"RalewayExtraLight";
-NSString * const kFontRalewayHeavy = @"Raleway-Heavy";
-NSString * const kFontRalewayLight = @"Raleway-Light";
-NSString * const kFontRalewayMedium = @"Raleway-Medium";
-NSString * const kFontRalewaySemiBold = @"Raleway-SemiBold";
-NSString * const kFontRalewayThin = @"Raleway-Thin";
+//Helvetica Neue
+//
+//HelveticaNeue
+//HelveticaNeue-Bold
+//HelveticaNeue-BoldItalic
+//HelveticaNeue-CondensedBlack
+//HelveticaNeue-CondensedBold
+//HelveticaNeue-Italic
+//HelveticaNeue-Light
+//HelveticaNeue-LightItalic
+//HelveticaNeue-Medium
+//HelveticaNeue-MediumItalic
+//HelveticaNeue-Thin
+//HelveticaNeue-Thin_Italic
+//HelveticaNeue-UltraLight
+//HelveticaNeue-UltraLightItalic
+
+NSString * const kFontRalewayRegular = @"HelveticaNeue";
+NSString * const kFontRalewayBold = @"HelveticaNeue-Bold";
+NSString * const kFontRalewayExtraBold = @"HelveticaNeue-Bold";
+NSString * const kFontRalewayExtraLight = @"HelveticaNeue-UltraLight";
+NSString * const kFontRalewayHeavy = @"HelveticaNeue-Bold";
+NSString * const kFontRalewayLight = @"HelveticaNeue-Light";
+NSString * const kFontRalewayMedium = @"HelveticaNeue-Medium";
+NSString * const kFontRalewaySemiBold = @"HelveticaNeue-Bold";
+NSString * const kFontRalewayThin = @"HelveticaNeue-Thin";
 
 NSString * const kFontStyleRegular = @"font-style: normal";
 NSString * const kFontStyleBold = @"font-style: bold";

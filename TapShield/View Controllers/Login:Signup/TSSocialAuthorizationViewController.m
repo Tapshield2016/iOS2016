@@ -9,12 +9,12 @@
 #import "TSSocialAuthorizationViewController.h"
 #import "TSJavelinAPIClient.h"
 #import "TSLoginViewController.h"
-#import "TSAskOrganizationViewController.h"
 #import "TSAnimatedView.h"
 #import "TSSocialAccountsManager.h"
 #import "TSUserSessionManager.h"
 #import "TSAgreementViewController.h"
 #import "TSPopUpWindow.h"
+#import "TSRegisterViewController.h"
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>

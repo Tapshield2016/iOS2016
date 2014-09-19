@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet TSRegistrationLabel *bottomLabel;
 
 @property (strong, nonatomic) TSJavelinAPIAgency *agency;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sendButtonTopLayout;
 
 
 - (IBAction)completeVerification:(id)sender;

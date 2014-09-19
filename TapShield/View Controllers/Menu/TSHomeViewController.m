@@ -13,7 +13,6 @@
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 #import "TSUtilities.h"
 #import "TSIntroPageViewController.h"
-#import "TSPhoneVerificationViewController.h"
 #import "TSRouteTimeAnnotationView.h"
 #import "TSOrganizationAnnotationView.h"
 #import "TSUserAnnotationView.h"
@@ -23,7 +22,6 @@
 #import "TSYankManager.h"
 #import "TSSpotCrimeAPIClient.h"
 #import "TSSpotCrimeAnnotationView.h"
-#import "TSNamePictureViewController.h"
 #import "TSGeofence.h"
 #import "TSViewReportDetailsViewController.h"
 #import "TSClusterAnnotationView.h"
@@ -196,19 +194,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_mapView removeFromSuperview];
     _mapView = nil;
     
-}
-
-- (void)checkUserRegistration {
-    
-    TSJavelinAPIUser *user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
-    if (user) {
-        if (!user.phoneNumberVerified) {
-            [self presentViewControllerWithClass:[TSPhoneVerificationViewController class] transitionDelegate:nil animated:NO];
-        }
-        else if (!user.disarmCode || !user.disarmCode.length) {
-            [self presentViewControllerWithClass:[TSNamePictureViewController class] transitionDelegate:nil animated:NO];
-        }
-    }
 }
 
 #pragma mark - Map Setup

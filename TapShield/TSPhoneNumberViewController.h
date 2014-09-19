@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet TSRegistrationTextField *codeTextField;
 @property (weak, nonatomic) IBOutlet TSBorderedView *codeView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sendButtonTopLayout;
 
 - (IBAction)sendVerification:(id)sender;
 

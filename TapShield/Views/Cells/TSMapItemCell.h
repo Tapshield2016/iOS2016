@@ -8,12 +8,13 @@
 
 #import "TSBaseTableViewCell.h"
 #import <MapKit/MapKit.h>
+#import "TSTintedImageView.h"
 
 @interface TSMapItemCell : TSBaseTableViewCell
 
 @property (strong, nonatomic) TSBaseLabel *nameLabel;
 @property (strong, nonatomic) TSBaseLabel *addressLabel;
-@property (strong, nonatomic) UIImageView *pinImageView;
+@property (strong, nonatomic) TSTintedImageView *pinImageView;
 
 - (void)showDetailsForMapItem:(MKMapItem *)mapItem;
 - (void)showDetailsForErrorMessage:(NSError *)error;

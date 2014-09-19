@@ -85,12 +85,25 @@
 }
 
 + (UIColor *)tapshieldBlue {
-    //return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0xb30838);
+    }
+    
     return UIColorFromRGB(0x3aa1d3);
 }
 
 + (UIColor *)tapshieldDarkBlue {
-    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0xb30838);
+    }
+    
+//    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
+    
+    return UIColorFromRGB(0x127ABD);
 }
 
 + (UIColor *)charcoalColor {
@@ -111,6 +124,7 @@
 
 + (UIColor *)listCellTextColor {
     return UIColorFromRGB(0x606366);
+    
 }
 
 + (UIColor *)listCellDetailsTextColor {
@@ -126,23 +140,49 @@
 }
 
 + (UIColor *)tableViewHeaderColor {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0xd5758f);
+    }
+    
     return UIColorFromRGB(0x5eb6e0);
+    
 }
 
 + (UIColor *)searchFieldBackgroundColor {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0xd5758f);
+    }
+    
     return UIColorFromRGB(0x75bde0);
 }
 
 + (UIColor *)registrationButtonTextColor {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0xb30838);
+    }
+    
     return UIColorFromRGB(0x0d669f);
 }
 
 + (UIColor *)alertRed {
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0x3aa1d3);
+    }
+    
     return UIColorFromRGB(0xff534e);
 }
 
 + (UIColor *)darkAlertRed {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0x127ABD);
+    }
     
     return UIColorFromRGB(0xff534e);
 }

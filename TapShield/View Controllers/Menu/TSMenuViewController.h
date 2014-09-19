@@ -22,5 +22,7 @@
 - (void)showMenuButton:(UIViewController *)viewController;
 
 - (IBAction)showAbout:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *poweredByLogo;
+@property (weak, nonatomic) IBOutlet UIImageView *topLogo;
 
 @end

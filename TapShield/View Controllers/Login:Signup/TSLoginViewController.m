@@ -36,7 +36,12 @@
     _errorLabel.textColor = [TSColorPalette alertRed];
     [_errorLabel setAdjustsFontSizeToFitWidth:YES];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
+    UIImage *image = [UIImage imageNamed:@"splash_logo_small"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        image = [UIImage imageNamed:@"talkaphone_logo"];
+    }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     imageView.frame = _shimmeringView.bounds;
     imageView.contentMode = UIViewContentModeCenter;
     _shimmeringView.contentView = imageView;
@@ -102,6 +107,7 @@
 
 - (IBAction)backToSignUp:(id)sender {
     
+    [self dismissKeyboard];
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
@@ -266,6 +272,7 @@
 
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
     _shimmeringView.shimmering = NO;
+    [self dismissKeyboard];
     
     [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
     

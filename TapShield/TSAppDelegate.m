@@ -55,10 +55,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #elif DEMO
 
 //internal
-    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
+//    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
     
 //Demo
-//    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
+    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";
@@ -71,7 +71,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-    [GAI sharedInstance].dispatchInterval = 20;
+    [GAI sharedInstance].dispatchInterval = 120;
     
     // Optional: set Logger to VERBOSE for debug information.
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
@@ -96,10 +96,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     _reachability = [Reachability reachabilityWithHostName:remoteHostName];
     [_reachability startNotifier];
     
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     UIRemoteNotificationTypeBadge |
-     UIRemoteNotificationTypeAlert |
-     UIRemoteNotificationTypeSound];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound categories:nil]];
     
     [TSYankManager sharedYankManager];
     
@@ -132,7 +130,14 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
-    self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg"]];
+    
+    UIImage *bgImage = [UIImage imageNamed:@"side_menu_bg"];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        bgImage = [UIImage imageNamed:@"side_menu_bg_talkaphone"];
+    }
+    
+    self.windowBackground = [[UIImageView alloc] initWithImage:bgImage];
     self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller
@@ -219,18 +224,18 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     NSLog(@"Failed to get token, error: %@", error);
-    NSString *name = @"Notification Center";
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
-        name = @"Notifications";
-    }
-    NSString *message = [NSString stringWithFormat:@"Push Notifications are used during real-time chat and to recieve Mass Alerts from your agency. \n \n Go to Settings->%@->TapShield  to turn TapShield Push Notifications on", name];
-    
-    UIAlertView *enablePushNotificationsAlert = [[UIAlertView alloc] initWithTitle:@"Push Notifications enhance the functionality of TapShield.\n"
-                                                                           message:message
-                                                                          delegate:nil
-                                                                 cancelButtonTitle:@"OK"
-                                                                 otherButtonTitles: nil];
-    [enablePushNotificationsAlert show];
+//    NSString *name = @"Notification Center";
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
+//        name = @"Notifications";
+//    }
+//    NSString *message = [NSString stringWithFormat:@"Push Notifications are used during real-time chat and to recieve Mass Alerts from your agency. \n \n Go to Settings->%@->TapShield  to turn TapShield Push Notifications on", name];
+//    
+//    UIAlertView *enablePushNotificationsAlert = [[UIAlertView alloc] initWithTitle:@"Push Notifications enhance the functionality of TapShield.\n"
+//                                                                           message:message
+//                                                                          delegate:nil
+//                                                                 cancelButtonTitle:@"OK"
+//                                                                 otherButtonTitles: nil];
+//    [enablePushNotificationsAlert show];
 }
 
 - (void)application:(UIApplication *)application

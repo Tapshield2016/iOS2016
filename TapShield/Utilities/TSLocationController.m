@@ -42,6 +42,7 @@ static dispatch_once_t predicate;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locationManager.distanceFilter = 1.0;
         self.geofence = [[TSGeofence alloc] init];
+        
         [self.locationManager requestAlwaysAuthorization];
         
         UIDevice *device = [UIDevice currentDevice];
@@ -369,6 +370,10 @@ static dispatch_once_t predicate;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    
+    if (status == kCLAuthorizationStatusDenied) {
+#warning Show message without Location Services
+    }
     
     if ([_delegate respondsToSelector:@selector(didChangeAuthorizationStatus:)]) {
         [_delegate didChangeAuthorizationStatus:status];

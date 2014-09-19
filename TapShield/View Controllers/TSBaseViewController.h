@@ -31,6 +31,7 @@
 #import "TSTransformCenterTransitioner.h"
 #import "TSTopDownTransitioner.h"
 #import "TSBottomUpTransitioner.h"
+#import "TSTintedImageView.h"
 
 @interface TSBaseViewController : GAITrackedViewController
 
@@ -48,7 +49,7 @@
 
 @property (assign, nonatomic) BOOL firstAppear;
 @property (assign, nonatomic) BOOL translucentBackground;
-@property (strong, nonatomic) UIToolbar *toolbar;
+@property (strong, nonatomic) UIVisualEffectView *toolbar;
 @property (strong, nonatomic) UIImage *clearButtonImage;
 
 @property (strong, nonatomic) TSLogoImageView *smallLogoImageView;

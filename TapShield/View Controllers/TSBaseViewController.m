@@ -91,8 +91,8 @@
     _translucentBackground = translucentBackground;
     
     if (translucentBackground) {
-        _toolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
-        _toolbar.barStyle = UIBarStyleBlack;
+        _toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        _toolbar.frame = self.view.frame;
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.view insertSubview:_toolbar atIndex:0];
     }

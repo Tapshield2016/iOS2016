@@ -191,8 +191,8 @@
     
     TSPageViewController *pageViewController = (TSPageViewController *)self.parentViewController;
     [pageViewController.homeViewController mapAlertModeToggle];
-    [pageViewController.toolbar setTranslucent:NO];
-    [pageViewController.toolbar setAlpha:0.5f];
+//    [pageViewController.toolbar setTranslucent:NO];
+//    [pageViewController.toolbar setAlpha:0.5f];
     [pageViewController.homeViewController viewWillAppear:NO];
     [pageViewController.homeViewController viewDidAppear:NO];
     [pageViewController.homeViewController whiteNavigationBar];

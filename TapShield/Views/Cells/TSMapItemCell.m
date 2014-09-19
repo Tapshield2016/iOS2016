@@ -18,7 +18,7 @@
         // Initialization code
         self.addressLabel = [[TSBaseLabel alloc] init];
         self.nameLabel = [[TSBaseLabel alloc] init];
-        self.pinImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pointer_icon"]];
+        self.pinImageView = [[TSTintedImageView alloc] initWithImage:[UIImage imageNamed:@"pointer_icon"]];
         self.pinImageView.contentMode = UIViewContentModeCenter;
         [self addSubview:self.addressLabel];
         [self addSubview:self.nameLabel];

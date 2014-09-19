@@ -31,9 +31,14 @@
             selectedFillColor:nil];
         
         [self drawCircleButtonHighlighted:NO selected:NO];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+            UIImage *image = [[self imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [self setImage:image forState:UIControlStateNormal];
+            [self setTintColor:[TSColorPalette tapshieldBlue]];
+        }
     }
     return self;
 }
-
 
 @end

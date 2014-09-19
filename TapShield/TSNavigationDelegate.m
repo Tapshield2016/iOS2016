@@ -41,7 +41,7 @@ NSString * const progress4 = @"progress_bar_s4";
     navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:-10.0f forBarMetrics:UIBarMetricsDefault];
     
-    _progressImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:progress1]];
+    _progressImageView = [[TSTintedImageView alloc] initWithImage:[UIImage imageNamed:progress1]];
     [_progressImageView setContentMode:UIViewContentModeCenter];
     
     _progressView = [[UIView alloc] initWithFrame:CGRectMake(navigationController.navigationBar.frame.size.width/2 - _progressImageView.frame.size.width/2, navigationController.navigationBar.frame.size.height/2 + 8.0f, _progressImageView.frame.size.width, _progressImageView.frame.size.width)];

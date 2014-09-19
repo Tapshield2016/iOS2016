@@ -33,7 +33,7 @@
     background.frame = frame;
     [self.view insertSubview:background atIndex:0];
     
-    _logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
+    _logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"talkaphone_logo"]];//]@"splash_logo_small"]];
     [_logoImage setHidden:YES];
     [self.view insertSubview:_logoImage atIndex:1];
     

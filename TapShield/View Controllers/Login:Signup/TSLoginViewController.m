@@ -36,7 +36,7 @@
     _errorLabel.textColor = [TSColorPalette alertRed];
     [_errorLabel setAdjustsFontSizeToFitWidth:YES];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_logo_small"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"talkaphone_logo"]];//@"splash_logo_small"]];
     imageView.frame = _shimmeringView.bounds;
     imageView.contentMode = UIViewContentModeCenter;
     _shimmeringView.contentView = imageView;
@@ -102,6 +102,7 @@
 
 - (IBAction)backToSignUp:(id)sender {
     
+    [self dismissKeyboard];
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
@@ -266,6 +267,7 @@
 
 - (void)loginSuccessful:(TSJavelinAPIAuthenticationResult *)result {
     _shimmeringView.shimmering = NO;
+    [self dismissKeyboard];
     
     [[TSJavelinAPIClient sharedClient] authenticationManager].delegate = nil;
     

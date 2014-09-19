@@ -154,7 +154,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
 - (void)showDeleteSocialCrime {
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Delete"
-                                                             style:UIBarButtonItemStyleBordered
+                                                             style:UIBarButtonItemStylePlain
                                                             target:self
                                                             action:@selector(deleteSocialReport)];
     item.tintColor = [TSColorPalette tapshieldBlue];

@@ -85,14 +85,18 @@
 }
 
 + (UIColor *)tapshieldBlue {
+    
+//    return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
+//    return UIColorFromRGB(0x3aa1d3);
+    
     //Talkaphone
-    //return [UIColor colorWithRed:82.0f/255.0f green:183.0f/255.0f blue:232.0f/255.0f alpha:1.0f];
-    return UIColorFromRGB(0x3aa1d3);
-//    return UIColorFromRGB(0xb30838);
+    return UIColorFromRGB(0xb30838);
 }
 
 + (UIColor *)tapshieldDarkBlue {
 //    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
+    
+    //Talkaphone
     return UIColorFromRGB(0xb30838);
 }
 
@@ -114,6 +118,7 @@
 
 + (UIColor *)listCellTextColor {
     return UIColorFromRGB(0x606366);
+    
 }
 
 + (UIColor *)listCellDetailsTextColor {
@@ -129,29 +134,35 @@
 }
 
 + (UIColor *)tableViewHeaderColor {
-    return UIColorFromRGB(0x5eb6e0);
+//    return UIColorFromRGB(0x5eb6e0);
+    
+    return UIColorFromRGB(0xd5758f);
 }
 
 + (UIColor *)searchFieldBackgroundColor {
-    return UIColorFromRGB(0x75bde0);
+//    return UIColorFromRGB(0x75bde0);
+    
+    return UIColorFromRGB(0xd5758f);
 }
 
 + (UIColor *)registrationButtonTextColor {
-    return UIColorFromRGB(0x0d669f);
+//    return UIColorFromRGB(0x0d669f);
+    
+    return UIColorFromRGB(0xb30838);
 }
 
 + (UIColor *)alertRed {
     
-    return UIColorFromRGB(0xff534e);
+//    return UIColorFromRGB(0xff534e);
     //Talkaphone
-//    return UIColorFromRGB(0x3aa1d3);
+    return UIColorFromRGB(0x3aa1d3);
 }
 
 + (UIColor *)darkAlertRed {
     
-    return UIColorFromRGB(0xff534e);
+//    return UIColorFromRGB(0xff534e);
     //Talkaphone
-//    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
+    return [UIColor colorWithRed:18.0f/255.0f green:122.0f/255.0f blue:189.0f/255.0f alpha:1.0f];
 }
 
 + (UIColor *)lightChatRectGray {

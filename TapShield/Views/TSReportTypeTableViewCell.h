@@ -7,10 +7,11 @@
 //
 
 #import "TSBaseTableViewCell.h"
+#import "TSTintedImageView.h"
 
 @interface TSReportTypeTableViewCell : TSBaseTableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
+@property (weak, nonatomic) IBOutlet TSTintedImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *typeLabel;
 
 - (void)setTypeForRow:(int)row;

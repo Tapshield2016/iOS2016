@@ -27,7 +27,8 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
+    _changeProfileButton.backgroundColor = [TSColorPalette tapshieldBlue];
+    _changeProfileButton.layer.cornerRadius = 5;
     
     _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
     
@@ -193,6 +194,9 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.textLabel.frame.origin.x, 0.0, 0.0);
+    
+    cell.imageView.image = [cell.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [cell.imageView setTintColor:[TSColorPalette tapshieldBlue]];
     
     if (indexPath.row == _cellIdentifiers.count - 1) {
         cell.separatorInset = UIEdgeInsetsZero;

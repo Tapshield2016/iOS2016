@@ -31,6 +31,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([UIScreen mainScreen].bounds.size.height < 500) {
+        [_topLogo setHidden:YES];
+        [_poweredByLogo setHidden:YES];
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(returnToMapViewForYankAlert)

@@ -31,9 +31,13 @@
             selectedFillColor:nil];
         
         [self drawCircleButtonHighlighted:NO selected:NO];
+        
+        
+        UIImage *image = [[self imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self setImage:image forState:UIControlStateNormal];
+        [self setTintColor:[TSColorPalette tapshieldBlue]];
     }
     return self;
 }
-
 
 @end

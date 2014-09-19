@@ -858,6 +858,10 @@
 		C5EAAC0119066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
 		C5EAAC0219066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
 		C5EAAC0319066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */; };
+		C5EC014819CBF73200C2368C /* TSTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EC014719CBF73200C2368C /* TSTintedImageView.m */; };
+		C5EC014919CBF73200C2368C /* TSTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EC014719CBF73200C2368C /* TSTintedImageView.m */; };
+		C5EC014A19CBF73200C2368C /* TSTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EC014719CBF73200C2368C /* TSTintedImageView.m */; };
+		C5EC014B19CBF73200C2368C /* TSTintedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EC014719CBF73200C2368C /* TSTintedImageView.m */; };
 		C5F2E598194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
 		C5F2E599194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
 		C5F2E59A194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */; };
@@ -1329,6 +1333,8 @@
 		C5EAABFB19066018005EDD7B /* TSMedicalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMedicalTableViewController.m; sourceTree = "<group>"; };
 		C5EAABFF19066035005EDD7B /* TSEmergencyContactTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEmergencyContactTableViewController.h; sourceTree = "<group>"; };
 		C5EAAC0019066035005EDD7B /* TSEmergencyContactTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEmergencyContactTableViewController.m; sourceTree = "<group>"; };
+		C5EC014619CBF73200C2368C /* TSTintedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTintedImageView.h; sourceTree = "<group>"; };
+		C5EC014719CBF73200C2368C /* TSTintedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTintedImageView.m; sourceTree = "<group>"; };
 		C5F2E596194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIDispatchCenter.h; sourceTree = "<group>"; };
 		C5F2E597194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIDispatchCenter.m; sourceTree = "<group>"; };
 		C5F2E59C194F6E60005B32A1 /* TSJavelinAPIRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIRegion.h; sourceTree = "<group>"; };
@@ -1560,6 +1566,8 @@
 				C5662BD118DBA6D400FD4F44 /* TextFields */,
 				C5AFBB7B191F766B00EC62A5 /* TSBaseTextView.h */,
 				C5AFBB7C191F766B00EC62A5 /* TSBaseTextView.m */,
+				C5EC014619CBF73200C2368C /* TSTintedImageView.h */,
+				C5EC014719CBF73200C2368C /* TSTintedImageView.m */,
 				C585F2E318DB6B66009EEF16 /* TSAnimatedView.h */,
 				C585F2E418DB6B66009EEF16 /* TSAnimatedView.m */,
 				C5C1C9AC1909B9220087F622 /* TSCircularControl.h */,
@@ -2782,6 +2790,7 @@
 				C585F19F18CF88CF009EEF16 /* NSData+Base64.m in Sources */,
 				C501CC2E18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C532E64918BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
+				C5EC014819CBF73200C2368C /* TSTintedImageView.m in Sources */,
 				C5B5634B18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C56B3D5618FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C5BBF42B18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
@@ -2942,6 +2951,7 @@
 				C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C585F1AA18CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C5EC014B19CBF73200C2368C /* TSTintedImageView.m in Sources */,
 				C5F2E59B194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
 				C5FD5EA418B3D58400E27EE9 /* TSEmailVerificationViewController.m in Sources */,
 				C5AFBB86191F8F0C00EC62A5 /* TSHairColorViewController.m in Sources */,
@@ -3189,6 +3199,7 @@
 				C51A40A918CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
 				C501CC2F18F1DDD3005A0B98 /* TSBaseTableViewCell.m in Sources */,
 				C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
+				C5EC014919CBF73200C2368C /* TSTintedImageView.m in Sources */,
 				C5B5634C18E8EA900013AF69 /* TSToolBarView.m in Sources */,
 				C56B3D5718FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
 				C5BBF42C18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
@@ -3393,6 +3404,7 @@
 				C5AFB96A191D35DE00EC62A5 /* TSTextMessageBarView.m in Sources */,
 				C5AFB96B191D35DE00EC62A5 /* TSBaseTableViewCell.m in Sources */,
 				C5AFB96C191D35DE00EC62A5 /* TSBasePageViewController.m in Sources */,
+				C5EC014A19CBF73200C2368C /* TSTintedImageView.m in Sources */,
 				C5AFB96D191D35DE00EC62A5 /* TSToolBarView.m in Sources */,
 				C5AFB96E191D35DE00EC62A5 /* TSAppearanceViewController.m in Sources */,
 				C5AFB96F191D35DE00EC62A5 /* TSRoundUserImageView.m in Sources */,
@@ -3771,7 +3783,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TapShield/TapShield Demo-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = TapShield;
-				PROVISIONING_PROFILE = "30cd510d-a08f-450b-9f99-b08af42c06bd";
+				PROVISIONING_PROFILE = "171f314e-9786-441e-a125-e511404835d8";
+				"PROVISIONING_PROFILE[sdk=*]" = "171f314e-9786-441e-a125-e511404835d8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3796,7 +3809,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = TapShield;
-				PROVISIONING_PROFILE = "30cd510d-a08f-450b-9f99-b08af42c06bd";
+				PROVISIONING_PROFILE = "171f314e-9786-441e-a125-e511404835d8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

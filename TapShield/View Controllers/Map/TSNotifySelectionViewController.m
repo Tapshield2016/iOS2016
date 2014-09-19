@@ -82,7 +82,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [self blackNavigationBar];
         self.removeNavigationShadow = YES;
         
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneEditingEntourage)];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(doneEditingEntourage)];
         [doneButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette whiteColor],
                                             NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
         [self.navigationItem setRightBarButtonItem:doneButton];

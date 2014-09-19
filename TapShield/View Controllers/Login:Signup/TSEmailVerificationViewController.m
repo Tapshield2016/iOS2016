@@ -76,6 +76,7 @@
     [[[TSJavelinAPIClient sharedClient] authenticationManager] isLoggedInUserEmailVerified:^(BOOL success) {
         if (success) {
             if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
+                [self.view.findFirstResponder resignFirstResponder];
                 [[TSUserSessionManager sharedManager] dismissWindow:^(BOOL finished) {
                     [[TSUserSessionManager sharedManager] userStatusCheck];
                 }];
@@ -87,6 +88,7 @@
                 _completeVerificationButton.enabled = YES;
                 
                 if (user) {
+                    [self.view.findFirstResponder resignFirstResponder];
                     [[TSUserSessionManager sharedManager] dismissWindow:^(BOOL finished) {
                         [[TSUserSessionManager sharedManager] userStatusCheck];
                     }];

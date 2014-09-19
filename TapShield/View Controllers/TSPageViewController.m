@@ -102,7 +102,7 @@
     }
     
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleBordered target:self action:@selector(showAlertViewController)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(showAlertViewController)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
                                         NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:barButton animated:YES];
@@ -115,7 +115,7 @@
     }
     
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStyleBordered target:self action:@selector(showAlertViewController)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStylePlain target:self action:@selector(showAlertViewController)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
     NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:barButton animated:YES];
@@ -129,7 +129,7 @@
         return;
     }
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Disarm" style:UIBarButtonItemStyleBordered target:self action:@selector(showDisarmViewController)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Disarm" style:UIBarButtonItemStylePlain target:self action:@selector(showDisarmViewController)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
                                         NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];

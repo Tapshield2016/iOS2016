@@ -15,7 +15,7 @@
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (assign, nonatomic) BOOL removeNavigationShadow;
 
-@property (strong, nonatomic) UIToolbar *toolbar;
+@property (strong, nonatomic) UIVisualEffectView *toolbar;
 
 @property (strong, nonatomic) TSLogoImageView *smallLogoImageView;
 @property (strong, nonatomic) TSLogoImageView *largeLogoImageView;

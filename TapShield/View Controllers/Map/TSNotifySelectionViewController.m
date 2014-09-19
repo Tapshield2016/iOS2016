@@ -55,9 +55,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self mergeRecentPicksWithCurrentMembers];
     
     self.translucentBackground = YES;
-    CGRect frame = self.view.frame;
-    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.toolbar.frame = frame;
     
     [self addDescriptionToNavBar];
     //Create the Circular Slider
@@ -753,8 +750,9 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     view.layer.masksToBounds = YES;
     view.transform = CGAffineTransformMakeScale(0.01, 0.01);
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
-    toolbar.barStyle = UIBarStyleBlack;
+    
+    UIVisualEffectView *toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    toolbar.frame = frame;
     [view addSubview:toolbar];
     
     UIActivityIndicatorView *indicatoryView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];

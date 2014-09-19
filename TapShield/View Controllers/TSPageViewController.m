@@ -35,15 +35,12 @@
     
     [self initPages];
     
-    CGRect frame = self.view.frame;
+    CGRect frame = self.view.bounds;
     _animatedView = [[UIView alloc] initWithFrame:frame];
     _animatedView.backgroundColor = [UIColor clearColor];
     _animatedView.opaque = NO;
     _animatedView.clipsToBounds = YES;
     
-    frame = self.view.frame;
-    frame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.toolbar.frame = frame;
     [_animatedView addSubview:self.toolbar];
     [self.view insertSubview:_animatedView atIndex:0];
     

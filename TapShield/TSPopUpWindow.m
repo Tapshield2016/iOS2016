@@ -85,10 +85,10 @@
     _view.center = self.center;
     _view.layer.cornerRadius = 10;
     _view.layer.masksToBounds = YES;
-    _view.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    _view.transform = CGAffineTransformMakeScale(0.001, 0.001);
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:_viewFrame];
-    toolbar.barStyle = UIBarStyleBlack;
+    UIVisualEffectView *toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    toolbar.frame =_viewFrame;
     [_view addSubview:toolbar];
     
     [self addSubview:_view];

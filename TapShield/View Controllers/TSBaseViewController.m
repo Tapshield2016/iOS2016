@@ -92,7 +92,7 @@
     
     if (translucentBackground) {
         _toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-        _toolbar.frame = self.view.frame;
+        _toolbar.frame = self.view.bounds;
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.view insertSubview:_toolbar atIndex:0];
     }
@@ -178,6 +178,9 @@
 #pragma mark - Nav Bars
 
 - (void)whiteNavigationBar {
+    [self.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
@@ -196,6 +199,11 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                             forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
     
     [UINavigationBar appearance].tintColor = [TSColorPalette whiteColor];
     [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette whiteColor], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };

@@ -547,8 +547,8 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     view.layer.masksToBounds = YES;
     view.transform = CGAffineTransformMakeScale(0.01, 0.01);
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
-    toolbar.barStyle = UIBarStyleBlack;
+    UIVisualEffectView *toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    toolbar.frame = frame;
     [view addSubview:toolbar];
     
     float inset = 10;
@@ -574,10 +574,15 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     [_window addSubview:view];
     [_window makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.3f animations:^{
-        _window.alpha = 1.0f;
-        view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    } completion:nil];
+    [UIView animateWithDuration:0.3
+                          delay:0
+         usingSpringWithDamping:300.0
+          initialSpringVelocity:5.0
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         _window.alpha = 1.0f;
+                         view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+                     } completion:nil];
 }
 
 - (void)hideWindow {
@@ -585,11 +590,16 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.3f animations:^{
-            _window.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            _window = nil;
-        }];
+        [UIView animateWithDuration:0.3
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             _window.alpha = 0.0f;
+                         } completion:^(BOOL finished) {
+                             _window = nil;
+                         }];
     });
 }
 

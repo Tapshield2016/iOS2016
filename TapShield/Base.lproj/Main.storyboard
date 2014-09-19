@@ -3,7 +3,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Dynamics Drawer View Controller-->
@@ -5916,16 +5915,16 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <constraint firstAttribute="trailing" secondItem="geg-eh-05B" secondAttribute="trailing" id="1of-Rn-cTE"/>
                             <constraint firstItem="b9e-ZE-gPG" firstAttribute="top" secondItem="syd-Ib-oKa" secondAttribute="bottom" id="2RS-xf-ab1"/>
                             <constraint firstItem="b9e-ZE-gPG" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="6PO-Mf-2BQ"/>
-                            <constraint firstItem="k30-pR-TLw" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leadingMargin" constant="4" id="7fw-2e-fU1"/>
                             <constraint firstItem="syd-Ib-oKa" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="AZP-qb-uXg"/>
                             <constraint firstItem="syd-Ib-oKa" firstAttribute="top" secondItem="Xze-mx-zKU" secondAttribute="bottom" id="Eq6-PP-Tqq"/>
                             <constraint firstItem="b9e-ZE-gPG" firstAttribute="top" secondItem="syd-Ib-oKa" secondAttribute="bottom" id="GbP-xQ-mfy"/>
                             <constraint firstAttribute="trailing" secondItem="b9e-ZE-gPG" secondAttribute="trailing" id="LeZ-9g-GaX"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="k30-pR-TLw" secondAttribute="trailing" constant="4" id="QjL-WW-57C"/>
+                            <constraint firstItem="k30-pR-TLw" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" constant="20" id="MAI-8C-xeY"/>
                             <constraint firstItem="geg-eh-05B" firstAttribute="top" secondItem="k30-pR-TLw" secondAttribute="bottom" id="Smc-65-JmE"/>
                             <constraint firstItem="k30-pR-TLw" firstAttribute="top" secondItem="b9e-ZE-gPG" secondAttribute="bottom" id="ToH-k7-5Z0"/>
                             <constraint firstItem="uE9-HN-JDC" firstAttribute="top" secondItem="b9e-ZE-gPG" secondAttribute="bottom" constant="40" id="alf-WX-h2T"/>
                             <constraint firstItem="uE9-HN-JDC" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="gNi-Ix-8qh"/>
+                            <constraint firstAttribute="trailing" secondItem="k30-pR-TLw" secondAttribute="trailing" constant="20" id="het-Ll-mYH"/>
                             <constraint firstAttribute="trailing" secondItem="syd-Ib-oKa" secondAttribute="trailing" id="kBt-Wv-l68"/>
                             <constraint firstAttribute="trailing" secondItem="uE9-HN-JDC" secondAttribute="trailing" id="ntw-Ws-7TQ"/>
                             <constraint firstItem="geg-eh-05B" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="w7F-Nm-KQV"/>

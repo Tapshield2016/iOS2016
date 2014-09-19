@@ -212,11 +212,9 @@ static dispatch_once_t predicate;
     view.layer.masksToBounds = YES;
     view.transform = CGAffineTransformMakeScale(0.01, 0.01);
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
-    toolbar.barStyle = UIBarStyleBlack;
+    UIVisualEffectView *toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    toolbar.frame = frame;
     [view addSubview:toolbar];
-    
-    
     
     _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert_yank_icon"]];
     _imageView.contentMode = UIViewContentModeCenter;
@@ -245,15 +243,15 @@ static dispatch_once_t predicate;
     [_yankWindow addSubview:view];
     [_yankWindow makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.3
                           delay:0
          usingSpringWithDamping:300.0
           initialSpringVelocity:5.0
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-        _yankWindow.alpha = 1.0f;
-        view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    } completion:nil];
+                         _yankWindow.alpha = 1.0f;
+                         view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+                     } completion:nil];
 }
 
 - (void)hideYankWindow {
@@ -264,12 +262,17 @@ static dispatch_once_t predicate;
     _yankEnabledBlock = nil;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.3f animations:^{
-            _yankWindow.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            _yankWindow = nil;
-            _windowMessage = nil;
-        }];
+        [UIView animateWithDuration:0.3
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             _yankWindow.alpha = 0.0f;
+                         } completion:^(BOOL finished) {
+                             _yankWindow = nil;
+                             _windowMessage = nil;
+                         }];
     });
 }
 

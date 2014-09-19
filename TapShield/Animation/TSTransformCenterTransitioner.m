@@ -38,6 +38,10 @@
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
+    if (self.isPresentation) {
+        return 0.3;
+    }
+    
     return 0.5;
 }
 
@@ -63,9 +67,10 @@
     [animatingView setFrame:[transitionContext finalFrameForViewController:animatingVC]];
     
     CGAffineTransform presentedTransform = CGAffineTransformIdentity;
-    CGAffineTransform dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
+    CGAffineTransform entryTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
+    CGAffineTransform dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(1.5, 1.5), CGAffineTransformMakeRotation(8 * M_PI));
     
-    [animatingView setTransform:isPresentation ? dismissedTransform : presentedTransform];
+    [animatingView setTransform:isPresentation ? entryTransform : presentedTransform];
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
@@ -74,6 +79,10 @@
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          [animatingView setTransform:isPresentation ? presentedTransform : dismissedTransform];
+                         
+                         if (!isPresentation) {
+                             animatingView.alpha = 0;
+                         }
                      }
                      completion:^(BOOL finished){
                          if(![self isPresentation])

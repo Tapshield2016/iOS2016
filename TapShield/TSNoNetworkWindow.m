@@ -52,9 +52,14 @@ static NSString * const kDisconnected = @"No Network Connection";
     
     [self makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:300.0
+          initialSpringVelocity:5.0
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
         _view.frame = self.frame;
-    }];
+    } completion:nil];
 }
 
 - (void)dismiss:(void (^)(BOOL finished))completion  {

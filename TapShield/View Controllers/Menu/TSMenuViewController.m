@@ -192,11 +192,15 @@
     [_mailWindow setRootViewController:mc];
     [_mailWindow makeKeyAndVisible];
     _mailWindow.transform = CGAffineTransformMakeScale(0.25, 0.25);
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:300.0
+          initialSpringVelocity:5.0
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
         _mailWindow.transform = CGAffineTransformMakeScale(1.0, 1.0);
         _mailWindow.center = self.view.center;
-    }];
-//    [self presentViewController:mc animated:YES completion:nil];
+    }completion:nil];
 }
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error

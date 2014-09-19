@@ -194,7 +194,12 @@
         
         [self makeKeyAndVisible];
         
-        [UIView animateWithDuration:0.3f animations:^{
+        [UIView animateWithDuration:0.5
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
             self.alpha = 1.0f;
             _view.transform = CGAffineTransformMakeScale(1.0, 1.0);
         } completion:nil];

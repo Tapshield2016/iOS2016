@@ -2687,7 +2687,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <constraint firstAttribute="height" constant="21" id="dVf-sf-MXq"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="talkaphone_logo" translatesAutoresizingMaskIntoConstraints="NO" id="tMT-fg-WfF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo_big" translatesAutoresizingMaskIntoConstraints="NO" id="tMT-fg-WfF">
                                 <rect key="frame" x="14" y="214" width="292" height="175"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="b4D-h0-csv"/>
@@ -6046,6 +6046,7 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="settings_menu_icon_active" width="52" height="52"/>
         <image name="settings_signout" width="20" height="18"/>
         <image name="slide_2" width="320" height="165"/>
+        <image name="splash_logo_big" width="292" height="175"/>
         <image name="splash_logo_small" width="146" height="87"/>
         <image name="switch_off" width="29" height="30"/>
         <image name="switch_on" width="29" height="30"/>

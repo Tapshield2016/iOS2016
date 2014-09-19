@@ -15,19 +15,26 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        UIImage *image = self.image;
-        [self setImage:image];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+            UIImage *image = self.image;
+            [self setImage:image];
+        }
     }
     return self;
 }
 
 - (void)setImage:(UIImage *)image {
     
-    image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    
-    [super setImage:image];
-    
-    [self setTintColor:[TSColorPalette tapshieldBlue]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        
+        [super setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+        
+        [self setTintColor:[TSColorPalette tapshieldBlue]];
+    }
+    else {
+        [super setImage:image];
+    }
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {

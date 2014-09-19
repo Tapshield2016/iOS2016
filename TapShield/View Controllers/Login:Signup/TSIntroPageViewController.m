@@ -33,7 +33,12 @@
     background.frame = frame;
     [self.view insertSubview:background atIndex:0];
     
-    _logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"talkaphone_logo"]];//]@"splash_logo_small"]];
+    UIImage *image = [UIImage imageNamed:@"splash_logo_small"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        image = [UIImage imageNamed:@"talkaphone_logo"];
+    }
+    
+    _logoImage = [[UIImageView alloc] initWithImage:image];
     [_logoImage setHidden:YES];
     [self.view insertSubview:_logoImage atIndex:1];
     

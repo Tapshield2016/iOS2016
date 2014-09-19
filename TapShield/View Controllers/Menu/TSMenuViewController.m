@@ -32,6 +32,11 @@
 {
     [super viewDidLoad];
     
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        [_topLogo setHidden:YES];
+        [_poweredByLogo setHidden:YES];
+    }
+    
     if ([UIScreen mainScreen].bounds.size.height < 500) {
         [_topLogo setHidden:YES];
         [_poweredByLogo setHidden:YES];
@@ -63,6 +68,8 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor clearColor];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning

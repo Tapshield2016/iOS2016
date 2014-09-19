@@ -36,7 +36,12 @@
     _errorLabel.textColor = [TSColorPalette alertRed];
     [_errorLabel setAdjustsFontSizeToFitWidth:YES];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"talkaphone_logo"]];//@"splash_logo_small"]];
+    UIImage *image = [UIImage imageNamed:@"splash_logo_small"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        image = [UIImage imageNamed:@"talkaphone_logo"];
+    }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     imageView.frame = _shimmeringView.bounds;
     imageView.contentMode = UIViewContentModeCenter;
     _shimmeringView.contentView = imageView;

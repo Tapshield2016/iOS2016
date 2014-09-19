@@ -10,9 +10,9 @@
 #import "TSLocationController.h"
 
 NSString * const TSLogoImageView911 = @"911";
-NSString * const TSLogoImageViewBigTapShieldLogo = @"talkaphone_logo_white"; //@"splash_logo_small";
-NSString * const TSLogoImageViewBigAlternateTapShieldLogo = @"talkaphone_logo"; //@"tapshield_icon";
-NSString * const TSLogoImageViewSmallTapShieldLogo = @"talkaphone_logo_gray"; //@"tapshield_icon";
+NSString * const TSLogoImageViewBigTapShieldLogo = @"splash_logo_small"; //@"talkaphone_logo_white";
+NSString * const TSLogoImageViewBigAlternateTapShieldLogo = @"tapshield_icon"; //@"talkaphone_logo";
+NSString * const TSLogoImageViewSmallTapShieldLogo = @"tapshield_icon"; //@"talkaphone_logo_gray";
 
 @implementation TSLogoImageView
 

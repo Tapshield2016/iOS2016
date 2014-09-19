@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kTalkaphoneBranding = @"kTalkaphoneBranding";
+
 @interface TSColorPalette : UIColor
 
 + (UIColor *)randomColor;

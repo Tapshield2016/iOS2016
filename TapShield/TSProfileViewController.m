@@ -195,8 +195,10 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.textLabel.frame.origin.x, 0.0, 0.0);
     
-    cell.imageView.image = [cell.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [cell.imageView setTintColor:[TSColorPalette tapshieldBlue]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        cell.imageView.image = [cell.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [cell.imageView setTintColor:[TSColorPalette tapshieldBlue]];
+    }
     
     if (indexPath.row == _cellIdentifiers.count - 1) {
         cell.separatorInset = UIEdgeInsetsZero;

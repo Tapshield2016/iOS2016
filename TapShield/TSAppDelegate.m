@@ -130,7 +130,14 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
-    self.windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"side_menu_bg_talkaphone"]];
+    
+    UIImage *bgImage = [UIImage imageNamed:@"side_menu_bg"];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        bgImage = [UIImage imageNamed:@"side_menu_bg_talkaphone"];
+    }
+    
+    self.windowBackground = [[UIImageView alloc] initWithImage:bgImage];
     self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller

@@ -53,6 +53,9 @@ static NSString * const kCallRedialing = @"Redialing";
     [TSAlertManager sharedManager].callDelegate = self;
     
     _redialButton.alpha = 0.0f;
+    
+    _muteButton.enabled = NO;
+    _speakerButton.enabled = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,16 +82,12 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (IBAction)speakerToggle:(id)sender {
     
-    _speakerButton.selected = !_speakerButton.selected;
-    
-    [self setSpeakerEnabled:_speakerButton.selected];
+    [self setSpeakerEnabled:!_speakerButton.selected];
 }
 
 - (IBAction)muteToggle:(id)sender {
     
-    _muteButton.selected = !_muteButton.selected;
-    
-    [self setMuteEnabled:_muteButton.selected];
+    [self setMuteEnabled:!_muteButton.selected];
 }
 
 - (IBAction)addAlertDetails:(id)sender {
@@ -167,8 +166,8 @@ static NSString * const kCallRedialing = @"Redialing";
 - (void)connectionDidStartConnecting:(TCConnection *)connection {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self setMuteEnabled:_muteButton.selected];
-        [self setSpeakerEnabled:_speakerButton.selected];
+        _muteButton.enabled = YES;
+        _speakerButton.enabled = YES;
         _redialButton.enabled = NO;
         
         [UIView animateWithDuration:0.2 animations:^{
@@ -188,11 +187,16 @@ static NSString * const kCallRedialing = @"Redialing";
 - (void)connectionDidDisconnect:(TCConnection *)connection {
     [self stopCallTimer];
     _redialButton.enabled = YES;
-    _muteButton.selected = NO;
-    _speakerButton.selected = NO;
+    _muteButton.enabled = NO;
+    _speakerButton.enabled = NO;
     [self updatePhoneNumberWithMessage:kCallEnded];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self setMuteEnabled:NO];
+        [self setSpeakerEnabled:NO];
+        _muteButton.selected = NO;
+        _speakerButton.selected = NO;
+        
         [(TSEmergencyAlertViewController *)_emergencyView performSelector:@selector(dismissPhoneView) withObject:self afterDelay:2.0];
         
         [UIView animateWithDuration:0.2 animations:^{
@@ -204,12 +208,17 @@ static NSString * const kCallRedialing = @"Redialing";
 - (void)connection:(TCConnection *)connection didFailWithError:(NSError *)error {
     [self stopCallTimer];
     _redialButton.enabled = YES;
-    _muteButton.selected = NO;
-    _speakerButton.selected = NO;
+    _muteButton.enabled = NO;
+    _speakerButton.enabled = NO;
     [self updatePhoneNumberWithMessage:kCallFailed];
 
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self setMuteEnabled:NO];
+        [self setSpeakerEnabled:NO];
+        _muteButton.selected = NO;
+        _speakerButton.selected = NO;
+        
         [UIView animateWithDuration:0.2 animations:^{
             _redialButton.alpha = 1.0f;
         }];

@@ -207,6 +207,7 @@
 #pragma mark - Phone View Transition Animations
 
 - (void)startingPhoneCall {
+    _callButton.enabled = NO;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self initPhoneView];
@@ -215,6 +216,7 @@
 
 - (IBAction)callDispatcher:(id)sender {
     
+    _callButton.enabled = NO;
     if (![TSAlertManager sharedManager].callInProgress) {
         [[TSAlertManager sharedManager] startTwilioCall];
     }
@@ -255,6 +257,7 @@
         
     } completion:^(BOOL finished) {
         [self showPhoneInfoView];
+        _callButton.enabled = YES;
     }];
 }
 
@@ -273,6 +276,8 @@
 }
 
 - (void)returnToAlertView {
+    
+    _callButton.enabled = YES;
     
     CGRect frame = self.view.bounds;
     frame.origin.y = frame.size.height;

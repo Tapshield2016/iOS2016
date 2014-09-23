@@ -10,7 +10,8 @@
 
 @interface TSVibrancyButton : UIButton
 
-@property (nonatomic, strong) CAShapeLayer *circleLayer;
+@property (nonatomic, strong) CAShapeLayer *selectedLayer;
+@property (nonatomic, strong) CAShapeLayer *normalLayer;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) UIColor *fillColor;
 @property (nonatomic, strong) UIColor *highlightedColor;

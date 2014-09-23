@@ -707,10 +707,6 @@
 		C5AFBF051922BE3600EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
 		C5AFBF061922BE3600EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
 		C5AFBF071922BE3600EC62A5 /* TSIconBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */; };
-		C5AFBF0A1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPhoneButton.m */; };
-		C5AFBF0B1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPhoneButton.m */; };
-		C5AFBF0C1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPhoneButton.m */; };
-		C5AFBF0D1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFBF091922EC6E00EC62A5 /* TSPhoneButton.m */; };
 		C5B2E98018CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98118CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
 		C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */; };
@@ -1246,8 +1242,6 @@
 		C5AFBEFD1921EF4E00EC62A5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C5AFBF021922BE3500EC62A5 /* TSIconBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSIconBadgeView.h; sourceTree = "<group>"; };
 		C5AFBF031922BE3500EC62A5 /* TSIconBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSIconBadgeView.m; sourceTree = "<group>"; };
-		C5AFBF081922EC6E00EC62A5 /* TSPhoneButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPhoneButton.h; sourceTree = "<group>"; };
-		C5AFBF091922EC6E00EC62A5 /* TSPhoneButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPhoneButton.m; sourceTree = "<group>"; };
 		C5B2E97E18CE174A00E2CF04 /* TSBasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBasePageViewController.h; path = "View Controllers/TSBasePageViewController.h"; sourceTree = "<group>"; };
 		C5B2E97F18CE174A00E2CF04 /* TSBasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBasePageViewController.m; path = "View Controllers/TSBasePageViewController.m"; sourceTree = "<group>"; };
 		C5B2E98418CE2D6F00E2CF04 /* TSObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSObservingInputAccessoryView.h; path = Views/Keyboard/TSObservingInputAccessoryView.h; sourceTree = "<group>"; };
@@ -2271,8 +2265,6 @@
 				C5CB078318C6851D00BC9425 /* TSCircularButton.m */,
 				C520986019D1FAA80078B2AC /* TSVibrancyButton.h */,
 				C520986119D1FAA80078B2AC /* TSVibrancyButton.m */,
-				C5AFBF081922EC6E00EC62A5 /* TSPhoneButton.h */,
-				C5AFBF091922EC6E00EC62A5 /* TSPhoneButton.m */,
 				C585F1C918CFB294009EEF16 /* TSFacebookLogin.h */,
 				C585F1CA18CFB294009EEF16 /* TSFacebookLogin.m */,
 				C585F1D018D0B390009EEF16 /* TSGooglePlusButton.h */,
@@ -2816,7 +2808,6 @@
 				C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
-				C5AFBF0A1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */,
 				C599C038193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C5CC4590193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF71921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
@@ -3055,7 +3046,6 @@
 				C596C63E1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
-				C5AFBF0D1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */,
 				C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C534ACF71975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
 				C5A3971219B90E270017F1D7 /* TSApplication.m in Sources */,
@@ -3227,7 +3217,6 @@
 				C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
 				C556478018E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
-				C5AFBF0B1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */,
 				C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C5CC4591193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF81921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
@@ -3433,7 +3422,6 @@
 				C5AFB979191D35DE00EC62A5 /* TSAnimatedView.m in Sources */,
 				C5AFB97A191D35DE00EC62A5 /* TSBottomMapButton.m in Sources */,
 				C5AFB97B191D35DE00EC62A5 /* TSJavelinChatManager.m in Sources */,
-				C5AFBF0C1922EC6E00EC62A5 /* TSPhoneButton.m in Sources */,
 				C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
 				C5CC4592193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
 				C5AFBEF91921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,

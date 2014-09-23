@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "TSAlertManager.h"
 #import "TSIconBadgeView.h"
+#import "TSBottomMapAlertButton.h"
 
 @interface TSEmergencyAlertViewController : TSNavigationViewController <TSAlertDelegate>
 
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *chatButtonView;
 @property (weak, nonatomic) IBOutlet UIView *bottomButtonContainerView;
 @property (weak, nonatomic) IBOutlet UIView *phoneInfoLabelsView;
+@property (weak, nonatomic) IBOutlet TSBottomMapAlertButton *callButton;
 
 @property (weak, nonatomic) IBOutlet TSBaseLabel *phoneNumberLabel;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *dispatcherNameLabel;

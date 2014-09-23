@@ -49,12 +49,17 @@
     [_vibrancyView.contentView addSubview:_insideView];
     [self insertSubview:_vibrancyView atIndex:0];
     
-    [self setCircleColors:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]
-                fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.05]
-     highlightedFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.2]
-        selectedFillColor:[[TSColorPalette whiteColor]
-                           colorWithAlphaComponent:ALPHA]];
-    [self drawCircleButtonHighlighted:NO selected:NO];
+    [self setCircleColors:[TSColorPalette whiteColor]
+                fillColor:[UIColor clearColor]
+     highlightedFillColor:[TSColorPalette whiteColor]
+        selectedFillColor:[TSColorPalette whiteColor]];
+    [self drawCircleButton];
+    
+    UIImage *image = [self imageForState:UIControlStateNormal];
+    [self setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+    [self setTintColor:[UIColor blackColor]];
+    
+    [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -66,14 +71,16 @@
     
     [super setHighlighted:highlighted];
     
-    [self drawCircleButtonHighlighted:highlighted selected:NO];
+    if (!self.selected) {
+        _selectedLayer.hidden = !highlighted;
+    }
 }
 
 - (void)setSelected:(BOOL)selected {
     
     [super setSelected:selected];
     
-    [self drawCircleButtonHighlighted:NO selected:selected];
+    _selectedLayer.hidden = !selected;
 }
 
 - (void)setCircleColors:(UIColor *)color fillColor:(UIColor *)fillColor highlightedFillColor:(UIColor *)highlightedFillColor selectedFillColor:(UIColor *)selectedFillColor {
@@ -84,26 +91,14 @@
     self.selectedColor = selectedFillColor;
 }
 
-- (void)drawCircleButtonHighlighted:(BOOL)highlighted selected:(BOOL)selected {
+- (void)drawCircleButton {
     
-    [self.circleLayer removeFromSuperlayer];
+    self.normalLayer = [self circleLayerWithFill:self.fillColor stroke:self.color];
+    self.selectedLayer = [self circleLayerWithFill:self.selectedColor stroke:self.color];
+    [_insideView.layer addSublayer:self.normalLayer];
+    [_insideView.layer addSublayer:self.selectedLayer];
     
-    UIColor *fillColor = self.color;
-    
-    if (self.fillColor) {
-        fillColor = self.fillColor;
-    }
-    
-    if (highlighted) {
-        fillColor = self.highlightedColor;
-    }
-    else if (selected) {
-        fillColor = self.selectedColor;
-    }
-    
-    self.circleLayer = [self circleLayerWithFill:fillColor stroke:self.color];
-    
-    [[_insideView layer] insertSublayer:self.circleLayer atIndex:0];
+    self.selectedLayer.hidden = YES;
 }
 
 - (CAShapeLayer *)circleLayerWithFill:(UIColor *)fillColor stroke:(UIColor *)strokeColor {

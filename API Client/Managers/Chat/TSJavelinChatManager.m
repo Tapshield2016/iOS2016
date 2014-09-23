@@ -180,7 +180,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)newMessagesCount {
-    int newMessageCount = _chatMessages.allMessages.count - _previousCount;
+    NSUInteger newMessageCount = _chatMessages.allMessages.count - _previousCount;
     if (newMessageCount) {
         _unreadMessages += newMessageCount;
         _previousCount = _chatMessages.allMessages.count;

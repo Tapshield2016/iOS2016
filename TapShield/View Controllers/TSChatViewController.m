@@ -17,6 +17,7 @@
 
 @property (assign, nonatomic) NSUInteger previousCount;
 @property (strong, nonatomic) UIView *tintView;
+@property (assign, nonatomic) BOOL isDismissing;
 
 @end
 
@@ -92,18 +93,15 @@
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
         
-    if (self.navigationController.isBeingPresented) {
-        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
-                                                                        style:UIBarButtonItemStyleDone
-                                                                       target:self
-                                                                       action:@selector(dismissViewController)];
-        self.navigationItem.rightBarButtonItem = rightButton;
-    }
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                    style:UIBarButtonItemStyleDone
+                                                                   target:self
+                                                                   action:@selector(dismissViewController)];
+    self.navigationItem.rightBarButtonItem = rightButton;
     
     self.navigationController.navigationBar.topItem.title = self.title;
     
     [self showKeyboard];
-//    [self becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -127,7 +125,11 @@
     }
 }
 
-- (BOOL)canBecomeFirstResponder{
+- (BOOL)canBecomeFirstResponder {
+    
+//    if (_isDismissing) {
+//        return NO;
+//    }
     
     return YES;
 }
@@ -138,25 +140,18 @@
 
 - (void)dismissViewController {
     
+    _isDismissing = YES;
+    [_textMessageBarAccessoryView.textView resignFirstResponder];
+    [[self.view findFirstResponder] resignFirstResponder];
+    
     [TSJavelinChatManager sharedManager].unreadMessages = 0;
     
-    UINavigationController *parentNavigationController;
-    if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
-        parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
+    if ([TSAlertManager sharedManager].isAlertInProgress) {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
-    else if ([self.presentingViewController isKindOfClass:[UINavigationController class]]) {
-        parentNavigationController = (UINavigationController *)self.presentingViewController;
+    else {
+        [[TSAlertManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
     }
-    
-    [[parentNavigationController.topViewController.childViewControllers lastObject] viewWillAppear:YES];
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-        [parentNavigationController.topViewController viewWillAppear:YES];
-        [parentNavigationController.topViewController viewDidAppear:YES];
-        
-        [[parentNavigationController.topViewController.childViewControllers lastObject] viewDidAppear:YES];
-    }];
 }
 
 - (void)showKeyboard {
@@ -185,6 +180,8 @@
 #pragma mark - Chat Manager Methods
 
 - (void)sendMessage {
+    
+    [[UIDevice currentDevice] playInputClick];
     
     if (_textMessageBarAccessoryView.textView.text.length < 1) {
         return;
@@ -255,7 +252,7 @@
 
 - (void)keyboardDidHide:(NSNotification *)notification {
     
-//    [self becomeFirstResponder];
+    
 }
 
 

@@ -1,16 +1,23 @@
 //
-//  TSNumberPadButton.m
+//  TSVibrancyButton.m
 //  TapShield
 //
-//  Created by Adam Share on 3/4/14.
+//  Created by Adam Share on 9/23/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSCircularButton.h"
+#import "TSVibrancyButton.h"
 #import "TSColorPalette.h"
 #import "math.h"
 
-@implementation TSCircularButton
+@interface TSVibrancyButton ()
+
+@property (strong, nonatomic) UIVisualEffectView *vibrancyView;
+@property (strong, nonatomic) UIView *insideView;
+
+@end
+
+@implementation TSVibrancyButton
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -34,6 +41,14 @@
 
 - (void)initView {
     
+    self.clipsToBounds = NO;
+    _vibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]]];
+    _vibrancyView.frame = self.bounds;
+    _vibrancyView.userInteractionEnabled = NO;
+    _insideView = [[UIView alloc] initWithFrame:_vibrancyView.bounds];
+    [_vibrancyView.contentView addSubview:_insideView];
+    [self insertSubview:_vibrancyView atIndex:0];
+    
     [self setCircleColors:[[TSColorPalette whiteColor] colorWithAlphaComponent:ALPHA]
                 fillColor:[[UIColor whiteColor] colorWithAlphaComponent:0.05]
      highlightedFillColor:[[UIColor blackColor] colorWithAlphaComponent:0.2]
@@ -44,8 +59,7 @@
 
 - (void)drawRect:(CGRect)rect {
     
-    [self.circleLayer removeFromSuperlayer];
-    [[self layer] insertSublayer:self.circleLayer atIndex:0];
+    [self insertSubview:_vibrancyView atIndex:0];
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -74,20 +88,6 @@
     
     [self.circleLayer removeFromSuperlayer];
     
-    self.circleLayer = [CAShapeLayer layer];
-    
-    [self.circleLayer setBounds:CGRectMake(0.0f, 0.0f, [self bounds].size.width,
-                                           [self bounds].size.height)];
-    [self.circleLayer setPosition:CGPointMake(CGRectGetMidX([self bounds]),CGRectGetMidY([self bounds]))];
-    
-    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
-    
-    [self.circleLayer setPath:[path CGPath]];
-    
-    [self.circleLayer setStrokeColor:[self.color CGColor]];
-    
-    [self.circleLayer setLineWidth:1.0f];
-    
     UIColor *fillColor = self.color;
     
     if (self.fillColor) {
@@ -101,11 +101,31 @@
         fillColor = self.selectedColor;
     }
     
-    [self.circleLayer setFillColor:[fillColor CGColor]];
+    self.circleLayer = [self circleLayerWithFill:fillColor stroke:self.color];
     
-    [[self layer] insertSublayer:self.circleLayer atIndex:0];
+    [[_insideView layer] insertSublayer:self.circleLayer atIndex:0];
 }
 
+- (CAShapeLayer *)circleLayerWithFill:(UIColor *)fillColor stroke:(UIColor *)strokeColor {
+    
+    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+    
+    [circleLayer setBounds:CGRectMake(0.0, 0.0, [self bounds].size.width,
+                                           [self bounds].size.height)];
+    [circleLayer setPosition:CGPointMake(CGRectGetMidX([self bounds]),CGRectGetMidY([self bounds]))];
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0.5, 0.5, [self bounds].size.width - 1.0, [self bounds].size.height - 1.0)];
+    
+    [circleLayer setPath:[path CGPath]];
+    
+    [circleLayer setStrokeColor:[strokeColor CGColor]];
+    
+    [circleLayer setLineWidth:1.0f];
+    
+    [circleLayer setFillColor:[fillColor CGColor]];
+    
+    return circleLayer;
+}
 
 - (BOOL)enableInputClicksWhenVisible {
     return YES;

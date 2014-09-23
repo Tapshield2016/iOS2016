@@ -25,7 +25,7 @@
 //HelveticaNeue-UltraLight
 //HelveticaNeue-UltraLightItalic
 
-NSString * const kFontRalewayRegular = @"HelveticaNeue";
+NSString * const kFontRalewayRegular = @"HelveticaNeue-Thin";
 NSString * const kFontRalewayBold = @"HelveticaNeue-Bold";
 NSString * const kFontRalewayExtraBold = @"HelveticaNeue-Bold";
 NSString * const kFontRalewayExtraLight = @"HelveticaNeue-UltraLight";

@@ -10,6 +10,6 @@
 #import "TSColorPalette.h"
 #import "TSCircularButton.h"
 
-@interface TSUserLocationButton : TSCircularButton
+@interface TSUserLocationButton : TSBaseButton
 
 @end

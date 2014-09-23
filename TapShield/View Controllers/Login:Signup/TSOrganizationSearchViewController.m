@@ -34,15 +34,24 @@
     
     [self getOrganizationsToDisplay];
     
-    _searchDisplay = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
-    _searchDisplay.delegate = self;
-    _searchDisplay.searchResultsDataSource = self;
-    _searchDisplay.searchResultsDelegate = self;
+    // Create the search controller, but we'll make sure that this AAPLSearchShowResultsInSourceViewController
+    // performs the results updating.
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    
+    // Make sure the that the search bar is visible within the navigation bar.
+    [self.searchController.searchBar sizeToFit];
+    
+    // Include the search controller's search bar within the table's header view.
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    
+    self.definesPresentationContext = YES;
     
     self.navigationController.navigationBar.shadowImage = [UIImage imageFromColor:[UIColor whiteColor]];
     
     [self customizeTableView:_tableView];
-    [self customizeSearchBarAppearance:_searchBar];
+    [self customizeSearchBarAppearance:self.searchController.searchBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -59,7 +68,6 @@
 
 - (void)newPicture {
     [_tableView reloadData];
-    [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
 #pragma mark - Bar Button Action
@@ -82,8 +90,7 @@
             return;
         }
         
-        _allOrganizationsArray = agencies;
-        _filteredOrganizationMutableArray = [[NSMutableArray alloc] initWithCapacity:_allOrganizationsArray.count];
+        self.allOrganizationsArray = agencies;
         
         [_tableView reloadData];
         [self getLocationAndSearchForNearbyAgencies];
@@ -98,61 +105,13 @@
                 self.nearbyOrganizationArray = agencies;
             }
             else {
-                self.statusString = @"None Found";
+                self.statusString = @"None found";
             }
             [self.tableView reloadData];
         }];
     }];
 }
 
-
-
-#pragma mark - Content Filtering
-
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
-    _filteredOrganizationMutableArray = [NSMutableArray arrayWithArray:[_allOrganizationsArray filteredArrayUsingPredicate:predicate]];
-}
-
-
-
-
-#pragma mark - UISearchDisplayController Delegate Methods
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    
-    [self filterContentForSearchText:searchString scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    
-    return YES;
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    
-    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    
-    return YES;
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-    
-    [self customizeTableView:tableView];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    
-    [_tableView reloadData];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    
-}
 
 #pragma mark - TableView Delegate
 
@@ -166,27 +125,42 @@
     }
     
     [cell.logoImageView setHidden:NO];
-    
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        cell.agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
-    } else {
-        if (indexPath.section == 0) {
-            if (_nearbyOrganizationArray.count == 0) {
-                cell.organizationLabel.text = _statusString;
+    if (indexPath.section == 0) {
+        if (_nearbyOrganizationArray.count == 0) {
+            cell.organizationLabel.text = _statusString;
+            [cell.logoImageView setHidden:YES];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setUserInteractionEnabled:NO];
+        }
+        else {
+            if (self.visibleNearbyResults.count == 0) {
+                cell.organizationLabel.text = @"No results";
                 [cell.logoImageView setHidden:YES];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setUserInteractionEnabled:NO];
             }
             else {
-                cell.agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
+                cell.agency = (TSJavelinAPIAgency *)[self.visibleNearbyResults objectAtIndex:indexPath.row];
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 [cell setUserInteractionEnabled:YES];
             }
         }
+    }
+    else {
+        
+        if (self.visibleAllResults.count == 0) {
+            cell.organizationLabel.text = @"No results";
+            [cell.logoImageView setHidden:YES];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setUserInteractionEnabled:NO];
+        }
         else {
-            cell.agency = (TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row];
+            cell.agency = (TSJavelinAPIAgency *)[self.visibleAllResults objectAtIndex:indexPath.row];
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            [cell setUserInteractionEnabled:YES];
         }
     }
+    
     
     UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
     selectedView.backgroundColor = [TSColorPalette whiteColor];
@@ -213,25 +187,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        return _filteredOrganizationMutableArray.count;
-    }
-    
     if (section == 0) {
-        if (_nearbyOrganizationArray.count == 0) {
+        if (_nearbyOrganizationArray.count == 0 || self.visibleNearbyResults.count == 0) {
             return 1;
         }
-        return _nearbyOrganizationArray.count;
+        return self.visibleNearbyResults.count;
     }
     
-    return _allOrganizationsArray.count;
+    if (self.visibleAllResults.count == 0) {
+        return 1;
+    }
+    
+    return self.visibleAllResults.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        return @"Results";
-    }
     
     if (section == 0) {
         return @"Nearby";
@@ -254,10 +224,7 @@
     
     label.text = @"All";
     
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        label.text = @"Results";
-    }
-    else if (section == 0) {
+    if (section == 0) {
         label.text = @"Organizations Nearby";
     }
 
@@ -266,10 +233,6 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        return 1;
-    }
     
     return 2;
 }
@@ -294,17 +257,11 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        _agency = (TSJavelinAPIAgency *)[_filteredOrganizationMutableArray objectAtIndex:indexPath.row];
-        [self.searchDisplayController setActive:NO animated:YES];
+    if (indexPath.section == 0) {
+        _agency = (TSJavelinAPIAgency *)[self.visibleNearbyResults objectAtIndex:indexPath.row];
     }
     else {
-        if (indexPath.section == 0) {
-            _agency = (TSJavelinAPIAgency *)[_nearbyOrganizationArray objectAtIndex:indexPath.row];
-        }
-        else {
-            _agency = (TSJavelinAPIAgency *)[_allOrganizationsArray objectAtIndex:indexPath.row];
-        }
+        _agency = (TSJavelinAPIAgency *)[self.visibleAllResults objectAtIndex:indexPath.row];
     }
     
     [_tableView reloadData];
@@ -335,4 +292,53 @@
     
     [[TSUserSessionManager sharedManager] dismissWindow:nil];
 }
+
+
+#pragma mark - Search Controller 
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    // -updateSearchResultsForSearchController: is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
+    if (!searchController.active) {
+        return;
+    }
+    
+    self.filterString = searchController.searchBar.text;
+}
+
+- (void)setAllOrganizationsArray:(NSArray *)allOrganizationsArray {
+    
+    _allOrganizationsArray = allOrganizationsArray;
+    self.visibleAllResults = _allOrganizationsArray;
+    
+    if (_filterString) {
+        [self setFilterString:_filterString];
+    }
+}
+
+- (void)setNearbyOrganizationArray:(NSArray *)nearbyOrganizationArray {
+    
+    _nearbyOrganizationArray = nearbyOrganizationArray;
+    self.visibleNearbyResults = _nearbyOrganizationArray;
+    
+    if (_filterString) {
+        [self setFilterString:_filterString];
+    }
+}
+
+- (void)setFilterString:(NSString *)filterString {
+    _filterString = filterString;
+    
+    if (!filterString || filterString.length <= 0) {
+        self.visibleAllResults = _allOrganizationsArray;
+        self.visibleNearbyResults = _nearbyOrganizationArray;
+    }
+    else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", filterString];
+        self.visibleAllResults = [_allOrganizationsArray filteredArrayUsingPredicate:predicate];
+        self.visibleNearbyResults = [_nearbyOrganizationArray filteredArrayUsingPredicate:predicate];
+    }
+    
+    [_tableView reloadData];
+}
+
 @end

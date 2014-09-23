@@ -194,11 +194,11 @@
     [self uploadMedia:^(NSString *urlString) {
         
         NSArray *array = [NSArray arrayWithObjects:kSocialCrimeReportLongArray];
-        int index = [array indexOfObject:_type];
+        NSUInteger index = [array indexOfObject:_type];
         
         TSJavelinAPISocialCrimeReport *report = [[TSJavelinAPISocialCrimeReport alloc] init];
         report.body = _detailsTextView.text;
-        report.reportType = index;
+        report.reportType = (int)index;
         report.location = _location;
         report.reportAnonymous = _reportAnonymousButton.selected;
 

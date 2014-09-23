@@ -500,5 +500,21 @@
                                }];
 }
 
+- (NSString *)firstAndLastName {
+    
+    if (!_firstName.length || !_lastName.length) {
+        if (!_firstName.length && !_lastName.length) {
+            return nil;
+        }
+        else if (!_firstName.length) {
+            return _lastName;
+        }
+        else {
+            return _firstName;
+        }
+    }
+    
+    return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+}
 
 @end

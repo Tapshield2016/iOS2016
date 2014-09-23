@@ -30,6 +30,16 @@
     self.tableView.backgroundColor = [TSColorPalette listBackgroundColor];
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.backgroundColor = [UIColor lightGrayColor].CGColor;
+    bottomBorder.frame = CGRectMake(0, self.view.frame.size.height-.5, self.view.frame.size.width, 0.5);
+    [self.view.layer addSublayer:bottomBorder];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

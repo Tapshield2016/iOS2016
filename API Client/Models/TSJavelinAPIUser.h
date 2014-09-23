@@ -42,6 +42,8 @@
 - (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email;
 - (BOOL)setSecondaryEmailVerified:(NSString *)email;
 
+- (NSString *)firstAndLastName;
+
 - (void)updateUserProfileFromFacebook:(NSDictionary<FBGraphUser>*)user;
 - (void)updateUserProfileFromTwitter:(NSDictionary *)attributes;
 - (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TSBaseTextView.h"
 
-@interface TSTextMessageBarView : UIView
+@interface TSTextMessageBarView : UIView <UIInputViewAudioFeedback>
 
 @property (strong, nonatomic) TSBaseTextView *textView;
 @property (strong, nonatomic) UIButton *sendButton;

@@ -110,8 +110,8 @@
     [_checkBoxButton setTitle:@"Don't show again" forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[TSColorPalette tapshieldBlue] forState:UIControlStateHighlighted];
-    _checkBoxButton.titleLabel.font = [TSRalewayFont fontWithName:kFontRalewaySemiBold size:15.0f];
-    _checkBoxButton.titleEdgeInsets = UIEdgeInsetsMake(1, 5, 0, 0);
+    _checkBoxButton.titleLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:15.0f];
+    _checkBoxButton.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
     
     [_view addSubview:_checkBoxButton];
 }
@@ -166,7 +166,7 @@
     label.numberOfLines = 1;
     label.backgroundColor = [UIColor clearColor];
     label.text = title;
-    label.font = [TSRalewayFont fontWithName:kFontRalewayBold size:17.0f];
+    label.font = [TSRalewayFont fontWithName:kFontRalewayLight size:17.0f];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.adjustsFontSizeToFitWidth = YES;

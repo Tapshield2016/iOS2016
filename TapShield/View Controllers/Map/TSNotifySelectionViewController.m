@@ -559,14 +559,11 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     picker.navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
-    [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
-    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
+    [self whiteNavigationBar];
     
     [picker.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [picker.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    picker.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    picker.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayLight size:17.0f] };
 }
 
 - (void)showPeoplePickerNavigationController {
@@ -610,8 +607,8 @@ static NSString * const kRecentSelections = @"kRecentSelections";
             ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
             ABMutableMultiValueRef phoneRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
             ABMutableMultiValueRef emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
-            int phoneCount = ABMultiValueGetCount(phoneRef);
-            int emailCount = ABMultiValueGetCount(emailRef);
+            NSUInteger phoneCount = ABMultiValueGetCount(phoneRef);
+            NSUInteger emailCount = ABMultiValueGetCount(emailRef);
             
             if (!phoneCount && !emailCount) {
                 CFErrorRef error = nil;

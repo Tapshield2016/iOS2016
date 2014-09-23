@@ -270,8 +270,6 @@ static dispatch_once_t predicate;
     UIDeviceBatteryState batteryState = [UIDevice currentDevice].batteryState;
     float batteryLevel = [UIDevice currentDevice].batteryLevel;
     
-    NSLog(@"State: %i Charge: %f", batteryState, batteryLevel);
-    
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
         return;
     }

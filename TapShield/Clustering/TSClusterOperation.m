@@ -54,7 +54,7 @@ int nearestEvenInt(int to) {
     //Create buffer room for map drag outside visible rect before next regionDidChange
     MKMapRect rect = [self visibleMapRectWithBuffer];
     
-    int numberOnScreen;
+    NSUInteger numberOnScreen;
     
     if (_mapView.region.span.longitudeDelta > .005) {
         //create grid to estimate number of clusters needed based on the spread of annotations across map rect
@@ -63,7 +63,7 @@ int nearestEvenInt(int to) {
         //number of map rects that contain at least one annotation
         numberOnScreen = [_rootMapCluster numberOfMapRectsContainingChildren:mapRects];
         numberOnScreen = numberOnScreen * _mapView.numberOfClusters/mapRects.count;
-        numberOnScreen = nearestEvenInt(numberOnScreen);
+        numberOnScreen = nearestEvenInt((int)numberOnScreen);
         
         if (_mapView.region.span.longitudeDelta < .1) {
             //if we are at a small enough span lets take into account and not over cluster

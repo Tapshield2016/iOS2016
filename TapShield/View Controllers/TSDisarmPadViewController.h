@@ -19,11 +19,13 @@
 @property (weak, nonatomic) IBOutlet TSBaseButton *emergencyButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
 @property (weak, nonatomic) IBOutlet UIView *swipeLabelView;
+@property (weak, nonatomic) IBOutlet UIButton *touchIDButton;
 
 @property (strong, nonatomic) NSArray *codeCircleArray;
 
 - (IBAction)numberPressed:(id)sender;
 - (IBAction)clearDisarmText:(id)sender;
 - (IBAction)deleteDisarmText:(id)sender;
+- (IBAction)useTouchID:(id)sender;
 
 @end

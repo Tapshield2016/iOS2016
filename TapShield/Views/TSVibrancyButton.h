@@ -1,14 +1,14 @@
 //
-//  TSNumberPadButton.h
+//  TSVibrancyButton.h
 //  TapShield
 //
-//  Created by Adam Share on 3/4/14.
+//  Created by Adam Share on 9/23/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseButton.h"
+#import "TSCircularButton.h"
 
-@interface TSCircularButton : TSBaseButton <UIInputViewAudioFeedback>
+@interface TSVibrancyButton : UIButton
 
 @property (nonatomic, strong) CAShapeLayer *circleLayer;
 @property (nonatomic, strong) UIColor *color;
@@ -18,5 +18,9 @@
 
 - (void)setCircleColors:(UIColor *)color fillColor:(UIColor *)fillColor highlightedFillColor:(UIColor *)highlightedFillColor selectedFillColor:(UIColor *)selectedFillColor;
 - (void)drawCircleButtonHighlighted:(BOOL)highlighted selected:(BOOL)selected;
+
+- (CAShapeLayer *)circleLayerWithFill:(UIColor *)fillColor stroke:(UIColor *)strokeColor;
+
+- (void)initView;
 
 @end

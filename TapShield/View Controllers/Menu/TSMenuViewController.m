@@ -13,6 +13,7 @@
 #import "TSSettingsViewController.h"
 #import "TSVirtualEntourageManager.h"
 #import "TSHelpViewController.h"
+#import "TSAlertManager.h"
 
 #define MENU_CELL_SIZE 80
 
@@ -87,7 +88,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         TSHomeViewController *homeView = (TSHomeViewController *)[self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:NO];
-        homeView.shouldSendAlert = YES;
+        [[TSAlertManager sharedManager] showAlertWindowAndStartCountdownWithType:@"T" currentHomeView:homeView];
         [self.tableView reloadData];
     });
 }
@@ -263,7 +264,7 @@
     float dimAlpha = 0.5f;
     
     cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:dimAlpha];
-    cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:20];
+    cell.textLabel.font = [UIFont fontWithName:kFontRalewayThin size:20];
     cell.backgroundColor = [TSColorPalette clearColor];
     cell.imageView.alpha = dimAlpha;
     

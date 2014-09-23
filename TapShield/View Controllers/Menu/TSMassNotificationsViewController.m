@@ -31,7 +31,6 @@
     _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
     
     _massNotificationManager = [[TSJavelinMassNotificationManager alloc] init];
-    [_tableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(messageReceived:)

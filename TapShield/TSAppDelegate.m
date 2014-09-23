@@ -104,17 +104,18 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
-    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayMedium size:17.0f] };
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayLight size:17.0f] };
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
     
     [UITableView appearance].separatorInset = UIEdgeInsetsZero;
+    [UITableView appearance].layoutMargins = UIEdgeInsetsZero;
     [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     [UITableView appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UITableView appearance].separatorColor = [TSColorPalette cellSeparatorColor];
     [UITableView appearance].backgroundColor = [TSColorPalette listBackgroundColor];
     [UITableViewCell appearance].backgroundColor = [TSColorPalette cellBackgroundColor];
-//    [UITableView appearance].sectionIndexTrackingBackgroundColor = [TSColorPalette tableViewHeaderColor];
+    [UITableViewCell appearance].layoutMargins = UIEdgeInsetsZero;
     
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
@@ -224,6 +225,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     NSLog(@"Failed to get token, error: %@", error);
+    
+    
 //    NSString *name = @"Notification Center";
 //    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
 //        name = @"Notifications";

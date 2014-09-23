@@ -27,6 +27,8 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
     _changeProfileButton.backgroundColor = [TSColorPalette tapshieldBlue];
     _changeProfileButton.layer.cornerRadius = 5;
     
@@ -57,11 +59,11 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     
     _userImageView.image = profileImage;
     _blurredUserImage.image = profileImage;
-    
-    self.translucentBackground = YES;
-    self.toolbar.frame = _blurredUserImage.bounds;
-    [_blurredUserImage addSubview:self.toolbar];
-    
+//    
+//    self.translucentBackground = YES;
+//    self.toolbar.frame = _blurredUserImage.bounds;
+//    [_blurredUserImage addSubview:self.toolbar];
+//    
     _mediaPicker = [[UIImagePickerController alloc] init];
     [_mediaPicker setDelegate:self];
     _mediaPicker.allowsEditing = YES;
@@ -74,11 +76,24 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if ([TSJavelinAPIClient loggedInUser].firstAndLastName) {
+        _nameLabel.text = [TSJavelinAPIClient loggedInUser].firstAndLastName;
+        _nameLabel.adjustsFontSizeToFitWidth = YES;
+    }
+    else {
+        _nameLabel.text = @"";
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
-    [_tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -99,12 +114,36 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 - (IBAction)addProfileImage:(id)sender {
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"Cancel"
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:@"Take photo", @"Choose existing", nil];
-        [actionSheet showInView:self.view];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Profile picture" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *takePhoto = [UIAlertAction actionWithTitle:@"Take photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            _mediaPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            UIAlertController *message = [UIAlertController alertControllerWithTitle:@"Please take a photo of yourself from the shoulders up without sunglasses or headwear." message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [message addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+            
+            [self presentViewController:_mediaPicker animated:YES completion:^{
+                [_mediaPicker presentViewController:message animated:YES completion:nil];
+            }];
+        }];
+        UIAlertAction *chooseExisting = [UIAlertAction actionWithTitle:@"Choose existing" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            _mediaPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            UIAlertController *message = [UIAlertController alertControllerWithTitle:@"Please choose a recent photo of yourself from the shoulders up without sunglasses or headwear." message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [message addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+            
+            [self presentViewController:_mediaPicker animated:YES completion:^{
+                [_mediaPicker presentViewController:message animated:YES completion:nil];
+            }];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        
+        [alertController addAction:takePhoto];
+        [alertController addAction:chooseExisting];
+        [alertController addAction:cancel];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
     }
     else {
         _mediaPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -114,36 +153,6 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 
 
 #pragma mark Camera Delegate methods
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        _mediaPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        
-        UIAlertView * uploadRecentPhotoAlert = [[UIAlertView alloc] initWithTitle:nil
-                                                             message:@"Please take a photo of yourself from the shoulders up without sunglasses or headwear."
-                                                            delegate:nil
-                                                   cancelButtonTitle:nil
-                                                   otherButtonTitles:@"OK", nil];
-        [uploadRecentPhotoAlert show];
-        
-    }
-    else if (buttonIndex == 1) {
-        _mediaPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        UIAlertView *uploadRecentPhotoAlert = [[UIAlertView alloc] initWithTitle:nil
-                                                             message:@"Please choose a recent photo of yourself from the shoulders up without sunglasses or headwear."
-                                                            delegate:nil
-                                                   cancelButtonTitle:nil
-                                                   otherButtonTitles:@"OK", nil];
-        [uploadRecentPhotoAlert show];
-    }
-    else {
-        return;
-    }
-    
-    [self presentViewController:_mediaPicker animated:YES completion:nil];
-}
-
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -178,6 +187,7 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     
     viewController.userProfile = _userProfile;
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -193,7 +203,7 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:18];
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
-    cell.separatorInset = UIEdgeInsetsMake(0.0, cell.textLabel.frame.origin.x, 0.0, 0.0);
+    cell.separatorInset = UIEdgeInsetsMake(0.0, (cell.textLabel.frame.origin.x + cell.textLabel.layoutMargins.left)*2, 0.0, 0.0);
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
         cell.imageView.image = [cell.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -201,7 +211,10 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     }
     
     if (indexPath.row == _cellIdentifiers.count - 1) {
-        cell.separatorInset = UIEdgeInsetsZero;
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.backgroundColor = [UIColor lightGrayColor].CGColor;
+        bottomBorder.frame = CGRectMake(0, cell.frame.size.height-.5, cell.frame.size.width, 0.5);
+        [cell.layer addSublayer:bottomBorder];
     }
     
     return cell;

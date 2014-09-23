@@ -64,14 +64,14 @@
     NSInteger seconds = durationInSeconds % 60;
     
     if (hours > 0) {
-        return [NSString stringWithFormat:@"%02ld:%02d:%02d", (long)hours, minutes, seconds];
+        return [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
     }
     else {
 //        if (minutes == 0) {
 //            return [NSString stringWithFormat:@":%02d", seconds];
 //        }
         
-        return [NSString stringWithFormat:@"%02ld:%02d", (long)minutes, seconds];
+        return [NSString stringWithFormat:@"%02ld:%02ld", (long)minutes, (long)seconds];
     }
 }
 
@@ -88,7 +88,7 @@
     float milliseconds = duration - floor(duration);
     
     if (hours > 0) {
-        return [NSString stringWithFormat:@"%02ld:%02d:%02d", (long)hours, minutes, seconds];
+        return [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
     }
     else {
         //        if (minutes == 0) {
@@ -370,19 +370,19 @@
     if ([date minutesBeforeDate:now] < 60) {
         
         if ([date minutesBeforeDate:now] == 1) {
-            return [NSString stringWithFormat:@"%i minute ago", [date minutesBeforeDate:now]];
+            return [NSString stringWithFormat:@"%li minute ago", (long)[date minutesBeforeDate:now]];
         }
         
-        return [NSString stringWithFormat:@"%i minutes ago", [date minutesBeforeDate:now]];
+        return [NSString stringWithFormat:@"%li minutes ago", (long)[date minutesBeforeDate:now]];
     }
     
     if ([date hoursBeforeDate:now] < 6) {
         
         if ([date hoursBeforeDate:now] == 1) {
-            return [NSString stringWithFormat:@"%i hour ago", [date hoursBeforeDate:now]];
+            return [NSString stringWithFormat:@"%li hour ago", (long)[date hoursBeforeDate:now]];
         }
         
-        return [NSString stringWithFormat:@"%i hours ago", [date hoursBeforeDate:now]];
+        return [NSString stringWithFormat:@"%li hours ago", (long)[date hoursBeforeDate:now]];
     }
     
     

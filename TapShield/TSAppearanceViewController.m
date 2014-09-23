@@ -41,7 +41,7 @@
     
     CGRect frame = _tableViewController.view.frame;
     frame.size.height = 60 * 4;
-    frame.origin.y = 100;
+    frame.origin.y = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     _tableViewController.view.frame = frame;
     [_scrollView addSubview:_tableViewController.view];
     

@@ -13,7 +13,6 @@
 #import "TSChatViewController.h"
 #import "TSHomeViewController.h"
 #import "TSAlertDetailsTableViewController.h"
-#import "TSAlertManager.h"
 
 @interface TSPageViewController : TSNavigationViewController <UIScrollViewDelegate>
 

@@ -65,7 +65,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TSReportTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([TSReportTypeTableViewCell class]) forIndexPath:indexPath];
-    [cell setTypeForRow:indexPath.row];
+    [cell setTypeForRow:(int)indexPath.row];
     
 //    if (indexPath.section == 0) {
 //        cell.textLabel.text = [[NSArray arrayWithObjects:kMedicalArray] objectAtIndex:indexPath.row];
@@ -113,7 +113,7 @@
     TSReportDescriptionViewController *viewController = (TSReportDescriptionViewController *)[self pushViewControllerWithClass:[TSReportDescriptionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
     
     viewController.type = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
-    viewController.image = [TSReportTypeTableViewCell imageForType:indexPath.row];
+    viewController.image = [TSReportTypeTableViewCell imageForType:(int)indexPath.row];
     viewController.reportManager = _reportManager;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

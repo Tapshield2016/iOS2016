@@ -10,6 +10,7 @@
 #import "TSPageViewController.h"
 #import "TSVoipViewController.h"
 #import "TSJavelinChatManager.h"
+#import "TSAlertManager.h"
 
 @interface TSEmergencyAlertViewController ()
 
@@ -191,15 +192,14 @@
 
 - (IBAction)addAlertDetails:(id)sender {
     
-    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
-    viewController.reportManager = ((TSPageViewController *)self.parentViewController).homeViewController.reportManager;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    TSHomeViewController *homeViewController = ((TSPageViewController *)self.parentViewController).homeViewController;
+    if (!homeViewController) {
+        return;
+    }
     
-//    if (!_transitionDelegate) {
-//        _transitionDelegate = [[TSTransitionDelegate alloc] init];
-//    }
-//    navigationController.transitioningDelegate = _transitionDelegate;
-//    navigationController.modalPresentationStyle = UIModalPresentationCustom;
+    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
+    viewController.reportManager = homeViewController.reportManager;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];
 }

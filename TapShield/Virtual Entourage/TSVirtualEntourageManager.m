@@ -420,7 +420,7 @@ static dispatch_once_t predicate;
 
 - (void)failedToDeletedMember:(TSJavelinAPIEntourageMember *)member error:(NSError *)error{
     
-    NSLog(@"failedToDeleteMember:%@ id:%i error:%@ %i", member.name, member.identifier, error.localizedDescription, error.code);
+    NSLog(@"failedToDeleteMember:%@ id:%lu error:%@ %li", member.name, (unsigned long)member.identifier, error.localizedDescription, (long)error.code);
     
     if (error.code == NSURLErrorBadServerResponse) {
         [self deletedMember:member];

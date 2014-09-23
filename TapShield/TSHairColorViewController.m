@@ -29,7 +29,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.userProfile.hairColor = indexPath.row;
+    self.userProfile.hairColor = (int)indexPath.row;
     
     [self.navigationController popViewControllerAnimated:YES];
 }

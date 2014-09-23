@@ -47,7 +47,7 @@
         
         NSArray *shortArray = [NSArray arrayWithObjects:kSocialCrimeReportShortArray];
         
-        _reportType = [shortArray indexOfObject:[attributes nonNullObjectForKey:@"report_type"]];
+        _reportType = (int)[shortArray indexOfObject:[attributes nonNullObjectForKey:@"report_type"]];
         _user = [attributes nonNullObjectForKey:@"reporter"];
         _reportAnonymous = [[attributes nonNullObjectForKey:@"report_anonymous"] boolValue];
         _isSpam = [[attributes nonNullObjectForKey:@"flagged_spam"] boolValue];

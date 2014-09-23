@@ -361,8 +361,8 @@ static dispatch_once_t predicate;
              }
              else {
                  // The server did not respond ... were we rate-limited?
-                 NSLog(@"The response status code is %d",
-                       urlResponse.statusCode);
+                 NSLog(@"The response status code is %ld",
+                       (long)urlResponse.statusCode);
              }
          }
      }];

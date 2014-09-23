@@ -11,6 +11,10 @@
 #import "TSVirtualEntourageManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TSLocalNotification.h"
+#import "TSPageViewController.h"
+
+NSString * const kAlertWindowAnimationTypeDown = @"Down";
+NSString * const kAlertWindowAnimationTypeZoom = @"Zoom";
 
 NSString * const kAlertSend = @"Send alert";
 NSString * const kAlertSending = @"Sending alert";
@@ -26,9 +30,13 @@ NSString * const kAlertNoConnection = @"No Network Connection";
 
 @interface TSAlertManager ()
 
-@property (strong, nonatomic) UIAlertView *noConnectionAlertView;
+@property (strong, nonatomic) UIAlertController *noConnectionAlertController;
 @property (strong, nonatomic) NSString *previousStatus;
 @property (assign, nonatomic) BOOL shouldStartTimer;
+@property (assign, nonatomic) BOOL shouldDisarmAlert;
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) TSPageViewController *pageviewController;
+
 
 @end
 
@@ -55,6 +63,7 @@ static dispatch_once_t predicate;
         self.shouldStartTimer = YES;
         self.isAlertInProgress = NO;
         self.status = kAlertSend;
+        self.isPresented = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(alertRecieved:)
@@ -81,6 +90,33 @@ static dispatch_once_t predicate;
     }
 }
 
+- (void)setCurrentHomeViewController:(TSHomeViewController *)viewController {
+    
+    _pageviewController.homeViewController = viewController;
+}
+
+- (void)showAlertWindowAndStartCountdownWithType:(NSString *)type currentHomeView:(TSHomeViewController *)homeViewController {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
+        
+        _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
+        _pageviewController.homeViewController = homeViewController;
+        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoom completion:nil];
+    });
+}
+
+- (void)showAlertWindowForChatWithCurrentHomeView:(TSHomeViewController *)homeViewController {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
+        _pageviewController.isChatPresentation = YES;
+        _pageviewController.homeViewController = homeViewController;
+        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeDown completion:nil];
+    });
+}
+
 #pragma mark - Countdown To Alert
 
 - (void)startAlertCountdown:(int)seconds type:(NSString *)type {
@@ -89,6 +125,7 @@ static dispatch_once_t predicate;
         return;
     }
     _shouldStartTimer = NO;
+    _shouldDisarmAlert = NO;
     [[TSLocationController sharedLocationController] bestAccuracyForAlert];
     
     [self stopAlertCountdown];
@@ -127,6 +164,10 @@ static dispatch_once_t predicate;
 
 - (void)sendAlert:(NSString *)type {
     
+    if (_shouldDisarmAlert) {
+        return;
+    }
+    
     _isAlertInProgress = YES;
     
     if (!type) {
@@ -151,17 +192,30 @@ static dispatch_once_t predicate;
             number = kEmergencyNumber;
         }
         NSString *callButtonTitle = [NSString stringWithFormat:@"Call %@", number];
-        _noConnectionAlertView = [[UIAlertView alloc] initWithTitle:@"No Network Data Connection"
-                                                               message:nil
-                                                              delegate:self
-                                                     cancelButtonTitle:@"Cancel"
-                                                     otherButtonTitles:callButtonTitle, nil];
-        [_noConnectionAlertView show];
+        
+        _noConnectionAlertController = [UIAlertController alertControllerWithTitle:@"No Network Data Connection"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:callButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self callSecondary];
+        }];
+        [_noConnectionAlertController addAction:action];
+        [_noConnectionAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [_window.rootViewController presentViewController:_noConnectionAlertController animated:YES completion:nil];
+        }];
         
         [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kNoConnectionNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
     }
     
     [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:type location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
+        
+        if (_shouldDisarmAlert) {
+            [self disarmAlert];
+            return;
+        }
+        
         if (sent) {
             _status = kAlertSent;
             if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
@@ -258,8 +312,11 @@ static dispatch_once_t predicate;
 
 - (void)disarmAlert {
     
+    _shouldDisarmAlert = YES;
     [self stopAlertCountdown];
     [self endTwilioCall];
+    [[TSJavelinAPIClient sharedClient] disarmAlert];
+    [[TSJavelinAPIClient sharedClient] cancelAlert];
     _type = nil;
     _endDate = nil;
     _status = kAlertSend;
@@ -267,6 +324,13 @@ static dispatch_once_t predicate;
     _shouldStartTimer = YES;
     
     [[TSLocationController sharedLocationController] bestAccuracyForBattery];
+    
+    [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeZoom completion:nil];
+    
+    if ([TSVirtualEntourageManager sharedManager].isEnabled &&
+        ![TSVirtualEntourageManager sharedManager].endTimer) {
+        [[TSVirtualEntourageManager sharedManager] recalculateEntourageTimerETA];
+    }
 }
 
 
@@ -413,6 +477,10 @@ static dispatch_once_t predicate;
     if ([_callDelegate respondsToSelector:@selector(connectionDidConnect:)]) {
         [_callDelegate connectionDidConnect:connection];
     }
+    
+    if (_shouldDisarmAlert) {
+        [self endTwilioCall];
+    }
 }
 
 
@@ -461,7 +529,7 @@ static dispatch_once_t predicate;
 
 - (void)didFindConnection {
     
-    [_noConnectionAlertView dismissWithClickedButtonIndex:-1 animated:YES];
+    [_noConnectionAlertController dismissViewControllerAnimated:YES completion:nil];
     
     if ([_previousStatus isEqualToString:kAlertSending]) {
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
@@ -484,13 +552,116 @@ static dispatch_once_t predicate;
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+
+#pragma mark UIWindow
+
+
+- (void)showWindowWithRootViewController:(UIViewController *)viewController animated:(BOOL)animated animationType:(NSString *)type completion:(void (^)(BOOL finished))completion {
     
-    if (alertView == _noConnectionAlertView) {
-        if (buttonIndex == 1) {
-            [self callSecondary];
-        }
+    self.isPresented = YES;
+    
+    if (_window.isKeyWindow) {
+        animated = NO;
     }
+    
+    [self showWindowWithRootViewController:viewController];
+    
+    if (animated) {
+        
+        if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
+            _window.transform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
+        }
+        else {
+            CGRect frame = [UIScreen mainScreen].bounds;
+            frame.origin.y = frame.size.height;
+            _window.frame = frame;
+        }
+        
+        
+        [UIView animateWithDuration:0.3
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
+                                 _window.transform = CGAffineTransformIdentity;
+                             }
+                             else {
+                                 _window.frame = [UIScreen mainScreen].bounds;
+                             }
+                         } completion:completion];
+    }
+}
+
+- (void)showWindowWithRootViewController:(UIViewController *)viewController {
+    
+    if (!_window) {
+        _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _window.backgroundColor = [UIColor clearColor];
+    }
+    
+    if (viewController) {
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        _window.rootViewController = navigationController;
+    }
+    
+    [_window makeKeyAndVisible];
+}
+
+- (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion  {
+    
+    CGAffineTransform dismissedTransform = CGAffineTransformIdentity;
+    float alpha = 1.0;
+    CGRect frame = [UIScreen mainScreen].bounds;
+    
+    if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
+        dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(1.5, 1.5), CGAffineTransformMakeRotation(8 * M_PI));
+        alpha = 0.0;
+    }
+    else {
+        frame.origin.y = frame.size.height;
+    }
+    
+    UIWindow *mainWindow = [UIApplication sharedApplication].delegate.window;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        UIViewController *viewcontroller = [mainWindow.rootViewController.childViewControllers firstObject];
+        
+        self.isPresented = NO;
+        
+        [viewcontroller viewWillAppear:YES];
+        
+        [UIView animateWithDuration:0.5
+                              delay:0
+             usingSpringWithDamping:300.0
+              initialSpringVelocity:5.0
+                            options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             
+                             if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
+                                 _window.transform = dismissedTransform;
+                             }
+                             else {
+                                 _window.frame = frame;
+                             }
+                             _window.alpha = alpha;
+                             
+                         } completion:^(BOOL finished) {
+                             
+                             if (completion) {
+                                 completion(finished);
+                             }
+                             
+                             _pageviewController = nil;
+                             _window = nil;
+                             [viewcontroller viewDidAppear:YES];
+                             [mainWindow makeKeyAndVisible];
+                             
+                         }];
+    });
 }
 
 @end

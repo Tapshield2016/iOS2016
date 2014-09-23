@@ -42,14 +42,14 @@
     _pageNumber = pageNumber;
 }
 
-- (void)pageNumber:(int)page {
+- (void)pageNumber:(NSUInteger)page {
     
     _imageView.image = [self imageForPage:page];
     _imageView.contentMode = UIViewContentModeCenter;
     _label.text = [self textForPage:page];
 }
 
-- (UIImage *)imageForPage:(int)page {
+- (UIImage *)imageForPage:(NSUInteger)page {
     
     NSString *imageName = [NSString stringWithFormat:@"slide_%i", page];
     

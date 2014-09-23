@@ -76,7 +76,7 @@
             _hairColor = [TSJavelinAPIUserProfile indexOfShortHairColorString:object];
         }
         else {
-            _hairColor = [[decoder decodeObjectForKey:@"hair_color"] integerValue];
+            _hairColor = (int)[[decoder decodeObjectForKey:@"hair_color"] integerValue];
         }
         
         object = [decoder decodeObjectForKey:@"gender"];
@@ -84,7 +84,7 @@
             _gender = [TSJavelinAPIUserProfile indexOfShortGenderString:object];
         }
         else {
-            _gender = [[decoder decodeObjectForKey:@"gender"] integerValue];
+            _gender = (int)[[decoder decodeObjectForKey:@"gender"] integerValue];
         }
     
         object = [decoder decodeObjectForKey:@"race"];
@@ -92,7 +92,7 @@
             _race = [TSJavelinAPIUserProfile indexOfShortRaceString:object];
         }
         else {
-            _race = [[decoder decodeObjectForKey:@"race"] integerValue];
+            _race = (int)[[decoder decodeObjectForKey:@"race"] integerValue];
         }
         
         _height = [decoder decodeObjectForKey:@"height"];
@@ -108,7 +108,7 @@
             _emergencyContactRelationship = [TSJavelinAPIUserProfile indexOfShortRelationshipString:object];
         }
         else {
-            _emergencyContactRelationship = [[decoder decodeObjectForKey:@"emergency_contact_relationship"] integerValue];
+            _emergencyContactRelationship = (int)[[decoder decodeObjectForKey:@"emergency_contact_relationship"] integerValue];
         }
         
         _user = [decoder decodeObjectForKey:@"user"];
@@ -220,7 +220,7 @@
     }
     
     NSArray *orderArray = kGenderShortArray;
-    return [orderArray indexOfObject:shortString];
+    return (int)[orderArray indexOfObject:shortString];
 }
 
 + (NSArray *)genderChoices {
@@ -247,7 +247,7 @@
     }
     
     NSArray *orderArray = kHairColorShortArray;
-    return [orderArray indexOfObject:shortString];
+    return (int)[orderArray indexOfObject:shortString];
 }
 
 + (NSArray *)hairColorChoices {
@@ -279,7 +279,7 @@
     }
     
     NSArray *orderArray = kRaceShortArray;
-    return [orderArray indexOfObject:shortString];
+    return (int)[orderArray indexOfObject:shortString];
 }
 
 + (NSArray *)raceChoices {
@@ -313,7 +313,7 @@
     }
     
     NSArray *orderArray = kRelationshipShortArray;
-    return [orderArray indexOfObject:shortString];
+    return (int)[orderArray indexOfObject:shortString];
 }
 
 + (NSArray *)relationshipChoices {

@@ -10,6 +10,7 @@
 #import "TSEmergencyAlertViewController.h"
 #import "TSPageViewController.h"
 #import "TSJavelinChatManager.h"
+#import "TSAlertManager.h"
 
 static NSString * const kCallEnded = @"Call Ended";
 static NSString * const kCallFailed = @"Call Failed";
@@ -36,11 +37,11 @@ static NSString * const kCallRedialing = @"Redialing";
     _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
     [_chatButton addSubview:_badgeView];
     
-    self.translucentBackground = YES;
-    CGRect frame = self.view.frame;
-    frame.origin.x -= frame.size.width;
-    frame.size.width += frame.size.width;
-    self.toolbar.frame = frame;
+//    self.translucentBackground = YES;
+//    CGRect frame = self.view.frame;
+//    frame.origin.x -= frame.size.width;
+//    frame.size.width += frame.size.width;
+//    self.toolbar.frame = frame;
     
     [_buttonView insertSubview:self.toolbar atIndex:0];
     _buttonView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];

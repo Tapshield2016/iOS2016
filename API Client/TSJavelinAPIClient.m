@@ -976,7 +976,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     if (error) {
         for (NSNumber *number in networkFailureCodes) {
             if (error.code == [number integerValue]) {
-                NSLog(@"%i", error.code);
+                NSLog(@"%li", (long)error.code);
                 networkError = YES;
             }
         }

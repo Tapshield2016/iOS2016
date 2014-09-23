@@ -8,11 +8,11 @@
 
 #import "TSDisarmPadViewController.h"
 #import "TSPageViewController.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface TSDisarmPadViewController ()
 
 @property (assign, nonatomic) NSUInteger failAttempts;
-@property (strong, nonatomic) UIAlertView *passwordAttemptAlertView;
 @property (assign, nonatomic) BOOL didSendReset;
 
 @end
@@ -32,6 +32,15 @@
     _codeCircleArray = @[_codeCircle1, _codeCircle2, _codeCircle3, _codeCircle4];
     
     _disarmTextField.text = @"";
+    
+    if (![self touchIDAvailable]) {
+        [_touchIDButton setTitle:@"Disarm with account password" forState:UIControlStateNormal];
+        [_touchIDButton setImage:nil forState:UIControlStateNormal];
+        [_touchIDButton setTitleEdgeInsets:UIEdgeInsetsZero];
+    }
+    else {
+        [_touchIDButton setTitle:@"Disarm with Touch ID" forState:UIControlStateNormal];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,6 +78,7 @@
 }
 
 - (IBAction)clearDisarmText:(id)sender {
+    
     _disarmTextField.text = @"";
     
     [self selectCodeCircles];
@@ -85,7 +95,7 @@
 
 - (void)selectCodeCircles {
     int i = 1;
-    for (TSCircularButton *circle in _codeCircleArray) {
+    for (TSCircularButton *circle in [_codeCircleArray copy]) {
         
         if (_disarmTextField.text.length < i) {
             circle.selected = NO;
@@ -120,47 +130,27 @@
 
 - (void)disarmViaPassword {
     
-    _passwordAttemptAlertView = [[UIAlertView alloc] initWithTitle:@"Forgot your passcode?"
-                                                    message:@"Enter your account password"
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"Forgot Password", @"Disarm", nil];
-    _passwordAttemptAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [_passwordAttemptAlertView textFieldAtIndex:0];
-    [textField setPlaceholder:@"password"];
-    [textField setTextAlignment:NSTextAlignmentLeft];
-    [textField setSecureTextEntry:YES];
-    [textField setKeyboardType:UIKeyboardTypeASCIICapable];
-    [textField setKeyboardAppearance:UIKeyboardAppearanceLight];
-    [textField setDelegate:self];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Enter Account Password"
+                                                                             message:@"Go to 'Settings' in the side menu to change your passcode"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
     
-    [_passwordAttemptAlertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setPlaceholder:@"password"];
+        [textField setTextAlignment:NSTextAlignmentLeft];
+        [textField setSecureTextEntry:YES];
+        [textField setKeyboardType:UIKeyboardTypeASCIICapable];
+        [textField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        [textField setDelegate:self];
+    }];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Disarm" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self checkPassword:((UITextField *)alertController.textFields[0]).text];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Forgot Password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self sendPasswordReset];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
-    if (alertView == _passwordAttemptAlertView) {
-        
-        switch (buttonIndex) {
-            case 0:
-                
-                break;
-                
-            case 1:
-                [self sendPasswordReset];
-                break;
-                
-            case 2:
-                [self checkPassword:[alertView textFieldAtIndex:0].text];
-                break;
-                
-            default:
-                break;
-        }
-    }
-    else {
-        [self disarmViaPassword];
-    }
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)checkPassword:(NSString *)password {
@@ -170,12 +160,13 @@
     }
     else {
         if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] getPasswordForEmailAddress:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email] isEqualToString:password]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please Change Passcode"
-                                                                message:@"Go to 'Settings' in the side menu to change your passcode"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
+            
+            UIAlertController *errorController = [UIAlertController alertControllerWithTitle:@"Please Change Passcode"
+                                                                                     message:@"Go to 'Settings' in the side menu to change your passcode"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            [errorController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:errorController animated:YES completion:nil];
+            
             [self disarm];
         }
         else {
@@ -186,23 +177,11 @@
 
 - (void)disarm {
     [[TSAlertManager sharedManager] disarmAlert];
-    [[TSJavelinAPIClient sharedClient] disarmAlert];
-    [[TSJavelinAPIClient sharedClient] cancelAlert];
     
     TSPageViewController *pageViewController = (TSPageViewController *)self.parentViewController;
     [pageViewController.homeViewController mapAlertModeToggle];
-//    [pageViewController.toolbar setTranslucent:NO];
-//    [pageViewController.toolbar setAlpha:0.5f];
-    [pageViewController.homeViewController viewWillAppear:NO];
-    [pageViewController.homeViewController viewDidAppear:NO];
     [pageViewController.homeViewController whiteNavigationBar];
     [pageViewController.homeViewController.reportManager showSpotCrimes];
-    [pageViewController dismissViewControllerAnimated:YES completion:nil];
-    
-    if ([TSVirtualEntourageManager sharedManager].isEnabled &&
-        ![TSVirtualEntourageManager sharedManager].endTimer) {
-        [[TSVirtualEntourageManager sharedManager] recalculateEntourageTimerETA];
-    }
 }
 
 #pragma mark - Animations
@@ -251,14 +230,73 @@
         
         title = [NSString stringWithFormat:@"%@\n\n%@", title, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email];
         
-        UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
-                                                                 message:nil
-                                                                delegate:self
-                                                       cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil];
-        [emailSentAlert show];
+        UIAlertController *errorController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [errorController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self disarmViaPassword];
+        }]];
+        [self presentViewController:errorController animated:YES completion:nil];
     }];
 }
 
+
+#pragma mark - Touch ID
+
+- (IBAction)useTouchID:(id)sender {
+    
+    _touchIDButton.enabled = NO;
+    
+    LAContext *context = [[LAContext alloc] init];
+    
+    if ([self touchIDAvailable]) {
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                localizedReason:@"Disarm alert"
+                          reply:^(BOOL success, NSError *error) {
+                              
+                              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                  if (error) {
+                                      
+                                      if (error.code == kLAErrorUserCancel ||
+                                          error.code == kLAErrorSystemCancel) {
+                                          
+                                      }
+                                      else if (error.code == kLAErrorUserFallback) {
+                                          [self disarmViaPassword];
+                                      }
+                                      else {
+                                          UIAlertController *errorController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                          [errorController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+                                          [self presentViewController:errorController animated:YES completion:nil];
+                                      }
+                                  }
+                                  else if (success) {
+                                      _disarmTextField.text = [TSJavelinAPIClient loggedInUser].disarmCode;
+                                      [self selectCodeCircles];
+                                      [self disarm];
+                                  }
+                                  _touchIDButton.enabled = YES;
+                              }];
+                          }];
+        
+    }
+    else {
+        
+        [self disarmViaPassword];
+        
+        _touchIDButton.enabled = YES;
+        
+//        UIAlertController *errorController = [UIAlertController alertControllerWithTitle:@"Sorry" message:@"Touch ID not available at this time."preferredStyle:UIAlertControllerStyleAlert];
+//        [errorController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+//        [self presentViewController:errorController animated:YES completion:nil];
+        
+    }
+}
+
+- (BOOL)touchIDAvailable {
+    
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+    
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+}
 
 @end

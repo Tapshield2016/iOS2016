@@ -29,7 +29,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.userProfile.race = indexPath.row;
+    self.userProfile.race = (int)indexPath.row;
     
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -29,7 +29,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.userProfile.emergencyContactRelationship = indexPath.row;
+    self.userProfile.emergencyContactRelationship = (int)indexPath.row;
     
     [self.navigationController popViewControllerAnimated:YES];
 }

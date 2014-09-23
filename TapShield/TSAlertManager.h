@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <TwilioSDK/TwilioClient.h>
+#import "TSHomeViewController.h"
 
+extern NSString * const kAlertWindowAnimationTypeDown;
+extern NSString * const kAlertWindowAnimationTypeZoom;
 
 @protocol TSAlertDelegate <NSObject>
 
@@ -48,6 +51,7 @@ extern NSString * const kAlertNoConnection;
 @property (nonatomic, strong) NSTimer *countdownTimer;
 @property (nonatomic, strong) NSString *status;
 @property (assign, nonatomic) BOOL isAlertInProgress;
+@property (assign, nonatomic) BOOL isPresented;
 
 //Call
 @property (strong, nonatomic) NSString *callToken;
@@ -55,6 +59,7 @@ extern NSString * const kAlertNoConnection;
 @property (strong, nonatomic) TCConnection *twilioConnection;
 @property (strong, nonatomic) NSDate *callStartTime;
 @property (nonatomic, assign) BOOL callInProgress;
+
 
 
 + (instancetype)sharedManager;
@@ -67,6 +72,12 @@ extern NSString * const kAlertNoConnection;
 - (void)endTwilioCall;
 - (BOOL)updateAudioRoute:(BOOL)enabled;
 
+- (void)showAlertWindowAndStartCountdownWithType:(NSString *)type currentHomeView:(TSHomeViewController *)homeViewController;
+- (void)showAlertWindowForChatWithCurrentHomeView:(TSHomeViewController *)homeViewController;
+- (void)setCurrentHomeViewController:(TSHomeViewController *)viewController;
+
 - (void)callSecondary;
+
+- (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion;
 
 @end

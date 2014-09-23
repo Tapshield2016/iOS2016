@@ -35,7 +35,7 @@
 - (void)setNumber:(NSUInteger)number {
     _number = number;
     
-    _label.text = [NSString stringWithFormat:@"%i", _number];
+    _label.text = [NSString stringWithFormat:@"%lu", (unsigned long)_number];
     
     if (_number > 0) {
         self.backgroundColor = [TSColorPalette alertRed];

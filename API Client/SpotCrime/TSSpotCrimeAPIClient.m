@@ -94,7 +94,7 @@ static dispatch_once_t onceToken;
     
 //    http://api.spotcrime.com/crimes/<CDID>.json?key=<API_KEY>
     
-    [self GET:[NSString stringWithFormat:@"%@crimes/%i.json", _baseAuthURL, location.cdid]
+    [self GET:[NSString stringWithFormat:@"%@crimes/%lu.json", _baseAuthURL, (unsigned long)location.cdid]
    parameters:@{@"key": TSSpotCrimeAPIKey}
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           location.eventDescription = [responseObject objectForKey:@"description"];

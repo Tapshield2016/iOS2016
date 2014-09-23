@@ -205,7 +205,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent
                                                 animated:YES];
     
-    int index = [_pageViewControllers indexOfObject:self.viewControllers[0]];
+    NSUInteger index = [_pageViewControllers indexOfObject:self.viewControllers[0]];
     
     if (index < _pageViewControllers.count - 1) {
         [_skipButton setHidden:NO];

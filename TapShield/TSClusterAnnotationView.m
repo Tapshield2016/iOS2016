@@ -44,12 +44,12 @@
     
     ADClusterAnnotation *clusterAnnotation = (ADClusterAnnotation *)self.annotation;
     
-    int count = 0;
+    NSUInteger count = 0;
     if (clusterAnnotation.cluster) {
         count = clusterAnnotation.originalAnnotations.count;
     }
     // set title
-    clusterAnnotation.title = [NSString stringWithFormat:@"Contains %i annotations", count];
+    clusterAnnotation.title = [NSString stringWithFormat:@"Contains %lu annotations", (unsigned long)count];
 //    clusterAnnotation.subtitle = [NSString stringWithFormat:@"Containing annotations: %zd", count];
     
     // change pin image for group
@@ -67,7 +67,7 @@
         animation.duration = 0.5;
         [self.label.layer addAnimation:animation forKey:@"kCATransitionFade"];
         
-        self.label.text = [NSString stringWithFormat:@"%i", count];
+        self.label.text = [NSString stringWithFormat:@"%lu", (unsigned long)count];
 //    });
     
 //    clusterAnnotation.title = clusterAnnotation.groupTag;

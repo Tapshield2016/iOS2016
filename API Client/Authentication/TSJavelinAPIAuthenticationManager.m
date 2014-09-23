@@ -131,6 +131,11 @@ static dispatch_once_t onceToken;
     _password = nil;
     
     [self deleteCookiesForLoginDomain];
+    
+    NSData *pushNotificationDeviceToken = [self retrieveLastArchivedAPNSDeviceToken];
+    if (pushNotificationDeviceToken) {
+        [self setAPNSDeviceTokenForLoggedInUser:pushNotificationDeviceToken];
+    }
 }
 
 
@@ -146,7 +151,7 @@ static dispatch_once_t onceToken;
     [self GET:@"logout/"
    parameters:nil
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          NSLog(@"Success: %@", responseObject);
+          
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"ERROR: %@", error);
       }];
@@ -158,7 +163,6 @@ static dispatch_once_t onceToken;
     [self POST:@"api/create-facebook-user/"
     parameters:@{ @"access_token": facebookAPIAuthToken }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -188,7 +192,6 @@ static dispatch_once_t onceToken;
                   @"oauth_token_secret": twitterOauthTokenSecret,
                   @"next": @"api/retrieve-token/" }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -214,7 +217,6 @@ static dispatch_once_t onceToken;
     parameters:@{ @"access_token": googleAccessToken,
                   @"refresh_token": googleRefreshToken }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -238,7 +240,6 @@ static dispatch_once_t onceToken;
     [self POST:@"api/create-linkedin-user/"
     parameters:@{ @"access_token": linkedInAccessToken }
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -469,7 +470,6 @@ static dispatch_once_t onceToken;
     [self PATCH:_loggedInUser.url
      parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"updateLoggedInUser: %@", responseObject);
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -505,7 +505,6 @@ static dispatch_once_t onceToken;
     [self PATCH:_loggedInUser.url
      parameters:@{@"agency": _loggedInUser.agency.url}
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"updateLoggedInUser: %@", responseObject);
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -537,7 +536,7 @@ static dispatch_once_t onceToken;
     [self PATCH:_loggedInUser.url
      parameters:@{ @"disarm_code": _loggedInUser.disarmCode}
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"updateLoggedInUserDisarmCode: %@", responseObject);
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUserDisarmCode: %@", error);
             
@@ -667,7 +666,7 @@ static dispatch_once_t onceToken;
     [self POST:@"api/email/add/"
     parameters:@{ @"email": email}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
+           
            
            [_loggedInUser updateWithAttributes:responseObject];
            
@@ -705,7 +704,7 @@ static dispatch_once_t onceToken;
     [self POST:@"api/email/make_primary/"
     parameters:@{ @"email": email}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
+           
            
            [_loggedInUser updateWithAttributes:responseObject];
            
@@ -744,7 +743,7 @@ static dispatch_once_t onceToken;
     [self POST:@"api/email/make_primary/"
     parameters:@{ @"email": email}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
+           
            
            [_loggedInUser updateWithAttributes:responseObject];
            
@@ -782,7 +781,7 @@ static dispatch_once_t onceToken;
     [self POST:@"api/email/send_activation/"
     parameters:@{ @"email": email}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
+           
            
            if (completion) {
                completion(YES, nil);
@@ -818,7 +817,6 @@ static dispatch_once_t onceToken;
     [self POST:@"api/email/delete/"
     parameters:@{ @"email": email}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"%@", responseObject);
            
            [_loggedInUser updateWithAttributes:responseObject];
            

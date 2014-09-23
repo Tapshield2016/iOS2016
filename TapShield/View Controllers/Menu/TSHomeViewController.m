@@ -148,15 +148,17 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     //To determine animation of first region
     _viewDidAppear = YES;
     
-    if (_shouldSendAlert) {
-        [self sendYankAlert];
-    }
-    
     if (_firstMapLoad) {
         _firstMapLoad = NO;
         [_mapView setRegionAtAppearanceAnimated:YES];
     }
     
+    if ([TSAlertManager sharedManager].isPresented) {
+        [[TSAlertManager sharedManager] setCurrentHomeViewController:self];
+        _mapView.shouldUpdateCallOut = YES;
+        [self showOnlyMap];
+        [_reportManager hideSpotCrimes];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -359,28 +361,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)sendAlert:(id)sender {
     
-    _shouldSendAlert = NO;
     _mapView.shouldUpdateCallOut = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if (self.presentedViewController) {
-            if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
-                UINavigationController *nav = (UINavigationController *)self.presentedViewController;
-                UIViewController *viewController = nav.topViewController;
-                //already presented
-                if ([viewController isKindOfClass:[TSPageViewController class]]) {
-                    return;
-                }
-                //dismiss any view presented first
-                else {
-                    
-                    [viewController dismissViewControllerAnimated:YES completion:^{
-                        [self performSelector:@selector(sendAlert:) withObject:sender];
-                    }];
-                    return;
-                }
-            }
+            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
         }
         
         NSString *type;
@@ -393,13 +379,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             }
         }
         
-        _transformCenterTransitioningDelegate = [[TSTransformCenterTransitioningDelegate alloc] init];
-        
-        [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
-        
-        TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_transformCenterTransitioningDelegate animated:YES];
-        pageview.homeViewController = self;
-        
+        [[TSAlertManager sharedManager] showAlertWindowAndStartCountdownWithType:type currentHomeView:self];
         [self showOnlyMap];
         [_reportManager hideSpotCrimes];
     });
@@ -412,14 +392,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         return;
     }
     
-    if (!_bottomUpTransitioningDelegate) {
-        _bottomUpTransitioningDelegate = [[TSBottomUpTransitioningDelegate alloc] init];
-    }
-    
-    TSPageViewController *pageview = (TSPageViewController *)[self presentViewControllerWithClass:[TSPageViewController class] transitionDelegate:_bottomUpTransitioningDelegate animated:YES];
-    pageview.homeViewController = self;
-    pageview.isChatPresentation = YES;
-    
+    [[TSAlertManager sharedManager] showAlertWindowForChatWithCurrentHomeView:self];
     [self showOnlyMap];
 }
 

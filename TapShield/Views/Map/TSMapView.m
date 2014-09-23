@@ -147,9 +147,9 @@
         
         for (TSJavelinAPIRegion *region in regionsArray) {
             MKPolygon *regionPolygon = [self polygonForBoundaries:region.boundaries];
-            regionPolygon.title = [NSString stringWithFormat:@"%i", agency.identifier];
+            regionPolygon.title = [NSString stringWithFormat:@"%lu", (unsigned long)agency.identifier];
             if (region.identifier) {
-                regionPolygon.subtitle = [NSString stringWithFormat:@"%i", region.identifier];
+                regionPolygon.subtitle = [NSString stringWithFormat:@"%lu", (unsigned long)region.identifier];
             }
             else {
                 regionPolygon.subtitle = nil;

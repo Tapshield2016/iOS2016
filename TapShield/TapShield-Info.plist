@@ -47,7 +47,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>846</string>
+	<string>847</string>
 	<key>FacebookAppID</key>
 	<string>412321438904850</string>
 	<key>FacebookDisplayName</key>
@@ -55,7 +55,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>TapShield will only share your location with authorities durin an emergency alert.</string>
+	<string>TapShield will only share your location with authorities during an emergency alert.</string>
 	<key>NSPrincipalClass</key>
 	<string>TSApplication</string>
 	<key>TWITTER_CONSUMER_KEY</key>

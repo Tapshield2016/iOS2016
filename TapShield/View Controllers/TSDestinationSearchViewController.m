@@ -236,7 +236,7 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
         for( CFIndex index = 0; index < nPeople; index++ ) {
             ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
             ABMutableMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
-            int addressCount = ABMultiValueGetCount(addressRef);
+            NSUInteger addressCount = ABMultiValueGetCount(addressRef);
             
             if (!addressCount) {
                 CFErrorRef error = nil;

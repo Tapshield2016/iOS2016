@@ -15,6 +15,7 @@ static NSString * const kTextMessagePlaceholder = @"Text Message";
 #define Inset_Side 3
 #define Inset_Top 4
 #define Font_Size 16
+#define Button_Width 60
 
 @implementation TSTextMessageBarView
 
@@ -49,7 +50,8 @@ static NSString * const kTextMessagePlaceholder = @"Text Message";
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self insertSubview:self.toolbar atIndex:0];
     
-    CGRect textViewFrame = CGRectMake(self.frame.size.width/10, self.frame.size.height/10 * 2, self.frame.size.width/10 * 7 + 6, self.frame.size.height/10 * 6);
+    float leftOffset = 20;
+    CGRect textViewFrame = CGRectMake(leftOffset, self.frame.size.height/10 * 2, self.frame.size.width - Button_Width - leftOffset, self.frame.size.height/10 * 6);
     
     _textView = [[TSBaseTextView alloc] initWithFrame:textViewFrame];
     _textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -59,7 +61,7 @@ static NSString * const kTextMessagePlaceholder = @"Text Message";
     
     [self addSubview:_textView];
     
-    CGRect sendButtonFrame = CGRectMake(self.frame.size.width/10 * 8 + 3, 0, self.frame.size.width/10 * 2, self.frame.size.height);
+    CGRect sendButtonFrame = CGRectMake(self.frame.size.width - Button_Width, 0, Button_Width, self.frame.size.height);
     self.sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.sendButton.frame = sendButtonFrame;
     self.sendButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -121,6 +123,10 @@ static NSString * const kTextMessagePlaceholder = @"Text Message";
     [_textView resignFirstResponder];
     self.frame = newBarFrame;
     [_textView becomeFirstResponder];
+}
+
+- (BOOL)enableInputClicksWhenVisible {
+    return YES;
 }
 
 @end

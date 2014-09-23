@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view.
     _heightTextField.text = self.userProfile.height;
     if (self.userProfile.weight) {
-        _weightTextField.text = [NSString stringWithFormat:@"%i lbs", self.userProfile.weight];
+        _weightTextField.text = [NSString stringWithFormat:@"%lu lbs", (unsigned long)self.userProfile.weight];
     }
     
     if (self.userProfile.hairColor != 0) {

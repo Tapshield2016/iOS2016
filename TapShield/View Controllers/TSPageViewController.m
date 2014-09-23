@@ -8,6 +8,7 @@
 
 #import "TSPageViewController.h"
 #import "FBKVOController.h"
+#import "TSAlertManager.h"
 
 @interface TSPageViewController ()
 
@@ -44,12 +45,6 @@
     [_animatedView addSubview:self.toolbar];
     [self.view insertSubview:_animatedView atIndex:0];
     
-    CGRect statusFrame = self.view.bounds;
-    statusFrame.origin.y = self.view.frame.size.height;
-    statusFrame.size.height = 35;
-    _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
-    [self.view insertSubview:_statusView belowSubview:_animatedView];
-    
     [self createCountdownView];
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -60,12 +55,6 @@
     [self setRemoveNavigationShadow:YES];
     
     _isPhoneView = NO;
-    
-    _kvoController = [FBKVOController controllerWithObserver:self];
-    
-    [_kvoController observe:_homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
-        [pageVC.statusView setText:statusView.userLocation];
-    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -338,6 +327,42 @@
     else if (_halfPage == 0) {
         [self alertBarButton];
     }
+}
+
+- (void)setHomeViewController:(TSHomeViewController *)homeViewController {
+    
+    _homeViewController = homeViewController;
+    
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!_statusView) {
+            CGRect statusFrame = self.view.bounds;
+            statusFrame.origin.y = self.view.frame.size.height;
+            statusFrame.size.height = 35;
+            _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
+            
+            [self.view insertSubview:_statusView belowSubview:_animatedView];
+        }
+        
+        _kvoController = [FBKVOController controllerWithObserver:self];
+        
+        [_kvoController observe:_homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
+            [pageVC.statusView setText:statusView.userLocation];
+        }];
+        
+        if (!_isFirstTimeViewed) {
+            [_homeViewController.mapView setRegionAtAppearanceAnimated:YES];
+            _homeViewController.isTrackingUser = YES;
+        }
+        
+        if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+            [_homeViewController.mapView selectAnnotation:_homeViewController.mapView.userLocationAnnotation animated:YES];
+        }
+        
+        if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSent]) {
+            [_homeViewController mapAlertModeToggle];
+        }
+    }];
 }
 
 @end

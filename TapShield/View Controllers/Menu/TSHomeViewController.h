@@ -27,9 +27,6 @@
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (assign, nonatomic) BOOL isTrackingUser;
 
-//Yank
-@property (assign, nonatomic) BOOL shouldSendAlert;
-
 - (void)mapAlertModeToggle;
 
 - (IBAction)displayVirtualEntourage:(id)sender;

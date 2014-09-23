@@ -11,18 +11,21 @@
 #import "TSRegisterViewController.h"
 #import "TSLocationController.h"
 
-@interface TSOrganizationSearchViewController : TSNavigationViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface TSOrganizationSearchViewController : TSNavigationViewController <UISearchBarDelegate, UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 
 @property (strong, nonatomic) NSString *emailAddress;
 @property (strong, nonatomic) NSString *statusString;
-@property (strong, nonatomic) NSMutableArray *filteredOrganizationMutableArray;
 @property (strong, nonatomic) NSArray *allOrganizationsArray;
 @property (strong, nonatomic) NSArray *nearbyOrganizationArray;
-@property (strong, nonatomic) UISearchDisplayController *searchDisplay;
+@property (strong, nonatomic) UISearchController *searchController;
+
 @property (strong, nonatomic) TSJavelinAPIAgency *agency;
 @property (strong, nonatomic) TSJavelinAPIAgency *previousAgencySelected;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) NSString *filterString;
+@property (strong, nonatomic) NSArray *visibleAllResults;
+@property (strong, nonatomic) NSArray *visibleNearbyResults;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelBarButton;

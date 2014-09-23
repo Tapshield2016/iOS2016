@@ -243,7 +243,7 @@
 
 - (void)removeAnnotations:(NSArray *)annotations {
     
-    int previousCount = _clusterableAnnotationsAdded.count;
+    NSUInteger previousCount = _clusterableAnnotationsAdded.count;
     NSSet *set = [NSSet setWithArray:annotations];
     [_clusterableAnnotationsAdded minusSet:set];
     

@@ -18,7 +18,7 @@
 #import "UIViewController+Storyboard.h"
 
 static NSString * const TSUserSessionManagerDeclinedAgency = @"TSUserSessionManagerDeclinedAgency";
-static NSString * const TSUserSessionManagerMultipleAgenciesTitle = @"There are %i organizations using TapShield nearby";
+static NSString * const TSUserSessionManagerMultipleAgenciesTitle = @"There are %lu organizations using TapShield nearby";
 static NSString * const TSUserSessionManagerMultipleAgenciesMessage = @"Would you like to join one now?";
 static NSString * const TSUserSessionManagerSingleAgencyTitle = @"%@ is nearby";
 static NSString * const TSUserSessionManagerSingleMessage = @"Would you like to join this organization?";
@@ -163,7 +163,7 @@ static dispatch_once_t predicate;
 - (void)askToJoinAgencies:(NSArray *)agencies {
     
     if (agencies.count > 1) {
-        _multipleAgencyAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:TSUserSessionManagerMultipleAgenciesTitle, agencies.count]
+        _multipleAgencyAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:TSUserSessionManagerMultipleAgenciesTitle, (unsigned long)agencies.count]
                                                               message:TSUserSessionManagerMultipleAgenciesMessage
                                                              delegate:self
                                                     cancelButtonTitle:@"Not now"

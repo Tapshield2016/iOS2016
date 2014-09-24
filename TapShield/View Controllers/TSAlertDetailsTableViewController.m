@@ -29,6 +29,8 @@
     [super viewDidLoad];
     
     [self whiteNavigationBar];
+    
+    _location = [TSLocationController sharedLocationController].location;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -111,7 +113,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     TSReportDescriptionViewController *viewController = (TSReportDescriptionViewController *)[self pushViewControllerWithClass:[TSReportDescriptionViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
-    
+    viewController.location = _location;
     viewController.type = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
     viewController.image = [TSReportTypeTableViewCell imageForType:(int)indexPath.row];
     viewController.reportManager = _reportManager;

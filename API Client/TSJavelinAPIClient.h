@@ -16,6 +16,7 @@
 #import "TSJavelinAPISocialCrimeReport.h"
 #import "TSJavelinAPIRegion.h"
 #import "TSJavelinAPIDispatchCenter.h"
+#import "TSJavelinAPIPushNotification.h"
 #import "NSNull+JSON.h"
 
 @class TSJavelinAPIUser;
@@ -138,7 +139,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 
 // Mass Alert actions
 - (void)getMassAlerts:(void (^)(NSArray *massAlerts))completion;
-- (void)receivedNotificationOfNewMassAlert:(NSDictionary *)notification;
+- (void)receivedNotificationOfNewMassAlert:(TSJavelinAPIPushNotification *)notification;
 
 // Alert actions
 // Valid alert types are 'C' (Chat), 'E' (Emergency), and 'T' (Timer)
@@ -157,7 +158,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 - (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(ChatMessageStatus status))completion;
 - (void)getChatMessagesForActiveAlert:(void (^)(NSArray *chatMessages))completion;
 - (void)getChatMessagesForActiveAlertSinceTime:(NSDate *)dateTime completion:(void (^)(NSArray *chatMessages))completion;
-- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(NSDictionary *)notification;
+- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(TSJavelinAPIPushNotification *)notification;
 
 // User Profile Upload
 - (void)uploadUserProfileData:(TSJavelinAPIUserProfileUploadBlock)completion;

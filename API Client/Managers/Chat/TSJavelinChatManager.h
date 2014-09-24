@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TSJavelinChatMessageOrganizer.h"
 #import "TSJavelinAPIChatMessage.h"
+#import "TSJavelinAPIPushNotification.h"
 
 extern NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification;
 extern NSString * const TSJavelinChatManagerDidUpdateChatMessageNotification;
@@ -29,6 +30,6 @@ extern NSString * const TSJavelinChatManagerDidUpdateChatMessageNotification;
 - (void)sendChatMessageForActiveAlert:(TSJavelinAPIChatMessage *)chatMessage completion:(void (^)(ChatMessageStatus status))completion;
 - (void)getChatMessagesForActiveAlert:(void (^)(NSArray *chatMessages))completion;
 - (void)getChatMessagesForActiveAlertSinceTime:(NSDate *)dateTime completion:(void (^)(NSArray *chatMessages))completion;
-- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(NSDictionary *)notification;
+- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(TSJavelinAPIPushNotification *)notification;
 
 @end

@@ -15,7 +15,6 @@
 
 @interface TSReportDescriptionViewController ()
 
-@property (strong, nonatomic) CLLocation *location;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (strong, nonatomic) TSBaseLabel *uploadingLabel;
 @property (strong, nonatomic) TSRecordWindow *recordWindow;
@@ -46,7 +45,9 @@
     _typeLabel.text = _type;
     _timeLabel.text = [TSUtilities formattedViewableDate:[NSDate date]];
     _addressLabel.text = @"";
-    _location = [TSLocationController sharedLocationController].location;
+    if (!_location) {
+        _location = [TSLocationController sharedLocationController].location;
+    }
     
     _detailsTextView.layer.cornerRadius = 5;
     _detailsTextView.placeholder = @"Enter your non-emergency tip details here (call 911 if this is an emergency)";
@@ -155,13 +156,10 @@
                 [_shimmeringView setHidden:YES];
                 _audioPlayButton.hidden = NO;
                 [self initAudioPlayer];
-            }
-            
-            if ([(NSURL *)media isVideo]) {
-                buttonTitle = [NSString stringWithFormat:@"Change %@", @"Video"];
-            }
-            else if ([(NSURL *)media isAudio]) {
                 buttonTitle = [NSString stringWithFormat:@"Change %@", @"Audio"];
+            }
+            else if ([(NSURL *)media isVideo]) {
+                buttonTitle = [NSString stringWithFormat:@"Change %@", @"Video"];
             }
         }
         else {
@@ -182,6 +180,34 @@
 
 - (void)reportEvent {
     
+    if ((!_detailsTextView.text || !_detailsTextView.text.length) && !_media) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hey did you see something?"
+                                                                            message:@"Please write a descriptive summary or attach a picture, video, or audio record. Otherwise dispatchers will think it's spam!"
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [_detailsTextView becomeFirstResponder];
+        }]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+        return;
+    }
+    
+    if (!_detailsTextView.text.length) {
+        if ([_media isKindOfClass:[NSURL class]]) {
+            
+            if ([(NSURL *)_media isAudio]) {
+                _detailsTextView.text = @"Audio attached";
+            }
+            else if ([(NSURL *)_media isVideo]) {
+                _detailsTextView.text = @"Video attached";
+            }
+        }
+        else {
+            _detailsTextView.text = @"Image attached";
+        }
+    }
+    
     [[self.navigationItem rightBarButtonItem] setEnabled:NO];
     
     _shimmeringView.shimmering = YES;
@@ -189,9 +215,6 @@
     
     [self dismissKeyboard];
     
-    if (!_detailsTextView.text || !_detailsTextView.text.length) {
-        _detailsTextView.text = _type;
-    }
     
     [self uploadMedia:^(NSString *urlString) {
         

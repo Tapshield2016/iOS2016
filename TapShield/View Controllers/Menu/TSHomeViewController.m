@@ -28,6 +28,7 @@
 #import "TSHeatMapOverlay.h"
 #import "ADClusterAnnotation.h"
 #import <KVOController/FBKVOController.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -305,8 +306,18 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)cancelEntourage {
     
+    if ([self touchIDAvailable]) {
+        [self useTouchID];
+    }
+    else {
+        [self enterPasscodeCancel];
+    }
+}
+
+- (void)enterPasscodeCancel {
+    
     _cancelEntourageAlertController = [UIAlertController alertControllerWithTitle:@"Stop Entourage"
-                                                                             message:@"Please enter passcode"
+                                                                          message:@"Please enter passcode"
                                                                    preferredStyle:UIAlertControllerStyleAlert];
     
     __weak __typeof(self)weakSelf = self;
@@ -1073,5 +1084,48 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
 }
 
+
+
+
+#pragma mark - Touch ID
+
+- (void)useTouchID {
+    
+    LAContext *context = [[LAContext alloc] init];
+    
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+            localizedReason:@"Stop Entourage"
+                      reply:^(BOOL success, NSError *error) {
+                          
+                          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                              if (error) {
+                                  
+                                  if (error.code == kLAErrorUserCancel ||
+                                      error.code == kLAErrorSystemCancel) {
+                                      
+                                  }
+                                  else if (error.code == kLAErrorUserFallback) {
+                                      [self enterPasscodeCancel];
+                                  }
+                                  else {
+                                      UIAlertController *errorController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                      [errorController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+                                      [self presentViewController:errorController animated:YES completion:nil];
+                                  }
+                              }
+                              else if (success) {
+                                  [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+                              }
+                          }];
+                      }];
+}
+
+- (BOOL)touchIDAvailable {
+    
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+    
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+}
 
 @end

@@ -232,7 +232,7 @@ static dispatch_once_t onceToken;
       }];
 }
 
-- (void)receivedNotificationOfNewMassAlert:(NSDictionary *)notification {
+- (void)receivedNotificationOfNewMassAlert:(TSJavelinAPIPushNotification *)notification {
 #warning What to do?
 }
 
@@ -627,7 +627,7 @@ static dispatch_once_t onceToken;
     [_chatManager getChatMessagesForActiveAlertSinceTime:dateTime completion:completion];
 }
 
-- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(NSDictionary *)notification {
+- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(TSJavelinAPIPushNotification *)notification {
     [_chatManager receivedNotificationOfNewChatMessageAvailableForActiveAlert:notification];
 }
 

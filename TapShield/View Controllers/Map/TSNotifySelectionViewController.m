@@ -10,6 +10,7 @@
 #import "TSAddMemberCell.h"
 #import "TSCircularControl.h"
 #import "TSMemberCollectionViewLayout.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 
 #define TUTORIAL_TITLE @"Set ETA, add your Entourage"
@@ -385,28 +386,39 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     if ([self changesWereMade]) {
         
-        _saveChangesAlertController = [UIAlertController alertControllerWithTitle:@"Confirm Changes"
-                                                                              message:@"Please enter passcode"
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
+        if ([self touchIDAvailable]) {
+            [self useTouchID];
+        }
+        else {
+            [self saveWithPasscode];
+        }
         
-        __weak __typeof(self)weakSelf = self;
-        [_saveChangesAlertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            [textField setPlaceholder:@"1234"];
-            [textField setTextAlignment:NSTextAlignmentCenter];
-            [textField setSecureTextEntry:YES];
-            [textField setKeyboardType:UIKeyboardTypeNumberPad];
-            [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
-            [textField setDelegate:weakSelf];
-        }];
-        [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            [self dismissViewController];
-        }]];
-        
-        [self presentViewController:_saveChangesAlertController animated:YES completion:nil];
     }
     else {
         [self dismissViewController];
     }
+}
+
+- (void)saveWithPasscode {
+    
+    _saveChangesAlertController = [UIAlertController alertControllerWithTitle:@"Confirm Changes"
+                                                                      message:@"Please enter passcode"
+                                                               preferredStyle:UIAlertControllerStyleAlert];
+    
+    __weak __typeof(self)weakSelf = self;
+    [_saveChangesAlertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setPlaceholder:@"1234"];
+        [textField setTextAlignment:NSTextAlignmentCenter];
+        [textField setSecureTextEntry:YES];
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [textField setDelegate:weakSelf];
+    }];
+    [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [self dismissViewController];
+    }]];
+    
+    [self presentViewController:_saveChangesAlertController animated:YES completion:nil];
 }
 
 - (BOOL)changesWereMade {
@@ -778,5 +790,47 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     });
 }
 
+
+#pragma mark - Touch ID
+
+- (void)useTouchID {
+    
+    LAContext *context = [[LAContext alloc] init];
+    
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+            localizedReason:@"Confirm Changes"
+                      reply:^(BOOL success, NSError *error) {
+                          
+                          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                              if (error) {
+                                  
+                                  if (error.code == kLAErrorUserCancel ||
+                                      error.code == kLAErrorSystemCancel) {
+                                      
+                                  }
+                                  else if (error.code == kLAErrorUserFallback) {
+                                      [self saveWithPasscode];
+                                  }
+                                  else {
+                                      UIAlertController *errorController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                      [errorController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+                                      [self presentViewController:errorController animated:YES completion:nil];
+                                  }
+                              }
+                              else if (success) {
+                                  [_saveChangesAlertController dismissViewControllerAnimated:YES completion:nil];
+                                  [self performSelector:@selector(startEntourage:) withObject:nil];
+                              }
+                          }];
+                      }];
+}
+
+- (BOOL)touchIDAvailable {
+    
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+    
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+}
 
 @end

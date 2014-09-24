@@ -771,6 +771,10 @@
 		C5C2F92E19A3C372007A81A9 /* TSNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2F92C19A3C372007A81A9 /* TSNavigationDelegate.m */; };
 		C5C2F92F19A3C372007A81A9 /* TSNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2F92C19A3C372007A81A9 /* TSNavigationDelegate.m */; };
 		C5C2F93019A3C372007A81A9 /* TSNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2F92C19A3C372007A81A9 /* TSNavigationDelegate.m */; };
+		C5C466B719D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C466B619D376F900CB6F0A /* TSJavelinAPIPushNotification.m */; };
+		C5C466B819D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C466B619D376F900CB6F0A /* TSJavelinAPIPushNotification.m */; };
+		C5C466B919D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C466B619D376F900CB6F0A /* TSJavelinAPIPushNotification.m */; };
+		C5C466BA19D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C466B619D376F900CB6F0A /* TSJavelinAPIPushNotification.m */; };
 		C5C5E4D218EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
 		C5C5E4D318EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
 		C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */; };
@@ -1284,6 +1288,8 @@
 		C5C2F92619A3AF58007A81A9 /* TSPhoneNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPhoneNumberViewController.m; sourceTree = "<group>"; };
 		C5C2F92B19A3C372007A81A9 /* TSNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNavigationDelegate.h; sourceTree = "<group>"; };
 		C5C2F92C19A3C372007A81A9 /* TSNavigationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNavigationDelegate.m; sourceTree = "<group>"; };
+		C5C466B519D376F800CB6F0A /* TSJavelinAPIPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIPushNotification.h; sourceTree = "<group>"; };
+		C5C466B619D376F900CB6F0A /* TSJavelinAPIPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIPushNotification.m; sourceTree = "<group>"; };
 		C5C5E4D018EC58F000E1D868 /* TSRouteTimeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteTimeAnnotation.h; path = Views/Map/Annotations/TSRouteTimeAnnotation.h; sourceTree = "<group>"; };
 		C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteTimeAnnotation.m; path = Views/Map/Annotations/TSRouteTimeAnnotation.m; sourceTree = "<group>"; };
 		C5C7047B1977CAD60052C9B0 /* TSStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStatusView.h; sourceTree = "<group>"; };
@@ -1734,6 +1740,8 @@
 				C520C8D318A974C000D1D2E9 /* TSJavelinAPIAgency.m */,
 				C520C8D418A974C000D1D2E9 /* TSJavelinAPIAlert.h */,
 				C520C8D518A974C000D1D2E9 /* TSJavelinAPIAlert.m */,
+				C5C466B519D376F800CB6F0A /* TSJavelinAPIPushNotification.h */,
+				C5C466B619D376F900CB6F0A /* TSJavelinAPIPushNotification.m */,
 				C520C8D618A974C000D1D2E9 /* TSJavelinAPIBaseModel.h */,
 				C520C8D718A974C000D1D2E9 /* TSJavelinAPIBaseModel.m */,
 				C520C8D818A974C000D1D2E9 /* TSJavelinAPIChatMessage.h */,
@@ -2745,6 +2753,7 @@
 				C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C58B31EE199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
+				C5C466B719D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C502515D199BD68700717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63401970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C55644F718E2048000D29B0D /* TSRegistrationButton.m in Sources */,
@@ -3060,6 +3069,7 @@
 				C5372DB518B27C3600D22682 /* TSOrganizationSearchViewController.m in Sources */,
 				C5372DA518AEC99900D22682 /* TSLoginViewController.m in Sources */,
 				C585F1A118CF88CF009EEF16 /* NSData+Base64.m in Sources */,
+				C5C466BA19D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C5F2E5AD194FA6D7005B32A1 /* TSJavelinAPIPeriod.m in Sources */,
 				C585F19218CF7E73009EEF16 /* TSIntroPageViewController.m in Sources */,
 				C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
@@ -3154,6 +3164,7 @@
 				C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C58B31EF199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
+				C5C466B819D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C502515E199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63411970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
@@ -3359,6 +3370,7 @@
 				C5AFB949191D35DE00EC62A5 /* TSBasicInfoViewController.m in Sources */,
 				C58B31F0199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C5AFB94A191D35DE00EC62A5 /* TWAPIManager.m in Sources */,
+				C5C466B919D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C502515F199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C53A63421970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C5AFB94B191D35DE00EC62A5 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,

@@ -38,6 +38,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 
 @property (nonatomic, strong) UIImageView *windowBackground;
 @property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
+@property (nonatomic, strong) TSPopUpWindow *pushNotificationAlertWindow;
 
 @end
 
@@ -263,9 +264,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     [application setApplicationIconBadgeNumber: 0];
     
-    [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, NSString *message) {
-        if (!matchFound) {
+    [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, TSJavelinAPIPushNotification *notification) {
+        if (matchFound && notification) {
             // Do something else here, we didn't find a match for any action we need to be aware of...
+            [self updateInterfaceWithNotification:notification];
         }
     }];
     
@@ -275,11 +277,20 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     [application setApplicationIconBadgeNumber: 0];
     
-    [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, NSString *message) {
-        if (!matchFound) {
+    [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, TSJavelinAPIPushNotification *notification) {
+        if (matchFound && notification) {
             // Do something else here, we didn't find a match for any action we need to be aware of...
+            [self updateInterfaceWithNotification:notification];
         }
     }];
+}
+
+- (void)updateInterfaceWithNotification:(TSJavelinAPIPushNotification *)notification {
+    
+    if ([notification.alertType isEqualToString:TSJavelinPushNotificationTypeCrimeReport]) {
+        _pushNotificationAlertWindow = [[TSPopUpWindow alloc] initWithMessage:notification.alertBody tapToDismiss:YES];
+        [_pushNotificationAlertWindow show];
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {

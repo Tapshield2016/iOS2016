@@ -35,13 +35,19 @@
     return self;
 }
 
-- (id)initWithMessage:(NSString *)message {
+- (id)initWithMessage:(NSString *)message tapToDismiss:(BOOL)tap {
     
     self = [super initWithFrame:[UIScreen mainScreen].bounds];
     if (self) {
         // Initialization code
         [self windowViewWithFrame:CGRectMake(0.0f, 0.0f, 260, 150)];
-        [self dismissButton];
+        if (tap) {
+            UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped)];
+            [self addGestureRecognizer:gesture];
+        }
+        else {
+           [self dismissButton];
+        }
         [self addMessage:message];
     }
     return self;
@@ -187,6 +193,11 @@
 }
 
 #pragma mark - Show/Hide Window
+
+- (void)tapped {
+    
+    [self dismiss:nil];
+}
 
 - (void)show {
     

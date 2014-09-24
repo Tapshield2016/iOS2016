@@ -295,7 +295,7 @@ static dispatch_once_t onceToken;
     [self checkForChatMessages];
 }
 
-- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(NSDictionary *)notification {
+- (void)receivedNotificationOfNewChatMessageAvailableForActiveAlert:(TSJavelinAPIPushNotification *)notification {
     
     [self checkForChatMessages];
 }

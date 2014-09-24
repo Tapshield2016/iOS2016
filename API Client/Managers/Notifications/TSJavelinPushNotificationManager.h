@@ -7,13 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TSJavelinAPIPushNotification.h"
 
 extern NSString * const TSJavelinPushNotificationManagerDidReceiveAlertAcknowledgementNotification;
 extern NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewChatMessageNotification;
 extern NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification;
 
+extern NSString * const TSJavelinPushNotificationTypeCrimeReport;
+extern NSString * const TSJavelinPushNotificationTypeMassAlert;
+extern NSString * const TSJavelinPushNotificationTypeChatMessage;
+extern NSString * const TSJavelinPushNotificationTypeAlertReceived;
+
 @interface TSJavelinPushNotificationManager : NSObject
 
-+ (void)analyzeNotification:(NSDictionary *)userInfo completion:(void (^)(BOOL matchFound, NSString *message))completion;
++ (void)analyzeNotification:(NSDictionary *)userInfo completion:(void (^)(BOOL matchFound, TSJavelinAPIPushNotification *notification))completion;
 
 @end

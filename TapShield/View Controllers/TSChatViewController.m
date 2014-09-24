@@ -194,6 +194,7 @@
     
     if (![TSAlertManager sharedManager].isAlertInProgress) {
         [TSAlertManager sharedManager].type = @"C";
+        [[TSAlertManager sharedManager] sendAlert:@"C"];
         [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
         [self.navigationItem setHidesBackButton:NO animated:YES];
         [self.navigationItem setRightBarButtonItem:nil animated:YES];

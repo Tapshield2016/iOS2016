@@ -129,6 +129,7 @@
         parentNavigationController = (UINavigationController *)self.presentingViewController;
     }
     
+//    [parentNavigationController.topViewController beginAppearanceTransition:YES animated:NO];
     [self dismissViewControllerAnimated:YES completion:^{
         [parentNavigationController.topViewController viewWillAppear:NO];
         [parentNavigationController.topViewController viewDidAppear:NO];

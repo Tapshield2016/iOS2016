@@ -97,6 +97,11 @@ static dispatch_once_t predicate;
 
 - (void)showAlertWindowAndStartCountdownWithType:(NSString *)type currentHomeView:(TSHomeViewController *)homeViewController {
     
+    if (_isPresented){
+        return;
+    }
+    self.isPresented = YES;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
         

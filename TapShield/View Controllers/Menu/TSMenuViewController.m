@@ -82,7 +82,7 @@
 - (void)returnToMapViewForYankAlert {
     
     if ([NSStringFromClass([TSHomeViewController class]) isEqualToString:_currentPanelStoryBoardIdentifier]) {
-        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:NO completion:nil];
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:NO allowUserInterruption:YES completion:nil];
         return;
     }
     
@@ -126,12 +126,21 @@
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
     [paneNavigationViewController setNavigationBarHidden:YES];
     
-    UIViewController *oldPane = self.dynamicsDrawerViewController.paneViewController;
-    if ([oldPane isKindOfClass:[UINavigationController class]]) {
-        oldPane = [(UINavigationController *)oldPane topViewController];
-    }
-    [oldPane willMoveToParentViewController:nil];
-    [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animated completion:nil];
+//    UIViewController *oldPane = self.dynamicsDrawerViewController.paneViewController;
+//    if ([oldPane isKindOfClass:[UINavigationController class]]) {
+//        oldPane = [(UINavigationController *)oldPane topViewController];
+//        [oldPane willMoveToParentViewController:nil];
+//        [oldPane beginAppearanceTransition:NO animated:animated];
+//    }
+    
+    [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animated completion:^{
+//        if (oldPane) {
+//            [oldPane.view removeFromSuperview];
+//            [oldPane removeFromParentViewController];
+//            [oldPane didMoveToParentViewController:nil];
+//            [oldPane endAppearanceTransition];
+//        }
+    }];
 
     [self showMenuButton:paneViewController];
     

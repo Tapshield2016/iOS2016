@@ -110,12 +110,23 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     [UITableView appearance].separatorInset = UIEdgeInsetsZero;
     [UITableView appearance].layoutMargins = UIEdgeInsetsZero;
-    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     [UITableView appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UITableView appearance].separatorColor = [TSColorPalette cellSeparatorColor];
     [UITableView appearance].backgroundColor = [TSColorPalette listBackgroundColor];
     [UITableViewCell appearance].backgroundColor = [TSColorPalette cellBackgroundColor];
     [UITableViewCell appearance].layoutMargins = UIEdgeInsetsZero;
+    
+//    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    
+    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    
+    [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].barStyle = UIBarStyleDefault;
+    [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].tintColor = [TSColorPalette tapshieldBlue];
+    [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayLight size:17.0f] };
+    [[UIBarButtonItem appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
     
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;

@@ -4112,7 +4112,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         </view>
                                         <blurEffect style="dark"/>
                                     </visualEffectView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dpE-tg-Zn7" customClass="TSVibrancyButton">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dpE-tg-Zn7" customClass="TSVibrancyButton">
                                         <rect key="frame" x="20" y="128" width="70" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <inset key="titleEdgeInsets" minX="-30" minY="35" maxX="0.0" maxY="0.0"/>
@@ -4120,17 +4120,35 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <state key="normal" title="Speaker" image="alert_volume_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="speakerToggle:" destination="9zb-cU-CuH" eventType="touchUpInside" id="yj6-a7-Ppr"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Itu-bg-akG" customClass="TSVibrancyButton">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Itu-bg-akG" customClass="TSVibrancyButton">
                                         <rect key="frame" x="125" y="128" width="70" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <inset key="titleEdgeInsets" minX="-20" minY="35" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="24" minY="-15" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Mute" image="alert_mute_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="muteToggle:" destination="9zb-cU-CuH" eventType="touchUpInside" id="cWO-9W-dlD"/>
@@ -4143,6 +4161,15 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <inset key="imageEdgeInsets" minX="24" minY="-15" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Chat" image="chat_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="showChatViewController:" destination="9zb-cU-CuH" eventType="touchUpInside" id="utv-Kl-BFn"/>
@@ -4173,24 +4200,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             <action selector="redialTwilio:" destination="9zb-cU-CuH" eventType="touchUpInside" id="1Ns-Y0-o1p"/>
                                         </connections>
                                     </button>
-                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWP-Ss-9kd">
-                                        <rect key="frame" x="244" y="168" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mute" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xl3-lr-72h">
-                                        <rect key="frame" x="139" y="168" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Speaker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Jd-c0-YtJ">
-                                        <rect key="frame" x="34" y="168" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>

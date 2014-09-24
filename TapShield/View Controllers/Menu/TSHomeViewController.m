@@ -35,6 +35,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 @interface TSHomeViewController ()
 
+
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
 @property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
 @property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
@@ -48,6 +49,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @end
 
 @implementation TSHomeViewController
+{
+    FBKVOController *_KVOController;
+}
 
 - (void)viewDidLoad
 {
@@ -175,28 +179,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_reportManager removeOldSpotCrimes];
 }
 
-- (void)didMoveToParentViewController:(UIViewController *)parent {
-    
-    [super willMoveToParentViewController:parent];
-    
-    if (!parent) {
-        [TSLocationController sharedLocationController].delegate = nil;
-        [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
-        _mapView.mapType = MKMapTypeStandard;
-        [_mapView removeFromSuperview];
-        _mapView = nil;
-    }
-}
-
-- (void)dealloc {
-    
-    [TSLocationController sharedLocationController].delegate = nil;
-    [[TSVirtualEntourageManager sharedManager] removeHomeViewController];
-    _mapView.mapType = MKMapTypeStandard;
-    [_mapView removeFromSuperview];
-    _mapView = nil;
-    
-}
 
 #pragma mark - Map Setup
 
@@ -207,13 +189,15 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         [_mapView refreshRegionBoundariesOverlay];
         
+        __weak __typeof(self)weakSelf = self;
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
             
-            _annotationsLoaded = YES;
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            strongSelf.annotationsLoaded = YES;
             [[TSLocationController sharedLocationController].geofence updateNearbyAgencies];
-            [_reportManager performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
-            [self addUserLocationAnnotation:location];
-            [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
+            [strongSelf.reportManager performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
+            [strongSelf addUserLocationAnnotation:location];
+            [strongSelf geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
         }];
     }
 }
@@ -222,21 +206,26 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     if (!_mapView.userLocationAnnotation) {
         
-        _kvoController = [FBKVOController controllerWithObserver:self];
-        [_kvoController observe:[TSJavelinAPIClient loggedInUser].userProfile
+        // create KVO controller with observer
+        FBKVOController *KVOController = [FBKVOController controllerWithObserver:_mapView];
+        
+        // add strong reference from observer to KVO controller
+        _KVOController = KVOController;
+        
+        [_KVOController observe:[TSJavelinAPIClient loggedInUser].userProfile
                         keyPath:@"profileImage"
-                        options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSUserAnnotationView *view, TSJavelinAPIUserProfile *userProfile, NSDictionary *change) {
+                        options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSMapView *mapView, TSJavelinAPIUserProfile *userProfile, NSDictionary *change) {
                             
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                                 
-                                [_mapView removeAnnotation:_mapView.userLocationAnnotation];
+                                [mapView removeAnnotation:mapView.userLocationAnnotation];
                                 
-                                _mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
+                                mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
                                                                                                               placeName:nil
                                                                                                             description:nil];
                                 
-                                [_mapView addAnnotation:_mapView.userLocationAnnotation];
-                                [_mapView updateAccuracyCircleWithLocation:location];
+                                [mapView addAnnotation:mapView.userLocationAnnotation];
+                                [mapView updateAccuracyCircleWithLocation:location];
                             }];
                         }];
     }
@@ -360,6 +349,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (IBAction)sendAlert:(id)sender {
+    
+    NSLog(@"%@", self);
+    
+    if ([TSAlertManager sharedManager].isPresented) {
+        return;
+    }
     
     _mapView.shouldUpdateCallOut = YES;
     

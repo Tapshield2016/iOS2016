@@ -11,7 +11,6 @@
 @interface TSUserLocationButton ()
 
 @property (strong, nonatomic) UIVisualEffectView *blurView;
-@property (strong, nonatomic) UIView *insideView;
 
 @end
 
@@ -44,8 +43,6 @@
     self.layer.borderColor = [TSColorPalette tapshieldBlue].CGColor;
     self.layer.borderWidth = 1.0;
     self.layer.cornerRadius = self.frame.size.height/2;
-//    self.layer.masksToBounds = YES;
-    self.clipsToBounds = YES;
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
         UIImage *image = [[self imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -56,22 +53,7 @@
     _blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
     _blurView.frame = self.bounds;
     _blurView.userInteractionEnabled = NO;
-//    _blurView.layer.cornerRadius = _insideView.frame.size.height/2;
-//    _blurView.layer.masksToBounds = YES;
-//    CAShapeLayer *shapelayer = [[CAShapeLayer alloc] init];
-//    CGMutablePathRef path = CGPathCreateMutable();
-//    CGPathAddRect(path, NULL, _blurView.bounds);
-    
-    
-    //Create a masking layer to cut out a section of the blur
-//    var maskLayer = new CAShapeLayer ();
-//    var maskPath = new CGPath ();
-//    maskPath.AddRect (this.blurView.Bounds);
-//    maskPath.AddEllipseInRect (new RectangleF (((this.blurView.Bounds.Width - CIRCLE_RECT_SIZE) / 2),   ((this.blurView.Bounds.Height - CIRCLE_RECT_SIZE) / 2), CIRCLE_RECT_SIZE, CIRCLE_RECT_SIZE));
-//    maskLayer.Path = maskPath;
-//    maskLayer.FillRule = CAShapeLayer.FillRuleEvenOdd;
-//    this.blurView.Layer.Mask = maskLayer;
-    
+    [self roundCornersOnView:_blurView onTopLeft:YES topRight:YES bottomLeft:YES bottomRight:YES radius:self.bounds.size.height/2];
     [self insertSubview:_blurView atIndex:0];
 }
 
@@ -83,6 +65,41 @@
 - (void)setHighlighted:(BOOL)highlighted {
     
     [super setHighlighted:highlighted];
+    
+}
+
+- (UIView *)roundCornersOnView:(UIView *)view onTopLeft:(BOOL)tl topRight:(BOOL)tr bottomLeft:(BOOL)bl bottomRight:(BOOL)br radius:(float)radius {
+    
+    if (tl || tr || bl || br) {
+        
+        UIRectCorner corner; //holds the corner
+        //Determine which corner(s) should be changed
+        if (tl) {
+            corner = UIRectCornerTopLeft;
+        }
+        if (tr) {
+            UIRectCorner add = corner | UIRectCornerTopRight;
+            corner = add;
+        }
+        if (bl) {
+            UIRectCorner add = corner | UIRectCornerBottomLeft;
+            corner = add;
+        }
+        if (br) {
+            UIRectCorner add = corner | UIRectCornerBottomRight;
+            corner = add;
+        }
+        
+        UIView *roundedView = view;
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:roundedView.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(radius, radius)];
+        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+        maskLayer.frame = roundedView.bounds;
+        maskLayer.path = maskPath.CGPath;
+        roundedView.layer.mask = maskLayer;
+        return roundedView;
+    } else {
+        return view;
+    }
     
 }
 

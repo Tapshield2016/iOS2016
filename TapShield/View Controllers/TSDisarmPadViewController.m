@@ -59,6 +59,7 @@
     
     [super viewDidAppear:animated];
     
+    [self blackNavigationBar];
 }
 
 #pragma mark - Disarm Code

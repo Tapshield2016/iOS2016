@@ -568,93 +568,98 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)showPeoplePickerNavigationController {
     
-    CFErrorRef *error = nil;
-    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
-    if (error) {
-        NSLog(@"error");
-    }
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+    picker.predicateForEnablingPerson = [NSPredicate predicateWithFormat:@"phoneNumbers.@count > 0 OR emailAddresses.@count > 0"];
+    picker.topViewController.navigationItem.title = @"Contacts";
+    picker.navigationBar.topItem.prompt = @"Select an email or SMS capable phone number";
+    picker.peoplePickerDelegate = self;
+    picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
     
-    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        if (error) {
-            NSLog(@"error");
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Error"
-                                            message:@"Failed requesting access to contacts"
-                                           delegate:nil
-                                  cancelButtonTitle:@"Ok"
-                                  otherButtonTitles:nil] show];
-            });
-            return;
-        }
-        
-        if (!granted) {
-            NSLog(@"Denied access");
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
-                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
-                                           delegate:nil
-                                  cancelButtonTitle:@"Ok"
-                                  otherButtonTitles:nil] show];
-            });
-            return;
-        }
-        
-        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
-        CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
-        
-        for( CFIndex index = 0; index < nPeople; index++ ) {
-            ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
-            ABMutableMultiValueRef phoneRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
-            ABMutableMultiValueRef emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
-            NSUInteger phoneCount = ABMultiValueGetCount(phoneRef);
-            NSUInteger emailCount = ABMultiValueGetCount(emailRef);
-            
-            if (!phoneCount && !emailCount) {
-                CFErrorRef error = nil;
-                ABAddressBookRemoveRecord(addressBook, person, &error);
-                if (error) {
-                    NSLog(@"Error: %@", error);
-                }
-            }
-            
-            CFRelease(phoneRef);
-            CFRelease(emailRef);
-        }
-        
-        nPeople = ABAddressBookGetPersonCount( addressBook );
-        
-        CFRelease(allPeople);
-        
-        if (nPeople == 0) {
-            NSLog(@"No contacts with Phone Numbers or Email");
-            CFRelease(addressBook);
-            return;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-            [self setNavigationBarStyle:picker];
-            picker.addressBook = addressBook;
-            picker.topViewController.navigationItem.title = @"Contacts";
-            picker.navigationBar.topItem.prompt = @"Select an email or SMS capable phone number";
-            picker.peoplePickerDelegate = self;
-            picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
-            [self presentViewController:picker animated:YES completion:nil];
-            
-            CFRelease(addressBook);
-        });
+        [self presentViewController:picker animated:YES completion:nil];
     });
     
+//    CFErrorRef *error = nil;
+//    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+//    if (error) {
+//        NSLog(@"error");
+//    }
+//    
+//    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+//        
+//        if (error) {
+//            NSLog(@"error");
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [[[UIAlertView alloc] initWithTitle:@"Error"
+//                                            message:@"Failed requesting access to contacts"
+//                                           delegate:nil
+//                                  cancelButtonTitle:@"Ok"
+//                                  otherButtonTitles:nil] show];
+//            });
+//            return;
+//        }
+//        
+//        if (!granted) {
+//            NSLog(@"Denied access");
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
+//                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
+//                                           delegate:nil
+//                                  cancelButtonTitle:@"Ok"
+//                                  otherButtonTitles:nil] show];
+//            });
+//            return;
+//        }
+//        
+//        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
+//        CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
+//        
+//        for( CFIndex index = 0; index < nPeople; index++ ) {
+//            ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
+//            ABMutableMultiValueRef phoneRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
+//            ABMutableMultiValueRef emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
+//            NSUInteger phoneCount = ABMultiValueGetCount(phoneRef);
+//            NSUInteger emailCount = ABMultiValueGetCount(emailRef);
+//            
+//            if (!phoneCount && !emailCount) {
+//                CFErrorRef error = nil;
+//                ABAddressBookRemoveRecord(addressBook, person, &error);
+//                if (error) {
+//                    NSLog(@"Error: %@", error);
+//                }
+//            }
+//            
+//            CFRelease(phoneRef);
+//            CFRelease(emailRef);
+//        }
+//        
+//        nPeople = ABAddressBookGetPersonCount( addressBook );
+//        
+//        CFRelease(allPeople);
+//        
+//        if (nPeople == 0) {
+//            NSLog(@"No contacts with Phone Numbers or Email");
+//            CFRelease(addressBook);
+//            return;
+//        }
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+//            [self setNavigationBarStyle:picker];
+//            picker.addressBook = addressBook;
+//            picker.topViewController.navigationItem.title = @"Contacts";
+//            picker.navigationBar.topItem.prompt = @"Select an email or SMS capable phone number";
+//            picker.peoplePickerDelegate = self;
+//            picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
+//            [self presentViewController:picker animated:YES completion:nil];
+//            
+//            CFRelease(addressBook);
+//        });
+//    });
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
-      shouldContinueAfterSelectingPerson:(ABRecordRef)person {
-    
-    return YES;
-}
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
+- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
     
     [self blackNavigationBar];
     TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
@@ -662,16 +667,12 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self reorderSavedUsers];
     [_collectionView reloadData];
     [self archiveUsersPicked];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    return NO;
 }
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
     
     [self blackNavigationBar];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [peoplePicker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Alert View Delegate 

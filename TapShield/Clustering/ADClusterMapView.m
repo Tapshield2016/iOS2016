@@ -14,14 +14,12 @@
 #import "CLLocation+Utilities.h"
 #import "TSClusterOperation.h"
 
-@interface ADClusterMapView () {
-@private
-    id <ADClusterMapViewDelegate>  _secondaryDelegate;
-    ADMapCluster *                 _rootMapCluster;
-    BOOL                           _isAnimatingClusters;
-    BOOL                           _isSettingAnnotations;
-}
+@interface ADClusterMapView ()
 
+@property (nonatomic, weak) id <ADClusterMapViewDelegate>  secondaryDelegate;
+@property (nonatomic, strong) ADMapCluster *rootMapCluster;
+@property (nonatomic, assign) BOOL isAnimatingClusters;
+@property (nonatomic, assign) BOOL isSettingAnnotations;
 @property (nonatomic, strong) NSMutableSet *singleAnnotationsPool;
 @property (nonatomic, strong) NSMutableSet *clusterAnnotationsPool;
 @property (nonatomic, strong) NSMutableSet *clusterableAnnotationsAdded;

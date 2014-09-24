@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UIColor *selectedColor;
 
 - (void)setCircleColors:(UIColor *)color fillColor:(UIColor *)fillColor highlightedFillColor:(UIColor *)highlightedFillColor selectedFillColor:(UIColor *)selectedFillColor;
-- (void)drawCircleButtonHighlighted:(BOOL)highlighted selected:(BOOL)selected;
 
 - (CAShapeLayer *)circleLayerWithFill:(UIColor *)fillColor stroke:(UIColor *)strokeColor;
 

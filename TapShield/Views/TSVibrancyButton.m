@@ -58,8 +58,6 @@
     UIImage *image = [self imageForState:UIControlStateNormal];
     [self setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     [self setTintColor:[UIColor blackColor]];
-    
-    [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
 }
 
 - (void)drawRect:(CGRect)rect {

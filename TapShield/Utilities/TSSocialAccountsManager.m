@@ -16,6 +16,7 @@
 #import <Social/Social.h>
 #import "TSApplication.h"
 #import "TSWebViewController.h"
+#import "TSUserSessionManager.h"
 
 #define ERROR_TITLE_MSG @"Sorry"
 #define ERROR_NO_ACCOUNTS @"No Twitter account could be found. Please add a Twitter account in the Settings app"
@@ -41,9 +42,7 @@ typedef enum TSSocialService : NSUInteger {
 
 @interface TSSocialAccountsManager ()
 
-@property (weak, nonatomic) UIViewController *currentViewController;
 @property (weak, nonatomic) UIView *currentView;
-@property (strong, nonatomic) UIAlertView *passcodeAlertView;
 @property (strong, nonatomic) TSPopUpWindow *loadingWindow;
 @property (strong, nonatomic) TSWebViewController *webViewController;
 
@@ -269,49 +268,7 @@ static dispatch_once_t predicate;
     }];
 }
 
-#pragma mark - UIActionSheetDelegate
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != actionSheet.cancelButtonIndex) {
-        
-        [self loading:twitter];
-        [_apiManager performReverseAuthForAccount:_accounts[buttonIndex] withHandler:^(NSData *responseData, NSError *error) {
-            if (responseData) {
-                NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-                
-                NSLog(@"Reverse Auth process returned: %@", responseStr);
-                
-                NSArray *parts = [responseStr componentsSeparatedByString:@"&"];
-                NSString *lined = [parts componentsJoinedByString:@"\n"];
-                
-                // Turn response into dictionary for ease of use...
-                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                for (NSString *param in [responseStr componentsSeparatedByString:@"&"]) {
-                    NSArray *elements = [param componentsSeparatedByString:@"="];
-                    if([elements count] < 2) continue;
-                    [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
-                }
-                
-                [self loading:twitter];
-                [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
-                    if (finished) {
-                        [self twitterRequest];
-                    }
-                }];
-                
-                NSLog(@"%@", lined);
-            }
-            else {
-                NSLog(@"Reverse Auth process failed. Error returned was: %@\n", [error localizedDescription]);
-                [self finishedLoading];
-            }
-        }];
-    }
-    else {
-        [self finishedLoading];
-    }
-}
 
 - (void)twitterRequest {
     
@@ -384,12 +341,26 @@ static dispatch_once_t predicate;
 - (void)loginTwitter
 {
     if (![TWAPIManager hasAppKeys]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_NO_KEYS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
-        [alert show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ERROR_TITLE_MSG
+                                                                                 message:ERROR_NO_KEYS
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:ERROR_OK style:UIAlertActionStyleCancel handler:nil]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_currentViewController presentViewController:alertController animated:YES completion:nil];
+        });
     }
     else if (![TWAPIManager isLocalTwitterAccountAvailable]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_NO_ACCOUNTS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
-        [alert show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ERROR_TITLE_MSG
+                                                                                 message:ERROR_NO_ACCOUNTS
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:ERROR_OK style:UIAlertActionStyleCancel handler:nil]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_currentViewController presentViewController:alertController animated:YES completion:nil];
+        });
     }
     else {
         [self loading:twitter];
@@ -399,9 +370,16 @@ static dispatch_once_t predicate;
                     [self performReverseAuth:nil];
                 }
                 else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ERROR_TITLE_MSG message:ERROR_PERM_ACCESS delegate:nil cancelButtonTitle:ERROR_OK otherButtonTitles:nil];
-                    [alert show];
-                    NSLog(@"You were not granted access to the Twitter accounts.");
+                    
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ERROR_TITLE_MSG
+                                                                                             message:ERROR_PERM_ACCESS
+                                                                                      preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    [alertController addAction:[UIAlertAction actionWithTitle:ERROR_OK style:UIAlertActionStyleCancel handler:nil]];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [_currentViewController presentViewController:alertController animated:YES completion:nil];
+                    });
                 }
                 [self finishedLoading];
             });
@@ -431,12 +409,58 @@ static dispatch_once_t predicate;
 - (void)performReverseAuth:(id)sender
 {
     [self finishedLoading];
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Choose an Account"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
     for (ACAccount *acct in _accounts) {
-        [sheet addButtonWithTitle:acct.username];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:acct.username style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            [self loading:twitter];
+            [_apiManager performReverseAuthForAccount:acct withHandler:^(NSData *responseData, NSError *error) {
+                if (responseData) {
+                    NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+                    
+                    NSLog(@"Reverse Auth process returned: %@", responseStr);
+                    
+                    NSArray *parts = [responseStr componentsSeparatedByString:@"&"];
+                    NSString *lined = [parts componentsJoinedByString:@"\n"];
+                    
+                    // Turn response into dictionary for ease of use...
+                    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                    for (NSString *param in [responseStr componentsSeparatedByString:@"&"]) {
+                        NSArray *elements = [param componentsSeparatedByString:@"="];
+                        if([elements count] < 2) continue;
+                        [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
+                    }
+                    
+                    [self loading:twitter];
+                    [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
+                        if (finished) {
+                            [self twitterRequest];
+                        }
+                    }];
+                    
+                    NSLog(@"%@", lined);
+                }
+                else {
+                    NSLog(@"Reverse Auth process failed. Error returned was: %@\n", [error localizedDescription]);
+                    [self finishedLoading];
+                }
+            }];
+        }]];
     }
-    sheet.cancelButtonIndex = [sheet addButtonWithTitle:@"Cancel"];
-    [sheet showInView:_currentView];
+    
+    [self finishedLoading];
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_currentViewController presentViewController:alertController animated:YES completion:nil];
+    });
 }
 
 
@@ -470,23 +494,13 @@ static dispatch_once_t predicate;
                  // The SDK will provide an error message that we have to show the user
                  alertTitle = @"Something went wrong";
                  alertText = [FBErrorUtility userMessageForError:error];
-                 [[[UIAlertView alloc] initWithTitle:alertTitle
-                                             message:alertText
-                                            delegate:self
-                                   cancelButtonTitle:@"OK!"
-                                   otherButtonTitles:nil] show];
-                 
                  
              } else {
                  // If the user cancelled login
                  if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
                      alertTitle = @"Facebook login cancelled";
                      alertText = @"Please try again, or select another method";
-                     [[[UIAlertView alloc] initWithTitle:alertTitle
-                                                 message:alertText
-                                                delegate:self
-                                       cancelButtonTitle:@"OK!"
-                                       otherButtonTitles:nil] show];
+                     
                  } else {
                      // For simplicity, in this sample, for all other errors we show a generic message
                      // You can read more about how to handle other errors in our Handling errors guide
@@ -497,13 +511,18 @@ static dispatch_once_t predicate;
                      alertTitle = @"Something went wrong";
                      alertText = [NSString stringWithFormat:@"Please retry.\nIf the problem persists contact us and mention this error code: %@",
                                   [errorInformation objectForKey:@"message"]];
-                     [[[UIAlertView alloc] initWithTitle:alertTitle
-                                                 message:alertText
-                                                delegate:self
-                                       cancelButtonTitle:@"OK!"
-                                       otherButtonTitles:nil] show];
                  }
              }
+             
+             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                                                      message:alertText
+                                                                               preferredStyle:UIAlertControllerStyleAlert];
+             
+             [alertController addAction:[UIAlertAction actionWithTitle:@"OK!" style:UIAlertActionStyleCancel handler:nil]];
+             
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [_currentViewController presentViewController:alertController animated:YES completion:nil];
+             });
          }
      }];
 }

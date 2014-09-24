@@ -30,10 +30,12 @@
 
 @class GPPSignInButton;
 
-@interface TSSocialAccountsManager : NSObject <UIActionSheetDelegate, GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate, UIWebViewDelegate>
+@interface TSSocialAccountsManager : NSObject <GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
 typedef void (^LoggedOutBlock)(BOOL loggedOut);
 
+
+@property (weak, nonatomic) UIViewController *currentViewController;
 @property (nonatomic, copy) LoggedOutBlock loggedOutBlock;
 @property (nonatomic, strong) GPPSignInButton *signInGooglePlusButton;
 @property (nonatomic, strong) ACAccountStore *accountStore;

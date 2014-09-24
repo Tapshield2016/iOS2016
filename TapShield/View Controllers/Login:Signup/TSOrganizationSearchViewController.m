@@ -99,15 +99,17 @@
 
 - (void)getLocationAndSearchForNearbyAgencies {
     
+    __weak __typeof(self)weakSelf = self;
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
         [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:20.0f completion:^(NSArray *agencies) {
             if (agencies.count) {
-                self.nearbyOrganizationArray = agencies;
+                strongSelf.nearbyOrganizationArray = agencies;
             }
             else {
-                self.statusString = @"None found";
+                strongSelf.statusString = @"None found";
             }
-            [self.tableView reloadData];
+            [strongSelf.tableView reloadData];
         }];
     }];
 }

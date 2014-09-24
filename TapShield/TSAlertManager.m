@@ -204,11 +204,11 @@ static dispatch_once_t predicate;
         UIAlertAction *action = [UIAlertAction actionWithTitle:callButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self callSecondary];
         }];
-        [_noConnectionAlertController addAction:action];
         [_noConnectionAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+        [_noConnectionAlertController addAction:action];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [_window.rootViewController presentViewController:_noConnectionAlertController animated:YES completion:nil];
+            [[(UINavigationController *)self.window.rootViewController visibleViewController] presentViewController:_noConnectionAlertController animated:YES completion:nil];
         }];
         
         [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kNoConnectionNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
@@ -304,13 +304,15 @@ static dispatch_once_t predicate;
         });
     }
     else {
-        UIAlertView *phoneServiceUnavailableAlert = [[UIAlertView alloc] initWithTitle:nil
-                                                                               message:@"This device is not setup to make phone calls"
-                                                                              delegate:nil
-                                                                     cancelButtonTitle:@"OK"
-                                                                     otherButtonTitles:nil];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"This device is not setup to make phone calls"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [phoneServiceUnavailableAlert show];
+            [[(UINavigationController *)self.window.rootViewController visibleViewController]  presentViewController:alertController animated:YES completion:nil];
         });
     }
 }
@@ -392,12 +394,16 @@ static dispatch_once_t predicate;
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (!granted) {
             // Microphone disabled code
-            UIAlertView *microphoneAccessDeniedAlert = [[UIAlertView alloc] initWithTitle:@"Microphone Access Was Denied."
-                                                                                  message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone"
-                                                                                 delegate:nil
-                                                                        cancelButtonTitle:@"OK"
-                                                                        otherButtonTitles:nil];
-            [microphoneAccessDeniedAlert show];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Microphone Access Was Denied."
+                                                                                     message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[(UINavigationController *)self.window.rootViewController visibleViewController] presentViewController:alertController animated:YES completion:nil];
+            });
         }
         [self connectToDispatcher];
     }];
@@ -569,6 +575,8 @@ static dispatch_once_t predicate;
         animated = NO;
     }
     
+    [[UIApplication sharedApplication].delegate.window makeKeyAndVisible];
+    
     [self showWindowWithRootViewController:viewController];
     
     if (animated) {
@@ -637,7 +645,7 @@ static dispatch_once_t predicate;
         
         self.isPresented = NO;
         
-        [viewcontroller viewWillAppear:YES];
+        [viewcontroller beginAppearanceTransition:YES animated:YES];
         
         [UIView animateWithDuration:0.5
                               delay:0
@@ -662,7 +670,7 @@ static dispatch_once_t predicate;
                              
                              _pageviewController = nil;
                              _window = nil;
-                             [viewcontroller viewDidAppear:YES];
+                             [viewcontroller endAppearanceTransition];
                              [mainWindow makeKeyAndVisible];
                              
                          }];

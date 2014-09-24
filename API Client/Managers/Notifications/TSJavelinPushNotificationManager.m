@@ -72,6 +72,16 @@ NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMass
                     [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
                                                                         object:alertBody];
                 }
+                else if ([alertType isEqualToString:@"social-report"]) {
+                    NSLog(@"New mass alert! - %@", alertType);
+                    NSLog(@"Alert ID: %@", alertID);
+                    if (completion) {
+                        completion(YES, alertBody);
+                    }
+                    [[TSJavelinAPIClient sharedClient] receivedNotificationOfNewMassAlert:alert];
+                    [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
+                                                                        object:alertBody];
+                }
                 else {
                     if (completion) {
                         completion(NO, alertBody);

@@ -32,7 +32,7 @@ extern NSString * const kAlertWindowAnimationTypeZoom;
 
 @end
 
-@interface TSAlertManager : NSObject <TCConnectionDelegate, TCDeviceDelegate, UIAlertViewDelegate>
+@interface TSAlertManager : NSObject <TCConnectionDelegate, TCDeviceDelegate>
 
 extern NSString * const kAlertSend;
 extern NSString * const kAlertSending;

@@ -18,7 +18,7 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
 
 @interface TSRecordWindow ()
 
-@property (strong, nonatomic) UIView *view;
+@property (strong, nonatomic) UIViewController *viewController;
 @property (assign, nonatomic) CGRect viewFrame;
 @property (strong, nonatomic) TSBaseLabel *label;
 @property (strong, nonatomic) UIToolbar *toolbar;
@@ -80,19 +80,26 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
     
     _viewFrame = CGRectMake(0.0f, 0.0f, 260, 150);
     
-    _view = [[UIView alloc] initWithFrame:_viewFrame];
-    _view.center = self.center;
-    _view.layer.cornerRadius = 10;
-    _view.layer.masksToBounds = YES;
-    _view.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    _viewController = [[UIViewController alloc] init];
+    self.rootViewController = _viewController;
+    _viewController.view.frame = _viewFrame;
+    _viewController.view.backgroundColor = [UIColor clearColor];
+    _viewController.view.center = self.center;
+    _viewController.view.layer.cornerRadius = 10;
+    _viewController.view.layer.masksToBounds = YES;
+    _viewController.view.transform = CGAffineTransformMakeScale(0.01, 0.01);
     
     _toolbar = [[UIToolbar alloc] initWithFrame:_viewFrame];
     _toolbar.barStyle = UIBarStyleBlack;
-    [_view addSubview:_toolbar];
+    [_viewController.view addSubview:_toolbar];
     
-    [self addSubview:_view];
+    [self addSubview:_viewController.view];
     
     [self dismissButton];
+    
+//    UIViewController *viewController = [[UIViewController alloc] init];
+//    viewController.view.backgroundColor = [UIColor clearColor];
+//    viewController.view.userInteractionEnabled = NO;
 }
 
 - (void)dismissButton {
@@ -105,7 +112,7 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     
-    [_view addSubview:button];
+    [_viewController.view addSubview:button];
 }
 
 - (void)addAudioButtons {
@@ -116,7 +123,7 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
     [_recordButton setBackgroundImage:[UIImage imageNamed:kPauseButtonName] forState:UIControlStateSelected];
     _recordButton.frame = CGRectMake(0, 0, kRecordButtonSize, kRecordButtonSize);
     _recordButton.center = CGPointMake(_viewFrame.size.width/2, _viewFrame.size.height*.75);
-    [_view addSubview:_recordButton];
+    [_viewController.view addSubview:_recordButton];
 }
 
 - (void)addTimerLabel {
@@ -129,7 +136,7 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
     _label.textColor = [UIColor whiteColor];
     _label.textAlignment = NSTextAlignmentCenter;
     
-    [_view addSubview:_label];
+    [_viewController.view addSubview:_label];
 }
 
 #pragma mark - Recording
@@ -212,33 +219,24 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
     
     [_audioRecorder stop];
     
-    self.windowLevel = UIWindowLevelNormal;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Save Recording"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Save Recording"
-                                                       message:nil
-                                                      delegate:self
-                                             cancelButtonTitle:@"Delete"
-                                             otherButtonTitles:@"Save", nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    [textField setPlaceholder:[NSDate fileDateTimeNowString]];
-    [textField setText:[NSDate fileDateTimeNowString]];
-    [textField setTextAlignment:NSTextAlignmentLeft];
-    [textField setKeyboardType:UIKeyboardTypeASCIICapable];
-    [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
-    [textField setDelegate:self];
-    
-    [alertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if (buttonIndex == 0) {
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setPlaceholder:[NSDate fileDateTimeNowString]];
+        [textField setText:[NSDate fileDateTimeNowString]];
+        [textField setTextAlignment:NSTextAlignmentLeft];
+        [textField setKeyboardType:UIKeyboardTypeASCIICapable];
+        [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [textField setDelegate:self];
+    }];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [_audioRecorder deleteRecording];
         [self dismiss:nil];
-    }
-    else if (buttonIndex == 1) {
-        NSString *string = [alertView textFieldAtIndex:0].text;
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSString *string = ((UITextField *)alertController.textFields[0]).text;
         if (!string || !string.length) {
             string = [NSDate fileDateTimeNowString];
         }
@@ -251,8 +249,11 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
             newUrl = oldUrl;
         }
         [self dismiss:newUrl];
-    }
+    }]];
+    
+    [self.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
+
 
 #pragma mark - Show/Hide Window
 
@@ -269,7 +270,7 @@ static NSString * const kPauseButtonName = @"Stop_Record_Button";
                             options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
             self.alpha = 1.0f;
-            _view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+            _viewController.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
         } completion:nil];
     });
 }

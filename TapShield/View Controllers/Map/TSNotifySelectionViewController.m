@@ -25,7 +25,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 @interface TSNotifySelectionViewController ()
 
 @property (strong, nonatomic) NSTimer *clockTimer;
-@property (strong, nonatomic) UIAlertView *saveChangesAlertView;
+@property (strong, nonatomic) UIAlertController *saveChangesAlertController;
 @property (assign, nonatomic) BOOL changedTime;
 @property (strong, nonatomic) TSCircularControl *slider;
 @property (strong, nonatomic) TSMemberCollectionViewLayout *collectionLayout;
@@ -384,21 +384,25 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 - (void)doneEditingEntourage {
     
     if ([self changesWereMade]) {
-        _saveChangesAlertView = [[UIAlertView alloc] initWithTitle:@"Confirm Changes"
-                                                           message:@"Please enter passcode"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"Cancel"
-                                                 otherButtonTitles:nil];
-        _saveChangesAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-        UITextField *textField = [_saveChangesAlertView textFieldAtIndex:0];
-        [textField setPlaceholder:@"1234"];
-        [textField setTextAlignment:NSTextAlignmentCenter];
-        [textField setSecureTextEntry:YES];
-        [textField setKeyboardType:UIKeyboardTypeNumberPad];
-        [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
-        [textField setDelegate:self];
         
-        [_saveChangesAlertView show];
+        _saveChangesAlertController = [UIAlertController alertControllerWithTitle:@"Confirm Changes"
+                                                                              message:@"Please enter passcode"
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+        
+        __weak __typeof(self)weakSelf = self;
+        [_saveChangesAlertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            [textField setPlaceholder:@"1234"];
+            [textField setTextAlignment:NSTextAlignmentCenter];
+            [textField setSecureTextEntry:YES];
+            [textField setKeyboardType:UIKeyboardTypeNumberPad];
+            [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+            [textField setDelegate:weakSelf];
+        }];
+        [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self dismissViewController];
+        }]];
+        
+        [self presentViewController:_saveChangesAlertController animated:YES completion:nil];
     }
     else {
         [self dismissViewController];
@@ -675,17 +679,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [peoplePicker dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Alert View Delegate 
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if (buttonIndex == 0) {
-        [self dismissViewController];
-    }
-    if (buttonIndex == 1) {
-        [self performSelector:@selector(startEntourage:) withObject:nil];
-    }
-}
 
 #pragma mark - Text Field Delegate
 
@@ -715,21 +708,12 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     }
     
     if ([textField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [_saveChangesAlertView dismissWithClickedButtonIndex:1 animated:YES];
+        [_saveChangesAlertController dismissViewControllerAnimated:YES completion:nil];
+        [self performSelector:@selector(startEntourage:) withObject:nil];
     }
     else {
         textField.text = @"";
         textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
-    }
-}
-
-
-- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-    
-    [super dismissViewControllerAnimated:flag completion:completion];
-    
-    if (_saveChangesAlertView) {
-        [_saveChangesAlertView dismissWithClickedButtonIndex:-1 animated:YES];
     }
 }
 

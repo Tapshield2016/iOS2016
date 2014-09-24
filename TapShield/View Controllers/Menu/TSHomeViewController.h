@@ -14,7 +14,7 @@
 #import "TSReportAnnotationManager.h"
 #import "TSStatusView.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (weak, nonatomic) TSMenuViewController *menuViewController;

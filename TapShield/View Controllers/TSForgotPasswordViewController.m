@@ -145,12 +145,15 @@
             
             _shimmeringView.shimmering = NO;
             
-            UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
-                                                                     message:@"\nIf you don't receive an email, please make sure you've entered the address you registered with."
-                                                                    delegate:nil
-                                                           cancelButtonTitle:@"OK"
-                                                           otherButtonTitles:nil];
-            [emailSentAlert show];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                     message:@"\nIf you don't receive an email, please make sure you've entered the address you registered with."
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alertController animated:YES completion:nil];
+            });
         }];
     }
 }

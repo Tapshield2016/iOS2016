@@ -28,9 +28,7 @@ static NSString * const TSUserSessionManagerSingleMessage = @"Would you like to 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) TSNavigationDelegate *navDelegate;
 @property (strong, nonatomic) TSJavelinAPIAgency *agencyChosen;
-@property (nonatomic, strong) UIAlertView *passcodeAlertView;
-@property (nonatomic, strong) UIAlertView *multipleAgencyAlertView;
-@property (nonatomic, strong) UIAlertView *singleAgencyAlertView;
+@property (strong, nonatomic) UIAlertController *passcodeAlertController;
 
 @end
 
@@ -71,21 +69,20 @@ static dispatch_once_t predicate;
 
 - (void)askForDisarmCode {
     
-    _passcodeAlertView = [[UIAlertView alloc] initWithTitle:@"Enter a 4-digit passcode"
-                                                    message:@"This code will be used to quickly verify your identity within the application"
-                                                   delegate:self
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:nil];
-    _passcodeAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [_passcodeAlertView textFieldAtIndex:0];
-    [textField setPlaceholder:@"1234"];
-    [textField setTextAlignment:NSTextAlignmentCenter];
-    [textField setSecureTextEntry:YES];
-    [textField setKeyboardType:UIKeyboardTypeNumberPad];
-    [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
-    [textField setDelegate:self];
+    _passcodeAlertController = [UIAlertController alertControllerWithTitle:@"Enter a 4-digit passcode"
+                                                                             message:@"This code will be used to quickly verify your identity within the application"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    __weak __typeof(self)weakSelf = self;
+    [_passcodeAlertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setPlaceholder:@"1234"];
+        [textField setTextAlignment:NSTextAlignmentCenter];
+        [textField setSecureTextEntry:YES];
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [textField setDelegate:weakSelf];
+    }];
     
-    [_passcodeAlertView show];
+    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:_passcodeAlertController animated:YES completion:nil];
 }
 
 - (void)checkForUserAgency {
@@ -97,19 +94,21 @@ static dispatch_once_t predicate;
         return;
     }
     
+    __weak __typeof(self)weakSelf = self;
     [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
         [[TSJavelinAPIClient sharedClient] getAgenciesNearby:location radius:10.0 completion:^(NSArray *agencies) {
             
             if (!agencies || !agencies.count) {
                 return;
             }
             
-            if ([self didJoinFromAgencies:agencies]) {
+            if ([strongSelf didJoinFromAgencies:agencies]) {
                 return;
             }
             
-            if ([self shouldAskToJoinAgencies]) {
-                [self askToJoinAgencies:agencies];
+            if ([strongSelf shouldAskToJoinAgencies]) {
+                [strongSelf askToJoinAgencies:agencies];
             }
         }];
     }];
@@ -162,24 +161,36 @@ static dispatch_once_t predicate;
 
 - (void)askToJoinAgencies:(NSArray *)agencies {
     
+    UIAlertController *alertController;
+    
     if (agencies.count > 1) {
-        _multipleAgencyAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:TSUserSessionManagerMultipleAgenciesTitle, (unsigned long)agencies.count]
-                                                              message:TSUserSessionManagerMultipleAgenciesMessage
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Not now"
-                                                    otherButtonTitles:@"Yes", nil];
-        [_multipleAgencyAlertView show];
+        
+        alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:TSUserSessionManagerMultipleAgenciesTitle, (unsigned long)agencies.count]
+                                                                       message:TSUserSessionManagerMultipleAgenciesMessage
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Not now" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self declineAddAgency];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self showAgencyPicker];
+        }]];
     }
     else if (agencies.count == 1) {
         
-        _singleAgencyAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:TSUserSessionManagerSingleAgencyTitle, ((TSJavelinAPIAgency *)agencies[0]).name]
-                                                            message:TSUserSessionManagerSingleMessage
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Not now"
-                                                  otherButtonTitles:@"Yes", nil];
+        alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:TSUserSessionManagerSingleAgencyTitle, ((TSJavelinAPIAgency *)agencies[0]).name]
+                                                                                 message:TSUserSessionManagerSingleMessage
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Not now" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self declineAddAgency];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [TSUserSessionManager showAddSecondaryWithAgency:_agencyChosen];
+        }]];
         _agencyChosen = agencies[0];
-        [_singleAgencyAlertView show];
     }
+    
+    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)showAgencyPicker {
@@ -357,41 +368,7 @@ static dispatch_once_t predicate;
     
     return [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass(class)];
 }
-         
 
-
-#pragma mark - Alert View Delegate
-
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if (alertView == _passcodeAlertView) {
-        if (buttonIndex == 1) {
-            [self saveUser];
-            [self userStatusCheck];
-        }
-        UITextField *textField = [_passcodeAlertView textFieldAtIndex:0];
-        [textField resignFirstResponder];
-    }
-    else if (alertView == _singleAgencyAlertView) {
-        if (buttonIndex == 1) {
-            [TSUserSessionManager showAddSecondaryWithAgency:_agencyChosen];
-        }
-        else {
-            [self declineAddAgency];
-        }
-    }
-    else if (alertView == _multipleAgencyAlertView) {
-        
-        if (buttonIndex == 1) {
-            [self showAgencyPicker];
-        }
-        else {
-            [self declineAddAgency];
-        }
-    }
-    
-}
 
 - (void)saveUser {
     
@@ -421,8 +398,11 @@ static dispatch_once_t predicate;
     if ([TSUtilities removeNonNumericalCharacters:textField.text].length == 4) {
         
         [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode = textField.text;
-        [_passcodeAlertView dismissWithClickedButtonIndex:1 animated:YES];
-        
+        [self saveUser];
+        [self userStatusCheck];
+        UITextField *textField = [_passcodeAlertController.textFields firstObject];
+        [textField resignFirstResponder];
+        [_passcodeAlertController dismissViewControllerAnimated:YES completion:nil];
     }
     else {
         textField.text = @"";
@@ -430,5 +410,10 @@ static dispatch_once_t predicate;
     }
 }
 
+
+- (UIViewController *)rootViewController {
+    
+    return _window.rootViewController;
+}
 
 @end

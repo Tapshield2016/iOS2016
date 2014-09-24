@@ -2421,7 +2421,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </connections>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdg-2v-fWv">
-                                <rect key="frame" x="21" y="496" width="60" height="60"/>
+                                <rect key="frame" x="16" y="496" width="60" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7DV-fr-6qL" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -2484,7 +2484,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3I1-wT-J8A">
-                                <rect key="frame" x="239" y="496" width="60" height="60"/>
+                                <rect key="frame" x="244" y="496" width="60" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZU-fn-ffK" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -2522,7 +2522,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2H-Q3-BBF">
-                                <rect key="frame" x="267" y="109" width="45" height="45"/>
+                                <rect key="frame" x="259" y="109" width="45" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZ6-Zp-Gpl" customClass="TSUserLocationButton">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -2545,7 +2545,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Llm-Q6-w56">
-                                <rect key="frame" x="8" y="109" width="45" height="45"/>
+                                <rect key="frame" x="16" y="109" width="45" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-tK-QET" customClass="TSUserLocationButton">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -2572,21 +2572,21 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <constraint firstItem="Llm-Q6-w56" firstAttribute="top" secondItem="J4r-zu-51U" secondAttribute="bottom" constant="10" id="3ai-z4-Qs1"/>
                             <constraint firstAttribute="centerX" secondItem="CNt-Kp-jHu" secondAttribute="centerX" id="4xG-tM-NFU"/>
                             <constraint firstItem="g2H-Q3-BBF" firstAttribute="top" secondItem="J4r-zu-51U" secondAttribute="bottom" constant="10" id="5ya-NB-O9J"/>
-                            <constraint firstAttribute="trailing" secondItem="3I1-wT-J8A" secondAttribute="trailing" constant="21" id="72I-lc-8sh"/>
+                            <constraint firstAttribute="trailing" secondItem="3I1-wT-J8A" secondAttribute="trailing" constant="16" id="72I-lc-8sh"/>
                             <constraint firstItem="cdg-2v-fWv" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="496" id="K9k-f9-mfO"/>
                             <constraint firstAttribute="trailing" secondItem="J4r-zu-51U" secondAttribute="trailing" id="LPh-fs-fhO"/>
                             <constraint firstItem="3I1-wT-J8A" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="496" id="LbC-lJ-t5W"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" id="Pmt-wL-QsS"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="cdg-2v-fWv" secondAttribute="bottom" constant="12" id="SVQ-O4-Xvf"/>
                             <constraint firstItem="J4r-zu-51U" firstAttribute="top" secondItem="aDF-CZ-qdy" secondAttribute="bottom" id="TJx-w2-aIh"/>
-                            <constraint firstAttribute="trailing" secondItem="g2H-Q3-BBF" secondAttribute="trailing" constant="8" id="azW-Qv-MAZ"/>
+                            <constraint firstAttribute="trailing" secondItem="g2H-Q3-BBF" secondAttribute="trailing" constant="16" id="azW-Qv-MAZ"/>
                             <constraint firstItem="CNt-Kp-jHu" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="466" id="bc8-f0-g3o"/>
-                            <constraint firstItem="Llm-Q6-w56" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="8" id="bif-vW-p6e"/>
+                            <constraint firstItem="Llm-Q6-w56" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="16" id="bif-vW-p6e"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" id="d16-M7-QsV"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="3I1-wT-J8A" secondAttribute="bottom" constant="12" id="m52-zd-dVs"/>
                             <constraint firstAttribute="trailing" secondItem="w2T-Hb-1QL" secondAttribute="trailing" id="pEV-XX-T34"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="CNt-Kp-jHu" secondAttribute="bottom" constant="12" id="rY2-2E-ZV9"/>
-                            <constraint firstItem="cdg-2v-fWv" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="21" id="szU-WH-IGx"/>
+                            <constraint firstItem="cdg-2v-fWv" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="16" id="szU-WH-IGx"/>
                             <constraint firstAttribute="bottom" secondItem="w2T-Hb-1QL" secondAttribute="bottom" id="yHq-YJ-lIh"/>
                         </constraints>
                     </view>
@@ -3668,7 +3668,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <rect key="frame" x="0.0" y="458" width="320" height="110"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zgQ-4N-bY8">
-                                        <rect key="frame" x="21" y="38" width="60" height="60"/>
+                                        <rect key="frame" x="16" y="38" width="60" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXt-uq-LFx" customClass="TSBottomMapAlertButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -3724,7 +3724,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="utA-Rt-Uem">
-                                        <rect key="frame" x="239" y="38" width="60" height="60"/>
+                                        <rect key="frame" x="244" y="38" width="60" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z2s-Fh-CLI" customClass="TSBottomMapAlertButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>

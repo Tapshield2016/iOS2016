@@ -39,19 +39,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
 @property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
 @property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
-@property (strong, nonatomic) FBKVOController *kvoController;
+@property (strong, nonatomic) FBKVOController *KVOController;
 @property (nonatomic) BOOL viewDidAppear;
-@property (strong, nonatomic) UIAlertView *cancelEntourageAlertView;
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
 @property (assign, nonatomic) BOOL annotationsLoaded;
 @property (assign, nonatomic) BOOL firstMapLoad;
+@property (strong, nonatomic) UIAlertController *cancelEntourageAlertController;
 
 @end
 
 @implementation TSHomeViewController
-{
-    FBKVOController *_KVOController;
-}
 
 - (void)viewDidLoad
 {
@@ -308,21 +305,22 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)cancelEntourage {
     
-    _cancelEntourageAlertView = [[UIAlertView alloc] initWithTitle:@"Stop Entourage"
-                                                       message:@"Please enter passcode"
-                                                      delegate:self
-                                             cancelButtonTitle:@"Cancel"
-                                             otherButtonTitles:nil];
-    _cancelEntourageAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [_cancelEntourageAlertView textFieldAtIndex:0];
-    [textField setPlaceholder:@"1234"];
-    [textField setTextAlignment:NSTextAlignmentCenter];
-    [textField setSecureTextEntry:YES];
-    [textField setKeyboardType:UIKeyboardTypeNumberPad];
-    [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
-    [textField setDelegate:self];
+    _cancelEntourageAlertController = [UIAlertController alertControllerWithTitle:@"Stop Entourage"
+                                                                             message:@"Please enter passcode"
+                                                                   preferredStyle:UIAlertControllerStyleAlert];
     
-    [_cancelEntourageAlertView show];
+    __weak __typeof(self)weakSelf = self;
+    [_cancelEntourageAlertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        [textField setPlaceholder:@"1234"];
+        [textField setTextAlignment:NSTextAlignmentCenter];
+        [textField setSecureTextEntry:YES];
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [textField setDelegate:weakSelf];
+    }];
+    [_cancelEntourageAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:_cancelEntourageAlertController animated:YES completion:nil];
 }
 
 - (void)toggleYank:(id)sender {
@@ -1038,18 +1036,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 
-#pragma mark - Alert View Delegate 
-
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if (alertView == _cancelEntourageAlertView) {
-        if (buttonIndex == 1) {
-            [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
-        }
-    }
-}
-
 #pragma mark - Text Field Delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -1078,7 +1064,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if ([textField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [_cancelEntourageAlertView dismissWithClickedButtonIndex:1 animated:YES];
+        [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+        [_cancelEntourageAlertController dismissViewControllerAnimated:YES completion:nil];
     }
     else {
         textField.text = @"";

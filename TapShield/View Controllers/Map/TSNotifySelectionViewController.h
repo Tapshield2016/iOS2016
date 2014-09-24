@@ -14,7 +14,7 @@
 
 #define INSET 50
 
-@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate, UIAlertViewDelegate, UITextFieldDelegate, TSPopUpWindowDelegate>
+@interface TSNotifySelectionViewController : TSNavigationViewController <UICollectionViewDataSource, UICollectionViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate, TSPopUpWindowDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

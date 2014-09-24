@@ -15,7 +15,7 @@ extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
 
 typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
-@interface TSVirtualEntourageManager : NSObject <UIAlertViewDelegate, TSPopUpWindowDelegate>
+@interface TSVirtualEntourageManager : NSObject <TSPopUpWindowDelegate>
 
 + (instancetype)initSharedEntourageManagerWithHomeView:(id)homeView;
 + (instancetype)sharedManager;

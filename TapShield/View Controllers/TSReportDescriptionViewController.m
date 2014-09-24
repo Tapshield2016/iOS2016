@@ -17,8 +17,6 @@
 
 @property (strong, nonatomic) CLLocation *location;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
-@property (strong, nonatomic) UIActionSheet *recordActionSheet;
-@property (strong, nonatomic) UIActionSheet *fileActionSheet;
 @property (strong, nonatomic) TSBaseLabel *uploadingLabel;
 @property (strong, nonatomic) TSRecordWindow *recordWindow;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
@@ -96,6 +94,10 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+    
+    UITapGestureRecognizer *mediaTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(chooseMedia:)];
+    [_mediaImageView addGestureRecognizer:mediaTap];
     
     _uploadingLabel = [[TSBaseLabel alloc] initWithFrame:_shimmeringView.frame];
     _uploadingLabel.textAlignment = NSTextAlignmentCenter;
@@ -239,7 +241,13 @@
             else {
                 [[self.navigationItem rightBarButtonItem] setEnabled:YES];
                 
-                [[[UIAlertView alloc] initWithTitle:@"Network error" message:@"Check connection and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Network error" message:@"Check connection and try again"
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }];
             }
         }];
     }];
@@ -393,39 +401,47 @@
 
 - (void)showRecordActionSheet {
     
-    NSString *destructiveButtonTitle;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Select type"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (!_imagePicker) {
+            
+            _imagePicker = [[UIImagePickerController alloc] init];
+            [_imagePicker setDelegate:self];
+            _imagePicker.allowsEditing = YES;
+        }
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        
+        _imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+        [self presentViewController:_imagePicker animated:YES completion:nil];
+        
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Record audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        _recordWindow = [[TSRecordWindow alloc] init];
+        _recordWindow.recordDelegate = self;
+        [_recordWindow show];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Saved media" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self showFileActionSheet];
+    }]];
+    
     if (_media) {
-        destructiveButtonTitle = @"Remove media";
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Remove media" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            self.media = nil;
+        }]];
     }
     
-    _recordActionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                     delegate:self
-                                            cancelButtonTitle:@"Cancel"
-                                       destructiveButtonTitle:destructiveButtonTitle
-                                            otherButtonTitles:@"Camera", @"Record audio", @"Saved media", nil];
-    _recordActionSheet.tintColor = [TSColorPalette tapshieldBlue];
-    [_recordActionSheet showInView:self.view];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)showFileActionSheet {
     
-    NSString *destructiveButtonTitle;
-    if (_media) {
-        destructiveButtonTitle = @"Remove media";
-    }
-    
-    _fileActionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                     destructiveButtonTitle:destructiveButtonTitle
-                                          otherButtonTitles:@"Photo", @"Video", @"Audio", nil];
-    _fileActionSheet.tintColor = [TSColorPalette tapshieldBlue];
-    [_fileActionSheet showInView:self.view];
-}
-
-#pragma mark Action Sheet Delegate methods
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Select type"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (!_imagePicker) {
         
@@ -433,58 +449,31 @@
         [_imagePicker setDelegate:self];
         _imagePicker.allowsEditing = YES;
     }
+    _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
-    int i = 0;
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+        [self presentViewController:_imagePicker animated:YES completion:nil];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
+        [self presentViewController:_imagePicker animated:YES completion:nil];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        TSSoundFileFolderViewController *viewController = (TSSoundFileFolderViewController *)[self presentViewControllerWithClass:[TSSoundFileFolderViewController class] transitionDelegate:nil animated:YES];
+        viewController.descriptionView = self;
+    }]];
     
-    if (actionSheet.destructiveButtonIndex == 0) {
-        i = 1;
-    }
-    
-    if (actionSheet == _recordActionSheet) {
-        
-        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        
-        if (buttonIndex == 0 + i) {
-            
-            _imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-            [self presentViewController:_imagePicker animated:YES completion:nil];
-        }
-        else if (buttonIndex == 1 + i) {
-            _recordWindow = [[TSRecordWindow alloc] init];
-            _recordWindow.recordDelegate = self;
-            [_recordWindow show];
-        }
-        else if (buttonIndex == 2 + i) {
-            [self showFileActionSheet];
-        }
-        else if (buttonIndex == actionSheet.destructiveButtonIndex) {
+    if (_media) {
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Remove media" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             self.media = nil;
-        }
+        }]];
     }
-    else if (actionSheet == _fileActionSheet) {
     
-        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        if (buttonIndex == 0 + i) {
-            
-            _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
-            [self presentViewController:_imagePicker animated:YES completion:nil];
-        }
-        else if (buttonIndex == 1 + i) {
-            
-            _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
-            [self presentViewController:_imagePicker animated:YES completion:nil];
-        }
-        else if (buttonIndex == 2 + i) {
-            
-            TSSoundFileFolderViewController *viewController = (TSSoundFileFolderViewController *)[self presentViewControllerWithClass:[TSSoundFileFolderViewController class] transitionDelegate:nil animated:YES];
-            viewController.descriptionView = self;
-        }
-        else if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            self.media = nil;
-        }
-    }
+    [self presentViewController:alertController animated:YES completion:nil];
 }
+
 
 #pragma mark Image Picker Delegate methods
 

@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "TSJavelinAPIClient.h"
 
-@interface TSUserSessionManager : NSObject <UIAlertViewDelegate, UITextFieldDelegate>
+@interface TSUserSessionManager : NSObject <UITextFieldDelegate>
 
 + (instancetype)sharedManager;
+
+@property (nonatomic, readonly) UIViewController *rootViewController;
 
 - (void)userStatusCheck;
 - (void)showAgencyPicker;

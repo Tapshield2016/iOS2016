@@ -92,12 +92,14 @@
 
 - (void)requiresDomainName:(NSNotification *)note {
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@ requires an %@ email address", _user.agency.name, _user.agency.domain]
-                                                        message:@"Please register with your organization's email account or deselect this organization to continue"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@ requires an %@ email address", _user.agency.name, _user.agency.domain]
+                                                                             message:@"Please register with your organization's email account or deselect this organization to continue"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self presentViewController:alertController animated:YES completion:nil];
+    }];
 }
 
 
@@ -161,12 +163,14 @@
         _emailView.backgroundColor = [TSColorPalette colorByAdjustingColor:[TSColorPalette alertRed] Alpha:0.1f];
     }
     
-    UIAlertView *signupErrorAlert = [[UIAlertView alloc] initWithTitle:title
-                                                               message:errorMessage
-                                                              delegate:nil
-                                                     cancelButtonTitle:@"OK"
-                                                     otherButtonTitles:nil];
-    [signupErrorAlert show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:errorMessage
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self presentViewController:alertController animated:YES completion:nil];
+    }];
 }
 
 - (void)segueToEmailVerification {

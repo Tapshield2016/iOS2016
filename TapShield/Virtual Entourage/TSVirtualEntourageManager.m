@@ -39,8 +39,6 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 @interface TSVirtualEntourageManager ()
 
 @property (weak, nonatomic) TSHomeViewController *homeView;
-@property (strong, nonatomic) UIAlertView *recalculateAlertView;
-@property (strong, nonatomic) UIAlertView *notifyEntourageAlertView;
 @property (strong, nonatomic) TSPopUpWindow *warningWindow;
 @property (strong, nonatomic) NSTimer *textToSpeechTimer;
 
@@ -262,12 +260,21 @@ static dispatch_once_t predicate;
     
     CLLocationDistance distance = [[TSLocationController sharedLocationController].location distanceFromLocation:_routeManager.destinationMapItem.placemark.location] ;
     if (distance <= 300) {
-        _notifyEntourageAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"You are %@ from your destination", [TSUtilities formattedStringForDistanceInUSStandard:distance]]
-                                                               message:@"Would you like notify entourage members of your arrival?"
-                                                              delegate:self
-                                                     cancelButtonTitle:@"Cancel"
-                                                     otherButtonTitles:@"Arrived", nil];
-        [_notifyEntourageAlertView show];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"You are %@ from your destination", [TSUtilities formattedStringForDistanceInUSStandard:distance]]
+                                                                                 message:@"Would you like notify entourage members of your arrival?"
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self.homeView clearEntourageAndResetMap];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Arrived" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self arrivedAtDestination];
+        }]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.homeView presentViewController:alertController animated:YES completion:nil];
+        });
     }
     else {
         [_homeView clearEntourageAndResetMap];
@@ -324,12 +331,20 @@ static dispatch_once_t predicate;
 
 - (void)recalculateEntourageTimerETA {
     
-    _recalculateAlertView = [[UIAlertView alloc] initWithTitle:@"Alert Disarmed"
-                                                       message:@"Would you like to continue Entourage?"
-                                                      delegate:self
-                                             cancelButtonTitle:@"End Route"
-                                             otherButtonTitles:@"Update ETA", nil];
-    [_recalculateAlertView show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert Disarmed"
+                                                                             message:@"Would you like to continue Entourage?"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"End Route" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [self.homeView clearEntourageAndResetMap];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Update ETA" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self newMapsETA];
+    }]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.homeView presentViewController:alertController animated:YES completion:nil];
+    });
 }
 
 - (void)newMapsETA {
@@ -518,28 +533,6 @@ static dispatch_once_t predicate;
     
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:TSVirtualEntourageManagerMembersPosted];
     return [[NSMutableSet alloc] initWithSet:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
-}
-
-#pragma mark - Alert View Delegate
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if (alertView == _recalculateAlertView) {
-        if (buttonIndex == 0) {
-             [self.homeView clearEntourageAndResetMap];
-        }
-        else if (buttonIndex == 1) {
-            [self newMapsETA];
-        }
-    }
-    if (alertView == _notifyEntourageAlertView) {
-        if (buttonIndex == 1) {
-            [self arrivedAtDestination];
-        }
-        else {
-            [_homeView clearEntourageAndResetMap];
-        }
-    }
 }
 
 #pragma mark - Pop Up Window Delegate

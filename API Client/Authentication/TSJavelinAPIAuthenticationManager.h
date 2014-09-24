@@ -32,7 +32,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserR
 
 @class TSJavelinAPIUser;
 
-@interface TSJavelinAPIAuthenticationManager : AFHTTPRequestOperationManager <TSJavelinAPIAuthenticationManager, UIAlertViewDelegate, UITextFieldDelegate>
+@interface TSJavelinAPIAuthenticationManager : AFHTTPRequestOperationManager <TSJavelinAPIAuthenticationManager, UITextFieldDelegate>
 
 @property (weak) id<TSJavelinAuthenticationManagerDelegate> delegate;
 @property (nonatomic, strong) TSJavelinAPIUser *loggedInUser;

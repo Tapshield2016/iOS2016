@@ -18,7 +18,7 @@
 
 @end
 
-@interface TSRecordWindow : UIWindow <AVAudioRecorderDelegate, AVAudioPlayerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
+@interface TSRecordWindow : UIWindow <AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) id <TSRecordWindowDelegate> recordDelegate;
 

@@ -21,7 +21,7 @@ static NSString * const kReportAudioFormat = @"aac";
 static NSString * const kReportVideoFormat = @"mp4";
 static NSString * const kReportImageFormat = @"jpg";
 
-@interface TSReportDescriptionViewController : TSNavigationViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MPMediaPickerControllerDelegate, TSRecordWindowDelegate, AVAudioPlayerDelegate>
+@interface TSReportDescriptionViewController : TSNavigationViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, MPMediaPickerControllerDelegate, TSRecordWindowDelegate, AVAudioPlayerDelegate>
 
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) UIImage *image;

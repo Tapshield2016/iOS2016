@@ -13,7 +13,6 @@ static NSString * const TSChangePasscodeViewControllerShouldLogin = @"TSChangePa
 
 @interface TSChangePasscodeViewController ()
 
-@property (strong, nonatomic) UIAlertView *sendResetAlertView;
 @property (assign, nonatomic) BOOL didSendReset;
 @property (strong, nonatomic) TSPasscodeTableViewController *tableViewController;
 
@@ -184,12 +183,18 @@ static NSString * const TSChangePasscodeViewControllerShouldLogin = @"TSChangePa
 
 - (IBAction)forgotPassword:(id)sender {
     
-    _sendResetAlertView = [[UIAlertView alloc] initWithTitle:@"Forgot your password?"
-                                                     message:@"We'll send you an email with instructions to reset"
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:@"Send", nil];
-    [_sendResetAlertView show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Forgot your password?"
+                                                                             message:@"We'll send you an email with instructions to reset"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Send" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self sendPasswordReset];
+    }]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
 }
 
 
@@ -241,22 +246,16 @@ static NSString * const TSChangePasscodeViewControllerShouldLogin = @"TSChangePa
         
         title = [NSString stringWithFormat:@"%@\n\n%@", title, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].email];
         
-        UIAlertView *emailSentAlert = [[UIAlertView alloc] initWithTitle:title
-                                                                 message:nil
-                                                                delegate:self
-                                                       cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil];
-        [emailSentAlert show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
     }];
-}
-
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
-    if (alertView == _sendResetAlertView) {
-        if (buttonIndex == 1) {
-            [self sendPasswordReset];
-        }
-    }
 }
 
 @end

@@ -60,6 +60,8 @@ static NSString * const kGooglePlusClientId = @"61858600218-1jnu8vt0chag0dphiv0o
     
     _buttonArray = @[_facebookView, _twitterView, _googleView, _linkedinView, _emailView];
     
+    [TSSocialAccountsManager sharedManager].currentViewController = self;
+    
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     self.translucentBackground = YES;

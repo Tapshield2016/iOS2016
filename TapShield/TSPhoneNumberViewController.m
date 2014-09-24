@@ -86,7 +86,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     if ([self removeNonNumericalCharacters:pasteboard.string].length == 4) {
         // Do something
-        _codeTextField.text = pasteboard.string;
+        _codeTextField.text = [self removeNonNumericalCharacters:pasteboard.string];
         [_codeTextField resignFirstResponder];
     }
 }

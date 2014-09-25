@@ -66,7 +66,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _timeAdjusted = _estimatedTimeInterval;
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
-    _timeAdjustLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:30.0];
+    _timeAdjustLabel.font = [TSFont fontWithName:kFontWeightLight size:30.0];
     _timeAdjustLabel.textAlignment = NSTextAlignmentCenter;
     _timeAdjustLabel.textColor = [UIColor whiteColor];
     
@@ -82,7 +82,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(doneEditingEntourage)];
         [doneButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette whiteColor],
-                                            NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+                                            NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
         [self.navigationItem setRightBarButtonItem:doneButton];
         
         [self adjustViewableTime];
@@ -161,14 +161,14 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
     _addressLabel.text = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.name;
     _addressLabel.textColor = [TSColorPalette whiteColor];
-    _addressLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:13.0f];
+    _addressLabel.font = [TSFont fontWithName:kFontWeightLight size:13.0f];
     _addressLabel.textAlignment = NSTextAlignmentCenter;
     [_addressLabel setAdjustsFontSizeToFitWidth:YES];
     
     _etaLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 20.0f, _routeInfoView.frame.size.width, 16.0f)];
     _etaLabel.textColor = [TSColorPalette whiteColor];
     _etaLabel.text = formattedText;
-    _etaLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:12.0f];
+    _etaLabel.font = [TSFont fontWithName:kFontWeightLight size:12.0f];
     _etaLabel.textAlignment = NSTextAlignmentCenter;
     [_etaLabel setAdjustsFontSizeToFitWidth:YES];
     
@@ -577,9 +577,9 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     [self whiteNavigationBar];
     
-    [picker.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [picker.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    picker.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayLight size:17.0f] };
+    [picker.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [picker.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    picker.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
 }
 
 - (void)showPeoplePickerNavigationController {
@@ -759,7 +759,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     windowMessage.numberOfLines = 0;
     windowMessage.backgroundColor = [UIColor clearColor];
     windowMessage.text = @"Syncing entourage members to be notified";
-    windowMessage.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    windowMessage.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
     windowMessage.textColor = [UIColor whiteColor];
     windowMessage.textAlignment = NSTextAlignmentCenter;
     

@@ -604,7 +604,7 @@ static dispatch_once_t predicate;
     
     _loadingWindow = [[TSPopUpWindow alloc] initWithView:imageView];
     [_loadingWindow show];
-    _loadingWindow.windowLevel = UIWindowLevelNormal;
+    _loadingWindow.windowLevel = UIWindowLevelAlert;
 }
 
 - (void)finishedLoading {

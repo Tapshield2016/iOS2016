@@ -8,7 +8,7 @@
 
 #import <MapKit/MapKit.h>
 #import "TSColorPalette.h"
-#import "TSRalewayFont.h"
+#import "TSFont.h"
 
 @interface TSBaseAnnotationView : MKAnnotationView
 

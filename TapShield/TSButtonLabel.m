@@ -34,7 +34,7 @@
 
 - (void)setCustomFont {
     
-    self.font = [UIFont fontWithName:kFontRalewayLight size:16.0f];
+    self.font = [UIFont fontWithName:kFontWeightLight size:16.0f];
 }
 
 @end

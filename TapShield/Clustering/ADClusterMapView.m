@@ -59,6 +59,16 @@
     return self;
 }
 
+- (void)didMoveToSuperview {
+    
+    [super didMoveToSuperview];
+    
+    if (!self.superview) {
+        [_operationQueue cancelAllOperations];
+        NSLog(@"- Removed from superview -");
+    }
+}
+
 - (void)initHelpers {
     
     self.operationQueue = [[NSOperationQueue alloc] init];
@@ -173,6 +183,9 @@
                                                          showSubtitle:shouldShowSubtitle];
 
             dispatch_async(dispatch_get_main_queue(), ^{
+                if (!self.superview) {
+                    return;
+                }
                 [self _clusterInMapRect:self.visibleMapRect newRootCluster:YES];
                 if ([_secondaryDelegate respondsToSelector:@selector(mapViewDidFinishClustering:)]) {
                     [_secondaryDelegate mapViewDidFinishClustering:self];
@@ -505,6 +518,10 @@
 
 
 - (void)_clusterInMapRect:(MKMapRect)rect newRootCluster:(BOOL)isNewCluster {
+    
+    if (!self.superview) {
+        return;
+    }
     
     _isAnimatingClusters = YES;
     

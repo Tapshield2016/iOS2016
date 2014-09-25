@@ -233,7 +233,7 @@ static dispatch_once_t predicate;
     _windowMessage.numberOfLines = 0;
     _windowMessage.backgroundColor = [UIColor clearColor];
     _windowMessage.text = kInsertHeadphones;
-    _windowMessage.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    _windowMessage.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
     _windowMessage.textColor = [UIColor whiteColor];
     _windowMessage.textAlignment = NSTextAlignmentCenter;
     

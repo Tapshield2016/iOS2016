@@ -58,7 +58,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         
-        cell.textLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:18.0f];
+        cell.textLabel.font = [TSFont fontWithName:kFontWeightLight size:18.0f];
         cell.textLabel.textColor = [TSColorPalette listCellTextColor];
         cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     }

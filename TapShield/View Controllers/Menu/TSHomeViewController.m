@@ -287,7 +287,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"End Tracking" style:UIBarButtonItemStylePlain target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
-                                        NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+                                        NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
 }
 

@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "TouchIDRed.png"
+      "filename" : "SearchBar.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "TouchIDRed@2x.png"
+      "filename" : "SearchBar@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "TouchIDRed@3x.png"
+      "filename" : "SearchBar@3x.png"
     }
   ],
   "info" : {

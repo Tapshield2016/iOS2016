@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSRalewayFont.h"
+#import "TSFont.h"
 
 //Helvetica Neue
 //
@@ -25,15 +25,15 @@
 //HelveticaNeue-UltraLight
 //HelveticaNeue-UltraLightItalic
 
-NSString * const kFontRalewayRegular = @"HelveticaNeue-Thin";
-NSString * const kFontRalewayBold = @"HelveticaNeue-Bold";
-NSString * const kFontRalewayExtraBold = @"HelveticaNeue-Bold";
-NSString * const kFontRalewayExtraLight = @"HelveticaNeue-UltraLight";
-NSString * const kFontRalewayHeavy = @"HelveticaNeue-Bold";
-NSString * const kFontRalewayLight = @"HelveticaNeue-Light";
-NSString * const kFontRalewayMedium = @"HelveticaNeue-Medium";
-NSString * const kFontRalewaySemiBold = @"HelveticaNeue-Bold";
-NSString * const kFontRalewayThin = @"HelveticaNeue-Thin";
+NSString * const kFontWeightNormal = @"HelveticaNeue";
+NSString * const kFontWeightBold = @"HelveticaNeue-Bold";
+NSString * const kFontWeightExtraBold = @"HelveticaNeue-Bold";
+NSString * const kFontWeightExtraLight = @"HelveticaNeue-UltraLight";
+NSString * const kFontWeightHeavy = @"HelveticaNeue-Bold";
+NSString * const kFontWeightLight = @"HelveticaNeue-Light";
+NSString * const kFontWeightMedium = @"HelveticaNeue-Medium";
+NSString * const kFontWeightSemiBold = @"HelveticaNeue-Bold";
+NSString * const kFontWeightThin = @"HelveticaNeue-Thin";
 
 NSString * const kFontStyleRegular = @"font-style: normal";
 NSString * const kFontStyleBold = @"font-style: bold";
@@ -45,7 +45,7 @@ NSString * const kFontStyleMedium = @"font-style: medium";
 NSString * const kFontStyleSemiBold = @"font-style: semi bold";
 NSString * const kFontStyleThin = @"font-style: thin";
 
-@implementation TSRalewayFont
+@implementation TSFont
 
 
 + (UIFont *)customFontFromStandardFont:(UIFont *)font {
@@ -53,28 +53,28 @@ NSString * const kFontStyleThin = @"font-style: thin";
     NSString *fontDescription = font.description;
     NSArray *components = [fontDescription componentsSeparatedByString:@"; "];
     
-    NSMutableSet * matches = [NSMutableSet setWithArray:components];
+    NSMutableSet *matches = [NSMutableSet setWithArray:components];
     [matches filterUsingPredicate:[NSPredicate predicateWithFormat:@"SELF contains[c] 'font-style'"]];
     NSString *fontStyle = matches.anyObject;
     
-    fontStyle = [TSRalewayFont ralewayFontWithStyle:fontStyle];
+    fontStyle = [TSFont applicationFontWithStyle:fontStyle];
     
     return [UIFont fontWithName:fontStyle size:font.pointSize];
 }
 
-+ (NSString *)ralewayFontWithStyle:(NSString *)style {
++ (NSString *)applicationFontWithStyle:(NSString *)style {
     
     NSString *fontName;
     
-    NSArray *ralewayFontStyleArray = @[kFontRalewayBold,
-                                       kFontRalewayExtraBold,
-                                       kFontRalewayExtraLight,
-                                       kFontRalewayHeavy,
-                                       kFontRalewayLight,
-                                       kFontRalewayMedium,
-                                       kFontRalewayRegular,
-                                       kFontRalewaySemiBold,
-                                       kFontRalewayThin];
+    NSArray *ralewayFontStyleArray = @[kFontWeightBold,
+                                       kFontWeightExtraBold,
+                                       kFontWeightExtraLight,
+                                       kFontWeightHeavy,
+                                       kFontWeightLight,
+                                       kFontWeightMedium,
+                                       kFontWeightNormal,
+                                       kFontWeightSemiBold,
+                                       kFontWeightThin];
     
     NSArray *regularFontStyleArray = @[kFontStyleBold,
                                        kFontStyleExtraBold,

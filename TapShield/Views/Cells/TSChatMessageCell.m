@@ -145,7 +145,7 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
     _messageLabel.textColor = [TSColorPalette whiteColor];
     _messageLabel.backgroundColor = [UIColor clearColor];
     _messageLabel.textAlignment = NSTextAlignmentLeft;
-    _messageLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:MESSAGE_FONT_SIZE];
+    _messageLabel.font = [TSFont fontWithName:kFontWeightLight size:MESSAGE_FONT_SIZE];
     
     
     
@@ -169,7 +169,7 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
     _statusLabel.backgroundColor = [UIColor clearColor];
     _statusLabel.textColor = [TSColorPalette darkGrayColor];
     _statusLabel.textAlignment = NSTextAlignmentRight;
-    _statusLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:STATUS_FONT_SIZE];
+    _statusLabel.font = [TSFont fontWithName:kFontWeightLight size:STATUS_FONT_SIZE];
     
     CGRect statusFrame = _roundRectView.frame;
     statusFrame.origin.y = statusFrame.origin.y + statusFrame.size.height;
@@ -231,7 +231,7 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
     _messageLabel.textColor = [TSColorPalette darkGrayColor];
     _messageLabel.backgroundColor = [UIColor clearColor];
     _messageLabel.textAlignment = NSTextAlignmentLeft;
-    _messageLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:MESSAGE_FONT_SIZE];
+    _messageLabel.font = [TSFont fontWithName:kFontWeightLight size:MESSAGE_FONT_SIZE];
     
     
     
@@ -276,7 +276,7 @@ NSString * const TSChatMessageCellIdentifierDispatcher = @"TSChatMessageCellIden
 
 + (CGSize)sizeOfChatMessage:(NSString *)message {
     
-    UIFont *font = [TSRalewayFont fontWithName:kFontRalewayRegular size:MESSAGE_FONT_SIZE];
+    UIFont *font = [TSFont fontWithName:kFontWeightLight size:MESSAGE_FONT_SIZE];
     CGSize size = [TSUtilities text:message sizeWithFont:font constrainedToSize:CGSizeMake(ROUND_RECT_MAX_WIDTH - MESSAGE_INSET_HORIZONTAL*2, INFINITY)];
     return size;
 }

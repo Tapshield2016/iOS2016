@@ -44,7 +44,7 @@ static NSString * const kDisconnected = @"No Network Connection";
     
     _label = [[TSBaseLabel alloc] initWithFrame:self.frame];
     _label.text = kDisconnected;
-    _label.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:12];
+    _label.font = [TSFont fontWithName:kFontWeightLight size:12];
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor whiteColor];
     

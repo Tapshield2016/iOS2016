@@ -80,8 +80,8 @@
     
     if (self.superview) {
         CGRect frame = self.frame;
-        frame.origin.y = -frame.size.height/2;
-        frame.origin.x = self.superview.frame.size.width - frame.size.height/2 - 8;
+        frame.origin.y = -frame.size.height/2 + 5;
+        frame.origin.x = self.superview.frame.size.width - frame.size.width + frame.size.height/2;
         self.frame = frame;
     }
     

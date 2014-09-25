@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TSJavelinAPIClient.h"
 #import "TSBaseLabel.h"
-#import "TSRalewayFont.h"
+#import "TSFont.h"
 #import "TSColorPalette.h"
 
 @interface TSBaseTableViewCell : UITableViewCell

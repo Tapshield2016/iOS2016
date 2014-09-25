@@ -50,15 +50,15 @@ extern NSString * const kAlertNoConnection;
 @property (strong, nonatomic) NSDate *endDate;
 @property (nonatomic, strong) NSTimer *countdownTimer;
 @property (nonatomic, strong) NSString *status;
-@property (assign, nonatomic) BOOL isAlertInProgress;
-@property (assign, nonatomic) BOOL isPresented;
+@property (assign, nonatomic, readonly) BOOL isAlertInProgress;
+@property (assign, nonatomic, readonly) BOOL isPresented;
 
 //Call
 @property (strong, nonatomic) NSString *callToken;
 @property (strong, nonatomic) TCDevice *twilioDevice;
 @property (strong, nonatomic) TCConnection *twilioConnection;
 @property (strong, nonatomic) NSDate *callStartTime;
-@property (nonatomic, assign) BOOL callInProgress;
+@property (nonatomic, assign, readonly) BOOL callInProgress;
 
 
 

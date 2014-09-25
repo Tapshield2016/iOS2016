@@ -260,7 +260,7 @@
     float dimAlpha = 0.5f;
     
     cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:dimAlpha];
-    cell.textLabel.font = [UIFont fontWithName:kFontRalewayThin size:20];
+    cell.textLabel.font = [UIFont fontWithName:kFontWeightThin size:23];
     cell.backgroundColor = [TSColorPalette clearColor];
     cell.imageView.alpha = dimAlpha;
     

@@ -46,7 +46,7 @@
     
     _alertInfoLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0, 64, 320, 44)];
     _alertInfoLabel.textColor = [UIColor whiteColor];
-    _alertInfoLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    _alertInfoLabel.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
     _alertInfoLabel.textAlignment = NSTextAlignmentCenter;
     _alertInfoLabel.text = [TSAlertManager sharedManager].status;
     [_alertInfoLabel setAdjustsFontSizeToFitWidth:YES];

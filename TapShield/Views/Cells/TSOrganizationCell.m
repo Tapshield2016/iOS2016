@@ -21,7 +21,7 @@
         self.logoImageView.center = CGPointMake(20, 20);
         
         self.organizationLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(40.0f, 0.0f, [UIScreen mainScreen].bounds.size.width, 40.0f)];
-        self.organizationLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:15.0f];
+        self.organizationLabel.font = [TSFont fontWithName:kFontWeightLight size:15.0f];
         self.organizationLabel.textColor = [TSColorPalette listCellTextColor];
         
         [self addSubview:self.logoImageView];

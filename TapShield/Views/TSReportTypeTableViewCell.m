@@ -31,7 +31,7 @@
         _typeImageView.layer.borderWidth = 1.0f;
         _typeImageView.contentMode = UIViewContentModeCenter;
         
-        _typeLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:18.0f];
+        _typeLabel.font = [TSFont fontWithName:kFontWeightLight size:18.0f];
         _typeLabel.textColor = [TSColorPalette listCellTextColor];
         self.backgroundColor = [TSColorPalette cellBackgroundColor];
     }
@@ -45,7 +45,7 @@
     _typeImageView.layer.borderWidth = 1.0f;
     _typeImageView.contentMode = UIViewContentModeCenter;
     
-    _typeLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:18.0f];
+    _typeLabel.font = [TSFont fontWithName:kFontWeightLight size:18.0f];
     _typeLabel.textColor = [TSColorPalette listCellTextColor];
     self.backgroundColor = [TSColorPalette cellBackgroundColor];
     

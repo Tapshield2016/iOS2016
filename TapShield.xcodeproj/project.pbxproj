@@ -298,9 +298,9 @@
 		C5662BD918DCA15A00FD4F44 /* TSBaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BD818DCA15A00FD4F44 /* TSBaseButton.m */; };
 		C5662BDA18DCA15A00FD4F44 /* TSBaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BD818DCA15A00FD4F44 /* TSBaseButton.m */; };
 		C5662BDB18DCA15A00FD4F44 /* TSBaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BD818DCA15A00FD4F44 /* TSBaseButton.m */; };
-		C5662BDE18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */; };
-		C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */; };
-		C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */; };
+		C5662BDE18DCAEDF00FD4F44 /* TSFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSFont.m */; };
+		C5662BDF18DCAEDF00FD4F44 /* TSFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSFont.m */; };
+		C5662BE018DCAEDF00FD4F44 /* TSFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSFont.m */; };
 		C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
 		C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
 		C5662BE518DCB49800FD4F44 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
@@ -537,7 +537,7 @@
 		C5AFB964191D35DE00EC62A5 /* TSEmailVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FD5EA218B3D58400E27EE9 /* TSEmailVerificationViewController.m */; };
 		C5AFB965191D35DE00EC62A5 /* TSContactDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B3D5018FD759200324FE8 /* TSContactDataViewController.m */; };
 		C5AFB966191D35DE00EC62A5 /* TSBaseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */; };
-		C5AFB967191D35DE00EC62A5 /* TSRalewayFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */; };
+		C5AFB967191D35DE00EC62A5 /* TSFont.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BDD18DCAEDE00FD4F44 /* TSFont.m */; };
 		C5AFB968191D35DE00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */; };
 		C5AFB969191D35DE00EC62A5 /* MKMapItem+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */; };
 		C5AFB96A191D35DE00EC62A5 /* TSTextMessageBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A40A718CBE88B007D7884 /* TSTextMessageBarView.m */; };
@@ -1135,8 +1135,8 @@
 		C5662BD318DBA70100FD4F44 /* TSLoginTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSLoginTextField.m; sourceTree = "<group>"; };
 		C5662BD718DCA15A00FD4F44 /* TSBaseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseButton.h; path = Views/Buttons/TSBaseButton.h; sourceTree = "<group>"; };
 		C5662BD818DCA15A00FD4F44 /* TSBaseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseButton.m; path = Views/Buttons/TSBaseButton.m; sourceTree = "<group>"; };
-		C5662BDC18DCAEDE00FD4F44 /* TSRalewayFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRalewayFont.h; sourceTree = "<group>"; };
-		C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRalewayFont.m; sourceTree = "<group>"; };
+		C5662BDC18DCAEDE00FD4F44 /* TSFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSFont.h; sourceTree = "<group>"; };
+		C5662BDD18DCAEDE00FD4F44 /* TSFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSFont.m; sourceTree = "<group>"; };
 		C5662BE118DCB49800FD4F44 /* TSBaseTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBaseTextField.h; sourceTree = "<group>"; };
 		C5662BE218DCB49800FD4F44 /* TSBaseTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBaseTextField.m; sourceTree = "<group>"; };
 		C5662BEC18DD091500FD4F44 /* TSBorderedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBorderedView.h; path = Views/TSBorderedView.h; sourceTree = "<group>"; };
@@ -2127,8 +2127,8 @@
 			isa = PBXGroup;
 			children = (
 				C585F2E918DB6E2E009EEF16 /* Raleway */,
-				C5662BDC18DCAEDE00FD4F44 /* TSRalewayFont.h */,
-				C5662BDD18DCAEDE00FD4F44 /* TSRalewayFont.m */,
+				C5662BDC18DCAEDE00FD4F44 /* TSFont.h */,
+				C5662BDD18DCAEDE00FD4F44 /* TSFont.m */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -2745,7 +2745,7 @@
 				C532E63418BBF1E900FC111A /* TSConstants.m in Sources */,
 				C532E63A18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5662BD418DBA70100FD4F44 /* TSLoginTextField.m in Sources */,
-				C5662BDE18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
+				C5662BDE18DCAEDF00FD4F44 /* TSFont.m in Sources */,
 				C532E65018BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C563570018ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
@@ -3009,7 +3009,7 @@
 				C53A635D1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C5C2F92A19A3AF59007A81A9 /* TSPhoneNumberViewController.m in Sources */,
 				C563570218ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
-				C5662BE018DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
+				C5662BE018DCAEDF00FD4F44 /* TSFont.m in Sources */,
 				C5CA373219C92FF10021BB7F /* TSTransformCenterTransitioner.m in Sources */,
 				C563570718ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C51A40AA18CBE88B007D7884 /* TSTextMessageBarView.m in Sources */,
@@ -3201,7 +3201,7 @@
 				C57C48C718BBDB1900DFFBCE /* TSEmailVerificationViewController.m in Sources */,
 				C56B3D5218FD759200324FE8 /* TSContactDataViewController.m in Sources */,
 				C5662BE418DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
-				C5662BDF18DCAEDF00FD4F44 /* TSRalewayFont.m in Sources */,
+				C5662BDF18DCAEDF00FD4F44 /* TSFont.m in Sources */,
 				C5AFB9241919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5CC458A193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
 				C5F2E599194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,
@@ -3407,7 +3407,7 @@
 				C5AFB964191D35DE00EC62A5 /* TSEmailVerificationViewController.m in Sources */,
 				C5AFB965191D35DE00EC62A5 /* TSContactDataViewController.m in Sources */,
 				C5AFB966191D35DE00EC62A5 /* TSBaseTextField.m in Sources */,
-				C5AFB967191D35DE00EC62A5 /* TSRalewayFont.m in Sources */,
+				C5AFB967191D35DE00EC62A5 /* TSFont.m in Sources */,
 				C5AFB968191D35DE00EC62A5 /* TSSpotCrimeAnnotation.m in Sources */,
 				C5CC458B193AA0D500285DB3 /* TSReportAnnotationManager.m in Sources */,
 				C5F2E59A194F6E43005B32A1 /* TSJavelinAPIDispatchCenter.m in Sources */,

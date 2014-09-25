@@ -43,11 +43,54 @@
         
         //Initialize the Angle at 0
         self.angle = 270;
+        
+        [self initVibrantCircle];
     }
     
     return self;
 }
 
+- (void)initVibrantCircle {
+    
+    float circlePadding = 10;
+    CGRect circleframe = CGRectMake(0.0, 0.0, self.frame.size.width - TB_SAFEAREA_PADDING*2, self.frame.size.width - TB_SAFEAREA_PADDING*2);
+    CGRect vibrancyFrame = circleframe;
+    vibrancyFrame.size.height += circlePadding;
+    vibrancyFrame.size.width += circlePadding;
+    
+    UIVisualEffectView *vibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]]];
+    vibrancyView.frame = vibrancyFrame;
+    vibrancyView.userInteractionEnabled = NO;
+    vibrancyView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+    
+    UIView *insideView = [[UIView alloc] initWithFrame:circleframe];
+    insideView.center = CGPointMake(vibrancyView.frame.size.width/2, vibrancyView.frame.size.height/2);
+    [insideView.layer addSublayer:[self circleLayerWithFill:[UIColor clearColor] stroke:[UIColor whiteColor] bounds:insideView.bounds]];
+    
+    [vibrancyView.contentView addSubview:insideView];
+    
+    [self insertSubview:vibrancyView atIndex:0];
+}
+
+- (CAShapeLayer *)circleLayerWithFill:(UIColor *)fillColor stroke:(UIColor *)strokeColor bounds:(CGRect)bounds {
+    
+    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+    
+    [circleLayer setBounds:bounds];
+    [circleLayer setPosition:CGPointMake(CGRectGetMidX(bounds),CGRectGetMidY(bounds))];
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:bounds];
+    
+    [circleLayer setPath:[path CGPath]];
+    
+    [circleLayer setStrokeColor:[strokeColor CGColor]];
+    
+    [circleLayer setLineWidth:LINE_WIDTH];
+    
+    [circleLayer setFillColor:[fillColor CGColor]];
+    
+    return circleLayer;
+}
 
 #pragma mark - Time Adjust
 
@@ -130,18 +173,18 @@
     
     /** Draw the Background **/
     
-    //Create the path
-    CGContextAddArc(ctx, self.frame.size.width/2, self.frame.size.height/2, _radius, 0, M_PI *2, 0);
-    
-    //Set the stroke color to black
-    [[[UIColor whiteColor] colorWithAlphaComponent:0.2] setStroke];
-    
-    //Define line width and cap
-    CGContextSetLineWidth(ctx, LINE_WIDTH);
-    CGContextSetLineCap(ctx, kCGLineCapButt);
-    
-    //draw it!
-    CGContextDrawPath(ctx, kCGPathStroke);
+//    //Create the path
+//    CGContextAddArc(ctx, self.frame.size.width/2, self.frame.size.height/2, _radius, 0, M_PI *2, 0);
+//    
+//    //Set the stroke color to black
+//    [[[UIColor whiteColor] colorWithAlphaComponent:0.2] setStroke];
+//    
+//    //Define line width and cap
+//    CGContextSetLineWidth(ctx, LINE_WIDTH);
+//    CGContextSetLineCap(ctx, kCGLineCapButt);
+//    
+//    //draw it!
+//    CGContextDrawPath(ctx, kCGPathStroke);
     
     
     //** Draw the circle (using a clipped gradient) **/
@@ -152,13 +195,14 @@
     CGContextRef imageCtx = UIGraphicsGetCurrentContext();
     
     CGContextAddArc(imageCtx, self.frame.size.width/2  , self.frame.size.height/2, _radius, M_PI_2, ToRad(self.angle), 1);
-    [[UIColor redColor]set];
+    
+    [[UIColor blueColor]set];
     
     //Use shadow to create the Blur effect
     CGContextSetShadowWithColor(imageCtx, CGSizeMake(0, 0), adjustedAngle/20 , [UIColor blackColor].CGColor);
     
     //define the path
-    CGContextSetLineWidth(imageCtx, LINE_WIDTH);
+    CGContextSetLineWidth(imageCtx, LINE_WIDTH + 1);
     CGContextDrawPath(imageCtx, kCGPathStroke);
     
     //save the context content into the image mask
@@ -176,8 +220,8 @@
     
     
     /** THE GRADIENT **/
-    const CGFloat *tapshieldBlue = CGColorGetComponents([TSColorPalette tapshieldBlue].CGColor);
-    const CGFloat *tapshieldDarkBlue = CGColorGetComponents([TSColorPalette tapshieldDarkBlue].CGColor);
+    const CGFloat *tapshieldBlue = CGColorGetComponents(UIColorFromRGB(0x07304b).CGColor);
+    const CGFloat *tapshieldDarkBlue = CGColorGetComponents(UIColorFromRGB(0x07304b).CGColor);
     
     //list of components
     CGFloat components[8] = {
@@ -212,13 +256,13 @@
     
     //Draw the outside light
     CGContextBeginPath(ctx);
-    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius+BACKGROUND_WIDTH/2, 0, ToRad(-self.angle), 1);
+    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius+BACKGROUND_WIDTH/2, M_PI_2, ToRad(self.angle), 1);
     [[UIColor colorWithWhite:1.0 alpha:0.05]set];
     CGContextDrawPath(ctx, kCGPathStroke);
     
     //draw the inner light
     CGContextBeginPath(ctx);
-    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius-BACKGROUND_WIDTH/2, 0, ToRad(-self.angle), 1);
+    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius-BACKGROUND_WIDTH/2, M_PI_2, ToRad(self.angle), 1);
     [[UIColor colorWithWhite:1.0 alpha:0.05]set];
     CGContextDrawPath(ctx, kCGPathStroke);
     

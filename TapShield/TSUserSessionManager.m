@@ -313,6 +313,7 @@ static dispatch_once_t predicate;
     if (!_window) {
         _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _window.backgroundColor = [UIColor clearColor];
+        _window.windowLevel = 0.1;
     }
     
     if (viewController) {

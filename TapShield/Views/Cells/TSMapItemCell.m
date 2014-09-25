@@ -28,10 +28,10 @@
         selectedView.backgroundColor = [TSColorPalette whiteColor];
         self.selectedBackgroundView = selectedView;
         self.backgroundColor = [TSColorPalette cellBackgroundColor];
-        self.nameLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:16.0f];
+        self.nameLabel.font = [TSFont fontWithName:kFontWeightLight size:16.0f];
         self.nameLabel.textColor = [TSColorPalette listCellTextColor];
         self.nameLabel.numberOfLines = 1;
-        self.addressLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:10.0f];
+        self.addressLabel.font = [TSFont fontWithName:kFontWeightLight size:10.0f];
         self.addressLabel.textColor = [TSColorPalette listCellDetailsTextColor];
         self.addressLabel.numberOfLines = 1;
 
@@ -121,7 +121,7 @@
 - (void)boldSearchString:(NSString *)searchString {
     
     CGFloat fontSize = _nameLabel.font.pointSize;
-    UIFont *boldFont = [TSRalewayFont fontWithName:kFontRalewayBold size:fontSize];
+    UIFont *boldFont = [TSFont fontWithName:kFontWeightMedium size:fontSize];
     UIFont *regularFont = _nameLabel.font;
     UIColor *foregroundColor = _nameLabel.textColor;
     
@@ -145,7 +145,7 @@
     [_nameLabel setAttributedText:attributedText];
     
     fontSize = _addressLabel.font.pointSize;
-    boldFont = [TSRalewayFont fontWithName:kFontRalewayBold size:fontSize];
+    boldFont = [TSFont fontWithName:kFontWeightMedium size:fontSize];
     regularFont = _addressLabel.font;
     foregroundColor = _addressLabel.textColor;
     

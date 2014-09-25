@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         
-        self.textView.font = [TSRalewayFont customFontFromStandardFont:self.textView.font];
+        self.textView.font = [TSFont customFontFromStandardFont:self.textView.font];
         self.textView.textColor = [TSColorPalette listCellTextColor];
         
         self.timestampLabel.textColor = [TSColorPalette listCellDetailsTextColor];

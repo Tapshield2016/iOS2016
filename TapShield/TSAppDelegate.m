@@ -105,9 +105,9 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
-    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayLight size:17.0f] };
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
+    [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
     
     [UITableView appearance].separatorInset = UIEdgeInsetsZero;
     [UITableView appearance].layoutMargins = UIEdgeInsetsZero;
@@ -125,9 +125,9 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].barStyle = UIBarStyleDefault;
     [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].tintColor = [TSColorPalette tapshieldBlue];
-    [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontRalewayLight size:17.0f] };
-    [[UIBarButtonItem appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [[UIBarButtonItem appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
+    [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
+    [[UIBarButtonItem appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
     
     // Override point for customization after application launch.
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
@@ -281,6 +281,15 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         if (matchFound && notification) {
             // Do something else here, we didn't find a match for any action we need to be aware of...
             [self updateInterfaceWithNotification:notification];
+            
+            if (completionHandler) {
+                completionHandler(UIBackgroundFetchResultNewData);
+            }
+        }
+        else {
+            if (completionHandler) {
+                completionHandler(UIBackgroundFetchResultNoData);
+            }
         }
     }];
 }

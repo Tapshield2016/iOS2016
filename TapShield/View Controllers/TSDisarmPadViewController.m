@@ -178,11 +178,6 @@
 
 - (void)disarm {
     [[TSAlertManager sharedManager] disarmAlert];
-    
-    TSPageViewController *pageViewController = (TSPageViewController *)self.parentViewController;
-    [pageViewController.homeViewController mapAlertModeToggle];
-    [pageViewController.homeViewController whiteNavigationBar];
-    [pageViewController.homeViewController.reportManager showSpotCrimes];
 }
 
 #pragma mark - Animations

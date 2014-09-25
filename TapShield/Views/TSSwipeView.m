@@ -49,7 +49,7 @@
     TSBaseLabel *label = [[TSBaseLabel alloc] initWithFrame:view.bounds];
     label.textColor = [UIColor whiteColor];
     label.text = @"Swipe screen";
-    label.font = [UIFont fontWithName:kFontRalewayRegular size:18.0];
+    label.font = [UIFont fontWithName:kFontWeightLight size:18.0];
     
     [view addSubview:label];
     [view addSubview:imageView];

@@ -292,7 +292,6 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
         
         if (newDistance < shortestDistanceInMeters) {
             shortestDistanceInMeters = newDistance;
-            NSLog(@"closest point: %f,%f", xu, yu);
         }
     }
     return shortestDistanceInMeters;
@@ -539,6 +538,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
     _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
     _window.alpha = 0.0f;
+    _window.windowLevel = UIWindowLevelAlert;
     [_window addGestureRecognizer:tap];
     
     UIView *view = [[UIView alloc] initWithFrame:frame];
@@ -565,7 +565,7 @@ NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpda
         windowMessage.text = kNoChatNoAgency;
     }
     
-    windowMessage.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    windowMessage.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
     windowMessage.textColor = [UIColor whiteColor];
     windowMessage.textAlignment = NSTextAlignmentCenter;
     

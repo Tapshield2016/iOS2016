@@ -29,9 +29,6 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
-    _changeProfileButton.backgroundColor = [TSColorPalette tapshieldBlue];
-    _changeProfileButton.layer.cornerRadius = 5;
-    
     _tableView.backgroundColor = [TSColorPalette listBackgroundColor];
     
     _cellIdentifiers = @[@"TSBasicInfoViewController",
@@ -51,19 +48,21 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addProfileImage:)];
     [_userImageView addGestureRecognizer:tap];
     
+    _changeProfileButton.backgroundColor = [TSColorPalette tapshieldBlue];
+    _changeProfileButton.layer.cornerRadius = 5;
+    
     UIImage *profileImage = _userImageView.image;
     UIImage *userImage = _userProfile.profileImage;
     if (userImage) {
         profileImage = userImage;
     }
+    else {
+        [_changeProfileButton setTitle:@"Add Photo" forState:UIControlStateNormal];
+    }
     
     _userImageView.image = profileImage;
     _blurredUserImage.image = profileImage;
-//    
-//    self.translucentBackground = YES;
-//    self.toolbar.frame = _blurredUserImage.bounds;
-//    [_blurredUserImage addSubview:self.toolbar];
-//    
+    
     _mediaPicker = [[UIImagePickerController alloc] init];
     [_mediaPicker setDelegate:self];
     _mediaPicker.allowsEditing = YES;
@@ -161,6 +160,8 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     
     _userProfile.profileImage = image;
     
+    [_changeProfileButton setTitle:@"Change Photo" forState:UIControlStateNormal];
+    
     // Save photo if user took new photo from the camera
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
@@ -200,7 +201,7 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     cell.textLabel.textColor = [TSColorPalette listCellTextColor];
-    cell.textLabel.font = [UIFont fontWithName:kFontRalewayRegular size:18];
+    cell.textLabel.font = [UIFont fontWithName:kFontWeightLight size:18];
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
     cell.separatorInset = UIEdgeInsetsMake(0.0, (cell.textLabel.frame.origin.x + cell.textLabel.layoutMargins.left)*2, 0.0, 0.0);

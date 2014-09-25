@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSRalewayFont.h"
+#import "TSFont.h"
 #import "TSColorPalette.h"
 
 @interface TSBaseLabel : UILabel

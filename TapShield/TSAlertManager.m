@@ -33,10 +33,9 @@ NSString * const kAlertNoConnection = @"No Network Connection";
 @property (strong, nonatomic) UIAlertController *noConnectionAlertController;
 @property (strong, nonatomic) NSString *previousStatus;
 @property (assign, nonatomic) BOOL shouldStartTimer;
-@property (assign, nonatomic) BOOL shouldDisarmAlert;
+@property (assign, nonatomic) BOOL shouldStopTimer;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) TSPageViewController *pageviewController;
-
 
 @end
 
@@ -59,11 +58,12 @@ static dispatch_once_t predicate;
 {
     self = [super init];
     if (self) {
-        self.callInProgress = NO;
-        self.shouldStartTimer = YES;
-        self.isAlertInProgress = NO;
-        self.status = kAlertSend;
-        self.isPresented = NO;
+        _callInProgress = NO;
+        _shouldStartTimer = YES;
+        _shouldStopTimer = NO;
+        _isAlertInProgress = NO;
+        _status = kAlertSend;
+        _isPresented = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(alertRecieved:)
@@ -100,7 +100,7 @@ static dispatch_once_t predicate;
     if (_isPresented){
         return;
     }
-    self.isPresented = YES;
+    _isPresented = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
@@ -130,7 +130,7 @@ static dispatch_once_t predicate;
         return;
     }
     _shouldStartTimer = NO;
-    _shouldDisarmAlert = NO;
+    _shouldStopTimer = NO;
     [[TSLocationController sharedLocationController] bestAccuracyForAlert];
     
     [self stopAlertCountdown];
@@ -160,6 +160,10 @@ static dispatch_once_t predicate;
 
 - (void)countdown:(NSTimer *)timer {
     
+    if (_shouldStopTimer) {
+        return;
+    }
+    
     AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
     
     if ([_endDate timeIntervalSinceNow] <= 0) {
@@ -169,15 +173,11 @@ static dispatch_once_t predicate;
 
 - (void)sendAlert:(NSString *)type {
     
-    if (_shouldDisarmAlert) {
-        return;
-    }
-    
-    _isAlertInProgress = YES;
-    
     if (!type) {
         type = _type;
     }
+    
+    _isAlertInProgress = YES;
     
     [self stopAlertCountdown];
     
@@ -216,8 +216,10 @@ static dispatch_once_t predicate;
     
     [[TSJavelinAPIClient sharedClient] sendEmergencyAlertWithAlertType:type location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
         
-        if (_shouldDisarmAlert) {
-            [self disarmAlert];
+        if (!_isAlertInProgress) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self silentDisarmAlert];
+            }];
             return;
         }
         
@@ -317,20 +319,45 @@ static dispatch_once_t predicate;
     }
 }
 
-- (void)disarmAlert {
+//Disarm used if was previously disarmed by user but tasks like sending alert were still in progress
+- (void)silentDisarmAlert {
     
-    _shouldDisarmAlert = YES;
     [self stopAlertCountdown];
+    _isAlertInProgress = NO;
     [self endTwilioCall];
     [[TSJavelinAPIClient sharedClient] disarmAlert];
     [[TSJavelinAPIClient sharedClient] cancelAlert];
     _type = nil;
     _endDate = nil;
     _status = kAlertSend;
+    _shouldStartTimer = YES;
+}
+
+- (void)disarmAlert {
+    
+    _shouldStopTimer = YES;
+    [self stopAlertCountdown];
     _isAlertInProgress = NO;
+    [self endTwilioCall];
+    [[TSJavelinAPIClient sharedClient] disarmAlert];
+    [[TSJavelinAPIClient sharedClient] cancelAlert];
+    _type = nil;
+    _endDate = nil;
+    _status = kAlertSend;
     _shouldStartTimer = YES;
     
     [[TSLocationController sharedLocationController] bestAccuracyForBattery];
+    
+    if (_window.rootViewController) {
+        UINavigationController *navController = (UINavigationController *)_window.rootViewController;
+        id controller = [navController.viewControllers firstObject];
+        if ([[navController.viewControllers firstObject] isKindOfClass:[TSPageViewController class]]) {
+            TSPageViewController *pageController = controller;
+            [pageController.homeViewController mapAlertModeToggle];
+            [pageController.homeViewController whiteNavigationBar];
+            [pageController.homeViewController.reportManager showSpotCrimes];
+        }
+    }
     
     [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeZoom completion:nil];
     
@@ -411,6 +438,16 @@ static dispatch_once_t predicate;
 
 - (void)connectToDispatcher {
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationStateActive object:nil];
+    
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(connectToDispatcher)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
+        return;
+    }
+    
     if ([_alertDelegate respondsToSelector:@selector(startingPhoneCall)]) {
         [_alertDelegate startingPhoneCall];
     }
@@ -479,6 +516,10 @@ static dispatch_once_t predicate;
     if ([_callDelegate respondsToSelector:@selector(connectionDidStartConnecting:)]) {
         [_callDelegate connectionDidStartConnecting:connection];
     }
+    
+    if (!_isAlertInProgress) {
+        [self silentDisarmAlert];
+    }
 }
 
 - (void)connectionDidConnect:(TCConnection *)connection {
@@ -489,8 +530,8 @@ static dispatch_once_t predicate;
         [_callDelegate connectionDidConnect:connection];
     }
     
-    if (_shouldDisarmAlert) {
-        [self endTwilioCall];
+    if (!_isAlertInProgress) {
+        [self silentDisarmAlert];
     }
 }
 
@@ -499,7 +540,7 @@ static dispatch_once_t predicate;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
     _callStartTime = nil;
-    self.callInProgress = NO;
+    _callInProgress = NO;
     
     if ([_callDelegate respondsToSelector:@selector(connectionDidDisconnect:)]) {
         [_callDelegate connectionDidDisconnect:connection];
@@ -510,7 +551,7 @@ static dispatch_once_t predicate;
     [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
     
     _callStartTime = nil;
-    self.callInProgress = NO;
+    _callInProgress = NO;
     
     if ([_callDelegate respondsToSelector:@selector(connection:didFailWithError:)]) {
         [_callDelegate connection:connection didFailWithError:error];
@@ -571,7 +612,7 @@ static dispatch_once_t predicate;
 
 - (void)showWindowWithRootViewController:(UIViewController *)viewController animated:(BOOL)animated animationType:(NSString *)type completion:(void (^)(BOOL finished))completion {
     
-    self.isPresented = YES;
+    _isPresented = YES;
     
     if (_window.isKeyWindow) {
         animated = NO;
@@ -615,6 +656,7 @@ static dispatch_once_t predicate;
     if (!_window) {
         _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _window.backgroundColor = [UIColor clearColor];
+        _window.windowLevel = 0.2;
     }
     
     if (viewController) {
@@ -628,6 +670,12 @@ static dispatch_once_t predicate;
 
 - (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion  {
     
+    UIWindow *mainWindow = [UIApplication sharedApplication].delegate.window;
+    if (!_window) {
+        [mainWindow makeKeyAndVisible];
+        return;
+    }
+    
     CGAffineTransform dismissedTransform = CGAffineTransformIdentity;
     float alpha = 1.0;
     CGRect frame = [UIScreen mainScreen].bounds;
@@ -640,13 +688,12 @@ static dispatch_once_t predicate;
         frame.origin.y = frame.size.height;
     }
     
-    UIWindow *mainWindow = [UIApplication sharedApplication].delegate.window;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
         UIViewController *viewcontroller = [mainWindow.rootViewController.childViewControllers firstObject];
         
-        self.isPresented = NO;
+        _isPresented = NO;
         
         [viewcontroller beginAppearanceTransition:YES animated:YES];
         
@@ -672,10 +719,9 @@ static dispatch_once_t predicate;
                              }
                              
                              _pageviewController = nil;
-                             _window = nil;
                              [viewcontroller endAppearanceTransition];
                              [mainWindow makeKeyAndVisible];
-                             
+                             _window = nil;
                          }];
     });
 }

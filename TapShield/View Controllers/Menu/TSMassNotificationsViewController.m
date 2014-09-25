@@ -80,7 +80,7 @@
     
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     
-    cell.textView.font = [TSRalewayFont customFontFromStandardFont:cell.textView.font];
+    cell.textView.font = [TSFont customFontFromStandardFont:cell.textView.font];
     cell.textView.textColor = [TSColorPalette listCellTextColor];
     cell.textView.delegate = self;
     cell.textView.text = ((TSJavelinAPIMassAlert *)_massNotificationManager.notifications[indexPath.row]).message;
@@ -94,10 +94,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *bodyTxt = ((TSJavelinAPIMassAlert *)_massNotificationManager.notifications[indexPath.row]).message;
     
-    CGSize size = [TSUtilities text:bodyTxt sizeWithFont:[TSRalewayFont fontWithName:kFontRalewayRegular size:FONT_SIZE]  constrainedToSize:CGSizeMake(self.view.frame.size.width - [self tableView:_tableView cellForRowAtIndexPath:indexPath].textLabel.frame.origin.x, INFINITY)];
+    CGSize size = [TSUtilities text:bodyTxt sizeWithFont:[TSFont fontWithName:kFontWeightLight size:FONT_SIZE]  constrainedToSize:CGSizeMake(self.view.frame.size.width - [self tableView:_tableView cellForRowAtIndexPath:indexPath].textLabel.frame.origin.x, INFINITY)];
     
     NSString *stmpTxt = @"14 Jul 12:39:45 PM";
-    CGSize stmpSize = [TSUtilities text:stmpTxt sizeWithFont:[TSRalewayFont fontWithName:kFontRalewayRegular size:DETAILS_FONT_SIZE]  constrainedToSize:CGSizeMake(self.view.frame.size.width - [self tableView:_tableView cellForRowAtIndexPath:indexPath].textLabel.frame.origin.x, INFINITY)];
+    CGSize stmpSize = [TSUtilities text:stmpTxt sizeWithFont:[TSFont fontWithName:kFontWeightLight size:DETAILS_FONT_SIZE]  constrainedToSize:CGSizeMake(self.view.frame.size.width - [self tableView:_tableView cellForRowAtIndexPath:indexPath].textLabel.frame.origin.x, INFINITY)];
     
     return size.height + stmpSize.height + CELL_INSET;
 }

@@ -17,7 +17,7 @@
 #import "TSLocationController.h"
 #import "TSPushTransitionDelegate.h"
 #import "TSCircularButton.h"
-#import "TSRalewayFont.h"
+#import "TSFont.h"
 #import "TSBaseLabel.h"
 #import "TSLogoImageView.h"
 #import "TSUtilities.h"

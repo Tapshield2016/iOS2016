@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSColorPalette.h"
-#import "TSRalewayFont.h"
+#import "TSFont.h"
 
 @interface TSIconBadgeView : UIView
 

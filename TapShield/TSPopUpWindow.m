@@ -113,10 +113,10 @@
     [_checkBoxButton setImage:[UIImage imageNamed:@"CheckBox_Selected"] forState:UIControlStateSelected];
     _checkBoxButton.frame = CGRectMake(0, _viewFrame.size.height*.75, _viewFrame.size.width, _viewFrame.size.height/4);
     
-    [_checkBoxButton setTitle:@"Don't show again" forState:UIControlStateNormal];
+    [_checkBoxButton setTitle:@"Thanks got it!" forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_checkBoxButton setTitleColor:[TSColorPalette tapshieldBlue] forState:UIControlStateHighlighted];
-    _checkBoxButton.titleLabel.font = [TSRalewayFont fontWithName:kFontRalewayLight size:15.0f];
+    _checkBoxButton.titleLabel.font = [TSFont fontWithName:kFontWeightLight size:15.0f];
     _checkBoxButton.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
     
     [_view addSubview:_checkBoxButton];
@@ -158,7 +158,7 @@
     _messageLabel.numberOfLines = 0;
     _messageLabel.backgroundColor = [UIColor clearColor];
     _messageLabel.text = message;
-    _messageLabel.font = [TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f];
+    _messageLabel.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
     _messageLabel.textColor = [UIColor whiteColor];
     _messageLabel.textAlignment = NSTextAlignmentCenter;
     [_messageLabel setAdjustsFontSizeToFitWidth:YES];
@@ -172,7 +172,7 @@
     label.numberOfLines = 1;
     label.backgroundColor = [UIColor clearColor];
     label.text = title;
-    label.font = [TSRalewayFont fontWithName:kFontRalewayLight size:17.0f];
+    label.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.adjustsFontSizeToFitWidth = YES;

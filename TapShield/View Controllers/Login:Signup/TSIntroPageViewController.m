@@ -45,7 +45,7 @@
     _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_skipButton setTitle:@"Skip" forState:UIControlStateNormal];
     [_skipButton addTarget:self action:@selector(skipSlides:) forControlEvents:UIControlEventTouchUpInside];
-    _skipButton.titleLabel.font = [TSRalewayFont customFontFromStandardFont:[UIFont systemFontOfSize:18]];
+    _skipButton.titleLabel.font = [TSFont customFontFromStandardFont:[UIFont systemFontOfSize:18]];
     _skipButton.frame = CGRectMake(self.view.frame.size.width/10 * 8, [UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width/10 * 2, self.navigationController.navigationBar.frame.size.height);
     [self.view addSubview:_skipButton];
     

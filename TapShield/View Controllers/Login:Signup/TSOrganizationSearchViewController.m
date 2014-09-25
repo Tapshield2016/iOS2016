@@ -221,7 +221,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width - 10, headerView.frame.size.height)];
     label.textColor = [UIColor whiteColor];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [TSRalewayFont fontWithName:kFontRalewayMedium size:15.0f];
+    label.font = [TSFont fontWithName:kFontWeightMedium size:15.0f];
     [headerView addSubview:label];
     
     label.text = @"All";

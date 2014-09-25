@@ -90,7 +90,7 @@
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(showAlertViewController)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                        NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+                                        NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:barButton animated:YES];
 }
 
@@ -103,7 +103,7 @@
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Alert" style:UIBarButtonItemStylePlain target:self action:@selector(showAlertViewController)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-    NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+    NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:barButton animated:YES];
 }
 
@@ -117,7 +117,7 @@
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Disarm" style:UIBarButtonItemStylePlain target:self action:@selector(showDisarmViewController)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                        NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]} forState:UIControlStateNormal];
+                                        NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
 }
 
@@ -272,10 +272,10 @@
     
     
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:ratioChange],
-                                                                     NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]}
+                                                                     NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]}
                                                           forState:UIControlStateNormal];
     [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:ratio],
-                                                                     NSFontAttributeName :[TSRalewayFont fontWithName:kFontRalewayRegular size:17.0f]}
+                                                                     NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]}
                                                           forState:UIControlStateNormal];
     
     switch (_page) {

@@ -341,7 +341,7 @@ static dispatch_once_t predicate;
         
         UIViewController *viewcontroller = [mainWindow.rootViewController.childViewControllers firstObject];
         
-        [viewcontroller viewWillAppear:YES];
+        [viewcontroller beginAppearanceTransition:YES animated:YES];
         
         [UIView animateWithDuration:0.5
                               delay:0
@@ -356,7 +356,7 @@ static dispatch_once_t predicate;
                 completion(finished);
             }
             
-            [viewcontroller viewDidAppear:YES];
+            [viewcontroller endAppearanceTransition];
             [mainWindow makeKeyAndVisible];
             _window = nil;
         }];

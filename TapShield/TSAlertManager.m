@@ -208,7 +208,7 @@ static dispatch_once_t predicate;
         [_noConnectionAlertController addAction:action];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [[(UINavigationController *)self.window.rootViewController visibleViewController] presentViewController:_noConnectionAlertController animated:YES completion:nil];
+            [self.window.rootViewController presentViewController:_noConnectionAlertController animated:YES completion:nil];
         }];
         
         [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kNoConnectionNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
@@ -312,7 +312,7 @@ static dispatch_once_t predicate;
         [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[(UINavigationController *)self.window.rootViewController visibleViewController]  presentViewController:alertController animated:YES completion:nil];
+            [self.window.rootViewController  presentViewController:alertController animated:YES completion:nil];
         });
     }
 }
@@ -402,7 +402,7 @@ static dispatch_once_t predicate;
             [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[(UINavigationController *)self.window.rootViewController visibleViewController] presentViewController:alertController animated:YES completion:nil];
+                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
             });
         }
         [self connectToDispatcher];
@@ -540,17 +540,19 @@ static dispatch_once_t predicate;
 
 - (void)didFindConnection {
     
-    [_noConnectionAlertController dismissViewControllerAnimated:YES completion:nil];
-    
-    if ([_previousStatus isEqualToString:kAlertSending]) {
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    }
-    
-    _status = _previousStatus;
-    _previousStatus = nil;
-    if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
-        [_alertDelegate alertStatusChanged:_status];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_noConnectionAlertController dismissViewControllerAnimated:YES completion:nil];
+        
+        if ([_previousStatus isEqualToString:kAlertSending]) {
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        }
+        
+        _status = _previousStatus;
+        _previousStatus = nil;
+        if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
+            [_alertDelegate alertStatusChanged:_status];
+        }
+    }];
 }
 
 - (void)didLoseConnection {
@@ -574,8 +576,9 @@ static dispatch_once_t predicate;
     if (_window.isKeyWindow) {
         animated = NO;
     }
-    
-    [[UIApplication sharedApplication].delegate.window makeKeyAndVisible];
+    else {
+       [[UIApplication sharedApplication].delegate.window makeKeyAndVisible]; 
+    }
     
     [self showWindowWithRootViewController:viewController];
     

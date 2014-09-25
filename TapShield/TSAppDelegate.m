@@ -368,7 +368,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             if (_noNetworkWindow) {
                 [_noNetworkWindow dismiss:^(BOOL finished) {
                     _noNetworkWindow = nil;
-                    [self.window makeKeyAndVisible];
                 }];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidFindConnection object:nil];

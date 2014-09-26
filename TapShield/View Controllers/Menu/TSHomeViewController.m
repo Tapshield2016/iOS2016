@@ -45,6 +45,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
 @property (assign, nonatomic) BOOL annotationsLoaded;
 @property (assign, nonatomic) BOOL firstMapLoad;
+@property (assign, nonatomic) BOOL locationServicesWereDisabled;
 @property (strong, nonatomic) UIAlertController *cancelEntourageAlertController;
 
 @end
@@ -487,14 +488,15 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         height = 0;
     }
     
-    _statusView.hidden = NO;
+    if (_statusViewHeight.constant == height) {
+        return;
+    }
     
     if (self.navigationController.navigationBarHidden) {
         return;
     }
-    
-    if (_statusViewHeight.constant == height) {
-        return;
+    else {
+        _statusView.hidden = NO;
     }
     
     [UIView animateKeyframesWithDuration:0.3 delay:0.0 options:UIViewKeyframeAnimationOptionAllowUserInteraction | UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^{
@@ -607,6 +609,27 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)didEnterRegion:(CLRegion *)region {
     
+}
+
+- (void)didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    
+    if (status == kCLAuthorizationStatusDenied) {
+        
+        _locationServicesWereDisabled = YES;
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Location Services Disabled" message:@"\nFor the best experience using TapShield, enable location services.\n\n You can turn on location services by choosing 'Always' in \n\nSettings -> Privacy ->\nLocation Services" preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [TSAppDelegate openSettings];
+        }]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser] && _locationServicesWereDisabled) {
+        _locationServicesWereDisabled = NO;
+        [self addOverlaysAndAnnotations];
+        [_mapView setRegionAtAppearanceAnimated:YES];
+    }
 }
 
 #pragma mark - User Callout

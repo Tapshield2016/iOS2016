@@ -46,10 +46,6 @@ NSString * const TSSettingsCurrentOrg = @"Your current organization: %@";
     [self updateCurrentOrgLabel];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

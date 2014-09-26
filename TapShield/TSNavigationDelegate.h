@@ -19,4 +19,6 @@
 
 @property (nonatomic, strong) NSArray *registrationViewControllers;
 
+- (void)setProgressLevel:(NSUInteger)progressLevel;
+
 @end

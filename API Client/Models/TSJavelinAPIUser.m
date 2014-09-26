@@ -294,6 +294,17 @@
     return NO;
 }
 
+- (BOOL)canJoinAgency:(TSJavelinAPIAgency *)agency {
+    
+    if (!agency.requireDomainEmails || [self isAvailableForDomain:agency.domain]) {
+        if (_phoneNumberVerified) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email {
     
     for (TSJavelinAPIEmail *secondaryEmail in _secondaryEmails) {

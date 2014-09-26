@@ -34,4 +34,6 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;
 
++ (void)openSettings;
+
 @end

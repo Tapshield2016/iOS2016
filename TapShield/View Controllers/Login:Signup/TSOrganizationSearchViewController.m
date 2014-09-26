@@ -8,6 +8,7 @@
 
 #import "TSOrganizationSearchViewController.h"
 #import "TSUserSessionManager.h"
+#import "TSNavigationDelegate.h"
 
 @interface TSOrganizationSearchViewController ()
 
@@ -52,6 +53,8 @@
     
     [self customizeTableView:_tableView];
     [self customizeSearchBarAppearance:self.searchController.searchBar];
+    
+    [self.navigationItem.rightBarButtonItem setEnabled:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -247,6 +250,18 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         _agency = nil;
         
+        
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(next:)];
+        [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
+                                            NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
+        [self.navigationItem setRightBarButtonItem:barButton animated:YES];
+        
+        TSNavigationDelegate *delegate = (TSNavigationDelegate *)self.navigationController.delegate;
+        if ([delegate respondsToSelector:@selector(setProgressLevel:)]) {
+            [delegate setProgressLevel:0];
+        }
+        
+        [self.navigationItem.rightBarButtonItem setEnabled:NO];
         [tableView reloadData];
         return nil;
     }
@@ -266,14 +281,37 @@
         _agency = (TSJavelinAPIAgency *)[self.visibleAllResults objectAtIndex:indexPath.row];
     }
     
+    if ([[TSJavelinAPIClient loggedInUser] canJoinAgency:_agency]) {
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(next:)];
+        [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
+                                            NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
+        [self.navigationItem setRightBarButtonItem:barButton animated:YES];
+        
+        TSNavigationDelegate *delegate = (TSNavigationDelegate *)self.navigationController.delegate;
+        if ([delegate respondsToSelector:@selector(setProgressLevel:)]) {
+            [delegate setProgressLevel:2];
+        }
+    }
+    else {
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(next:)];
+        [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
+                                            NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
+        [self.navigationItem setRightBarButtonItem:barButton animated:YES];
+        
+        TSNavigationDelegate *delegate = (TSNavigationDelegate *)self.navigationController.delegate;
+        if ([delegate respondsToSelector:@selector(setProgressLevel:)]) {
+            [delegate setProgressLevel:0];
+        }
+    }
+    
     [_tableView reloadData];
     
-    _nextButton.enabled = YES;
+    [self.navigationItem.rightBarButtonItem setEnabled:YES];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    _nextButton.enabled = NO;
+    
     
     return indexPath;
 }

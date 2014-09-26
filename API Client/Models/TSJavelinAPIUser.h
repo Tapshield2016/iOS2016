@@ -38,6 +38,8 @@
 - (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
+
+- (BOOL)canJoinAgency:(TSJavelinAPIAgency *)agency;
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain;
 - (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email;
 - (BOOL)setSecondaryEmailVerified:(NSString *)email;

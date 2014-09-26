@@ -80,7 +80,7 @@ static dispatch_once_t predicate;
                                                      name:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(signUpDidFailToLogin:)
+                                                 selector:@selector(finishedLoading)
                                                      name:UIApplicationDidEnterBackgroundNotification
                                                    object:nil];
     }

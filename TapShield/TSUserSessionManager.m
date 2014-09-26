@@ -126,12 +126,8 @@ static dispatch_once_t predicate;
 - (BOOL)didJoinFromAgency:(TSJavelinAPIAgency *)agency {
     
     TSJavelinAPIUser *user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
-    
-    if (!user.isPhoneNumberVerified) {
-        return NO;
-    }
 
-    if ([user isAvailableForDomain:agency.domain] || !agency.requireDomainEmails) {
+    if ([user canJoinAgency:agency]) {
         user.agency = agency;
         [self saveUser];
         return YES;
@@ -144,7 +140,7 @@ static dispatch_once_t predicate;
     
     TSJavelinAPIUser *user = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser];
     for (TSJavelinAPIAgency *agency in array) {
-        if ([user isAvailableForDomain:agency.domain] && user.isPhoneNumberVerified) {
+        if ([user canJoinAgency:agency]) {
             user.agency = agency;
             [self saveUser];
             return YES;

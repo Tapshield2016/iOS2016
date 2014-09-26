@@ -83,17 +83,26 @@ NSString * const progress4 = @"progress_bar_s4";
     
     NSArray *progressArray = @[progress2, progress3, progress4];
     
-    int i = 0;
+    NSUInteger i = 0;
     
     _progressImageView.image = [UIImage imageNamed:progressArray[2]];
     
     for (Class class in _registrationViewControllers) {
         if ([viewController isKindOfClass:class]) {
             
-            _progressImageView.image = [UIImage imageNamed:progressArray[i]];
+            [self setProgressLevel:i];
         }
         i++;
     }
+}
+
+- (void)setProgressLevel:(NSUInteger)progressLevel {
+     NSArray *progressArray = @[progress2, progress3, progress4];
+    
+    if (progressLevel >= progressArray.count) {
+        progressLevel = progressArray.count-1;
+    }
+    _progressImageView.image = [UIImage imageNamed:progressArray[progressLevel]];
 }
 
 @end

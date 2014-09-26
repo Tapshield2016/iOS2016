@@ -51,11 +51,14 @@
 
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated {
     //will not work if view has not appeared
-    MKCoordinateRegion region;
-    region.center = [TSLocationController sharedLocationController].location.coordinate;
-    region.span = MKCoordinateSpanMake(0.006, 0.006);
-    region = [self regionThatFits:region];
-    [self setRegion:region animated:animated];
+    
+    [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
+        MKCoordinateRegion region;
+        region.center = location.coordinate;
+        region.span = MKCoordinateSpanMake(0.006, 0.006);
+        region = [self regionThatFits:region];
+        [self setRegion:region animated:animated];
+    }];
 }
 
 

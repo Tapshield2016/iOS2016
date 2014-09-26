@@ -421,12 +421,14 @@ static dispatch_once_t predicate;
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (!granted) {
             // Microphone disabled code
-            
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Microphone Access Was Denied."
-                                                                                     message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone"
+                                                                                     message:@"You will not be heard during VOIP phone services.\n\nPlease enable Microphone access for this app in Settings -> Privacy -> Microphone"
                                                                               preferredStyle:UIAlertControllerStyleAlert];
             
             [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [TSAppDelegate openSettings];
+            }]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];

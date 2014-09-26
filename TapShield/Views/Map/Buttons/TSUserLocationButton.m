@@ -53,7 +53,7 @@
     _blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
     _blurView.frame = self.bounds;
     _blurView.userInteractionEnabled = NO;
-    [self roundCornersOnView:_blurView onTopLeft:YES topRight:YES bottomLeft:YES bottomRight:YES radius:self.bounds.size.height/2];
+    [self roundBezierPathCornersOnView:_blurView radius:self.bounds.size.height/2];
     [self insertSubview:_blurView atIndex:0];
 }
 
@@ -68,38 +68,17 @@
     
 }
 
-- (UIView *)roundCornersOnView:(UIView *)view onTopLeft:(BOOL)tl topRight:(BOOL)tr bottomLeft:(BOOL)bl bottomRight:(BOOL)br radius:(float)radius {
+- (UIView *)roundBezierPathCornersOnView:(UIView *)view radius:(float)radius {
     
-    if (tl || tr || bl || br) {
-        
-        UIRectCorner corner; //holds the corner
-        //Determine which corner(s) should be changed
-        if (tl) {
-            corner = UIRectCornerTopLeft;
-        }
-        if (tr) {
-            UIRectCorner add = corner | UIRectCornerTopRight;
-            corner = add;
-        }
-        if (bl) {
-            UIRectCorner add = corner | UIRectCornerBottomLeft;
-            corner = add;
-        }
-        if (br) {
-            UIRectCorner add = corner | UIRectCornerBottomRight;
-            corner = add;
-        }
+
         
         UIView *roundedView = view;
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:roundedView.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(radius, radius)];
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:roundedView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(radius, radius)];
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
         maskLayer.frame = roundedView.bounds;
         maskLayer.path = maskPath.CGPath;
         roundedView.layer.mask = maskLayer;
         return roundedView;
-    } else {
-        return view;
-    }
     
 }
 

@@ -98,7 +98,7 @@
     
     UITapGestureRecognizer *mediaTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(chooseMedia:)];
-    [_mediaImageView addGestureRecognizer:mediaTap];
+    [_shimmeringView addGestureRecognizer:mediaTap];
     
     _uploadingLabel = [[TSBaseLabel alloc] initWithFrame:_shimmeringView.frame];
     _uploadingLabel.textAlignment = NSTextAlignmentCenter;

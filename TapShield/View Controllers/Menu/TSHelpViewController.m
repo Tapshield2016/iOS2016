@@ -23,6 +23,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:infoUrl]];
     [_webView loadRequest: request];
     _webView.delegate = self;
+    
+    [self.navigationItem setTitle:[TSJavelinAPIClient loggedInUser].agency.name];
 }
 
 - (void)didReceiveMemoryWarning

@@ -95,6 +95,18 @@ static dispatch_once_t predicate;
 
 - (void)signUpDidFailToLogin:(NSNotification *)note {
     
+    NSString *message = @"Failed to authenticate your social account. Please try again or select an alternate method";
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sorry"
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_currentViewController presentViewController:alertController animated:YES completion:nil];
+    });
+    
     [self finishedLoading];
 }
 
@@ -422,17 +434,29 @@ static dispatch_once_t predicate;
             
             [self loading:twitter];
             [_apiManager performReverseAuthForAccount:acct withHandler:^(NSData *responseData, NSError *error) {
-                if (responseData) {
+                if (responseData && !error) {
+                    
+                    if (![responseData isKindOfClass:[NSData class]]) {
+                        [self twitterError:error];
+                    }
+                    
                     NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+                    
+                    if (![responseStr isKindOfClass:[NSString class]]) {
+                        [self twitterError:error];
+                    }
                     
                     NSLog(@"Reverse Auth process returned: %@", responseStr);
                     
                     NSArray *parts = [responseStr componentsSeparatedByString:@"&"];
-                    NSString *lined = [parts componentsJoinedByString:@"\n"];
+                    
+                    if (!parts) {
+                        [self twitterError:error];
+                    }
                     
                     // Turn response into dictionary for ease of use...
                     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                    for (NSString *param in [responseStr componentsSeparatedByString:@"&"]) {
+                    for (NSString *param in parts) {
                         NSArray *elements = [param componentsSeparatedByString:@"="];
                         if([elements count] < 2) continue;
                         [params setObject:[elements objectAtIndex:1] forKey:[elements objectAtIndex:0]];
@@ -444,12 +468,9 @@ static dispatch_once_t predicate;
                             [self twitterRequest];
                         }
                     }];
-                    
-                    NSLog(@"%@", lined);
                 }
                 else {
-                    NSLog(@"Reverse Auth process failed. Error returned was: %@\n", [error localizedDescription]);
-                    [self finishedLoading];
+                    [self twitterError:error];
                 }
             }];
         }]];
@@ -461,6 +482,30 @@ static dispatch_once_t predicate;
     dispatch_async(dispatch_get_main_queue(), ^{
         [_currentViewController presentViewController:alertController animated:YES completion:nil];
     });
+}
+
+- (void)twitterError:(NSError *)error {
+    
+    NSString *message = @"Could not load Twitter account";
+    if (error) {
+        message = [NSString stringWithFormat:@"%@", error.localizedDescription];
+        
+        if (error.code == [NSURLErrorDomain integerValue]) {
+            message = @"Make sure your Twitter accounts have the correct username and password in your Settings app";
+        }
+    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:nil]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_currentViewController presentViewController:alertController animated:YES completion:nil];
+    });
+    
+    [self finishedLoading];
 }
 
 

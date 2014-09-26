@@ -9,6 +9,7 @@
 #import "TSTextMessageBarView.h"
 #import "TSColorPalette.h"
 #import "TSUtilities.h"
+#import "TSFont.h"
 
 static NSString * const kTextMessagePlaceholder = @"Text Message";
 
@@ -56,7 +57,7 @@ static NSString * const kTextMessagePlaceholder = @"Text Message";
     _textView = [[TSBaseTextView alloc] initWithFrame:textViewFrame];
     _textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [_textView setTextContainerInset:UIEdgeInsetsMake(Inset_Top, Inset_Side, 0, Inset_Side)];
-    _textView.font = [UIFont systemFontOfSize:Font_Size];
+    _textView.font = [TSFont fontWithName:kFontWeightLight size:Font_Size];
     _textView.placeholder = kTextMessagePlaceholder;
     
     [self addSubview:_textView];

@@ -117,11 +117,13 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [UITableViewCell appearance].backgroundColor = [TSColorPalette cellBackgroundColor];
     [UITableViewCell appearance].layoutMargins = UIEdgeInsetsZero;
     
-//    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
-    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    [UITableViewCell appearanceWhenContainedIn:[UIImagePickerController class], nil].backgroundColor = [TSColorPalette whiteColor];
     
-    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
-    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+//    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    
+    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     
     [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].barStyle = UIBarStyleDefault;
     [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].tintColor = [TSColorPalette tapshieldBlue];

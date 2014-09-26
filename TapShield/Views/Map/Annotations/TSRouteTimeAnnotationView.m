@@ -18,7 +18,7 @@
         // Initialization code
         
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.label.font = [UIFont systemFontOfSize:12];//[TSRalewayFont fontWithName:kFontRalewayMedium size:12.0f];
+        self.label.font = [TSFont fontWithName:kFontWeightLight size:12.0];
         self.label.textColor = [TSColorPalette whiteColor];
         self.label.textAlignment = NSTextAlignmentCenter;
         

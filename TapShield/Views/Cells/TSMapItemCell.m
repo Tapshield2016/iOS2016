@@ -31,7 +31,7 @@
         self.nameLabel.font = [TSFont fontWithName:kFontWeightLight size:16.0f];
         self.nameLabel.textColor = [TSColorPalette listCellTextColor];
         self.nameLabel.numberOfLines = 1;
-        self.addressLabel.font = [TSFont fontWithName:kFontWeightLight size:10.0f];
+        self.addressLabel.font = [TSFont fontWithName:kFontWeightNormal size:10.0f];
         self.addressLabel.textColor = [TSColorPalette listCellDetailsTextColor];
         self.addressLabel.numberOfLines = 1;
 

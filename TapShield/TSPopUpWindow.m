@@ -172,7 +172,7 @@
     label.numberOfLines = 1;
     label.backgroundColor = [UIColor clearColor];
     label.text = title;
-    label.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
+    label.font = [TSFont fontWithName:kFontWeightMedium size:17.0f];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.adjustsFontSizeToFitWidth = YES;

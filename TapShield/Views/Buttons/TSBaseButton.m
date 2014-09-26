@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         self.frame = frame;
-        self.titleLabel.font = [TSFont customFontFromStandardFont:[UIFont systemFontOfSize:fontSize]];
+        self.titleLabel.font = [TSFont fontWithName:kFontWeightLight size:fontSize];
         self.backgroundColor = [UIColor clearColor];
         self.titleLabel.textColor = [UIColor whiteColor];
     }
@@ -29,7 +29,7 @@
     if (self) {
         // Initialization code
         
-        self.titleLabel.font = [TSFont customFontFromStandardFont:self.titleLabel.font];
+//        self.titleLabel.font = [TSFont customFontFromStandardFont:self.titleLabel.font];
     }
     return self;
 }

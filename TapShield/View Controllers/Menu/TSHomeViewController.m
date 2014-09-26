@@ -489,18 +489,43 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _statusView.hidden = NO;
     
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         _statusViewHeight.constant = height;
-                         
-                         [self.view layoutIfNeeded];
-                     } completion:^(BOOL finished) {
-                         if (!height) {
-                             _statusView.hidden = YES;
-                         }
-                     }];
+    if (self.navigationController.navigationBarHidden) {
+        return;
+    }
+    
+    if (_statusViewHeight.constant == height) {
+        return;
+    }
+    
+    [UIView animateKeyframesWithDuration:0.3 delay:0.0 options:UIViewKeyframeAnimationOptionAllowUserInteraction | UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^{
+        [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.5 animations:^{
+            _statusViewHeight.constant = height;
+            
+            [self.view layoutIfNeeded];
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
+            if (!height) {
+                _statusView.hidden = YES;
+            }
+        }];
+        
+         } completion:nil];
+    
+//    [UIView animateWithDuration:0.3
+//                          delay:0
+//         usingSpringWithDamping:300.0
+//          initialSpringVelocity:5.0
+//                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+//                     animations:^{
+//                         _statusViewHeight.constant = height;
+//                         
+//                         [self.view layoutIfNeeded];
+//                     } completion:^(BOOL finished) {
+//                         if (!height) {
+//                             _statusView.hidden = YES;
+//                         }
+//                     }];
 }
 
 #pragma mark - UIGestureRecognizerDelegate methods

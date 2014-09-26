@@ -80,7 +80,7 @@
     
     cell.backgroundColor = [TSColorPalette cellBackgroundColor];
     
-    cell.textView.font = [TSFont customFontFromStandardFont:cell.textView.font];
+    cell.textView.font = [TSFont fontWithName:kFontWeightLight size:FONT_SIZE];
     cell.textView.textColor = [TSColorPalette listCellTextColor];
     cell.textView.delegate = self;
     cell.textView.text = ((TSJavelinAPIMassAlert *)_massNotificationManager.notifications[indexPath.row]).message;

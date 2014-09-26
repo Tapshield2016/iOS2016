@@ -66,7 +66,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _timeAdjusted = _estimatedTimeInterval;
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
-    _timeAdjustLabel.font = [TSFont fontWithName:kFontWeightLight size:30.0];
+    _timeAdjustLabel.font = [TSFont fontWithName:kFontWeightThin size:30.0];
     _timeAdjustLabel.textAlignment = NSTextAlignmentCenter;
     _timeAdjustLabel.textColor = [UIColor whiteColor];
     
@@ -593,7 +593,9 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self presentViewController:picker animated:YES completion:nil];
+        [self presentViewController:picker animated:YES completion:^{
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        }];
     });
     
 //    CFErrorRef *error = nil;

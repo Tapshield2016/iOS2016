@@ -27,7 +27,7 @@
     if (self) {
         // Initialization code
         
-        self.font = [TSFont customFontFromStandardFont:self.font];
+//        self.font = [TSFont customFontFromStandardFont:self.font];
     }
     return self;
 }

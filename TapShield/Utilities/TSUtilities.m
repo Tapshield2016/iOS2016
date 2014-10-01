@@ -339,7 +339,7 @@
 
 + (NSString *)formattedViewableDate:(NSDate *)date {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"d MMM yyyy h:mm:ss a"];
+    [dateFormat setDateFormat:@"d MMM yyyy h:mm a"];
     NSString *dateString = [dateFormat stringFromDate:date];
     
     return dateString;

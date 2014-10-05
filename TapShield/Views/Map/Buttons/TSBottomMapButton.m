@@ -15,6 +15,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        [self setup];
     }
     return self;
 }
@@ -25,13 +27,17 @@
     if (self) {
         // Initialization code
         
-        [self setCircleColors:[TSColorPalette tapshieldBlue]
-                    fillColor:[TSColorPalette tapshieldBlue]
-         highlightedFillColor:[TSColorPalette tapshieldBlue]
-            selectedFillColor:[TSColorPalette tapshieldBlue]];
-        [self drawCircleButtonHighlighted:NO selected:NO];
+        [self setup];
     }
     return self;
+}
+
+- (void)setup {
+    [self setCircleColors:[TSColorPalette tapshieldBlue]
+                fillColor:[TSColorPalette tapshieldBlue]
+     highlightedFillColor:[TSColorPalette tapshieldBlue]
+        selectedFillColor:[TSColorPalette tapshieldBlue]];
+    [self drawCircleButtonHighlighted:NO selected:NO];
 }
 
 @end

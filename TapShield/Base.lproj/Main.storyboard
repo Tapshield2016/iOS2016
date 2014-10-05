@@ -2595,7 +2595,9 @@ http://www.apache.org/licenses/LICENSE-2.0
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="bottomRighButton" destination="4ZU-fn-ffK" id="F5u-Tj-KxZ"/>
                         <outlet property="entourageButton" destination="nSe-tK-QET" id="Wlp-uC-h9O"/>
+                        <outlet property="helpButton" destination="lqB-ga-v8n" id="PwI-4k-ES1"/>
                         <outlet property="mapView" destination="w2T-Hb-1QL" id="OHY-6j-bgU"/>
                         <outlet property="showUserLocationButton" destination="KZ6-Zp-Gpl" id="y4w-f8-h6U"/>
                         <outlet property="statusView" destination="J4r-zu-51U" id="p1x-oX-BSy"/>

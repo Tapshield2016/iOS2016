@@ -120,6 +120,7 @@ static dispatch_once_t onceToken;
             alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
             alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
             alertInfo[@"alert_type"] = type;
+            alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
         }
         else {
             NSLog(@"Out of bounds or no agency");

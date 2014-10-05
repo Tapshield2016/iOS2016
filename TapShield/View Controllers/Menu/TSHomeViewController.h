@@ -13,6 +13,7 @@
 #import "TSMenuViewController.h"
 #import "TSReportAnnotationManager.h"
 #import "TSStatusView.h"
+#import "TSBottomMapButton.h"
 
 @interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
 
@@ -23,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *entourageButton;
 @property (weak, nonatomic) IBOutlet TSStatusView *statusView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusViewHeight;
+@property (weak, nonatomic) IBOutlet TSBottomMapButton *bottomRighButton;
+@property (weak, nonatomic) IBOutlet TSBottomMapButton *helpButton;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (assign, nonatomic) BOOL isTrackingUser;

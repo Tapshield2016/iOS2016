@@ -48,6 +48,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (assign, nonatomic) BOOL locationServicesWereDisabled;
 @property (strong, nonatomic) UIAlertController *cancelEntourageAlertController;
 
+@property (strong, nonatomic) TSBottomMapButton *policeButton;
+@property (strong, nonatomic) TSBottomMapButton *emergencyButton;
+@property (strong, nonatomic) TSBottomMapButton *chatButton;
+
 @end
 
 @implementation TSHomeViewController
@@ -1175,5 +1179,39 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
 }
+
+
+#pragma mark - Alert Buttons
+
+- (void)initCallChatButtons {
+    
+    _policeButton = [[TSBottomMapButton alloc] initWithFrame:_helpButton.superview.frame];
+    _emergencyButton = [[TSBottomMapButton alloc] initWithFrame:_helpButton.superview.frame];
+    _chatButton = [[TSBottomMapButton alloc] initWithFrame:_helpButton.superview.frame];
+    
+    [self.view insertSubview:_policeButton belowSubview:_helpButton.superview];
+    [self.view insertSubview:_emergencyButton belowSubview:_helpButton.superview];
+    [self.view insertSubview:_chatButton belowSubview:_helpButton.superview];
+}
+
+- (void)showCallChatButtons {
+    
+    [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        _policeButton.center = [self pointOnCircleWithCenter:_helpButton.superview.center radius:_helpButton.frame.size.height*2 angle:45];
+        _emergencyButton.center = [self pointOnCircleWithCenter:_helpButton.superview.center radius:_helpButton.frame.size.height*2 angle:90];
+        _chatButton.center = [self pointOnCircleWithCenter:_helpButton.superview.center radius:_helpButton.frame.size.height*2 angle:135];
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+- (CGPoint)pointOnCircleWithCenter:(CGPoint)center radius:(float)radius angle:(float)angle {
+    CGPoint newPoint;
+    newPoint.x = center.x + (radius * cosf(angle));
+    newPoint.y = center.y + (radius * sinf(angle));
+    return newPoint;
+}
+
 
 @end

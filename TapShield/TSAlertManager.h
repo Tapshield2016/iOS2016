@@ -65,7 +65,7 @@ extern NSString * const kAlertNoConnection;
 + (instancetype)sharedManager;
 
 - (void)startAlertCountdown:(int)seconds type:(NSString *)type;
-- (void)sendAlert:(NSString *)type;
+- (void)sendAlertType:(NSString *)type;
 - (void)disarmAlert;
 
 - (void)startTwilioCall;
@@ -79,5 +79,11 @@ extern NSString * const kAlertNoConnection;
 - (void)callSecondary;
 
 - (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion;
+
+- (void)startEmergencyNumberAlert;
+- (void)startAgencyDispathcerCallAlert;
+- (void)startChatAlert;
+- (void)startYankAlertCountdown;
+- (void)startEntourageAlertCountdown;
 
 @end

@@ -21,20 +21,21 @@
 @property (weak, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;
-@property (weak, nonatomic) IBOutlet TSUserLocationButton *entourageButton;
+@property (weak, nonatomic) IBOutlet TSUserLocationButton *yankButton;
 @property (weak, nonatomic) IBOutlet TSStatusView *statusView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusViewHeight;
-@property (weak, nonatomic) IBOutlet TSBottomMapButton *bottomRighButton;
+@property (weak, nonatomic) IBOutlet TSBottomMapButton *routeButton;
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *helpButton;
+@property (weak, nonatomic) IBOutlet TSBottomMapButton *reportButton;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (assign, nonatomic) BOOL isTrackingUser;
 
 - (void)mapAlertModeToggle;
 
-- (IBAction)displayVirtualEntourage:(id)sender;
+- (IBAction)toggleYank:(id)sender;
 - (IBAction)sendAlert:(id)sender;
-- (IBAction)openChatWindow:(id)sender;
+- (IBAction)openEntourage:(id)sender;
 - (IBAction)reportAlert:(id)sender;
 
 
@@ -44,5 +45,6 @@
 
 - (void)clearEntourageAndResetMap;
 - (void)entourageModeOn;
+- (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate;
 
 @end

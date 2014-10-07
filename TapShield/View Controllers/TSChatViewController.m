@@ -194,7 +194,7 @@
     
     if (![TSAlertManager sharedManager].isAlertInProgress) {
         [TSAlertManager sharedManager].type = @"C";
-        [[TSAlertManager sharedManager] sendAlert:@"C"];
+        [[TSAlertManager sharedManager] sendAlertType:@"C"];
         if ([[self.navigationController.viewControllers firstObject] respondsToSelector:@selector(showAlertViewController)]) {
             [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
         }

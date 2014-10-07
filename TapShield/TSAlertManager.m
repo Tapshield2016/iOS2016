@@ -13,6 +13,12 @@
 #import "TSLocalNotification.h"
 #import "TSPageViewController.h"
 
+NSString * const kAlertType911Call = @"N";
+NSString * const kAlertTypeAlertCall = @"E";
+NSString * const kAlertTypeEntourage = @"T";
+NSString * const kAlertTypeYank = @"Y";
+NSString * const kAlertTypeChat = @"C";
+
 NSString * const kAlertWindowAnimationTypeDown = @"Down";
 NSString * const kAlertWindowAnimationTypeZoom = @"Zoom";
 
@@ -81,6 +87,31 @@ static dispatch_once_t predicate;
     }
     
     return self;
+}
+
+- (void)startEmergencyNumberAlert {
+    
+    [self sendAlertType:kAlertType911Call];
+}
+
+- (void)startAgencyDispathcerCallAlert {
+    
+    [self sendAlertType:kAlertTypeAlertCall];
+}
+
+- (void)startChatAlert {
+    
+    [self sendAlertType:kAlertTypeChat];
+}
+
+- (void)startYankAlertCountdown {
+    
+    [self startAlertCountdown:10.0 type:kAlertTypeYank];
+}
+
+- (void)startEntourageAlertCountdown {
+    
+    [self startAlertCountdown:10.0 type:kAlertTypeEntourage];
 }
 
 - (void)alertRecieved:(NSNotification *)notification {
@@ -167,11 +198,11 @@ static dispatch_once_t predicate;
     AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
     
     if ([_endDate timeIntervalSinceNow] <= 0) {
-        [self sendAlert:nil];
+        [self sendAlertType:nil];
     }
 }
 
-- (void)sendAlert:(NSString *)type {
+- (void)sendAlertType:(NSString *)type {
     
     if (!type) {
         type = _type;

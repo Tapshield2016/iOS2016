@@ -218,14 +218,14 @@
 - (void)showingAlertView {
     
     if (![TSAlertManager sharedManager].isAlertInProgress) {
-        [[TSAlertManager sharedManager] sendAlert:nil];
+        [[TSAlertManager sharedManager] sendAlertType:nil];
         [self stopTintViewAnimation];
         _isFirstTimeViewed = NO;
     }
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [_homeViewController.mapView setRegionAtAppearanceAnimated:YES];
-        _homeViewController.isTrackingUser = YES;
+        [_homeViewController setIsTrackingUser:YES animateToUser:YES];
         
         [self disarmBarButton];
     }];
@@ -352,7 +352,7 @@
         
         if (!_isFirstTimeViewed) {
             [_homeViewController.mapView setRegionAtAppearanceAnimated:YES];
-            _homeViewController.isTrackingUser = YES;
+            [_homeViewController setIsTrackingUser:YES animateToUser:YES];
         }
         
         if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {

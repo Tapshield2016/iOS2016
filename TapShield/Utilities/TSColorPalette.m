@@ -84,6 +84,16 @@
 	return returnColor;
 }
 
++ (UIColor *)blueButtonColor {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+        //Talkaphone
+        return UIColorFromRGB(0xb30838);
+    }
+    
+    return UIColorFromRGB(0x53b7e8);
+}
+
 + (UIColor *)tapshieldBlue {
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {

@@ -2428,24 +2428,19 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7DV-fr-6qL" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <accessibility key="accessibilityConfiguration" hint="Report crime tips" label="Report"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
-                                        <state key="normal" image="report_icon">
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
+                                        <inset key="titleEdgeInsets" minX="-31" minY="25" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="15"/>
+                                        <state key="normal" title="Report" image="report_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" title="Report">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="reportAlert:" destination="qEG-az-7FP" eventType="touchUpInside" id="kq8-wz-6lq"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Report" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYt-nV-0XB">
-                                        <rect key="frame" x="9" y="31" width="42" height="21"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="NO"/>
-                                        </accessibility>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2459,25 +2454,19 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lqB-ga-v8n" userLabel="Button - Alert" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                         <accessibility key="accessibilityConfiguration" hint="Send alert to authorities" label="Alert"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
                                         <state key="normal" image="alert_icon">
-                                            <color key="titleColor" red="0.86666667460000002" green="0.2941176593" blue="0.22352941330000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" title="X"/>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="sendAlert:" destination="qEG-az-7FP" eventType="touchUpInside" id="icg-fD-uZe"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gK3-eU-hmv">
-                                        <rect key="frame" x="24" y="61" width="42" height="21"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="NO"/>
-                                        </accessibility>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2491,23 +2480,19 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZU-fn-ffK" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <accessibility key="accessibilityConfiguration" hint="Text with authorities" label="Chat"/>
-                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
-                                        <state key="normal" image="chat_icon">
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <inset key="titleEdgeInsets" minX="-28" minY="25" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="11" minY="0.0" maxX="0.0" maxY="15"/>
+                                        <state key="normal" title="Route" image="entourage_icon_white">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="highlighted" title="Route">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
-                                            <action selector="openChatWindow:" destination="qEG-az-7FP" eventType="touchUpInside" id="e2V-2u-He2"/>
+                                            <action selector="openEntourage:" destination="qEG-az-7FP" eventType="touchUpInside" id="Z7R-rs-RbQ"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sW-jG-fDf">
-                                        <rect key="frame" x="9" y="31" width="42" height="21"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="NO"/>
-                                        </accessibility>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2531,10 +2516,11 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <accessibility key="accessibilityConfiguration" hint="Centers map on your location" label="My Location"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <color key="tintColor" red="0.25490197539999998" green="0.76862746479999999" blue="0.94901961089999998" alpha="1" colorSpace="deviceRGB"/>
-                                        <state key="normal" image="locate_me_icon">
+                                        <state key="normal" image="locate_me_icon_outline">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="locate_me_icon"/>
                                         <connections>
                                             <action selector="userLocationTUI:" destination="qEG-az-7FP" eventType="touchUpInside" id="s42-KP-5X4"/>
                                         </connections>
@@ -2552,12 +2538,12 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-tK-QET" customClass="TSUserLocationButton">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                         <accessibility key="accessibilityConfiguration" hint="Tracks your progress to a destination" label="Entourage"/>
-                                        <state key="normal" image="entourage_icon">
+                                        <state key="normal" image="Yank_icon">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="displayVirtualEntourage:" destination="qEG-az-7FP" eventType="touchUpInside" id="Vh1-KA-RGl"/>
+                                            <action selector="toggleYank:" destination="qEG-az-7FP" eventType="touchUpInside" id="6wD-9O-IfG"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2595,13 +2581,14 @@ http://www.apache.org/licenses/LICENSE-2.0
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="bottomRighButton" destination="4ZU-fn-ffK" id="F5u-Tj-KxZ"/>
-                        <outlet property="entourageButton" destination="nSe-tK-QET" id="Wlp-uC-h9O"/>
                         <outlet property="helpButton" destination="lqB-ga-v8n" id="PwI-4k-ES1"/>
                         <outlet property="mapView" destination="w2T-Hb-1QL" id="OHY-6j-bgU"/>
+                        <outlet property="reportButton" destination="7DV-fr-6qL" id="ebB-Y5-rLf"/>
+                        <outlet property="routeButton" destination="4ZU-fn-ffK" id="sxQ-Hy-5yC"/>
                         <outlet property="showUserLocationButton" destination="KZ6-Zp-Gpl" id="y4w-f8-h6U"/>
                         <outlet property="statusView" destination="J4r-zu-51U" id="p1x-oX-BSy"/>
                         <outlet property="statusViewHeight" destination="ZZD-v3-oxH" id="nw0-QA-tu7"/>
+                        <outlet property="yankButton" destination="nSe-tK-QET" id="Wvc-v9-M5M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ia-8D-Yax" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3739,7 +3726,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="openChatWindow:" destination="qEG-az-7FP" eventType="touchUpInside" id="TMs-DE-4s5"/>
+                                                    <action selector="openEntourage:" destination="qEG-az-7FP" eventType="touchUpInside" id="6e5-n9-obl"/>
                                                     <action selector="showChatViewController:" destination="cif-Vi-G9b" eventType="touchUpInside" id="bv3-be-p7o"/>
                                                 </connections>
                                             </button>
@@ -6083,6 +6070,7 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="CheckBox_Unselected" width="16" height="16"/>
         <image name="CheckBox_UnselectedDown" width="16" height="16"/>
         <image name="TouchIDRed" width="40" height="40"/>
+        <image name="Yank_icon" width="25" height="22"/>
         <image name="about_logo" width="154" height="93"/>
         <image name="alert_icon" width="50" height="41"/>
         <image name="alert_mute_icon" width="21" height="25"/>
@@ -6096,7 +6084,7 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="chat_icon" width="26" height="25"/>
         <image name="email_icon" width="30" height="30"/>
         <image name="email_input_icon" width="25" height="26"/>
-        <image name="entourage_icon" width="28" height="24"/>
+        <image name="entourage_icon_white" width="28" height="24"/>
         <image name="facebook_icon" width="30" height="30"/>
         <image name="google_icon" width="30" height="30"/>
         <image name="help_menu_icon_active" width="52" height="52"/>
@@ -6108,6 +6096,7 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="iphoneIcon" width="139" height="255"/>
         <image name="linkedin_icon" width="30" height="30"/>
         <image name="locate_me_icon" width="17" height="20"/>
+        <image name="locate_me_icon_outline" width="17" height="20"/>
         <image name="no_image" width="362" height="359"/>
         <image name="notifications_menu_icon_active" width="52" height="52"/>
         <image name="password_input_icon" width="25" height="26"/>

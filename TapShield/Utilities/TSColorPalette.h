@@ -30,4 +30,6 @@ static NSString * const kTalkaphoneBranding = @"kTalkaphoneBranding";
 + (UIColor *)alertRed;
 + (UIColor *)lightChatRectGray;
 
++ (UIColor *)blueButtonColor;
+
 @end

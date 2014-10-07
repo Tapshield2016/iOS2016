@@ -61,7 +61,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     _firstMapLoad = YES;
-    _isTrackingUser = YES;
+    [self setIsTrackingUser:YES animateToUser:NO];
     _statusView.hidden = YES;
     
     _annotationsLoaded = NO;
@@ -69,17 +69,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     self.showSmallLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
+    [[TSAlertManager sharedManager] setCurrentHomeViewController:self];
+    
     _reportManager = [[TSReportAnnotationManager alloc] initWithMapView:_mapView];
     
     [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:self];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Yank_icon"]
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(toggleYank:)];
-    self.navigationItem.rightBarButtonItem.accessibilityLabel = @"Yank";
-    self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
-    self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -100,13 +94,33 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                                  name:TSYankManagerDidYankHeadphonesNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sendAlert:)
+                                             selector:@selector(sendEntourageAlert)
                                                  name:TSVirtualEntourageManagerTimerDidEnd
                                                object:nil];
     
     _statusViewHeight.constant = 0;
     
     [[TSLocationController sharedLocationController] bestAccuracyRefresh];
+    
+    [self initCallChatButtons];
+    
+    if ([TSYankManager sharedYankManager].isEnabled) {
+        UIImage *image = [_yankButton imageForState:UIControlStateNormal];
+        [_yankButton setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [_yankButton setTintColor:[TSColorPalette alertRed]];
+        _yankButton.layer.borderColor = [TSColorPalette alertRed].CGColor;
+        _yankButton.accessibilityValue = @"On";
+        _yankButton.accessibilityHint = kYankHintOn;
+    }
+    else {
+        _yankButton.accessibilityValue = @"Off";
+        _yankButton.accessibilityHint = kYankHintOff;
+    }
+    
+    [_helpButton setImage:[[UIImage alloc] init] forState:UIControlStateSelected];
+    [_helpButton setImage:[[UIImage alloc] init] forState:UIControlStateSelected|UIControlStateHighlighted];
+    [_helpButton setTitle:@"X" forState:UIControlStateSelected|UIControlStateHighlighted];
+    [_helpButton setLabelTitle:@"Help"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -118,17 +132,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [self addOverlaysAndAnnotations];
-    }
-    
-    if ([TSYankManager sharedYankManager].isEnabled) {
-        [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        self.navigationItem.rightBarButtonItem.accessibilityValue = @"On";
-        self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOn;
-    }
-    else {
-        [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
-        self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
-        self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
     }
 }
 
@@ -286,7 +289,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)entourageModeOn {
     
     [_reportManager showSpotCrimes];
-    self.isTrackingUser = YES;
+    [self setIsTrackingUser:YES animateToUser:YES];
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
     
@@ -339,32 +342,43 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self presentViewController:_cancelEntourageAlertController animated:YES completion:nil];
 }
 
-- (void)toggleYank:(id)sender {
+- (void)showEntourageMembers:(id)sender {
     
-    [[TSYankManager sharedYankManager] enableYank:^(BOOL enabled) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (enabled) {
-                [self.navigationItem.rightBarButtonItem setImage:[[UIImage imageNamed:@"Yank_icon_red"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-                self.navigationItem.rightBarButtonItem.accessibilityValue = @"On";
-                self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOn;
-            }
-            else {
-                [self.navigationItem.rightBarButtonItem setImage:[UIImage imageNamed:@"Yank_icon"]];
-                self.navigationItem.rightBarButtonItem.accessibilityValue = @"Off";
-                self.navigationItem.rightBarButtonItem.accessibilityHint = kYankHintOff;
-            }
-        });
-    }];
+    
 }
 
 - (void)sendYankAlert {
     
-    [self performSelectorOnMainThread:@selector(sendAlert:) withObject:@"T" waitUntilDone:NO];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_yankButton setTintColor:[TSColorPalette blueButtonColor]];
+        _yankButton.layer.borderColor = [TSColorPalette tapshieldBlue].CGColor;
+        _yankButton.accessibilityValue = @"Off";
+        _yankButton.accessibilityHint = kYankHintOff;
+    }];
+    
+    [self transitionForAlert];
+    [[TSAlertManager sharedManager] startYankAlertCountdown];
+}
+
+- (void)sendEntourageAlert {
+    
+    [self transitionForAlert];
+    [[TSAlertManager sharedManager] startEntourageAlertCountdown];
 }
 
 - (IBAction)sendAlert:(id)sender {
     
-    NSLog(@"%@", self);
+    _helpButton.selected = !_helpButton.selected;
+    
+    if (_helpButton.selected) {
+        [self showCallChatButtons];
+    }
+    else {
+        [self hideCallChatButtons];
+    }
+}
+
+- (void)transitionForAlert {
     
     if ([TSAlertManager sharedManager].isPresented) {
         return;
@@ -374,45 +388,21 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        
+        _mapView.shouldUpdateCallOut = YES;
+        [self showOnlyMap];
+        [_reportManager hideSpotCrimes];
+        
         if (self.presentedViewController) {
             [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
         }
         
-        NSString *type;
-        if ([sender isKindOfClass:[NSNotification class]]) {
-            type = [(NSNotification *)sender object];
-        }
-        else if ([sender isKindOfClass:[NSString class]]) {
-            if (((NSString *)sender).length == 1) {
-                type = sender;
-            }
-        }
-        
-        [[TSAlertManager sharedManager] showAlertWindowAndStartCountdownWithType:type currentHomeView:self];
         [self showOnlyMap];
         [_reportManager hideSpotCrimes];
     });
 }
 
-- (IBAction)openChatWindow:(id)sender {
-    
-    if (![TSLocationController sharedLocationController].geofence.currentAgency) {
-        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
-        return;
-    }
-    
-    [[TSAlertManager sharedManager] showAlertWindowForChatWithCurrentHomeView:self];
-    [self showOnlyMap];
-}
-
-- (IBAction)reportAlert:(id)sender {
-    
-    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
-    
-    viewController.reportManager = _reportManager;
-}
-
-- (IBAction)displayVirtualEntourage:(id)sender {
+- (IBAction)openEntourage:(id)sender {
     
     [_reportManager hideSpotCrimes];
     
@@ -434,27 +424,58 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
 }
 
+- (IBAction)reportAlert:(id)sender {
+    
+    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
+    
+    viewController.reportManager = _reportManager;
+}
+
+- (IBAction)toggleYank:(id)sender {
+    
+    [[TSYankManager sharedYankManager] enableYank:^(BOOL enabled) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (enabled) {
+                
+                UIImage *image = [_yankButton imageForState:UIControlStateNormal];
+                [_yankButton setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+                [_yankButton setTintColor:[TSColorPalette alertRed]];
+                _yankButton.layer.borderColor = [TSColorPalette alertRed].CGColor;
+                _yankButton.accessibilityValue = @"On";
+                _yankButton.accessibilityHint = kYankHintOn;
+            }
+            else {
+                [_yankButton setTintColor:[TSColorPalette blueButtonColor]];
+                _yankButton.layer.borderColor = [TSColorPalette tapshieldBlue].CGColor;
+                _yankButton.accessibilityValue = @"Off";
+                _yankButton.accessibilityHint = kYankHintOff;
+            }
+        });
+    }];
+}
+
 - (IBAction)userLocationTUI:(id)sender {
     
-    self.isTrackingUser = YES;
+    [self setIsTrackingUser:YES animateToUser:YES];
     
     [[TSLocationController sharedLocationController] bestAccuracyRefresh];
 }
 
-- (void)setIsTrackingUser:(BOOL)isTrackingUser {
+- (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate {
     
     _isTrackingUser = isTrackingUser;
+    _showUserLocationButton.selected = isTrackingUser;
     
-    if (isTrackingUser) {
+    if (isTrackingUser && animate) {
         if (_mapView.region.span.latitudeDelta > 0.1f) {
             [_mapView setRegionAtAppearanceAnimated:YES];
         }
-        else {
+        else if (animate) {
             [_mapView setCenterCoordinate:[TSLocationController sharedLocationController].location.coordinate animated:_viewDidAppear];
         }
+        
+        [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
     }
-    
-    [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
 }
 
 - (void)showAllSubviews {
@@ -548,7 +569,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)userWillPanMapView:(ADClusterMapView *)mapView {
     
-    _isTrackingUser = NO;
+    [self setIsTrackingUser:NO animateToUser:NO];
     [self setStatusViewText:nil];
 }
 
@@ -977,7 +998,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)moveMapView:(MKMapView *)mapView coordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
     
-    _isTrackingUser = NO;
+    [self setIsTrackingUser:NO animateToUser:NO];
     
     MKCoordinateRegion region = mapView.region;
     MKCoordinateSpan span = mapView.region.span;
@@ -1183,34 +1204,142 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 #pragma mark - Alert Buttons
 
+- (IBAction)callEmergencyNumber:(id)sender {
+    [self hideCallChatButtons];
+    
+}
+
+- (IBAction)callAgencyDispatcher:(id)sender {
+    [self hideCallChatButtons];
+    
+}
+
+- (IBAction)openChat:(id)sender {
+    
+    [self hideCallChatButtons];
+    
+    if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
+        return;
+    }
+    
+    [[TSAlertManager sharedManager] showAlertWindowForChatWithCurrentHomeView:self];
+    [self showOnlyMap];
+}
+
 - (void)initCallChatButtons {
     
-    _policeButton = [[TSBottomMapButton alloc] initWithFrame:_helpButton.superview.frame];
-    _emergencyButton = [[TSBottomMapButton alloc] initWithFrame:_helpButton.superview.frame];
-    _chatButton = [[TSBottomMapButton alloc] initWithFrame:_helpButton.superview.frame];
+    CGRect frame = _routeButton.frame;
+//    frame.size.height += 10;
+//    frame.size.width = frame.size.height;
+    
+    _policeButton = [[TSBottomMapButton alloc] initWithFrame:frame];
+    [_policeButton setImage:[UIImage imageNamed:@"phone_call"] forState:UIControlStateNormal];
+    [_policeButton setLabelTitle:@"Police"];
+    [_policeButton addTarget:self action:@selector(callAgencyDispatcher:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _emergencyButton = [[TSBottomMapButton alloc] initWithFrame:frame];
+    [_emergencyButton setImage:[UIImage imageNamed:@"call_911"] forState:UIControlStateNormal];
+    [_emergencyButton setLabelTitle:@"Call"];
+    [_emergencyButton addTarget:self action:@selector(callEmergencyNumber:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _chatButton = [[TSBottomMapButton alloc] initWithFrame:frame];
+    [_chatButton setImage:[UIImage imageNamed:@"alert_chat_icon"] forState:UIControlStateNormal];
+    [_chatButton setLabelTitle:@"Chat"];
+    [_chatButton addTarget:self action:@selector(openChat:) forControlEvents:UIControlEventTouchUpInside];
+    
+    float scale = 1.5;
+    
+    _policeButton.transform = CGAffineTransformMakeScale(scale, scale);
+    _emergencyButton.transform = CGAffineTransformMakeScale(scale, scale);
+    _chatButton.transform = CGAffineTransformMakeScale(scale, scale);
+    
+    _policeButton.center = _helpButton.superview.center;
+    _emergencyButton.center = _helpButton.superview.center;
+    _chatButton.center = _helpButton.superview.center;
     
     [self.view insertSubview:_policeButton belowSubview:_helpButton.superview];
     [self.view insertSubview:_emergencyButton belowSubview:_helpButton.superview];
     [self.view insertSubview:_chatButton belowSubview:_helpButton.superview];
+    
+    _policeButton.hidden = YES;
+    _emergencyButton.hidden = YES;
+    _chatButton.hidden = YES;
 }
 
 - (void)showCallChatButtons {
     
-    [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        _policeButton.center = [self pointOnCircleWithCenter:_helpButton.superview.center radius:_helpButton.frame.size.height*2 angle:45];
-        _emergencyButton.center = [self pointOnCircleWithCenter:_helpButton.superview.center radius:_helpButton.frame.size.height*2 angle:90];
-        _chatButton.center = [self pointOnCircleWithCenter:_helpButton.superview.center radius:_helpButton.frame.size.height*2 angle:135];
+    [_policeButton.layer removeAllAnimations];
+    [_emergencyButton.layer removeAllAnimations];
+    [_chatButton.layer removeAllAnimations];
+    [_reportButton.layer removeAllAnimations];
+    [_routeButton.layer removeAllAnimations];
+    
+    _policeButton.hidden = NO;
+    _emergencyButton.hidden = NO;
+    _chatButton.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
         
-    } completion:^(BOOL finished) {
+        _policeButton.transform = CGAffineTransformIdentity;
+        _emergencyButton.transform = CGAffineTransformIdentity;
+        _chatButton.transform = CGAffineTransformIdentity;
         
-    }];
+        _policeButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:215];
+        _emergencyButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:270];
+        _chatButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:325];
+        
+        _reportButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
+        _routeButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
+        
+        _helpButton.label.hidden = YES;
+        _helpButton.transform = CGAffineTransformMakeScale(0.6667, 0.6667);
+        
+    } completion:nil];
 }
 
-- (CGPoint)pointOnCircleWithCenter:(CGPoint)center radius:(float)radius angle:(float)angle {
+- (CGPoint)pointOnCircleWithView:(UIView *)view radius:(float)radius angle:(float)angle {
     CGPoint newPoint;
-    newPoint.x = center.x + (radius * cosf(angle));
-    newPoint.y = center.y + (radius * sinf(angle));
+    newPoint.x = view.center.x + (radius * cosf(angle * M_PI / 180));
+    newPoint.y = view.center.y + (radius * sinf(angle * M_PI / 180));
+    
     return newPoint;
+}
+
+
+- (void)hideCallChatButtons {
+    
+    [_policeButton.layer removeAllAnimations];
+    [_emergencyButton.layer removeAllAnimations];
+    [_chatButton.layer removeAllAnimations];
+    [_reportButton.layer removeAllAnimations];
+    [_routeButton.layer removeAllAnimations];
+    
+    [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
+        
+        float scale = 1.5;
+        
+        _policeButton.transform = CGAffineTransformMakeScale(scale, scale);
+        _emergencyButton.transform = CGAffineTransformMakeScale(scale, scale);
+        _chatButton.transform = CGAffineTransformMakeScale(scale, scale);
+        
+        _policeButton.center = _helpButton.superview.center;
+        _emergencyButton.center = _helpButton.superview.center;
+        _chatButton.center = _helpButton.superview.center;
+        
+        _reportButton.transform = CGAffineTransformIdentity;
+        _routeButton.transform = CGAffineTransformIdentity;
+        _helpButton.transform = CGAffineTransformIdentity;
+        
+        _helpButton.label.hidden = NO;
+        
+    } completion:^(BOOL finished) {
+        if (finished && _policeButton.transform.a != CGAffineTransformIdentity.a) {
+            _policeButton.hidden = YES;
+            _emergencyButton.hidden = YES;
+            _chatButton.hidden = YES;
+        }
+    }];
 }
 
 

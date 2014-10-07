@@ -57,7 +57,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     
     // Display user location and selected destination if present
     if ([TSVirtualEntourageManager sharedManager].routeManager.destinationMapItem) {
-        _homeViewController.isTrackingUser = NO;
+        [_homeViewController setIsTrackingUser:NO animateToUser:NO];
         [self requestAndDisplayRoutesForSelectedDestination];
     }
     

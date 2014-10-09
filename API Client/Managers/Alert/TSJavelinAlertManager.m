@@ -40,12 +40,16 @@ static NSString * const TSJavelinAlertManagerRemoteHostName = @"api.tapshield.co
 static NSString * const TSJavelinAlertManagerRemoteHostName = @"dev.tapshield.com";
 #endif
 
-NSString * const TSJavelinAlertManagerDidRecieveActiveAlertNotification = @"TSJavelinAlertManagerDidRecieveActiveAlertNotification";
+NSString * const TSJavelinAlertManagerDidReceiveActiveAlertNotification = @"TSJavelinAlertManagerDidReceiveActiveAlertNotification";
 NSString * const TSJavelinAlertManagerDidDisarmNotification = @"TSJavelinAlertManagerDidDisarmNotification";
 NSString * const TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification = @"TSJavelinAlertManagerDidSendAlertOutsideGeofenceNotification";
 
 NSString * const kTSJavelinAlertManagerSentActiveAlert = @"kTSJavelinAlertManagerSentActiveAlert";
 NSString * const kTSJavelinAlertManagerAwaitingDisarm = @"kTSJavelinAlertManagerAwaitingDisarm";
+
+NSString * const kTSJavelinAlertManagerDidNotFindAlert = @"kTSJavelinAlertManagerNoResponse";
+
+NSString * const TSJavelinAlertManagerDidReceiveAlertCompletion = @"TSJavelinAlertManagerDidReceiveAlertCompletion";
 
 @interface TSJavelinAlertManager ()
 
@@ -56,6 +60,7 @@ NSString * const kTSJavelinAlertManagerAwaitingDisarm = @"kTSJavelinAlertManager
 @property (nonatomic, strong) NSString *alertQueueName;
 @property (nonatomic, strong) NSTimer *findActiveAlertTimer;
 @property (nonatomic, strong) NSString *remoteHostName;
+@property (nonatomic, assign) NSUInteger retryAttempts;
 
 @end
 
@@ -92,7 +97,49 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Alert methods
 
-- (void)initiateAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {
+- (void)initiateDirectRestAPIAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(void (^)(TSJavelinAPIAlert *activeAlert, BOOL inside))completion {
+    
+    if (!alert) {
+        return;
+    }
+    
+    if (!type || [type isEqualToString:@""]) {
+        type = @"E";
+    }
+    
+    if (![TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+        return;
+    }
+    
+    _activeAlert = alert;
+    
+    NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:7];
+    alertInfo[@"user"] = alert.agencyUser.username;
+    
+    if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency]) {
+        alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
+        alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
+        alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
+        alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
+        alertInfo[@"alert_type"] = type;
+        alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
+        [[TSJavelinAPIClient sharedClient] sendDirectRestAPIAlertWithParameters:alertInfo completion:^(TSJavelinAPIAlert *activeAlert) {
+            if (completion) {
+                completion(activeAlert, YES);
+            }
+        }];
+    }
+    else {
+        NSLog(@"Out of bounds or no agency");
+        if (completion) {
+            completion(nil, NO);
+        }
+        [self setActiveAlert:nil];
+        return;
+    }
+}
+
+- (void)initiateQueuedAlert:(TSJavelinAPIAlert *)alert type:(NSString *)type location:(CLLocation *)location completion:(TSJavelinAlertManagerAlertQueuedBlock)completion {
     
     if (alert == nil) {
         return;
@@ -111,8 +158,8 @@ static dispatch_once_t onceToken;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
-        NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:4];
-        alertInfo[@"user"] = alert.agencyUser.email;
+        NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:7];
+        alertInfo[@"user"] = alert.agencyUser.username;
         
         if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency]) {
             alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
@@ -166,8 +213,11 @@ static dispatch_once_t onceToken;
             
             if (completion) {
                 completion(YES, YES);
-                [self scheduleFindActiveAlertTimer];
             }
+            
+            _retryAttempts = 0;
+            [self scheduleFindActiveAlertTimer];
+            
             // Send user profile using API client method
             [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
                 if (profileDataUploadSucceeded) {
@@ -198,11 +248,26 @@ static dispatch_once_t onceToken;
 
 - (void)findAndSetActiveAlertForLoggedinUser {
     NSLog(@"findACtiveAlertCalled");
+    
+    if ([TSJavelinAlertManager sharedManager].activeAlert.url) {
+        return;
+    }
+    
     [[TSJavelinAPIClient sharedClient] findActiveAlertForLoggedinUser:^(TSJavelinAPIAlert *activeAlert) {
         if (activeAlert) {
             [[TSJavelinAlertManager sharedManager] setActiveAlert:activeAlert];
         }
         else {
+            
+            _retryAttempts++;
+            
+            if (!(_retryAttempts % 2)) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAlertManagerDidNotFindAlert object:nil];
+                if ([_delegate respondsToSelector:@selector(alertManagerDidNotFindAlert:)]) {
+                    [_delegate alertManagerDidNotFindAlert:_activeAlert];
+                }
+            }
+            
             [self scheduleFindActiveAlertTimer];
         }
     }];
@@ -219,9 +284,13 @@ static dispatch_once_t onceToken;
 }
 
 - (void)sendActiveAlertNotification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidRecieveActiveAlertNotification object:_activeAlert];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidReceiveActiveAlertNotification object:_activeAlert];
+    if ([_delegate respondsToSelector:@selector(alertManagerDidReceiveAlert:)]) {
+        [_delegate alertManagerDidReceiveAlert:_activeAlert];
+    }
     [_findActiveAlertTimer invalidate];
     [[TSJavelinAPIClient sharedClient] startChatForActiveAlert];
+    [self updateAlertWithCallLength:_activeAlert.callLength completion:nil];
 }
 
 - (void)stopAlertUpdates {
@@ -231,16 +300,21 @@ static dispatch_once_t onceToken;
 - (void)setActiveAlert:(TSJavelinAPIAlert *)activeAlert
 {
     if (!activeAlert) {
+        TSJavelinAPIAlert *inactiveAlert = _activeAlert;
         _activeAlert = nil;
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidDisarmNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidDisarmNotification object:inactiveAlert];
+        
+        if ([_delegate respondsToSelector:@selector(alertManagerDidDisarmAlert:)]) {
+            [_delegate alertManagerDidDisarmAlert:inactiveAlert];
+        }
     }
     
     if (!activeAlert.url) {
         return;
     }
     if (![_activeAlert.url isEqualToString:activeAlert.url]) {
-        _activeAlert = activeAlert;
+        _activeAlert.url = activeAlert.url;
         [self sendActiveAlertNotification];
     }
 }
@@ -251,5 +325,21 @@ static dispatch_once_t onceToken;
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kTSJavelinAlertManagerAwaitingDisarm];
 }
 
+- (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion {
+    
+    _activeAlert.callLength = length;
+    
+    [[TSJavelinAPIClient sharedClient] updateAlertWithCallLength:length completion:completion];
+}
+
+
+- (void)alertWasCompletedByDispatcher {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidReceiveAlertCompletion object:_activeAlert];
+    
+    if ([_delegate respondsToSelector:@selector(dispatcherDidCompleteAlert:)]) {
+        [_delegate dispatcherDidCompleteAlert:_activeAlert];
+    }
+}
 
 @end

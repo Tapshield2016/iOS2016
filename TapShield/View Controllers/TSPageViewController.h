@@ -22,7 +22,6 @@
 @property (strong, nonatomic) TSDisarmPadViewController *disarmPadViewController;
 @property (strong, nonatomic) TSEmergencyAlertViewController *emergencyAlertViewController;
 @property (strong, nonatomic) TSChatViewController *chatViewController;
-@property (weak, nonatomic) TSHomeViewController *homeViewController;
 
 //UI and animation
 @property (strong, nonatomic) UIView *animatedView;
@@ -35,6 +34,7 @@
 @property (nonatomic) BOOL isFirstTimeViewed;
 @property (nonatomic) BOOL isPhoneView;
 @property (nonatomic) BOOL isChatPresentation;
+@property (nonatomic) BOOL isAlertPresentation;
 
 //Transition
 @property (strong, nonatomic) UIViewController *transitioningViewController;

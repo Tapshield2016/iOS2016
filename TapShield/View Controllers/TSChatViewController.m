@@ -74,7 +74,9 @@
     
     [super viewWillAppear:animated];
     
-    [self.navigationItem setHidesBackButton:_hideBackButton];
+    if ([TSAlertManager sharedManager].type != kAlertTypeChat && [TSAlertManager sharedManager].isAlertInProgress) {
+        [self initTintView:[TSAlertManager sharedManager].status];
+    }
     
     [TSJavelinChatManager sharedManager].unreadMessages = 0;
     
@@ -102,9 +104,25 @@
     self.navigationController.navigationBar.topItem.title = self.title;
     
     [self showKeyboard];
+    
+    if (![TSAlertManager sharedManager].isAlertInProgress ||
+        [TSAlertManager sharedManager].type == kAlertTypeChat) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Call Dispatcher" style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)];
+        [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{ NSForegroundColorAttributeName : [TSColorPalette alertRed], NSFontAttributeName : [UIFont fontWithName:kFontWeightLight size:17.0f] } forState:UIControlStateNormal];
+        [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{ NSForegroundColorAttributeName : [[TSColorPalette alertRed] colorWithAlphaComponent:0.5], NSFontAttributeName : [UIFont fontWithName:kFontWeightLight size:17.0f] } forState:UIControlStateHighlighted];
+    }
+    else {
+        [self.navigationItem setLeftBarButtonItem:nil animated:NO];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+        // back button was pressed.  We know this is true because self is no longer
+        // in the navigation stack.
+        [[TSAlertManager sharedManager] sendAlertType:kAlertTypeAlertCall];
+    }
     
     [super viewWillDisappear:animated];
     
@@ -115,6 +133,10 @@
     [_textMessageBarAccessoryView.textView resignFirstResponder];
 }
 
+- (void)popViewController {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 - (void)leftAgencyBoundaries {
@@ -146,7 +168,7 @@
     
     [TSJavelinChatManager sharedManager].unreadMessages = 0;
     
-    if ([TSAlertManager sharedManager].isAlertInProgress) {
+    if ([TSAlertManager sharedManager].type != kAlertTypeChat && [TSAlertManager sharedManager].isAlertInProgress) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else {
@@ -193,15 +215,11 @@
     [self resetMessageBars];
     
     if (![TSAlertManager sharedManager].isAlertInProgress) {
-        [TSAlertManager sharedManager].type = @"C";
-        [[TSAlertManager sharedManager] sendAlertType:@"C"];
+        [TSAlertManager sharedManager].type = kAlertTypeChat;
+        [[TSAlertManager sharedManager] startChatAlert];
         if ([[self.navigationController.viewControllers firstObject] respondsToSelector:@selector(showAlertViewController)]) {
             [(TSPageViewController *)[self.navigationController.viewControllers firstObject] showAlertViewController];
         }
-        
-        [self.navigationItem setHidesBackButton:NO animated:YES];
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        [self.navigationItem setLeftItemsSupplementBackButton:YES];
     }
 }
 
@@ -300,17 +318,26 @@
 }
 
 
-#pragma mark Prompt Messages
-
-- (void)setNavigationItemPrompt:(NSString *)string {
+- (void)initTintView:(NSString *)status {
     
-    if (![string isEqualToString:kAlertSend] && ![string isEqualToString:kAlertNoConnection]) {
+    if (![status isEqualToString:kAlertSend] && ![status isEqualToString:kAlertNoConnection]) {
         if (!_tintView) {
             _tintView = [[UIView alloc] initWithFrame:self.view.frame];
             _tintView.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
             [self.view insertSubview:_tintView belowSubview:_tableView];
         }
     }
+}
+
+#pragma mark Prompt Messages
+
+- (void)setNavigationItemPrompt:(NSString *)string {
+    
+    if ([TSAlertManager sharedManager].type == kAlertTypeChat) {
+        return;
+    }
+    
+    [self initTintView:string];
     
     if (![string isEqualToString:kAlertSend]) {
         [self.navigationItem setPrompt:string];

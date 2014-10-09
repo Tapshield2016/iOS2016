@@ -125,9 +125,7 @@ static dispatch_once_t predicate;
     _shouldEnable = NO;
     [TSLocalNotification presentLocalNotification:@"Yank alert countdown activated!"];
     [self performSelector:@selector(sayYankActivated) withObject:nil afterDelay:1];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSYankManagerDidYankHeadphonesNotification object:@"T"];
-    
-#warning Eventually Yank = @"Y"
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSYankManagerDidYankHeadphonesNotification object:@"Y"];
 }
 
 - (void)sayYankActivated {

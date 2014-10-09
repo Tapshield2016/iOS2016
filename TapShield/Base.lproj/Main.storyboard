@@ -4041,6 +4041,9 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Call" id="og8-HW-uGM">
+                        <barButtonItem key="backBarButtonItem" title="Call" id="hRn-PU-Fhh"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="330-Dv-0zn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -89,7 +89,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         TSHomeViewController *homeView = (TSHomeViewController *)[self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:NO];
-        [[TSAlertManager sharedManager] showAlertWindowAndStartCountdownWithType:@"T" currentHomeView:homeView];
+        [[TSAlertManager sharedManager] startEntourageAlertCountdown];
         [self.tableView reloadData];
     });
 }

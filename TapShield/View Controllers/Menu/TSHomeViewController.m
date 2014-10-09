@@ -69,7 +69,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     self.showSmallLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
-    [[TSAlertManager sharedManager] setCurrentHomeViewController:self];
+    [TSAlertManager sharedManager].homeViewController = self;
     
     _reportManager = [[TSReportAnnotationManager alloc] initWithMapView:_mapView];
     
@@ -87,7 +87,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(mapAlertModeToggle)
-                                                 name:TSJavelinAlertManagerDidRecieveActiveAlertNotification
+                                                 name:TSJavelinAlertManagerDidReceiveActiveAlertNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sendYankAlert)
@@ -164,10 +164,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if ([TSAlertManager sharedManager].isPresented) {
-        [[TSAlertManager sharedManager] setCurrentHomeViewController:self];
-        _mapView.shouldUpdateCallOut = YES;
-        [self showOnlyMap];
-        [_reportManager hideSpotCrimes];
+        [self transitionForAlert];
     }
 }
 
@@ -354,16 +351,28 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _yankButton.layer.borderColor = [TSColorPalette tapshieldBlue].CGColor;
         _yankButton.accessibilityValue = @"Off";
         _yankButton.accessibilityHint = kYankHintOff;
+        
+        if ([TSAlertManager sharedManager].isPresented) {
+            return;
+        }
+        
+        [self transitionForAlert];
+        [[TSAlertManager sharedManager] startYankAlertCountdown];
     }];
-    
-    [self transitionForAlert];
-    [[TSAlertManager sharedManager] startYankAlertCountdown];
 }
 
 - (void)sendEntourageAlert {
     
-    [self transitionForAlert];
-    [[TSAlertManager sharedManager] startEntourageAlertCountdown];
+    if ([TSAlertManager sharedManager].isPresented) {
+        return;
+    }
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    
+        [self transitionForAlert];
+        [[TSAlertManager sharedManager] startEntourageAlertCountdown];
+        
+    }];
 }
 
 - (IBAction)sendAlert:(id)sender {
@@ -380,26 +389,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)transitionForAlert {
     
-    if ([TSAlertManager sharedManager].isPresented) {
-        return;
-    }
-    
     _mapView.shouldUpdateCallOut = YES;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        
-        _mapView.shouldUpdateCallOut = YES;
-        [self showOnlyMap];
-        [_reportManager hideSpotCrimes];
-        
-        if (self.presentedViewController) {
-            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-        }
-        
-        [self showOnlyMap];
-        [_reportManager hideSpotCrimes];
-    });
+    if (self.presentedViewController) {
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    [self showOnlyMap];
+    [_reportManager hideSpotCrimes];
 }
 
 - (IBAction)openEntourage:(id)sender {
@@ -1206,12 +1203,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)callEmergencyNumber:(id)sender {
     [self hideCallChatButtons];
-    
+    [self transitionForAlert];
+    [[TSAlertManager sharedManager] startEmergencyNumberAlert];
 }
 
 - (IBAction)callAgencyDispatcher:(id)sender {
     [self hideCallChatButtons];
-    
+    [self transitionForAlert];
+    [[TSAlertManager sharedManager] startAgencyDispathcerCallAlert];
 }
 
 - (IBAction)openChat:(id)sender {
@@ -1223,15 +1222,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         return;
     }
     
-    [[TSAlertManager sharedManager] showAlertWindowForChatWithCurrentHomeView:self];
-    [self showOnlyMap];
+    [[TSAlertManager sharedManager] showAlertWindowForChat];
+    [self transitionForAlert];
 }
 
 - (void)initCallChatButtons {
     
     CGRect frame = _routeButton.frame;
-//    frame.size.height += 10;
-//    frame.size.width = frame.size.height;
     
     _policeButton = [[TSBottomMapButton alloc] initWithFrame:frame];
     [_policeButton setImage:[UIImage imageNamed:@"phone_call"] forState:UIControlStateNormal];
@@ -1268,6 +1265,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (void)showCallChatButtons {
+    
+    _helpButton.selected = YES;
     
     [_policeButton.layer removeAllAnimations];
     [_emergencyButton.layer removeAllAnimations];
@@ -1308,6 +1307,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 
 - (void)hideCallChatButtons {
+    
+    _helpButton.selected = NO;
     
     [_policeButton.layer removeAllAnimations];
     [_emergencyButton.layer removeAllAnimations];

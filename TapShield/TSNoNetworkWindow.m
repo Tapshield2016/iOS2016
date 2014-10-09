@@ -10,12 +10,15 @@
 #import "TSColorPalette.h"
 #import "TSBaseLabel.h"
 
-static NSString * const kDisconnected = @"No Network Connection";
+static NSString * const kDisconnected = @"No Network Data Connection";
 
 @interface TSNoNetworkWindow ()
 
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, assign) UIStatusBarStyle style;
+@property (nonatomic, strong) NSTimer *animationTimer;
+@property (nonatomic, strong) UIWindow *upperWindow;
 
 @end
 
@@ -33,7 +36,12 @@ static NSString * const kDisconnected = @"No Network Connection";
 
 - (void)show {
     
-    self.windowLevel = UIWindowLevelStatusBar;
+    _upperWindow = [[UIWindow alloc] initWithFrame:self.frame];
+    _upperWindow.windowLevel = UIWindowLevelStatusBar;
+    _upperWindow.backgroundColor = [TSColorPalette alertRed];
+    _upperWindow.alpha = 0.0;
+    
+    self.windowLevel = 1.5;
     self.hidden = NO;
     self.backgroundColor = [UIColor clearColor];
     CGRect frame = self.frame;
@@ -48,9 +56,12 @@ static NSString * const kDisconnected = @"No Network Connection";
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor whiteColor];
     
-    [_view addSubview:_label];
+    [_upperWindow addSubview:_label];
+    
+    _style = [UIApplication sharedApplication].statusBarStyle;
     
     [self makeKeyAndVisible];
+    [_upperWindow makeKeyAndVisible];
     
     [UIView animateWithDuration:0.5
                           delay:0
@@ -59,16 +70,24 @@ static NSString * const kDisconnected = @"No Network Connection";
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
         _view.frame = self.frame;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        [self fadeInAndOut];
+    }];
 }
 
 - (void)dismiss:(void (^)(BOOL finished))completion  {
+    
+    [self invalidateAnimationTimer];
+    [_upperWindow.layer removeAllAnimations];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:_style animated:YES];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.3f animations:^{
             CGRect frame = self.frame;
             frame.origin.y = -frame.size.height;
             self.frame = frame;
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
         } completion:^(BOOL finished) {
             [self setHidden:YES];
             [self removeFromSuperview];
@@ -79,6 +98,38 @@ static NSString * const kDisconnected = @"No Network Connection";
         }];
     });
 }
+
+- (void)invalidateAnimationTimer {
+    
+    [_animationTimer invalidate];
+    _animationTimer = nil;
+    _upperWindow.alpha = 0.0;
+}
+
+- (void)fadeInAndOut {
+    
+    if (!_animationTimer) {
+        _animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0
+                                                           target:self
+                                                         selector:@selector(fadeInAndOut)
+                                                         userInfo:nil
+                                                          repeats:YES];
+        _animationTimer.tolerance = 1.0;
+    }
+    
+    if (_upperWindow.alpha == 0.0) {
+        [UIView animateWithDuration:0.3 animations:^{
+            _upperWindow.alpha = 1.0;
+        }];
+    }
+    else {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+        [UIView animateWithDuration:0.3 animations:^{
+            _upperWindow.alpha = 0.0;
+        }];
+    }
+}
+
 
 
 @end

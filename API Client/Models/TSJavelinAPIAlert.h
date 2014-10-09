@@ -19,6 +19,7 @@
 @property (nonatomic, strong) TSJavelinAPIUser *agencyUser;
 @property (nonatomic, strong) NSString *locationAddress;
 @property (nonatomic, strong) NSString *alertStatus;
+@property (nonatomic, assign) NSTimeInterval callLength;
 @property (nonatomic, assign) CLLocation *location;
 
 

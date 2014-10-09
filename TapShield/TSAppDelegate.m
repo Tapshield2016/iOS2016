@@ -27,6 +27,8 @@
 #import "TSNoNetworkWindow.h"
 #import "TSUserSessionManager.h"
 
+@import CoreTelephony;
+
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIDemoBaseURL = @"https://demo.tapshield.com/api/v1/";
 static NSString * const TSJavelinAPIProductionBaseURL = @"https://api.tapshield.com/api/v1/";
@@ -39,6 +41,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 @property (nonatomic, strong) UIImageView *windowBackground;
 @property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
 @property (nonatomic, strong) TSPopUpWindow *pushNotificationAlertWindow;
+@property (strong, nonatomic) CTCallCenter *callCenter;
 
 @end
 
@@ -164,21 +167,9 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.window sendSubviewToBack:self.windowBackground];
     
     [[TSUserSessionManager sharedManager] userStatusCheck];
-
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    if ([[FBSession activeSession] handleOpenURL:url]) {
-        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
-    }
     
-    if ([[GPPSignIn sharedInstance] handleURL:url
-                            sourceApplication:sourceApplication
-                                   annotation:annotation]) {
-        
-    }
-    
+    [self registerForCallHandler];
+
     return YES;
 }
 							
@@ -236,6 +227,26 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }
 
+
+#pragma mark - URL Handler 
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([[FBSession activeSession] handleOpenURL:url]) {
+        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
+    }
+    
+    if ([[GPPSignIn sharedInstance] handleURL:url
+                            sourceApplication:sourceApplication
+                                   annotation:annotation]) {
+        
+    }
+    
+    return YES;
+}
+
+
+#pragma mark - Remote Notifications
+
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     NSLog(@"Failed to get token, error: %@", error);
@@ -277,8 +288,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
-    [application setApplicationIconBadgeNumber: 0];
-    
     [TSJavelinPushNotificationManager analyzeNotification:userInfo completion:^(BOOL matchFound, TSJavelinAPIPushNotification *notification) {
         if (matchFound && notification) {
             // Do something else here, we didn't find a match for any action we need to be aware of...
@@ -287,10 +296,16 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             if (completionHandler) {
                 completionHandler(UIBackgroundFetchResultNewData);
             }
+            else {
+                [application setApplicationIconBadgeNumber: 0];
+            }
         }
         else {
             if (completionHandler) {
                 completionHandler(UIBackgroundFetchResultNoData);
+            }
+            else {
+                [application setApplicationIconBadgeNumber: 0];
             }
         }
     }];
@@ -304,6 +319,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     }
 }
 
+#pragma mark - Local Notifications
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     
     
@@ -315,7 +332,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     }
     
     if ([[notification.userInfo objectForKey:@"destination"] isEqualToString:kAlertOutsideGeofence]) {
-        [[TSAlertManager sharedManager] callSecondary];
+        [[TSAlertManager sharedManager] callEmergencyNumber];
     }
     
     if (notification) {
@@ -323,6 +340,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     }
 }
 
+
+#pragma mark - Side Drawer
 
 - (void)drawerCanDragForMenu:(BOOL)enabled; {
     
@@ -393,6 +412,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     }
 }
 
+#pragma mark - Settings App
+
 + (void)openSettings
 {
     BOOL canOpenSettings = (&UIApplicationOpenSettingsURLString != NULL);
@@ -400,6 +421,31 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         [[UIApplication sharedApplication] openURL:url];
     }
+}
+
+
+#pragma mark - Network Calls
+
+- (void)registerForCallHandler {
+    
+    self.callCenter = [[CTCallCenter alloc] init];
+    
+    [self.callCenter setCallEventHandler:^(CTCall* call)
+     {
+         if ([call.callState isEqualToString: CTCallStateConnected]) {
+             [[TSAlertManager sharedManager] notifiedCTCallStateConnected:call];
+         }
+         else if ([call.callState isEqualToString: CTCallStateDialing]) {
+             [[TSAlertManager sharedManager] notifiedCTCallStateDialing:call];
+         }
+         else if ([call.callState isEqualToString: CTCallStateDisconnected]) {
+             [[TSAlertManager sharedManager] notifiedCTCallStateDisconnected:call];
+             
+         } else if ([call.callState isEqualToString: CTCallStateIncoming]) {
+             [[TSAlertManager sharedManager] notifiedCTCallStateIncoming:call];
+         }
+         
+     }];
 }
 
 @end

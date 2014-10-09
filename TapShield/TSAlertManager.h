@@ -10,6 +10,8 @@
 #import <TwilioSDK/TwilioClient.h>
 #import "TSHomeViewController.h"
 
+@import CoreTelephony;
+
 extern NSString * const kAlertWindowAnimationTypeDown;
 extern NSString * const kAlertWindowAnimationTypeZoom;
 
@@ -32,7 +34,7 @@ extern NSString * const kAlertWindowAnimationTypeZoom;
 
 @end
 
-@interface TSAlertManager : NSObject <TCConnectionDelegate, TCDeviceDelegate>
+@interface TSAlertManager : NSObject <TCConnectionDelegate, TCDeviceDelegate, TSJavelinAlertManagerDelegate>
 
 extern NSString * const kAlertSend;
 extern NSString * const kAlertSending;
@@ -42,8 +44,16 @@ extern NSString * const kAlertOutsideGeofence;
 extern NSString * const kAlertClosedDispatchCenter;
 extern NSString * const kAlertNoConnection;
 
+extern NSString * const kAlertType911Call;
+extern NSString * const kAlertTypeAlertCall;
+extern NSString * const kAlertTypeEntourage;
+extern NSString * const kAlertTypeYank;
+extern NSString * const kAlertTypeChat;
+
 @property (nonatomic, weak) id <TSAlertDelegate> alertDelegate;
 @property (nonatomic, weak) id <TSCallDelegate> callDelegate;
+
+@property (nonatomic, weak) TSHomeViewController *homeViewController;
 
 //Alert
 @property (strong, nonatomic) NSString *type;
@@ -60,8 +70,6 @@ extern NSString * const kAlertNoConnection;
 @property (strong, nonatomic) NSDate *callStartTime;
 @property (nonatomic, assign, readonly) BOOL callInProgress;
 
-
-
 + (instancetype)sharedManager;
 
 - (void)startAlertCountdown:(int)seconds type:(NSString *)type;
@@ -72,18 +80,21 @@ extern NSString * const kAlertNoConnection;
 - (void)endTwilioCall;
 - (BOOL)updateAudioRoute:(BOOL)enabled;
 
-- (void)showAlertWindowAndStartCountdownWithType:(NSString *)type currentHomeView:(TSHomeViewController *)homeViewController;
-- (void)showAlertWindowForChatWithCurrentHomeView:(TSHomeViewController *)homeViewController;
-- (void)setCurrentHomeViewController:(TSHomeViewController *)viewController;
-
-- (void)callSecondary;
+- (void)callEmergencyNumber;
 
 - (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion;
+
+- (void)showAlertWindowForChat;
 
 - (void)startEmergencyNumberAlert;
 - (void)startAgencyDispathcerCallAlert;
 - (void)startChatAlert;
 - (void)startYankAlertCountdown;
 - (void)startEntourageAlertCountdown;
+
+- (void)notifiedCTCallStateDialing:(CTCall *)call;
+- (void)notifiedCTCallStateConnected:(CTCall *)call;
+- (void)notifiedCTCallStateDisconnected:(CTCall *)call;
+- (void)notifiedCTCallStateIncoming:(CTCall *)call;
 
 @end

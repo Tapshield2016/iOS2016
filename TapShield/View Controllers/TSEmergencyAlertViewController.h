@@ -12,7 +12,7 @@
 #import "TSIconBadgeView.h"
 #import "TSBottomMapAlertButton.h"
 
-@interface TSEmergencyAlertViewController : TSNavigationViewController <TSAlertDelegate>
+@interface TSEmergencyAlertViewController : TSBaseViewController <TSAlertDelegate>
 
 
 @property (strong, nonatomic) TSBaseLabel *alertInfoLabel;

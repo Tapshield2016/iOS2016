@@ -41,7 +41,7 @@
     }
     
     if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
-        [((TSPageViewController *)self.parentViewController).homeViewController.mapView selectAnnotation:((TSPageViewController *)self.parentViewController).homeViewController.mapView.userLocationAnnotation animated:YES];
+        [[TSAlertManager sharedManager].homeViewController.mapView selectAnnotation:[TSAlertManager sharedManager].homeViewController.mapView.userLocationAnnotation animated:YES];
     }
     
     _alertInfoLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0, 64, 320, 44)];
@@ -137,16 +137,16 @@
     
     [self updateAlertInfoLabel:status];
     
-    AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        
+        AudioServicesPlaySystemSound( kSystemSoundID_Vibrate );
         
         if ([status isEqualToString:kAlertSending]) {
             [(TSPageViewController *)self.parentViewController showAlertViewController];
         }
         
         if ([status isEqualToString:kAlertSent]) {
-            [((TSPageViewController *)self.parentViewController).homeViewController mapAlertModeToggle];
+            [[TSAlertManager sharedManager].homeViewController mapAlertModeToggle];
         }
         
         if ([status isEqualToString:kAlertOutsideGeofence] ||
@@ -156,17 +156,17 @@
         }
         
         TSPageViewController *pageView = (TSPageViewController *)self.parentViewController;
-        [pageView.homeViewController.mapView selectAnnotation:pageView.homeViewController.mapView.userLocationAnnotation animated:YES];
+        [[TSAlertManager sharedManager].homeViewController.mapView selectAnnotation:[TSAlertManager sharedManager].homeViewController.mapView.userLocationAnnotation animated:YES];
         [pageView.disarmPadViewController.emergencyButton setTitle:@"Alert" forState:UIControlStateNormal];
         [pageView.chatViewController setNavigationItemPrompt:status];
-    });
+    }];
 }
 
 - (void)updateAlertInfoLabel:(NSString *)string {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.view bringSubviewToFront:_alertInfoLabel];
         [_alertInfoLabel setText:string withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
-    });
+    }];
 }
 
 
@@ -192,7 +192,7 @@
 
 - (IBAction)addAlertDetails:(id)sender {
     
-    TSHomeViewController *homeViewController = ((TSPageViewController *)self.parentViewController).homeViewController;
+    TSHomeViewController *homeViewController = [TSAlertManager sharedManager].homeViewController;
     if (!homeViewController) {
         return;
     }
@@ -215,6 +215,11 @@
 }
 
 - (IBAction)callDispatcher:(id)sender {
+    
+    if ([TSAlertManager sharedManager].type == kAlertType911Call) {
+        [[TSAlertManager sharedManager] callEmergencyNumber];
+        return;
+    }
     
     _callButton.enabled = NO;
     if (![TSAlertManager sharedManager].callInProgress) {
@@ -244,7 +249,7 @@
     CGRect toolbarFrame = ((TSPageViewController *)self.parentViewController).animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
     CGRect statusViewFrame = ((TSPageViewController *)self.parentViewController).statusView.frame;
-    statusViewFrame.origin.y = toolbarFrame.size.height;
+    statusViewFrame.origin.y = toolbarFrame.size.height - 1;
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;
@@ -291,7 +296,7 @@
     CGRect toolbarFrame = ((TSPageViewController *)self.parentViewController).animatedView.frame;
     toolbarFrame.size.height = minimumHeight;
     CGRect statusViewFrame = ((TSPageViewController *)self.parentViewController).statusView.frame;
-    statusViewFrame.origin.y = toolbarFrame.size.height;
+    statusViewFrame.origin.y = toolbarFrame.size.height - 1;
     
     [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         _alertInfoLabel.frame = infoLabelFrame;

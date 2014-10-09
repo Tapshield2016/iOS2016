@@ -32,9 +32,6 @@
     _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*2, self.view.bounds.size.height);
     _scrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:_scrollView];
-    _isFirstTimeViewed = YES;
-    
-    [self initPages];
     
     CGRect frame = self.view.bounds;
     _animatedView = [[UIView alloc] initWithFrame:frame];
@@ -47,6 +44,8 @@
     
     [self createCountdownView];
     
+    [self initPages];
+    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     self.showLargeLogo = YES;
@@ -55,6 +54,18 @@
     [self setRemoveNavigationShadow:YES];
     
     _isPhoneView = NO;
+    
+    if ([TSAlertManager sharedManager].homeViewController) {
+        [self setupHomeViewController];
+    }
+    else {
+        _kvoController = [FBKVOController controllerWithObserver:self];
+        
+        
+        [_kvoController observe:[TSAlertManager sharedManager] keyPath:@"homeViewController" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, id alertManager, NSDictionary *change) {
+            [pageVC setupHomeViewController];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -137,6 +148,8 @@
 
 - (void)initPages {
     
+    _isFirstTimeViewed = YES;
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil];
     
     if ([UIScreen mainScreen].bounds.size.height < 500) {
@@ -163,7 +176,11 @@
     
     if (_isChatPresentation) {
         [self.navigationController setViewControllers:@[self, _chatViewController]];
-        _chatViewController.hideBackButton = YES;
+    }
+    else if (_isAlertPresentation) {
+        _isFirstTimeViewed = NO;
+        [self showAlertViewController];
+        [self scrollViewDidScroll:_scrollView];
     }
 }
 
@@ -217,15 +234,15 @@
 
 - (void)showingAlertView {
     
-    if (![TSAlertManager sharedManager].isAlertInProgress) {
-        [[TSAlertManager sharedManager] sendAlertType:nil];
+    if (![TSAlertManager sharedManager].isAlertInProgress && _isFirstTimeViewed) {
+        [[TSAlertManager sharedManager] sendAlertType:kAlertTypeAlertCall];
         [self stopTintViewAnimation];
         _isFirstTimeViewed = NO;
     }
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_homeViewController.mapView setRegionAtAppearanceAnimated:YES];
-        [_homeViewController setIsTrackingUser:YES animateToUser:YES];
+        [[TSAlertManager sharedManager].homeViewController.mapView setRegionAtAppearanceAnimated:YES];
+        [[TSAlertManager sharedManager].homeViewController setIsTrackingUser:YES animateToUser:YES];
         
         [self disarmBarButton];
     }];
@@ -298,7 +315,7 @@
     _animatedView.frame = frame;
     
     CGRect statusViewFrame = _statusView.frame;
-    statusViewFrame.origin.y = toolbarFrameHeight;
+    statusViewFrame.origin.y = toolbarFrameHeight-1;
     _statusView.frame = statusViewFrame;
     
     frame = _disarmPadViewController.view.frame;
@@ -329,38 +346,36 @@
     }
 }
 
-- (void)setHomeViewController:(TSHomeViewController *)homeViewController {
-    
-    _homeViewController = homeViewController;
-    
+- (void)setupHomeViewController {
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (!_statusView) {
             CGRect statusFrame = self.view.bounds;
-            statusFrame.origin.y = self.view.frame.size.height;
+            statusFrame.origin.y = self.view.frame.size.height-1;
             statusFrame.size.height = 35;
             _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
             
             [self.view insertSubview:_statusView belowSubview:_animatedView];
+            [self scrollViewDidScroll:_scrollView];
         }
         
         _kvoController = [FBKVOController controllerWithObserver:self];
         
-        [_kvoController observe:_homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
+        [_kvoController observe:[TSAlertManager sharedManager].homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
             [pageVC.statusView setText:statusView.userLocation];
         }];
         
         if (!_isFirstTimeViewed) {
-            [_homeViewController.mapView setRegionAtAppearanceAnimated:YES];
-            [_homeViewController setIsTrackingUser:YES animateToUser:YES];
+            [[TSAlertManager sharedManager].homeViewController.mapView setRegionAtAppearanceAnimated:YES];
+            [[TSAlertManager sharedManager].homeViewController setIsTrackingUser:YES animateToUser:YES];
         }
         
         if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
-            [_homeViewController.mapView selectAnnotation:_homeViewController.mapView.userLocationAnnotation animated:YES];
+            [[TSAlertManager sharedManager].homeViewController.mapView selectAnnotation:[TSAlertManager sharedManager].homeViewController.mapView.userLocationAnnotation animated:YES];
         }
         
         if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSent]) {
-            [_homeViewController mapAlertModeToggle];
+            [[TSAlertManager sharedManager].homeViewController mapAlertModeToggle];
         }
     }];
 }

@@ -143,13 +143,17 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 
 // Alert actions
 // Valid alert types are 'C' (Chat), 'E' (Emergency), and 'T' (Timer)
-- (void)sendEmergencyAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL sent, BOOL inside))completion;
+- (void)sendDirectRestAPIAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(TSJavelinAPIAlert *activeAlert, BOOL inside))completion;
+- (void)sendQueuedAlertWithAlertType:(NSString *)type location:(CLLocation *)location completion:(void (^)(BOOL sent, BOOL inside))completion;
 - (void)findActiveAlertForLoggedinUser:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 - (void)cancelAlert;
 - (void)disarmAlert;
 - (void)findActiveAlertAndCancel;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
 - (void)locationUpdated:(CLLocation *)location;
+- (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
+
+- (void)sendDirectRestAPIAlertWithParameters:(NSDictionary *)parameters completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 
 // Message actions
 - (void)startChatForActiveAlert;

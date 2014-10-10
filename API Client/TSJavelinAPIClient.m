@@ -25,7 +25,6 @@ NSString * const TSJavelinAPIClientDidUpdateAgency = @"TSJavelinAPIClientDidUpda
 @interface TSJavelinAPIClient ()
 
 @property (nonatomic, strong) NSString *baseAuthURL;
-@property (nonatomic, strong) NSTimer *disarmRetryTimer;
 @property (nonatomic, strong) NSTimer *timerForFailedFindActiveAlertURL;
 @property (nonatomic, assign) NSUInteger retryAttempts;
 
@@ -312,7 +311,7 @@ static dispatch_once_t onceToken;
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
               dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                  [self findActiveAlertForLoggedinUser:completion];
+                  [self updateAlertWithCallLength:length completion:completion];
               });
           }
           else {
@@ -350,7 +349,7 @@ static dispatch_once_t onceToken;
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
               dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                  [self findActiveAlertForLoggedinUser:completion];
+                  [self sendDirectRestAPIAlertWithParameters:parameters completion:completion];
               });
           }
           else {
@@ -580,37 +579,8 @@ static dispatch_once_t onceToken;
        }];
 }
 
-
-#pragma mark Disarm Alert
-
-- (void)startTimerForFailedDisarmOfURL:(NSString *)activeAlertURL
-{
-    if (_disarmRetryTimer) {
-        return;
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        _disarmRetryTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
-                                                             target:self
-                                                           selector:@selector(postDisarmedFromTimer:)
-                                                           userInfo:@{@"URL": activeAlertURL}
-                                                            repeats:YES];
-    });
-    
-}
-
-- (void)postDisarmedFromTimer:(NSTimer *)disarmRetryTimer {
-    
-    NSDictionary *userInfo = [disarmRetryTimer userInfo];
-    [self postDisarmedToActiveAlertURL:[userInfo objectForKey:@"URL"]];
-}
-
 - (void)startTimerForFailedFindActiveAlertURL
 {
-    if (_disarmRetryTimer) {
-        return;
-    }
     
     if (_retryAttempts > 6) {
         [_timerForFailedFindActiveAlertURL invalidate];
@@ -658,16 +628,24 @@ static dispatch_once_t onceToken;
 - (void)findActiveAlertAndCancel {
     
     [self findActiveAlertForLoggedinUser:^(TSJavelinAPIAlert *activeAlert) {
-        if (!activeAlert) {
-            [self startTimerForFailedFindActiveAlertURL];
-            return;
+        if (activeAlert) {
+            [_timerForFailedFindActiveAlertURL invalidate];
+            [self postDisarmedToActiveAlertURL:activeAlert.url];
+            
         }
-        [_timerForFailedFindActiveAlertURL invalidate];
-        [self postDisarmedToActiveAlertURL:activeAlert.url];
+        else {
+            [self startTimerForFailedFindActiveAlertURL];
+        }
     }];
 }
 
 - (void)postDisarmedToActiveAlertURL:(NSString *)activeAlertURL {
+    
+    if ([[self alertManager].activeAlert.url isEqualToString:activeAlertURL]) {
+        [[self alertManager] setActiveAlert:nil];
+    }
+    
+    [_timerForFailedFindActiveAlertURL invalidate];
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -675,14 +653,18 @@ static dispatch_once_t onceToken;
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"DISARMED ALERT: %@", responseObject);
-           [[self alertManager] setActiveAlert:nil];
-           [_timerForFailedFindActiveAlertURL invalidate];
-           [_disarmRetryTimer invalidate];
            [[TSJavelinAlertManager sharedManager] resetArchivedAlertBools];
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"FAILED TO DISARM ALERT: %@", error);
-           [self startTimerForFailedDisarmOfURL:activeAlertURL];
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 5 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self postDisarmedToActiveAlertURL:activeAlertURL];
+               });
+           }
        }
      ];
 }

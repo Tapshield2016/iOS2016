@@ -197,7 +197,7 @@ static dispatch_once_t predicate;
         
         _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
         _pageviewController.isAlertPresentation = YES;
-        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoom completion:nil];
+        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeDown completion:nil];
     });
 }
 
@@ -910,6 +910,11 @@ static dispatch_once_t predicate;
         frame.origin.y = frame.size.height;
     }
     
+    for (TSChatViewController *chatVC in _window.rootViewController.childViewControllers) {
+        if ([chatVC isKindOfClass:[TSChatViewController class]]) {
+            [chatVC.textMessageBarAccessoryView.textView resignFirstResponder];
+        }
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         

@@ -58,7 +58,7 @@
     
     _textMessageBarAccessoryView = [[TSTextMessageBarView alloc] initWithFrame:frame];
     _textMessageBarAccessoryView.textView.delegate = self;
-    _textMessageBarAccessoryView.textView.inputAccessoryView = _textMessageBarAccessoryView;
+//    _textMessageBarAccessoryView.textView.inputAccessoryView = _textMessageBarAccessoryView;
     [_textMessageBarAccessoryView setSendButtonTarget:self action:@selector(sendMessage)];
     
     _tableView.backgroundColor = [UIColor clearColor];

@@ -111,12 +111,11 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    _activeAlert = alert;
-    
     NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:7];
     alertInfo[@"user"] = alert.agencyUser.username;
     
-    if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency]) {
+    if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency] || (_activeAlert && _activeAlert.agency.identifier == [TSJavelinAPIClient loggedInUser].agency.identifier)) {
+        _activeAlert = alert;
         alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
         alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
         alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
@@ -152,8 +151,6 @@ static dispatch_once_t onceToken;
     if (![TSJavelinAPIClient sharedClient].isStillActiveAlert) {
         return;
     }
-
-    _activeAlert = alert;
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -161,7 +158,10 @@ static dispatch_once_t onceToken;
         NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:7];
         alertInfo[@"user"] = alert.agencyUser.username;
         
-        if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency]) {
+        if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency] || (_activeAlert && _activeAlert.agency.identifier == [TSJavelinAPIClient loggedInUser].agency.identifier)) {
+            
+            _activeAlert = alert;
+            
             alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
             alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
             alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];

@@ -36,10 +36,18 @@ static NSString * const kDisconnected = @"No Network Data Connection";
 
 - (void)show {
     
-    _upperWindow = [[UIWindow alloc] initWithFrame:self.frame];
-    _upperWindow.windowLevel = UIWindowLevelStatusBar;
-    _upperWindow.backgroundColor = [TSColorPalette alertRed];
-    _upperWindow.alpha = 0.0;
+    if (self.isKeyWindow || _upperWindow.isKeyWindow) {
+        if (!self.hidden || !_upperWindow.hidden) {
+            return;
+        }
+    }
+    
+    if (!_upperWindow) {
+        _upperWindow = [[UIWindow alloc] initWithFrame:self.frame];
+        _upperWindow.windowLevel = UIWindowLevelStatusBar;
+        _upperWindow.backgroundColor = [TSColorPalette alertRed];
+        _upperWindow.alpha = 0.0;
+    }
     
     self.windowLevel = 1.5;
     self.hidden = NO;
@@ -71,7 +79,7 @@ static NSString * const kDisconnected = @"No Network Data Connection";
                      animations:^{
         _view.frame = self.frame;
     } completion:^(BOOL finished) {
-        [self fadeInAndOut];
+        [self startFadeTimer];
     }];
 }
 
@@ -82,40 +90,53 @@ static NSString * const kDisconnected = @"No Network Data Connection";
     
     [[UIApplication sharedApplication] setStatusBarStyle:_style animated:YES];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [UIView animateWithDuration:0.3f animations:^{
             CGRect frame = self.frame;
             frame.origin.y = -frame.size.height;
             self.frame = frame;
-            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            _upperWindow.alpha = 0.0f;
+            _upperWindow.frame = frame;
         } completion:^(BOOL finished) {
+            [self invalidateAnimationTimer];
             [self setHidden:YES];
+            [_upperWindow setHidden:YES];
+            _upperWindow = nil;
             [self removeFromSuperview];
             
             if (completion) {
                 completion(finished);
             }
         }];
-    });
+    }];
 }
 
 - (void)invalidateAnimationTimer {
     
-    [_animationTimer invalidate];
-    _animationTimer = nil;
-    _upperWindow.alpha = 0.0;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_animationTimer invalidate];
+        _animationTimer = nil;
+        _upperWindow.alpha = 0.0;
+    }];
+}
+
+- (void)startFadeTimer {
+    
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!_animationTimer) {
+            _animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0
+                                                               target:self
+                                                             selector:@selector(fadeInAndOut)
+                                                             userInfo:nil
+                                                              repeats:YES];
+            _animationTimer.tolerance = 1.0;
+            
+        }
+    }];
 }
 
 - (void)fadeInAndOut {
-    
-    if (!_animationTimer) {
-        _animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0
-                                                           target:self
-                                                         selector:@selector(fadeInAndOut)
-                                                         userInfo:nil
-                                                          repeats:YES];
-        _animationTimer.tolerance = 1.0;
-    }
     
     if (_upperWindow.alpha == 0.0) {
         [UIView animateWithDuration:0.3 animations:^{

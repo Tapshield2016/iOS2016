@@ -404,8 +404,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             NSLog(@"Connected");
         }
         else {
-            _noNetworkWindow = [[TSNoNetworkWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
-            [_noNetworkWindow show];
+            if (!_noNetworkWindow) {
+                _noNetworkWindow = [[TSNoNetworkWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+                [_noNetworkWindow show];
+            }
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidLoseConnection object:nil];
             NSLog(@"No Connection");
         }

@@ -13,5 +13,6 @@
 @property (strong, nonatomic) NSString *alertType;
 @property (strong, nonatomic) NSString *alertBody;
 @property (assign, nonatomic) NSString *alertID;
+@property (assign, nonatomic) NSString *alertUrl;
 
 @end

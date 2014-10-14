@@ -2429,9 +2429,9 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <accessibility key="accessibilityConfiguration" hint="Report crime tips" label="Report"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <inset key="titleEdgeInsets" minX="-31" minY="25" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="15"/>
-                                        <state key="normal" title="Report" image="report_icon">
+                                        <inset key="titleEdgeInsets" minX="-32" minY="25" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="15"/>
+                                        <state key="normal" title="Inform" image="report_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="highlighted" title="Report">
@@ -2482,8 +2482,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <accessibility key="accessibilityConfiguration" hint="Text with authorities" label="Chat"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <inset key="titleEdgeInsets" minX="-28" minY="25" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="11" minY="0.0" maxX="0.0" maxY="15"/>
-                                        <state key="normal" title="Route" image="entourage_icon_white">
+                                        <inset key="imageEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="15"/>
+                                        <state key="normal" title="Track" image="entourage_icon_white">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="highlighted" title="Route">
@@ -2561,16 +2561,17 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <constraint firstAttribute="centerX" secondItem="CNt-Kp-jHu" secondAttribute="centerX" id="4xG-tM-NFU"/>
                             <constraint firstItem="g2H-Q3-BBF" firstAttribute="top" secondItem="J4r-zu-51U" secondAttribute="bottom" constant="10" id="5ya-NB-O9J"/>
                             <constraint firstAttribute="trailing" secondItem="3I1-wT-J8A" secondAttribute="trailing" constant="16" id="72I-lc-8sh"/>
+                            <constraint firstItem="J4r-zu-51U" firstAttribute="top" secondItem="aDF-CZ-qdy" secondAttribute="bottom" priority="500" id="JRa-Aw-ya3"/>
                             <constraint firstItem="cdg-2v-fWv" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="496" id="K9k-f9-mfO"/>
                             <constraint firstAttribute="trailing" secondItem="J4r-zu-51U" secondAttribute="trailing" id="LPh-fs-fhO"/>
                             <constraint firstItem="3I1-wT-J8A" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="496" id="LbC-lJ-t5W"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" id="Pmt-wL-QsS"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="cdg-2v-fWv" secondAttribute="bottom" constant="12" id="SVQ-O4-Xvf"/>
-                            <constraint firstItem="J4r-zu-51U" firstAttribute="top" secondItem="aDF-CZ-qdy" secondAttribute="bottom" id="TJx-w2-aIh"/>
                             <constraint firstAttribute="trailing" secondItem="g2H-Q3-BBF" secondAttribute="trailing" constant="16" id="azW-Qv-MAZ"/>
                             <constraint firstItem="CNt-Kp-jHu" firstAttribute="top" secondItem="kmp-sK-1Mu" secondAttribute="top" priority="250" constant="466" id="bc8-f0-g3o"/>
                             <constraint firstItem="Llm-Q6-w56" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" constant="16" id="bif-vW-p6e"/>
                             <constraint firstItem="w2T-Hb-1QL" firstAttribute="leading" secondItem="kmp-sK-1Mu" secondAttribute="leading" id="d16-M7-QsV"/>
+                            <constraint firstItem="J4r-zu-51U" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kmp-sK-1Mu" secondAttribute="top" constant="64" id="la7-H2-fTI"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="3I1-wT-J8A" secondAttribute="bottom" constant="12" id="m52-zd-dVs"/>
                             <constraint firstAttribute="trailing" secondItem="w2T-Hb-1QL" secondAttribute="trailing" id="pEV-XX-T34"/>
                             <constraint firstItem="sdU-lO-XUH" firstAttribute="top" secondItem="CNt-Kp-jHu" secondAttribute="bottom" constant="12" id="rY2-2E-ZV9"/>
@@ -3674,7 +3675,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <action selector="addAlertDetails:" destination="cif-Vi-G9b" eventType="touchUpInside" id="ywv-n5-kf5"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoh-mM-z5G">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Inform" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoh-mM-z5G">
                                                 <rect key="frame" x="9" y="31" width="42" height="21"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
@@ -3693,8 +3694,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                 <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                                 <accessibility key="accessibilityConfiguration" hint="Call authorities" label="Call"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                <inset key="imageEdgeInsets" minX="32" minY="10" maxX="32" maxY="30"/>
-                                                <state key="normal" image="iphoneIcon">
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" image="phone_call_large">
                                                     <color key="titleColor" red="1" green="0.32549020648002625" blue="0.30588236451148987" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -3872,7 +3873,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <constraint firstItem="fSr-TP-EMg" firstAttribute="top" secondItem="7cm-V0-Ywa" secondAttribute="bottom" id="nYc-QJ-NL9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Report Type" id="XjY-Gb-pLj">
+                    <navigationItem key="navigationItem" title="Type" id="XjY-Gb-pLj">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="NiO-JB-ddH">
                             <connections>
                                 <action selector="dismissViewController:" destination="Mg7-W6-y5e" id="I0V-Ub-DzU"/>
@@ -6096,13 +6097,13 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="input_email_icon" width="26" height="26"/>
         <image name="input_password_icon" width="26" height="26"/>
         <image name="input_phone_icon" width="26" height="26"/>
-        <image name="iphoneIcon" width="139" height="255"/>
         <image name="linkedin_icon" width="30" height="30"/>
         <image name="locate_me_icon" width="17" height="20"/>
         <image name="locate_me_icon_outline" width="17" height="20"/>
         <image name="no_image" width="362" height="359"/>
         <image name="notifications_menu_icon_active" width="52" height="52"/>
         <image name="password_input_icon" width="25" height="26"/>
+        <image name="phone_call_large" width="40" height="39"/>
         <image name="pointer_icon" width="6" height="10"/>
         <image name="powerd_by_tapshield_logo" width="140" height="24"/>
         <image name="profile_appearance_ico" width="30" height="30"/>

@@ -30,11 +30,23 @@
 
 @implementation TSReportAnnotationManager
 
-- (instancetype)initWithMapView:(TSMapView *)mapView
+static TSReportAnnotationManager *_sharedReportAnnotationManagerInstance = nil;
+static dispatch_once_t predicate;
+
++ (instancetype)sharedManager {
+    
+    if (_sharedReportAnnotationManagerInstance == nil) {
+        dispatch_once(&predicate, ^{
+            _sharedReportAnnotationManagerInstance = [[self alloc] init];
+        });
+    }
+    return _sharedReportAnnotationManagerInstance;
+}
+
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        _mapView = mapView;
         _shouldAddAnnotations = YES;
         _maxSocialHours = MAX_HOURS;
         _maxSpotCrimeHours = MAX_HOURS;
@@ -43,6 +55,14 @@
         [self.operationQueue setSuspended:NO];
     }
     return self;
+}
+
+- (void)setMapView:(TSMapView *)mapView {
+    
+    if (_mapView != mapView) {
+        _mapView = mapView;
+        [self showSpotCrimes];
+    }
 }
 
 #pragma mark - Timers 
@@ -110,9 +130,16 @@
 - (void)getSpotCrimeAnnotations:(CLLocation *)location {
     
     if (![location isKindOfClass:[CLLocation class]]) {
-        location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
-                                              longitude:_mapView.region.center.longitude];
+        if (_mapView) {
+            location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
+                                                  longitude:_mapView.region.center.longitude];
+        }
+        else {
+            location = [TSLocationController sharedLocationController].location;
+        }
     }
+    
+    
     
     float radius = kSpotCrimeRadius;
     
@@ -149,8 +176,17 @@
     float distanceInMiles = lroundf(MKMetersBetweenMapPoints(point1, point2) * 0.000621371);
     
     if (![location isKindOfClass:[CLLocation class]]) {
-        location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
-                                              longitude:_mapView.region.center.longitude];
+        if (_mapView) {
+            location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude
+                                                  longitude:_mapView.region.center.longitude];
+        }
+        else {
+            location = [TSLocationController sharedLocationController].location;
+        }
+    }
+    
+    if (!distanceInMiles) {
+        distanceInMiles = 1;
     }
     
     if (![TSJavelinAPIClient loggedInUser]) {

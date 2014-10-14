@@ -20,9 +20,9 @@ NSString * const TSGeofenceUserDidEnterAgency = @"TSGeofenceUserDidEnterAgency";
 NSString * const TSGeofenceUserDidLeaveAgency = @"TSGeofenceUserDidLeaveAgency";
 NSString * const TSGeofenceShouldUpdateOpenAgencies = @"TSGeofenceUserShouldUpdateOpenAgencies";
 
-#define kNoChatOutside @"Chat Unavailable\n\nYou are located outside of the %@ boundaries"
-#define kNoChatClosed @"Chat Unavailable\n\nThe %@ dispatch center is closed"
-#define kNoChatNoAgency @"Chat Unavailable\n\nYou are located outside the boundaries of an organization that uses TapShield"
+NSString * const  kNoChatOutside = @"Feature Unavailable\n\nYou are located outside of the %@ boundaries";
+NSString * const  kNoChatClosed = @"Feature Unavailable\n\nThe %@ dispatch center is closed";
+NSString * const  kNoChatNoAgency = @"Feature Unavailable\n\nYou are located outside the boundaries of an organization that uses TapShield";
 
 @interface TSGeofence ()
 

@@ -65,7 +65,6 @@
     
     if (!self.superview) {
         [_operationQueue cancelAllOperations];
-        NSLog(@"- Removed from superview -");
     }
 }
 

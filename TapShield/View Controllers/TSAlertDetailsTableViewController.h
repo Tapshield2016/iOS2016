@@ -13,7 +13,6 @@
 @interface TSAlertDetailsTableViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
-@property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (strong, nonatomic) CLLocation *location;
 
 - (IBAction)dismissViewController:(id)sender;

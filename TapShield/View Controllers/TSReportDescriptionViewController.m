@@ -256,7 +256,7 @@
                 }
                 
                 [self dismissViewControllerAnimated:YES completion:^{
-                    [_reportManager addUserSocialReport:report];
+                    [[TSReportAnnotationManager sharedManager] addUserSocialReport:report];
                     [parentNavigationController.topViewController viewWillAppear:NO];
                     [parentNavigationController.topViewController viewDidAppear:NO];
                 }];

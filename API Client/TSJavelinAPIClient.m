@@ -493,6 +493,11 @@ static dispatch_once_t onceToken;
     }
 }
 
+- (void)alertCompletionReceivedForAlertURL:(NSString *)url {
+    
+    [[TSJavelinAlertManager sharedManager] alertWasCompletedByDispatcher:url];
+}
+
 #pragma mark Location Updates
 
 - (void)locationUpdated:(CLLocation *)location {
@@ -571,7 +576,7 @@ static dispatch_once_t onceToken;
            
            if (operation.response.statusCode == 404) {
                NSLog(@"Alert not found. Alert must be completed. Disarm");
-               [[TSJavelinAlertManager sharedManager] alertWasCompletedByDispatcher];
+               [[TSJavelinAlertManager sharedManager] alertWasCompletedByDispatcher:activeAlert.url];
            }
            else {
                NSLog(@"Failed to create new alert location: %@", error);
@@ -647,9 +652,11 @@ static dispatch_once_t onceToken;
     
     [_timerForFailedFindActiveAlertURL invalidate];
     
+    NSString *url = [NSString stringWithFormat:@"%@disarm/", activeAlertURL];
+    
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
-    [self POST:[NSString stringWithFormat:@"%@disarm/", activeAlertURL]
+    [self POST:url
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"DISARMED ALERT: %@", responseObject);

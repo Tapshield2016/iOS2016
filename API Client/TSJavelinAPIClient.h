@@ -150,6 +150,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 - (void)disarmAlert;
 - (void)findActiveAlertAndCancel;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
+- (void)alertCompletionReceivedForAlertURL:(NSString *)url;
 - (void)locationUpdated:(CLLocation *)location;
 - (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 

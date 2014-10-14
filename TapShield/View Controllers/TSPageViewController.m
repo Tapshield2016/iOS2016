@@ -63,7 +63,9 @@
         
         
         [_kvoController observe:[TSAlertManager sharedManager] keyPath:@"homeViewController" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, id alertManager, NSDictionary *change) {
-            [pageVC setupHomeViewController];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [pageVC setupHomeViewController];
+            }];
         }];
     }
 }
@@ -348,36 +350,34 @@
 
 - (void)setupHomeViewController {
     
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (!_statusView) {
-            CGRect statusFrame = self.view.bounds;
-            statusFrame.origin.y = self.view.frame.size.height-1;
-            statusFrame.size.height = 35;
-            _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
-            
-            [self.view insertSubview:_statusView belowSubview:_animatedView];
-            [self scrollViewDidScroll:_scrollView];
-        }
+    if (!_statusView) {
+        CGRect statusFrame = self.view.bounds;
+        statusFrame.origin.y = self.view.frame.size.height-1;
+        statusFrame.size.height = 35;
+        _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
         
-        _kvoController = [FBKVOController controllerWithObserver:self];
-        
-        [_kvoController observe:[TSAlertManager sharedManager].homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
-            [pageVC.statusView setText:statusView.userLocation];
-        }];
-        
-        if (!_isFirstTimeViewed) {
-            [[TSAlertManager sharedManager].homeViewController.mapView setRegionAtAppearanceAnimated:YES];
-            [[TSAlertManager sharedManager].homeViewController setIsTrackingUser:YES animateToUser:YES];
-        }
-        
-        if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
-            [[TSAlertManager sharedManager].homeViewController.mapView selectAnnotation:[TSAlertManager sharedManager].homeViewController.mapView.userLocationAnnotation animated:YES];
-        }
-        
-        if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSent]) {
-            [[TSAlertManager sharedManager].homeViewController mapAlertModeToggle];
-        }
+        [self.view insertSubview:_statusView belowSubview:_animatedView];
+        [self scrollViewDidScroll:_scrollView];
+    }
+    
+    _kvoController = [FBKVOController controllerWithObserver:self];
+    
+    [_kvoController observe:[TSAlertManager sharedManager].homeViewController.statusView keyPath:@"userLocation" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSPageViewController *pageVC, TSStatusView *statusView, NSDictionary *change) {
+        [pageVC.statusView setText:statusView.userLocation];
     }];
+    
+    if (!_isFirstTimeViewed) {
+        [[TSAlertManager sharedManager].homeViewController.mapView setRegionAtAppearanceAnimated:YES];
+        [[TSAlertManager sharedManager].homeViewController setIsTrackingUser:YES animateToUser:YES];
+    }
+    
+    if (![[TSAlertManager sharedManager].status isEqualToString:kAlertSend]) {
+        [[TSAlertManager sharedManager].homeViewController.mapView selectAnnotation:[TSAlertManager sharedManager].homeViewController.mapView.userLocationAnnotation animated:YES];
+    }
+    
+    if ([[TSAlertManager sharedManager].status isEqualToString:kAlertSent]) {
+        [[TSAlertManager sharedManager].homeViewController mapAlertModeToggle];
+    }
 }
 
 @end

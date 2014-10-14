@@ -313,7 +313,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)updateInterfaceWithNotification:(TSJavelinAPIPushNotification *)notification {
     
-    if ([notification.alertType isEqualToString:TSJavelinPushNotificationTypeCrimeReport]) {
+    if ((notification.alertType == TSJavelinPushNotificationTypeCrimeReport || notification.alertType == TSJavelinPushNotificationTypeAlertCompletion) && notification.alertBody.length) {
         _pushNotificationAlertWindow = [[TSPopUpWindow alloc] initWithMessage:notification.alertBody tapToDismiss:YES];
         [_pushNotificationAlertWindow show];
     }

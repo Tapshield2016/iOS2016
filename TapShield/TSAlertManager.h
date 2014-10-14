@@ -13,7 +13,8 @@
 @import CoreTelephony;
 
 extern NSString * const kAlertWindowAnimationTypeDown;
-extern NSString * const kAlertWindowAnimationTypeZoom;
+extern NSString * const kAlertWindowAnimationTypeZoomIn;
+extern NSString * const kAlertWindowAnimationTypeZoomOut;
 
 @protocol TSAlertDelegate <NSObject>
 

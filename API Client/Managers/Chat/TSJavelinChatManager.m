@@ -53,6 +53,7 @@ static dispatch_once_t onceToken;
             _sharedManager.chatMessages = [[TSJavelinChatMessageOrganizer alloc] init];
             _sharedManager.didReceiveAll = NO;
             _sharedManager.quickGetTimerInterval = NO;
+            _sharedManager.unreadMessages = 0;
             
             AmazonCredentials *credentials;
 #ifdef DEV
@@ -181,7 +182,7 @@ static dispatch_once_t onceToken;
 
 - (void)newMessagesCount {
     NSUInteger newMessageCount = _chatMessages.allMessages.count - _previousCount;
-    if (newMessageCount) {
+    if (newMessageCount > 0) {
         _unreadMessages += newMessageCount;
         _previousCount = _chatMessages.allMessages.count;
         [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:nil];
@@ -200,7 +201,11 @@ static dispatch_once_t onceToken;
 
 - (void)getChatMessagesForActiveAlert:(void (^)(NSArray *chatMessages))completion {
     
-    if (![[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier) {
+    if ([[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier) {
+        _currentAlertIdentifier = [[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier;
+    }
+    
+    if (![[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier && !_currentAlertIdentifier) {
         if (completion) {
             completion(nil);
         }
@@ -210,7 +215,7 @@ static dispatch_once_t onceToken;
     DynamoDBQueryRequest *request = [[DynamoDBQueryRequest alloc] initWithTableName:_dynamoDBTableName];
     DynamoDBCondition *condition = [[DynamoDBCondition alloc] init];
     condition.comparisonOperator = @"EQ";
-    DynamoDBAttributeValue *alertID = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%lu", (unsigned long)[[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier]];
+    DynamoDBAttributeValue *alertID = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%lu", (unsigned long)_currentAlertIdentifier]];
     [condition addAttributeValueList:alertID];
     request.keyConditions = [NSMutableDictionary dictionaryWithObject:condition forKey:@"alert_id"];
     DynamoDBQueryResponse *response = [_dynamoDB query:request];
@@ -306,9 +311,6 @@ static dispatch_once_t onceToken;
     
     if (_chatMessages.messagesAwaitingSend) {
         [_chatMessages.messagesAwaitingSend removeAllObjects];
-    }
-    if (_chatMessages.allMessages) {
-        [_chatMessages.allMessages removeAllObjects];
     }
     
     _unreadMessages = 0;

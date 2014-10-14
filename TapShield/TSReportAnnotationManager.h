@@ -18,7 +18,7 @@
 @property (strong, nonatomic) NSMutableArray *socialReports;
 @property (strong, nonatomic) NSMutableArray *heatMarkers;
 
-- (instancetype)initWithMapView:(TSMapView *)mapView;
++ (instancetype)sharedManager;
 
 - (void)loadSpotCrimeAndSocialAnnotations:(CLLocation *)location;
 

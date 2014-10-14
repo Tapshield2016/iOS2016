@@ -276,10 +276,9 @@ static dispatch_once_t onceToken;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url {
     if (_activeAlert) {
         if (!_activeAlert.url) {
-            _activeAlert.url = [NSString stringWithFormat:@"%@://%@%@", [[TSJavelinAPIClient sharedClient] baseURL].scheme, [[TSJavelinAPIClient sharedClient] baseURL].host, url];
+            _activeAlert.url = url;
             [self sendActiveAlertNotification];
         }
-        NSLog(@"_activeAlert.url: %@", _activeAlert.url);
     }
 }
 
@@ -333,12 +332,14 @@ static dispatch_once_t onceToken;
 }
 
 
-- (void)alertWasCompletedByDispatcher {
+- (void)alertWasCompletedByDispatcher:(NSString *)alertUrl {
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidReceiveAlertCompletion object:_activeAlert];
-    
-    if ([_delegate respondsToSelector:@selector(dispatcherDidCompleteAlert:)]) {
-        [_delegate dispatcherDidCompleteAlert:_activeAlert];
+    if (_activeAlert && [_activeAlert.url isEqualToString:alertUrl]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAlertManagerDidReceiveAlertCompletion object:_activeAlert];
+        
+        if ([_delegate respondsToSelector:@selector(dispatcherDidCompleteAlert:)]) {
+            [_delegate dispatcherDidCompleteAlert:_activeAlert];
+        }
     }
 }
 

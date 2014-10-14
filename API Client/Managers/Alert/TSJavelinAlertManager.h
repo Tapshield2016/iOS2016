@@ -52,6 +52,6 @@ typedef void (^TSJavelinAPIAlertManagerLocationReceived)(CLLocation *location);
 
 - (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 
-- (void)alertWasCompletedByDispatcher;
+- (void)alertWasCompletedByDispatcher:(NSString *)alertUrl;
 
 @end

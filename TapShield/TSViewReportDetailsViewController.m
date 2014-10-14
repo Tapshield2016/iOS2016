@@ -166,7 +166,7 @@ static NSString * const kDefaultMediaImage = @"image_deafult";
     [[TSJavelinAPIClient sharedClient] removeUrl:_spotCrimeAnnotation.socialReport.url completion:^(BOOL finished) {
         if (finished) {
             [self dismissViewControllerAnimated:YES completion:nil];
-            [_reportManager removeUserSocialReport:_spotCrimeAnnotation];
+            [[TSReportAnnotationManager sharedManager] removeUserSocialReport:_spotCrimeAnnotation];
         }
     }];
 }

@@ -17,6 +17,7 @@ extern NSString * const TSJavelinPushNotificationTypeCrimeReport;
 extern NSString * const TSJavelinPushNotificationTypeMassAlert;
 extern NSString * const TSJavelinPushNotificationTypeChatMessage;
 extern NSString * const TSJavelinPushNotificationTypeAlertReceived;
+extern NSString * const TSJavelinPushNotificationTypeAlertCompletion;
 
 @interface TSJavelinPushNotificationManager : NSObject
 

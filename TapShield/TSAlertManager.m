@@ -21,7 +21,8 @@ NSString * const kAlertTypeYank = @"Y";
 NSString * const kAlertTypeChat = @"C";
 
 NSString * const kAlertWindowAnimationTypeDown = @"Down";
-NSString * const kAlertWindowAnimationTypeZoom = @"Zoom";
+NSString * const kAlertWindowAnimationTypeZoomIn = @"ZoomIn";
+NSString * const kAlertWindowAnimationTypeZoomOut = @"ZoomOut";
 
 NSString * const kAlertSend = @"Send alert";
 NSString * const kAlertSending = @"Sending alert";
@@ -177,7 +178,7 @@ static dispatch_once_t predicate;
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
         
         _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
-        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoom completion:nil];
+        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoomIn completion:nil];
     });
 }
 
@@ -197,7 +198,7 @@ static dispatch_once_t predicate;
         
         _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
         _pageviewController.isAlertPresentation = YES;
-        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeDown completion:nil];
+        [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoomOut completion:nil];
     });
 }
 
@@ -407,9 +408,6 @@ static dispatch_once_t predicate;
             }
         }
         
-        [_emergencyCallTimer invalidate];
-        _emergencyCallTimer = nil;
-        
         [[TSAlertManager sharedManager] callEmergencyNumber];
     }];
 }
@@ -462,7 +460,17 @@ static dispatch_once_t predicate;
     }
 }
 
+- (void)stopEmergencyTimer {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_emergencyCallTimer invalidate];
+        _emergencyCallTimer = nil;
+    }];
+}
+
 - (void)callEmergencyNumber {
+    
+    [self stopEmergencyTimer];
     
     _shouldMakeEmergencyCall = YES;
     
@@ -513,8 +521,7 @@ static dispatch_once_t predicate;
     _emergencyCallStartTime = nil;
     _emergencyCall = nil;
     _emergencyCallInProgress = NO;
-    [_emergencyCallTimer invalidate];
-    _emergencyCallTimer = nil;
+    [self stopEmergencyTimer];
     _shouldMakeEmergencyCall = NO;
 }
 
@@ -579,7 +586,7 @@ static dispatch_once_t predicate;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         
-        [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeZoom completion:nil];
+        [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeZoomIn completion:nil];
     }];
     
     if ([TSVirtualEntourageManager sharedManager].isEnabled &&
@@ -841,10 +848,18 @@ static dispatch_once_t predicate;
     
     [self showWindowWithRootViewController:viewController];
     
+    UIViewController *viewcontroller = [[UIApplication sharedApplication].delegate.window.rootViewController.childViewControllers firstObject];
+    
+    [viewcontroller beginAppearanceTransition:NO animated:animated];
+    
     if (animated) {
         
-        if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
+        if (type == kAlertWindowAnimationTypeZoomIn) {
             _window.transform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
+        }
+        else if (type == kAlertWindowAnimationTypeZoomOut) {
+            _window.alpha = 0.0f;
+            _window.transform = CGAffineTransformConcat(CGAffineTransformMakeScale(3.0, 3.0), CGAffineTransformMakeRotation(8 * M_PI));
         }
         else {
             CGRect frame = [UIScreen mainScreen].bounds;
@@ -853,19 +868,29 @@ static dispatch_once_t predicate;
         }
         
         
+        
         [UIView animateWithDuration:0.3
                               delay:0
              usingSpringWithDamping:300.0
               initialSpringVelocity:5.0
                             options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-                             if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
-                                 _window.transform = CGAffineTransformIdentity;
-                             }
-                             else {
+                             if (type == kAlertWindowAnimationTypeDown) {
                                  _window.frame = [UIScreen mainScreen].bounds;
                              }
-                         } completion:completion];
+                             else {
+                                _window.transform = CGAffineTransformIdentity;
+                             }
+                             _window.alpha = 1.0f;
+                         } completion:^(BOOL finished) {
+                             [viewcontroller endAppearanceTransition];
+                             if (completion) {
+                                 completion(finished);
+                             }
+                         }];
+    }
+    else {
+        [viewcontroller endAppearanceTransition];
     }
 }
 
@@ -890,7 +915,7 @@ static dispatch_once_t predicate;
     
     [_homeViewController mapAlertModeToggle];
     [_homeViewController whiteNavigationBar];
-    [_homeViewController.reportManager showSpotCrimes];
+    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     
     UIWindow *mainWindow = [UIApplication sharedApplication].delegate.window;
     if (!_window) {
@@ -902,7 +927,7 @@ static dispatch_once_t predicate;
     float alpha = 1.0;
     CGRect frame = [UIScreen mainScreen].bounds;
     
-    if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
+    if ([type isEqualToString:kAlertWindowAnimationTypeZoomIn]) {
         dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(1.5, 1.5), CGAffineTransformMakeRotation(8 * M_PI));
         alpha = 0.0;
     }
@@ -910,13 +935,25 @@ static dispatch_once_t predicate;
         frame.origin.y = frame.size.height;
     }
     
-    for (TSChatViewController *chatVC in _window.rootViewController.childViewControllers) {
-        if ([chatVC isKindOfClass:[TSChatViewController class]]) {
-            [chatVC.textMessageBarAccessoryView.textView resignFirstResponder];
+    
+    UIViewController *rootView = _window.rootViewController.presentedViewController;
+    if (!rootView) {
+        rootView = _window.rootViewController;
+    }
+    TSChatViewController *chatVC;
+    
+    for (id vc in rootView.childViewControllers) {
+        if ([vc isKindOfClass:[TSChatViewController class]]) {
+            chatVC = vc;
+            break;
         }
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [chatVC.textMessageBarAccessoryView.textView resignFirstResponder];
+        [[chatVC.view findFirstResponder] resignFirstResponder];
+        
         
         UIViewController *viewcontroller = [mainWindow.rootViewController.childViewControllers firstObject];
         
@@ -931,19 +968,28 @@ static dispatch_once_t predicate;
                             options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
                              
-                             if ([type isEqualToString:kAlertWindowAnimationTypeZoom]) {
-                                 _window.transform = dismissedTransform;
+                             [chatVC.inputAccessoryView setAlpha:0.0];
+                             [chatVC.inputAccessoryView setUserInteractionEnabled:NO];
+                             
+                             if (type == kAlertWindowAnimationTypeDown) {
+                                 _window.frame = frame;
                              }
                              else {
-                                 _window.frame = frame;
+                                 _window.transform = dismissedTransform;
                              }
                              _window.alpha = alpha;
                              
                          } completion:^(BOOL finished) {
                              
+                             [chatVC.textMessageBarAccessoryView setAlpha:0.0];
+                             [chatVC.textMessageBarAccessoryView setUserInteractionEnabled:NO];
+                             
                              if (completion) {
                                  completion(finished);
                              }
+                             
+                             [chatVC.view.findFirstResponder resignFirstResponder];
+                             
                              
                              _pageviewController = nil;
                              [viewcontroller endAppearanceTransition];

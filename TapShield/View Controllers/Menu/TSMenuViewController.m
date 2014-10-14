@@ -89,6 +89,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         TSHomeViewController *homeView = (TSHomeViewController *)[self transitionToViewController:NSStringFromClass([TSHomeViewController class]) animated:NO];
+        homeView.firstAppear = NO;
         [[TSAlertManager sharedManager] startEntourageAlertCountdown];
         [self.tableView reloadData];
     });
@@ -133,6 +134,9 @@
     
     if ([paneViewController isKindOfClass:[TSHomeViewController class]]) {
         ((TSHomeViewController *)paneViewController).menuViewController = self;
+        if (!animated) {
+            ((TSHomeViewController *)paneViewController).firstAppear = YES;
+        }
     }
 
     _currentPanelStoryBoardIdentifier = storyBoardIdentifier;

@@ -26,7 +26,6 @@ static NSString * const kReportImageFormat = @"jpg";
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) id media;
-@property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (strong, nonatomic) CLLocation *location;
 
 @property (weak, nonatomic) IBOutlet TSTintedImageView *imageView;

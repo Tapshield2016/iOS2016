@@ -64,6 +64,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self setIsTrackingUser:YES animateToUser:NO];
     _statusView.hidden = YES;
     
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
     _annotationsLoaded = NO;
     
     self.showSmallLogoInNavBar = YES;
@@ -71,7 +73,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [TSAlertManager sharedManager].homeViewController = self;
     
-    _reportManager = [[TSReportAnnotationManager alloc] initWithMapView:_mapView];
+    [TSReportAnnotationManager sharedManager].mapView = _mapView;
     
     [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:self];
 
@@ -97,6 +99,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                              selector:@selector(sendEntourageAlert)
                                                  name:TSVirtualEntourageManagerTimerDidEnd
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDidLeaveAgency:)
+                                                 name:TSGeofenceUserDidLeaveAgency
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDidEnterAgency:)
+                                                 name:TSGeofenceUserDidEnterAgency
+                                               object:nil];
     
     _statusViewHeight.constant = 0;
     
@@ -120,7 +130,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_helpButton setImage:[[UIImage alloc] init] forState:UIControlStateSelected];
     [_helpButton setImage:[[UIImage alloc] init] forState:UIControlStateSelected|UIControlStateHighlighted];
     [_helpButton setTitle:@"X" forState:UIControlStateSelected|UIControlStateHighlighted];
-    [_helpButton setLabelTitle:@"Help"];
+    [_helpButton setLabelTitle:@"Talk"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -132,6 +142,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [self addOverlaysAndAnnotations];
+    }
+    
+    if (_firstMapLoad && !self.firstAppear) {
+        _firstMapLoad = NO;
+        [_mapView setRegionAtAppearanceAnimated:self.firstAppear];
     }
 }
 
@@ -158,9 +173,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     //To determine animation of first region
     _viewDidAppear = YES;
     
-    if (_firstMapLoad) {
+    if (_firstMapLoad && self.firstAppear) {
         _firstMapLoad = NO;
-        [_mapView setRegionAtAppearanceAnimated:YES];
+        [_mapView setRegionAtAppearanceAnimated:self.firstAppear];
     }
     
     if ([TSAlertManager sharedManager].isPresented) {
@@ -179,7 +194,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [super didReceiveMemoryWarning];
     
-    [_reportManager removeOldSpotCrimes];
+    [[TSReportAnnotationManager sharedManager] removeOldSpotCrimes];
 }
 
 
@@ -198,7 +213,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             strongSelf.annotationsLoaded = YES;
             [[TSLocationController sharedLocationController].geofence updateNearbyAgencies];
-            [strongSelf.reportManager performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
+            [[TSReportAnnotationManager sharedManager] performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
             [strongSelf addUserLocationAnnotation:location];
             [strongSelf geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
         }];
@@ -285,7 +300,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)entourageModeOn {
     
-    [_reportManager showSpotCrimes];
+    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [self setIsTrackingUser:YES animateToUser:YES];
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
@@ -298,7 +313,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)clearEntourageAndResetMap {
     
-    [_reportManager showSpotCrimes];
+    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [_menuViewController showMenuButton:self];
     [[TSVirtualEntourageManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
@@ -396,12 +411,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     [self showOnlyMap];
-    [_reportManager hideSpotCrimes];
+    [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
 }
 
 - (IBAction)openEntourage:(id)sender {
     
-    [_reportManager hideSpotCrimes];
+    [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
     
     
     if (!_topDownTransitioningDelegate) {
@@ -423,9 +438,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)reportAlert:(id)sender {
     
-    TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
-    
-    viewController.reportManager = _reportManager;
+    [self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
 }
 
 - (IBAction)toggleYank:(id)sender {
@@ -502,7 +515,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)setStatusViewText:(NSString *)string {
     
-    [_statusView setText:string];
+    if (!self.viewDidAppear) {
+        [self performSelector:@selector(setStatusViewText:) withObject:string afterDelay:1.0];
+        return;
+    }
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_statusView setText:string];
+    }];
     
     float height = _statusView.originalHeight;
     
@@ -521,35 +541,23 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _statusView.hidden = NO;
     }
     
-    [UIView animateKeyframesWithDuration:0.3 delay:0.0 options:UIViewKeyframeAnimationOptionAllowUserInteraction | UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^{
-        [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.5 animations:^{
-            _statusViewHeight.constant = height;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [UIView animateKeyframesWithDuration:0.3 delay:0.0 options:UIViewKeyframeAnimationOptionAllowUserInteraction animations:^{
+            [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.5 animations:^{
+                
+                _statusViewHeight.constant = height;
+                
+                [self.view layoutIfNeeded];
+            }];
             
-            [self.view layoutIfNeeded];
-        }];
-        
-        [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
-            if (!height) {
-                _statusView.hidden = YES;
-            }
-        }];
-        
-         } completion:nil];
-    
-//    [UIView animateWithDuration:0.3
-//                          delay:0
-//         usingSpringWithDamping:300.0
-//          initialSpringVelocity:5.0
-//                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
-//                     animations:^{
-//                         _statusViewHeight.constant = height;
-//                         
-//                         [self.view layoutIfNeeded];
-//                     } completion:^(BOOL finished) {
-//                         if (!height) {
-//                             _statusView.hidden = YES;
-//                         }
-//                     }];
+            [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
+                if (!height) {
+                    _statusView.hidden = YES;
+                }
+            }];
+            
+        } completion:nil];
+    }];
 }
 
 #pragma mark - UIGestureRecognizerDelegate methods
@@ -917,7 +925,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     else {
         CLLocation *centerLocation = [[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude
                                                                 longitude:[mapView centerCoordinate].longitude];
-        [_reportManager getReportsForMapCenter:centerLocation];
+        [[TSReportAnnotationManager sharedManager] getReportsForMapCenter:centerLocation];
     }
 }
 
@@ -1034,28 +1042,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             annotation = view.annotation;
         }
         
-        TSViewReportDetailsViewController *controller = [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)annotation
-                                                                                                     from:self];
-        controller.reportManager = _reportManager;
+        [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)annotation from:self];
     }
 }
 
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error {
     
-//    if (_firstMapLoad) {
-//        _firstMapLoad = NO;
-//        [_mapView setRegionAtAppearanceAnimated:YES];
-//    }
     NSLog(@"Failed Loading Map");
 }
-//- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
-//    
-//    if (_firstMapLoad) {
-//        _firstMapLoad = NO;
-//        [_mapView setRegionAtAppearanceAnimated:YES];
-//    }
-//}
+
 
 
 - (void)flipIntersectingRouteAnnotation {
@@ -1208,6 +1204,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (IBAction)callAgencyDispatcher:(id)sender {
+    
+    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
+        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
+        return;
+    }
+    
     [self hideCallChatButtons];
     [self transitionForAlert];
     [[TSAlertManager sharedManager] startAgencyDispathcerCallAlert];
@@ -1215,13 +1217,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)openChat:(id)sender {
     
-    [self hideCallChatButtons];
-    
-    if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
         [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
         return;
     }
     
+    [self hideCallChatButtons];
     [[TSAlertManager sharedManager] showAlertWindowForChat];
     [self transitionForAlert];
 }
@@ -1262,6 +1263,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     _policeButton.hidden = YES;
     _emergencyButton.hidden = YES;
     _chatButton.hidden = YES;
+    
+    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
+        _policeButton.selected = YES;
+        _chatButton.selected = YES;
+    }
 }
 
 - (void)showCallChatButtons {
@@ -1341,6 +1347,18 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             _chatButton.hidden = YES;
         }
     }];
+}
+
+- (void)userDidLeaveAgency:(NSNotification *)notification {
+    
+    _policeButton.selected = YES;
+    _chatButton.selected = YES;
+}
+
+- (void)userDidEnterAgency:(NSNotification *)notification {
+    
+    _policeButton.selected = NO;
+    _chatButton.selected = NO;
 }
 
 

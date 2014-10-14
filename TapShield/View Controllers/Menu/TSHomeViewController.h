@@ -17,7 +17,6 @@
 
 @interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
 
-@property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 @property (weak, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
 @property (weak, nonatomic) IBOutlet TSUserLocationButton *showUserLocationButton;

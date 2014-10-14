@@ -198,7 +198,6 @@
     }
     
     TSAlertDetailsTableViewController *viewController = (TSAlertDetailsTableViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSAlertDetailsTableViewController class])];
-    viewController.reportManager = homeViewController.reportManager;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];

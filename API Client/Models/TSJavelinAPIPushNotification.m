@@ -7,6 +7,8 @@
 //
 
 #import "TSJavelinAPIPushNotification.h"
+#import "TSJavelinAPIClient.h"
+#import "TSJavelinPushNotificationManager.h"
 
 @implementation TSJavelinAPIPushNotification
 
@@ -26,10 +28,18 @@
                         NSDictionary *alert = userInfo[@"aps"][@"alert"];
                         
                         if ([alert nonNullObjectForKey:@"alert_type"]) {
-                            _alertType = alert[@"alert_type"];
+                            _alertType = [alert nonNullObjectForKey:@"alert_type"];
+                            NSArray *types = @[TSJavelinPushNotificationTypeCrimeReport, TSJavelinPushNotificationTypeMassAlert,TSJavelinPushNotificationTypeChatMessage,TSJavelinPushNotificationTypeAlertReceived,TSJavelinPushNotificationTypeAlertCompletion];
+                            for (NSString *constType in types) {
+                                if ([_alertType isEqualToString:constType]) {
+                                    _alertType = constType;
+                                }
+                            }
                         }
                         if ([alert nonNullObjectForKey:@"alert_id"]) {
                             _alertID = alert[@"alert_id"];
+                            
+                            _alertUrl = _alertID;//[NSString stringWithFormat:@"%@://%@%@", [[TSJavelinAPIClient sharedClient] baseURL].scheme, [[TSJavelinAPIClient sharedClient] baseURL].host, _alertID];
                         }
                         if ([alert nonNullObjectForKey:@"body"]) {
                             _alertBody = alert[@"body"];

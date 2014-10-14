@@ -17,7 +17,7 @@ NSString * const TSJavelinPushNotificationTypeCrimeReport = @"crime-report";
 NSString * const TSJavelinPushNotificationTypeMassAlert = @"mass-alert";
 NSString * const TSJavelinPushNotificationTypeChatMessage = @"chat-message-available";
 NSString * const TSJavelinPushNotificationTypeAlertReceived = @"alert-received";
-
+NSString * const TSJavelinPushNotificationTypeAlertCompletion = @"alert-completed";
 
 @implementation TSJavelinPushNotificationManager
 
@@ -26,17 +26,18 @@ NSString * const TSJavelinPushNotificationTypeAlertReceived = @"alert-received";
     TSJavelinAPIPushNotification *notification = [[TSJavelinAPIPushNotification alloc] initWithAttributes:userInfo];
     
     if (notification.alertType && notification.alertID) {
-        if ([notification.alertType isEqualToString:@"alert-received"]) {
+        if (notification.alertType == TSJavelinPushNotificationTypeAlertReceived) {
             NSLog(@"Our alert was acknowledged! - %@", notification.alertType);
             NSLog(@"Alert ID: %@", notification.alertID);
             if (completion) {
                 completion(YES, notification);
             }
-            [[TSJavelinAPIClient sharedClient] alertReceiptReceivedForAlertWithURL:notification.alertID];
+            [[TSJavelinAPIClient sharedClient] alertReceiptReceivedForAlertWithURL:notification.alertUrl];
         }
-        else if ([notification.alertType isEqualToString:@"chat-message-available"]) {
+        else if (notification.alertType == TSJavelinPushNotificationTypeChatMessage) {
             NSLog(@"New chat message available! - %@", notification.alertType);
             NSLog(@"Alert ID: %@", notification.alertID);
+            
             if (completion) {
                 completion(YES, notification);
             }
@@ -44,7 +45,21 @@ NSString * const TSJavelinPushNotificationTypeAlertReceived = @"alert-received";
             [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewChatMessageNotification
                                                                 object:notification];
         }
-        else if ([notification.alertType isEqualToString:@"mass-alert"]) {
+        else if (notification.alertType == TSJavelinPushNotificationTypeAlertCompletion) {
+            NSLog(@"New chat message available! - %@", notification.alertType);
+            NSLog(@"Alert ID: %@", notification.alertID);
+            
+            [[TSJavelinAPIClient sharedClient] receivedNotificationOfNewChatMessageAvailableForActiveAlert:notification];
+            [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewChatMessageNotification
+                                                                object:notification];
+            
+            if (completion) {
+                completion(YES, notification);
+            }
+            
+            [[TSJavelinAPIClient sharedClient] alertCompletionReceivedForAlertURL:notification.alertUrl];
+        }
+        else if (notification.alertType == TSJavelinPushNotificationTypeMassAlert) {
             NSLog(@"New mass alert! - %@", notification.alertType);
             NSLog(@"Alert ID: %@", notification.alertID);
             if (completion) {
@@ -54,7 +69,7 @@ NSString * const TSJavelinPushNotificationTypeAlertReceived = @"alert-received";
             [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
                                                                 object:notification];
         }
-        else if ([notification.alertType isEqualToString:@"crime-report"]) {
+        else if (notification.alertType == TSJavelinPushNotificationTypeCrimeReport) {
             NSLog(@"New crime report! - %@", notification.alertType);
             NSLog(@"Alert ID: %@", notification.alertID);
             if (completion) {

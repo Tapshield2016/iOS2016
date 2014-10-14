@@ -18,7 +18,6 @@
 
 @property (strong, nonatomic) TSSpotCrimeAnnotation *spotCrimeAnnotation;
 @property (strong, nonatomic) UIImageView *mediaImageView;
-@property (strong, nonatomic) TSReportAnnotationManager *reportManager;
 
 @property (weak, nonatomic) IBOutlet TSTintedImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;

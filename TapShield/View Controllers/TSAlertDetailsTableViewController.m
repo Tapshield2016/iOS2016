@@ -116,7 +116,6 @@
     viewController.location = _location;
     viewController.type = [[NSArray arrayWithObjects:kSocialCrimeReportLongArray] objectAtIndex:indexPath.row];
     viewController.image = [TSReportTypeTableViewCell imageForType:(int)indexPath.row];
-    viewController.reportManager = _reportManager;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

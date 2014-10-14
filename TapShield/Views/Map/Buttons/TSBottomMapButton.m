@@ -27,6 +27,7 @@
         _originalImageInsets = self.imageEdgeInsets;
         _originalTitleInsets = self.titleEdgeInsets;
         _labelYOffset = 31;
+        [self setBackgroundImage:[UIImage imageFromColor:[TSColorPalette grayColor]] forState:UIControlStateSelected];
     }
     return self;
 }
@@ -61,5 +62,7 @@
     
     [self addSubview:_label];
 }
+
+
 
 @end

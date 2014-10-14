@@ -21,6 +21,8 @@ extern NSString * const TSJavelinChatManagerDidUpdateChatMessageNotification;
 @property (assign, nonatomic) BOOL quickGetTimerInterval;
 @property (assign, nonatomic) NSUInteger unreadMessages;
 
+@property (assign, nonatomic) NSUInteger currentAlertIdentifier;
+
 + (instancetype)sharedManager;
 
 - (void)startChatForActiveAlert;

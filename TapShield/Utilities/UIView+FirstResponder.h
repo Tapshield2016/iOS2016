@@ -12,4 +12,8 @@
 
 - (UIView *)findFirstResponder;
 
+- (CGPoint)contentCenter;
+
+- (UIView *)roundBezierPathCornerRadius:(float)radius;
+
 @end

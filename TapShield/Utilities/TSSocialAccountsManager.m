@@ -282,7 +282,7 @@ static dispatch_once_t predicate;
 
 
 
-- (void)twitterRequest {
+- (void)twitterRequest:(ACAccount *)account {
     
     //  Step 1:  Obtain access to the user's Twitter accounts
     ACAccountType *twitterAccountType =
@@ -294,7 +294,7 @@ static dispatch_once_t predicate;
     [self.accountStore accountsWithAccountType:twitterAccountType];
     NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"
                   @"/1.1/users/show.json"];
-    NSDictionary *params = @{@"screen_name" : [TSJavelinAPIClient loggedInUser].username};
+    NSDictionary *params = @{@"screen_name" : account.username};
     SLRequest *request =
     [SLRequest requestForServiceType:SLServiceTypeTwitter
                        requestMethod:SLRequestMethodGET
@@ -465,7 +465,7 @@ static dispatch_once_t predicate;
                     [self loading:twitter];
                     [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
                         if (finished) {
-                            [self twitterRequest];
+                            [self twitterRequest:acct];
                         }
                     }];
                 }

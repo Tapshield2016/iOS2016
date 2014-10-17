@@ -23,4 +23,19 @@
     return nil;
 }
 
+- (UIView *)roundBezierPathCornerRadius:(float)radius {
+    
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(radius, radius)];
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = self.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.layer.mask = maskLayer;
+    return self;
+}
+
+- (CGPoint)contentCenter {
+    
+    return CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+}
+
 @end

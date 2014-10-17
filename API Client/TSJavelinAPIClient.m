@@ -791,6 +791,66 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        }];
 }
 
+
+- (void)syncEntourageMembers:(NSArray *)members completion:(void (^)(id responseObject, NSError *error))completion {
+    
+    if (!members) {
+        NSLog(@"No members to add");
+        if (completion) {
+            completion(members, nil);
+        }
+        return;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:members.count];
+    
+    for (TSJavelinAPIEntourageMember *member in members) {
+        
+        NSDictionary *parameters = [member parametersFromMember];
+        if (parameters) {
+            [mutableArray addObject:parameters];
+        }
+    }
+    
+    if (!mutableArray.count) {
+        NSLog(@"Entourage Member missing parameters");
+        if (completion) {
+            completion(members, nil);
+        }
+        return;
+    }
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    [manager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
+    [manager POST:[NSString stringWithFormat:@"%@api/entourage/members/", _baseAuthURL]
+       parameters:mutableArray
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              [[TSJavelinAPIClient loggedInUser] updateWithAttributes:responseObject];
+              [[TSJavelinAPIAuthenticationManager sharedManager] archiveLoggedInUser];
+              if (completion) {
+                  completion([TSJavelinAPIClient loggedInUser], nil);
+              }
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Error: %@", operation.response);
+              
+              if ([self shouldRetry:error]) {
+                  // Delay execution of my block for 10 seconds.
+                  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                  dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                      [self syncEntourageMembers:members completion:completion];
+                  });
+              }
+              else {
+                  if (completion) {
+                      completion(operation.responseObject, error);
+                  }
+              }
+          }];
+}
+
 - (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion {
     
     if (member.url) {

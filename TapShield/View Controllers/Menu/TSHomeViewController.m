@@ -29,6 +29,7 @@
 #import "ADClusterAnnotation.h"
 #import <KVOController/FBKVOController.h>
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "TSJavelinChatManager.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -131,6 +132,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_helpButton setImage:[[UIImage alloc] init] forState:UIControlStateSelected|UIControlStateHighlighted];
     [_helpButton setTitle:@"X" forState:UIControlStateSelected|UIControlStateHighlighted];
     [_helpButton setLabelTitle:@"Talk"];
+    
+    _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
+    [_helpButton.superview addSubview:_badgeView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -148,6 +152,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _firstMapLoad = NO;
         [_mapView setRegionAtAppearanceAnimated:self.firstAppear];
     }
+    
+    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -1229,7 +1235,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)initCallChatButtons {
     
-    CGRect frame = _routeButton.frame;
+    CGRect frame = _routeButton.bounds;
     
     _policeButton = [[TSBottomMapButton alloc] initWithFrame:frame];
     [_policeButton setImage:[UIImage imageNamed:@"phone_call"] forState:UIControlStateNormal];
@@ -1241,10 +1247,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_emergencyButton setLabelTitle:@"Call"];
     [_emergencyButton addTarget:self action:@selector(callEmergencyNumber:) forControlEvents:UIControlEventTouchUpInside];
     
+    UIView *chatButtonView = [[UIView alloc] initWithFrame:frame];
     _chatButton = [[TSBottomMapButton alloc] initWithFrame:frame];
     [_chatButton setImage:[UIImage imageNamed:@"alert_chat_icon"] forState:UIControlStateNormal];
     [_chatButton setLabelTitle:@"Chat"];
     [_chatButton addTarget:self action:@selector(openChat:) forControlEvents:UIControlEventTouchUpInside];
+    _chatButton.center = chatButtonView.contentCenter;
+    [chatButtonView addSubview:_chatButton];
     
     float scale = 1.5;
     
@@ -1254,15 +1263,15 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _policeButton.center = _helpButton.superview.center;
     _emergencyButton.center = _helpButton.superview.center;
-    _chatButton.center = _helpButton.superview.center;
+    _chatButton.superview.center = _helpButton.superview.center;
     
     [self.view insertSubview:_policeButton belowSubview:_helpButton.superview];
     [self.view insertSubview:_emergencyButton belowSubview:_helpButton.superview];
-    [self.view insertSubview:_chatButton belowSubview:_helpButton.superview];
+    [self.view insertSubview:_chatButton.superview belowSubview:_helpButton.superview];
     
     _policeButton.hidden = YES;
     _emergencyButton.hidden = YES;
-    _chatButton.hidden = YES;
+    _chatButton.superview.hidden = YES;
     
     if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
         _policeButton.selected = YES;
@@ -1274,25 +1283,29 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _helpButton.selected = YES;
     
+    [_badgeView removeFromSuperview];
+    
     [_policeButton.layer removeAllAnimations];
     [_emergencyButton.layer removeAllAnimations];
+    [_chatButton.superview.layer removeAllAnimations];
     [_chatButton.layer removeAllAnimations];
     [_reportButton.layer removeAllAnimations];
     [_routeButton.layer removeAllAnimations];
     
     _policeButton.hidden = NO;
     _emergencyButton.hidden = NO;
-    _chatButton.hidden = NO;
+    _chatButton.superview.hidden = NO;
     
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
         
         _policeButton.transform = CGAffineTransformIdentity;
         _emergencyButton.transform = CGAffineTransformIdentity;
         _chatButton.transform = CGAffineTransformIdentity;
+//        _chatButton.center = _chatButton.superview.contentCenter;
         
         _policeButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:215];
         _emergencyButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:270];
-        _chatButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:325];
+        _chatButton.superview.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:325];
         
         _reportButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
         _routeButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
@@ -1300,7 +1313,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _helpButton.label.hidden = YES;
         _helpButton.transform = CGAffineTransformMakeScale(0.6667, 0.6667);
         
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        
+        [_badgeView removeFromSuperview];
+        [_chatButton.superview addSubview:_badgeView];
+    }];
 }
 
 - (CGPoint)pointOnCircleWithView:(UIView *)view radius:(float)radius angle:(float)angle {
@@ -1316,8 +1333,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _helpButton.selected = NO;
     
+    [_badgeView removeFromSuperview];
+    
     [_policeButton.layer removeAllAnimations];
     [_emergencyButton.layer removeAllAnimations];
+    [_chatButton.superview.layer removeAllAnimations];
     [_chatButton.layer removeAllAnimations];
     [_reportButton.layer removeAllAnimations];
     [_routeButton.layer removeAllAnimations];
@@ -1332,7 +1352,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         _policeButton.center = _helpButton.superview.center;
         _emergencyButton.center = _helpButton.superview.center;
-        _chatButton.center = _helpButton.superview.center;
+        _chatButton.superview.center = _helpButton.superview.center;
         
         _reportButton.transform = CGAffineTransformIdentity;
         _routeButton.transform = CGAffineTransformIdentity;
@@ -1344,7 +1364,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         if (finished && _policeButton.transform.a != CGAffineTransformIdentity.a) {
             _policeButton.hidden = YES;
             _emergencyButton.hidden = YES;
-            _chatButton.hidden = YES;
+            _chatButton.superview.hidden = YES;
+            
+            [_badgeView removeFromSuperview];
+            [_helpButton.superview addSubview:_badgeView];
         }
     }];
 }
@@ -1360,6 +1383,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     _policeButton.selected = NO;
     _chatButton.selected = NO;
 }
+
+
 
 
 @end

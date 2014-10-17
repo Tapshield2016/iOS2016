@@ -8,10 +8,13 @@
 
 #import "TSIconBadgeView.h"
 #import "TSBaseLabel.h"
+#import <KVOController/FBKVOController.h>
+#import "TSJavelinChatManager.h"
 
 @interface TSIconBadgeView ()
 
 @property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) FBKVOController *kvoController;
 
 @end
 
@@ -28,6 +31,24 @@
         self.label.textAlignment = NSTextAlignmentCenter;
         [self setNumber:0];
         [self addSubview:self.label];
+        
+        // create KVO controller with observer
+        FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+        
+        // add strong reference from observer to KVO controller
+        _kvoController = KVOController;
+        
+        [_kvoController observe:[TSJavelinChatManager sharedManager]
+                        keyPath:@"unreadMessages"
+                        options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSIconBadgeView *badgeView, TSJavelinChatManager *chatManager, NSDictionary *change) {
+                            
+                            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                
+                                [UIView animateWithDuration:0.2 animations:^{
+                                    [badgeView setNumber:chatManager.unreadMessages];
+                                }];
+                            }];
+                        }];
     }
     return self;
 }
@@ -60,6 +81,13 @@
     }];
 }
 
+- (void)didMoveToSuperview {
+    
+    [super didMoveToSuperview];
+    
+    [self resizeView];
+}
+
 - (void)resizeView {
     
     [_label sizeToFit];
@@ -80,8 +108,8 @@
     
     if (self.superview) {
         CGRect frame = self.frame;
-        frame.origin.y = -frame.size.height/2 + 5;
-        frame.origin.x = self.superview.frame.size.width - frame.size.width + frame.size.height/2;
+        frame.origin.y = 0;
+        frame.origin.x = self.superview.frame.size.width - frame.size.width + frame.size.height/4;
         self.frame = frame;
     }
     

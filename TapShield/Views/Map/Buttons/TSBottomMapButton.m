@@ -55,7 +55,7 @@
 - (void)setLabelTitle:(NSString *)title {
     
     _label = [[UILabel alloc] initWithFrame:CGRectMake(0, _labelYOffset, self.frame.size.width, 21)];
-    _label.font = [UIFont systemFontOfSize:10.0];
+    _label.font = [UIFont systemFontOfSize:12.0];
     _label.textAlignment = NSTextAlignmentCenter;
     _label.text = title;
     _label.textColor = [UIColor whiteColor];

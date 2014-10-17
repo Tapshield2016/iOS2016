@@ -36,8 +36,6 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 @property (nonatomic, strong) TSRouteManager *routeManager;
 
-@property (nonatomic, strong) NSMutableSet *entourageMembersPosted;
-
 @property (strong, nonatomic) NSTimer *endTimer;
 
 @property (nonatomic, assign) NSTimeInterval selectedETA;

@@ -2428,9 +2428,9 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7DV-fr-6qL" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <accessibility key="accessibilityConfiguration" hint="Report crime tips" label="Report"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <inset key="titleEdgeInsets" minX="-32" minY="25" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="15"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                        <inset key="titleEdgeInsets" minX="-30" minY="25" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="15"/>
                                         <state key="normal" title="Inform" image="report_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2455,8 +2455,8 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                         <accessibility key="accessibilityConfiguration" hint="Send alert to authorities" label="Alert"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" image="alert_icon">
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
+                                        <state key="normal" image="TalkIcon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="selected" title="X"/>
@@ -2480,7 +2480,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZU-fn-ffK" customClass="TSBottomMapButton">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <accessibility key="accessibilityConfiguration" hint="Text with authorities" label="Chat"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="titleEdgeInsets" minX="-28" minY="25" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="15"/>
                                         <state key="normal" title="Track" image="entourage_icon_white">
@@ -4286,7 +4286,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HS1-2j-UMN" userLabel="View - Tap Dismiss">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="104" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <tableView opaque="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-RX-ciz">
@@ -6073,10 +6073,10 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="CheckBox_Selected" width="16" height="16"/>
         <image name="CheckBox_Unselected" width="16" height="16"/>
         <image name="CheckBox_UnselectedDown" width="16" height="16"/>
+        <image name="TalkIcon" width="50" height="34"/>
         <image name="TouchIDRed" width="40" height="40"/>
         <image name="Yank_icon" width="25" height="22"/>
         <image name="about_logo" width="154" height="93"/>
-        <image name="alert_icon" width="50" height="41"/>
         <image name="alert_mute_icon" width="21" height="25"/>
         <image name="alert_view_time_icon" width="15" height="15"/>
         <image name="alert_volume_icon" width="30" height="25"/>

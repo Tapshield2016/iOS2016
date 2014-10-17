@@ -79,7 +79,6 @@ static dispatch_once_t predicate;
         _isEnabled = NO;
         self.homeView = homeView;
         self.routeManager = [[TSRouteManager alloc] initWithMapView:homeView.mapView];
-        self.entourageMembersPosted = [TSVirtualEntourageManager unArchiveEntourageMembersPosted];
     }
     return self;
 }
@@ -92,18 +91,14 @@ static dispatch_once_t predicate;
     
     _endRegions = [self regionsForEndPoint];
     
-    __weak typeof(self) weakSelf = self;
-    [self addOrRemoveMembers:members completion:^(BOOL finished) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
-            [strongSelf resetTimerWithTimeInterval:eta];
-            [strongSelf checkRegion:[TSLocationController sharedLocationController].location];
-            
-            if (completion) {
-                completion(finished);
-            }
-        }
-    }];
+    [self resetTimerWithTimeInterval:eta];
+    [self checkRegion:[TSLocationController sharedLocationController].location];
+    
+    [self syncEntourageMembers:members];
+    
+    if (completion) {
+        completion(YES);
+    }
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:TSVirtualEntourageManagerWarning911]) {
         _warningWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSVirtualEntourageManagerWarning911
@@ -232,29 +227,6 @@ static dispatch_once_t predicate;
     }];
 }
 
-- (void)addOrRemoveMembers:(NSSet *)members completion:(TSVirtualEntourageManagerPostCompletion)completion {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
-                                             (unsigned long)NULL), ^(void) {
-        
-        [self findMembersToDelete:_entourageMembersPosted newMembers:members completion:^(BOOL done) {
-            
-            if (completion) {
-                _finishedPosting = completion;
-            }
-            
-            if (members.count) {
-                
-                [self postEntourageMembers:members];
-            }
-            else {
-                
-                [self getAllPreviousMembersFromUserAndDeleteMissing];
-            }
-        }];
-    });
-    
-}
 
 - (void)manuallyEndTracking {
     
@@ -265,7 +237,7 @@ static dispatch_once_t predicate;
                                                                                  message:@"Would you like notify entourage members of your arrival?"
                                                                           preferredStyle:UIAlertControllerStyleAlert];
         
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [alertController addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             [self.homeView clearEntourageAndResetMap];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"Arrived" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -364,175 +336,20 @@ static dispatch_once_t predicate;
     }
 }
 
-#pragma mark - Add Remove Members
+#pragma mark - Sync Members
 
-- (void)findMembersToDelete:(NSSet *)oldMembers newMembers:(NSSet *)newMembers completion:(void(^)(BOOL done))completion {
+
+- (void)syncEntourageMembers:(NSSet *)members {
     
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+    [[TSJavelinAPIClient sharedClient] syncEntourageMembers:members.allObjects completion:^(id responseObject, NSError *error) {
         
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        for (TSJavelinAPIEntourageMember *member in newMembers) {
-            if (sortingMember.identifier == member.identifier) {
-                return NO;
-            }
+        if (!error) {
+            NSLog(@"Saved entourage members");
         }
-        
-        return YES;
-    }];
-    
-    NSSet *filtered = [oldMembers filteredSetUsingPredicate:predicate];
-    [self deleteEntourageMembers:filtered completion:completion];
-}
-
-- (void)findMembersToAddWithSavedUrls:(NSSet *)oldMembers newMembers:(NSSet *)newMembers{
-    
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        for (TSJavelinAPIEntourageMember *member in oldMembers) {
-            if (sortingMember.identifier == member.identifier) {
-                return NO;
-            }
+        else {
+            NSLog(@"%@", error.localizedDescription);
         }
-        sortingMember.url = nil;
-        return YES;
     }];
-    
-    NSSet *filtered = [newMembers filteredSetUsingPredicate:predicate];
-    [self postEntourageMembers:filtered];
-}
-
-- (void)postedMember:(TSJavelinAPIEntourageMember *)member {
-    
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        if (sortingMember.identifier == member.identifier) {
-            return YES;
-        }
-        return NO;
-    }];
-    NSSet *filtered = [_entourageMembersPosted filteredSetUsingPredicate:predicate];
-    
-    if (filtered.count == 0) {
-        [_entourageMembersPosted addObject:member];
-    }
-    
-    [self archiveEntourageMembersPosted];
-}
-
-- (void)deletedMember:(TSJavelinAPIEntourageMember *)member {
-    
-    NSLog(@"deletedMember:%@", member.name);
-    [_entourageMembersPosted removeObject:member];
-    [self archiveEntourageMembersPosted];
-}
-
-
-- (void)failedToPostMember:(TSJavelinAPIEntourageMember *)member error:(NSError *)error {
-    
-    NSLog(@"failedToPostMember:%@", member.name);
-}
-
-- (void)failedToDeletedMember:(TSJavelinAPIEntourageMember *)member error:(NSError *)error{
-    
-    NSLog(@"failedToDeleteMember:%@ id:%lu error:%@ %li", member.name, (unsigned long)member.identifier, error.localizedDescription, (long)error.code);
-    
-    if (error.code == NSURLErrorBadServerResponse) {
-        [self deletedMember:member];
-    }
-}
-
-#pragma mark Network Requests
-
-- (void)postEntourageMembers:(NSSet *)members {
-    
-    int i = 1;
-    for (TSJavelinAPIEntourageMember *member in members) {
-        
-        [[TSJavelinAPIClient sharedClient] addEntourageMember:member completion:^(id responseObject, NSError *error) {
-            if (!error) {
-                [self postedMember:member];
-            }
-            else {
-                [self failedToPostMember:member error:error];
-            }
-            
-            if (i == members.count) {
-                [self getAllPreviousMembersFromUserAndDeleteMissing];
-            }
-        }];
-        i++;
-    }
-}
-
-- (void)deleteEntourageMembers:(NSSet *)members completion:(void(^)(BOOL done))completion {
-    
-    if (!members.count) {
-        if (completion) {
-            completion(YES);
-        }
-    }
-    
-    int i = 1;
-    for (TSJavelinAPIEntourageMember *member in members) {
-        [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:^(id responseObject, NSError *error) {
-            if (!error) {
-                [self deletedMember:member];
-            }
-            else {
-                [self failedToDeletedMember:member error:error];
-            }
-            
-            if (i == members.count) {
-                
-                if (completion) {
-                    completion(YES);
-                }
-            }
-        }];
-        i++;
-    }
-}
-
-- (void)getAllPreviousMembersFromUserAndDeleteMissing {
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
-        [self findMembersToDelete:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted completion:^(BOOL done) {
-            
-            if (_finishedPosting) {
-                _finishedPosting(YES);
-                _finishedPosting = nil;
-            }
-            
-            [self getAllPostedMembersFromUserAndAddMissing:^(BOOL finished) {
-                
-            }];
-        }];
-    }];
-}
-
-- (void)getAllPostedMembersFromUserAndAddMissing:(void(^)(BOOL finished))completion {
-    
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
-        [self findMembersToAddWithSavedUrls:[NSSet setWithArray:user.entourageMembers] newMembers:_entourageMembersPosted];
-    }];
-}
-
-#pragma mark Archive Members
-
-- (void)archiveEntourageMembersPosted {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
-                                             (unsigned long)NULL), ^(void) {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_entourageMembersPosted];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:TSVirtualEntourageManagerMembersPosted];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    });
-}
-
-+ (NSMutableSet *)unArchiveEntourageMembersPosted {
-    
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:TSVirtualEntourageManagerMembersPosted];
-    return [[NSMutableSet alloc] initWithSet:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
 }
 
 #pragma mark - Pop Up Window Delegate

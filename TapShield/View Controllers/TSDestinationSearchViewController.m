@@ -167,10 +167,8 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     
     [_searchBar resignFirstResponder];
     
-    [UIView animateWithDuration:0.5 delay:0.0f usingSpringWithDamping:300.0 initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.tableViewTopLayout.constant = self.view.frame.size.height*2;
-        self.tableViewBottomLayout.constant = -self.view.frame.size.height*2;
-        [self.view layoutIfNeeded];
+    [UIView animateWithDuration:0.1 delay:0.0f usingSpringWithDamping:300.0 initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        _tableView.alpha = 0.0;
     } completion:nil];
 }
 

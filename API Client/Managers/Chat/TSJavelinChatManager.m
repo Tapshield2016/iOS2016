@@ -183,7 +183,7 @@ static dispatch_once_t onceToken;
 - (void)newMessagesCount {
     NSUInteger newMessageCount = _chatMessages.allMessages.count - _previousCount;
     if (newMessageCount > 0) {
-        _unreadMessages += newMessageCount;
+        [TSJavelinChatManager sharedManager].unreadMessages += newMessageCount;
         _previousCount = _chatMessages.allMessages.count;
         [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinChatManagerDidReceiveNewChatMessageNotification object:nil];
     }
@@ -313,7 +313,7 @@ static dispatch_once_t onceToken;
         [_chatMessages.messagesAwaitingSend removeAllObjects];
     }
     
-    _unreadMessages = 0;
+    [TSJavelinChatManager sharedManager].unreadMessages = 0;
     _didReceiveAll = NO;
 }
 

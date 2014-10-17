@@ -14,6 +14,7 @@
 #import "TSReportAnnotationManager.h"
 #import "TSStatusView.h"
 #import "TSBottomMapButton.h"
+#import "TSIconBadgeView.h"
 
 @interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
 
@@ -26,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *routeButton;
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *helpButton;
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *reportButton;
+
+@property (strong, nonatomic) TSIconBadgeView *badgeView;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (assign, nonatomic) BOOL isTrackingUser;

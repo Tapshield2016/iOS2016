@@ -50,7 +50,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 20.0, 0);
     [_collectionView setCollectionViewLayout:_collectionLayout];
     
-    NSSet *set = [TSVirtualEntourageManager sharedManager].entourageMembersPosted;
+    NSSet *set = [NSSet setWithArray:[TSJavelinAPIClient loggedInUser].entourageMembers];
     _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:[set allObjects]]];
     _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
     [self mergeRecentPicksWithCurrentMembers];
@@ -133,14 +133,16 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)dismissViewController {
     
+    UINavigationController *navcontroller = (UINavigationController *)[[UIApplication sharedApplication].delegate.window.rootViewController.childViewControllers firstObject];
+    [[navcontroller.childViewControllers lastObject] beginAppearanceTransition:YES animated:YES];
+    
     [self dismissViewControllerAnimated:YES completion:^{
         if (_keyValueObserver) {
             [[TSVirtualEntourageManager sharedManager].routeManager removeObserver:_keyValueObserver
                                                                    forKeyPath:@"selectedRoute"
                                                                       context: NULL];
         }
-        [_homeViewController viewWillAppear:NO];
-        [_homeViewController viewDidAppear:NO];
+        [[navcontroller.childViewControllers lastObject] endAppearanceTransition];
     }];
 }
 
@@ -384,20 +386,31 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)doneEditingEntourage {
     
+    
     if ([self changesWereMade]) {
         
-        if ([self touchIDAvailable]) {
-            [self useTouchID];
-        }
-        else {
-            [self saveWithPasscode];
-        }
+        UIAlertController *askSaveAlertController = [UIAlertController alertControllerWithTitle:@"Changes were made"
+                                                                                        message:@"Would you like to save?"
+                                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
+        [askSaveAlertController addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self dismissViewController];
+        }]];
+        [askSaveAlertController addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            if ([self touchIDAvailable]) {
+                [self useTouchID];
+            }
+            else {
+                [self saveWithPasscode];
+            }
+        }]];
+        [self presentViewController:askSaveAlertController animated:YES completion:nil];
     }
     else {
         [self dismissViewController];
     }
 }
+
 
 - (void)saveWithPasscode {
     
@@ -414,16 +427,14 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
         [textField setDelegate:weakSelf];
     }];
-    [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        [self dismissViewController];
-    }]];
+    [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     [self presentViewController:_saveChangesAlertController animated:YES completion:nil];
 }
 
 - (BOOL)changesWereMade {
     
-    if (_entourageMembers.count != [TSVirtualEntourageManager sharedManager].entourageMembersPosted.count) {
+    if (_entourageMembers.count != [TSJavelinAPIClient loggedInUser].entourageMembers.count) {
         return YES;
     }
     
@@ -435,7 +446,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
                 return YES;
             }
             
-            for (TSJavelinAPIEntourageMember *member in [[TSVirtualEntourageManager sharedManager].entourageMembersPosted copy]) {
+            for (TSJavelinAPIEntourageMember *member in [[TSJavelinAPIClient loggedInUser].entourageMembers copy]) {
                 if (sortingMember.identifier == member.identifier) {
                     return NO;
                 }

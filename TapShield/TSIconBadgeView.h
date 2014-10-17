@@ -16,6 +16,5 @@
 
 - (void)setNumber:(NSUInteger)number;
 - (void)incrementBadgeNumber;
-- (void)clearBadge;
 
 @end

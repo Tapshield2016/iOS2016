@@ -19,6 +19,14 @@
     self = [super init];
     if (self) {
         
+        _alwaysVisible = NO;
+        _notifyCalled911 = NO;
+        
+        _trackRoute = YES;
+        _notifyArrival = YES;
+        _notifyNonArrival = YES;
+        _notifyYank = YES;
+        
         self.recordID = ABRecordGetRecordID(person);
         [self getChosenContactInfoFromPerson:person property:property identifier:identifier];
     }

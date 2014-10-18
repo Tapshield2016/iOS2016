@@ -38,19 +38,7 @@
         _recordID  = [[attributes nonNullObjectForKey:@"record_id"] intValue];
         
         if (_recordID) {
-            
-            CFErrorRef error = nil;
-            ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
-            ABRecordRef recordRef = ABAddressBookGetPersonWithRecordID ( addressBook, _recordID );
-            
-            NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(recordRef, kABPersonImageFormatThumbnail);
-            
-            UIImage *image = [UIImage imageWithData:data];
-            
-            self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
-            self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
-            CFRelease(recordRef);
-            CFRelease(addressBook);
+            [self setImageForRecordID:_recordID];
         }
         
         _matchedUser = [attributes nonNullObjectForKey:@"matched_user"];
@@ -221,5 +209,24 @@
     self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
 }
 
+- (void)setImageForRecordID:(ABRecordID)recordID {
+    CFErrorRef error = nil;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    
+    if (!error) {
+        ABRecordRef recordRef = ABAddressBookGetPersonWithRecordID ( addressBook, recordID );
+        
+        NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(recordRef, kABPersonImageFormatThumbnail);
+        
+        if (data) {
+            UIImage *image = [UIImage imageWithData:data];
+            
+            self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
+            self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
+        }
+    }
+    
+    CFRelease(addressBook);
+}
 
 @end

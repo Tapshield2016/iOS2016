@@ -813,11 +813,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     }
     
     if (!mutableArray.count) {
-        NSLog(@"Entourage Member missing parameters");
-        if (completion) {
-            completion(members, nil);
-        }
-        return;
+        mutableArray = nil;
     }
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];

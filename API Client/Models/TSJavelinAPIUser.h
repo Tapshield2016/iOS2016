@@ -39,6 +39,8 @@
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
 
+- (void)setEntourageMembers:(NSArray *)entourageMembers;
+
 - (BOOL)canJoinAgency:(TSJavelinAPIAgency *)agency;
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain;
 - (TSJavelinAPIEmail *)hasSecondaryEmail:(NSString *)email;

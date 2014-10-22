@@ -823,7 +823,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     [manager POST:[NSString stringWithFormat:@"%@api/entourage/members/", _baseAuthURL]
        parameters:mutableArray
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              [[TSJavelinAPIClient loggedInUser] updateWithAttributes:responseObject];
+              [[TSJavelinAPIClient loggedInUser] setEntourageMembers:responseObject];
               [[TSJavelinAPIAuthenticationManager sharedManager] archiveLoggedInUser];
               if (completion) {
                   completion([TSJavelinAPIClient loggedInUser], nil);

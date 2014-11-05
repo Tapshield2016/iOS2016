@@ -29,7 +29,7 @@
 @property (assign, nonatomic) BOOL notifyCalled911;
 @property (assign, nonatomic) BOOL notifyYank;
 
-- (instancetype)initWithPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier;
+- (instancetype)initWithPerson:(ABRecordRef)person;
 - (NSDictionary *)parametersFromMember;
 
 @end

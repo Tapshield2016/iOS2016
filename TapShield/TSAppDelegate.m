@@ -26,6 +26,7 @@
 #import "GAIDictionaryBuilder.h"
 #import "TSNoNetworkWindow.h"
 #import "TSUserSessionManager.h"
+#import "TSEntourageContactsViewController.h"
 
 @import CoreTelephony;
 
@@ -97,7 +98,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
                                                  name:kReachabilityChangedNotification
                                                object:nil];
     
-    _reachability = [Reachability reachabilityWithHostName:remoteHostName];
+    _reachability = [Reachability reachabilityWithHostname:remoteHostName];
     [_reachability startNotifier];
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -139,17 +140,22 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     self.dynamicsDrawerViewController.delegate = self;
     // Add some styles for the drawer
     [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionRight];
     
     [self.dynamicsDrawerViewController setElasticity:0.0f];
     [self.dynamicsDrawerViewController setGravityMagnitude:4.0f];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
+    
+    TSEntourageContactsViewController *entourageContactsViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSEntourageContactsViewController"];
+    
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.dynamicsDrawerViewController setDrawerViewController:entourageContactsViewController forDirection:MSDynamicsDrawerDirectionRight];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
     
-    UIImage *bgImage = [UIImage imageNamed:@"side_menu_bg"];
+    UIImage *bgImage = [UIImage imageNamed:@"SideMenuBG"];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
         bgImage = [UIImage imageNamed:@"side_menu_bg_talkaphone"];
@@ -448,6 +454,16 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
          }
          
      }];
+}
+
+- (void)toggleWidePaneState:(BOOL)open {
+    
+    if (self.dynamicsDrawerViewController.paneState == MSDynamicsDrawerPaneStateOpenWide && !open) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionRight];
+    }
+    else if (open) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpenWide inDirection:MSDynamicsDrawerDirectionRight];
+    }
 }
 
 @end

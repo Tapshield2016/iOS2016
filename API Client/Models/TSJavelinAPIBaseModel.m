@@ -7,7 +7,6 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
-#import <AWSiOSSDK/AmazonSDKUtil.h>
 
 @implementation TSJavelinAPIBaseModel
 

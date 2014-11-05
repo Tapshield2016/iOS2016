@@ -36,4 +36,6 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 + (void)openSettings;
 
+- (void)toggleWidePaneState:(BOOL)open;
+
 @end

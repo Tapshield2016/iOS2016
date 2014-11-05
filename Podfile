@@ -4,7 +4,6 @@ inhibit_all_warnings!
 
 pod 'AFNetworking'
 pod 'MSDynamicsDrawerViewController'
-pod 'AWSiOSSDK'
 pod 'SSKeychain'
 pod 'TwilioSDK'
 pod 'IOSLinkedInAPI'
@@ -15,7 +14,8 @@ pod 'MediaRSSParser'
 pod 'GoogleAnalytics-iOS-SDK'
 pod 'KVOController'
 pod 'Shimmer'
-
+pod "AWSiOSSDKv2"
+pod "AWSCognitoSync"
 
 post_install do |installer_representation|
   installer_representation.project.targets.each do |target|

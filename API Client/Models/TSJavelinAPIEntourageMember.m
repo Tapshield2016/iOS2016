@@ -14,7 +14,7 @@
 
 @implementation TSJavelinAPIEntourageMember
 
-- (instancetype)initWithPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
+- (instancetype)initWithPerson:(ABRecordRef)person {
     
     self = [super init];
     if (self) {
@@ -28,7 +28,7 @@
         _notifyYank = YES;
         
         self.recordID = ABRecordGetRecordID(person);
-        [self getChosenContactInfoFromPerson:person property:property identifier:identifier];
+        [self getContactInfoFromPerson:person];
     }
     return self;
 }
@@ -193,29 +193,97 @@
     return title;
 }
 
-- (void)getChosenContactInfoFromPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
+- (void)mobileNumberFromPerson:(ABRecordRef)person {
     
-    self.name = [self getTitleForABRecordRef:person];
+    ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    NSString *mobile;
+    NSString *other;
+    NSString *mobileLabel;
     
-    ABMultiValueRef multiRef = ABRecordCopyValue(person, property);
-    CFIndex index = ABMultiValueGetIndexForIdentifier (multiRef, identifier);
-    NSString *contactInfo = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiRef, index);
-    CFRelease(multiRef);
-    
-    if (property == kABPersonEmailProperty) {
-        self.email = contactInfo;
+    for (CFIndex i = 0; i < ABMultiValueGetCount(phones); i++) {
+        
+        mobileLabel = (__bridge_transfer NSString *)ABMultiValueCopyLabelAtIndex(phones, i);
+        
+        if ([mobileLabel isEqualToString:(__bridge_transfer NSString *)kABPersonPhoneMobileLabel]) {
+            mobile = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
+        }
+        else if ([mobileLabel isEqualToString:(__bridge_transfer NSString *)kABPersonPhoneIPhoneLabel]) {
+            mobile = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
+            break ;
+        }
+        else {
+            other = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, i);
+        }
     }
-    else if (property == kABPersonPhoneProperty) {
-        self.phoneNumber = contactInfo;
+    
+    if (mobile) {
+        self.phoneNumber = mobile;
     }
+    else {
+        self.phoneNumber = other;
+    }
+    
+    CFRelease(phones);
+}
+
+- (void)emailFromPerson:(ABRecordRef)person {
+    
+    ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+    NSString *home;
+    NSString *work;
+    NSString *other;
+    NSString *emailLabel;
+    
+    for (CFIndex i = 0; i < ABMultiValueGetCount(emails); i++) {
+        
+        emailLabel = (__bridge_transfer NSString *)ABMultiValueCopyLabelAtIndex(emails, i);
+        
+        if ([emailLabel isEqualToString:(__bridge_transfer NSString *)kABHomeLabel]) {
+            home = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(emails, i);
+            break;
+        }
+        else if ([emailLabel isEqualToString:(__bridge_transfer NSString *)kABWorkLabel]) {
+            work = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(emails, i);
+        }
+        else {
+            other = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(emails, i);
+        }
+    }
+    
+    if (home) {
+        self.email = home;
+    }
+    else if (work) {
+        self.email = work;
+    }
+    else {
+        self.email = other;
+    }
+    
+    CFRelease(emails);
+}
+
+- (void)imageFromPerson:(ABRecordRef)person {
     
     NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(person, kABPersonImageFormatThumbnail);
     
-    UIImage *image = [UIImage imageWithData:data];
-    
-    self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
-    self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
+    if (data) {
+        UIImage *image = [UIImage imageWithData:data];
+        
+        self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
+//        self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
+    }
 }
+
+- (void)getContactInfoFromPerson:(ABRecordRef)person {
+    
+    self.name = [self getTitleForABRecordRef:person];
+    
+    [self mobileNumberFromPerson:person];
+    [self emailFromPerson:person];
+    [self imageFromPerson:person];
+}
+
 
 - (void)setImageForRecordID:(ABRecordID)recordID {
     CFErrorRef error = nil;
@@ -224,14 +292,7 @@
     if (!error) {
         ABRecordRef recordRef = ABAddressBookGetPersonWithRecordID ( addressBook, recordID );
         
-        NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(recordRef, kABPersonImageFormatThumbnail);
-        
-        if (data) {
-            UIImage *image = [UIImage imageWithData:data];
-            
-            self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
-            self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
-        }
+        [self imageFromPerson:recordRef];
     }
     
     CFRelease(addressBook);

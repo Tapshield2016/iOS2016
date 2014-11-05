@@ -247,18 +247,18 @@
             if (report) {
                 report.address = _addressLabel.text;
                 
-                UINavigationController *parentNavigationController;
-                if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
-                    parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
-                }
-                else if ([self.presentingViewController isKindOfClass:[UINavigationController class]]) {
-                    parentNavigationController = (UINavigationController *)self.presentingViewController;
-                }
+//                UINavigationController *parentNavigationController;
+//                if ([[self.presentingViewController.childViewControllers firstObject] isKindOfClass:[UINavigationController class]]) {
+//                    parentNavigationController = (UINavigationController *)[self.presentingViewController.childViewControllers firstObject];
+//                }
+//                else if ([self.presentingViewController isKindOfClass:[UINavigationController class]]) {
+//                    parentNavigationController = (UINavigationController *)self.presentingViewController;
+//                }
                 
                 [self dismissViewControllerAnimated:YES completion:^{
                     [[TSReportAnnotationManager sharedManager] addUserSocialReport:report];
-                    [parentNavigationController.topViewController viewWillAppear:NO];
-                    [parentNavigationController.topViewController viewDidAppear:NO];
+//                    [parentNavigationController.topViewController viewWillAppear:NO];
+//                    [parentNavigationController.topViewController viewDidAppear:NO];
                 }];
             }
             else {
@@ -299,9 +299,10 @@
         else if ([(NSURL *)_media isAudio]) {
             key = [NSString stringWithFormat:@"social-crime/audio/%@.%@", [TSJavelinAPIUtilities uuidString], kReportAudioFormat];
             NSData *audioData = [NSData dataWithContentsOfURL:_media];
-            [uploadManager uploadAudioData:audioData
-                                       key:key
-                                completion:completion];
+            [uploadManager uploadData:audioData
+                                  key:key
+                                 type:@"audio/aac"
+                           completion:completion];
         }
         
         

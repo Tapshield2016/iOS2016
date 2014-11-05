@@ -10,7 +10,7 @@
 #import "TSJavelinAPIClient.h"
 #import "TSJavelinAPIChatMessage.h"
 #import "TSJavelinAPIAlert.h"
-#import <AmazonDynamoDBClient.h>
+#import <AWSiOSSDKv2/DynamoDB.h>
 
 #define LONG_TIMER 45
 #define QUICK_TIMER 15
@@ -34,7 +34,7 @@ NSString * const TSJavelinChatManagerDidReceiveNewChatMessageNotification = @"TS
 @interface TSJavelinChatManager ()
 
 @property (strong, nonatomic) NSOperationQueue *chatActivityQueue;
-@property (strong, nonatomic) AmazonDynamoDBClient *dynamoDB;
+@property (strong, nonatomic) AWSDynamoDB *dynamoDB;
 @property (strong, nonatomic) NSString *dynamoDBTableName;
 @property (strong, nonatomic) NSTimer *getTimer;
 @property (assign, nonatomic) NSUInteger previousCount;
@@ -55,23 +55,28 @@ static dispatch_once_t onceToken;
             _sharedManager.quickGetTimerInterval = NO;
             _sharedManager.unreadMessages = 0;
             
-            AmazonCredentials *credentials;
+            AWSServiceConfiguration *configuration;
+            AWSStaticCredentialsProvider *credentialsProvider;
 #ifdef DEV
-            credentials = [[AmazonCredentials alloc] initWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
-                                                         withSecretKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey];
+            
+            credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
+                                                                               secretKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey];
+            configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
             _sharedManager.dynamoDBTableName = kTSJavelinAPIChatManagerDynamoDBDevelopmentTableName;
 #elif DEMO
-            credentials = [[AmazonCredentials alloc] initWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
-                                                         withSecretKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey];
+            credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
+                                                                               secretKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey];
+            configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
             _sharedManager.dynamoDBTableName = kTSJavelinAPIChatManagerDynamoDBDemoTableName;
-
+            
 #elif APP_STORE
-            credentials = [[AmazonCredentials alloc] initWithAccessKey:kTSJavelinAPIChatManagerDynamoDBProductionAccessKey
-                                                         withSecretKey:kTSJavelinAPIChatManagerDynamoDBProductionSecretKey];
+            credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAPIChatManagerDynamoDBProductionAccessKey
+                                                                               secretKey:kTSJavelinAPIChatManagerDynamoDBProductionSecretKey];
+            configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
             _sharedManager.dynamoDBTableName = kTSJavelinAPIChatManagerDynamoDBProductionTableName;
             
 #endif
-            _sharedManager.dynamoDB = [[AmazonDynamoDBClient alloc] initWithCredentials:credentials];
+            _sharedManager.dynamoDB = [[AWSDynamoDB alloc] initWithConfiguration:configuration];
         });
     }
     
@@ -122,30 +127,53 @@ static dispatch_once_t onceToken;
     // alert ID, timestamp, message, sender ID
 
     NSMutableDictionary *messageDictionary = [[NSMutableDictionary alloc] initWithCapacity:4];
-    messageDictionary[@"message"] = [[DynamoDBAttributeValue alloc] initWithS:chatMessage.message];
-    messageDictionary[@"message_id"] = [[DynamoDBAttributeValue alloc] initWithS:chatMessage.messageID];
-    messageDictionary[@"alert_id"] = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%lu", (unsigned long)chatMessage.alertID]];
-    messageDictionary[@"sender_id"] = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%lu", (unsigned long)chatMessage.senderID]];
-    messageDictionary[@"timestamp"] = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%f", [chatMessage.timestamp timeIntervalSince1970]]];
+    AWSDynamoDBAttributeValue *message = [[AWSDynamoDBAttributeValue alloc] init];
+    message.S = chatMessage.message;
+    messageDictionary[@"message"] = message;
+    
+    AWSDynamoDBAttributeValue *messageID = [[AWSDynamoDBAttributeValue alloc] init];
+    messageID.S = chatMessage.messageID;
+    messageDictionary[@"message_id"] = messageID;
+    
+    AWSDynamoDBAttributeValue *alertID = [[AWSDynamoDBAttributeValue alloc] init];
+    alertID.N = [NSString stringWithFormat:@"%lu", (unsigned long)chatMessage.alertID];
+    messageDictionary[@"alert_id"] = alertID;
+    
+    AWSDynamoDBAttributeValue *senderID = [[AWSDynamoDBAttributeValue alloc] init];
+    senderID.N = [NSString stringWithFormat:@"%lu", (unsigned long)chatMessage.senderID];
+    messageDictionary[@"sender_id"] = senderID;
+    
+    AWSDynamoDBAttributeValue *timestamp = [[AWSDynamoDBAttributeValue alloc] init];
+    timestamp.N = [NSString stringWithFormat:@"%f", [chatMessage.timestamp timeIntervalSince1970]];
+    messageDictionary[@"timestamp"] = timestamp;
 
-    DynamoDBPutItemRequest *request = [[DynamoDBPutItemRequest alloc] initWithTableName:_dynamoDBTableName
-                                                                                andItem:messageDictionary];
-    DynamoDBPutItemResponse *response = [_dynamoDB putItem:request];
+    AWSDynamoDBPutItemInput *itemInput = [[AWSDynamoDBPutItemInput alloc] init];
+    itemInput.tableName = _dynamoDBTableName;
+    itemInput.item = messageDictionary;
+    
+    [[_dynamoDB putItem:itemInput] continueWithBlock:^id(BFTask *task) {
+        if(task.error) {
+            NSLog(@"Error sending chat message: %@", task.error);
+            
+            if (completion) {
+                completion(kError);
+            }
+        }
+        else {
+            
+            if (completion) {
+                completion(kDelivered);
+            }
+        }
+        
+        return nil;
+    }];
+//    DynamoDBPutItemRequest *request = [[DynamoDBPutItemRequest alloc] initWithTableName:_dynamoDBTableName
+//                                                                                andItem:messageDictionary];
+//    DynamoDBPutItemResponse *response = [_dynamoDB putItem:request];
     
     
-    if(response.error != nil) {
-        NSLog(@"Error sending chat message: %@", response.error);
-        
-        if (completion) {
-            completion(kError);
-        }
-    }
-    else {
-        
-        if (completion) {
-            completion(kDelivered);
-        }
-    }
+    
 }
 
 
@@ -212,60 +240,85 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    DynamoDBQueryRequest *request = [[DynamoDBQueryRequest alloc] initWithTableName:_dynamoDBTableName];
-    DynamoDBCondition *condition = [[DynamoDBCondition alloc] init];
-    condition.comparisonOperator = @"EQ";
-    DynamoDBAttributeValue *alertID = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%lu", (unsigned long)_currentAlertIdentifier]];
-    [condition addAttributeValueList:alertID];
-    request.keyConditions = [NSMutableDictionary dictionaryWithObject:condition forKey:@"alert_id"];
-    DynamoDBQueryResponse *response = [_dynamoDB query:request];
-    if (completion) {
+    
+    AWSDynamoDBCondition *alertIDCondition = [[AWSDynamoDBCondition alloc] init];
+    alertIDCondition.comparisonOperator = AWSDynamoDBComparisonOperatorEQ;
+    
+    AWSDynamoDBAttributeValue *alertID = [[AWSDynamoDBAttributeValue alloc] init];
+    alertID.N = [NSString stringWithFormat:@"%lu", (unsigned long)_currentAlertIdentifier];
+    alertIDCondition.attributeValueList = @[alertID];
+    
+    AWSDynamoDBQueryInput *queryInput = [[AWSDynamoDBQueryInput alloc] init];
+    queryInput.tableName = _dynamoDBTableName;
+    queryInput.keyConditions = [NSMutableDictionary dictionaryWithObject:alertIDCondition forKey:@"alert_id"];
+    
+    [[_dynamoDB query:queryInput] continueWithBlock:^id(BFTask *task) {
         
-        if (response.error != nil) {
-            completion(nil);
-            return;
+        if (completion) {
+            
+            if (task.error) {
+                completion(nil);
+            }
+            else {
+                AWSDynamoDBQueryOutput *output = task.result;
+                if (output && [output.items count] > 0) {
+                    completion([self chatMessagesArrayFromDynamoDBResponse:output.items]);
+                }
+                else {
+                    completion(nil);
+                }
+            }
         }
         
-        if (response && [response.items count] > 0) {
-            completion([self chatMessagesArrayFromDynamoDBResponse:response.items]);
-        }
-        else {
-            completion(nil);
-        }
-    }
+        return nil;
+    }];
+    
+//    [condition addAttributeValueList:alertID];
+//    request.keyConditions = [NSMutableDictionary dictionaryWithObject:condition forKey:@"alert_id"];
+//    DynamoDBQueryResponse *response = [_dynamoDB query:request];
+    
 }
 
 - (void)getChatMessagesForActiveAlertSinceTime:(NSDate *)dateTime completion:(void (^)(NSArray *chatMessages))completion {
-    DynamoDBQueryRequest *request = [[DynamoDBQueryRequest alloc] initWithTableName:_dynamoDBTableName];
-
-    DynamoDBCondition *alertIDCondition = [[DynamoDBCondition alloc] init];
-    alertIDCondition.comparisonOperator = @"EQ";
-    DynamoDBAttributeValue *alertID = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%lu", (unsigned long)[[[TSJavelinAPIClient sharedClient] alertManager] activeAlert].identifier]];
-    [alertIDCondition addAttributeValueList:alertID];
-
-    DynamoDBCondition *timestampCondition = [[DynamoDBCondition alloc] init];
-    timestampCondition.comparisonOperator = @"GE";
-    DynamoDBAttributeValue *timestamp = [[DynamoDBAttributeValue alloc] initWithN:[NSString stringWithFormat:@"%f", [dateTime timeIntervalSince1970]]];
-    [timestampCondition addAttributeValueList:timestamp];
     
-    request.keyConditions = [[NSMutableDictionary alloc] initWithObjects:@[alertIDCondition, timestampCondition]
-                                                                 forKeys:@[@"alert_id", @"timestamp"]];
-    DynamoDBQueryResponse *response = [_dynamoDB query:request];
-    if (completion) {
+    AWSDynamoDBCondition *alertIDCondition = [[AWSDynamoDBCondition alloc] init];
+    alertIDCondition.comparisonOperator = AWSDynamoDBComparisonOperatorEQ;
+    AWSDynamoDBAttributeValue *alertID = [[AWSDynamoDBAttributeValue alloc] init];
+    alertID.N = [NSString stringWithFormat:@"%lu", (unsigned long)_currentAlertIdentifier];
+    alertIDCondition.attributeValueList = @[alertID];
+    
+    AWSDynamoDBCondition *timestampCondition = [[AWSDynamoDBCondition alloc] init];
+    timestampCondition.comparisonOperator = AWSDynamoDBComparisonOperatorGE;
+    AWSDynamoDBAttributeValue *timestamp = [[AWSDynamoDBAttributeValue alloc] init];
+    timestamp.N = [NSString stringWithFormat:@"%f", [dateTime timeIntervalSince1970]];
+    timestampCondition.attributeValueList = @[timestamp];
+    
+    
+    AWSDynamoDBQueryInput *queryInput = [[AWSDynamoDBQueryInput alloc] init];
+    queryInput.tableName = _dynamoDBTableName;
+    queryInput.keyConditions = [[NSMutableDictionary alloc] initWithObjects:@[alertIDCondition, timestampCondition]
+                                                                    forKeys:@[@"alert_id", @"timestamp"]];
+    
+    [[_dynamoDB query:queryInput] continueWithBlock:^id(BFTask *task) {
         
-        if (response.error != nil) {
-            completion(nil);
-            return;
+        if (completion) {
+            
+            if (task.error) {
+                completion(nil);
+            }
+            else {
+                AWSDynamoDBQueryOutput *output = task.result;
+                if (output && [output.items count] > 0) {
+                    completion([self chatMessagesArrayFromDynamoDBResponse:output.items]);
+                }
+                else {
+                    completion(nil);
+                }
+            }
         }
         
-        
-        if (response && [response.items count] > 0) {
-            completion([self chatMessagesArrayFromDynamoDBResponse:response.items]);
-        }
-        else {
-            completion(nil);
-        }
-    }
+        return nil;
+    }];
 }
 
 #pragma mark - Helper Methods

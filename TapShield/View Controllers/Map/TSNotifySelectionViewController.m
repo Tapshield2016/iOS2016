@@ -672,7 +672,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 //            CFRelease(addressBook);
 //            return;
 //        }
-//        
+//
 //        dispatch_async(dispatch_get_main_queue(), ^{
 //            ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
 //            [self setNavigationBarStyle:picker];
@@ -688,10 +688,20 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 //    });
 }
 
+- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person {
+    
+    [self blackNavigationBar];
+    TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person];
+    [self addEntourageMember:member];
+    [self reorderSavedUsers];
+    [_collectionView reloadData];
+    [self archiveUsersPicked];
+}
+
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
     
     [self blackNavigationBar];
-    TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
+    TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person];
     [self addEntourageMember:member];
     [self reorderSavedUsers];
     [_collectionView reloadData];

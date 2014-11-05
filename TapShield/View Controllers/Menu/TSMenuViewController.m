@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
 @property (nonatomic, strong) NSMutableArray *viewControllerTitles;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, strong) UIWindow *mailWindow;
 
 @end
@@ -68,7 +69,7 @@
                                                                             @"TSAboutViewController", nil];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     
     
 }
@@ -149,6 +150,11 @@
     [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
 }
 
+- (void)dynamicsDrawerRevealRightBarButtonItemTapped:(id)sender {
+    
+    [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionRight animated:YES allowUserInterruption:YES completion:nil];
+}
+
 - (void)showMenuButton:(UIViewController *)viewController {
     
     if (!_leftBarButtonItem) {
@@ -161,6 +167,17 @@
     }
     
     [viewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:NO];
+    
+    if (!_rightBarButtonItem) {
+        _rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Entourage"]
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(dynamicsDrawerRevealRightBarButtonItemTapped:)];
+        _rightBarButtonItem.accessibilityLabel = @"Entourage";
+        _rightBarButtonItem.accessibilityHint = @"opens list of contacts to add to your entourage";
+    }
+    
+    [viewController.navigationItem setRightBarButtonItem:_rightBarButtonItem animated:NO];
 }
 
 - (IBAction)showAbout:(id)sender {

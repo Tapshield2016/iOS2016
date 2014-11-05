@@ -40,7 +40,6 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedClient = [[TSJavelinAPIClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
         });
-        [AmazonErrorHandler shouldNotThrowExceptions];
 
         // Enable the network activity manager
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -579,7 +578,7 @@ static dispatch_once_t onceToken;
                [[TSJavelinAlertManager sharedManager] alertWasCompletedByDispatcher:activeAlert.url];
            }
            else {
-               NSLog(@"Failed to create new alert location: %@", error);
+               NSLog(@"Failed to create new alert location: %@", error.localizedDescription);
            }
        }];
 }

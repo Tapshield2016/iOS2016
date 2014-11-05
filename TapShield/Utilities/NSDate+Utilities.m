@@ -595,5 +595,14 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     return [[NSDate currentCalendar] dateFromComponents:components];
 }
 
++ (NSDate *)dateWithISO8061Format:(NSString *)dateString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    [dateFormatter setLocale:[NSLocale systemLocale]];
+    [dateFormatter setDateFormat:kISO8061DateFormat];
+    return [dateFormatter dateFromString:dateString];
+}
+
 
 @end

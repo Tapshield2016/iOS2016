@@ -16,4 +16,6 @@
 
 - (UIView *)roundBezierPathCornerRadius:(float)radius;
 
+- (CGPoint)pointFromCenterWithRadius:(float)radius angle:(float)angle;
+
 @end

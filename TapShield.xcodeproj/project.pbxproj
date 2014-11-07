@@ -258,6 +258,14 @@
 		C54CEB0818FB3F8D0077350E /* TSRoundToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CEB0718FB3F8D0077350E /* TSRoundToolBarView.m */; };
 		C54CEB0918FB3F8D0077350E /* TSRoundToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CEB0718FB3F8D0077350E /* TSRoundToolBarView.m */; };
 		C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CEB0718FB3F8D0077350E /* TSRoundToolBarView.m */; };
+		C55443471A0C74D70087651B /* TSTalkOptionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C55443461A0C74D70087651B /* TSTalkOptionButton.m */; };
+		C55443481A0C74D70087651B /* TSTalkOptionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C55443461A0C74D70087651B /* TSTalkOptionButton.m */; };
+		C55443491A0C74D70087651B /* TSTalkOptionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C55443461A0C74D70087651B /* TSTalkOptionButton.m */; };
+		C554434A1A0C74D70087651B /* TSTalkOptionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C55443461A0C74D70087651B /* TSTalkOptionButton.m */; };
+		C554434D1A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */; };
+		C554434E1A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */; };
+		C554434F1A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */; };
+		C55443501A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */; };
 		C55568E31910082000685FB0 /* TSIntroSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E21910082000685FB0 /* TSIntroSlideViewController.m */; };
 		C55568E41910082000685FB0 /* TSIntroSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E21910082000685FB0 /* TSIntroSlideViewController.m */; };
 		C55568E51910082000685FB0 /* TSIntroSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C55568E21910082000685FB0 /* TSIntroSlideViewController.m */; };
@@ -1121,6 +1129,10 @@
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CEB0618FB3F8D0077350E /* TSRoundToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRoundToolBarView.h; sourceTree = "<group>"; };
 		C54CEB0718FB3F8D0077350E /* TSRoundToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRoundToolBarView.m; sourceTree = "<group>"; };
+		C55443451A0C74D70087651B /* TSTalkOptionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTalkOptionButton.h; path = Views/TSTalkOptionButton.h; sourceTree = "<group>"; };
+		C55443461A0C74D70087651B /* TSTalkOptionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTalkOptionButton.m; path = Views/TSTalkOptionButton.m; sourceTree = "<group>"; };
+		C554434B1A0C84FA0087651B /* TSTalkOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTalkOptionViewController.h; path = "View Controllers/TSTalkOptionViewController.h"; sourceTree = "<group>"; };
+		C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSTalkOptionViewController.m; path = "View Controllers/TSTalkOptionViewController.m"; sourceTree = "<group>"; };
 		C55568E11910082000685FB0 /* TSIntroSlideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSIntroSlideViewController.h; path = "View Controllers/TSIntroSlideViewController.h"; sourceTree = "<group>"; };
 		C55568E21910082000685FB0 /* TSIntroSlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSIntroSlideViewController.m; path = "View Controllers/TSIntroSlideViewController.m"; sourceTree = "<group>"; };
 		C55568E61911809300685FB0 /* TSForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSForgotPasswordViewController.h; path = "View Controllers/TSForgotPasswordViewController.h"; sourceTree = "<group>"; };
@@ -1560,6 +1572,8 @@
 		B53BBD29189814FC006A27E0 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C554434B1A0C84FA0087651B /* TSTalkOptionViewController.h */,
+				C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */,
 				C5CB078118C681F900BC9425 /* Alert */,
 				C5372D9E18AEAB8900D22682 /* Login/Signup */,
 				C5B2E98318CE177300E2CF04 /* Map */,
@@ -2300,6 +2314,8 @@
 				C55644F618E2048000D29B0D /* TSRegistrationButton.m */,
 				C501CC9618F337A0005A0B98 /* TSRoundRectButton.h */,
 				C501CC9718F337A0005A0B98 /* TSRoundRectButton.m */,
+				C55443451A0C74D70087651B /* TSTalkOptionButton.h */,
+				C55443461A0C74D70087651B /* TSTalkOptionButton.m */,
 			);
 			name = Buttons;
 			path = TapShield;
@@ -2843,6 +2859,7 @@
 				C5BBF42118F907EC008B5CB2 /* TSChatMessageCell.m in Sources */,
 				C53A635A1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C5662BE318DCB49800FD4F44 /* TSBaseTextField.m in Sources */,
+				C554434D1A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */,
 				C520C92318AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C520C90218A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
 				C599C038193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
@@ -2954,6 +2971,7 @@
 				C556478418E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
 				C532E8DE18BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C5391EA018C7D17700C23C0A /* TSPushTransitionDelegate.m in Sources */,
+				C55443471A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
 				C5BBF42618F9CF6D008B5CB2 /* TSRoundImageView.m in Sources */,
 				C5662BD918DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
@@ -3023,6 +3041,7 @@
 				C563571218ED1B4000BAA5D7 /* TSDestinationAnnotationView.m in Sources */,
 				C5AFBBA5192029F600EC62A5 /* TSJavelinAPISocialCrimeReport.m in Sources */,
 				C5AFBF071922BE3600EC62A5 /* TSIconBadgeView.m in Sources */,
+				C554434A1A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				B543F08918AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				C5025160199BD68800717E6D /* TSUserSessionManager.m in Sources */,
 				C599C03B193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
@@ -3125,6 +3144,7 @@
 				C5FFB4CE195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
 				C58B31F1199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
+				C55443501A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */,
 				C56B3D5D18FD75B700324FE8 /* TSMedicalInformationViewController.m in Sources */,
 				C532E63C18BBF1E900FC111A /* UIView+FirstResponder.m in Sources */,
 				C5CC4593193D3F8D00285DB3 /* TSReportTypeTableViewCell.m in Sources */,
@@ -3260,6 +3280,7 @@
 				C5BBF42218F907EC008B5CB2 /* TSChatMessageCell.m in Sources */,
 				C53A635B1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C585F2E618DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
+				C554434E1A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */,
 				C556478018E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C57C48CE18BBDB1900DFFBCE /* TSJavelinChatManager.m in Sources */,
 				C599C039193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
@@ -3371,6 +3392,7 @@
 				C5391EBE18CA238D00C23C0A /* TSPageViewController.m in Sources */,
 				C57C48E418BBDB1900DFFBCE /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */,
+				C55443481A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				C57C48E618BBDB1900DFFBCE /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C5BBF42718F9CF6E008B5CB2 /* TSRoundImageView.m in Sources */,
 				C57C48E718BBDB1900DFFBCE /* TSLoginOrSignUpViewController.m in Sources */,
@@ -3469,6 +3491,7 @@
 				C5AFB978191D35DE00EC62A5 /* TSChatMessageCell.m in Sources */,
 				C53A635C1971B38700C34BF0 /* NSDictionary+MKMapRect.m in Sources */,
 				C5AFB979191D35DE00EC62A5 /* TSAnimatedView.m in Sources */,
+				C554434F1A0C84FA0087651B /* TSTalkOptionViewController.m in Sources */,
 				C5AFB97A191D35DE00EC62A5 /* TSBottomMapButton.m in Sources */,
 				C5AFB97B191D35DE00EC62A5 /* TSJavelinChatManager.m in Sources */,
 				C599C03A193FD7CA00B77410 /* NSURL+FileType.m in Sources */,
@@ -3580,6 +3603,7 @@
 				C5AFB9C7191D35DE00EC62A5 /* TSPageViewController.m in Sources */,
 				C5AFB9C8191D35DE00EC62A5 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C5AFB9C9191D35DE00EC62A5 /* TSJavelinAPIAlert.m in Sources */,
+				C55443491A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				C5AFB9CA191D35DE00EC62A5 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C5AFB9CB191D35DE00EC62A5 /* TSRoundImageView.m in Sources */,
 				C5AFB9CC191D35DE00EC62A5 /* TSLoginOrSignUpViewController.m in Sources */,

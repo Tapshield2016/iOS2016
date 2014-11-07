@@ -11,9 +11,6 @@
 
 @interface TSEntourageContactsViewController : TSBaseViewController
 
-
-@property (weak, nonatomic) IBOutlet UIView *topView;
-
 @property (strong, nonatomic) TSEntourageContactsTableViewController *tableViewController;
 
 @end

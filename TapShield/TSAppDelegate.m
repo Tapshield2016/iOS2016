@@ -139,11 +139,17 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;
     // Add some styles for the drawer
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionRight];
+    MSDynamicsDrawerParallaxStyler *parallaxStyler = [MSDynamicsDrawerParallaxStyler styler];
+    MSDynamicsDrawerFadeStyler *faderStyler = [MSDynamicsDrawerFadeStyler styler];
+    faderStyler.closedAlpha = .8;
+    
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler], parallaxStyler] forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler], parallaxStyler] forDirection:MSDynamicsDrawerDirectionRight];
     
     [self.dynamicsDrawerViewController setElasticity:0.0f];
-    [self.dynamicsDrawerViewController setGravityMagnitude:4.0f];
+    [self.dynamicsDrawerViewController setGravityMagnitude:8.0f];
+    [self.dynamicsDrawerViewController setBounceElasticity:0.0f];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
@@ -354,6 +360,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [self.dynamicsDrawerViewController setPaneDragRevealEnabled:enabled forDirection:MSDynamicsDrawerDirectionLeft];
 }
 
+- (void)drawerCanDragForContacts:(BOOL)enabled; {
+    
+    [self.dynamicsDrawerViewController setPaneDragRevealEnabled:enabled forDirection:MSDynamicsDrawerDirectionRight];
+}
 
 #pragma mark - Reachability
 
@@ -454,6 +464,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
          }
          
      }];
+}
+
+- (void)removeAllDrawerAnimations {
+    [self.dynamicsDrawerViewController.dynamicAnimator removeAllBehaviors];
 }
 
 - (void)toggleWidePaneState:(BOOL)open {

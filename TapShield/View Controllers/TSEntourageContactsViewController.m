@@ -31,13 +31,9 @@
     
     _tableViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEntourageContactsTableViewController class])];
     _tableViewController.view.frame = CGRectMake(50, 0, self.view.frame.size.width-50, self.view.frame.size.height);
-//    [self.view insertSubview:_tableViewController.view atIndex:0];
     [self.view addSubview:_tableViewController.view];
     [self addChildViewController:_tableViewController];
     [_tableViewController didMoveToParentViewController:self];
-    
-//    _tableViewController.tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-//    _tableViewController.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 }
 
 - (void)didReceiveMemoryWarning {

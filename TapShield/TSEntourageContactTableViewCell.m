@@ -11,6 +11,7 @@
 
 static NSString * const kDefaultImage = @"user_default_icon";
 
+
 @implementation TSEntourageContactTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -92,6 +93,12 @@ static NSString * const kDefaultImage = @"user_default_icon";
     [self.contentView addSubview:_contactNameLabel];
     
     _contactNameLabel.text = @"None";
+}
+
+- (void)setFrame:(CGRect)frame {
+    
+    frame.size.width = self.superview.frame.size.width - 15;
+    [super setFrame:frame];
 }
 
 @end

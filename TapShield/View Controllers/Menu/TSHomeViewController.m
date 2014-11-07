@@ -30,6 +30,7 @@
 #import <KVOController/FBKVOController.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "TSJavelinChatManager.h"
+#import "TSTalkOptionViewController.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -37,6 +38,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 @interface TSHomeViewController ()
 
+@property (strong, nonatomic) TSTalkOptionViewController *talkOptionsViewController;
 
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
 @property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
@@ -52,6 +54,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (strong, nonatomic) TSBottomMapButton *policeButton;
 @property (strong, nonatomic) TSBottomMapButton *emergencyButton;
 @property (strong, nonatomic) TSBottomMapButton *chatButton;
+
+@property (strong, nonatomic) UIVisualEffectView *blackoutView;
 
 @end
 
@@ -113,8 +117,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [[TSLocationController sharedLocationController] bestAccuracyRefresh];
     
-    [self initCallChatButtons];
-    
     if ([TSYankManager sharedYankManager].isEnabled) {
         UIImage *image = [_yankButton imageForState:UIControlStateNormal];
         [_yankButton setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -135,6 +137,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
     [_helpButton.superview addSubview:_badgeView];
+    
+    [self initTalkOptionController];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -1233,143 +1237,35 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self transitionForAlert];
 }
 
-- (void)initCallChatButtons {
-    
-    CGRect frame = _routeButton.bounds;
-    
-    _policeButton = [[TSBottomMapButton alloc] initWithFrame:frame];
-    [_policeButton setImage:[UIImage imageNamed:@"phone_call"] forState:UIControlStateNormal];
-    [_policeButton setLabelTitle:@"Police"];
-    [_policeButton addTarget:self action:@selector(callAgencyDispatcher:) forControlEvents:UIControlEventTouchUpInside];
-    
-    _emergencyButton = [[TSBottomMapButton alloc] initWithFrame:frame];
-    [_emergencyButton setImage:[UIImage imageNamed:@"call_911"] forState:UIControlStateNormal];
-    [_emergencyButton setLabelTitle:@"Call"];
-    [_emergencyButton addTarget:self action:@selector(callEmergencyNumber:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIView *chatButtonView = [[UIView alloc] initWithFrame:frame];
-    _chatButton = [[TSBottomMapButton alloc] initWithFrame:frame];
-    [_chatButton setImage:[UIImage imageNamed:@"alert_chat_icon"] forState:UIControlStateNormal];
-    [_chatButton setLabelTitle:@"Chat"];
-    [_chatButton addTarget:self action:@selector(openChat:) forControlEvents:UIControlEventTouchUpInside];
-    _chatButton.center = chatButtonView.contentCenter;
-    [chatButtonView addSubview:_chatButton];
-    
-    float scale = 1.5;
-    
-    _policeButton.transform = CGAffineTransformMakeScale(scale, scale);
-    _emergencyButton.transform = CGAffineTransformMakeScale(scale, scale);
-    _chatButton.transform = CGAffineTransformMakeScale(scale, scale);
-    
-    _policeButton.center = _helpButton.superview.center;
-    _emergencyButton.center = _helpButton.superview.center;
-    _chatButton.superview.center = _helpButton.superview.center;
-    
-    [self.view insertSubview:_policeButton belowSubview:_helpButton.superview];
-    [self.view insertSubview:_emergencyButton belowSubview:_helpButton.superview];
-    [self.view insertSubview:_chatButton.superview belowSubview:_helpButton.superview];
-    
-    _policeButton.hidden = YES;
-    _emergencyButton.hidden = YES;
-    _chatButton.superview.hidden = YES;
-    
-    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
-        _policeButton.selected = YES;
-        _chatButton.selected = YES;
-    }
-}
-
 - (void)showCallChatButtons {
     
     _helpButton.selected = YES;
+    [_talkOptionsViewController showTalkButtons];
     
-    [_badgeView removeFromSuperview];
-    
-    [_policeButton.layer removeAllAnimations];
-    [_emergencyButton.layer removeAllAnimations];
-    [_chatButton.superview.layer removeAllAnimations];
-    [_chatButton.layer removeAllAnimations];
-    [_reportButton.layer removeAllAnimations];
-    [_routeButton.layer removeAllAnimations];
-    
-    _policeButton.hidden = NO;
-    _emergencyButton.hidden = NO;
-    _chatButton.superview.hidden = NO;
+    CGPoint center = CGPointMake(_helpButton.superview.center.x, _routeButton.center.y);
     
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-        
-        _policeButton.transform = CGAffineTransformIdentity;
-        _emergencyButton.transform = CGAffineTransformIdentity;
-        _chatButton.transform = CGAffineTransformIdentity;
-//        _chatButton.center = _chatButton.superview.contentCenter;
-        
-        _policeButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:215];
-        _emergencyButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:270];
-        _chatButton.superview.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:325];
-        
-        _reportButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
-        _routeButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
-        
         _helpButton.label.hidden = YES;
         _helpButton.transform = CGAffineTransformMakeScale(0.6667, 0.6667);
-        
-    } completion:^(BOOL finished) {
-        
-        [_badgeView removeFromSuperview];
-        [_chatButton.superview addSubview:_badgeView];
-    }];
-}
-
-- (CGPoint)pointOnCircleWithView:(UIView *)view radius:(float)radius angle:(float)angle {
-    CGPoint newPoint;
-    newPoint.x = view.center.x + (radius * cosf(angle * M_PI / 180));
-    newPoint.y = view.center.y + (radius * sinf(angle * M_PI / 180));
-    
-    return newPoint;
+        _helpButton.superview.center = center;
+        _blackoutView.hidden = NO;
+    } completion:nil];
 }
 
 
 - (void)hideCallChatButtons {
     
-    _helpButton.selected = NO;
+    [_talkOptionsViewController hideTalkButtons];
     
-    [_badgeView removeFromSuperview];
-    
-    [_policeButton.layer removeAllAnimations];
-    [_emergencyButton.layer removeAllAnimations];
-    [_chatButton.superview.layer removeAllAnimations];
-    [_chatButton.layer removeAllAnimations];
-    [_reportButton.layer removeAllAnimations];
-    [_routeButton.layer removeAllAnimations];
+    CGPoint center = CGPointMake(_helpButton.superview.center.x, _routeButton.frame.size.height + _routeButton.frame.origin.y - 45);
     
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-        
-        float scale = 1.5;
-        
-        _policeButton.transform = CGAffineTransformMakeScale(scale, scale);
-        _emergencyButton.transform = CGAffineTransformMakeScale(scale, scale);
-        _chatButton.transform = CGAffineTransformMakeScale(scale, scale);
-        
-        _policeButton.center = _helpButton.superview.center;
-        _emergencyButton.center = _helpButton.superview.center;
-        _chatButton.superview.center = _helpButton.superview.center;
-        
-        _reportButton.transform = CGAffineTransformIdentity;
-        _routeButton.transform = CGAffineTransformIdentity;
         _helpButton.transform = CGAffineTransformIdentity;
+        _helpButton.superview.center = center;
         
+        _blackoutView.hidden = YES;
         _helpButton.label.hidden = NO;
-        
-    } completion:^(BOOL finished) {
-        if (finished && _policeButton.transform.a != CGAffineTransformIdentity.a) {
-            _policeButton.hidden = YES;
-            _emergencyButton.hidden = YES;
-            _chatButton.superview.hidden = YES;
-            
-            [_badgeView removeFromSuperview];
-            [_helpButton.superview addSubview:_badgeView];
-        }
-    }];
+    } completion:nil];
 }
 
 - (void)userDidLeaveAgency:(NSNotification *)notification {
@@ -1384,7 +1280,28 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     _chatButton.selected = NO;
 }
 
-
+- (void)initTalkOptionController {
+    float inset = 30;
+    _talkOptionsViewController = [[TSTalkOptionViewController alloc] init];
+    CGRect talkOptionFrame = CGRectMake(inset, _helpButton.superview.frame.origin.y - 60*3 - 20*2, self.view.frame.size.width-inset*2, 60*3 + 20*2);
+    _talkOptionsViewController.view.frame = talkOptionFrame;
+    [_talkOptionsViewController willMoveToParentViewController:self];
+    [_talkOptionsViewController beginAppearanceTransition:YES animated:NO];
+    [self addChildViewController:_talkOptionsViewController];
+    [self.view insertSubview:_talkOptionsViewController.view belowSubview:_helpButton.superview];
+    [_talkOptionsViewController didMoveToParentViewController:self];
+    [_talkOptionsViewController endAppearanceTransition];
+    _talkOptionsViewController.view.hidden = YES;
+    [_talkOptionsViewController initTalkOptions];
+    
+    _blackoutView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    _blackoutView.frame = self.view.frame;
+    _blackoutView.hidden = YES;
+    [self.view insertSubview:_blackoutView belowSubview:_talkOptionsViewController.view];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideCallChatButtons)];
+    [_blackoutView addGestureRecognizer:tap];
+}
 
 
 @end

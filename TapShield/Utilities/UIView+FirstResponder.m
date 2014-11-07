@@ -38,4 +38,12 @@
     return CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
 }
 
+- (CGPoint)pointFromCenterWithRadius:(float)radius angle:(float)angle {
+    CGPoint newPoint;
+    newPoint.x = self.center.x + (radius * cosf(angle * M_PI / 180));
+    newPoint.y = self.center.y + (radius * sinf(angle * M_PI / 180));
+    
+    return newPoint;
+}
+
 @end

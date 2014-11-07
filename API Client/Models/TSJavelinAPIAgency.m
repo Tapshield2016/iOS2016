@@ -41,14 +41,20 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     _domain = [attributes valueForKey:@"domain"];
     _dispatcherPhoneNumber = [attributes valueForKey:@"dispatcher_phone_number"];
     _dispatcherSecondaryPhoneNumber = [attributes valueForKey:@"dispatcher_secondary_phone_number"];
+    _alertModeName = [attributes valueForKey:@"alert_mode_name"];
+    
     _dispatcherScheduleStart = [attributes valueForKey:@"dispatcher_schedule_start"];
     _dispatcherScheduleEnd = [attributes valueForKey:@"dispatcher_schedule_end"];
+    
     _agencyCenter.latitude = [[attributes nonNullObjectForKey:@"agency_center_latitude"] doubleValue];
     _agencyCenter.longitude = [[attributes nonNullObjectForKey:@"agency_center_longitude"] doubleValue];
-    _alertCompletedMessage = [attributes nonNullObjectForKey:@"alert_completed_message"];
+    
     _requireDomainEmails = [[attributes nonNullObjectForKey:@"require_domain_emails"] boolValue];
+    
+    _alertCompletedMessage = [attributes nonNullObjectForKey:@"alert_completed_message"];
     _displayCommandAlert = [[attributes nonNullObjectForKey:@"display_command_alert"] boolValue];
     _showAgencyNameInAppNavbar = [[attributes nonNullObjectForKey:@"show_agency_name_in_app_navbar"] boolValue];
+    
     _launchCallToDispatcherOnAlert = [[attributes nonNullObjectForKey:@"launch_call_to_dispatcher_on_alert"] boolValue];
     
     if (![[attributes nonNullObjectForKey:@"agency_info_url"] isKindOfClass:[NSNull class]]) {
@@ -79,6 +85,9 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     [encoder encodeObject:_name forKey:@"name"];
     [encoder encodeObject:_domain forKey:@"domain"];
     [encoder encodeObject:_dispatcherPhoneNumber forKey:@"dispatcherPhoneNumber"];
+    
+    [encoder encodeObject:_alertModeName forKey:@"alert_mode_name"];
+    
     [encoder encodeObject:_alertCompletedMessage forKey:@"alert_completed_message"];
     [encoder encodeObject:[NSNumber numberWithBool:_requireDomainEmails] forKey:@"require_domain_emails"];
     [encoder encodeObject:[NSNumber numberWithBool:_displayCommandAlert] forKey:@"display_command_alert"];
@@ -149,6 +158,8 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
         _name = [decoder decodeObjectForKey:@"name"];
         _domain = [decoder decodeObjectForKey:@"domain"];
         _dispatcherPhoneNumber = [decoder decodeObjectForKey:@"dispatcherPhoneNumber"];
+        _alertModeName = [decoder decodeObjectForKey:@"alert_mode_name"];
+        
         _alertCompletedMessage = [decoder decodeObjectForKey:@"alert_completed_message"];
         _requireDomainEmails = [[decoder decodeObjectForKey:@"require_domain_emails"] boolValue];
         _displayCommandAlert = [[decoder decodeObjectForKey:@"display_command_alert"] boolValue];

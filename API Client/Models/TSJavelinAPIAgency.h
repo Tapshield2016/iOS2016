@@ -16,6 +16,7 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 @property (readonly) NSString *domain;
 @property (readonly) NSString *dispatcherPhoneNumber;
 @property (readonly) NSString *dispatcherSecondaryPhoneNumber;
+@property (readonly) NSString *alertModeName;
 @property (readonly) NSString *dispatcherScheduleStart;
 @property (readonly) NSString *dispatcherScheduleEnd;
 @property (readonly) NSString *alertCompletedMessage;

@@ -10,20 +10,25 @@
 #import "TSEntourageContactsViewController.h"
 #import "TSJavelinAPIEntourageMember.h"
 #import "TSEntourageContactTableViewCell.h"
+#import "TSEntourageContactSearchResultsTableViewController.h"
+#import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
+
+@class MSDynamicsDrawerViewController;
 
 @interface TSEntourageContactsTableViewController ()
 
 @property (strong, nonatomic) UISearchBar *searchBar;
+
 @property (assign, nonatomic) BOOL searching;
-@property (assign, nonatomic) BOOL editing;
+@property (assign, nonatomic) BOOL animating;
+@property (assign, nonatomic) BOOL shouldReload;
+@property (assign, nonatomic) BOOL movingMember;
+
 @property (strong, nonatomic) UIButton *editButton;
-@property (nonatomic, strong) NSMutableArray *searchResult;
 
 @property (strong, nonatomic) NSString *filterString;
-@property (strong, nonatomic) NSArray *visibleEntourageMembers;
-@property (strong, nonatomic) NSArray *visibleWhoAddedUser;
-@property (strong, nonatomic) NSArray *visibleAllContacts;
-@property (strong, nonatomic) NSMutableDictionary *visibleSortedContacts;
+
+@property (strong, nonatomic) TSEntourageContactSearchResultsTableViewController *resultsController;
 
 @end
 
@@ -32,7 +37,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    _changesMade = NO;
+    _movingMember = NO;
+    _shouldReload = NO;
+    _animating = NO;
+    
+    _resultsController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEntourageContactSearchResultsTableViewController class])];
+    _resultsController.contactsTableViewController = self;
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:_resultsController];
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     [self.searchController.searchBar sizeToFit];
@@ -41,6 +53,8 @@
     // Include the search controller's search bar within the table's header view.
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.tableView.tableHeaderView.backgroundColor = [UIColor clearColor];
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     UIVisualEffectView *visualEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
     visualEffect.frame = self.tableView.tableHeaderView.frame;
@@ -54,27 +68,15 @@
     self.view.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
     
-    // Uncomment the following line to preserve selection between presentations.
-     self.clearsSelectionOnViewWillAppear = YES;
+    self.clearsSelectionOnViewWillAppear = YES;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//     self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.backgroundColor = [UIColor clearColor];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.refreshControl addTarget:self
-                            action:@selector(refresh)
-                  forControlEvents:UIControlEventValueChanged];
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
+    [self initRefreshControl];
     
     [self getAddressBook];
     
     self.tableView.sectionIndexColor = [TSColorPalette tapshieldBlue];
     self.tableView.sectionIndexTrackingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
-
-    self.searchResult = [NSMutableArray arrayWithCapacity:10];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,30 +98,53 @@
     [[self.view findFirstResponder] resignFirstResponder];
 }
 
+- (void)initRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor clearColor];
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(refresh)
+                  forControlEvents:UIControlEventValueChanged];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
+}
+
 - (void)refresh {
+    
+    if (_isEditing) {
+        [self.refreshControl endRefreshing];
+        return;
+    }
+    
     [self getAddressBook];
     [self.refreshControl endRefreshing];
 }
 
 - (void)editEntourageMembers {
     
-    if (_editing) {
-        _editing = NO;
+    if (_isEditing) {
+        _isEditing = NO;
+        [_searchController setActive:NO];
+        [self searchBarCancelButtonClicked:_searchBar];
+        if (_changesMade) {
+            [self syncEntourageMembers];
+        }
     }
     else {
-        _editing = YES;
+        _isEditing = YES;
     }
     
     [self updateEditingButton];
+    [_resultsController.tableView reloadData];
     
-    [self.tableView setEditing:_editing animated:YES];
+    [self.tableView setEditing:_isEditing animated:YES];
+    [_resultsController setEditing:_isEditing animated:YES];
     
-    if (!_editing) {
+    if (!_isEditing) {
         [self animatePane:_searching];
         return;
     }
     
-    [self animatePane:_editing];
+    [self animatePane:_isEditing];
 }
 
 - (void)animatePane:(BOOL)openWide {
@@ -129,8 +154,14 @@
     CGRect frame = self.view.frame;
     if (openWide) {
         if (frame.origin.x == 0) {
+            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                if (_searching) {
+                    self.tableView.hidden = YES;
+                }
+            } completion:nil];
             return;
         }
+        [delegate removeAllDrawerAnimations];
         frame.origin.x = 0;
         frame.size.width = self.view.superview.frame.size.width;
     }
@@ -141,19 +172,22 @@
         frame.origin.x = 50;
         frame.size.width = self.view.superview.frame.size.width - 50;
     }
-    
-    [UIView animateWithDuration:0.2 animations:^{
+    [delegate drawerCanDragForContacts:NO];
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.view.frame = frame;
-        [delegate toggleWidePaneState:openWide];
         [self.tableView reloadData];
-    } completion:nil];
-    
-    
+        [delegate toggleWidePaneState:openWide];
+        if (_searching) {
+            self.tableView.hidden = YES;
+        }
+    } completion:^(BOOL finished) {
+        [delegate drawerCanDragForContacts:YES];
+    }];
 }
 
 - (void)getAddressBook {
     
-    self.entourageMembers = [self sortedMemberArray:[TSJavelinAPIClient loggedInUser].entourageMembers];
+    self.entourageMembers = [TSJavelinAPIClient loggedInUser].entourageMembers;
     
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
@@ -226,9 +260,7 @@
 
 - (void)setContactList:(NSArray *)contacts {
     
-    self.allContacts = [self sortedMemberArray:contacts];
-    
-    self.sortedContacts = [self sortContacts:_allContacts];
+    self.allContacts = contacts;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.tableView reloadData];
@@ -264,7 +296,7 @@
     return [array sortedArrayUsingDescriptors:@[sort]];
 }
 
-- (NSArray *)sortedArray:(NSArray *)array {
+- (NSArray *)sortedKeyArray:(NSArray *)array {
     
     return [array sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];;
 }
@@ -283,24 +315,24 @@
     
     switch (indexPath.section) {
         case 0:
-            contactArray = _visibleEntourageMembers;
+            contactArray = _entourageMembers;
             break;
             
         case 1:
-            contactArray = _visibleWhoAddedUser;
+            contactArray = _whoAddedUser;
             break;
             
         case 2:
-            if (_visibleSortedContacts.allKeys) {
+            if (_sortedContacts.allKeys) {
                 return nil;
             }
             break;
             
         default:
             
-            if (_visibleSortedContacts.allKeys) {
-                key = [self sortedArray:_visibleSortedContacts.allKeys][indexPath.section - 3];
-                contactArray = [_visibleSortedContacts objectForKey:key];
+            if (_sortedContacts.allKeys) {
+                key = [self sortedKeyArray:_sortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
+                contactArray = [_sortedContacts objectForKey:key];
             }
             
             break;
@@ -336,17 +368,17 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
-        if (!_visibleEntourageMembers.count) {
+        if (!_entourageMembers.count) {
             return NO;
         }
     }
     else if (indexPath.section == 1) {
-        if (!_visibleWhoAddedUser.count) {
+        if (!_whoAddedUser.count) {
             return NO;
         }
     }
     else if (indexPath.section >= 2) {
-        if (!_visibleAllContacts.count) {
+        if (!_allContacts.count) {
             return NO;
         }
     }
@@ -365,12 +397,95 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (_movingMember) {
+        return;
+    }
+    _movingMember = YES;
     
-}
-
-- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *minusArray;
+    NSMutableArray *plusArray;
     
+    BOOL animate = YES;
+    NSIndexPath *toIndexPath;
     
+    TSJavelinAPIEntourageMember *member;
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 0) {
+        
+        member = [_entourageMembers objectAtIndex:indexPath.row];
+        
+        if (![self sectionExistsForMember:member]) {
+            animate = NO;
+        }
+        
+        plusArray = [[NSMutableArray alloc] initWithArray:_allContacts];
+        [plusArray addObject:member];
+        self.allContacts = plusArray;
+        
+        minusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        [minusArray removeObject:member];
+        self.entourageMembers = minusArray;
+        
+        toIndexPath = [self indexPathOfSortedContact:member];
+        
+        if (!_entourageMembers.count) {
+            animate = NO;
+        }
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 1) {
+        
+        NSString *key = [[self sortedKeyArray:_sortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];
+        NSArray *arrayOfSection = [_sortedContacts objectForKey:key];
+        
+        if (arrayOfSection.count <= 1 || !_entourageMembers.count) {
+            animate = NO;
+        }
+        
+        member = [arrayOfSection objectAtIndex:indexPath.row];
+        
+        plusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        [plusArray addObject:member];
+        self.entourageMembers = plusArray;
+        
+        minusArray = [[NSMutableArray alloc] initWithArray:_allContacts];
+        [minusArray removeObject:member];
+        self.allContacts = minusArray;
+        
+        toIndexPath = [NSIndexPath indexPathForRow:[_entourageMembers indexOfObject:member] inSection:0];
+    }
+    
+    _changesMade = YES;
+    
+    if (animate && !_animating) {
+        _animating = YES;
+        [CATransaction begin];
+        
+        [CATransaction setCompletionBlock:^{
+            
+            // animation has finished
+            _animating = NO;
+//            if (_shouldReload) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.tableView reloadData];
+                }];
+//            }
+        }];
+        
+        [self.tableView beginUpdates];
+        [self.tableView moveRowAtIndexPath:indexPath toIndexPath:toIndexPath];
+        [self.tableView endUpdates];
+        
+        [CATransaction commit];
+    }
+    else if (_animating) {
+        _shouldReload = YES;
+    }
+    else {
+        _shouldReload = NO;
+        [self.tableView reloadData];
+    }
+    
+    _movingMember = NO;
 }
 
 
@@ -379,25 +494,25 @@
     switch (section) {
             
         case 0:
-            if (![self sortedMemberArray:_visibleEntourageMembers].count) {
+            if (!_entourageMembers.count) {
                 return 1;
             }
-            return [self sortedMemberArray:_visibleEntourageMembers].count;
+            return _entourageMembers.count;
             
         case 1:
-            if (!_visibleWhoAddedUser.count) {
+            if (!_whoAddedUser.count) {
                 return 1;
             }
-            return _visibleWhoAddedUser.count;
+            return _whoAddedUser.count;
             
         default:
             break;
     }
     
-    if (section >= 3) {
-        if (_visibleSortedContacts.allKeys) {
-            NSString *key = [self sortedArray:_visibleSortedContacts.allKeys][section - 3];
-            NSArray *contactArray = [_visibleSortedContacts objectForKey:key];
+    if (section >= kContactsSectionOffset) {
+        if (_sortedContacts.allKeys) {
+            NSString *key = [self sortedKeyArray:_sortedContacts.allKeys][section - kContactsSectionOffset];
+            NSArray *contactArray = [_sortedContacts objectForKey:key];
             return contactArray.count;
         }
     }
@@ -414,7 +529,7 @@
     
     tableView.separatorColor = [UIColor clearColor];
     
-    return 3 + _visibleSortedContacts.allKeys.count;
+    return kContactsSectionOffset + _sortedContacts.allKeys.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -464,9 +579,13 @@
         
         if (!_editButton) {
             _editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            _editButton.titleLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
+            _editButton.titleLabel.textColor = [UIColor whiteColor];
+            [_editButton setTitleColor:[UIColor lightTextColor] forState:UIControlStateHighlighted];
+            [_editButton addTarget:self action:@selector(editEntourageMembers) forControlEvents:UIControlEventTouchUpInside];
         }
         [_editButton removeFromSuperview];
-        [view addSubview:_editButton];
+        [fillView addSubview:_editButton];
         [self updateEditingButton];
     }
     else if (section == 1) {
@@ -481,8 +600,8 @@
         
         [fillView removeFromSuperview];
         [view insertSubview:visualEffect belowSubview:label];
-        if (_visibleSortedContacts.allKeys) {
-            label.text = [self sortedArray:_visibleSortedContacts.allKeys][section-3];
+        if (_sortedContacts.allKeys) {
+            label.text = [self sortedKeyArray:_sortedContacts.allKeys][section-kContactsSectionOffset];
         }
     }
     
@@ -491,16 +610,17 @@
 
 - (void)updateEditingButton {
     
-    if (_editing) {
+    _editButton.enabled = YES;
+    if (_syncing) {
+        [_editButton setTitle:@"Syncing" forState:UIControlStateNormal];
+        _editButton.enabled = NO;
+    }
+    else if (_isEditing) {
         [_editButton setTitle:@"Done" forState:UIControlStateNormal];
     }
     else {
         [_editButton setTitle:@"Edit" forState:UIControlStateNormal];
     }
-    _editButton.titleLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
-    _editButton.titleLabel.textColor = [UIColor whiteColor];
-    [_editButton setTitleColor:[UIColor lightTextColor] forState:UIControlStateHighlighted];
-    [_editButton addTarget:self action:@selector(editEntourageMembers) forControlEvents:UIControlEventTouchUpInside];
     [_editButton sizeToFit];
     
     CGRect frame = _editButton.frame;
@@ -512,62 +632,22 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:_visibleSortedContacts.allKeys.count+3];
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:_sortedContacts.allKeys.count+kContactsSectionOffset];
     [mutableArray addObjectsFromArray:@[UITableViewIndexSearch, @"", @"", @"",]];
-    [mutableArray addObjectsFromArray:[self sortedArray:_visibleSortedContacts.allKeys]];
+    [mutableArray addObjectsFromArray:[self sortedKeyArray:_sortedContacts.allKeys]];
     
     return mutableArray;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    
+    if (index == 0) {
+        // search item
+        [tableView scrollRectToVisible:[[tableView tableHeaderView] bounds] animated:NO];
+        return -1;
+    }
     return index;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 #pragma mark - Search Bar Delegate
@@ -586,9 +666,8 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     
-//    [self performSelector:@selector(setContentInsetDelayed) withObject:nil afterDelay:0.3];
-    
     [self animatePane:YES];
+    
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
@@ -598,21 +677,18 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
+    [self.tableView setHidden:NO];
+    
     _searchBar.text = @"";
     _searching = NO;
     
     [_searchBar resignFirstResponder];
     
-    [self animatePane:_editing];
-}
-
-- (void)setContentInsetDelayed {
+    if (_isEditing) {
+        [self.tableView reloadData];
+    }
     
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        self.tableView.tableHeaderView = nil;
-//        [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
-        self.tableView.contentInset = UIEdgeInsetsMake(43, 0, 0, 0);
-    }];
+    [self animatePane:_isEditing];
 }
 
 
@@ -624,70 +700,102 @@
         return;
     }
     
-    self.filterString = searchController.searchBar.text;
+    _resultsController.filterString = searchController.searchBar.text;
+    
+    UIViewController *controller = searchController.searchResultsController;
+    if (!controller.view.hidden) {
+        self.tableView.hidden = YES;
+    }
 }
 
 - (void)setEntourageMembers:(NSArray *)entourageMembers {
-    
+    entourageMembers = [self sortedMemberArray:entourageMembers];
     _entourageMembers = entourageMembers;
-    self.visibleEntourageMembers = _entourageMembers;
-    
-    if (_filterString) {
-        [self setFilterString:_filterString];
-    }
+    _resultsController.entourageMembers = entourageMembers;
 }
 
 - (void)setWhoAddedUser:(NSArray *)whoAddedUser {
-    
+    whoAddedUser = [self sortedMemberArray:whoAddedUser];
     _whoAddedUser = whoAddedUser;
-    self.visibleWhoAddedUser = whoAddedUser;
-    
-    if (_filterString) {
-        [self setFilterString:_filterString];
-    }
+    _resultsController.whoAddedUser = whoAddedUser;
 }
 
 - (void)setAllContacts:(NSArray *)allContacts {
     
-    _allContacts = allContacts;
-    self.visibleAllContacts = allContacts;
+    allContacts = [self sortedMemberArray:allContacts];
     
-    if (_filterString) {
-        [self setFilterString:_filterString];
-    }
+    _allContacts = allContacts;
+    self.sortedContacts = [self sortContacts:_allContacts];
+    
+    _resultsController.allContacts = allContacts;
 }
 
 - (void)setSortedContacts:(NSMutableDictionary *)sortedContacts {
     
     _sortedContacts = sortedContacts;
-    self.visibleSortedContacts = sortedContacts;
     
-    if (_filterString) {
-        [self setFilterString:_filterString];
-    }
+    _resultsController.sortedContacts = sortedContacts;
 }
 
-- (void)setFilterString:(NSString *)filterString {
-    _filterString = filterString;
+- (NSIndexPath *)indexPathOfSortedContact:(TSJavelinAPIEntourageMember *)member {
     
-    if (!filterString || filterString.length <= 0) {
-        self.visibleEntourageMembers = _entourageMembers;
-        self.visibleWhoAddedUser = _whoAddedUser;
-        self.visibleAllContacts = _allContacts;
-        self.visibleSortedContacts = _sortedContacts;
-    }
-    else {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", filterString];
-        self.visibleEntourageMembers = [_entourageMembers filteredArrayUsingPredicate:predicate];
-        self.visibleWhoAddedUser = [_whoAddedUser filteredArrayUsingPredicate:predicate];
-        self.visibleAllContacts = [_allContacts filteredArrayUsingPredicate:predicate];
-        self.visibleSortedContacts = [self sortContacts:self.visibleAllContacts];
+    NSString *firstLetter = [member.name substringToIndex:1];
+    firstLetter = [firstLetter uppercaseString];
+    
+    int section = 0;
+    int row = 0;
+    for (NSString *string in [self sortedKeyArray:_sortedContacts.allKeys]) {
+        if ([string isEqualToString:firstLetter]) {
+            NSArray *array = [_sortedContacts objectForKey:string];
+            row = [array indexOfObject:member];
+            break;
+        }
+        section++;
     }
     
-    [self.tableView reloadData];
+    return [NSIndexPath indexPathForRow:row inSection:section+kContactsSectionOffset];
 }
 
+- (BOOL)sectionExistsForMember:(TSJavelinAPIEntourageMember *)member {
+    
+    NSString *firstLetter = [member.name substringToIndex:1];
+    firstLetter = [firstLetter uppercaseString];
+    
+    if ([_sortedContacts objectForKey:firstLetter]) {
+        return YES;
+    }
+    
+    return NO;
+}
 
+- (void)setSyncing:(BOOL)syncing {
+    _syncing = syncing;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self updateEditingButton];
+        [_resultsController updateEditingButton:_isEditing];
+    }];
+}
 
+- (void)syncEntourageMembers {
+    
+    _changesMade = NO;
+    self.syncing = YES;
+    [self.refreshControl beginRefreshing];
+    
+    [[TSJavelinAPIClient sharedClient] syncEntourageMembers:[_entourageMembers copy] completion:^(id responseObject, NSError *error) {
+        self.syncing = NO;
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self refresh];
+        }];
+        
+        if (!error) {
+            NSLog(@"Saved entourage members");
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
 
 @end

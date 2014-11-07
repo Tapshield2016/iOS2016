@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) TSJavelinAPIEntourageMember *contact;
 
+@property (assign, nonatomic) NSUInteger originalWidth;
+
 @property (nonatomic, strong) UIImageView *contactImageView;
 @property (nonatomic, strong) UILabel *contactNameLabel;
 

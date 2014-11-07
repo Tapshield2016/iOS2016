@@ -38,4 +38,8 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 - (void)toggleWidePaneState:(BOOL)open;
 
+- (void)removeAllDrawerAnimations;
+
+- (void)drawerCanDragForContacts:(BOOL)enabled;
+
 @end

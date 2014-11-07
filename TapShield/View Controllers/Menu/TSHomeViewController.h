@@ -49,4 +49,9 @@
 - (void)entourageModeOn;
 - (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate;
 
+
+- (IBAction)callEmergencyNumber:(id)sender;
+- (IBAction)callAgencyDispatcher:(id)sender;
+- (IBAction)openChat:(id)sender;
+
 @end

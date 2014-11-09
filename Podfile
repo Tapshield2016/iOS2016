@@ -16,6 +16,7 @@ pod 'KVOController'
 pod 'Shimmer'
 pod "AWSiOSSDKv2"
 pod "AWSCognitoSync"
+pod "MBXMapKit"
 
 post_install do |installer_representation|
   installer_representation.project.targets.each do |target|

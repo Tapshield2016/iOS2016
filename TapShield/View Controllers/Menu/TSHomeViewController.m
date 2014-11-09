@@ -31,6 +31,7 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "TSJavelinChatManager.h"
 #import "TSTalkOptionViewController.h"
+#import "MBXMapKit.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -38,6 +39,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 @interface TSHomeViewController ()
 
+@property (strong, nonatomic) MBXRasterTileOverlay *rasterOverlay;
 @property (strong, nonatomic) TSTalkOptionViewController *talkOptionsViewController;
 
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
@@ -50,10 +52,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (assign, nonatomic) BOOL firstMapLoad;
 @property (assign, nonatomic) BOOL locationServicesWereDisabled;
 @property (strong, nonatomic) UIAlertController *cancelEntourageAlertController;
-
-@property (strong, nonatomic) TSBottomMapButton *policeButton;
-@property (strong, nonatomic) TSBottomMapButton *emergencyButton;
-@property (strong, nonatomic) TSBottomMapButton *chatButton;
 
 @property (strong, nonatomic) UIVisualEffectView *blackoutView;
 
@@ -139,6 +137,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_helpButton.superview addSubview:_badgeView];
     
     [self initTalkOptionController];
+    
+//    [self initMapBoxOverlays];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -402,9 +402,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)sendAlert:(id)sender {
     
+    
+    
     _helpButton.selected = !_helpButton.selected;
     
     if (_helpButton.selected) {
+        if ([TSJavelinChatManager sharedManager].unreadMessages != 0) {
+            [self openChat:nil];
+            return;
+        }
+        [_badgeView removeFromSuperview];
         [self showCallChatButtons];
     }
     else {
@@ -765,6 +772,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     else if ([overlay isKindOfClass:[MKPolyline class]]) {
         return [self rendererForRoutePolyline:overlay];
+    }
+    else if ([overlay isKindOfClass:[MBXRasterTileOverlay class]]) {
+        MKTileOverlayRenderer *renderer = [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
+        return renderer;
     }
     
     return nil;
@@ -1242,12 +1253,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     _helpButton.selected = YES;
     [_talkOptionsViewController showTalkButtons];
     
-    CGPoint center = CGPointMake(_helpButton.superview.center.x, _routeButton.center.y);
-    
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
         _helpButton.label.hidden = YES;
-        _helpButton.transform = CGAffineTransformMakeScale(0.6667, 0.6667);
-        _helpButton.superview.center = center;
+        
+        CGAffineTransform t = CGAffineTransformMakeScale(0.6667, 0.6667);
+        t = CGAffineTransformTranslate(t, 0, 15);
+        _helpButton.transform = t;
+        
         _blackoutView.hidden = NO;
     } completion:nil];
 }
@@ -1255,35 +1267,24 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)hideCallChatButtons {
     
+    _helpButton.selected = NO;
     [_talkOptionsViewController hideTalkButtons];
-    
-    CGPoint center = CGPointMake(_helpButton.superview.center.x, _routeButton.frame.size.height + _routeButton.frame.origin.y - 45);
     
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
         _helpButton.transform = CGAffineTransformIdentity;
-        _helpButton.superview.center = center;
-        
         _blackoutView.hidden = YES;
         _helpButton.label.hidden = NO;
-    } completion:nil];
-}
-
-- (void)userDidLeaveAgency:(NSNotification *)notification {
-    
-    _policeButton.selected = YES;
-    _chatButton.selected = YES;
-}
-
-- (void)userDidEnterAgency:(NSNotification *)notification {
-    
-    _policeButton.selected = NO;
-    _chatButton.selected = NO;
+    } completion:^(BOOL finished) {
+        if (finished && _helpButton.transform.a == CGAffineTransformIdentity.a) {
+            [_helpButton.superview addSubview:_badgeView];
+        }
+    }];
 }
 
 - (void)initTalkOptionController {
     float inset = 30;
     _talkOptionsViewController = [[TSTalkOptionViewController alloc] init];
-    CGRect talkOptionFrame = CGRectMake(inset, _helpButton.superview.frame.origin.y - 60*3 - 20*2, self.view.frame.size.width-inset*2, 60*3 + 20*2);
+    CGRect talkOptionFrame = CGRectMake(inset, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width-inset*2, self.view.frame.size.height - (self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height)*2);
     _talkOptionsViewController.view.frame = talkOptionFrame;
     [_talkOptionsViewController willMoveToParentViewController:self];
     [_talkOptionsViewController beginAppearanceTransition:YES animated:NO];
@@ -1301,6 +1302,89 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideCallChatButtons)];
     [_blackoutView addGestureRecognizer:tap];
+}
+
+#pragma mark - Agency Status 
+
+- (void)userDidLeaveAgency:(NSNotification *)notification {
+    
+}
+
+- (void)userDidEnterAgency:(NSNotification *)notification {
+    
+}
+
+#pragma mark - MBXRaster
+
+- (void)initMapBoxOverlays {
+    
+    // Configure the amount of storage to use for NSURLCache's shared cache: You can also omit this and allow NSURLCache's
+    // to use its default cache size. These sizes determines how much storage will be used for performance caching of HTTP
+    // requests made by MBXOfflineMapDownloader and MBXRasterTileOverlay. Please note that these values apply only to the
+    // HTTP cache, and persistent offline map data is stored using an entirely separate mechanism.
+    //
+    NSUInteger memoryCapacity = 4 * 1024 * 1024;
+    NSUInteger diskCapacity = 40 * 1024 * 1024;
+    NSURLCache *urlCache = [[NSURLCache alloc] initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:nil];
+    //[urlCache removeAllCachedResponses];
+    [NSURLCache setSharedURLCache:urlCache];
+    
+    [MBXMapKit setAccessToken:@"pk.eyJ1IjoiYWRhbXNoYXJlIiwiYSI6ImNvWUtodTQifQ.KdVngge_lPq-xj0bOVxpSw"];
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    // Configure a raster tile overlay to use the initial sample map
+    //
+    _rasterOverlay = [[MBXRasterTileOverlay alloc] initWithMapID:@"adamshare.k610je3e"];
+    
+    // Let the raster tile overlay know that we want to be notified when it has asynchronously loaded the sample map's metadata
+    // (so we can set the map's center and zoom) and the sample map's markers (so we can add them to the map).
+    //
+    _rasterOverlay.delegate = self;
+    
+    // Add the raster tile overlay to our mapView so that it will immediately start rendering tiles. At this point the MKMapView's
+    // default center and zoom don't match the center and zoom of the sample map, but that's okay. Adding the layer now will prevent
+    // a percieved visual glitch in the UI (an empty map), and we'll fix the center and zoom when tileOverlay:didLoadMetadata:withError:
+    // gets called to notify us that the raster tile overlay has finished asynchronously loading its metadata.
+    //
+    [_mapView addOverlay:_rasterOverlay];
+    
+}
+
+#pragma mark - MBXRasterTileOverlayDelegate implementation
+
+- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMetadata:(NSDictionary *)metadata withError:(NSError *)error
+{
+    // This delegate callback is for centering the map once the map metadata has been loaded
+    //
+    if (error)
+    {
+        NSLog(@"Failed to load metadata for map ID %@ - (%@)", overlay.mapID, error?error:@"");
+    }
+    else
+    {
+        [_mapView mbx_setCenterCoordinate:overlay.center zoomLevel:overlay.centerZoom animated:NO];
+    }
+}
+
+
+- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMarkers:(NSArray *)markers withError:(NSError *)error
+{
+    // This delegate callback is for adding map markers to an MKMapView once all the markers for the tile overlay have loaded
+    //
+    if (error)
+    {
+        NSLog(@"Failed to load markers for map ID %@ - (%@)", overlay.mapID, error?error:@"");
+    }
+    else
+    {
+        [_mapView addAnnotations:markers];
+    }
+}
+
+- (void)tileOverlayDidFinishLoadingMetadataAndMarkers:(MBXRasterTileOverlay *)overlay
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 

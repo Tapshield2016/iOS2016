@@ -12,6 +12,7 @@
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIEmail.h"
 #import <FacebookSDK/Facebook.h>
+#import "TSJavelinAPIEntourageSession.h"
 
 @class TSJavelinAPIGroup;
 @class TSJavelinAPIAgency;
@@ -34,6 +35,8 @@
 @property (assign) BOOL isEmailVerified;
 @property (assign, getter=isPhoneNumberVerified) BOOL phoneNumberVerified;
 @property (nonatomic, strong) NSString *apiToken;
+
+@property (strong, nonatomic) TSJavelinAPIEntourageSession *entourageSession;
 
 - (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)parametersForUpdate;

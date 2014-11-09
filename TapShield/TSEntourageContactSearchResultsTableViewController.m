@@ -241,6 +241,15 @@
         toIndexPath = [self indexPathOfSortedContact:member];
         
     }
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 1) {
+        
+        _shouldMoveCell = NO;
+        member = [_visibleWhoAddedUser objectAtIndex:indexPath.row];
+        
+        plusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        [plusArray addObject:member];
+        _contactsTableViewController.entourageMembers = plusArray;
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 1) {
         
         NSString *key = [[self sortedKeyArray:_visibleSortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];

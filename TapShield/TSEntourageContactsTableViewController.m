@@ -432,6 +432,16 @@
             animate = NO;
         }
     }
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 1) {
+        
+        member = [_whoAddedUser objectAtIndex:indexPath.row];
+        
+        plusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        [plusArray addObject:member];
+        self.entourageMembers = plusArray;
+        animate = NO;
+        
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 1) {
         
         NSString *key = [[self sortedKeyArray:_sortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];
@@ -464,11 +474,9 @@
             
             // animation has finished
             _animating = NO;
-//            if (_shouldReload) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self.tableView reloadData];
-                }];
-//            }
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.tableView reloadData];
+            }];
         }];
         
         [self.tableView beginUpdates];
@@ -477,11 +485,7 @@
         
         [CATransaction commit];
     }
-    else if (_animating) {
-        _shouldReload = YES;
-    }
     else {
-        _shouldReload = NO;
         [self.tableView reloadData];
     }
     

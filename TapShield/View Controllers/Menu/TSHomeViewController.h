@@ -15,8 +15,9 @@
 #import "TSStatusView.h"
 #import "TSBottomMapButton.h"
 #import "TSIconBadgeView.h"
+#import "MBXMapKit.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate, MBXRasterTileOverlayDelegate, MBXOfflineMapDownloaderDelegate>
 
 @property (weak, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;

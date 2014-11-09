@@ -27,6 +27,7 @@
 #import "TSNoNetworkWindow.h"
 #import "TSUserSessionManager.h"
 #import "TSEntourageContactsViewController.h"
+#import "TSAnimatedBackgroundView.h"
 
 @import CoreTelephony;
 
@@ -39,7 +40,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
-@property (nonatomic, strong) UIImageView *windowBackground;
+@property (nonatomic, strong) TSAnimatedBackgroundView *windowBackground;
 @property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
 @property (nonatomic, strong) TSPopUpWindow *pushNotificationAlertWindow;
 @property (strong, nonatomic) CTCallCenter *callCenter;
@@ -160,21 +161,14 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.dynamicsDrawerViewController setDrawerViewController:entourageContactsViewController forDirection:MSDynamicsDrawerDirectionRight];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
-    
-    UIImage *bgImage = [UIImage imageNamed:@"SideMenuBG"];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
-        bgImage = [UIImage imageNamed:@"side_menu_bg_talkaphone"];
-    }
-    
-    self.windowBackground = [[UIImageView alloc] initWithImage:bgImage];
-    self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller
     [menuViewController transitionToViewController:@"TSHomeViewController" animated:NO];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.dynamicsDrawerViewController;
     [self.window makeKeyAndVisible];
+    
+    self.windowBackground = [[TSAnimatedBackgroundView alloc] initWithFrame:self.window.bounds];
     [self.window addSubview:self.windowBackground];
     [self.window sendSubviewToBack:self.windowBackground];
     
@@ -478,6 +472,26 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     else if (open) {
         [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpenWide inDirection:MSDynamicsDrawerDirectionRight];
     }
+}
+
+- (void)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController didUpdateToPaneState:(MSDynamicsDrawerPaneState)paneState forDirection:(MSDynamicsDrawerDirection)direction {
+    
+    if (paneState == MSDynamicsDrawerPaneStateOpen) {
+        [self.windowBackground animateRoute];
+    }
+    else if (paneState == MSDynamicsDrawerPaneStateClosed) {
+        [self.windowBackground stopRouteAnimation];
+    }
+}
+
+- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer {
+    
+    return YES;
+}
+
+- (void)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController mayUpdateToPaneState:(MSDynamicsDrawerPaneState)paneState forDirection:(MSDynamicsDrawerDirection)direction {
+    
+    
 }
 
 @end

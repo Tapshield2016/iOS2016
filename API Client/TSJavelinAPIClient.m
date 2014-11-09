@@ -790,6 +790,45 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        }];
 }
 
+- (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(id responseObject, NSError *error))completion {
+    
+    NSDictionary *params;
+    if (date) {
+        params = @{@"modified_since": date.iso8601String};
+    }
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    [manager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
+    [manager GET:[NSString stringWithFormat:@"%@/matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
+       parameters:params
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//              [[TSJavelinAPIClient loggedInUser] setEntourageMembers:responseObject];
+//              [[TSJavelinAPIAuthenticationManager sharedManager] archiveLoggedInUser];
+              if (completion) {
+                  completion([TSJavelinAPIClient loggedInUser], nil);
+              }
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Error: %@", operation.response);
+              
+              if ([self shouldRetry:error]) {
+                  // Delay execution of my block for 10 seconds.
+                  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                  dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                      [self getEntourageSessionsWithLocationsSince:date completion:completion];
+                  });
+              }
+              else {
+                  if (completion) {
+                      completion(operation.responseObject, error);
+                  }
+              }
+          }];
+}
+
+
 
 - (void)syncEntourageMembers:(NSArray *)members completion:(void (^)(id responseObject, NSError *error))completion {
     
@@ -960,6 +999,8 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
              }
          }];
 }
+
+//matched_entourage_users
 
 #pragma mark - Social Reporting 
 

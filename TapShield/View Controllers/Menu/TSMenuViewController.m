@@ -69,7 +69,7 @@
                                                                             @"TSAboutViewController", nil];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     
     
 }
@@ -281,7 +281,12 @@
     float dimAlpha = 0.5f;
     
     cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:dimAlpha];
-    cell.textLabel.font = [UIFont fontWithName:kFontWeightThin size:23];
+    cell.textLabel.font = [UIFont fontWithName:kFontWeightThin size:20];
+    cell.textLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.textLabel.layer.shadowRadius = 1.0f;
+    cell.textLabel.layer.shadowOpacity = 1;
+    cell.textLabel.layer.shadowOffset = CGSizeZero;
+    
     cell.backgroundColor = [TSColorPalette clearColor];
     cell.imageView.alpha = dimAlpha;
     

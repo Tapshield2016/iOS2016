@@ -494,6 +494,9 @@ static dispatch_once_t predicate;
             message = @"Make sure your Twitter accounts have the correct username and password in your Settings app";
         }
     }
+    if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+        message = @"Network error, please try again";
+    }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error"
                                                                              message:message

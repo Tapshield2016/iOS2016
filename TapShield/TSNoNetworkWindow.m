@@ -9,6 +9,7 @@
 #import "TSNoNetworkWindow.h"
 #import "TSColorPalette.h"
 #import "TSBaseLabel.h"
+#import "TSAppDelegate.h"
 
 static NSString * const kDisconnected = @"No Network Data Connection";
 
@@ -137,6 +138,10 @@ static NSString * const kDisconnected = @"No Network Data Connection";
 }
 
 - (void)fadeInAndOut {
+    
+    if ([(TSAppDelegate *)[UIApplication sharedApplication].delegate isConnected]) {
+        [self dismiss:nil];
+    }
     
     if (_upperWindow.alpha == 0.0) {
         [UIView animateWithDuration:0.3 animations:^{

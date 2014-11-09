@@ -242,12 +242,12 @@
     }
     
     UITextField *textField = [((UITextField *)[searchBar.subviews firstObject]).subviews lastObject];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor = [TSColorPalette searchFieldBackgroundColor];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].font = [TSFont fontWithName:kFontWeightLight size:16.0];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].textColor = [UIColor whiteColor];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].tintColor = [UIColor whiteColor];
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].borderStyle = UITextBorderStyleNone;
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor = [TSColorPalette searchFieldBackgroundColor];
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].font = [TSFont fontWithName:kFontWeightLight size:16.0];
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].textColor = [UIColor whiteColor];
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].tintColor = [UIColor whiteColor];
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].borderStyle = UITextBorderStyleNone;
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
     
     textField.backgroundColor = [TSColorPalette searchFieldBackgroundColor];
     textField.font = [TSFont fontWithName:kFontWeightLight size:16.0];

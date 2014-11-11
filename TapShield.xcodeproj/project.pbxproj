@@ -252,6 +252,10 @@
 		C53A6641190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
 		C53A6642190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
 		C53A6643190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
+		C54843B71A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
+		C54843B81A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
+		C54843B91A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
+		C54843BA1A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
 		C54CE5D318FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D418FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D518FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
@@ -1137,6 +1141,8 @@
 		C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayout.m; path = Views/TSMemberCollectionViewLayout.m; sourceTree = "<group>"; };
 		C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayoutAttributes.h; path = Views/TSMemberCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayoutAttributes.m; path = Views/TSMemberCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
+		C54843B51A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSEntourageMemberSettingsViewController.h; path = "View Controllers/TSEntourageMemberSettingsViewController.h"; sourceTree = "<group>"; };
+		C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEntourageMemberSettingsViewController.m; path = "View Controllers/TSEntourageMemberSettingsViewController.m"; sourceTree = "<group>"; };
 		C54CE5D118FAE1240077350E /* TSYankManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSYankManager.h; sourceTree = "<group>"; };
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CEB0618FB3F8D0077350E /* TSRoundToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRoundToolBarView.h; sourceTree = "<group>"; };
@@ -1594,6 +1600,8 @@
 		B53BBD29189814FC006A27E0 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C54843B51A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.h */,
+				C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */,
 				C554434B1A0C84FA0087651B /* TSTalkOptionViewController.h */,
 				C554434C1A0C84FA0087651B /* TSTalkOptionViewController.m */,
 				C5CB078118C681F900BC9425 /* Alert */,
@@ -2840,6 +2848,7 @@
 				B543F08418AAB3FA004C2B26 /* TSSettingsViewController.m in Sources */,
 				C5C1C9A419085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				B53BBD27189814F7006A27E0 /* TSHomeViewController.m in Sources */,
+				C54843B71A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */,
 				C501DC4419FDE30E0031FB52 /* TSEntourageContactsTableViewController.m in Sources */,
 				C520C8FC18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C56B3D6618FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
@@ -3119,6 +3128,7 @@
 				C556478118E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C56356F818EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
 				C5372DAD18B270E100D22682 /* TSAgreementViewController.m in Sources */,
+				C54843BA1A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */,
 				C53A63471970533500C34BF0 /* ADMapPointAnnotation.m in Sources */,
 				C5CA373819C9D12A0021BB7F /* TSBottomUpTransitioner.m in Sources */,
 				C55568E51910082000685FB0 /* TSIntroSlideViewController.m in Sources */,
@@ -3265,6 +3275,7 @@
 				C57C48BF18BBDB1900DFFBCE /* TSSettingsViewController.m in Sources */,
 				C5C1C9A519085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				C585F1D318D0B390009EEF16 /* TSGooglePlusButton.m in Sources */,
+				C54843B81A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */,
 				C501DC4519FDE30E0031FB52 /* TSEntourageContactsTableViewController.m in Sources */,
 				C57C48C018BBDB1900DFFBCE /* TSHomeViewController.m in Sources */,
 				C56B3D6718FD902900324FE8 /* TSSettingsSwitch.m in Sources */,
@@ -3478,6 +3489,7 @@
 				C5AFB955191D35DE00EC62A5 /* TSSettingsViewController.m in Sources */,
 				C5AFB956191D35DE00EC62A5 /* TSAddMemberCell.m in Sources */,
 				C5AFB957191D35DE00EC62A5 /* TSGooglePlusButton.m in Sources */,
+				C54843B91A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */,
 				C501DC4619FDE30E0031FB52 /* TSEntourageContactsTableViewController.m in Sources */,
 				C5AFB958191D35DE00EC62A5 /* TSHomeViewController.m in Sources */,
 				C5AFB959191D35DE00EC62A5 /* TSSettingsSwitch.m in Sources */,

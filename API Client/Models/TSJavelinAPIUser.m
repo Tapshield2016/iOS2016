@@ -528,4 +528,21 @@
     return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
 }
 
+- (void)updateEntourageMember:(TSJavelinAPIEntourageMember *)member {
+    
+    if (![_entourageMembers containsObject:member]) {
+        NSMutableArray *mutable = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        for (TSJavelinAPIEntourageMember *currentMember in _entourageMembers) {
+            if ([currentMember isEqual:member]) {
+                [mutable removeObject:currentMember];
+                [mutable addObject:member];
+            }
+        }
+        
+        _entourageMembers = mutable;
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+}
+
 @end

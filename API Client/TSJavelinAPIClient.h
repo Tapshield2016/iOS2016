@@ -105,6 +105,8 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 @end
 
 extern NSString * const TSJavelinAPIClientDidUpdateAgency;
+extern NSString * const TSJavelinAPIClientDidStartSyncingEntourage;
+extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 
 @interface TSJavelinAPIClient : AFHTTPRequestOperationManager
 

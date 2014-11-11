@@ -12,6 +12,7 @@
 #import "TSEntourageContactTableViewCell.h"
 #import "TSEntourageContactSearchResultsTableViewController.h"
 #import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
+#import "TSEntourageMemberSettingsViewController.h"
 
 @class MSDynamicsDrawerViewController;
 
@@ -23,6 +24,8 @@
 @property (assign, nonatomic) BOOL animating;
 @property (assign, nonatomic) BOOL shouldReload;
 @property (assign, nonatomic) BOOL movingMember;
+
+@property (strong ,nonatomic) NSIndexPath *selectedRowIndex;
 
 @property (strong, nonatomic) UIButton *editButton;
 
@@ -77,6 +80,16 @@
     self.tableView.sectionIndexColor = [TSColorPalette tapshieldBlue];
     self.tableView.sectionIndexTrackingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    self.tableView.sectionIndexMinimumDisplayRowCount = 10;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(entourageDidFinishSyncing:)
+                                                 name:TSJavelinAPIClientDidFinishSyncingEntourage
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(entourageDidStartSyncing:)
+                                                 name:TSJavelinAPIClientDidStartSyncingEntourage
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,11 +97,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
     [self.refreshControl endRefreshing];
+    
+    [_resultsController.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -232,8 +248,8 @@
             TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person];
             
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordID == %i", member.recordID];
-            NSArray *matchingEntourageArray = [[_entourageMembers copy] filteredArrayUsingPredicate:predicate];
-            NSArray *whoAddedArray = [[_whoAddedUser copy] filteredArrayUsingPredicate:predicate];
+            NSArray *matchingEntourageArray = [_entourageMembers filteredArrayUsingPredicate:predicate];
+            NSArray *whoAddedArray = [_whoAddedUser filteredArrayUsingPredicate:predicate];
             
             if (!matchingEntourageArray.count && !whoAddedArray.count && (member.phoneNumber || member.email)) {
                 [mutableArray addObject:member];
@@ -342,10 +358,10 @@
         identifier = emptyCell;
     }
     
-    TSEntourageContactTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:entourageContactTableViewCell];
+    TSEntourageContactTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (!cell) {
-        cell = [[TSEntourageContactTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:entourageContactTableViewCell];
+        cell = [[TSEntourageContactTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.backgroundColor = [UIColor clearColor];
     }
     
@@ -355,6 +371,13 @@
     }
     else {
         cell.contact = contactArray[indexPath.row];
+    }
+    
+    if (indexPath.section == 0) {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+    else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
@@ -381,6 +404,22 @@
         if (!_allContacts.count) {
             return NO;
         }
+    }
+    
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([indexPath isEqual:_selectedRowIndex]) {
+        [self setIndexPath:indexPath selected:NO];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([indexPath isEqual:_selectedRowIndex]) {
+        [self setIndexPath:indexPath selected:NO];
     }
     
     return YES;
@@ -526,7 +565,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 50;
+    if([_selectedRowIndex isEqual:indexPath]) {
+        return [TSEntourageContactTableViewCell selectedHeight];
+    }
+    
+    return [TSEntourageContactTableViewCell height];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -536,9 +579,79 @@
     return kContactsSectionOffset + _sortedContacts.allKeys.count;
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        if (!_entourageMembers.count) {
+            return NO;
+        }
+    }
+    else if (indexPath.section == 1) {
+        if (!_whoAddedUser.count) {
+            return NO;
+        }
+    }
+    else if (indexPath.section == 2) {
+        if (!_allContacts.count) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (indexPath.section == 0) {
+        [self presentMemberSettingsWithMember:[self memberForIndexPath:indexPath]];
+    }
+    else {
+       [self toggleSelectedIndexPath:indexPath];
+    }
+}
+
+- (TSJavelinAPIEntourageMember *)memberForIndexPath:(NSIndexPath *)indexPath {
     
+    NSArray *arrayWithContact;
+    
+    if (indexPath.section == 0) {
+        arrayWithContact = _entourageMembers;
+    }
+    else if (indexPath.section == 1) {
+        arrayWithContact = _whoAddedUser;
+    }
+    if (indexPath.section >= kContactsSectionOffset) {
+        if (_sortedContacts.allKeys) {
+            NSString *key = [self sortedKeyArray:_sortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
+            arrayWithContact = [_sortedContacts objectForKey:key];
+        }
+    }
+    
+    return [arrayWithContact objectAtIndex:indexPath.row];
+}
+
+- (void)toggleSelectedIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([_selectedRowIndex isEqual:indexPath]) {
+        [self setIndexPath:indexPath selected:NO];
+    }
+    else {
+        [self setIndexPath:indexPath selected:YES];
+    }
+}
+
+- (void)setIndexPath:(NSIndexPath *)indexPath selected:(BOOL)selected {
+    
+    if (selected) {
+        self.selectedRowIndex = indexPath;
+    }
+    else {
+        _selectedRowIndex = nil;
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
@@ -651,7 +764,6 @@
     }
     return index;
 }
-
 
 
 #pragma mark - Search Bar Delegate
@@ -784,14 +896,8 @@
 - (void)syncEntourageMembers {
     
     _changesMade = NO;
-    self.syncing = YES;
-    [self.refreshControl beginRefreshing];
     
-    [[TSJavelinAPIClient sharedClient] syncEntourageMembers:[_entourageMembers copy] completion:^(id responseObject, NSError *error) {
-        self.syncing = NO;
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self refresh];
-        }];
+    [[TSJavelinAPIClient sharedClient] syncEntourageMembers:_entourageMembers completion:^(id responseObject, NSError *error) {
         
         if (!error) {
             NSLog(@"Saved entourage members");
@@ -799,6 +905,34 @@
         else {
             NSLog(@"%@", error.localizedDescription);
         }
+    }];
+}
+
+- (void)presentMemberSettingsWithMember:(TSJavelinAPIEntourageMember *)member {
+    
+    TSEntourageMemberSettingsViewController *memberSettings = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEntourageMemberSettingsViewController class])];
+    memberSettings.member = member;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:memberSettings];
+    
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+
+#pragma mark Notifications
+
+- (void)entourageDidStartSyncing:(NSNotification *)notification {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.refreshControl beginRefreshing];
+        [self setSyncing:YES];
+    }];
+}
+
+- (void)entourageDidFinishSyncing:(NSNotification *)notification {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.refreshControl endRefreshing];
+        [self setSyncing:NO];
+        self.entourageMembers = [TSJavelinAPIClient loggedInUser].entourageMembers;
+        [self.tableView reloadData];
     }];
 }
 

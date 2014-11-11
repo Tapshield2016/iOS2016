@@ -49,7 +49,9 @@
             [self setImageForRecordID:_recordID];
         }
         
-        _matchedUser = [attributes nonNullObjectForKey:@"matched_user"];
+        if ([attributes nonNullObjectForKey:@"matched_user"]) {
+            _matchedUser = [[TSJavelinAPIUser alloc] initWithOnlyURLAttribute:attributes forKey:@"matched_user"];
+        }
         
         _alwaysVisible = [[attributes nonNullObjectForKey:@"always_visible"] boolValue];
         
@@ -286,16 +288,81 @@
 
 
 - (void)setImageForRecordID:(ABRecordID)recordID {
+    
     CFErrorRef error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
     
     if (!error) {
         ABRecordRef recordRef = ABAddressBookGetPersonWithRecordID ( addressBook, recordID );
         
-        [self imageFromPerson:recordRef];
+        TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:recordRef];
+        
+        if ([self isEqual:member]) {
+            [self imageFromPerson:recordRef];
+        }
+        else {
+            self.recordID = 0;
+        }
     }
     
     CFRelease(addressBook);
+}
+
+- (BOOL)isEqual:(id)object {
+    
+    if ([object isKindOfClass:[TSJavelinAPIEntourageMember class]]) {
+        TSJavelinAPIEntourageMember *member = object;
+        
+        int numberYes = 0;
+        BOOL phoneNumberSame = NO;
+        BOOL emailSame = NO;
+        BOOL recordIDSame = NO;
+        BOOL firstNameSame = NO;
+        BOOL lastNameSame = NO;
+        
+        if (member.recordID == self.recordID) {
+            recordIDSame = YES;
+            numberYes++;
+        }
+        
+        if (member.phoneNumber && self.phoneNumber) {
+            if ([member.phoneNumber isEqualToString:self.phoneNumber]) {
+                phoneNumberSame = YES;
+                numberYes++;
+            }
+        }
+        
+        if (member.email && self.email) {
+            if ([member.email isEqualToString:self.email]) {
+                emailSame = YES;
+                numberYes++;
+            }
+        }
+        
+        if (member.first && self.first) {
+            if ([member.first isEqualToString:self.first]) {
+                firstNameSame = YES;
+                numberYes++;
+            }
+        }
+        
+        if (member.last && self.last) {
+            if ([member.last isEqualToString:self.last]) {
+                lastNameSame = YES;
+                numberYes++;
+            }
+        }
+        
+        if (recordIDSame && (phoneNumberSame || emailSame)) {
+            return YES;
+        }
+        
+        if (numberYes >= 3) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 @end

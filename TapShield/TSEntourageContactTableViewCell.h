@@ -19,5 +19,7 @@
 @property (nonatomic, strong) UILabel *contactNameLabel;
 
 - (void)emptyCell;
++ (CGFloat)selectedHeight;
++ (CGFloat)height;
 
 @end

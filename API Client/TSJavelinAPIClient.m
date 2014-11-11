@@ -22,6 +22,9 @@
 
 NSString * const TSJavelinAPIClientDidUpdateAgency = @"TSJavelinAPIClientDidUpdateAgency";
 
+NSString * const TSJavelinAPIClientDidStartSyncingEntourage = @"TSJavelinAPIClientDidStartSyncingEntourage";
+NSString * const TSJavelinAPIClientDidFinishSyncingEntourage = @"TSJavelinAPIClientDidFinishSyncingEntourage";
+
 @interface TSJavelinAPIClient ()
 
 @property (nonatomic, strong) NSString *baseAuthURL;
@@ -854,6 +857,8 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
         mutableArray = nil;
     }
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidStartSyncingEntourage object:nil];
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -866,6 +871,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
               if (completion) {
                   completion([TSJavelinAPIClient loggedInUser], nil);
               }
+              [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidFinishSyncingEntourage object:nil];
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"Error: %@", operation.response);
@@ -881,6 +887,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   if (completion) {
                       completion(operation.responseObject, error);
                   }
+                  [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidFinishSyncingEntourage object:nil];
               }
           }];
 }

@@ -26,6 +26,4 @@
 
 @property (strong, nonatomic) MKPolyline *locations;
 
-
-
 @end

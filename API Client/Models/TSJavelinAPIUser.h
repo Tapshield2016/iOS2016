@@ -56,4 +56,6 @@
 - (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person;
 - (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes;
 
+- (void)updateEntourageMember:(id)member;
+
 @end

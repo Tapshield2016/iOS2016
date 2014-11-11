@@ -42,4 +42,6 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 - (void)drawerCanDragForContacts:(BOOL)enabled;
 
+- (void)shiftStatusBarToPane:(BOOL)pane;
+
 @end

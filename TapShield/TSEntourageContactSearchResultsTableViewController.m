@@ -10,6 +10,7 @@
 #import "TSEntourageContactsViewController.h"
 #import "TSJavelinAPIEntourageMember.h"
 #import "TSEntourageContactTableViewCell.h"
+#import "TSEntourageMemberSettingsViewController.h"
 
 @interface TSEntourageContactSearchResultsTableViewController ()
 
@@ -23,6 +24,8 @@
 @property (strong, nonatomic) NSArray *visibleWhoAddedUser;
 @property (strong, nonatomic) NSArray *visibleAllContacts;
 @property (strong, nonatomic) NSMutableDictionary *visibleSortedContacts;
+
+@property (strong ,nonatomic) NSIndexPath *selectedRowIndex;
 
 @end
 
@@ -42,6 +45,7 @@
     self.tableView.sectionIndexColor = [TSColorPalette tapshieldBlue];
     self.tableView.sectionIndexTrackingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    self.tableView.sectionIndexMinimumDisplayRowCount = 6;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -146,10 +150,10 @@
         identifier = emptyCell;
     }
     
-    TSEntourageContactTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:entourageContactTableViewCell];
+    TSEntourageContactTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (!cell) {
-        cell = [[TSEntourageContactTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:entourageContactTableViewCell];
+        cell = [[TSEntourageContactTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.backgroundColor = [UIColor clearColor];
     }
     
@@ -159,6 +163,13 @@
     }
     else {
         cell.contact = contactArray[indexPath.row];
+    }
+    
+    if (indexPath.section == 0) {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+    else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
@@ -337,7 +348,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 50;
+    if([_selectedRowIndex isEqual:indexPath]) {
+        return [TSEntourageContactTableViewCell selectedHeight];
+    }
+    
+    return [TSEntourageContactTableViewCell height];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -347,10 +362,6 @@
     return kContactsSectionOffset + _visibleSortedContacts.allKeys.count;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-}
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     
@@ -621,6 +632,88 @@
     self.tableView.scrollIndicatorInsets = contentInsets;
     
     [UIView commitAnimations];
+}
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        [self presentMemberSettingsWithMember:[self memberForIndexPath:indexPath]];
+    }
+    else {
+        [self toggleSelectedIndexPath:indexPath];
+    }
+}
+
+- (void)presentMemberSettingsWithMember:(TSJavelinAPIEntourageMember *)member {
+    
+    TSEntourageMemberSettingsViewController *memberSettings = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEntourageMemberSettingsViewController class])];
+    memberSettings.member = member;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:memberSettings];
+    
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+
+- (TSJavelinAPIEntourageMember *)memberForIndexPath:(NSIndexPath *)indexPath {
+    
+    NSArray *arrayWithContact;
+    
+    if (indexPath.section == 0) {
+        arrayWithContact = _visibleEntourageMembers;
+    }
+    else if (indexPath.section == 1) {
+        arrayWithContact = _visibleWhoAddedUser;
+    }
+    if (indexPath.section >= kContactsSectionOffset) {
+        if (_visibleSortedContacts.allKeys) {
+            NSString *key = [self sortedKeyArray:_visibleSortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
+            arrayWithContact = [_visibleSortedContacts objectForKey:key];
+        }
+    }
+    
+    return [arrayWithContact objectAtIndex:indexPath.row];
+}
+
+- (void)toggleSelectedIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([_selectedRowIndex isEqual:indexPath]) {
+        [self setIndexPath:indexPath selected:NO];
+    }
+    else {
+        [self setIndexPath:indexPath selected:YES];
+    }
+}
+
+- (void)setIndexPath:(NSIndexPath *)indexPath selected:(BOOL)selected {
+    
+    if (selected) {
+        self.selectedRowIndex = indexPath;
+    }
+    else {
+        _selectedRowIndex = nil;
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([indexPath isEqual:_selectedRowIndex]) {
+        [self setIndexPath:indexPath selected:NO];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([indexPath isEqual:_selectedRowIndex]) {
+        [self setIndexPath:indexPath selected:NO];
+    }
+    
+    return YES;
 }
 
 @end

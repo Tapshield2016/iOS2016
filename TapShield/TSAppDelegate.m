@@ -494,4 +494,30 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
 }
 
+- (void)shiftStatusBarToPane:(BOOL)pane {
+    
+    NSString *key = [[NSString alloc] initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
+    id object = [UIApplication sharedApplication];
+    UIView *statusBar;
+    if ([object respondsToSelector:NSSelectorFromString(key)]) {
+        statusBar = [object valueForKey:key];
+    }
+    
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:300.0
+          initialSpringVelocity:5.0
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         if (pane) {
+                             statusBar.transform = CGAffineTransformMakeTranslation(self.dynamicsDrawerViewController.paneView.frame.origin.x, self.dynamicsDrawerViewController.paneView.frame.origin.y);
+                         }
+                         else {
+                             statusBar.transform = CGAffineTransformMakeTranslation(0, 0);
+                         }
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
+
 @end

@@ -9,8 +9,11 @@
 #import "TSEntourageMemberSettingsViewController.h"
 
 static NSString * const kDefaultImage = @"user_default_icon";
+static NSString * const kNoUserFound = @"Real-time location sharing is only available to verified TapShield users";
 
 @interface TSEntourageMemberSettingsViewController ()
+
+@property (strong, nonatomic) UIButton *inviteButton;
 
 @end
 
@@ -73,9 +76,111 @@ static NSString * const kDefaultImage = @"user_default_icon";
         emailOrPhone = [NSString stringWithFormat:@"email %@", _member.email];
     }
     
-    label.text = [NSString stringWithFormat:@"No users with %@ could be found.", emailOrPhone];
+    label.text = kNoUserFound;//[NSString stringWithFormat:@"No users with %@ could be found.", emailOrPhone];
     
     [view addSubview:label];
+    
+    
+    _inviteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_inviteButton setBackgroundImage:[UIImage imageFromColor:[TSColorPalette tapshieldBlue]] forState:UIControlStateNormal];
+    [_inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
+    _inviteButton.frame = CGRectMake(20, view.frame.size.height/2 + 10, view.frame.size.width-40, view.frame.size.height/2 - 20);
+    _inviteButton.layer.cornerRadius = 5;
+    _inviteButton.layer.masksToBounds = YES;
+    [_inviteButton addTarget:self action:@selector(inviteMember) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:_inviteButton];
+}
+
+- (void)inviteMember {
+    
+    _inviteButton.enabled = NO;
+    
+    if (_member.phoneNumber && _member.email) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invite by" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self presentInvitationEmail];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Text" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self presentInvitationText];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            _inviteButton.enabled = YES;
+        }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else if (_member.phoneNumber) {
+        [self presentInvitationText];
+    }
+    else if (_member.email) {
+        [self presentInvitationEmail];
+    }
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    
+    _inviteButton.enabled = YES;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    
+    _inviteButton.enabled = YES;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)presentInvitationEmail {
+    
+    NSString *emailTitle = @"Join me";
+    // Email Content
+    NSString *messageBody = @"Join my Entourage on TapShield - https://www.tapshield.com";
+    // To address
+    
+    NSArray *toRecipents = @[_member.email];
+    
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:NO];
+    [mc setToRecipients:toRecipents];
+    
+    [[UIView appearanceWhenContainedIn:[MFMailComposeViewController class], nil] setTintColor:[TSColorPalette tapshieldBlue]];
+    mc.view.tintColor = [TSColorPalette tapshieldBlue];
+    mc.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
+    [mc.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [mc.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    mc.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
+    
+    [self presentViewController:mc animated:YES completion:nil];
+}
+
+- (void)presentInvitationText {
+    
+    NSString *emailTitle = @"Join me";
+    // Email Content
+    NSString *messageBody = @"Join my Entourage on TapShield - https://www.tapshield.com";
+    // To address
+    
+    NSArray *toRecipents = @[_member.phoneNumber];
+    
+    
+    MFMessageComposeViewController *messageComposeVC = [[MFMessageComposeViewController alloc] init];
+    messageComposeVC.messageComposeDelegate = self;
+    [messageComposeVC setSubject:emailTitle];
+    [messageComposeVC setBody:messageBody];
+    [messageComposeVC setRecipients:toRecipents];
+    // Present mail view controller on screen
+    
+    [[UIView appearanceWhenContainedIn:[MFMessageComposeViewController class], nil] setTintColor:[TSColorPalette tapshieldBlue]];
+    messageComposeVC.view.tintColor = [TSColorPalette tapshieldBlue];
+    messageComposeVC.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
+    [messageComposeVC.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [messageComposeVC.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    messageComposeVC.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
+    
+    [self presentViewController:messageComposeVC animated:YES completion:nil];
 }
 
 - (void)initBarViews {

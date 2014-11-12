@@ -109,6 +109,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
+    [[UIView appearanceWhenContainedIn:[UIAlertController class], nil] setTintColor:[TSColorPalette tapshieldBlue]];
+    
     [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];

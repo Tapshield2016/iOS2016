@@ -29,8 +29,6 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 - (void)failedToArriveAtDestination;
 
-+ (NSMutableSet *)unArchiveEntourageMembersPosted;
-
 
 - (void)removeHomeViewController;
 

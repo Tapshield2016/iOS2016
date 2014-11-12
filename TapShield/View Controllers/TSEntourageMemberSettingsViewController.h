@@ -8,8 +8,9 @@
 
 #import "TSNavigationViewController.h"
 #import "TSSettingsSwitch.h"
+#import <MessageUI/MessageUI.h>
 
-@interface TSEntourageMemberSettingsViewController : UITableViewController
+@interface TSEntourageMemberSettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet TSSettingsSwitch *alwaysVisibleSwitch;
 

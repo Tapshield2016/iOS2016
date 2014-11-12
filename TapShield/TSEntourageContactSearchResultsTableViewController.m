@@ -20,10 +20,10 @@
 @property (assign, nonatomic) BOOL shouldReload;
 @property (assign, nonatomic) BOOL movingMember;
 @property (assign, nonatomic) BOOL viewWillAppear;
-@property (strong, nonatomic) NSArray *visibleEntourageMembers;
-@property (strong, nonatomic) NSArray *visibleWhoAddedUser;
-@property (strong, nonatomic) NSArray *visibleAllContacts;
-@property (strong, nonatomic) NSMutableDictionary *visibleSortedContacts;
+@property (strong, nonatomic) NSArray *entourageMembers;
+@property (strong, nonatomic) NSArray *whoAddedUser;
+@property (strong, nonatomic) NSArray *allContacts;
+@property (strong, nonatomic) NSMutableDictionary *sortedContacts;
 
 @property (strong ,nonatomic) NSIndexPath *selectedRowIndex;
 
@@ -122,25 +122,25 @@
     
     switch (indexPath.section) {
         case 0:
-            contactArray = _visibleEntourageMembers;
+            contactArray = _entourageMembers;
             break;
             
         case 1:
-            contactArray = _visibleWhoAddedUser;
+            contactArray = _whoAddedUser;
             break;
             
         case 2:
-            if (!_visibleAllContacts) {
-                contactArray = _visibleAllContacts;
+            if (!_allContacts) {
+                contactArray = _allContacts;
                 break;
             }
             break;
             
         default:
             
-            if (_visibleSortedContacts.allKeys) {
-                key = [self sortedKeyArray:_visibleSortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
-                contactArray = [_visibleSortedContacts objectForKey:key];
+            if (_sortedContacts.allKeys) {
+                key = [self sortedKeyArray:_sortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
+                contactArray = [_sortedContacts objectForKey:key];
             }
             
             break;
@@ -183,17 +183,17 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
-        if (!_visibleEntourageMembers.count) {
+        if (!_entourageMembers.count) {
             return NO;
         }
     }
     else if (indexPath.section == 1) {
-        if (!_visibleWhoAddedUser.count) {
+        if (!_whoAddedUser.count) {
             return NO;
         }
     }
     else if (indexPath.section >= 2) {
-        if (!_visibleAllContacts.count) {
+        if (!_allContacts.count) {
             return NO;
         }
     }
@@ -228,24 +228,24 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 0) {
         
-        if (!_visibleEntourageMembers.count) {
+        if (!_entourageMembers.count) {
             _movingMember = NO;
             _shouldMoveCell = NO;
             [self.tableView reloadData];
             return;
         }
         
-        member = [_visibleEntourageMembers objectAtIndex:indexPath.row];
+        member = [_entourageMembers objectAtIndex:indexPath.row];
         
-        if (![self sectionExistsForMember:member] || _visibleEntourageMembers.count <= 1) {
+        if (![self sectionExistsForMember:member] || _entourageMembers.count <= 1) {
             _shouldMoveCell = NO;
         }
         
-        plusArray = [[NSMutableArray alloc] initWithArray:_allContacts];
+        plusArray = [[NSMutableArray alloc] initWithArray:_staticAllContacts];
         [plusArray addObject:member];
         _contactsTableViewController.allContacts = plusArray;
         
-        minusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        minusArray = [[NSMutableArray alloc] initWithArray:_staticEntourageMembers];
         [minusArray removeObject:member];
         _contactsTableViewController.entourageMembers = minusArray;
         
@@ -255,32 +255,32 @@
     else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 1) {
         
         _shouldMoveCell = NO;
-        member = [_visibleWhoAddedUser objectAtIndex:indexPath.row];
+        member = [_whoAddedUser objectAtIndex:indexPath.row];
         
-        plusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        plusArray = [[NSMutableArray alloc] initWithArray:_staticEntourageMembers];
         [plusArray addObject:member];
         _contactsTableViewController.entourageMembers = plusArray;
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 1) {
         
-        NSString *key = [[self sortedKeyArray:_visibleSortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];
-        NSArray *arrayOfSection = [_visibleSortedContacts objectForKey:key];
+        NSString *key = [[self sortedKeyArray:_sortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];
+        NSArray *arrayOfSection = [_sortedContacts objectForKey:key];
         
-        if (arrayOfSection.count <= 1 || !_visibleEntourageMembers.count) {
+        if (arrayOfSection.count <= 1 || !_entourageMembers.count) {
             _shouldMoveCell = NO;
         }
         
         member = [arrayOfSection objectAtIndex:indexPath.row];
         
-        plusArray = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+        plusArray = [[NSMutableArray alloc] initWithArray:_staticEntourageMembers];
         [plusArray addObject:member];
         _contactsTableViewController.entourageMembers = plusArray;
         
-        minusArray = [[NSMutableArray alloc] initWithArray:_allContacts];
+        minusArray = [[NSMutableArray alloc] initWithArray:_staticAllContacts];
         [minusArray removeObject:member];
         _contactsTableViewController.allContacts = minusArray;
         
-        toIndexPath = [NSIndexPath indexPathForRow:[_visibleEntourageMembers indexOfObject:member] inSection:0];
+        toIndexPath = [NSIndexPath indexPathForRow:[_entourageMembers indexOfObject:member] inSection:0];
     }
     
     _contactsTableViewController.changesMade = YES;
@@ -315,19 +315,19 @@
     switch (section) {
             
         case 0:
-            if (!_visibleEntourageMembers.count) {
+            if (!_entourageMembers.count) {
                 return 1;
             }
-            return _visibleEntourageMembers.count;
+            return _entourageMembers.count;
             
         case 1:
-            if (!_visibleWhoAddedUser.count) {
+            if (!_whoAddedUser.count) {
                 return 1;
             }
-            return _visibleWhoAddedUser.count;
+            return _whoAddedUser.count;
             
         case 2:
-            if (!_visibleAllContacts.count) {
+            if (!_allContacts.count) {
                 return 1;
             }
             
@@ -336,9 +336,9 @@
     }
     
     if (section >= kContactsSectionOffset) {
-        if (_visibleSortedContacts.allKeys) {
-            NSString *key = [self sortedKeyArray:_visibleSortedContacts.allKeys][section - kContactsSectionOffset];
-            NSArray *contactArray = [_visibleSortedContacts objectForKey:key];
+        if (_sortedContacts.allKeys) {
+            NSString *key = [self sortedKeyArray:_sortedContacts.allKeys][section - kContactsSectionOffset];
+            NSArray *contactArray = [_sortedContacts objectForKey:key];
             return contactArray.count;
         }
     }
@@ -359,7 +359,7 @@
     
     tableView.separatorColor = [UIColor clearColor];
     
-    return kContactsSectionOffset + _visibleSortedContacts.allKeys.count;
+    return kContactsSectionOffset + _sortedContacts.allKeys.count;
 }
 
 
@@ -414,7 +414,7 @@
         }
         [_editButton removeFromSuperview];
         [fillView addSubview:_editButton];
-        [self updateEditingButton:_contactsTableViewController.isEditing];
+        [self updateEditingButton];
     }
     else if (section == 1) {
         label.text = @"Users Who Added You";
@@ -428,8 +428,8 @@
         
         [fillView removeFromSuperview];
         [view insertSubview:visualEffect belowSubview:label];
-        if (_visibleSortedContacts.allKeys) {
-            label.text = [self sortedKeyArray:_visibleSortedContacts.allKeys][section-kContactsSectionOffset];
+        if (_sortedContacts.allKeys) {
+            label.text = [self sortedKeyArray:_sortedContacts.allKeys][section-kContactsSectionOffset];
         }
     }
     
@@ -437,14 +437,14 @@
 }
 
 
-- (void)updateEditingButton:(BOOL)editing {
+- (void)updateEditingButton {
     
     _editButton.enabled = YES;
-    if (_contactsTableViewController.syncing) {
+    if (self.syncing) {
         [_editButton setTitle:@"Syncing" forState:UIControlStateNormal];
         _editButton.enabled = NO;
     }
-    else if (editing) {
+    else if (self.editing) {
         [_editButton setTitle:@"Done" forState:UIControlStateNormal];
     }
     else {
@@ -462,9 +462,9 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:_visibleSortedContacts.allKeys.count+kContactsSectionOffset];
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:_sortedContacts.allKeys.count+kContactsSectionOffset];
     [mutableArray addObjectsFromArray:@[UITableViewIndexSearch, @"", @"", @"",]];
-    [mutableArray addObjectsFromArray:[self sortedKeyArray:_visibleSortedContacts.allKeys]];
+    [mutableArray addObjectsFromArray:[self sortedKeyArray:_sortedContacts.allKeys]];
     
     return mutableArray;
 }
@@ -475,40 +475,40 @@
 }
 
 
-- (void)setEntourageMembers:(NSArray *)entourageMembers {
+- (void)setStaticEntourageMembers:(NSArray *)entourageMembers {
     
-    _entourageMembers = entourageMembers;
-    self.visibleEntourageMembers = _entourageMembers;
-    
-    if (_filterString) {
-        [self setFilterString:_filterString];
-    }
-}
-
-- (void)setWhoAddedUser:(NSArray *)whoAddedUser {
-    
-    _whoAddedUser = whoAddedUser;
-    self.visibleWhoAddedUser = whoAddedUser;
+    _staticEntourageMembers = entourageMembers;
+    self.entourageMembers = _staticEntourageMembers;
     
     if (_filterString) {
         [self setFilterString:_filterString];
     }
 }
 
-- (void)setAllContacts:(NSArray *)allContacts {
+- (void)setStaticWhoAddedUser:(NSArray *)whoAddedUser {
     
-    _allContacts = allContacts;
-    self.visibleAllContacts = allContacts;
+    _staticWhoAddedUser = whoAddedUser;
+    self.whoAddedUser = whoAddedUser;
     
     if (_filterString) {
         [self setFilterString:_filterString];
     }
 }
 
-- (void)setSortedContacts:(NSMutableDictionary *)sortedContacts {
+- (void)setStaticAllContacts:(NSArray *)allContacts {
     
-    _sortedContacts = sortedContacts;
-    self.visibleSortedContacts = sortedContacts;
+    _staticAllContacts = allContacts;
+    self.allContacts = allContacts;
+    
+    if (_filterString) {
+        [self setFilterString:_filterString];
+    }
+}
+
+- (void)setStaticSortedContacts:(NSMutableDictionary *)sortedContacts {
+    
+    _staticSortedContacts = sortedContacts;
+    self.sortedContacts = sortedContacts;
     
     if (_filterString) {
         [self setFilterString:_filterString];
@@ -520,23 +520,23 @@
     
     if (!filterString || filterString.length <= 0) {
         
-        if (self.visibleEntourageMembers.count == _entourageMembers.count &&
-            self.visibleWhoAddedUser.count == _whoAddedUser.count &&
-            self.visibleAllContacts.count == _allContacts.count) {
+        if (self.entourageMembers.count == _staticEntourageMembers.count &&
+            self.whoAddedUser.count == _staticWhoAddedUser.count &&
+            self.allContacts.count == _staticAllContacts.count) {
             return;
         }
         
-        self.visibleEntourageMembers = _entourageMembers;
-        self.visibleWhoAddedUser = _whoAddedUser;
-        self.visibleAllContacts = _allContacts;
-        self.visibleSortedContacts = _sortedContacts;
+        self.entourageMembers = _staticEntourageMembers;
+        self.whoAddedUser = _staticWhoAddedUser;
+        self.allContacts = _staticAllContacts;
+        self.sortedContacts = _staticSortedContacts;
     }
     else {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", filterString];
-        self.visibleEntourageMembers = [_entourageMembers filteredArrayUsingPredicate:predicate];
-        self.visibleWhoAddedUser = [_whoAddedUser filteredArrayUsingPredicate:predicate];
-        self.visibleAllContacts = [_allContacts filteredArrayUsingPredicate:predicate];
-        self.visibleSortedContacts = [self sortContacts:self.visibleAllContacts];
+        self.entourageMembers = [_staticEntourageMembers filteredArrayUsingPredicate:predicate];
+        self.whoAddedUser = [_staticWhoAddedUser filteredArrayUsingPredicate:predicate];
+        self.allContacts = [_staticAllContacts filteredArrayUsingPredicate:predicate];
+        self.sortedContacts = [self sortContacts:self.allContacts];
     }
     
     if (!_shouldMoveCell) {
@@ -555,9 +555,9 @@
     
     int section = 0;
     int row = 0;
-    for (NSString *string in [self sortedKeyArray:_visibleSortedContacts.allKeys]) {
+    for (NSString *string in [self sortedKeyArray:_sortedContacts.allKeys]) {
         if ([string isEqualToString:firstLetter]) {
-            NSArray *array = [_visibleSortedContacts objectForKey:string];
+            NSArray *array = [_sortedContacts objectForKey:string];
             row = [array indexOfObject:member];
             break;
         }
@@ -572,7 +572,7 @@
     NSString *firstLetter = [member.name substringToIndex:1];
     firstLetter = [firstLetter uppercaseString];
     
-    if ([_visibleSortedContacts objectForKey:firstLetter]) {
+    if ([_sortedContacts objectForKey:firstLetter]) {
         return YES;
     }
     
@@ -661,15 +661,15 @@
     NSArray *arrayWithContact;
     
     if (indexPath.section == 0) {
-        arrayWithContact = _visibleEntourageMembers;
+        arrayWithContact = _entourageMembers;
     }
     else if (indexPath.section == 1) {
-        arrayWithContact = _visibleWhoAddedUser;
+        arrayWithContact = _whoAddedUser;
     }
     if (indexPath.section >= kContactsSectionOffset) {
-        if (_visibleSortedContacts.allKeys) {
-            NSString *key = [self sortedKeyArray:_visibleSortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
-            arrayWithContact = [_visibleSortedContacts objectForKey:key];
+        if (_sortedContacts.allKeys) {
+            NSString *key = [self sortedKeyArray:_sortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
+            arrayWithContact = [_sortedContacts objectForKey:key];
         }
     }
     

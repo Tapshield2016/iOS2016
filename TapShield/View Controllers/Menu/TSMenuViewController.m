@@ -177,7 +177,13 @@
         _rightBarButtonItem.accessibilityHint = @"opens list of contacts to add to your entourage";
     }
     
-    [viewController.navigationItem setRightBarButtonItem:_rightBarButtonItem animated:NO];
+    if ([viewController isKindOfClass:[TSHomeViewController class]]) {
+        [viewController.navigationItem setRightBarButtonItem:_rightBarButtonItem animated:NO];
+        [self.dynamicsDrawerViewController setPaneDragRevealEnabled:YES forDirection:MSDynamicsDrawerDirectionRight];
+    }
+    else {
+        [self.dynamicsDrawerViewController setPaneDragRevealEnabled:NO forDirection:MSDynamicsDrawerDirectionRight];
+    }
 }
 
 - (IBAction)showAbout:(id)sender {
@@ -236,7 +242,6 @@
             break;
     }
     // Close the Mail Interface
-//    [controller dismissViewControllerAnimated:YES completion:nil];
     
     [UIView animateWithDuration:0.3f animations:^{
         _mailWindow.transform = CGAffineTransformMakeScale(0.25, 0.25);

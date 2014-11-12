@@ -256,6 +256,10 @@
 		C54843B81A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
 		C54843B91A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
 		C54843BA1A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
+		C54843BD1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843BC1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m */; };
+		C54843BE1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843BC1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m */; };
+		C54843BF1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843BC1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m */; };
+		C54843C01A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843BC1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m */; };
 		C54CE5D318FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D418FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
 		C54CE5D518FAE1240077350E /* TSYankManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C54CE5D218FAE1240077350E /* TSYankManager.m */; };
@@ -1143,6 +1147,8 @@
 		C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayoutAttributes.m; path = Views/TSMemberCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		C54843B51A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSEntourageMemberSettingsViewController.h; path = "View Controllers/TSEntourageMemberSettingsViewController.h"; sourceTree = "<group>"; };
 		C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEntourageMemberSettingsViewController.m; path = "View Controllers/TSEntourageMemberSettingsViewController.m"; sourceTree = "<group>"; };
+		C54843BB1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseEntourageContactsTableViewController.h; path = "View Controllers/TSBaseEntourageContactsTableViewController.h"; sourceTree = "<group>"; };
+		C54843BC1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSBaseEntourageContactsTableViewController.m; path = "View Controllers/TSBaseEntourageContactsTableViewController.m"; sourceTree = "<group>"; };
 		C54CE5D118FAE1240077350E /* TSYankManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSYankManager.h; sourceTree = "<group>"; };
 		C54CE5D218FAE1240077350E /* TSYankManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSYankManager.m; sourceTree = "<group>"; };
 		C54CEB0618FB3F8D0077350E /* TSRoundToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRoundToolBarView.h; sourceTree = "<group>"; };
@@ -1617,6 +1623,8 @@
 				C556478318E48DD200D29B0D /* TSNavigationViewController.m */,
 				C5294ED419FACB9800BC0324 /* TSEntourageContactsViewController.h */,
 				C5294ED519FACB9800BC0324 /* TSEntourageContactsViewController.m */,
+				C54843BB1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.h */,
+				C54843BC1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m */,
 				C501DC4219FDE30E0031FB52 /* TSEntourageContactsTableViewController.h */,
 				C501DC4319FDE30E0031FB52 /* TSEntourageContactsTableViewController.m */,
 				C501DC481A0404FE0031FB52 /* TSEntourageContactSearchResultsTableViewController.h */,
@@ -2996,6 +3004,7 @@
 				C5391EAE18C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
 				C520C8EE18A974C100D1D2E9 /* TSJavelinAPIAuthenticationManager.m in Sources */,
 				C586E69F197390430047002B /* TSClusterOperation.m in Sources */,
+				C54843BD1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */,
 				C56B3D6018FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
@@ -3194,6 +3203,7 @@
 				C585F1A718CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C54CE5D518FAE1240077350E /* TSYankManager.m in Sources */,
 				B5F2DCE918B3E70A009A7CA4 /* TSUtilities.m in Sources */,
+				C54843C01A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */,
 				B543F08D18AAB41E004C2B26 /* TSMassNotificationsViewController.m in Sources */,
 				C5662BF518DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
 				C56B3D5818FD75A000324FE8 /* TSAppearanceViewController.m in Sources */,
@@ -3423,6 +3433,7 @@
 				C532E64418BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C585F1A318CF88CF009EEF16 /* OAuth+Additions.m in Sources */,
 				C586E6A0197390430047002B /* TSClusterOperation.m in Sources */,
+				C54843BE1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */,
 				C56B3D6118FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
@@ -3637,6 +3648,7 @@
 				C5AFB9BF191D35DE00EC62A5 /* TSBaseMapAnnotation.m in Sources */,
 				C5AFB9C0191D35DE00EC62A5 /* OAuth+Additions.m in Sources */,
 				C586E6A1197390430047002B /* TSClusterOperation.m in Sources */,
+				C54843BF1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.m in Sources */,
 				C5AFB9C1191D35DE00EC62A5 /* TSEmergencyContactViewController.m in Sources */,
 				C5AFB9C2191D35DE00EC62A5 /* TSAboutViewController.m in Sources */,
 				C5AFB9C3191D35DE00EC62A5 /* TSGeofence.m in Sources */,

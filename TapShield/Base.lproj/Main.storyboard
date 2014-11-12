@@ -543,6 +543,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" onImage="switch_on" offImage="switch_off" translatesAutoresizingMaskIntoConstraints="NO" id="pfA-dY-lMv" customClass="TSSettingsSwitch">
                                                     <rect key="frame" x="256" y="16" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="visibleSwitched:" destination="8L8-ig-9tk" eventType="valueChanged" id="fef-WI-CNO"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>

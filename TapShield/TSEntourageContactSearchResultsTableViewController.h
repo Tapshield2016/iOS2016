@@ -13,14 +13,17 @@
 
 @property (strong, nonatomic) NSString *filterString;
 
-@property (strong, nonatomic) NSArray *allContacts;
-@property (strong, nonatomic) NSArray *entourageMembers;
-@property (strong, nonatomic) NSArray *whoAddedUser;
+@property (strong, nonatomic) NSArray *staticAllContacts;
+@property (strong, nonatomic) NSArray *staticEntourageMembers;
+@property (strong, nonatomic) NSArray *staticWhoAddedUser;
 
-@property (strong, nonatomic) NSMutableDictionary *sortedContacts;
+@property (strong, nonatomic) NSMutableDictionary *staticSortedContacts;
+
+@property (assign, nonatomic) BOOL isEditing;
+@property (assign, nonatomic) BOOL syncing;
 
 @property (weak, nonatomic) TSEntourageContactsTableViewController *contactsTableViewController;
 
-- (void)updateEditingButton:(BOOL)editing;
+- (void)updateEditingButton;
 
 @end

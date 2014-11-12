@@ -53,6 +53,16 @@
     }
     
     _apiToken = [attributes nonNullObjectForKey:@"token"];
+    
+    double lat = [[attributes nonNullObjectForKey:@"last_reported_latitude"] doubleValue];
+    double lon = [[attributes nonNullObjectForKey:@"last_reported_longitude"] doubleValue];
+    if (lat && lon) {
+        _lastReportedLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+    }
+    
+    if ([attributes nonNullObjectForKey:@"last_reported_time"]) {
+        _lastReportedTime = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"last_reported_time"]];
+    }
         
     return self;
 }

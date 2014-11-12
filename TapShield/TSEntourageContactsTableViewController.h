@@ -7,24 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSBaseEntourageContactsTableViewController.h"
 
-#define kContactsSectionOffset 3
+//#define kContactsSectionOffset 3
 
-@interface TSEntourageContactsTableViewController : UITableViewController <UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
+@interface TSEntourageContactsTableViewController : TSBaseEntourageContactsTableViewController <UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
-@property (strong, nonatomic) NSArray *allContacts;
-@property (strong, nonatomic) NSArray *entourageMembers;
-@property (strong, nonatomic) NSArray *whoAddedUser;
-
-@property (strong, nonatomic) NSMutableDictionary *sortedContacts;
-
-@property (strong, nonatomic) UISearchController *searchController;
-
-@property (assign, nonatomic) BOOL isEditing;
-
-@property (assign, nonatomic, getter=isSyncing) BOOL syncing;
-@property (assign, nonatomic) BOOL changesMade;
-
+//@property (strong, nonatomic) NSArray *allContacts;
+//@property (strong, nonatomic) NSArray *entourageMembers;
+//@property (strong, nonatomic) NSArray *whoAddedUser;
+//
+//@property (strong, nonatomic) NSMutableDictionary *sortedContacts;
+//
+//@property (strong, nonatomic) UISearchController *searchController;
+//
+//@property (assign, nonatomic) BOOL isEditing;
+//
+//@property (assign, nonatomic, getter=isSyncing) BOOL syncing;
+//@property (assign, nonatomic) BOOL changesMade;
+//
 - (void)editEntourageMembers;
 
 @end

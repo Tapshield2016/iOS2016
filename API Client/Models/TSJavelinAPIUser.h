@@ -32,6 +32,9 @@
 @property (nonatomic, strong) NSArray *entourageMembers;
 @property (nonatomic, strong) NSArray *secondaryEmails;
 
+@property (nonatomic, strong) NSDate *lastReportedTime;
+@property (nonatomic, strong) CLLocation *lastReportedLocation;
+
 @property (assign) BOOL isEmailVerified;
 @property (assign, getter=isPhoneNumberVerified) BOOL phoneNumberVerified;
 @property (nonatomic, strong) NSString *apiToken;

@@ -14,23 +14,35 @@
 
 @implementation TSJavelinAPIEntourageMember
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self resetBoolsToDefault];
+    }
+    return self;
+}
+
 - (instancetype)initWithPerson:(ABRecordRef)person {
     
     self = [super init];
     if (self) {
-        
-        _alwaysVisible = NO;
-        _notifyCalled911 = NO;
-        
-        _trackRoute = YES;
-        _notifyArrival = YES;
-        _notifyNonArrival = YES;
-        _notifyYank = YES;
-        
+        [self resetBoolsToDefault];
         self.recordID = ABRecordGetRecordID(person);
         [self getContactInfoFromPerson:person];
     }
     return self;
+}
+
+- (void)resetBoolsToDefault {
+    
+    _alwaysVisible = NO;
+    _notifyCalled911 = NO;
+    
+    _trackRoute = YES;
+    _notifyArrival = YES;
+    _notifyNonArrival = YES;
+    _notifyYank = YES;
 }
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
@@ -127,13 +139,6 @@
         return nil;
     }
     
-    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].url) {
-        [dictionary setObject:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].url forKey:@"user"];
-    }
-    else {
-        return nil;
-    }
-    
     if (_name) {
         [dictionary setObject:_name forKey:@"name"];
     }
@@ -176,18 +181,24 @@
     _first = (__bridge_transfer NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
     _last = (__bridge_transfer NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
     NSString *organization = (__bridge_transfer NSString *)ABRecordCopyValue(record, kABPersonOrganizationProperty);
+    
+    return [TSJavelinAPIEntourageMember nameFromFirst:_first last:_last alternate:organization];
+}
+
++ (NSString *)nameFromFirst:(NSString *)first last:(NSString *)last alternate:(NSString *)organization {
+    
     NSString *title = @"";
     
-    if (_first && !_last) {
-        title = _first;
+    if (first && !last) {
+        title = first;
     }
-    else if (!_first && _last) {
-        title = _last;
+    else if (!first && last) {
+        title = last;
     }
-    else if (_first && _last) {
-        title = [NSString stringWithFormat:@"%@ %@", _first, _last];
+    else if (first && last) {
+        title = [NSString stringWithFormat:@"%@ %@", first, last];
     }
-    else if (!_first && !_last) {
+    else if (!first && !last) {
         if (organization) {
             title = organization;
         }
@@ -284,6 +295,7 @@
     [self mobileNumberFromPerson:person];
     [self emailFromPerson:person];
     [self imageFromPerson:person];
+    
 }
 
 
@@ -363,6 +375,147 @@
     }
     
     return NO;
+}
+
+
++ (TSJavelinAPIEntourageMember *)memberFromUser:(TSJavelinAPIUser *)user {
+    
+    TSJavelinAPIEntourageMember *member;
+    
+    ABRecordRef matching = [TSJavelinAPIEntourageMember contactContainingPhoneNumber:user.phoneNumber
+                                                                               email:user.email
+                                                                           firstName:user.firstName
+                                                                            lastName:user.lastName];
+    if (matching) {
+        member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:matching];
+        
+        if (user.email) {
+            member.email = user.email;
+        }
+        
+        if (user.phoneNumber) {
+            member.phoneNumber = user.email;
+        }
+    }
+    else {
+        member = [[TSJavelinAPIEntourageMember alloc] init];
+        member.first = user.firstName;
+        member.last = user.lastName;
+        member.name = [TSJavelinAPIEntourageMember nameFromFirst:user.firstName last:user.lastName alternate:user.username];
+        member.email = user.email;
+        member.phoneNumber = user.email;
+    }
+    
+    member.lastReportedLocation = user.lastReportedLocation;
+    member.lastReportedTime = user.lastReportedTime;
+    member.matchedUser = user;
+    member.session = user.entourageSession;
+    
+    return member;
+}
+
+
++ (ABRecordRef)contactContainingPhoneNumber:(NSString *)phoneNumber email:(NSString *)email firstName:(NSString *)firstName lastName:(NSString *)lastName {
+    
+    // Remove non numeric characters from the phone number
+    phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    
+    // Create a new address book object with data from the Address Book database
+    CFErrorRef error = nil;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    if (!addressBook) {
+        return nil;
+    } else if (error) {
+        CFRelease(addressBook);
+        return nil;
+    }
+    
+    // Requests access to address book data from the user
+    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {});
+    
+    NSPredicate *predicate;
+    NSArray *filteredContacts;
+    NSArray *allPeople = (NSArray *)CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
+    
+    if (phoneNumber) {
+        // Build a predicate that searches for contacts that contain the phone number
+        predicate = [NSPredicate predicateWithBlock: ^(id record, NSDictionary *bindings) {
+            ABMultiValueRef phoneNumbers = ABRecordCopyValue( (__bridge ABRecordRef)record, kABPersonPhoneProperty);
+            BOOL result = NO;
+            for (CFIndex i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
+                NSString *contactPhoneNumber = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+                contactPhoneNumber = [[contactPhoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
+                if ([contactPhoneNumber rangeOfString:phoneNumber].location != NSNotFound) {
+                    result = YES;
+                    break;
+                }
+            }
+            CFRelease(phoneNumbers);
+            return result;
+        }];
+        
+        // Search the users contacts for contacts that contain the phone number
+        filteredContacts = [allPeople filteredArrayUsingPredicate:predicate];
+    }
+    
+    if (!filteredContacts.count && email) {
+        predicate = [NSPredicate predicateWithBlock: ^(id record, NSDictionary *bindings) {
+            ABMultiValueRef emails = ABRecordCopyValue( (__bridge ABRecordRef)record, kABPersonEmailProperty);
+            BOOL result = NO;
+            for (CFIndex i = 0; i < ABMultiValueGetCount(emails); i++) {
+                NSString *contactEmail = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(emails, i);
+                if ([contactEmail isEqualToString:email]) {
+                    result = YES;
+                    break;
+                }
+            }
+            CFRelease(emails);
+            return result;
+        }];
+        
+        filteredContacts = [allPeople filteredArrayUsingPredicate:predicate];
+    }
+    
+    CFRelease(addressBook);
+    
+    if (!filteredContacts.count) {
+        return nil;
+    }
+    
+    if (filteredContacts.count == 1) {
+        return (__bridge ABRecordRef)[filteredContacts firstObject];
+    }
+    
+    ABRecordRef matching;
+    
+    
+    
+    for (int i = 0; i < filteredContacts.count; i++) {
+        BOOL firstNameMatch = NO;
+        BOOL lastNameMatch = NO;
+        ABRecordRef person = (__bridge ABRecordRef)filteredContacts[i];
+        
+        NSString *firstNameProperty = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+        NSString *lastNameProperty = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+        
+        if ([firstNameProperty isEqualToString:firstName]) {
+            firstNameMatch = YES;
+            matching = person;
+        }
+        if ([lastNameProperty isEqualToString:lastName]) {
+            lastNameMatch = YES;
+            matching = person;
+        }
+        
+        if (firstNameMatch && lastNameMatch) {
+            return matching;
+        }
+        if (!matching) {
+            matching = person;
+        }
+    }
+    
+    return matching;
 }
 
 @end

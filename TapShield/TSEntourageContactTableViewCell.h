@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSJavelinAPIEntourageMember.h"
+#import "TSJavelinAPIUser.h"
 
 @interface TSEntourageContactTableViewCell : UITableViewCell
 
@@ -17,6 +18,14 @@
 
 @property (nonatomic, strong) UIImageView *contactImageView;
 @property (nonatomic, strong) UILabel *contactNameLabel;
+
+@property (nonatomic, assign) BOOL isInEntourage;
+
+@property (strong, nonatomic) UIImageView *statusImageView;
+
+//@property (nonatomic, weak)
+
+- (void)displaySelectedView:(BOOL)selected;
 
 - (void)emptyCell;
 + (CGFloat)selectedHeight;

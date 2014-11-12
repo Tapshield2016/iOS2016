@@ -23,5 +23,6 @@
 @property (strong, nonatomic) TSJavelinAPIEntourageMember *member;
 
 - (IBAction)done:(id)sender;
+- (IBAction)visibleSwitched:(UISwitch *)sender;
 
 @end

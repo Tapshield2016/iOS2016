@@ -41,6 +41,10 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 @property (weak, nonatomic) TSHomeViewController *homeView;
 @property (strong, nonatomic) TSPopUpWindow *warningWindow;
 @property (strong, nonatomic) NSTimer *textToSpeechTimer;
+@property (strong, nonatomic) NSDate *lastCheckForSessions;
+
+@property (strong, nonatomic) TSJavelinAPIEntourageMember *memberToMonitor;
+@property (strong, nonatomic) NSTimer *singleSessionRefreshTimer;
 
 @end
 
@@ -436,6 +440,52 @@ static dispatch_once_t predicate;
     
     [_textToSpeechTimer invalidate];
     _textToSpeechTimer = nil;
+}
+
+
+#pragma mark - Entourage Member Sessions
+
+- (void)getAllEntourageSessions {
+    
+    [[TSJavelinAPIClient sharedClient] getEntourageSessionsWithLocationsSince:_lastCheckForSessions completion:^(NSArray *entourageMembers, NSError *error) {
+        
+        _membersWhoAdded = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+    }];
+    
+    _lastCheckForSessions = [NSDate date];
+}
+
+- (void)startMonitoringEntourageMember:(TSJavelinAPIEntourageMember *)member {
+    
+    _memberToMonitor = member;
+    
+    [self getEntourageMemberLocationUpdate];
+    [self startSingleSessionRefreshTimer];
+}
+
+- (void)stopMonitoringEntourageMember {
+    
+    _memberToMonitor = nil;
+    [self stopSingleSessionRefreshTimer];
+}
+
+
+- (void)startSingleSessionRefreshTimer {
+    
+    [self stopSingleSessionRefreshTimer];
+    _singleSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(getEntourageMemberLocationUpdate) userInfo:nil repeats:YES];
+    _singleSessionRefreshTimer.tolerance = 5;
+}
+
+- (void)stopSingleSessionRefreshTimer {
+    
+    [_singleSessionRefreshTimer invalidate];
+    _singleSessionRefreshTimer = nil;
+}
+
+- (void)getEntourageMemberLocationUpdate {
+    
+    
 }
 
 @end

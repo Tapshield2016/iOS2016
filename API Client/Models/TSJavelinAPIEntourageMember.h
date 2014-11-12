@@ -39,6 +39,13 @@
 - (NSDictionary *)parametersFromMember;
 
 + (TSJavelinAPIEntourageMember *)memberFromUser:(TSJavelinAPIUser *)user;
+
 + (ABRecordRef)contactContainingPhoneNumber:(NSString *)phoneNumber email:(NSString *)email firstName:(NSString *)firstName lastName:(NSString *)lastName;
+
++ (NSArray *)entourageMembersFromUsers:(NSArray *)arrayOfUsers;
+
+- (void)compareURLAndMerge:(TSJavelinAPIEntourageMember *)member;
+
++ (NSArray *)sortedMemberArray:(NSArray *)array;
 
 @end

@@ -793,24 +793,21 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        }];
 }
 
-- (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(id responseObject, NSError *error))completion {
+- (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(NSArray *entourageMembers, NSError *error))completion {
     
     NSDictionary *params;
-    if (date) {
-        params = @{@"modified_since": date.iso8601String};
-    }
+//    if (date) {
+//        params = @{@"modified_since": date.iso8601String};
+//    }
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    [manager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
-    [manager GET:[NSString stringWithFormat:@"%@/matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:[NSString stringWithFormat:@"%@/matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//              [[TSJavelinAPIClient loggedInUser] setEntourageMembers:responseObject];
-//              [[TSJavelinAPIAuthenticationManager sharedManager] archiveLoggedInUser];
+              
               if (completion) {
-                  completion([TSJavelinAPIClient loggedInUser], nil);
+                  completion([TSJavelinAPIEntourageMember entourageMembersFromUsers:responseObject], nil);
               }
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -829,6 +826,42 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   }
               }
           }];
+}
+
+
+- (void)getEntourageSession:(TSJavelinAPIEntourageSession *)session withLocationsSince:(NSDate *)date completion:(void (^)(TSJavelinAPIEntourageSession *entourageSession, NSError *error))completion {
+    
+    NSDictionary *params;
+//    if (date) {
+//        params = @{@"modified_since": date.iso8601String};
+//    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
+    
+    [self GET:session.url
+      parameters:params
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             
+             if (completion) {
+                 completion([[TSJavelinAPIEntourageSession alloc] initWithAttributes:responseObject], nil);
+             }
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Error: %@", operation.response);
+             
+             if ([self shouldRetry:error]) {
+                 // Delay execution of my block for 10 seconds.
+                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                 dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                     [self getEntourageSession:session withLocationsSince:date completion:completion];
+                 });
+             }
+             else {
+                 if (completion) {
+                     completion(operation.responseObject, error);
+                 }
+             }
+         }];
 }
 
 

@@ -46,4 +46,8 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 @property (nonatomic, strong) TSVirtualEntourageManagerPostCompletion finishedDeleting;
 
+#pragma mark - Entourage Members
+
+@property (nonatomic, strong) NSArray *membersWhoAdded;
+
 @end

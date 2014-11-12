@@ -19,20 +19,6 @@
 @interface TSEntourageContactsTableViewController ()
 
 @property (strong, nonatomic) UIView *syncingView;
-
-//@property (strong, nonatomic) UISearchBar *searchBar;
-//
-//@property (assign, nonatomic) BOOL searching;
-//@property (assign, nonatomic) BOOL animating;
-//@property (assign, nonatomic) BOOL shouldReload;
-//@property (assign, nonatomic) BOOL movingMember;
-//
-//@property (strong ,nonatomic) NSIndexPath *selectedRowIndex;
-//
-//@property (strong, nonatomic) UIButton *editButton;
-//
-//@property (strong, nonatomic) NSString *filterString;
-//
 @property (strong, nonatomic) TSEntourageContactSearchResultsTableViewController *resultsController;
 
 @end
@@ -41,11 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.changesMade = NO;
-    self.movingMember = NO;
-    self.shouldReload = NO;
-    self.animating = NO;
     
     self.resultsController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEntourageContactSearchResultsTableViewController class])];
     self.resultsController.contactsTableViewController = self;
@@ -57,9 +38,7 @@
     
     // Include the search controller's search bar within the table's header view.
     self.tableView.tableHeaderView = self.searchController.searchBar;
-    self.tableView.tableHeaderView.backgroundColor = [UIColor clearColor];
     
-    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     UIVisualEffectView *visualEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
     visualEffect.frame = self.tableView.tableHeaderView.frame;
@@ -68,21 +47,11 @@
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
     
-    self.definesPresentationContext = YES;
     
-    self.view.backgroundColor = [UIColor clearColor];
-    self.tableView.backgroundColor = [UIColor clearColor];
-    
-    self.clearsSelectionOnViewWillAppear = YES;
     
     [self initRefreshControl];
     
     [self getAddressBook];
-    
-    self.tableView.sectionIndexColor = [TSColorPalette tapshieldBlue];
-    self.tableView.sectionIndexTrackingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
-    self.tableView.sectionIndexMinimumDisplayRowCount = 10;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(entourageDidFinishSyncing:)

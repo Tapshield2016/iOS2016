@@ -49,32 +49,37 @@
     
     self = [super initWithAttributes:attributes];
     if (self) {
-        _name = [attributes nonNullObjectForKey:@"name"];
-        _first = [attributes nonNullObjectForKey:@"first"];
-        _last = [attributes nonNullObjectForKey:@"last"];
-        
-        _email = [attributes nonNullObjectForKey:@"email_address"];
-        _phoneNumber = [attributes nonNullObjectForKey:@"phone_number"];
-        _recordID  = [[attributes nonNullObjectForKey:@"record_id"] intValue];
-        
-        if (_recordID) {
-            [self setImageForRecordID:_recordID];
-        }
-        
-        if ([attributes nonNullObjectForKey:@"matched_user"]) {
-            _matchedUser = [[TSJavelinAPIUser alloc] initWithOnlyURLAttribute:attributes forKey:@"matched_user"];
-        }
-        
-        _alwaysVisible = [[attributes nonNullObjectForKey:@"always_visible"] boolValue];
-        
-        _trackRoute = [[attributes nonNullObjectForKey:@"track_route"] boolValue];
-        _notifyArrival = [[attributes nonNullObjectForKey:@"notify_arrival"] boolValue];
-        _notifyNonArrival = [[attributes nonNullObjectForKey:@"notify_non_arrival"] boolValue];
-        
-        _notifyCalled911 = [[attributes nonNullObjectForKey:@"notify_called_911"] boolValue];
-        _notifyYank = [[attributes nonNullObjectForKey:@"notify_yank"] boolValue];
+        [self updateWithAttributes:attributes];
     }
     return self;
+}
+
+- (void)updateWithAttributes:(NSDictionary *)attributes {
+    
+    _name = [attributes nonNullObjectForKey:@"name"];
+    _first = [attributes nonNullObjectForKey:@"first"];
+    _last = [attributes nonNullObjectForKey:@"last"];
+    
+    _email = [attributes nonNullObjectForKey:@"email_address"];
+    _phoneNumber = [attributes nonNullObjectForKey:@"phone_number"];
+    _recordID  = [[attributes nonNullObjectForKey:@"record_id"] intValue];
+    
+    if (_recordID) {
+        [self setImageForRecordID:_recordID];
+    }
+    
+    if ([attributes nonNullObjectForKey:@"matched_user"]) {
+        _matchedUser = [[TSJavelinAPIUser alloc] initWithOnlyURLAttribute:attributes forKey:@"matched_user"];
+    }
+    
+    _alwaysVisible = [[attributes nonNullObjectForKey:@"always_visible"] boolValue];
+    
+    _trackRoute = [[attributes nonNullObjectForKey:@"track_route"] boolValue];
+    _notifyArrival = [[attributes nonNullObjectForKey:@"notify_arrival"] boolValue];
+    _notifyNonArrival = [[attributes nonNullObjectForKey:@"notify_non_arrival"] boolValue];
+    
+    _notifyCalled911 = [[attributes nonNullObjectForKey:@"notify_called_911"] boolValue];
+    _notifyYank = [[attributes nonNullObjectForKey:@"notify_yank"] boolValue];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -295,7 +300,6 @@
     [self mobileNumberFromPerson:person];
     [self emailFromPerson:person];
     [self imageFromPerson:person];
-    
 }
 
 
@@ -516,6 +520,56 @@
     }
     
     return matching;
+}
+
++ (NSArray *)entourageMembersFromUsers:(NSArray *)arrayOfUsers {
+    
+    if (!arrayOfUsers) {
+        return nil;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:arrayOfUsers.count];
+    for (NSDictionary *attributes in arrayOfUsers) {
+        TSJavelinAPIUser *user = [[TSJavelinAPIUser alloc] initWithAttributes:attributes];
+        [mutableArray addObject:[TSJavelinAPIEntourageMember memberFromUser:user]];
+    }
+    
+    return mutableArray;
+}
+
+- (void)compareURLAndMerge:(TSJavelinAPIEntourageMember *)member {
+    
+    if ([self.url isEqualToString:member.url]) {
+        _name = member.name;
+        _first = member.first;
+        _last = member.last;
+        
+        _email = member.email;
+        _phoneNumber = member.phoneNumber;
+        _recordID  = member.recordID;
+        
+        _image = member.image;
+        
+        _matchedUser = member.matchedUser;
+        
+        _alwaysVisible = member.alwaysVisible;
+        
+        _trackRoute = member.trackRoute;
+        _notifyArrival = member.notifyArrival;
+        _notifyNonArrival = member.notifyNonArrival;
+        _notifyCalled911 = member.notifyCalled911;
+        _notifyYank = member.notifyYank;
+        
+        _lastReportedLocation = member.lastReportedLocation;
+        _lastReportedTime = member.lastReportedTime;
+        _session = member.session;
+    }
+}
+
++ (NSArray *)sortedMemberArray:(NSArray *)array {
+    
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    return [array sortedArrayUsingDescriptors:@[sort]];
 }
 
 @end

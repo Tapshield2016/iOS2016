@@ -19,9 +19,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-     self.clearsSelectionOnViewWillAppear = NO;
+    self.changesMade = NO;
+    self.movingMember = NO;
+    self.shouldReload = NO;
+    self.animating = NO;
     
+    self.tableView.sectionIndexColor = [TSColorPalette tapshieldBlue];
+    self.tableView.sectionIndexTrackingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    self.tableView.sectionIndexMinimumDisplayRowCount = 10;
+    self.tableView.tableHeaderView.backgroundColor = [UIColor clearColor];
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.definesPresentationContext = YES;
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    
+    self.clearsSelectionOnViewWillAppear = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -536,10 +552,8 @@
             return NO;
         }
     }
-    else if (indexPath.section == 2) {
-        if (!self.allContacts.count) {
-            return NO;
-        }
+    else if (indexPath.section >= 2) {
+        return NO;
     }
     
     return YES;

@@ -1,12 +1,12 @@
 //
-//  TSVirtualEntourageManager.m
+//  TSEntourageSessionManager.m
 //  TapShield
 //
 //  Created by Adam Share on 4/2/14.
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSUtilities.h"
 #import "TSHomeViewController.h"
 #import "MKMapItem+EncodeDecode.h"
@@ -30,13 +30,13 @@ static NSString * const kLocalNoteEnterPasscode = @"Entourage will be notified i
 
 static NSString * const kGoogleMapsPath = @"http://maps.google.com/maps?q=%f,%f";
 
-static NSString * const TSVirtualEntourageManagerMembersPosted = @"TSVirtualEntourageManagerMembersPosted";
-static NSString * const TSVirtualEntourageManagerWarning911 = @"TSVirtualEntourageManagerWarning911";
+static NSString * const TSEntourageSessionManagerMembersPosted = @"TSEntourageSessionManagerMembersPosted";
+static NSString * const TSEntourageSessionManagerWarning911 = @"TSEntourageSessionManagerWarning911";
 
-NSString * const TSVirtualEntourageManagerTimerDidStart = @"TSVirtualEntourageManagerTimerDidStart";
-NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageManagerTimerDidEnd";
+NSString * const TSEntourageSessionManagerTimerDidStart = @"TSEntourageSessionManagerTimerDidStart";
+NSString * const TSEntourageSessionManagerTimerDidEnd = @"TSEntourageSessionManagerTimerDidEnd";
 
-@interface TSVirtualEntourageManager ()
+@interface TSEntourageSessionManager ()
 
 @property (weak, nonatomic) TSHomeViewController *homeView;
 @property (strong, nonatomic) TSPopUpWindow *warningWindow;
@@ -45,12 +45,13 @@ NSString * const TSVirtualEntourageManagerTimerDidEnd = @"TSVirtualEntourageMana
 
 @property (strong, nonatomic) TSJavelinAPIEntourageMember *memberToMonitor;
 @property (strong, nonatomic) NSTimer *singleSessionRefreshTimer;
+@property (strong, nonatomic) NSTimer *allSessionRefreshTimer;
 
 @end
 
-@implementation TSVirtualEntourageManager
+@implementation TSEntourageSessionManager
 
-static TSVirtualEntourageManager *_sharedEntourageManagerInstance = nil;
+static TSEntourageSessionManager *_sharedEntourageManagerInstance = nil;
 static dispatch_once_t predicate;
 
 + (instancetype)initSharedEntourageManagerWithHomeView:(TSHomeViewController *)homeView {
@@ -70,8 +71,7 @@ static dispatch_once_t predicate;
 
 + (instancetype)sharedManager {
     if (_sharedEntourageManagerInstance == nil) {
-        [NSException raise:@"Shared Manager Not Initialized"
-                    format:@"Before calling [TSVirtualEntourageManager sharedManager] you must first initialize the shared manager"];
+        return [TSEntourageSessionManager initSharedEntourageManagerWithHomeView:nil];
     }
     
     return _sharedEntourageManagerInstance;
@@ -83,11 +83,12 @@ static dispatch_once_t predicate;
         _isEnabled = NO;
         self.homeView = homeView;
         self.routeManager = [[TSRouteManager alloc] initWithMapView:homeView.mapView];
+        [self getAllEntourageSessions:nil];
     }
     return self;
 }
 
-- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion {
+- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion {
     
     _selectedETA = eta;
     [_homeView entourageModeOn];
@@ -104,8 +105,8 @@ static dispatch_once_t predicate;
         completion(YES);
     }
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:TSVirtualEntourageManagerWarning911]) {
-        _warningWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSVirtualEntourageManagerWarning911
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:TSEntourageSessionManagerWarning911]) {
+        _warningWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSEntourageSessionManagerWarning911
                                                                   title:WARNING_TITLE
                                                                 message:WARNING_MESSAGE];
         _warningWindow.popUpDelegate = self;
@@ -282,7 +283,7 @@ static dispatch_once_t predicate;
         [self setNextTimer];
     });
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSEntourageSessionManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
 }
 
 - (void)timerEnded {
@@ -293,7 +294,7 @@ static dispatch_once_t predicate;
     
     [TSLocalNotification presentLocalNotification:kLocalNoteEnterPasscode];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:TSVirtualEntourageManagerTimerDidEnd object:@"T"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSEntourageSessionManagerTimerDidEnd object:@"T"];
 }
 
 - (void)resetEndTimer {
@@ -370,7 +371,7 @@ static dispatch_once_t predicate;
 
 - (void)removeHomeViewController {
     
-    [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:nil];
+    [TSEntourageSessionManager initSharedEntourageManagerWithHomeView:nil];
 }
 
 #pragma mark - Text To Speech
@@ -445,15 +446,41 @@ static dispatch_once_t predicate;
 
 #pragma mark - Entourage Member Sessions
 
-- (void)getAllEntourageSessions {
+- (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion {
     
     [[TSJavelinAPIClient sharedClient] getEntourageSessionsWithLocationsSince:_lastCheckForSessions completion:^(NSArray *entourageMembers, NSError *error) {
-        
-        _membersWhoAdded = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+        if (error) {
+            if (completion) {
+                completion(_membersWhoAdded);
+            }
+        }
+        else {
+            _membersWhoAdded = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+            if (completion) {
+                completion(entourageMembers);
+            }
+        }
     }];
     
     _lastCheckForSessions = [NSDate date];
+    
+    [self startAllSessionRefreshTimer];
 }
+
+- (void)startAllSessionRefreshTimer {
+    
+    [self stopSingleSessionRefreshTimer];
+    _allSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(getEntourageMemberLocationUpdate) userInfo:nil repeats:YES];
+    _allSessionRefreshTimer.tolerance = 5;
+}
+
+- (void)stopAllSessionRefreshTimer {
+    
+    [_allSessionRefreshTimer invalidate];
+    _allSessionRefreshTimer = nil;
+}
+
+#pragma mark Single Session
 
 - (void)startMonitoringEntourageMember:(TSJavelinAPIEntourageMember *)member {
     
@@ -485,7 +512,11 @@ static dispatch_once_t predicate;
 
 - (void)getEntourageMemberLocationUpdate {
     
-    
+    [[TSJavelinAPIClient sharedClient] getEntourageSession:_memberToMonitor.session withLocationsSince:nil completion:^(TSJavelinAPIEntourageSession *entourageSession, NSError *error) {
+        if (entourageSession) {
+            _memberToMonitor.session = entourageSession;
+        }
+    }];
 }
 
 @end

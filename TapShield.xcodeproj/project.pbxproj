@@ -309,9 +309,9 @@
 		C56356EB18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */; };
 		C56356EC18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */; };
 		C56356ED18EC7FA100BAA5D7 /* TSRouteOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */; };
-		C56356F118EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */; };
-		C56356F218EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */; };
-		C56356F318EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */; };
+		C56356F118EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */; };
+		C56356F218EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */; };
+		C56356F318EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */; };
 		C56356F618EC825C00BAA5D7 /* TSRouteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F518EC825C00BAA5D7 /* TSRouteManager.m */; };
 		C56356F718EC825C00BAA5D7 /* TSRouteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F518EC825C00BAA5D7 /* TSRouteManager.m */; };
 		C56356F818EC825C00BAA5D7 /* TSRouteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F518EC825C00BAA5D7 /* TSRouteManager.m */; };
@@ -639,7 +639,7 @@
 		C5AFB9A2191D35DE00EC62A5 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
 		C5AFB9A3191D35DE00EC62A5 /* TSOrganizationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */; };
 		C5AFB9A4191D35DE00EC62A5 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
-		C5AFB9A5191D35DE00EC62A5 /* TSVirtualEntourageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */; };
+		C5AFB9A5191D35DE00EC62A5 /* TSEntourageSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */; };
 		C5AFB9A6191D35DE00EC62A5 /* TSJavelinAPIUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E118A974C100D1D2E9 /* TSJavelinAPIUserProfile.m */; };
 		C5AFB9A7191D35DE00EC62A5 /* TSFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */; };
 		C5AFB9A8191D35DE00EC62A5 /* TSLogoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C501CC9D18F48E40005A0B98 /* TSLogoImageView.m */; };
@@ -1174,8 +1174,8 @@
 		C556478318E48DD200D29B0D /* TSNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNavigationViewController.m; sourceTree = "<group>"; };
 		C56356E918EC7FA100BAA5D7 /* TSRouteOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteOption.h; path = Views/Map/Annotations/TSRouteOption.h; sourceTree = "<group>"; };
 		C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRouteOption.m; path = Views/Map/Annotations/TSRouteOption.m; sourceTree = "<group>"; };
-		C56356EF18EC824D00BAA5D7 /* TSVirtualEntourageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSVirtualEntourageManager.h; path = "Virtual Entourage/TSVirtualEntourageManager.h"; sourceTree = "<group>"; };
-		C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSVirtualEntourageManager.m; path = "Virtual Entourage/TSVirtualEntourageManager.m"; sourceTree = "<group>"; };
+		C56356EF18EC824D00BAA5D7 /* TSEntourageSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSEntourageSessionManager.h; path = "Virtual Entourage/TSEntourageSessionManager.h"; sourceTree = "<group>"; };
+		C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEntourageSessionManager.m; path = "Virtual Entourage/TSEntourageSessionManager.m"; sourceTree = "<group>"; };
 		C56356F418EC825C00BAA5D7 /* TSRouteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRouteManager.h; sourceTree = "<group>"; };
 		C56356F518EC825C00BAA5D7 /* TSRouteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRouteManager.m; sourceTree = "<group>"; };
 		C56356F918ED06C600BAA5D7 /* TSRouteTimeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRouteTimeAnnotationView.h; path = Views/Map/Annotations/TSRouteTimeAnnotationView.h; sourceTree = "<group>"; };
@@ -2007,8 +2007,8 @@
 		C56356EE18EC81DE00BAA5D7 /* Virtual Entourage */ = {
 			isa = PBXGroup;
 			children = (
-				C56356EF18EC824D00BAA5D7 /* TSVirtualEntourageManager.h */,
-				C56356F018EC824D00BAA5D7 /* TSVirtualEntourageManager.m */,
+				C56356EF18EC824D00BAA5D7 /* TSEntourageSessionManager.h */,
+				C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */,
 				C56356F418EC825C00BAA5D7 /* TSRouteManager.h */,
 				C56356F518EC825C00BAA5D7 /* TSRouteManager.m */,
 			);
@@ -2965,7 +2965,7 @@
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
 				C563570518ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C585F1CB18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
-				C56356F118EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
+				C56356F118EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */,
 				B53BBD2C1898158A006A27E0 /* TSMenuViewController.m in Sources */,
 				C556477F18E3B1A300D29B0D /* TSBottomMapButton.m in Sources */,
 				C5CA372919C8F0780021BB7F /* TSTopDownTransitioner.m in Sources */,
@@ -3230,7 +3230,7 @@
 				C520C92418AA8C0F00D1D2E9 /* TSMapView.m in Sources */,
 				C5391EA518C7D19100C23C0A /* TSPushTransitionAnimation.m in Sources */,
 				C5391EBF18CA238D00C23C0A /* TSPageViewController.m in Sources */,
-				C56356F318EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
+				C56356F318EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */,
 				C57C48B218BBC6F100DFFBCE /* TSProfileViewController.m in Sources */,
 				C5372D9818AD6BBB00D22682 /* TSAgencyAnnotation.m in Sources */,
 				C532E64B18BBF2D600FC111A /* TSSelectedDestinationAnnotation.m in Sources */,
@@ -3393,7 +3393,7 @@
 				C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C563570618ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */,
-				C56356F218EC824D00BAA5D7 /* TSVirtualEntourageManager.m in Sources */,
+				C56356F218EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */,
 				C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */,
 				C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */,
 				C5CA372A19C8F0780021BB7F /* TSTopDownTransitioner.m in Sources */,
@@ -3608,7 +3608,7 @@
 				C5AFB9A2191D35DE00EC62A5 /* TSRegistrationLabel.m in Sources */,
 				C5AFB9A3191D35DE00EC62A5 /* TSOrganizationAnnotationView.m in Sources */,
 				C5AFB9A4191D35DE00EC62A5 /* TSMapOverlayCircle.m in Sources */,
-				C5AFB9A5191D35DE00EC62A5 /* TSVirtualEntourageManager.m in Sources */,
+				C5AFB9A5191D35DE00EC62A5 /* TSEntourageSessionManager.m in Sources */,
 				C5AFB9A6191D35DE00EC62A5 /* TSJavelinAPIUserProfile.m in Sources */,
 				C5AFB9A7191D35DE00EC62A5 /* TSFeedbackViewController.m in Sources */,
 				C5CA372B19C8F0780021BB7F /* TSTopDownTransitioner.m in Sources */,

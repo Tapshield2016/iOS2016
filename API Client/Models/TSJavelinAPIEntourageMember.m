@@ -218,6 +218,10 @@
     NSString *other;
     NSString *mobileLabel;
     
+    if (!phones) {
+        return;
+    }
+    
     for (CFIndex i = 0; i < ABMultiValueGetCount(phones); i++) {
         
         mobileLabel = (__bridge_transfer NSString *)ABMultiValueCopyLabelAtIndex(phones, i);
@@ -251,6 +255,10 @@
     NSString *work;
     NSString *other;
     NSString *emailLabel;
+    
+    if (!emails) {
+        return;
+    }
     
     for (CFIndex i = 0; i < ABMultiValueGetCount(emails); i++) {
         
@@ -289,7 +297,6 @@
         UIImage *image = [UIImage imageWithData:data];
         
         self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
-//        self.alternateImage = [[[UIImage imageWithData:data] gaussianBlur] imageWithRoundedCornersRadius:image.size.height/2];
     }
 }
 

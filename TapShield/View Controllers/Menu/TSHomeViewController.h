@@ -9,7 +9,7 @@
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
 #import "TSNavigationViewController.h"
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSMenuViewController.h"
 #import "TSReportAnnotationManager.h"
 #import "TSStatusView.h"
@@ -43,7 +43,7 @@
 
 
 //Entourage
-@property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
+@property (strong, nonatomic) TSEntourageSessionManager *entourageManager;
 @property (strong, nonatomic) NSTimer *clockTimer;
 
 - (void)clearEntourageAndResetMap;

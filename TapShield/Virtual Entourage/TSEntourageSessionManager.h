@@ -1,5 +1,5 @@
 //
-//  TSVirtualEntourageManager.h
+//  TSEntourageSessionManager.h
 //  TapShield
 //
 //  Created by Adam Share on 4/2/14.
@@ -10,18 +10,18 @@
 #import "TSRouteManager.h"
 #import "TSPopUpWindow.h"
 
-extern NSString * const TSVirtualEntourageManagerTimerDidStart;
-extern NSString * const TSVirtualEntourageManagerTimerDidEnd;
+extern NSString * const TSEntourageSessionManagerTimerDidStart;
+extern NSString * const TSEntourageSessionManagerTimerDidEnd;
 
-typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
+typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
-@interface TSVirtualEntourageManager : NSObject <TSPopUpWindowDelegate>
+@interface TSEntourageSessionManager : NSObject <TSPopUpWindowDelegate>
 
 + (instancetype)initSharedEntourageManagerWithHomeView:(id)homeView;
 + (instancetype)sharedManager;
 - (instancetype)initWithHomeView:(id)homeView;
 
-- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSVirtualEntourageManagerPostCompletion)completion;
+- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion;
 - (void)stopEntourage;
 - (void)manuallyEndTracking;
 - (void)recalculateEntourageTimerETA;
@@ -42,12 +42,14 @@ typedef void(^TSVirtualEntourageManagerPostCompletion)(BOOL finished);
 
 @property (readonly) BOOL isEnabled;
 
-@property (nonatomic, strong) TSVirtualEntourageManagerPostCompletion finishedPosting;
+@property (nonatomic, strong) TSEntourageSessionManagerPostCompletion finishedPosting;
 
-@property (nonatomic, strong) TSVirtualEntourageManagerPostCompletion finishedDeleting;
+@property (nonatomic, strong) TSEntourageSessionManagerPostCompletion finishedDeleting;
 
 #pragma mark - Entourage Members
 
 @property (nonatomic, strong) NSArray *membersWhoAdded;
+
+- (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion;
 
 @end

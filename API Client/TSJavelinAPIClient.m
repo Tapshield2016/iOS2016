@@ -802,7 +802,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
-    [self GET:[NSString stringWithFormat:@"%@/matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
+    [self GET:[NSString stringWithFormat:@"%@matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               

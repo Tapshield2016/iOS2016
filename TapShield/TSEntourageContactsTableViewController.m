@@ -13,6 +13,8 @@
 #import "TSEntourageContactSearchResultsTableViewController.h"
 #import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
 #import "TSEntourageMemberSettingsViewController.h"
+#import <KVOController/FBKVOController.h>
+#import "TSEntourageSessionManager.h"
 
 @class MSDynamicsDrawerViewController;
 
@@ -20,6 +22,8 @@
 
 @property (strong, nonatomic) UIView *syncingView;
 @property (strong, nonatomic) TSEntourageContactSearchResultsTableViewController *resultsController;
+
+@property (strong, nonatomic) FBKVOController *kvoController;
 
 @end
 
@@ -97,6 +101,19 @@
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
 }
 
+
+- (void)monitorEntourageSessions {
+    
+    _kvoController = [FBKVOController controllerWithObserver:self];
+    
+    [_kvoController observe:[TSEntourageSessionManager sharedManager] keyPath:@"membersWhoAdded" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSEntourageSessionManager *sessionManager, NSDictionary *change) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            weakSelf.whoAddedUser = sessionManager.membersWhoAdded;
+            [self.tableView reloadData];
+        }];
+    }];
+}
+
 - (void)refresh {
     
     self.selectedRowIndex = nil;
@@ -106,8 +123,11 @@
         return;
     }
     
-    [self getAddressBook];
-    [self.refreshControl endRefreshing];
+    [[TSEntourageSessionManager sharedManager] getAllEntourageSessions:^(NSArray *entourageMembers) {
+        self.whoAddedUser = entourageMembers;
+        [self getAddressBook];
+        [self.refreshControl endRefreshing];
+    }];
 }
 
 - (void)editEntourageMembers {
@@ -141,6 +161,7 @@
 - (void)getAddressBook {
     
     self.entourageMembers = [TSJavelinAPIClient loggedInUser].entourageMembers;
+    self.whoAddedUser = [TSEntourageSessionManager sharedManager].membersWhoAdded;
     
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);

@@ -8,7 +8,7 @@
 
 #import "TSAlertManager.h"
 #import "TSLocationController.h"
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TSLocalNotification.h"
 #import "TSPageViewController.h"
@@ -264,7 +264,7 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
-    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
+    [[TSEntourageSessionManager sharedManager] failedToArriveAtDestination];
     
     _status = kAlertSending;
     if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
@@ -371,7 +371,7 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
-    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
+    [[TSEntourageSessionManager sharedManager] failedToArriveAtDestination];
     
     _type = kAlertType911Call;
     
@@ -589,9 +589,9 @@ static dispatch_once_t predicate;
         [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeZoomIn completion:nil];
     }];
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled &&
-        ![TSVirtualEntourageManager sharedManager].endTimer) {
-        [[TSVirtualEntourageManager sharedManager] recalculateEntourageTimerETA];
+    if ([TSEntourageSessionManager sharedManager].isEnabled &&
+        ![TSEntourageSessionManager sharedManager].endTimer) {
+        [[TSEntourageSessionManager sharedManager] recalculateEntourageTimerETA];
     }
 }
 

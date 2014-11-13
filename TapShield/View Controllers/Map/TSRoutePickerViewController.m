@@ -31,7 +31,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     
     _nextButton.enabled = NO;
     
-    [[TSVirtualEntourageManager sharedManager].routeManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
+    [[TSEntourageSessionManager sharedManager].routeManager addObserver:self forKeyPath:@"selectedRoute" options: 0  context: NULL];
     
     _hitTestView.sendToView = _homeViewController.view;
     
@@ -53,10 +53,10 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     [_addressLabel setAdjustsFontSizeToFitWidth:YES];
     [_etaLabel setAdjustsFontSizeToFitWidth:YES];
     
-    [[TSVirtualEntourageManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [[TSEntourageSessionManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     
     // Display user location and selected destination if present
-    if ([TSVirtualEntourageManager sharedManager].routeManager.destinationMapItem) {
+    if ([TSEntourageSessionManager sharedManager].routeManager.destinationMapItem) {
         [_homeViewController setIsTrackingUser:NO animateToUser:NO];
         [self requestAndDisplayRoutesForSelectedDestination];
     }
@@ -83,7 +83,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     [super willMoveToParentViewController:parent];
     
     if (!parent) {
-        [[TSVirtualEntourageManager sharedManager].routeManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
+        [[TSEntourageSessionManager sharedManager].routeManager removeObserver:self forKeyPath:@"selectedRoute" context: NULL];
     }
 }
 
@@ -145,7 +145,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
             break;
     }
     
-    [[TSVirtualEntourageManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [[TSEntourageSessionManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
     [self requestAndDisplayRoutesForSelectedDestination];
 }
 
@@ -158,34 +158,34 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     
     _nextButton.enabled = NO;
     
-    if (!_homeViewController.mapView.userLocationAnnotation || ![TSVirtualEntourageManager sharedManager].routeManager.destinationAnnotation) {
+    if (!_homeViewController.mapView.userLocationAnnotation || ![TSEntourageSessionManager sharedManager].routeManager.destinationAnnotation) {
         return;
     }
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
-    [self showAnnotationsWithPadding:@[_homeViewController.mapView.userLocationAnnotation, [TSVirtualEntourageManager sharedManager].routeManager.destinationAnnotation]];
+    [self showAnnotationsWithPadding:@[_homeViewController.mapView.userLocationAnnotation, [TSEntourageSessionManager sharedManager].routeManager.destinationAnnotation]];
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
     [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:[TSVirtualEntourageManager sharedManager].routeManager.destinationMapItem];
-    [request setTransportType:[TSVirtualEntourageManager sharedManager].routeManager.destinationTransportType]; // This can be limited to automobile and walking directions.
+    [request setDestination:[TSEntourageSessionManager sharedManager].routeManager.destinationMapItem];
+    [request setTransportType:[TSEntourageSessionManager sharedManager].routeManager.destinationTransportType]; // This can be limited to automobile and walking directions.
     [request setRequestsAlternateRoutes:YES]; // Gives you several route options.
     
     if (_directions.isCalculating) {
         [_directions cancel];
     }
     
-    [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute = nil;
-    [[TSVirtualEntourageManager sharedManager].routeManager removeRouteOverlaysAndAnnotations];
+    [TSEntourageSessionManager sharedManager].routeManager.selectedRoute = nil;
+    [[TSEntourageSessionManager sharedManager].routeManager removeRouteOverlaysAndAnnotations];
     
     _directions = [[MKDirections alloc] initWithRequest:request];
     [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         if (!error) {
-            [TSVirtualEntourageManager sharedManager].routeManager.routes = [response routes];
-            [[TSVirtualEntourageManager sharedManager].routeManager addRouteOverlaysToMapViewAndAnnotations];
-            [self showAnnotationsWithPadding:[TSVirtualEntourageManager sharedManager].routeManager.routingAnnotations];
+            [TSEntourageSessionManager sharedManager].routeManager.routes = [response routes];
+            [[TSEntourageSessionManager sharedManager].routeManager addRouteOverlaysToMapViewAndAnnotations];
+            [self showAnnotationsWithPadding:[TSEntourageSessionManager sharedManager].routeManager.routingAnnotations];
             _nextButton.enabled = YES;
         }
         else {
@@ -211,7 +211,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
 
 - (IBAction)nextViewController:(id)sender {
     
-    if (![TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
+    if (![TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
         return;
     }
     

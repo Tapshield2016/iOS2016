@@ -62,7 +62,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _slider = [[TSCircularControl alloc]initWithFrame:_circleContainerView.frame];
 //    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
     
-    _estimatedTimeInterval = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime;
+    _estimatedTimeInterval = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime;
     _timeAdjusted = _estimatedTimeInterval;
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
@@ -76,7 +76,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self.view addSubview:_slider];
     [self.view addSubview:_timeAdjustLabel];
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
         [self blackNavigationBar];
         self.removeNavigationShadow = YES;
         
@@ -138,7 +138,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     
     [self dismissViewControllerAnimated:YES completion:^{
         if (_keyValueObserver) {
-            [[TSVirtualEntourageManager sharedManager].routeManager removeObserver:_keyValueObserver
+            [[TSEntourageSessionManager sharedManager].routeManager removeObserver:_keyValueObserver
                                                                    forKeyPath:@"selectedRoute"
                                                                       context: NULL];
         }
@@ -158,10 +158,10 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)addDescriptionToNavBar {
     
-    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.distance]];
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.distance]];
     
     _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
-    _addressLabel.text = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.name;
+    _addressLabel.text = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.name;
     _addressLabel.textColor = [TSColorPalette whiteColor];
     _addressLabel.font = [TSFont fontWithName:kFontWeightLight size:13.0f];
     _addressLabel.textAlignment = NSTextAlignmentCenter;
@@ -238,7 +238,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
     }
     
-    NSDate *fireDate = [TSVirtualEntourageManager sharedManager].endTimer.fireDate;
+    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
     
     _timeAdjusted = [fireDate timeIntervalSinceDate:[NSDate date]];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
@@ -373,7 +373,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self shimmerCollectionView];
     [self.navigationItem setHidesBackButton:YES animated:YES];
     
-    [[TSVirtualEntourageManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
+    [[TSEntourageSessionManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
         
         [self dismissViewController];
     }];

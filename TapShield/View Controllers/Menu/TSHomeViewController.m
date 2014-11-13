@@ -78,7 +78,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [TSReportAnnotationManager sharedManager].mapView = _mapView;
     
-    [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:self];
+    [TSEntourageSessionManager initSharedEntourageManagerWithHomeView:self];
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -100,7 +100,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sendEntourageAlert)
-                                                 name:TSVirtualEntourageManagerTimerDidEnd
+                                                 name:TSEntourageSessionManagerTimerDidEnd
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userDidLeaveAgency:)
@@ -272,7 +272,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
     }
     
-    NSDate *fireDate = [TSVirtualEntourageManager sharedManager].endTimer.fireDate;
+    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
     
     NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
     
@@ -325,7 +325,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [_menuViewController showMenuButton:self];
-    [[TSVirtualEntourageManager sharedManager] stopEntourage];
+    [[TSEntourageSessionManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
     
     [self stopClockTimer];
@@ -440,7 +440,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _topDownTransitioningDelegate = [[TSTopDownTransitioningDelegate alloc] init];
     }
     
-    if (![TSVirtualEntourageManager sharedManager].isEnabled) {
+    if (![TSEntourageSessionManager sharedManager].isEnabled) {
         TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
         
@@ -597,7 +597,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled ) {
+    if ([TSEntourageSessionManager sharedManager].isEnabled ) {
         return;
     }
     
@@ -613,7 +613,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-            [[TSVirtualEntourageManager sharedManager].routeManager selectRouteClosestTo:mapPoint];
+            [[TSEntourageSessionManager sharedManager].routeManager selectRouteClosestTo:mapPoint];
         }
     }
 }
@@ -625,8 +625,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)locationDidUpdate:(CLLocation *)location {
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
-        [[TSVirtualEntourageManager sharedManager] checkRegion:location];
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
+        [[TSEntourageSessionManager sharedManager] checkRegion:location];
     }
     
     if (_mapView.userLocationAnnotation) {
@@ -786,13 +786,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [renderer setLineWidth:6.0];
     [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
-    if (![TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
-        [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute = [[TSVirtualEntourageManager sharedManager].routeManager.routeOptions firstObject];
+    if (![TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
+        [TSEntourageSessionManager sharedManager].routeManager.selectedRoute = [[TSEntourageSessionManager sharedManager].routeManager.routeOptions firstObject];
     }
     
-    if ([TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
-        for (TSRouteOption *routeOption in [TSVirtualEntourageManager sharedManager].routeManager.routeOptions) {
-            if (routeOption == [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
+    if ([TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
+        for (TSRouteOption *routeOption in [TSEntourageSessionManager sharedManager].routeManager.routeOptions) {
+            if (routeOption == [TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
                 if (routeOption.route.polyline == overlay) {
                     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
@@ -998,7 +998,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
-        [[TSVirtualEntourageManager sharedManager].routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
+        [[TSEntourageSessionManager sharedManager].routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
         [self flipIntersectingRouteAnnotation];
     }
     
@@ -1084,7 +1084,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 for (UIView *annotationView in [subview.subviews copy]) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
-                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.routeTimeAnnotation]) {
+                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.routeTimeAnnotation]) {
                             [subview bringSubviewToFront:annotationView];
                         }
                     }
@@ -1162,7 +1162,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if ([textField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+        [[TSEntourageSessionManager sharedManager] manuallyEndTracking];
         [_cancelEntourageAlertController dismissViewControllerAnimated:YES completion:nil];
     }
     else {
@@ -1201,7 +1201,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                   }
                               }
                               else if (success) {
-                                  [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+                                  [[TSEntourageSessionManager sharedManager] manuallyEndTracking];
                               }
                           }];
                       }];

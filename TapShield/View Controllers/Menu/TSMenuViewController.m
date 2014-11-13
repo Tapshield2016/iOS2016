@@ -11,7 +11,7 @@
 #import "TSHomeViewController.h"
 #import "TSYankManager.h"
 #import "TSSettingsViewController.h"
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSHelpViewController.h"
 #import "TSAlertManager.h"
 

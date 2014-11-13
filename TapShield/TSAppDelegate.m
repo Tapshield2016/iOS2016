@@ -17,7 +17,7 @@
 #import <TestFlightSDK/TestFlight.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <AFNetworking/AFNetworkReachabilityManager.h>
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSLocationController.h"
 #import "TSAlertManager.h"
 #import "GAI.h"
@@ -194,15 +194,15 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     if ([[TSJavelinAPIClient sharedClient] isStillActiveAlert] ||
         [TSYankManager sharedYankManager].isEnabled ||
-        [TSVirtualEntourageManager sharedManager].isEnabled ||
+        [TSEntourageSessionManager sharedManager].isEnabled ||
         [TSAlertManager sharedManager].countdownTimer ||
         [TSAlertManager sharedManager].isAlertInProgress) {
         
         if (![TSAlertManager sharedManager].countdownTimer &&
             ![TSAlertManager sharedManager].isAlertInProgress ) {
             
-            if ([TSVirtualEntourageManager sharedManager].isEnabled) {
-                [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSVirtualEntourageManager sharedManager].endTimer.fireDate];
+            if ([TSEntourageSessionManager sharedManager].isEnabled) {
+                [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSEntourageSessionManager sharedManager].endTimer.fireDate];
             }
             else {
                 [[TSLocationController sharedLocationController] enterLowPowerState];

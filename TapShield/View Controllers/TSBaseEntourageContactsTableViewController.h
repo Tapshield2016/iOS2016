@@ -49,6 +49,9 @@
 @property (strong, nonatomic) NSString *filterString;
 
 
+@property (strong, nonatomic) TSJavelinAPIEntourageMember *selectedMember;
+
+
 - (void)setContactList:(NSArray *)contacts;
 
 

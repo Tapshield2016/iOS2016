@@ -37,7 +37,7 @@
     self.view.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
     
-    self.clearsSelectionOnViewWillAppear = YES;
+    self.clearsSelectionOnViewWillAppear = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -188,6 +188,18 @@
 
 #pragma mark - Cell Selection
 
+- (void)setSelectedRowIndex:(NSIndexPath *)selectedRowIndex {
+    
+    _selectedRowIndex = selectedRowIndex;
+    
+    if (!selectedRowIndex) {
+        _selectedMember = nil;
+        return;
+    }
+    
+    _selectedMember = [self memberForIndexPath:selectedRowIndex];
+}
+
 
 - (TSJavelinAPIEntourageMember *)memberForIndexPath:(NSIndexPath *)indexPath {
     
@@ -206,6 +218,10 @@
         }
     }
     
+    if (!arrayWithContact.count) {
+        return nil;
+    }
+    
     return [arrayWithContact objectAtIndex:indexPath.row];
 }
 
@@ -217,7 +233,7 @@
         [self setIndexPath:indexPath selected:NO];
     }
     else {
-        [cell displaySelectedView:YES];
+        [cell displaySelectedView:YES  animated:YES];
         [self setIndexPath:indexPath selected:YES];
     }
 }
@@ -312,35 +328,9 @@
     
     NSString *identifier = entourageContactTableViewCell;
     
-    NSArray *contactArray;
-    NSString *key;
+    TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
     
-    switch (indexPath.section) {
-        case 0:
-            contactArray = self.entourageMembers;
-            break;
-            
-        case 1:
-            contactArray = self.whoAddedUser;
-            break;
-            
-        case 2:
-            if (self.sortedContacts.allKeys) {
-                return nil;
-            }
-            break;
-            
-        default:
-            
-            if (self.sortedContacts.allKeys) {
-                key = [self sortedKeyArray:self.sortedContacts.allKeys][indexPath.section - kContactsSectionOffset];
-                contactArray = [self.sortedContacts objectForKey:key];
-            }
-            
-            break;
-    }
-    
-    if (!contactArray.count) {
+    if (!member) {
         identifier = emptyCell;
     }
     
@@ -351,7 +341,7 @@
         cell.backgroundColor = [UIColor clearColor];
     }
     
-    if (!contactArray.count) {
+    if (!member) {
         [cell emptyCell];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -376,7 +366,15 @@
             break;
     }
     
-    cell.contact = contactArray[indexPath.row];
+    cell.contact = member;
+    
+    if ([indexPath isEqual:_selectedRowIndex] && [member isEqual:_selectedMember]) {
+        [cell setSelected:YES animated:NO];
+        [cell displaySelectedView:YES animated:NO];
+    }
+    else {
+        [cell displaySelectedView:NO animated:NO];
+    }
     
     return cell;
 }
@@ -458,7 +456,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if([self.selectedRowIndex isEqual:indexPath]) {
+    if([self.selectedRowIndex isEqual:indexPath] && [_selectedMember isEqual:[self memberForIndexPath:indexPath]]) {
         return [TSEntourageContactTableViewCell selectedHeight];
     }
     
@@ -562,6 +560,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
+        if (self.selectedRowIndex) {
+            [[self.tableView cellForRowAtIndexPath:self.selectedRowIndex] setSelected:NO animated:YES];
+        }
         self.selectedRowIndex = nil;
         [self presentMemberSettingsWithMember:[self memberForIndexPath:indexPath]];
     }

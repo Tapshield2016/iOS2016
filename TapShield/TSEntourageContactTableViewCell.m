@@ -47,8 +47,6 @@ static NSString * const kEmailImage = @"emailSmall";
         _statusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(215, 0, 40, 50)];
         _statusImageView.contentMode = UIViewContentModeCenter;
         _statusImageView.alpha = 0.5;
-        
-        _statusImageView.image = [UIImage imageNamed:kTrackingImage];
         [self.contentView addSubview:_statusImageView];
         
         [self.contentView addSubview:_contactNameLabel];
@@ -66,7 +64,7 @@ static NSString * const kEmailImage = @"emailSmall";
 
 + (CGFloat)selectedHeight {
     
-    return 200;
+    return 150;
 }
 
 + (CGFloat)height {
@@ -78,8 +76,8 @@ static NSString * const kEmailImage = @"emailSmall";
     
     [super setSelected:selected animated:animated];
     
-    if (!selected) {
-        [self displaySelectedView:NO];
+    if (!selected && animated) {
+        [self displaySelectedView:NO  animated:YES];
     }
 }
 
@@ -108,11 +106,20 @@ static NSString * const kEmailImage = @"emailSmall";
     _highlightedView.hidden = !highlighted;
 }
 
-- (void)displaySelectedView:(BOOL)selected {
+- (void)displaySelectedView:(BOOL)selected animated:(BOOL)animated {
+    
+    if (!animated) {
+        [self initSelectedView];
+        [self selectedViewVisible:selected];
+        _selectedView.hidden = !selected;
+        return;
+    }
     
     if (!selected && !_selectedView) {
         return;
     }
+    
+//    [_selectedView.layer removeAllAnimations];
     
     [self initSelectedView];
     
@@ -167,8 +174,9 @@ static NSString * const kEmailImage = @"emailSmall";
     
     [_selectedView.layer addSublayer:innerShadowLayer];
     
-    TSRoundRectButton *button = [[TSRoundRectButton alloc] initWithFrame:CGRectMake(10, 10, 120, 50)];
-    [button setTitle:@"Invite" forState:UIControlStateNormal];
+    TSRoundRectButton *button = [[TSRoundRectButton alloc] initWithFrame:CGRectMake(150, 20, 40, frame.size.height - 40)];
+//    [button setTitle:@"Locate" forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"locate_me_icon"] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(pressed) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
@@ -199,23 +207,27 @@ static NSString * const kEmailImage = @"emailSmall";
     }
     _contactNameLabel.text = contact.name;
     
-    if (contact.matchedUser) {
-        _statusImageView.image = [UIImage imageNamed:kMatchedUserImage];
-    }
-    else if (contact.phoneNumber) {
-        _statusImageView.image = [UIImage imageNamed:kPhoneNumberImage];
-    }
-    else if (contact.email) {
-        _statusImageView.image = [UIImage imageNamed:kEmailImage];
-    }
     
-    
-    if (!_isInEntourage) {
+    if (_isInEntourage) {
+        if (contact.matchedUser) {
+            _statusImageView.image = [UIImage imageNamed:kMatchedUserImage];
+        }
+        else if (contact.phoneNumber) {
+            _statusImageView.image = [UIImage imageNamed:kPhoneNumberImage];
+        }
+        else if (contact.email) {
+            _statusImageView.image = [UIImage imageNamed:kEmailImage];
+        }
+    }
+    else {
         if (contact.session) {
             _statusImageView.image = [UIImage imageNamed:kTrackingImage];
         }
         else if (contact.lastReportedLocation) {
             _statusImageView.image = [UIImage imageNamed:kAlwaysVisibleImage];
+        }
+        else {
+            _statusImageView.image = nil;
         }
     }
 }

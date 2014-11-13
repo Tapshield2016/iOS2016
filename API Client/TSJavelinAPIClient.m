@@ -836,6 +836,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 //        params = @{@"modified_since": date.iso8601String};
 //    }
     
+    if (!session.url) {
+        if (completion) {
+            completion(nil, nil);
+        }
+        return;
+    }
+    
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
     
     [self GET:session.url

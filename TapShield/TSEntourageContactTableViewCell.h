@@ -25,7 +25,7 @@
 
 //@property (nonatomic, weak)
 
-- (void)displaySelectedView:(BOOL)selected;
+- (void)displaySelectedView:(BOOL)selected animated:(BOOL)animated;
 
 - (void)emptyCell;
 + (CGFloat)selectedHeight;

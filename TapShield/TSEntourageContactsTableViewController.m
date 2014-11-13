@@ -65,6 +65,8 @@
                                              selector:@selector(entourageDidStartSyncing:)
                                                  name:TSJavelinAPIClientDidStartSyncingEntourage
                                                object:nil];
+    
+    [self monitorEntourageSessions];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,8 +76,6 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    
-    self.selectedRowIndex = nil;
     
     [super viewWillAppear:animated];
     
@@ -109,14 +109,12 @@
     [_kvoController observe:[TSEntourageSessionManager sharedManager] keyPath:@"membersWhoAdded" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSEntourageSessionManager *sessionManager, NSDictionary *change) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             weakSelf.whoAddedUser = sessionManager.membersWhoAdded;
-            [self.tableView reloadData];
+            [weakSelf.tableView reloadData];
         }];
     }];
 }
 
 - (void)refresh {
-    
-    self.selectedRowIndex = nil;
     
     if (self.isEditing) {
         [self.refreshControl endRefreshing];

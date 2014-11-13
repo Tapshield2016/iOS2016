@@ -455,7 +455,7 @@ static dispatch_once_t predicate;
             }
         }
         else {
-            _membersWhoAdded = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+            self.membersWhoAdded = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
             if (completion) {
                 completion(entourageMembers);
             }
@@ -467,11 +467,23 @@ static dispatch_once_t predicate;
     [self startAllSessionRefreshTimer];
 }
 
+- (void)timerGetAllSessions {
+    
+    [[TSJavelinAPIClient sharedClient] getEntourageSessionsWithLocationsSince:_lastCheckForSessions completion:^(NSArray *entourageMembers, NSError *error) {
+        if (!error) {
+            self.membersWhoAdded = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+        }
+    }];
+}
+
 - (void)startAllSessionRefreshTimer {
     
     [self stopSingleSessionRefreshTimer];
-    _allSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(getEntourageMemberLocationUpdate) userInfo:nil repeats:YES];
-    _allSessionRefreshTimer.tolerance = 5;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        _allSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(timerGetAllSessions) userInfo:nil repeats:YES];
+        _allSessionRefreshTimer.tolerance = 5;
+    }];
 }
 
 - (void)stopAllSessionRefreshTimer {
@@ -500,8 +512,11 @@ static dispatch_once_t predicate;
 - (void)startSingleSessionRefreshTimer {
     
     [self stopSingleSessionRefreshTimer];
-    _singleSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(getEntourageMemberLocationUpdate) userInfo:nil repeats:YES];
-    _singleSessionRefreshTimer.tolerance = 5;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        _singleSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(getEntourageMemberLocationUpdate) userInfo:nil repeats:YES];
+        _singleSessionRefreshTimer.tolerance = 5;
+    }];
 }
 
 - (void)stopSingleSessionRefreshTimer {

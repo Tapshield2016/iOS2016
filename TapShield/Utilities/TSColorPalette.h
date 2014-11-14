@@ -32,4 +32,6 @@ static NSString * const kTalkaphoneBranding = @"kTalkaphoneBranding";
 
 + (UIColor *)blueButtonColor;
 
++ (UIColor *)colorFromStringHex:(NSString *)string;
+
 @end

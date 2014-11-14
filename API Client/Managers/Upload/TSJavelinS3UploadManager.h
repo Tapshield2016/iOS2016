@@ -10,6 +10,12 @@
 #import "S3.h"
 #import "AWSCore.h"
 
+#ifdef APP_STORE
+extern NSString * const kTSJavelinS3UploadManagerBucketName;
+#else
+extern NSString * const kTSJavelinS3UploadManagerBucketName;
+#endif
+
 @interface TSJavelinS3UploadManager : NSObject
 
 @property (nonatomic, strong) AWSS3 *s3;

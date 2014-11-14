@@ -76,6 +76,10 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     [self setRegions:[attributes nonNullObjectForKey:@"region"]];
     [self setDispatchCenters:[attributes nonNullObjectForKey:@"dispatch_center"]];
     
+    if ([attributes nonNullObjectForKey:@"theme"]) {
+        self.theme = [[TSJavelinAPITheme alloc] initWithAttributes:[attributes nonNullObjectForKey:@"theme"]];
+    }
+    
     return self;
 }
 
@@ -149,6 +153,10 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
     if (_dispatchCenters) {
         [encoder encodeObject:_dispatchCenters forKey:@"dispatch_center"];
     }
+    
+    if (_theme) {
+        [encoder encodeObject:_theme forKey:@"theme"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -220,6 +228,10 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
         
         if ([decoder containsValueForKey:@"dispatch_center"]) {
             _dispatchCenters = [decoder decodeObjectForKey:@"dispatch_center"];
+        }
+        
+        if ([decoder containsValueForKey:@"theme"]) {
+            _theme = [decoder decodeObjectForKey:@"theme"];
         }
     }
     return self;

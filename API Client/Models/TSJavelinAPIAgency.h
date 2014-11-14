@@ -7,6 +7,7 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
+#import "TSJavelinAPITheme.h"
 
 extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 
@@ -37,6 +38,8 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 @property (readonly) NSArray *regions;
 
 //Theme
+@property (strong, nonatomic) TSJavelinAPITheme *theme;
+
 @property (readonly) NSDictionary *agencyTheme;
 
 @property (strong, nonatomic) UIImage *largeLogo;

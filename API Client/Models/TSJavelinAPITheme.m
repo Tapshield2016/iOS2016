@@ -103,8 +103,7 @@ static NSString * const kMapOverlayLogoPropertyKey =  @"mapOverlayLogo";
         return;
     }
     
-    path = [NSString stringWithFormat:@"https://s3.amazonaws.com"]
-    NSURL *url = [NSURL URLWithString:smallLogoPath];
+    NSURL *url = [NSURL URLWithString:path];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     

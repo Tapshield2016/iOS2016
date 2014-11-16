@@ -158,6 +158,8 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 
 - (void)sendDirectRestAPIAlertWithParameters:(NSDictionary *)parameters completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 
+- (void)userLocationUpdate:(CLLocation *)location;
+
 // Message actions
 - (void)startChatForActiveAlert;
 - (void)clearChatMessages;

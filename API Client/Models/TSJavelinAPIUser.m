@@ -54,14 +54,18 @@
     
     _apiToken = [attributes nonNullObjectForKey:@"token"];
     
-    double lat = [[attributes nonNullObjectForKey:@"last_reported_latitude"] doubleValue];
-    double lon = [[attributes nonNullObjectForKey:@"last_reported_longitude"] doubleValue];
+    double lat = [[attributes nonNullObjectForKey:@"latitude"] doubleValue];
+    double lon = [[attributes nonNullObjectForKey:@"longitude"] doubleValue];
     if (lat && lon) {
-        _lastReportedLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(lat, lon) altitude:[[attributes nonNullObjectForKey:@"altitude"] floatValue]  horizontalAccuracy:[[attributes nonNullObjectForKey:@"accuracy"] floatValue] verticalAccuracy:0 timestamp:[self reformattedTimeStamp:[attributes nonNullObjectForKey:@"location_timestamp"]]];
     }
     
-    if ([attributes nonNullObjectForKey:@"last_reported_time"]) {
-        _lastReportedTime = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"last_reported_time"]];
+//    if ([attributes nonNullObjectForKey:@"location_timestamp"]) {
+//        _locationTimestamp = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"location_timestamp"]];
+//    }
+    
+    if ([attributes nonNullObjectForKey:@"entourage_session"]) {
+        _entourageSession = [[TSJavelinAPIEntourageSession alloc] initWithAttributes:[attributes nonNullObjectForKey:@"entourage_session"]];
     }
         
     return self;
@@ -133,7 +137,7 @@
     return self;
 }
 
-- (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes {
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes {
     
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];

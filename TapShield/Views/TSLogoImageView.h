@@ -17,6 +17,7 @@ extern NSString * const TSLogoImageViewSmallTapShieldLogo;
 @interface TSLogoImageView : UIImageView
 
 @property (assign, nonatomic) float preferredHeight;
+@property (assign, nonatomic) float preferredWidth;
 
 - (id)initWithImage:(UIImage *)image defaultImageName:(NSString *)defaultImageName;
 - (void)setImage:(UIImage *)image defaultImageName:(NSString *)defaultImageName;

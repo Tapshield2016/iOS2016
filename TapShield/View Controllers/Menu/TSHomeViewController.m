@@ -32,6 +32,7 @@
 #import "TSJavelinChatManager.h"
 #import "TSTalkOptionViewController.h"
 #import "MBXMapKit.h"
+#import "TSEntourageMemberAnnotationView.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -71,7 +72,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _annotationsLoaded = NO;
     
-    self.showSmallLogoInNavBar = YES;
+    self.showLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
     [TSAlertManager sharedManager].homeViewController = self;
@@ -315,7 +316,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self drawerCanDragForMenu:NO];
     [self adjustViewableTime];
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"End Tracking" style:UIBarButtonItemStylePlain target:self action:@selector(cancelEntourage)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
                                         NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
@@ -482,6 +483,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (IBAction)userLocationTUI:(id)sender {
+    
+    if (_isTrackingUser) {
+        [_mapView setRegionAtAppearanceAnimated:YES];
+    }
     
     [self setIsTrackingUser:YES animateToUser:YES];
     
@@ -761,7 +766,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     
-    if([overlay isKindOfClass:[MKPolygon class]]){
+    if ([overlay isKindOfClass:[TSEntourageSessionPolyline class]]) {
+        return [(TSEntourageSessionPolyline *)overlay renderer];
+    }
+    else if([overlay isKindOfClass:[MKPolygon class]]){
         
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
@@ -819,6 +827,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         _mapView.userLocationAnnotationView = (TSUserAnnotationView *)annotationView;
         _mapView.userLocationAnnotationView.canShowCallout = NO;
+    }
+    else if ([annotation isKindOfClass:[TSEntourageMemberAnnotation class]]) {
+        annotationView = (TSEntourageMemberAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSEntourageMemberAnnotationView class])];
+        if (!annotationView) {
+            annotationView = [[TSEntourageMemberAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSEntourageMemberAnnotationView class])];
+        }
     }
     else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
 
@@ -896,7 +910,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
             
             if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]] ||
-                [view isKindOfClass:[TSUserAnnotationView class]]) {
+                [view isKindOfClass:[TSUserAnnotationView class]] ||
+                [view isKindOfClass:[TSEntourageMemberAnnotationView class]]) {
                 return;
             }
             
@@ -992,8 +1007,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         ((ADClusterAnnotation *)view.annotation).title = annotation.title;
         
         if (span.longitudeDelta > kMaxLonDeltaCluster) {
-            
-            [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:kMaxLonDeltaCluster];
+            [self moveMapViewToCoordinate:view.annotation.coordinate spanDelta:kMaxLonDeltaCluster];
         }
     }
     
@@ -1009,32 +1023,29 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         if (span.longitudeDelta > .4) {
             delta = span.longitudeDelta*.3;
         }
-//        else if (span.longitudeDelta > kMaxLonDeltaCluster) {
-//            delta = kMaxLonDeltaCluster;
-//        }
         else {
             delta = span.longitudeDelta*.5;
         }
         
-        [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:delta];
+        [self moveMapViewToCoordinate:view.annotation.coordinate spanDelta:delta];
     }
     
     [_mapView bringSubviewToFront:view];
 }
 
-- (void)moveMapView:(MKMapView *)mapView coordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
+- (void)moveMapViewToCoordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
     
     [self setIsTrackingUser:NO animateToUser:NO];
     
-    MKCoordinateRegion region = mapView.region;
-    MKCoordinateSpan span = mapView.region.span;
+    MKCoordinateRegion region = _mapView.region;
+    MKCoordinateSpan span = _mapView.region.span;
     
     span.latitudeDelta = delta;
     span.longitudeDelta = delta;
     
     region.span = span;
     region.center = coordinate;
-    [mapView setRegion:region animated:YES];
+    [_mapView setRegion:region animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {

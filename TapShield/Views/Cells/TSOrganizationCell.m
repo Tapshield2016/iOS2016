@@ -7,6 +7,14 @@
 //
 
 #import "TSOrganizationCell.h"
+#import <KVOController/FBKVOController.h>
+#import <UIImageView+AFNetworking.h>
+
+@interface TSOrganizationCell ()
+
+@property (strong, nonatomic) FBKVOController *kvoController;
+
+@end
 
 @implementation TSOrganizationCell
 
@@ -52,16 +60,14 @@
     
     _organizationLabel.text = agency.name;
     
-    UIImage *image = agency.smallLogo;
-    if (image) {
-        self.logoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    }
-    else {
-        image = [UIImage imageNamed:@"logo_placeholder"];
-        self.logoImageView.contentMode = UIViewContentModeCenter;
-    }
-    
-    self.logoImageView.image = image;
+    __weak __typeof(self)weakSelf = self;
+    [self.logoImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:agency.theme.smallLogoUrl]] placeholderImage:[UIImage imageNamed:@"logo_placeholder"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (image) {
+            strongSelf.logoImageView.image = image;
+            strongSelf.logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        }
+    } failure:nil];
 }
 
 

@@ -10,6 +10,7 @@
 #import "TSFont.h"
 #import "TSRoundRectButton.h"
 #import "TSEntourageMemberSettingsViewController.h"
+#import "TSEntourageSessionManager.h"
 
 static NSString * const kDefaultImage = @"user_default_icon";
 
@@ -108,18 +109,16 @@ static NSString * const kEmailImage = @"emailSmall";
 
 - (void)displaySelectedView:(BOOL)selected animated:(BOOL)animated {
     
+    if (!selected && !_selectedView) {
+        return;
+    }
+    
     if (!animated) {
         [self initSelectedView];
         [self selectedViewVisible:selected];
         _selectedView.hidden = !selected;
         return;
     }
-    
-    if (!selected && !_selectedView) {
-        return;
-    }
-    
-//    [_selectedView.layer removeAllAnimations];
     
     [self initSelectedView];
     
@@ -155,9 +154,6 @@ static NSString * const kEmailImage = @"emailSmall";
     
     frame.origin.y = 0;
     frame.size.height = [TSEntourageContactTableViewCell selectedHeight] - [TSEntourageContactTableViewCell height];
-//    UIVisualEffectView *vibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];//[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]]];
-//    vibrancyView.frame = frame;
-//    [_selectedView addSubview:vibrancyView];
     
     UIView *view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.5];
@@ -174,23 +170,83 @@ static NSString * const kEmailImage = @"emailSmall";
     
     [_selectedView.layer addSublayer:innerShadowLayer];
     
-    TSRoundRectButton *button = [[TSRoundRectButton alloc] initWithFrame:CGRectMake(150, 20, 40, frame.size.height - 40)];
-//    [button setTitle:@"Locate" forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"locate_me_icon"] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pressed) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+    UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width-61, 10, 1, frame.size.height-20)];
+    borderView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    [view addSubview:borderView];
     
-    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    button2.frame = CGRectMake(10, 70, 200, 50);
-    [button2 setTitle:@"Prefrences" forState:UIControlStateNormal];
-    [button2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button2 addTarget:self action:@selector(pressed) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button2];
+    UIImageView *startImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TrackingStartEndPin"]];
+    startImageView.contentMode = UIViewContentModeCenter;
+    startImageView.frame = CGRectMake(0, 0, 40, frame.size.height/2);
+    [view addSubview:startImageView];
+    
+    UIImageView *endImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TrackingStartEndPin"]];
+    endImageView.contentMode = UIViewContentModeCenter;
+    endImageView.frame = CGRectMake(0, frame.size.height/2, 40, frame.size.height/2);
+    [view addSubview:endImageView];
+    
+    UIView *dashedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, frame.size.height)];
+    
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    [shapeLayer setBounds:dashedView.bounds];
+    [shapeLayer setPosition:dashedView.center];
+    [shapeLayer setFillColor:[[UIColor clearColor] CGColor]];
+    [shapeLayer setStrokeColor:[[TSColorPalette tapshieldBlue] CGColor]];
+    [shapeLayer setLineWidth:2.0f];
+    [shapeLayer setLineJoin:kCALineJoinRound];
+    [shapeLayer setLineDashPattern:
+     [NSArray arrayWithObjects:[NSNumber numberWithInt:5],
+      [NSNumber numberWithInt:6],nil]];
+    
+    // Setup the path
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, 20, frame.size.height/3 + 3);
+    CGPathAddLineToPoint(path, NULL, 20, frame.size.height*2/3 - 3);
+    
+    [shapeLayer setPath:path];
+    CGPathRelease(path);
+    
+    [[dashedView layer] addSublayer:shapeLayer];
+    [view addSubview:dashedView];
+    
+    
+    UIView *horizontalBorderView = [[UIView alloc] initWithFrame:CGRectMake(40, frame.size.height/2, frame.size.width-110, 1)];
+    horizontalBorderView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    [view addSubview:horizontalBorderView];
+    
+    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, frame.size.width-110, frame.size.height/2)];
+    startLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
+    startLabel.textColor = [UIColor whiteColor];
+    startLabel.text = _contact.session.startLocation.name;
+    [view addSubview:startLabel];
+    
+    UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, frame.size.height/2, frame.size.width-110, frame.size.height/2)];
+    endLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
+    endLabel.textColor = [UIColor whiteColor];
+    endLabel.text = _contact.session.endLocation.name;
+    [view addSubview:endLabel];
+    
+    
+    TSRoundRectButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(frame.size.width-60, 0, 60, frame.size.height);
+    [button setBackgroundImage:[UIImage imageFromColor:[[UIColor blackColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
+    [button setTitle:@"Locate" forState:UIControlStateNormal];
+    
+    UIImage *locateImage = [UIImage imageNamed:@"locate_me_icon"];
+    [button setImage:[locateImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    
+    [button setTitleColor:[TSColorPalette whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(locateUser) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont fontWithName:kFontWeightLight size:16];
+    button.titleEdgeInsets = UIEdgeInsetsMake(28, -17, 0, 0);
+    button.imageEdgeInsets = UIEdgeInsetsMake(-28, 17, 0, 0);
+    [view addSubview:button];
 }
 
-- (void)pressed {
-    NSLog(@"Pressed");
+
+- (void)locateUser {
+    
+    [[TSEntourageSessionManager sharedManager] locateEntourageMember:_contact];
 }
 
 - (void)setContact:(TSJavelinAPIEntourageMember *)contact {
@@ -223,7 +279,7 @@ static NSString * const kEmailImage = @"emailSmall";
         if (contact.session) {
             _statusImageView.image = [UIImage imageNamed:kTrackingImage];
         }
-        else if (contact.lastReportedLocation) {
+        else if (contact.location) {
             _statusImageView.image = [UIImage imageNamed:kAlwaysVisibleImage];
         }
         else {

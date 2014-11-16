@@ -27,4 +27,6 @@
 
 - (NSUInteger)filterIdentifier:(NSString *)url;
 
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes;
+
 @end

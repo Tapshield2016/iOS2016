@@ -347,6 +347,8 @@
         return cell;
     }
     
+    cell.contentView.alpha = 1.0;
+    
     switch (indexPath.section) {
         case 0:
             cell.statusImageView.hidden = NO;
@@ -363,6 +365,9 @@
         default:
             cell.statusImageView.hidden = YES;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if (!self.tableView.editing) {
+                cell.contentView.alpha = 0.5;
+            }
             break;
     }
     

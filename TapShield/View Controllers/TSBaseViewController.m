@@ -8,8 +8,11 @@
 
 #import "TSBaseViewController.h"
 #import "TSGeofence.h"
+#import <KVOController/FBKVOController.h>
 
 @interface TSBaseViewController ()
+
+@property (strong, nonatomic) FBKVOController *kvoController;
 
 @end
 
@@ -100,14 +103,41 @@
 
 #pragma mark - Agency UI Updates
 
-- (void)setShowLargeLogo:(BOOL)showLargeLogo {
-    _showLargeLogo = showLargeLogo;
+- (void)initTitleLogoView {
     
-    if (showLargeLogo) {
+    if (!_logoTitleView) {
+        _logoTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, [UIScreen mainScreen].bounds.size.width/2, 34)];
+        _logoTitleView.backgroundColor = [UIColor clearColor];
+        _navbarLogoImageView = [[TSLogoImageView alloc] initWithFrame:_logoTitleView.bounds];
+        [_logoTitleView addSubview:_navbarLogoImageView];
+    }
+    
+    self.navigationItem.titleView = _logoTitleView;
+}
+
+- (void)setShowAlternateLogoInNavBar:(BOOL)showAlternateLogoInNavBar {
+    
+    _showAlternateLogoInNavBar = showAlternateLogoInNavBar;
+    
+    if (showAlternateLogoInNavBar) {
         
-        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.largeLogo;
+        [self initTitleLogoView];
         
+        [self updateLogoImages];
+    }
+    else {
+        [_logoTitleView removeFromSuperview];
+    }
+    
+    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
+}
+
+- (void)showAlternate {
+    
+    if (_showAlternateLogoInNavBar) {
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.theme.navbarLogoAlternate;
         NSString *defaultImage = TSLogoImageViewBigTapShieldLogo;
+        
         if (!image) {
             if (![TSLocationController sharedLocationController].geofence.currentAgency) {
                 if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherSecondaryPhoneNumber isEqualToString:kEmergencyNumber] ||
@@ -117,62 +147,79 @@
             }
         }
         
-        _largeLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:defaultImage];
-        _largeLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height - 10;
-        
-        self.navigationItem.titleView = _largeLogoImageView;
+        [_navbarLogoImageView setImage:image defaultImageName:defaultImage];
     }
-    else {
-        [_largeLogoImageView removeFromSuperview];
-    }
-    
-    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
 }
 
-- (void)setShowAlternateLogo:(BOOL)showAlternateLogo {
+- (void)setShowLogoInNavBar:(BOOL)showLogoInNavBar {
     
-    _showAlternateLogo = showAlternateLogo;
+    _showLogoInNavBar = showLogoInNavBar;
     
-    if (showAlternateLogo) {
+    if (_showLogoInNavBar) {
+        [self initTitleLogoView];
         
-        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.alternateLogo;
-        _alternateLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
-        _alternateLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height;
-
-        self.navigationItem.titleView = _alternateLogoImageView;
+        [self updateLogoImages];
     }
     else {
-        [_alternateLogoImageView removeFromSuperview];
+        [_logoTitleView removeFromSuperview];
     }
     
-    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
+//    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
 }
 
-- (void)setShowSmallLogoInNavBar:(BOOL)showSmallLogo {
-    
-    _showSmallLogoInNavBar = showSmallLogo;
-    
-    if (showSmallLogo) {
-        
-        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.smallLogo;
-        _smallLogoImageView = [[TSLogoImageView alloc] initWithImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
-        _smallLogoImageView.preferredHeight = self.navigationController.navigationBar.frame.size.height - 10;
-        self.navigationItem.titleView = _smallLogoImageView;
+- (void)showNavBarLogo {
+    if (_showLogoInNavBar) {
+        UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.theme.navbarLogo;
+        [_navbarLogoImageView setImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
     }
-    
-    [TSGeofence registerForAgencyProximityUpdates:self action:@selector(updateLogoImages)];
 }
 
 - (void)updateLogoImages {
     
-    UIImage *image = [TSLocationController sharedLocationController].geofence.currentAgency.largeLogo;
-    [_largeLogoImageView setImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
+    if (!_kvoController) {
+        _kvoController = [FBKVOController controllerWithObserver:self];
+    }
     
-    image = [TSLocationController sharedLocationController].geofence.currentAgency.alternateLogo;
-    [_alternateLogoImageView setImage:image defaultImageName:TSLogoImageViewBigAlternateTapShieldLogo];
+    if (_showAlternateLogoInNavBar) {
+        
+        if (![TSLocationController sharedLocationController].geofence.currentAgency || ![TSLocationController sharedLocationController].geofence.currentAgency.theme) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self showAlternate];
+            }];
+        }
+        
+        [_kvoController observe:[TSLocationController sharedLocationController].geofence.currentAgency.theme keyPath:@"navbarLogoAlternate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial block:^(TSBaseViewController *weakSelf, TSJavelinAPITheme *theme, NSDictionary *change) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [weakSelf showAlternate];
+            }];
+        }];
+    }
+    else if (_showLogoInNavBar) {
+        
+        if (![TSLocationController sharedLocationController].geofence.currentAgency  || ![TSLocationController sharedLocationController].geofence.currentAgency.theme) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self showNavBarLogo];
+            }];
+        }
+        
+        [_kvoController observe:[TSLocationController sharedLocationController].geofence.currentAgency.theme keyPath:@"navbarLogo" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial block:^(TSBaseViewController *weakSelf, TSJavelinAPITheme *theme, NSDictionary *change) {
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [weakSelf showNavBarLogo];
+            }];
+        }];
+    }
     
-    image = [TSLocationController sharedLocationController].geofence.currentAgency.smallLogo;
-    [_smallLogoImageView setImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
+    
+//    UIImage *image;
+//    if (_showAlternateLogoInNavBar) {
+//        image = [TSLocationController sharedLocationController].geofence.currentAgency.theme.navbarLogoAlternate;
+//        [_navbarLogoImageView setImage:image defaultImageName:TSLogoImageViewBigTapShieldLogo];
+//    }
+//    else if (_showLogoInNavBar) {
+//        image = [TSLocationController sharedLocationController].geofence.currentAgency.theme.navbarLogo;
+//        [_navbarLogoImageView setImage:image defaultImageName:TSLogoImageViewSmallTapShieldLogo];
+//    }
 }
 
 #pragma mark - Nav Bars

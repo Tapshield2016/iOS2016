@@ -798,6 +798,18 @@
 		C5BBF43118FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */; };
 		C5BBF43218FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */; };
 		C5BBF43318FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */; };
+		C5BF02AB1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */; };
+		C5BF02AC1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */; };
+		C5BF02AD1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */; };
+		C5BF02AE1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */; };
+		C5BF02B11A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
+		C5BF02B21A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
+		C5BF02B31A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
+		C5BF02B41A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
+		C5BF02B71A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
+		C5BF02B81A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
+		C5BF02B91A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
+		C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
 		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
@@ -1345,6 +1357,12 @@
 		C5BBF42A18F9D04F008B5CB2 /* TSRoundUserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoundUserImageView.m; path = Views/TSRoundUserImageView.m; sourceTree = "<group>"; };
 		C5BBF42F18FA5527008B5CB2 /* TSAlertDetailsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAlertDetailsTableViewController.h; path = "View Controllers/TSAlertDetailsTableViewController.h"; sourceTree = "<group>"; };
 		C5BBF43018FA5527008B5CB2 /* TSAlertDetailsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAlertDetailsTableViewController.m; path = "View Controllers/TSAlertDetailsTableViewController.m"; sourceTree = "<group>"; };
+		C5BF02A91A16F5F6000F6177 /* TSEntourageMemberAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageMemberAnnotation.h; sourceTree = "<group>"; };
+		C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageMemberAnnotation.m; sourceTree = "<group>"; };
+		C5BF02AF1A16F620000F6177 /* TSEntourageMemberAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageMemberAnnotationView.h; sourceTree = "<group>"; };
+		C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageMemberAnnotationView.m; sourceTree = "<group>"; };
+		C5BF02B51A19211A000F6177 /* TSEntourageSessionPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageSessionPolyline.h; sourceTree = "<group>"; };
+		C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageSessionPolyline.m; sourceTree = "<group>"; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Map/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
@@ -1964,6 +1982,8 @@
 				C5372D9618AD6BBB00D22682 /* TSAgencyAnnotation.m */,
 				C532E63D18BBF2D600FC111A /* TSBaseMapAnnotation.h */,
 				C532E63E18BBF2D600FC111A /* TSBaseMapAnnotation.m */,
+				C5BF02A91A16F5F6000F6177 /* TSEntourageMemberAnnotation.h */,
+				C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */,
 				C5C5E4D018EC58F000E1D868 /* TSRouteTimeAnnotation.h */,
 				C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */,
 				C532E64118BBF2D600FC111A /* TSSelectedDestinationAnnotation.h */,
@@ -2046,6 +2066,8 @@
 				C56356FA18ED06C600BAA5D7 /* TSRouteTimeAnnotationView.m */,
 				C5AFB9261919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.h */,
 				C5AFB9271919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m */,
+				C5BF02AF1A16F620000F6177 /* TSEntourageMemberAnnotationView.h */,
+				C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */,
 				C563570918ED160800BAA5D7 /* TSUserAnnotationView.h */,
 				C563570A18ED160800BAA5D7 /* TSUserAnnotationView.m */,
 			);
@@ -2211,6 +2233,8 @@
 			children = (
 				C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */,
 				C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */,
+				C5BF02B51A19211A000F6177 /* TSEntourageSessionPolyline.h */,
+				C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */,
 				C56356E918EC7FA100BAA5D7 /* TSRouteOption.h */,
 				C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */,
 				C53A6301196F0DE500C34BF0 /* TSHeatMapOverlay.h */,
@@ -2850,6 +2874,7 @@
 				C520C8FA18A974C100D1D2E9 /* TSJavelinS3UploadManager.m in Sources */,
 				C563570018ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5EAABED1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
+				C5BF02AB1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */,
 				C56B3D4C18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C58B31EE199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
@@ -2927,8 +2952,10 @@
 				C5AFBEF71921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C532E64318BBF2D600FC111A /* TSBaseMapAnnotation.m in Sources */,
 				C534ACEE19759359001608C7 /* TSBoundariesOverlay.m in Sources */,
+				C5BF02B11A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				B583B9BC18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
+				C5BF02B71A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
 				C596C63B1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CB195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
@@ -3134,6 +3161,7 @@
 				C5BBF43318FA5527008B5CB2 /* TSAlertDetailsTableViewController.m in Sources */,
 				C5B2E98218CE174A00E2CF04 /* TSBasePageViewController.m in Sources */,
 				C520C8F118A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C5BF02B41A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				C563570D18ED160800BAA5D7 /* TSUserAnnotationView.m in Sources */,
 				C5EAABF419063B75005EDD7B /* TSContactDataTableViewController.m in Sources */,
 				C5FB6DFB191774DD008E1185 /* TSGenderViewController.m in Sources */,
@@ -3163,11 +3191,13 @@
 				C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C5662BCB18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
+				C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
 				C525FA4C19FC8C620014A9CB /* TSEntourageContactTableViewCell.m in Sources */,
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C5CC4599193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
 				C532E65218BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C5F2E5B31950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
+				C5BF02AE1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */,
 				C520986519D1FAA90078B2AC /* TSVibrancyButton.m in Sources */,
 				C596C63E1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
@@ -3283,6 +3313,7 @@
 				C532E63518BBF1E900FC111A /* TSConstants.m in Sources */,
 				C563570118ED13B600BAA5D7 /* TSBaseAnnotationView.m in Sources */,
 				C5EAABEE1905AF53005EDD7B /* TSBasicInfoTableViewController.m in Sources */,
+				C5BF02AC1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */,
 				C56B3D4D18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
 				C58B31EF199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
@@ -3360,8 +3391,10 @@
 				C5AFBEF81921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C57C48CF18BBDB1900DFFBCE /* TSAppDelegate.m in Sources */,
 				C534ACEF19759359001608C7 /* TSBoundariesOverlay.m in Sources */,
+				C5BF02B21A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C5BF02B81A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
 				C596C63C1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CC195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
@@ -3500,6 +3533,7 @@
 				C5AFB946191D35DE00EC62A5 /* TSConstants.m in Sources */,
 				C5AFB947191D35DE00EC62A5 /* TSBaseAnnotationView.m in Sources */,
 				C5AFB948191D35DE00EC62A5 /* TSBasicInfoTableViewController.m in Sources */,
+				C5BF02AD1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */,
 				C5AFB949191D35DE00EC62A5 /* TSBasicInfoViewController.m in Sources */,
 				C58B31F0199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
 				C5AFB94A191D35DE00EC62A5 /* TWAPIManager.m in Sources */,
@@ -3577,8 +3611,10 @@
 				C5AFBEF91921DCAF00EC62A5 /* NSDate+Utilities.m in Sources */,
 				C5AFB97C191D35DE00EC62A5 /* TSAppDelegate.m in Sources */,
 				C534ACF019759359001608C7 /* TSBoundariesOverlay.m in Sources */,
+				C5BF02B31A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				C5AFB97E191D35DE00EC62A5 /* TSBaseLabel.m in Sources */,
 				C5AFB97F191D35DE00EC62A5 /* TSJavelinAlertAMQPMessage.m in Sources */,
+				C5BF02B91A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
 				C596C63D1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CD195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5AFB980191D35DE00EC62A5 /* TSAgreementViewController.m in Sources */,

@@ -52,12 +52,10 @@
 @property (strong, nonatomic) UIVisualEffectView *toolbar;
 @property (strong, nonatomic) UIImage *clearButtonImage;
 
-@property (strong, nonatomic) TSLogoImageView *smallLogoImageView;
-@property (strong, nonatomic) TSLogoImageView *largeLogoImageView;
-@property (strong, nonatomic) TSLogoImageView *alternateLogoImageView;
+@property (strong, nonatomic) TSLogoImageView *navbarLogoImageView;
+@property (strong, nonatomic) UIView *logoTitleView;
 
-@property (assign, nonatomic) BOOL showSmallLogoInNavBar;
-@property (assign, nonatomic) BOOL showLargeLogo;
-@property (assign, nonatomic) BOOL showAlternateLogo;
+@property (assign, nonatomic) BOOL showLogoInNavBar;
+@property (assign, nonatomic) BOOL showAlternateLogoInNavBar;
 
 @end

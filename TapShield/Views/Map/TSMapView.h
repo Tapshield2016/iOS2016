@@ -39,6 +39,7 @@
 + (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay;
 
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
+- (void)zoomToRegionForLocation:(CLLocation *)location animated:(BOOL)animated;
 - (void)refreshRegionBoundariesOverlay;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 

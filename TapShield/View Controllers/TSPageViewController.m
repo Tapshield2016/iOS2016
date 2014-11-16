@@ -48,7 +48,7 @@
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    self.showLargeLogo = YES;
+    self.showAlternateLogoInNavBar = YES;
     
     [self sendBarButton];
     [self setRemoveNavigationShadow:YES];

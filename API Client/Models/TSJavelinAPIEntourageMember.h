@@ -10,6 +10,7 @@
 #import "TSJavelinAPIUser.h"
 #import <AddressBook/AddressBook.h>
 #import "TSJavelinAPIEntourageSession.h"
+@class TSEntourageMemberAnnotation;
 
 @interface TSJavelinAPIEntourageMember : TSJavelinAPIBaseModel
 
@@ -22,8 +23,7 @@
 @property (strong, nonatomic) UIImage *alternateImage;
 @property (assign, nonatomic) ABRecordID recordID;
 
-@property (nonatomic, strong) NSDate *lastReportedTime;
-@property (nonatomic, strong) CLLocation *lastReportedLocation;
+@property (nonatomic, strong) CLLocation *location;
 
 @property (strong, nonatomic) TSJavelinAPIUser *matchedUser;
 @property (assign, nonatomic) BOOL alwaysVisible;
@@ -33,6 +33,7 @@
 @property (assign, nonatomic) BOOL notifyCalled911;
 @property (assign, nonatomic) BOOL notifyYank;
 
+@property (strong, nonatomic) TSEntourageMemberAnnotation<MKAnnotation> *mapAnnotation;
 @property (strong, nonatomic) TSJavelinAPIEntourageSession *session;
 
 - (instancetype)initWithPerson:(ABRecordRef)person;

@@ -13,9 +13,11 @@
 #import "NSDate+Utilities.h"
 #import "TSHeatMapOverlay.h"
 #import "TSBoundariesOverlay.h"
+#import <KVOController/FBKVOController.h>
 
 @interface TSMapView ()
 
+@property (strong, nonatomic) FBKVOController *kvoController;
 @property (strong, nonatomic) NSArray *regionPolygons;
 
 @end
@@ -53,12 +55,19 @@
     //will not work if view has not appeared
     
     [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
-        MKCoordinateRegion region;
-        region.center = location.coordinate;
-        region.span = MKCoordinateSpanMake(0.006, 0.006);
-        region = [self regionThatFits:region];
-        [self setRegion:region animated:animated];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self zoomToRegionForLocation:location animated:animated];
+        }];
     }];
+}
+
+- (void)zoomToRegionForLocation:(CLLocation *)location animated:(BOOL)animated {
+    
+    MKCoordinateRegion region;
+    region.center = location.coordinate;
+    region.span = MKCoordinateSpanMake(0.006, 0.006);
+    region = [self regionThatFits:region];
+    [self setRegion:region animated:animated];
 }
 
 
@@ -139,6 +148,16 @@
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     for (TSJavelinAPIAgency *agency in agencies) {
         
+        if (!_kvoController) {
+            _kvoController = [FBKVOController controllerWithObserver:self];
+        }
+        [_kvoController observe:agency.theme keyPath:@"mapOverlayLogo" options:NSKeyValueObservingOptionNew block:^(TSMapView *weakSelf, TSJavelinAPITheme *theme, NSDictionary *change) {
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [weakSelf refreshRegionBoundariesOverlay];
+            }];
+        }];
+        
         NSArray *regionsArray = agency.regions;
         
         if (!regionsArray.count) {
@@ -159,12 +178,6 @@
             }
             
             [mutableArray addObject:regionPolygon];
-            
-            TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:region.centerPoint
-                                                                                         placeName:agency.name
-                                                                                       description:region.name];
-            agencyAnnotation.image = agency.alternateLogo;
-            [self addAnnotation:agencyAnnotation];
         }
     }
     

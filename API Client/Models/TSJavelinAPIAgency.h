@@ -40,15 +40,6 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 //Theme
 @property (strong, nonatomic) TSJavelinAPITheme *theme;
 
-@property (readonly) NSDictionary *agencyTheme;
-
-@property (strong, nonatomic) UIImage *largeLogo;
-@property (strong, nonatomic) UIImage *alternateLogo;
-@property (strong, nonatomic) UIImage *smallLogo;
-
-@property (strong, nonatomic) UIColor *primaryColor;
-@property (strong, nonatomic) UIColor *secondaryColor;
-
 - (NSArray *)openDispatchCenters;
 - (NSDate *)nextOpeningHoursStatusChange;
 - (BOOL)domainMatchesEmail:(NSString *)email;

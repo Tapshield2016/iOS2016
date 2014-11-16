@@ -189,11 +189,10 @@ static dispatch_once_t onceToken;
     [self GET:agencyUrl
    parameters:nil
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          TSJavelinAPIAgency *agency = [[TSJavelinAPIAgency alloc] initWithAttributes:responseObject];
-          [[self authenticationManager] loggedInUser].agency = agency;
+          [[[self authenticationManager] loggedInUser].agency updateWithAttributes:responseObject];
           [[self authenticationManager] archiveLoggedInUser];
           if (completion) {
-              completion(agency);
+              completion([[self authenticationManager] loggedInUser].agency);
           }
           [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidUpdateAgency object:nil];
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -571,7 +570,8 @@ static dispatch_once_t onceToken;
                   @"accuracy": [NSNumber numberWithDouble:location.horizontalAccuracy],
                   @"altitude": [NSNumber numberWithDouble:location.altitude],
                   @"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
-                  @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude] }
+                  @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude],
+                  @"floor_level": [NSNumber numberWithInteger:location.floor.level]}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            NSLog(@"Successfully created new alert location: %@", responseObject);
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -583,6 +583,31 @@ static dispatch_once_t onceToken;
            else {
                NSLog(@"Failed to create new alert location: %@", error.localizedDescription);
            }
+       }];
+}
+
+
+- (void)userLocationUpdate:(CLLocation *)location {
+    
+    if (![TSJavelinAPIClient loggedInUser]) {
+        return;
+    }
+    
+    [TSJavelinAPIClient loggedInUser].location = location;
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self PATCH:[TSJavelinAPIClient loggedInUser].url
+    parameters:@{ @"accuracy": [NSNumber numberWithDouble:location.horizontalAccuracy],
+                  @"altitude": [NSNumber numberWithDouble:location.altitude],
+                  @"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
+                  @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude],
+                  @"floor_level": [NSNumber numberWithInteger:location.floor.level],
+                  @"location_timestamp": location.timestamp.iso8601String}
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           NSLog(@"Successfully created new alert location: %@", responseObject);
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"Failed to create new alert location: %@", error.localizedDescription);
        }];
 }
 

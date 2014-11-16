@@ -79,9 +79,10 @@
     
     [super viewWillAppear:animated];
     
-    [self.refreshControl endRefreshing];
-    
-    [_resultsController.tableView reloadData];
+//    [self.refreshControl endRefreshing];
+//    
+//    [_resultsController.tableView reloadData];
+    [self refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -108,7 +109,7 @@
     
     [_kvoController observe:[TSEntourageSessionManager sharedManager] keyPath:@"membersWhoAdded" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSEntourageSessionManager *sessionManager, NSDictionary *change) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            weakSelf.whoAddedUser = sessionManager.membersWhoAdded;
+            weakSelf.whoAddedUser = sessionManager.membersToMonitor;
             [weakSelf.tableView reloadData];
         }];
     }];
@@ -159,7 +160,7 @@
 - (void)getAddressBook {
     
     self.entourageMembers = [TSJavelinAPIClient loggedInUser].entourageMembers;
-    self.whoAddedUser = [TSEntourageSessionManager sharedManager].membersWhoAdded;
+    self.whoAddedUser = [TSEntourageSessionManager sharedManager].membersToMonitor;
     
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);

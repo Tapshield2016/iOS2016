@@ -32,8 +32,8 @@
 @property (nonatomic, strong) NSArray *entourageMembers;
 @property (nonatomic, strong) NSArray *secondaryEmails;
 
-@property (nonatomic, strong) NSDate *lastReportedTime;
-@property (nonatomic, strong) CLLocation *lastReportedLocation;
+@property (nonatomic, strong) NSDate *locationTimestamp;
+@property (nonatomic, strong) CLLocation *location;
 
 @property (assign) BOOL isEmailVerified;
 @property (assign, getter=isPhoneNumberVerified) BOOL phoneNumberVerified;
@@ -41,7 +41,6 @@
 
 @property (strong, nonatomic) TSJavelinAPIEntourageSession *entourageSession;
 
-- (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
 

@@ -18,6 +18,7 @@
     }
     
     self.status = [attributes nonNullObjectForKey:@"status"];
+    self.travelMode = [attributes nonNullObjectForKey:@"travel_mode"];
     
     self.startLocation = [self parseLocation:[attributes nonNullObjectForKey:@"start_location"]];
     self.endLocation = [self parseLocation:[attributes nonNullObjectForKey:@"end_location"]];
@@ -28,22 +29,42 @@
     
     self.entourageNotified = [[attributes nonNullObjectForKey:@"entourage_notified"] boolValue];
     
-    self.locations = [self parseLocations:[attributes nonNullObjectForKey:@"arrival_time"]];
+    self.locations = [self parseLocations:[attributes nonNullObjectForKey:@"locations"]];
     
     return self;
 }
 
 
-- (MKPolyline *)parseLocations:(NSArray *)points {
-    MKPolyline *route;
+- (TSEntourageSessionPolyline *)parseLocations:(NSArray *)points {
+    
+    TSEntourageSessionPolyline *route;
+    
+    if (!points. count) {
+        return route;
+    }
+    
+    CLLocationCoordinate2D lineCoordinates[points.count];
+    
+    int i = 0;
+    for (NSDictionary *attributes in points) {
+        lineCoordinates[i] = CLLocationCoordinate2DMake([[attributes objectForKey:@"latitude"] doubleValue], [[attributes objectForKey:@"longitude"] doubleValue]);
+        i++;
+    }
+    
+    route = [TSEntourageSessionPolyline polylineWithCoordinates:lineCoordinates count:points.count];
     
     return route;
 }
 
 
-- (MKMapItem *)parseLocation:(NSArray *)location {
+- (MKMapItem *)parseLocation:(NSDictionary *)attributes {
     MKMapItem *item;
     
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:[[attributes objectForKey:@"latitude"] doubleValue] longitude:[[attributes objectForKey:@"longitude"] doubleValue]];
+    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:location.coordinate addressDictionary:nil];
+    
+    item = [[MKMapItem alloc] initWithPlacemark:placemark];
+    item.name = [attributes objectForKey:@"name"];
     
     return item;
 }

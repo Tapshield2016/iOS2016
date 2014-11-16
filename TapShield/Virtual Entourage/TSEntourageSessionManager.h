@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "TSRouteManager.h"
 #import "TSPopUpWindow.h"
+#import "TSEntourageMemberAnnotation.h"
+
+@class TSHomeViewController;
 
 extern NSString * const TSEntourageSessionManagerTimerDidStart;
 extern NSString * const TSEntourageSessionManagerTimerDidEnd;
@@ -29,10 +32,13 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 - (void)failedToArriveAtDestination;
 
-
 - (void)removeHomeViewController;
 
+- (void)locateEntourageMember:(TSJavelinAPIEntourageMember *)member;
+
 @property (nonatomic, strong) TSRouteManager *routeManager;
+
+@property (weak, nonatomic) TSHomeViewController *homeView;
 
 @property (strong, nonatomic) NSTimer *endTimer;
 
@@ -48,7 +54,7 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 #pragma mark - Entourage Members
 
-@property (nonatomic, strong) NSArray *membersWhoAdded;
+@property (nonatomic, strong) NSArray *membersToMonitor;
 
 - (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion;
 

@@ -54,7 +54,7 @@
     return self;
 }
 
-- (void)updateWithAttributes:(NSDictionary *)attributes {
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes {
     
     _name = [attributes nonNullObjectForKey:@"name"];
     _first = [attributes nonNullObjectForKey:@"first"];
@@ -80,6 +80,8 @@
     
     _notifyCalled911 = [[attributes nonNullObjectForKey:@"notify_called_911"] boolValue];
     _notifyYank = [[attributes nonNullObjectForKey:@"notify_yank"] boolValue];
+    
+    return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -417,8 +419,7 @@
         member.phoneNumber = user.email;
     }
     
-    member.lastReportedLocation = user.lastReportedLocation;
-    member.lastReportedTime = user.lastReportedTime;
+    member.location = user.location;
     member.matchedUser = user;
     member.session = user.entourageSession;
     
@@ -567,8 +568,7 @@
         _notifyCalled911 = member.notifyCalled911;
         _notifyYank = member.notifyYank;
         
-        _lastReportedLocation = member.lastReportedLocation;
-        _lastReportedTime = member.lastReportedTime;
+        _location = member.location;
         _session = member.session;
     }
 }

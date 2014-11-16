@@ -28,10 +28,6 @@
         _statusString = @"No network connection";
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(newPicture)
-                                                 name:TSJavelinAPIAgencyDidFinishSmallLogoDownload
-                                               object:nil];
     
     [self getOrganizationsToDisplay];
     
@@ -67,10 +63,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)newPicture {
-    [_tableView reloadData];
 }
 
 #pragma mark - Bar Button Action

@@ -21,6 +21,13 @@
     return self;
 }
 
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes {
+    
+    self.url = [attributes valueForKey:@"url"];
+    
+    return self;
+}
+
 - (instancetype)initWithOnlyURLAttribute:(NSDictionary *)attributes forKey:(NSString *)key {
     return [self initWithAttributes:@{@"url": [attributes valueForKey:key]}];
 }

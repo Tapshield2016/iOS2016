@@ -27,7 +27,7 @@
 	// Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor clearColor]];
     
-    self.showLargeLogo = YES;
+    self.showAlternateLogoInNavBar = YES;
     
     [self.view addSubview:_voipController.view];
     

@@ -8,12 +8,14 @@
 
 #import "TSJavelinAPIBaseModel.h"
 #import "MKMapItem+EncodeDecode.h"
+#import "TSEntourageSessionPolyline.h"
 
 #define kTRACKING_STATUS_CHOICES @{@"T": "Tracking", @"A": @"Arrived@", @"N": @"Non-Arrival", @"C": @"Cancelled", @"U": @"Unknown"}
 
 @interface TSJavelinAPIEntourageSession : TSJavelinAPIBaseModel
 
 @property (strong, nonatomic) NSString *status;
+@property (strong, nonatomic) NSString *travelMode;
 
 @property (strong, nonatomic) MKMapItem *startLocation;
 @property (strong, nonatomic) MKMapItem *endLocation;
@@ -24,6 +26,6 @@
 
 @property (assign, nonatomic) BOOL entourageNotified;
 
-@property (strong, nonatomic) MKPolyline *locations;
+@property (strong, nonatomic) TSEntourageSessionPolyline *locations;
 
 @end

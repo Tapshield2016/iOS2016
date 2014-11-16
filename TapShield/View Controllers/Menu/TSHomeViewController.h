@@ -49,7 +49,7 @@
 - (void)clearEntourageAndResetMap;
 - (void)entourageModeOn;
 - (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate;
-
+- (void)moveMapViewToCoordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta;
 
 - (IBAction)callEmergencyNumber:(id)sender;
 - (IBAction)callAgencyDispatcher:(id)sender;

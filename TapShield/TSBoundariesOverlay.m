@@ -18,9 +18,9 @@
     if (self) {
         self.alpha = 0.5;
         self.lineWidth = 2.0;
-        self.image = agency.alternateLogo;
+        self.image = agency.theme.mapOverlayLogo;
         
-        UIColor *color = agency.secondaryColor;
+        UIColor *color = agency.theme.secondaryColor;
         if (!color) {
             color = [TSColorPalette randomColor];
         }
@@ -47,14 +47,20 @@
         MKMapRect theMapRect = [self.overlay boundingMapRect];
         
         MKMapPoint point = MKMapPointMake(MKMapRectGetMidX(theMapRect), MKMapRectGetMidY(theMapRect));
-        float imageRatio = _image.size.width/_image.size.height;
+        float widthByHeight = _image.size.width/_image.size.height;
+        float heightByWidth = _image.size.height/_image.size.width;
         
         
-        float newHeight = theMapRect.size.height/4;
+        float newHeight = theMapRect.size.height/2;
         if (newHeight > 3000) {
             newHeight = 3000;
         }
-        float newWidth = newHeight*imageRatio;
+        float newWidth = newHeight*widthByHeight;
+        
+        if (newWidth > theMapRect.size.width/2) {
+            newWidth = theMapRect.size.width/2;
+            newHeight = newWidth * heightByWidth;
+        }
         
         theMapRect = MKMapRectMake(point.x - newWidth/2, point.y - newHeight/2, newWidth, newHeight);
         

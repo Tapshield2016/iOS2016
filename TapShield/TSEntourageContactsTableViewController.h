@@ -14,5 +14,6 @@
 @interface TSEntourageContactsTableViewController : TSBaseEntourageContactsTableViewController <UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
 - (void)editEntourageMembers;
+- (void)clearSearch;
 
 @end

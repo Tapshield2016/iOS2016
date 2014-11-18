@@ -16,14 +16,14 @@
 #import <KVOController/FBKVOController.h>
 #import "TSEntourageSessionManager.h"
 
-@class MSDynamicsDrawerViewController;
-
 @interface TSEntourageContactsTableViewController ()
 
 @property (strong, nonatomic) UIView *syncingView;
 @property (strong, nonatomic) TSEntourageContactSearchResultsTableViewController *resultsController;
 
 @property (strong, nonatomic) FBKVOController *kvoController;
+
+@property (strong, nonatomic) NSDate *lastRefresh;
 
 @end
 
@@ -38,11 +38,12 @@
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     [self.searchController.searchBar sizeToFit];
+    
+    CGRect frame = self.searchController.searchBar.frame;
     self.searchController.searchBar.delegate = self;
     
     // Include the search controller's search bar within the table's header view.
     self.tableView.tableHeaderView = self.searchController.searchBar;
-    
     
     UIVisualEffectView *visualEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
     visualEffect.frame = self.tableView.tableHeaderView.frame;
@@ -51,11 +52,10 @@
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
     
-    
-    
     [self initRefreshControl];
     
     [self getAddressBook];
+    [self refresh];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(entourageDidFinishSyncing:)
@@ -79,10 +79,8 @@
     
     [super viewWillAppear:animated];
     
-//    [self.refreshControl endRefreshing];
-//    
-//    [_resultsController.tableView reloadData];
-    [self refresh];
+    [self.refreshControl endRefreshing];
+    [_resultsController.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -107,9 +105,9 @@
     
     _kvoController = [FBKVOController controllerWithObserver:self];
     
-    [_kvoController observe:[TSEntourageSessionManager sharedManager] keyPath:@"membersWhoAdded" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSEntourageSessionManager *sessionManager, NSDictionary *change) {
+    [_kvoController observe:[TSJavelinAPIClient loggedInUser] keyPath:@"usersWhoAddedUser" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSJavelinAPIUser *loggedInUser, NSDictionary *change) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            weakSelf.whoAddedUser = sessionManager.membersToMonitor;
+            weakSelf.whoAddedUser = loggedInUser.usersWhoAddedUser;
             [weakSelf.tableView reloadData];
         }];
     }];
@@ -123,10 +121,20 @@
     }
     
     [[TSEntourageSessionManager sharedManager] getAllEntourageSessions:^(NSArray *entourageMembers) {
-        self.whoAddedUser = entourageMembers;
         [self getAddressBook];
         [self.refreshControl endRefreshing];
     }];
+    
+    _lastRefresh = [NSDate date];
+}
+
+- (void)setChangesMade:(BOOL)changesMade {
+    
+    [super setChangesMade:changesMade];
+    
+    if (changesMade != _resultsController.changesMade) {
+        _resultsController.changesMade = changesMade;
+    }
 }
 
 - (void)editEntourageMembers {
@@ -134,7 +142,7 @@
     if (self.isEditing) {
         self.isEditing = NO;
         [self.searchController setActive:NO];
-        [self searchBarCancelButtonClicked:self.searchBar];
+        [self searchBarCancelButtonClicked:self.searchController.searchBar];
         if (self.changesMade) {
             [self syncEntourageMembers];
         }
@@ -159,8 +167,8 @@
 
 - (void)getAddressBook {
     
-    self.entourageMembers = [TSJavelinAPIClient loggedInUser].entourageMembers;
-    self.whoAddedUser = [TSEntourageSessionManager sharedManager].membersToMonitor;
+    self.entourageMembers = [[TSJavelinAPIClient loggedInUser].entourageMembers allValues];
+    self.whoAddedUser = [TSJavelinAPIClient loggedInUser].usersWhoAddedUser;
     
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
@@ -310,6 +318,11 @@
     
     self.changesMade = YES;
     
+    if (!self.isEditing) {
+        animate = NO;
+        [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
+    }
+    
     if (animate && !self.animating) {
         self.animating = YES;
         [CATransaction begin];
@@ -378,10 +391,10 @@
     
     [self.tableView setHidden:NO];
     
-    self.searchBar.text = @"";
+    self.searchController.searchBar .text = @"";
     self.searching = NO;
     
-    [self.searchBar resignFirstResponder];
+    [self.searchController.searchBar resignFirstResponder];
     
     if (self.isEditing) {
         [self.tableView reloadData];
@@ -408,25 +421,27 @@
 }
 
 - (void)setEntourageMembers:(NSArray *)entourageMembers {
-    [super setEntourageMembers:entourageMembers];
-    _resultsController.staticEntourageMembers = self.entourageMembers;
+    [super setEntourageMembers:[self sortedMemberArray:entourageMembers]];
+    _resultsController.entourageMembers = self.entourageMembers;
 }
 
 - (void)setWhoAddedUser:(NSArray *)whoAddedUser {
-    [super setWhoAddedUser:whoAddedUser];
-    _resultsController.staticWhoAddedUser = self.whoAddedUser;
+    [super setWhoAddedUser:[self sortedMemberArray:whoAddedUser]];
+    _resultsController.whoAddedUser = self.whoAddedUser;
 }
 
 - (void)setAllContacts:(NSArray *)allContacts {
     
-    [super setAllContacts:allContacts];
-    _resultsController.staticAllContacts = self.allContacts;
+    [super setAllContacts:[self sortedMemberArray:allContacts]];
+    _resultsController.allContacts = self.allContacts;
+    
+    self.sortedContacts = [self sortContacts:self.allContacts];
 }
 
 - (void)setSortedContacts:(NSMutableDictionary *)sortedContacts {
     
     [super setSortedContacts:sortedContacts];
-    _resultsController.staticSortedContacts = sortedContacts;
+    _resultsController.sortedContacts = sortedContacts;
 }
 
 
@@ -486,10 +501,28 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.refreshControl endRefreshing];
         [self setSyncing:NO];
-        self.entourageMembers = [TSJavelinAPIClient loggedInUser].entourageMembers;
+        self.entourageMembers = [[TSJavelinAPIClient loggedInUser].entourageMembers allValues];
         [self.tableView reloadData];
         [_syncingView removeFromSuperview];
     }];
+}
+
+
+- (void)clearSearch {
+    
+    self.isEditing = NO;
+    [self.searchController setActive:NO];
+    [self searchBarCancelButtonClicked:self.searchController.searchBar];
+}
+
+- (void)setSelectedRowIndex:(NSIndexPath *)selectedRowIndex {
+    
+    [super setSelectedRowIndex:selectedRowIndex];
+    
+    if (![_resultsController.selectedRowIndex isEqual:selectedRowIndex] &&
+        (selectedRowIndex || _resultsController.selectedRowIndex)) {
+        _resultsController.selectedRowIndex = selectedRowIndex;
+    }
 }
 
 @end

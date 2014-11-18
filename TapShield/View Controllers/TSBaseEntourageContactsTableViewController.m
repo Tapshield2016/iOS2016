@@ -9,6 +9,7 @@
 #import "TSBaseEntourageContactsTableViewController.h"
 #import "TSEntourageContactTableViewCell.h"
 #import "TSEntourageMemberSettingsViewController.h"
+#import "TSEntourageSessionManager.h"
 
 @interface TSBaseEntourageContactsTableViewController ()
 
@@ -49,22 +50,19 @@
 
 
 - (void)setEntourageMembers:(NSArray *)entourageMembers {
-    _entourageMembers = [self sortedMemberArray:entourageMembers];
+    _entourageMembers = entourageMembers;
     _staticEntourageMembers = _entourageMembers;
 }
 
 - (void)setWhoAddedUser:(NSArray *)whoAddedUser {
-    _whoAddedUser = [self sortedMemberArray:whoAddedUser];
+    _whoAddedUser = whoAddedUser;
     _staticWhoAddedUser = _whoAddedUser;
 }
 
 - (void)setAllContacts:(NSArray *)allContacts {
     
-    _allContacts = [self sortedMemberArray:allContacts];
+    _allContacts = allContacts;
     _staticAllContacts = _allContacts;
-    
-    self.sortedContacts = [self sortContacts:_allContacts];
-    
 }
 
 - (void)setSortedContacts:(NSMutableDictionary *)sortedContacts {
@@ -83,6 +81,39 @@
     }];
 }
 
+- (void)setFilterString:(NSString *)filterString {
+    
+    _filterString = filterString;
+    
+    if (!filterString || filterString.length <= 0) {
+        
+        if (_entourageMembers.count == _staticEntourageMembers.count &&
+            _whoAddedUser.count == _staticWhoAddedUser.count &&
+            _allContacts.count == _staticAllContacts.count) {
+            return;
+        }
+        
+        _entourageMembers = _staticEntourageMembers;
+        _whoAddedUser = _staticWhoAddedUser;
+        _allContacts = _staticAllContacts;
+        _sortedContacts = _staticSortedContacts;
+    }
+    else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", filterString];
+        _entourageMembers = [_staticEntourageMembers filteredArrayUsingPredicate:predicate];
+        _whoAddedUser = [_staticWhoAddedUser filteredArrayUsingPredicate:predicate];
+        _allContacts = [_staticAllContacts filteredArrayUsingPredicate:predicate];
+        _sortedContacts = [self sortContacts:_allContacts];
+    }
+    
+    if (!_shouldMoveCell) {
+        
+        if (!_animating) {
+            _shouldReload = NO;
+            [self.tableView reloadData];
+        }
+    }
+}
 
 #pragma mark - Sorting
 
@@ -194,6 +225,7 @@
     
     if (!selectedRowIndex) {
         _selectedMember = nil;
+        [[TSEntourageSessionManager sharedManager] removeCurrentMemberSession];
         return;
     }
     
@@ -252,7 +284,6 @@
     [self.tableView endUpdates];
 }
 
-
 - (BOOL)sectionExistsForMember:(TSJavelinAPIEntourageMember *)member {
     
     NSString *firstLetter = [member.name substringToIndex:1];
@@ -292,7 +323,7 @@
     
     self.changesMade = NO;
     
-    [[TSJavelinAPIClient sharedClient] syncEntourageMembers:self.entourageMembers completion:^(id responseObject, NSError *error) {
+    [[TSJavelinAPIClient sharedClient] syncEntourageMembers:self.staticEntourageMembers completion:^(id responseObject, NSError *error) {
         
         if (!error) {
             NSLog(@"Saved entourage members");
@@ -341,9 +372,10 @@
         cell.backgroundColor = [UIColor clearColor];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     if (!member) {
         [cell emptyCell];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
@@ -353,18 +385,18 @@
         case 0:
             cell.statusImageView.hidden = NO;
             cell.isInEntourage = YES;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             break;
             
         case 1:
             cell.statusImageView.hidden = NO;
             cell.isInEntourage = NO;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if (!member.location && !member.session && !self.tableView.editing) {
+                cell.contentView.alpha = 0.5;
+            }
             break;
             
         default:
             cell.statusImageView.hidden = YES;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if (!self.tableView.editing) {
                 cell.contentView.alpha = 0.5;
             }
@@ -380,6 +412,8 @@
     else {
         [cell displaySelectedView:NO animated:NO];
     }
+    
+    [cell setWidth:self.tableView.frame.size.width];
     
     return cell;
 }
@@ -409,8 +443,8 @@
     
     
     CGRect frame = view.frame;
-    frame.origin.x += 20;
-    frame.size.width -= 40;
+    frame.origin.x += 25;
+    frame.size.width -= 25;
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont fontWithName:kFontWeightLight size:16];
@@ -572,7 +606,13 @@
         [self presentMemberSettingsWithMember:[self memberForIndexPath:indexPath]];
     }
     else {
-        [self toggleSelectedIndexPath:indexPath];
+        TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
+        if (member.session) {
+            [self toggleSelectedIndexPath:indexPath];
+        }
+        else if (member.location){
+            [[TSEntourageSessionManager sharedManager] locateEntourageMember:member];
+        }
     }
 }
 
@@ -582,6 +622,7 @@
         [self setIndexPath:indexPath selected:NO];
     }
 }
+
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     

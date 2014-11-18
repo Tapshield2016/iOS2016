@@ -30,7 +30,7 @@
     [super awakeFromNib];
     
     _tableViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSEntourageContactsTableViewController class])];
-    _tableViewController.view.frame = CGRectMake(50, 0, self.view.frame.size.width-50, self.view.frame.size.height);
+    _tableViewController.view.frame = CGRectMake(53, 0, self.view.frame.size.width-53, self.view.frame.size.height);
     [self.view addSubview:_tableViewController.view];
     [self addChildViewController:_tableViewController];
     [_tableViewController didMoveToParentViewController:self];

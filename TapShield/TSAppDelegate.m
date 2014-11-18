@@ -43,6 +43,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 @property (nonatomic, strong) TSAnimatedBackgroundView *windowBackground;
 @property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
 @property (nonatomic, strong) TSPopUpWindow *pushNotificationAlertWindow;
+@property (nonatomic, strong) TSEntourageContactsViewController *entourageContactsViewController;
 @property (strong, nonatomic) CTCallCenter *callCenter;
 
 @end
@@ -157,10 +158,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
     
-    TSEntourageContactsViewController *entourageContactsViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSEntourageContactsViewController"];
+    _entourageContactsViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSEntourageContactsViewController"];
     
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
-    [self.dynamicsDrawerViewController setDrawerViewController:entourageContactsViewController forDirection:MSDynamicsDrawerDirectionRight];
+    [self.dynamicsDrawerViewController setDrawerViewController:_entourageContactsViewController forDirection:MSDynamicsDrawerDirectionRight];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
 
@@ -483,6 +484,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     }
     else if (paneState == MSDynamicsDrawerPaneStateClosed) {
         [self.windowBackground stopRouteAnimation];
+        [_entourageContactsViewController.tableViewController clearSearch];
     }
 }
 

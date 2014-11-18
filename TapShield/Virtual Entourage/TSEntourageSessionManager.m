@@ -13,6 +13,7 @@
 #import "TSLocalNotification.h"
 #import "NSDate+Utilities.h"
 #import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
+#import "TSStartAnnotation.h"
 
 #define WALKING_RADIUS_MIN 25
 #define DRIVING_RADIUS_MIN 50
@@ -49,6 +50,7 @@ NSString * const TSEntourageSessionManagerTimerDidEnd = @"TSEntourageSessionMana
 
 @property (strong, nonatomic) NSArray *entourageMemberAnnotations;
 @property (strong, nonatomic) NSArray *entourageMemberOverlays;
+@property (strong, nonatomic) NSArray *entourageMemberStartEndAnnotations;
 
 @end
 
@@ -466,16 +468,16 @@ static dispatch_once_t predicate;
     [[TSJavelinAPIClient sharedClient] getEntourageSessionsWithLocationsSince:_lastCheckForSessions completion:^(NSArray *entourageMembers, NSError *error) {
         if (error) {
             if (completion) {
-                completion(_membersToMonitor);
+                completion([TSJavelinAPIClient loggedInUser].usersWhoAddedUser);
             }
         }
         else {
             if (completion) {
-                _membersToMonitor = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+                [[TSJavelinAPIClient loggedInUser] setUsersWhoAddedUserWithoutKVO:[TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers]];
                 completion(entourageMembers);
             }
             else {
-                self.membersToMonitor = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
+                [TSJavelinAPIClient loggedInUser].usersWhoAddedUser = [TSJavelinAPIEntourageMember sortedMemberArray:entourageMembers];
             }
             
             [self refreshEntourageMemberOverlaysAndAnnotations];
@@ -502,6 +504,45 @@ static dispatch_once_t predicate;
 }
 
 #pragma mark Single Session
+
+- (void)showSessionForMember:(TSJavelinAPIEntourageMember *)member {
+    
+    [_homeView.mapView removeAnnotations:_entourageMemberStartEndAnnotations];
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
+    TSSelectedDestinationAnnotation *destination;
+    destination = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:member.session.endLocation.placemark.coordinate
+                                                                     placeName:member.session.endLocation.name
+                                                                   description:nil
+                                                                    travelType:member.session.transportType];
+    if (destination) {
+        [mutableArray addObject:destination];
+    }
+    
+    TSStartAnnotation *start;
+    start = [[TSStartAnnotation alloc] initWithCoordinates:member.session.startLocation.placemark.coordinate
+                                                 placeName:member.session.startLocation.name
+                                               description:nil];
+    if (start) {
+        [mutableArray addObject:start];
+    }
+    
+    _entourageMemberStartEndAnnotations = [NSArray arrayWithArray:mutableArray];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_homeView.mapView addAnnotations:_entourageMemberStartEndAnnotations];
+        [_homeView setIsTrackingUser:NO animateToUser:NO];
+        [_homeView.mapView showAnnotations:_entourageMemberStartEndAnnotations animated:YES];
+        [self closeDrawer];
+    }];
+}
+
+- (void)removeCurrentMemberSession {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_homeView.mapView removeAnnotations:_entourageMemberStartEndAnnotations];
+        [_homeView setIsTrackingUser:YES animateToUser:YES];
+    }];
+}
 
 - (void)startMonitoringEntourageMember:(TSJavelinAPIEntourageMember *)member {
     
@@ -556,13 +597,17 @@ static dispatch_once_t predicate;
     
     
     float maxDelta = 0.06;
-    float delta = _homeView.mapView.region.span.latitudeDelta;
+    float delta = _homeView.mapView.region.span.longitudeDelta;
     if (delta > maxDelta) {
         delta = maxDelta;
     }
     
     [_homeView moveMapViewToCoordinate:member.mapAnnotation.coordinate spanDelta:delta];
-    
+//    [_homeView.mapView selectAnnotation:member.mapAnnotation animated:YES];
+    [self closeDrawer];
+}
+
+- (void)closeDrawer {
     TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
     if (delegate.dynamicsDrawerViewController.paneState != MSDynamicsDrawerPaneStateClosed) {
         [delegate.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:NO completion:nil];
@@ -574,7 +619,7 @@ static dispatch_once_t predicate;
 - (void)refreshEntourageMemberAnnotations {
     
     [_homeView.mapView removeAnnotations:_entourageMemberAnnotations];
-    [self addEntourageMembersToMap:_membersToMonitor];
+    [self addEntourageMembersToMap:[TSJavelinAPIClient loggedInUser].usersWhoAddedUser];
 }
 
 - (void)addEntourageMembersToMap:(NSArray *)entourageMembers {
@@ -603,7 +648,7 @@ static dispatch_once_t predicate;
 - (void)refreshEntourageMemberOverlays {
     
     [_homeView.mapView removeOverlays:_entourageMemberOverlays];
-    [self addEntourageSessionPolylines:_membersToMonitor];
+    [self addEntourageSessionPolylines:[TSJavelinAPIClient loggedInUser].usersWhoAddedUser];
 }
 
 - (void)addEntourageSessionPolylines:(NSArray *)entourageMembers {

@@ -7,23 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSEntourageContactsTableViewController.h"
+#import "TSBaseEntourageContactsTableViewController.h"
 
-@interface TSEntourageContactSearchResultsTableViewController : UITableViewController
+@class TSEntourageContactsTableViewController;
 
-@property (strong, nonatomic) NSString *filterString;
+@interface TSEntourageContactSearchResultsTableViewController : TSBaseEntourageContactsTableViewController
 
-@property (strong, nonatomic) NSArray *staticAllContacts;
-@property (strong, nonatomic) NSArray *staticEntourageMembers;
-@property (strong, nonatomic) NSArray *staticWhoAddedUser;
-
-@property (strong, nonatomic) NSMutableDictionary *staticSortedContacts;
-
-@property (assign, nonatomic) BOOL isEditing;
-@property (assign, nonatomic) BOOL syncing;
+//@property (strong, nonatomic) NSString *filterString;
+//
+//@property (strong, nonatomic) NSArray *staticAllContacts;
+//@property (strong, nonatomic) NSArray *staticEntourageMembers;
+//@property (strong, nonatomic) NSArray *staticWhoAddedUser;
+//
+//@property (strong, nonatomic) NSMutableDictionary *staticSortedContacts;
+//
+//@property (assign, nonatomic) BOOL isEditing;
+//@property (assign, nonatomic) BOOL syncing;
 
 @property (weak, nonatomic) TSEntourageContactsTableViewController *contactsTableViewController;
-
-- (void)updateEditingButton;
 
 @end

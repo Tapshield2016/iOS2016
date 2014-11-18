@@ -286,7 +286,7 @@ static NSString * const kNoUserFound = @"Real-time location sharing is only avai
         
         [[TSJavelinAPIClient loggedInUser] updateEntourageMember:_member];
         [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
-        [[TSJavelinAPIClient sharedClient] syncEntourageMembers:[TSJavelinAPIClient loggedInUser].entourageMembers completion:nil];
+        [[TSJavelinAPIClient sharedClient] syncEntourageMembers:[TSJavelinAPIClient loggedInUser].entourageMembers.allValues completion:nil];
     }
     
     TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;

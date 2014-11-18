@@ -810,6 +810,14 @@
 		C5BF02B81A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
 		C5BF02B91A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
 		C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
+		C5BF02BD1A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
+		C5BF02BE1A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
+		C5BF02BF1A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
+		C5BF02C01A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
+		C5BF02C31A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
+		C5BF02C41A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
+		C5BF02C51A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
+		C5BF02C61A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
 		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
 		C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
@@ -1363,6 +1371,10 @@
 		C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageMemberAnnotationView.m; sourceTree = "<group>"; };
 		C5BF02B51A19211A000F6177 /* TSEntourageSessionPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageSessionPolyline.h; sourceTree = "<group>"; };
 		C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageSessionPolyline.m; sourceTree = "<group>"; };
+		C5BF02BB1A19554C000F6177 /* TSStartAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStartAnnotation.h; sourceTree = "<group>"; };
+		C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStartAnnotation.m; sourceTree = "<group>"; };
+		C5BF02C11A195B29000F6177 /* TSStartAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSStartAnnotationView.h; path = Views/TSStartAnnotationView.h; sourceTree = "<group>"; };
+		C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSStartAnnotationView.m; path = Views/TSStartAnnotationView.m; sourceTree = "<group>"; };
 		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
 		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
 		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Map/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
@@ -1988,6 +2000,8 @@
 				C5C5E4D118EC58F000E1D868 /* TSRouteTimeAnnotation.m */,
 				C532E64118BBF2D600FC111A /* TSSelectedDestinationAnnotation.h */,
 				C532E64218BBF2D600FC111A /* TSSelectedDestinationAnnotation.m */,
+				C5BF02BB1A19554C000F6177 /* TSStartAnnotation.h */,
+				C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */,
 				C5AFB9211919F9CD00EC62A5 /* TSSpotCrimeAnnotation.h */,
 				C5AFB9221919F9CD00EC62A5 /* TSSpotCrimeAnnotation.m */,
 				B53BBD3218983648006A27E0 /* TSUserLocationAnnotation.h */,
@@ -2054,6 +2068,8 @@
 		C563570818ED149500BAA5D7 /* Annotation Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5BF02C11A195B29000F6177 /* TSStartAnnotationView.h */,
+				C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */,
 				C56356FE18ED13B600BAA5D7 /* TSBaseAnnotationView.h */,
 				C56356FF18ED13B600BAA5D7 /* TSBaseAnnotationView.m */,
 				C53A62E5196DD04B00C34BF0 /* TSClusterAnnotationView.h */,
@@ -3007,6 +3023,7 @@
 				C5B2E98618CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				B543F08818AAB40E004C2B26 /* TSFeedbackViewController.m in Sources */,
+				C5BF02BD1A19554C000F6177 /* TSStartAnnotation.m in Sources */,
 				C563570518ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C585F1CB18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				C56356F118EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */,
@@ -3064,6 +3081,7 @@
 				C5391EA018C7D17700C23C0A /* TSPushTransitionDelegate.m in Sources */,
 				C55443471A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				B5EE898618A025EF00BB3B81 /* TSLoginOrSignUpViewController.m in Sources */,
+				C5BF02C31A195B29000F6177 /* TSStartAnnotationView.m in Sources */,
 				C5BBF42618F9CF6D008B5CB2 /* TSRoundImageView.m in Sources */,
 				C5662BD918DCA15A00FD4F44 /* TSBaseButton.m in Sources */,
 				C5CED6421936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
@@ -3084,6 +3102,7 @@
 				C5B2E98818CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
 				C5CED63919355F990079CEA2 /* NSString+HTML.m in Sources */,
 				C556478618E48DD200D29B0D /* TSNavigationViewController.m in Sources */,
+				C5BF02C01A19554C000F6177 /* TSStartAnnotation.m in Sources */,
 				C5C1C9A619085CEA0087F622 /* TSAddMemberCell.m in Sources */,
 				C5AFBB92191F96B500EC62A5 /* TSRelationshipViewController.m in Sources */,
 				C5EAABE41904C4B6005EDD7B /* TSJavelinAPIEntourageMember.m in Sources */,
@@ -3115,6 +3134,7 @@
 				C5AFBB80191F766B00EC62A5 /* TSBaseTextView.m in Sources */,
 				C5294ED919FACB9800BC0324 /* TSEntourageContactsViewController.m in Sources */,
 				C5AFB92A1919FA6D00EC62A5 /* TSSpotCrimeAnnotationView.m in Sources */,
+				C5BF02C61A195B29000F6177 /* TSStartAnnotationView.m in Sources */,
 				C5C2F93019A3C372007A81A9 /* TSNavigationDelegate.m in Sources */,
 				C5B5635218E926C70013AF69 /* TSHitTestForwardingView.m in Sources */,
 				C5391EB018C8D9A900C23C0A /* TSEmergencyAlertViewController.m in Sources */,
@@ -3446,6 +3466,7 @@
 				C57C48DA18BBDB1900DFFBCE /* TSUserLocationButton.m in Sources */,
 				C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C563570618ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
+				C5BF02BE1A19554C000F6177 /* TSStartAnnotation.m in Sources */,
 				C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */,
 				C56356F218EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */,
 				C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */,
@@ -3503,6 +3524,7 @@
 				C57C48E518BBDB1900DFFBCE /* TSJavelinAPIAlert.m in Sources */,
 				C55443481A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				C57C48E618BBDB1900DFFBCE /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C5BF02C41A195B29000F6177 /* TSStartAnnotationView.m in Sources */,
 				C5BBF42718F9CF6E008B5CB2 /* TSRoundImageView.m in Sources */,
 				C57C48E718BBDB1900DFFBCE /* TSLoginOrSignUpViewController.m in Sources */,
 				C5CED6431936608E0079CEA2 /* TSPopUpWindow.m in Sources */,
@@ -3666,6 +3688,7 @@
 				C5AFB9A1191D35DE00EC62A5 /* TSUserLocationButton.m in Sources */,
 				C5AFB9A2191D35DE00EC62A5 /* TSRegistrationLabel.m in Sources */,
 				C5AFB9A3191D35DE00EC62A5 /* TSOrganizationAnnotationView.m in Sources */,
+				C5BF02BF1A19554C000F6177 /* TSStartAnnotation.m in Sources */,
 				C5AFB9A4191D35DE00EC62A5 /* TSMapOverlayCircle.m in Sources */,
 				C5AFB9A5191D35DE00EC62A5 /* TSEntourageSessionManager.m in Sources */,
 				C5AFB9A6191D35DE00EC62A5 /* TSJavelinAPIUserProfile.m in Sources */,
@@ -3723,6 +3746,7 @@
 				C5AFB9C9191D35DE00EC62A5 /* TSJavelinAPIAlert.m in Sources */,
 				C55443491A0C74D70087651B /* TSTalkOptionButton.m in Sources */,
 				C5AFB9CA191D35DE00EC62A5 /* TSJavelinAPIAuthenticationResult.m in Sources */,
+				C5BF02C51A195B29000F6177 /* TSStartAnnotationView.m in Sources */,
 				C5AFB9CB191D35DE00EC62A5 /* TSRoundImageView.m in Sources */,
 				C5AFB9CC191D35DE00EC62A5 /* TSLoginOrSignUpViewController.m in Sources */,
 				C5CED6441936608E0079CEA2 /* TSPopUpWindow.m in Sources */,

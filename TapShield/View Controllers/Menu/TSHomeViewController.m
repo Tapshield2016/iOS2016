@@ -33,6 +33,8 @@
 #import "TSTalkOptionViewController.h"
 #import "MBXMapKit.h"
 #import "TSEntourageMemberAnnotationView.h"
+#import "TSStartAnnotationView.h"
+#import "TSStartAnnotation.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -157,8 +159,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _firstMapLoad = NO;
         [_mapView setRegionAtAppearanceAnimated:self.firstAppear];
     }
-    
-    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -168,6 +168,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if ([TSJavelinAPIClient loggedInUser]) {
         [self whiteNavigationBar];
     }
+    
+    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     
     _mapView.isAnimatingToRegion = NO;
     
@@ -847,6 +849,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [annotationView displayTransportationType:annotation];
         if (!annotationView) {
             annotationView = [[TSDestinationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
+        }
+    }
+    else if ([annotation isKindOfClass:[TSStartAnnotation class]]) {
+        annotationView = (TSStartAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSStartAnnotation class])];
+        if (!annotationView) {
+            annotationView = [[TSStartAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSStartAnnotation class])];
         }
     }
     else if ([annotation isKindOfClass:[TSRouteTimeAnnotation class]]) {

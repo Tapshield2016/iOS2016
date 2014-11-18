@@ -54,8 +54,10 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 #pragma mark - Entourage Members
 
-@property (nonatomic, strong) NSArray *membersToMonitor;
-
 - (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion;
+
+- (void)showSessionForMember:(TSJavelinAPIEntourageMember *)member;
+
+- (void)removeCurrentMemberSession;
 
 @end

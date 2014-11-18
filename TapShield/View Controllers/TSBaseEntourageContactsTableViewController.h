@@ -35,12 +35,11 @@
 @property (assign, nonatomic, getter=isSyncing) BOOL syncing;
 @property (assign, nonatomic) BOOL changesMade;
 
-@property (strong, nonatomic) UISearchBar *searchBar;
-
 @property (assign, nonatomic) BOOL searching;
 @property (assign, nonatomic) BOOL animating;
 @property (assign, nonatomic) BOOL shouldReload;
 @property (assign, nonatomic) BOOL movingMember;
+@property (assign, nonatomic) BOOL shouldMoveCell;
 
 @property (strong ,nonatomic) NSIndexPath *selectedRowIndex;
 

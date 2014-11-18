@@ -34,6 +34,20 @@
     return self;
 }
 
+- (void)setTravelMode:(NSString *)travelMode {
+    
+    _travelMode = travelMode;
+    
+    if ([travelMode isEqualToString:@"D"]) {
+        _transportType = MKDirectionsTransportTypeAutomobile;
+    }
+    else if ([travelMode isEqualToString:@"W"]) {
+        _transportType = MKDirectionsTransportTypeWalking;
+    }
+    else {
+        _transportType = MKDirectionsTransportTypeAny;
+    }
+}
 
 - (TSEntourageSessionPolyline *)parseLocations:(NSArray *)points {
     

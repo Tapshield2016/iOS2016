@@ -20,6 +20,8 @@
 @property (strong, nonatomic) MKMapItem *startLocation;
 @property (strong, nonatomic) MKMapItem *endLocation;
 
+@property (assign, nonatomic) MKDirectionsTransportType transportType;
+
 @property (strong, nonatomic) NSDate *eta;
 @property (strong, nonatomic) NSDate *startTime;
 @property (strong, nonatomic) NSDate *arrivalTime;

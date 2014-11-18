@@ -545,7 +545,7 @@
     return mutableArray;
 }
 
-- (void)compareURLAndMerge:(TSJavelinAPIEntourageMember *)member {
+- (BOOL)compareURLAndMerge:(TSJavelinAPIEntourageMember *)member {
     
     if ([self.url isEqualToString:member.url]) {
         _name = member.name;
@@ -570,7 +570,12 @@
         
         _location = member.location;
         _session = member.session;
+        _mapAnnotation = member.mapAnnotation;
+        
+        return YES;
     }
+    
+    return NO;
 }
 
 + (NSArray *)sortedMemberArray:(NSArray *)array {

@@ -23,6 +23,8 @@
 
 @property (strong, nonatomic) UIImageView *statusImageView;
 
+@property (assign, nonatomic) CGFloat width;
+
 //@property (nonatomic, weak)
 
 - (void)displaySelectedView:(BOOL)selected animated:(BOOL)animated;

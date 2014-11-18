@@ -45,7 +45,7 @@
 
 + (NSArray *)entourageMembersFromUsers:(NSArray *)arrayOfUsers;
 
-- (void)compareURLAndMerge:(TSJavelinAPIEntourageMember *)member;
+- (BOOL)compareURLAndMerge:(TSJavelinAPIEntourageMember *)member;
 
 + (NSArray *)sortedMemberArray:(NSArray *)array;
 

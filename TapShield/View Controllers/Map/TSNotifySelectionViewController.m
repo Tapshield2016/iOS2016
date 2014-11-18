@@ -50,7 +50,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 20.0, 0);
     [_collectionView setCollectionViewLayout:_collectionLayout];
     
-    NSSet *set = [NSSet setWithArray:[TSJavelinAPIClient loggedInUser].entourageMembers];
+    NSSet *set = [NSSet setWithArray:[TSJavelinAPIClient loggedInUser].entourageMembers.allValues];
     _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:[set allObjects]]];
     _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
     [self mergeRecentPicksWithCurrentMembers];
@@ -434,7 +434,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (BOOL)changesWereMade {
     
-    if (_entourageMembers.count != [TSJavelinAPIClient loggedInUser].entourageMembers.count) {
+    if (_entourageMembers.count != [TSJavelinAPIClient loggedInUser].entourageMembers.allValues.count) {
         return YES;
     }
     
@@ -446,10 +446,8 @@ static NSString * const kRecentSelections = @"kRecentSelections";
                 return YES;
             }
             
-            for (TSJavelinAPIEntourageMember *member in [[TSJavelinAPIClient loggedInUser].entourageMembers copy]) {
-                if (sortingMember.identifier == member.identifier) {
-                    return NO;
-                }
+            if ([[TSJavelinAPIClient loggedInUser].entourageMembers objectForKey:sortingMember.url]) {
+                return NO;
             }
             
             return YES;

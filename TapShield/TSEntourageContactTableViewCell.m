@@ -11,6 +11,13 @@
 #import "TSRoundRectButton.h"
 #import "TSEntourageMemberSettingsViewController.h"
 #import "TSEntourageSessionManager.h"
+#import <Shimmer/FBShimmering.h>
+
+#define LeftMargin 10
+#define StatusImageWidth 40
+#define ContactImageSize 40
+#define LocateButtonWidth 60
+#define IndexWidth 15
 
 static NSString * const kDefaultImage = @"user_default_icon";
 
@@ -25,6 +32,14 @@ static NSString * const kEmailImage = @"emailSmall";
 @property (strong, nonatomic) UIView *selectedView;
 @property (strong, nonatomic) UIView *highlightedView;
 
+@property (strong, nonatomic) UILabel *startLabel;
+@property (strong, nonatomic) UILabel *endLabel;
+
+@property (strong, nonatomic) FBShimmeringView *shimmeringView;
+
+@property (strong, nonatomic) NSTimer *etaTimer;
+@property (strong, nonatomic) UILabel *timerLabel;
+
 @end
 
 
@@ -37,18 +52,32 @@ static NSString * const kEmailImage = @"emailSmall";
     if (self) {
         _isInEntourage = NO;
         
-        _contactImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 40, 40)];
+        _contactImageView = [[UIImageView alloc] initWithFrame:CGRectMake(LeftMargin, ([TSEntourageContactTableViewCell height] - ContactImageSize)/2, ContactImageSize, ContactImageSize)];
         [self.contentView addSubview:_contactImageView];
         
         
-        _contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 145, 50)];
+        _contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(ContactImageSize+LeftMargin*2, 0, self.frame.size.width - StatusImageWidth - IndexWidth - (ContactImageSize+LeftMargin*2), [TSEntourageContactTableViewCell height])];
         _contactNameLabel.textColor = [UIColor whiteColor];
         _contactNameLabel.font = [TSFont fontWithName:kFontWeightThin size:16];
         
-        _statusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(215, 0, 40, 50)];
+        
+        _shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(self.frame.size.width - StatusImageWidth - IndexWidth, 0, StatusImageWidth, [TSEntourageContactTableViewCell height])];
+        _shimmeringView.shimmeringSpeed = 25;
+        
+        _statusImageView = [[UIImageView alloc] initWithFrame:_shimmeringView.bounds];
         _statusImageView.contentMode = UIViewContentModeCenter;
         _statusImageView.alpha = 0.5;
-        [self.contentView addSubview:_statusImageView];
+        _shimmeringView.contentView = _statusImageView;
+        
+        _timerLabel = [[UILabel alloc] initWithFrame:_shimmeringView.frame];
+        _timerLabel.hidden = YES;
+        _timerLabel.textColor = [UIColor whiteColor];
+        _timerLabel.font = [TSFont fontWithName:kFontWeightThin size:14];
+        _timerLabel.textAlignment = NSTextAlignmentCenter;
+        _timerLabel.adjustsFontSizeToFitWidth = YES;
+        [self.contentView addSubview:_timerLabel];
+        
+        [self.contentView addSubview:_shimmeringView];
         
         [self.contentView addSubview:_contactNameLabel];
         
@@ -63,6 +92,23 @@ static NSString * const kEmailImage = @"emailSmall";
     return self;
 }
 
+- (void)setWidth:(CGFloat)width {
+    
+    _width = width;
+    
+    
+    _timerLabel.frame = CGRectMake(width - LocateButtonWidth - IndexWidth, 0, LocateButtonWidth, [TSEntourageContactTableViewCell height]);
+    
+    if (width == [UIScreen mainScreen].bounds.size.width) {
+        _contactNameLabel.frame = CGRectMake(ContactImageSize+LeftMargin*2, 0, width - LocateButtonWidth - IndexWidth - (ContactImageSize+LeftMargin*2), [TSEntourageContactTableViewCell height]);
+        _shimmeringView.frame = _timerLabel.frame;
+    }
+    else {
+        _contactNameLabel.frame = CGRectMake(ContactImageSize+LeftMargin*2, 0, width - StatusImageWidth - IndexWidth - LeftMargin - ContactImageSize, [TSEntourageContactTableViewCell height]);
+        _shimmeringView.frame = CGRectMake(width - StatusImageWidth - IndexWidth, 0, StatusImageWidth, [TSEntourageContactTableViewCell height]);
+    }
+}
+
 + (CGFloat)selectedHeight {
     
     return 150;
@@ -71,6 +117,15 @@ static NSString * const kEmailImage = @"emailSmall";
 + (CGFloat)height {
     
     return 50;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    
+    [super setEditing:editing animated:animated];
+    
+    if (!self.selected) {
+        _shimmeringView.hidden = editing;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -86,7 +141,7 @@ static NSString * const kEmailImage = @"emailSmall";
     
     [super setHighlighted:highlighted animated:animated];
     
-    if (_isInEntourage) {
+    if (_isInEntourage || (!_contact.session && _contact.location)) {
         [self displayHighlightedView:highlighted];
     }
 }
@@ -117,6 +172,9 @@ static NSString * const kEmailImage = @"emailSmall";
         [self initSelectedView];
         [self selectedViewVisible:selected];
         _selectedView.hidden = !selected;
+        if (_selectedView.hidden) {
+            [self removeselectedViewFromSuperview];
+        }
         return;
     }
     
@@ -129,14 +187,28 @@ static NSString * const kEmailImage = @"emailSmall";
     }];
 }
 
+- (void)removeselectedViewFromSuperview {
+    
+    [_selectedView removeFromSuperview];
+    _selectedView = nil;
+}
+
 - (void)selectedViewVisible:(BOOL)visible {
     
     if (visible) {
         _selectedView.frame = CGRectMake(0, [TSEntourageContactTableViewCell height], self.frame.size.width - 15, [TSEntourageContactTableViewCell selectedHeight] - [TSEntourageContactTableViewCell height]);
+        _contactNameLabel.frame = CGRectMake(ContactImageSize+LeftMargin*2, 0, self.frame.size.width - LocateButtonWidth - IndexWidth - (ContactImageSize+LeftMargin*2), [TSEntourageContactTableViewCell height]);
+        [self startTrackingCountdownTimer];
     }
     else {
+        _contactNameLabel.frame = CGRectMake(ContactImageSize+LeftMargin*2, 0, self.frame.size.width - StatusImageWidth - IndexWidth - LeftMargin - ContactImageSize, [TSEntourageContactTableViewCell height]);
         _selectedView.frame = CGRectMake(0, [TSEntourageContactTableViewCell height], self.frame.size.width - 15, 0);
+        [self stopTimer];
     }
+    
+    _shimmeringView.hidden = visible;
+    _timerLabel.hidden = !visible;
+    [self changeTime];
 }
 
 - (void)initSelectedView {
@@ -145,6 +217,11 @@ static NSString * const kEmailImage = @"emailSmall";
         _selectedView.hidden = NO;
         return;
     }
+    
+    [self showTrackingSelectedView];
+}
+
+- (void)showTrackingSelectedView {
     
     CGRect frame = CGRectMake(0, [TSEntourageContactTableViewCell height], self.frame.size.width - 15, 0);
     _selectedView = [[UIView alloc] initWithFrame:frame];
@@ -170,21 +247,80 @@ static NSString * const kEmailImage = @"emailSmall";
     
     [_selectedView.layer addSublayer:innerShadowLayer];
     
+    _startLabel = [[UILabel alloc] initWithFrame:CGRectMake(15+LeftMargin*2, 0, frame.size.width-110, frame.size.height/2)];
+    _startLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
+    _startLabel.textColor = [UIColor whiteColor];
+    _startLabel.text = _contact.session.startLocation.name;
+    [view addSubview:_startLabel];
+    
+    _endLabel = [[UILabel alloc] initWithFrame:CGRectMake(15+LeftMargin*2, frame.size.height/2, frame.size.width-110, frame.size.height/2)];
+    _endLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
+    _endLabel.textColor = [UIColor whiteColor];
+    _endLabel.text = _contact.session.endLocation.name;
+    [view addSubview:_endLabel];
+    
+    [self addShimmeringStartEndViewToView:view];
+    
+    TSRoundRectButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(frame.size.width-60, 0, 60, frame.size.height);
+    [button setBackgroundImage:[UIImage imageFromColor:[[UIColor blackColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
+    [button setTitle:@"Locate" forState:UIControlStateNormal];
+    
+    UIImage *locateImage = [UIImage imageNamed:@"locate_me_icon"];
+    [button setImage:[locateImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    
+    [button setTitleColor:[TSColorPalette whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(locateUser) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont fontWithName:kFontWeightLight size:14];
+    button.titleEdgeInsets = UIEdgeInsetsMake(28, -15, 0, 0);
+    button.imageEdgeInsets = UIEdgeInsetsMake(-28, 17, 0, 0);
+    [view addSubview:button];
+    
+    
+    TSRoundRectButton *trackButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    trackButton.frame = CGRectMake(0, 0, frame.size.width-61, frame.size.height);
+    [trackButton setBackgroundImage:[UIImage imageFromColor:[[UIColor blackColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
+    [trackButton addTarget:self action:@selector(trackUser) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:trackButton];
+    
     UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width-61, 10, 1, frame.size.height-20)];
     borderView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
     [view addSubview:borderView];
     
-    UIImageView *startImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TrackingStartEndPin"]];
+    UIView *horizontalBorderView = [[UIView alloc] initWithFrame:CGRectMake(15+LeftMargin*2, frame.size.height/2, frame.size.width - LocateButtonWidth - (15+LeftMargin*2) - 10, 1)];
+    horizontalBorderView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    [view addSubview:horizontalBorderView];
+}
+
+
+- (void)addShimmeringStartEndViewToView:(UIView *)view {
+    
+    CGRect frame = view.frame;
+    
+    UIImage *image = [UIImage imageNamed:@"TrackingStartEndPin"];
+    float width = image.size.width+20;
+    
+    FBShimmeringView *shimmerView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(3, 0, width, frame.size.height)];
+    shimmerView.shimmeringDirection = FBShimmerDirectionDown;
+    shimmerView.shimmeringSpeed = 25;
+    [view addSubview:shimmerView];
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:shimmerView.bounds];
+    contentView.backgroundColor = [UIColor clearColor];
+    shimmerView.contentView = contentView;
+    
+    UIImageView *startImageView = [[UIImageView alloc] initWithImage:image];
     startImageView.contentMode = UIViewContentModeCenter;
-    startImageView.frame = CGRectMake(0, 0, 40, frame.size.height/2);
-    [view addSubview:startImageView];
+    startImageView.frame = CGRectMake(0, 0, width, frame.size.height/2);
+    [contentView addSubview:startImageView];
     
-    UIImageView *endImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TrackingStartEndPin"]];
+    UIImageView *endImageView = [[UIImageView alloc] initWithImage:image];
     endImageView.contentMode = UIViewContentModeCenter;
-    endImageView.frame = CGRectMake(0, frame.size.height/2, 40, frame.size.height/2);
-    [view addSubview:endImageView];
+    endImageView.frame = CGRectMake(0, frame.size.height/2, width, frame.size.height/2);
+    [contentView addSubview:endImageView];
     
-    UIView *dashedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, frame.size.height)];
+    UIView *dashedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, frame.size.height)];
     
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     [shapeLayer setBounds:dashedView.bounds];
@@ -199,54 +335,31 @@ static NSString * const kEmailImage = @"emailSmall";
     
     // Setup the path
     CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, 20, frame.size.height/3 + 3);
-    CGPathAddLineToPoint(path, NULL, 20, frame.size.height*2/3 - 3);
+    CGPathMoveToPoint(path, NULL, width/2, frame.size.height/3 + 3);
+    CGPathAddLineToPoint(path, NULL, width/2, frame.size.height*2/3 - 3);
     
     [shapeLayer setPath:path];
     CGPathRelease(path);
     
     [[dashedView layer] addSublayer:shapeLayer];
-    [view addSubview:dashedView];
+    [contentView addSubview:dashedView];
     
-    
-    UIView *horizontalBorderView = [[UIView alloc] initWithFrame:CGRectMake(40, frame.size.height/2, frame.size.width-110, 1)];
-    horizontalBorderView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-    [view addSubview:horizontalBorderView];
-    
-    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, frame.size.width-110, frame.size.height/2)];
-    startLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
-    startLabel.textColor = [UIColor whiteColor];
-    startLabel.text = _contact.session.startLocation.name;
-    [view addSubview:startLabel];
-    
-    UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, frame.size.height/2, frame.size.width-110, frame.size.height/2)];
-    endLabel.font = [UIFont fontWithName:kFontWeightThin size:16];
-    endLabel.textColor = [UIColor whiteColor];
-    endLabel.text = _contact.session.endLocation.name;
-    [view addSubview:endLabel];
-    
-    
-    TSRoundRectButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(frame.size.width-60, 0, 60, frame.size.height);
-    [button setBackgroundImage:[UIImage imageFromColor:[[UIColor blackColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
-    [button setTitle:@"Locate" forState:UIControlStateNormal];
-    
-    UIImage *locateImage = [UIImage imageNamed:@"locate_me_icon"];
-    [button setImage:[locateImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    
-    [button setTitleColor:[TSColorPalette whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:[[TSColorPalette whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
-    [button addTarget:self action:@selector(locateUser) forControlEvents:UIControlEventTouchUpInside];
-    button.titleLabel.font = [UIFont fontWithName:kFontWeightLight size:16];
-    button.titleEdgeInsets = UIEdgeInsetsMake(28, -17, 0, 0);
-    button.imageEdgeInsets = UIEdgeInsetsMake(-28, 17, 0, 0);
-    [view addSubview:button];
+    shimmerView.shimmering = YES;
 }
 
+- (void)trackUser {
+    
+    [[TSEntourageSessionManager sharedManager] showSessionForMember:_contact];
+}
 
 - (void)locateUser {
     
     [[TSEntourageSessionManager sharedManager] locateEntourageMember:_contact];
+}
+
+- (void)stopTrackingUser {
+    
+    [[TSEntourageSessionManager sharedManager] removeCurrentMemberSession];
 }
 
 - (void)setContact:(TSJavelinAPIEntourageMember *)contact {
@@ -263,6 +376,7 @@ static NSString * const kEmailImage = @"emailSmall";
     }
     _contactNameLabel.text = contact.name;
     
+    [_shimmeringView setShimmering:NO];
     
     if (_isInEntourage) {
         if (contact.matchedUser) {
@@ -278,6 +392,7 @@ static NSString * const kEmailImage = @"emailSmall";
     else {
         if (contact.session) {
             _statusImageView.image = [UIImage imageNamed:kTrackingImage];
+            [_shimmeringView setShimmering:YES];
         }
         else if (contact.location) {
             _statusImageView.image = [UIImage imageNamed:kAlwaysVisibleImage];
@@ -286,6 +401,9 @@ static NSString * const kEmailImage = @"emailSmall";
             _statusImageView.image = nil;
         }
     }
+    
+    _startLabel.text = _contact.session.startLocation.name;
+    _endLabel.text = _contact.session.endLocation.name;
 }
 
 - (void)initContentSubviews {
@@ -321,6 +439,32 @@ static NSString * const kEmailImage = @"emailSmall";
     [self.contentView addSubview:_contactNameLabel];
     
     _contactNameLabel.text = @"None";
+}
+
+
+- (void)startTrackingCountdownTimer {
+    
+    [self stopTimer];
+    
+    _etaTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(changeTime) userInfo:nil repeats:YES];
+    _etaTimer.tolerance = 0.2;
+    [[NSRunLoop currentRunLoop] addTimer:_etaTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopTimer {
+    [_etaTimer invalidate];
+    _etaTimer = nil;
+}
+
+- (void)changeTime {
+    NSTimeInterval time = [_contact.session.eta timeIntervalSinceDate:[NSDate date]];
+    _timerLabel.text = [TSUtilities formattedStringForTime:time];
+    if (time <= 0 && ![_timerLabel.textColor isEqual:[TSColorPalette alertRed]]) {
+        _timerLabel.textColor = [TSColorPalette alertRed];
+    }
+    else if (![_timerLabel.textColor isEqual:[TSColorPalette whiteColor]]) {
+        _timerLabel.textColor = [TSColorPalette whiteColor];
+    }
 }
 
 @end

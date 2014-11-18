@@ -61,7 +61,6 @@ static dispatch_once_t predicate;
     
     if (_mapView != mapView) {
         _mapView = mapView;
-        [self showSpotCrimes];
     }
 }
 

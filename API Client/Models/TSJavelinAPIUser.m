@@ -43,7 +43,7 @@
     _lastName = [attributes valueForKey:@"last_name"];
     _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
-    self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
+    [self setEntourageMembersForKeys:[attributes nonNullObjectForKey:@"entourage_members"]];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     _userProfile = [self unarchiveUserProfile];
@@ -59,10 +59,6 @@
     if (lat && lon) {
         _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(lat, lon) altitude:[[attributes nonNullObjectForKey:@"altitude"] floatValue]  horizontalAccuracy:[[attributes nonNullObjectForKey:@"accuracy"] floatValue] verticalAccuracy:0 timestamp:[self reformattedTimeStamp:[attributes nonNullObjectForKey:@"location_timestamp"]]];
     }
-    
-//    if ([attributes nonNullObjectForKey:@"location_timestamp"]) {
-//        _locationTimestamp = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"location_timestamp"]];
-//    }
     
     if ([attributes nonNullObjectForKey:@"entourage_session"]) {
         _entourageSession = [[TSJavelinAPIEntourageSession alloc] initWithAttributes:[attributes nonNullObjectForKey:@"entourage_session"]];
@@ -100,7 +96,11 @@
     }
     
     if (_secondaryEmails) {
-        [encoder encodeObject:_entourageMembers forKey:@"secondary_emails"];
+        [encoder encodeObject:_secondaryEmails forKey:@"secondary_emails"];
+    }
+    
+    if (_usersWhoAddedUser) {
+        [encoder encodeObject:_usersWhoAddedUser forKey:@"usersWhoAddedUser"];
     }
 }
 
@@ -127,11 +127,22 @@
         }
         
         if ([decoder containsValueForKey:@"entourage_members"]) {
-            _entourageMembers = [decoder decodeObjectForKey:@"entourage_members"];
+            id object = [decoder decodeObjectForKey:@"entourage_members"];
+            if ([object isKindOfClass:[NSMutableDictionary class]]) {
+                _entourageMembers = object;
+            }
+            else {
+                [self setEntourageMembersForKeys:object];
+            }
         }
         
         if ([decoder containsValueForKey:@"secondary_emails"]) {
             _secondaryEmails = [decoder decodeObjectForKey:@"secondary_emails"];
+        }
+        
+        
+        if ([decoder containsValueForKey:@"usersWhoAddedUser"]) {
+            _usersWhoAddedUser = [decoder decodeObjectForKey:@"usersWhoAddedUser"];
         }
     }
     return self;
@@ -163,7 +174,7 @@
     _lastName = [attributes valueForKey:@"last_name"];
     _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
-    self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
+    [self setEntourageMembersForKeys:[attributes nonNullObjectForKey:@"entourage_members"]];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     if ([attributes nonNullObjectForKey:@"token"]) {
@@ -173,15 +184,39 @@
     return self;
 }
 
-- (void)setEntourageMembers:(NSArray *)entourageMembers {
+- (void)setEntourageMembersForKeys:(NSArray *)entourageMembers {
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:entourageMembers.count];
-    for (NSDictionary *dictionary in entourageMembers) {
-        TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithAttributes:dictionary];
-        [mutableArray addObject:member];
+    if (!_entourageMembers) {
+        _entourageMembers = [[NSMutableDictionary alloc] initWithCapacity:entourageMembers.count];
     }
     
-    _entourageMembers = mutableArray;
+    for (id object in entourageMembers) {
+        TSJavelinAPIEntourageMember *member;
+        if ([object isKindOfClass:[TSJavelinAPIEntourageMember class]]) {
+            member = object;
+        }
+        else {
+            member = [[TSJavelinAPIEntourageMember alloc] initWithAttributes:object];
+        }
+        
+        [_entourageMembers setObject:member forKey:member.url];
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+}
+
+- (void)setUsersWhoAddedUserWithoutKVO:(NSArray *)usersWhoAddedUser {
+    
+    _usersWhoAddedUser = usersWhoAddedUser;
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+}
+
+- (void)setUsersWhoAddedUser:(NSArray *)usersWhoAddedUser {
+    
+    _usersWhoAddedUser = usersWhoAddedUser;
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
 }
 
 - (void)setSecondaryEmails:(NSArray *)secondaryEmails {
@@ -544,16 +579,27 @@
 
 - (void)updateEntourageMember:(TSJavelinAPIEntourageMember *)member {
     
-    if (![_entourageMembers containsObject:member]) {
-        NSMutableArray *mutable = [[NSMutableArray alloc] initWithArray:_entourageMembers];
-        for (TSJavelinAPIEntourageMember *currentMember in _entourageMembers) {
-            if ([currentMember isEqual:member]) {
-                [mutable removeObject:currentMember];
-                [mutable addObject:member];
-            }
-        }
+    if (!member) {
+        return;
+    }
+    
+    TSJavelinAPIEntourageMember *currentMember = [_entourageMembers objectForKey:member.url];
+    if (!currentMember) {
+        [_entourageMembers setObject:member forKey:member.url];
+    }
+    else if (![currentMember compareURLAndMerge:member]) {
+        [_entourageMembers setObject:member forKey:member.url];
+//        NSMutableArray *mutable = [[NSMutableArray alloc] initWithArray:_entourageMembers];
+//        for (TSJavelinAPIEntourageMember *currentMember in _entourageMembers) {
+//            if ([currentMember isEqual:member]) {
+//                [mutable removeObject:currentMember];
+//                [mutable addObject:member];
+//            }
+//        }
+//        
+//        _entourageMembers = mutable;
         
-        _entourageMembers = mutable;
+        
     }
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];

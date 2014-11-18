@@ -507,24 +507,23 @@ static dispatch_once_t onceToken;
         return;
     }
     
-    if (!_isStillActiveAlert) {
-        return;
-    }
-    
-    
     _locationAwaitingPost = location;
     
     if (!_locationPostTimer) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _locationPostTimer = [NSTimer scheduledTimerWithTimeInterval:20
-                                                                  target:self
-                                                                selector:@selector(sendLocationUpdate:)
-                                                                userInfo:nil
-                                                                 repeats:YES];
-            [self sendLocationUpdate:location];
-            return;
-        });
+        [self sendLocationUpdate:location];
     }
+    
+    NSTimeInterval alertInterval = 20;
+    NSTimeInterval standardInterval = 60;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (_isStillActiveAlert && _locationPostTimer.timeInterval != alertInterval) {
+            [self startLocationSendTimerWithInterval:alertInterval];
+        }
+        else if (_locationPostTimer.timeInterval != standardInterval) {
+            [self startLocationSendTimerWithInterval:standardInterval];
+        }
+    }];
     
     if (location.coordinate.latitude == _previouslyPostedLocation.coordinate.latitude && location.coordinate.longitude == _previouslyPostedLocation.coordinate.longitude) {
         return;
@@ -537,53 +536,55 @@ static dispatch_once_t onceToken;
     }
 }
 
+- (void)startLocationSendTimerWithInterval:(NSTimeInterval)interval {
+    
+    if (_locationPostTimer) {
+        [self stopLocationSendTimer];
+    }
+    
+    _locationPostTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                          target:self
+                                                        selector:@selector(sendLocationUpdate:)
+                                                        userInfo:nil
+                                                         repeats:YES];
+    _locationPostTimer.tolerance = 10;
+}
+
+- (void)stopLocationSendTimer {
+    
+    [_locationPostTimer invalidate];
+    _locationPostTimer = nil;
+}
+
 - (void)sendLocationUpdate:(CLLocation *)location {
     
-    if (!_isStillActiveAlert) {
-        [_locationPostTimer invalidate];
-        return;
+    if (!_isStillActiveAlert && _locationPostTimer.timeInterval == 20) {
+        [self startLocationSendTimerWithInterval:60];
     }
     
     if (![location isKindOfClass:[CLLocation class]] || !location) {
         location = _locationAwaitingPost;
     }
     
-    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
+    CLLocationDistance movementDistance;
+    
+    if (_isStillActiveAlert) {
+        movementDistance = 5;
+    }
+    else {
+        movementDistance = 30;
+    }
     
     //Check to make sure location needs to be sent
     if (_previouslyPostedLocation) {
-        if ([location distanceFromLocation:_previouslyPostedLocation] < 5 && location.horizontalAccuracy >= _previouslyPostedLocation.horizontalAccuracy) {
+        if ([location distanceFromLocation:_previouslyPostedLocation] < movementDistance && location.horizontalAccuracy >= _previouslyPostedLocation.horizontalAccuracy) {
             return;
         }
     }
     NSLog(@"New location distance change = %f", [location distanceFromLocation:_previouslyPostedLocation]);
     _previouslyPostedLocation = location;
     
-    if (!activeAlert.url) {
-        return;
-    }
-    
-    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
-                  forHTTPHeaderField:@"Authorization"];
-    [self POST:@"alert-locations/"
-    parameters:@{ @"alert": activeAlert.url,
-                  @"accuracy": [NSNumber numberWithDouble:location.horizontalAccuracy],
-                  @"altitude": [NSNumber numberWithDouble:location.altitude],
-                  @"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
-                  @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude],
-                  @"floor_level": [NSNumber numberWithInteger:location.floor.level]}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"Successfully created new alert location: %@", responseObject);
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           
-           if (operation.response.statusCode == 404) {
-               NSLog(@"Alert not found. Alert must be completed. Disarm");
-               [[TSJavelinAlertManager sharedManager] alertWasCompletedByDispatcher:activeAlert.url];
-           }
-           else {
-               NSLog(@"Failed to create new alert location: %@", error.localizedDescription);
-           }
-       }];
+    [self userLocationUpdate:location];
 }
 
 
@@ -931,8 +932,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     [manager POST:[NSString stringWithFormat:@"%@api/entourage/members/", _baseAuthURL]
        parameters:mutableArray
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              [[TSJavelinAPIClient loggedInUser] setEntourageMembers:responseObject];
-              [[TSJavelinAPIAuthenticationManager sharedManager] archiveLoggedInUser];
+              [[TSJavelinAPIClient loggedInUser] setEntourageMembersForKeys:responseObject];
               if (completion) {
                   completion([TSJavelinAPIClient loggedInUser], nil);
               }
@@ -1020,6 +1020,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
+           [[TSJavelinAPIClient loggedInUser].entourageMembers removeObjectForKey:member.url];
            if (completion) {
                completion(member, nil);
            }

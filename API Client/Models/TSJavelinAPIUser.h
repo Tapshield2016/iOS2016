@@ -29,7 +29,8 @@
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) TSJavelinAPIUserProfile *userProfile;
-@property (nonatomic, strong) NSArray *entourageMembers;
+@property (nonatomic, strong) NSMutableDictionary *entourageMembers;
+@property (nonatomic, strong) NSArray *usersWhoAddedUser;
 @property (nonatomic, strong) NSArray *secondaryEmails;
 
 @property (nonatomic, strong) NSDate *locationTimestamp;
@@ -44,7 +45,7 @@
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
 
-- (void)setEntourageMembers:(NSArray *)entourageMembers;
+- (void)setEntourageMembersForKeys:(NSArray *)entourageMembers;
 
 - (BOOL)canJoinAgency:(TSJavelinAPIAgency *)agency;
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain;
@@ -59,5 +60,7 @@
 - (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes;
 
 - (void)updateEntourageMember:(id)member;
+
+- (void)setUsersWhoAddedUserWithoutKVO:(NSArray *)usersWhoAddedUser;
 
 @end

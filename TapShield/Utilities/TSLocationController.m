@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSTimer *cycleTimer;
 @property (nonatomic, strong) NSMutableArray *locationCompletions;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier bgTask;
 
 @end
 
@@ -40,7 +41,9 @@ static dispatch_once_t predicate;
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.locationManager.distanceFilter = 1.0;
+        self.locationManager.distanceFilter = 5.0;
+        self.locationManager.pausesLocationUpdatesAutomatically = YES;
+        self.locationManager.activityType = CLActivityTypeFitness;
         self.geofence = [[TSGeofence alloc] init];
         
         UIDevice *device = [UIDevice currentDevice];
@@ -63,6 +66,16 @@ static dispatch_once_t predicate;
 
 
 #pragma mark - Battery Management
+
++ (void)driving {
+    
+    [TSLocationController sharedLocationController].locationManager.activityType = CLActivityTypeAutomotiveNavigation;
+}
+
++ (void)walking {
+    
+    [TSLocationController sharedLocationController].locationManager.activityType = CLActivityTypeFitness;
+}
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     
@@ -110,7 +123,9 @@ static dispatch_once_t predicate;
     if (!_locationCompletions) {
         _locationCompletions = [[NSMutableArray alloc] initWithCapacity:5];
     }
-    [_locationCompletions addObject:completion];
+    if (completion) {
+        [_locationCompletions addObject:completion];
+    }
 }
 
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion {
@@ -170,6 +185,11 @@ static dispatch_once_t predicate;
     [_locationManager stopUpdatingLocation];
     
     _locationCompletions = nil;
+}
+
+- (void)stopMonitoringSignificantLocationChanges {
+    
+    [_locationManager stopMonitoringSignificantLocationChanges];
 }
 
 #pragma mark - GPS Strength
@@ -311,7 +331,17 @@ static dispatch_once_t predicate;
         [_locationCompletions removeObjectsInArray:toRemove];
     }
     
-    [[TSJavelinAPIClient sharedClient] locationUpdated:_location];
+    BOOL isInBackground = NO;
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        isInBackground = YES;
+    }
+    
+    if (isInBackground) {
+        [self sendBackgroundLocationToServer:_location];
+    }
+    else {
+        [[TSJavelinAPIClient sharedClient] locationUpdated:_location completion:nil];
+    }
     
     if ([_delegate respondsToSelector:@selector(locationDidUpdate:)]) {
         [_delegate locationDidUpdate:_location];
@@ -319,6 +349,23 @@ static dispatch_once_t predicate;
     
     [_geofence updateProximityToAgencies:_location];
 }
+
+
+- (void)sendBackgroundLocationToServer:(CLLocation *)location {
+    
+    self.bgTask = [[UIApplication sharedApplication]
+              beginBackgroundTaskWithExpirationHandler:^{
+                  [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
+                   }];
+    
+    [[TSJavelinAPIClient sharedClient] locationUpdated:_location completion:^(BOOL finished) {
+        if (self.bgTask != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
+            self.bgTask = UIBackgroundTaskInvalid;
+        }
+    }];
+}
+
 
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
     if ([_delegate respondsToSelector:@selector(didStartMonitoringForRegion:)]) {

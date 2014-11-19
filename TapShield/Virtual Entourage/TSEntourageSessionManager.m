@@ -93,6 +93,13 @@ static dispatch_once_t predicate;
     return self;
 }
 
+- (void)setHomeView:(TSHomeViewController *)homeView {
+    
+    _homeView = homeView;
+    
+    [self refreshEntourageMemberOverlaysAndAnnotations];
+}
+
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion {
     
     _selectedETA = eta;

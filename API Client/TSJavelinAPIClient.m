@@ -501,39 +501,41 @@ static dispatch_once_t onceToken;
 
 #pragma mark Location Updates
 
-- (void)locationUpdated:(CLLocation *)location {
-    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
-    if (!activeAlert || !activeAlert.url) {
-        return;
-    }
+- (void)locationUpdated:(CLLocation *)location completion:(void(^)(BOOL finished))completion {
     
     _locationAwaitingPost = location;
     
     if (!_locationPostTimer) {
-        [self sendLocationUpdate:location];
-    }
-    
-    NSTimeInterval alertInterval = 20;
-    NSTimeInterval standardInterval = 60;
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_isStillActiveAlert && _locationPostTimer.timeInterval != alertInterval) {
-            [self startLocationSendTimerWithInterval:alertInterval];
-        }
-        else if (_locationPostTimer.timeInterval != standardInterval) {
-            [self startLocationSendTimerWithInterval:standardInterval];
-        }
-    }];
-    
-    if (location.coordinate.latitude == _previouslyPostedLocation.coordinate.latitude && location.coordinate.longitude == _previouslyPostedLocation.coordinate.longitude) {
+        [self sendLocationUpdate:location completion:completion];
         return;
     }
     
-    //Send Location right away if enough time has passed or accuracy increased
-    NSTimeInterval timeOfPreviousLocation = [_previouslyPostedLocation.timestamp timeIntervalSinceNow];
-    if (abs(timeOfPreviousLocation) > 20 || location.horizontalAccuracy < _previouslyPostedLocation.horizontalAccuracy) {
-        [self sendLocationUpdate:location];
+    CLLocationDistance movementDistance = 30;
+    if (_isStillActiveAlert) {
+        movementDistance = 10;
     }
+    
+    CLLocation *previouslyPostedLocation = [TSJavelinAPIClient loggedInUser].location;
+    
+    //Check to make sure location needs to be sent
+    if (previouslyPostedLocation) {
+        
+        if (location.coordinate.latitude == previouslyPostedLocation.coordinate.latitude && location.coordinate.longitude == previouslyPostedLocation.coordinate.longitude) {
+            if (completion) {
+                completion(NO);
+            }
+            return;
+        }
+        
+        if ([location distanceFromLocation:previouslyPostedLocation] < movementDistance && location.horizontalAccuracy >= previouslyPostedLocation.horizontalAccuracy) {
+            if (completion) {
+                completion(NO);
+            }
+            return;
+        }
+    }
+    
+    [self sendLocationUpdate:location completion:completion];
 }
 
 - (void)startLocationSendTimerWithInterval:(NSTimeInterval)interval {
@@ -544,9 +546,9 @@ static dispatch_once_t onceToken;
     
     _locationPostTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                           target:self
-                                                        selector:@selector(sendLocationUpdate:)
+                                                        selector:@selector(sendLocationFromTimer)
                                                         userInfo:nil
-                                                         repeats:YES];
+                                                         repeats:NO];
     _locationPostTimer.tolerance = 10;
 }
 
@@ -556,45 +558,37 @@ static dispatch_once_t onceToken;
     _locationPostTimer = nil;
 }
 
-- (void)sendLocationUpdate:(CLLocation *)location {
+- (void)sendLocationFromTimer {
     
-    if (!_isStillActiveAlert && _locationPostTimer.timeInterval == 20) {
-        [self startLocationSendTimerWithInterval:60];
-    }
+    [self sendLocationUpdate:_locationAwaitingPost completion:nil];
+}
+
+- (void)sendLocationUpdate:(CLLocation *)location completion:(void(^)(BOOL finished))completion {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self startLocationSendTimerWithInterval:500];
+    }];
     
     if (![location isKindOfClass:[CLLocation class]] || !location) {
         location = _locationAwaitingPost;
     }
     
-    CLLocationDistance movementDistance;
-    
-    if (_isStillActiveAlert) {
-        movementDistance = 5;
-    }
-    else {
-        movementDistance = 30;
-    }
-    
-    //Check to make sure location needs to be sent
-    if (_previouslyPostedLocation) {
-        if ([location distanceFromLocation:_previouslyPostedLocation] < movementDistance && location.horizontalAccuracy >= _previouslyPostedLocation.horizontalAccuracy) {
-            return;
-        }
-    }
-    NSLog(@"New location distance change = %f", [location distanceFromLocation:_previouslyPostedLocation]);
-    _previouslyPostedLocation = location;
-    
-    [self userLocationUpdate:location];
+    [self userLocationUpdate:location completion:completion];
 }
 
 
-- (void)userLocationUpdate:(CLLocation *)location {
+- (void)userLocationUpdate:(CLLocation *)location completion:(void(^)(BOOL finished))completion {
     
     if (![TSJavelinAPIClient loggedInUser]) {
+        if (completion) {
+            completion(NO);
+        }
         return;
     }
     
+    NSLog(@"New location distance change = %f", [location distanceFromLocation:[TSJavelinAPIClient loggedInUser].location]);
     [TSJavelinAPIClient loggedInUser].location = location;
+    
     
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
@@ -606,9 +600,15 @@ static dispatch_once_t onceToken;
                   @"floor_level": [NSNumber numberWithInteger:location.floor.level],
                   @"location_timestamp": location.timestamp.iso8601String}
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"Successfully created new alert location: %@", responseObject);
+           NSLog(@"Patched location");
+           if (completion) {
+               completion(YES);
+           }
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"Failed to create new alert location: %@", error.localizedDescription);
+           NSLog(@"Failed to patch location: %@", error.localizedDescription);
+           if (completion) {
+               completion(NO);
+           }
        }];
 }
 

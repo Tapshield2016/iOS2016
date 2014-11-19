@@ -120,7 +120,6 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 @property (nonatomic, strong) TSJavelinS3UploadManager *uploadManager;
 @property (nonatomic, strong) TSJavelinAPIUserProfileUploadBlock profileUploadBlock;
 @property (nonatomic, strong) NSTimer *locationPostTimer;
-@property (nonatomic, strong) CLLocation *previouslyPostedLocation;
 @property (nonatomic, strong) CLLocation *locationAwaitingPost;
 @property (nonatomic) bool isStillActiveAlert;
 
@@ -153,12 +152,10 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 - (void)findActiveAlertAndCancel;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
 - (void)alertCompletionReceivedForAlertURL:(NSString *)url;
-- (void)locationUpdated:(CLLocation *)location;
+- (void)locationUpdated:(CLLocation *)location completion:(void(^)(BOOL finished))completion;
 - (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 
 - (void)sendDirectRestAPIAlertWithParameters:(NSDictionary *)parameters completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
-
-- (void)userLocationUpdate:(CLLocation *)location;
 
 // Message actions
 - (void)startChatForActiveAlert;

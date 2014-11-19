@@ -178,6 +178,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [[TSUserSessionManager sharedManager] userStatusCheck];
     
     [self registerForCallHandler];
+    
+    
 
     return YES;
 }
@@ -211,7 +213,9 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         }
     }
     else {
-        [[TSLocationController sharedLocationController] stopLocationUpdates];
+        if ([TSJavelinAPIClient loggedInUser]) {
+            [[TSLocationController sharedLocationController] startSignificantChangeUpdates:nil];
+        }
     }
 }
 
@@ -224,6 +228,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    
+    [[TSLocationController sharedLocationController] stopMonitoringSignificantLocationChanges];
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
@@ -259,20 +265,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     NSLog(@"Failed to get token, error: %@", error);
-    
-    
-//    NSString *name = @"Notification Center";
-//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
-//        name = @"Notifications";
-//    }
-//    NSString *message = [NSString stringWithFormat:@"Push Notifications are used during real-time chat and to recieve Mass Alerts from your agency. \n \n Go to Settings->%@->TapShield  to turn TapShield Push Notifications on", name];
-//    
-//    UIAlertView *enablePushNotificationsAlert = [[UIAlertView alloc] initWithTitle:@"Push Notifications enhance the functionality of TapShield.\n"
-//                                                                           message:message
-//                                                                          delegate:nil
-//                                                                 cancelButtonTitle:@"OK"
-//                                                                 otherButtonTitles: nil];
-//    [enablePushNotificationsAlert show];
 }
 
 - (void)application:(UIApplication *)application

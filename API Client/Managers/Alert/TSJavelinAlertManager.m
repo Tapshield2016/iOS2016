@@ -170,25 +170,21 @@ static dispatch_once_t onceToken;
         NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:7];
         alertInfo[@"user"] = alert.agencyUser.username;
         
+        BOOL inside = NO;
+        
         if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency] || (_activeAlert && _activeAlert.agency.identifier == [TSJavelinAPIClient loggedInUser].agency.identifier)) {
+            inside = YES;
             
             _activeAlert = alert;
-            
-            alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
-            alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
-            alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
-            alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
-            alertInfo[@"alert_type"] = type;
-            alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
         }
-        else {
-            NSLog(@"Out of bounds or no agency");
-            if (completion) {
-                completion(NO, NO);
-            }
-            [self setActiveAlert:nil];
-            return;
-        }
+        
+        alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
+        alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
+        alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
+        alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
+        alertInfo[@"alert_type"] = type;
+        alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
+        alertInfo[@"alert_initiated_outside"] = [NSNumber numberWithBool:!inside];
         
         NSString *alertJson = [TSJavelinAlertAMQPMessage amqpMessageStringFromDictionary:alertInfo];
         
@@ -204,7 +200,7 @@ static dispatch_once_t onceToken;
             if (task.error) {
                 NSLog(@"Error: %@", task.error);
                 if (completion) {
-                    completion(NO, YES);
+                    completion(NO, inside);
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -223,7 +219,7 @@ static dispatch_once_t onceToken;
             if (task.error) {
                 NSLog(@"Error: %@", task.error);
                 if (completion) {
-                    completion(NO, YES);
+                    completion(NO, inside);
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -231,87 +227,40 @@ static dispatch_once_t onceToken;
                 return nil;
             }
             
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
-            
-            if (completion) {
-                completion(YES, YES);
+            if (inside) {
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
             }
             
-            _retryAttempts = 0;
-            [self scheduleFindActiveAlertTimer];
+            if (completion) {
+                completion(YES, inside);
+            }
+            
+            if (inside) {
+                _retryAttempts = 0;
+                [self scheduleFindActiveAlertTimer];
+            }
+            
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             });
             
-            // Send user profile using API client method
-            [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
-                if (profileDataUploadSucceeded) {
-                    NSLog(@"profileDataUploadSucceeded");
-                }
-                if (imageUploadSucceeded) {
-                    NSLog(@"imageUploadSucceeded");
-                }
-            }];
+            if (inside) {
+                // Send user profile using API client method
+                [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
+                    if (profileDataUploadSucceeded) {
+                        NSLog(@"profileDataUploadSucceeded");
+                    }
+                    if (imageUploadSucceeded) {
+                        NSLog(@"imageUploadSucceeded");
+                    }
+                }];
+            }
+            
             
             return nil;
         }];
     });
-        
-//        SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
-//        SQSGetQueueUrlResponse *getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
-//        
-//        if (getQueueURLResponse.error != nil) {
-//            NSLog(@"Error: %@", getQueueURLResponse.error);
-//            if (completion) {
-//                completion(NO, YES);
-//            }
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-//            });
-//            return;
-////        }
-//        
-//        AWSSQSSendMessageRequest *sendMessageRequest = [[AWSSQSSendMessageRequest alloc] init];
-////        sendMessageRequest.queueUrl
-//        sendMessageRequest.messageBody = alertJson;
-//        
-//                                                        
-////                                                        initWithQueueUrl:getQueueURLResponse.queueUrl
-////                                                                                     andMessageBody:alertJson];
-//        SQSSendMessageResponse *sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
-//
-//        if (sendMessageResponse.error != nil) {
-//            NSLog(@"Error: %@", sendMessageResponse.error);
-//            if (completion) {
-//                completion(NO, YES);
-//            }
-//        }
-//        else {
-//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
-//            
-//            if (completion) {
-//                completion(YES, YES);
-//            }
-//            
-//            _retryAttempts = 0;
-//            [self scheduleFindActiveAlertTimer];
-//            
-//            // Send user profile using API client method
-//            [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
-//                if (profileDataUploadSucceeded) {
-//                    NSLog(@"profileDataUploadSucceeded");
-//                }
-//                if (imageUploadSucceeded) {
-//                    NSLog(@"imageUploadSucceeded");
-//                }
-//            }];
-//        }
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-//        });
-//    });
 }
 
 - (void)scheduleFindActiveAlertTimer {

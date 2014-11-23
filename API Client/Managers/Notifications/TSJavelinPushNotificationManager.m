@@ -19,6 +19,12 @@ NSString * const TSJavelinPushNotificationTypeChatMessage = @"chat-message-avail
 NSString * const TSJavelinPushNotificationTypeAlertReceived = @"alert-received";
 NSString * const TSJavelinPushNotificationTypeAlertCompletion = @"alert-completed";
 
+NSString * const TSJavelinPushNotificationTypeEntourageMemberAdded = @"entourage-added";
+NSString * const TSJavelinPushNotificationTypeEntourageEmergencyCallAlert = @"entourage-emergency-call";
+NSString * const TSJavelinPushNotificationTypeEntourageArrival = @"entourage-arrived";
+NSString * const TSJavelinPushNotificationTypeEntourageNonArrival = @"entourage-non-arrival";
+NSString * const TSJavelinPushNotificationTypeEntourageYankAlert = @"entourage-yank";
+
 @implementation TSJavelinPushNotificationManager
 
 + (void)analyzeNotification:(NSDictionary *)userInfo completion:(void (^)(BOOL matchFound, TSJavelinAPIPushNotification *notification))completion {

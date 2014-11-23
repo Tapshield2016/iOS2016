@@ -19,6 +19,13 @@ extern NSString * const TSJavelinPushNotificationTypeChatMessage;
 extern NSString * const TSJavelinPushNotificationTypeAlertReceived;
 extern NSString * const TSJavelinPushNotificationTypeAlertCompletion;
 
+
+extern NSString * const TSJavelinPushNotificationTypeEntourageMemberAdded;
+extern NSString * const TSJavelinPushNotificationTypeEntourageEmergencyCallAlert;
+extern NSString * const TSJavelinPushNotificationTypeEntourageArrival;
+extern NSString * const TSJavelinPushNotificationTypeEntourageNonArrival;
+extern NSString * const TSJavelinPushNotificationTypeEntourageYankAlert;
+
 @interface TSJavelinPushNotificationManager : NSObject
 
 + (void)analyzeNotification:(NSDictionary *)userInfo completion:(void (^)(BOOL matchFound, TSJavelinAPIPushNotification *notification))completion;

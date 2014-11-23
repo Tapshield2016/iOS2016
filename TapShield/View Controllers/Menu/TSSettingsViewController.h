@@ -11,8 +11,6 @@
 #import "TSSocialAccountsManager.h"
 #import "TSSettingsSwitch.h"
 
-extern NSString * const TSSettingsViewControllerDidLogOut;
-
 @interface TSSettingsViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;

@@ -99,7 +99,7 @@
         if (!self.entourageMembers.count) {
             self.movingMember = NO;
             self.shouldMoveCell = NO;
-            [self.tableView reloadData];
+            [self reloadTableView];
             return;
         }
         
@@ -164,7 +164,7 @@
             // animation has finished
             self.animating = NO;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.tableView reloadData];
+                [self reloadTableView];
             }];
         }];
         
@@ -175,7 +175,7 @@
         [CATransaction commit];
     }
     
-    [_contactsTableViewController.tableView reloadData];
+    [_contactsTableViewController reloadTableView];
     
     self.movingMember = NO;
     self.shouldMoveCell = NO;

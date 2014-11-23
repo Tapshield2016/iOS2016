@@ -44,6 +44,7 @@ static dispatch_once_t predicate;
         self.locationManager.distanceFilter = 5.0;
         self.locationManager.pausesLocationUpdatesAutomatically = YES;
         self.locationManager.activityType = CLActivityTypeFitness;
+        [self deferUpdates];
         self.geofence = [[TSGeofence alloc] init];
         
         UIDevice *device = [UIDevice currentDevice];
@@ -66,6 +67,11 @@ static dispatch_once_t predicate;
 
 
 #pragma mark - Battery Management
+
+- (void)deferUpdates {
+    
+    [_locationManager allowDeferredLocationUpdatesUntilTraveled:200 timeout:120];
+}
 
 + (void)driving {
     
@@ -337,10 +343,10 @@ static dispatch_once_t predicate;
     }
     
     if (isInBackground) {
-        [self sendBackgroundLocationToServer:_location];
+        [self sendBackgroundLocationToServer:locations];
     }
     else {
-        [[TSJavelinAPIClient sharedClient] locationUpdated:_location completion:nil];
+        [[TSJavelinAPIClient sharedClient] locationUpdated:locations completion:nil];
     }
     
     if ([_delegate respondsToSelector:@selector(locationDidUpdate:)]) {
@@ -351,14 +357,14 @@ static dispatch_once_t predicate;
 }
 
 
-- (void)sendBackgroundLocationToServer:(CLLocation *)location {
+- (void)sendBackgroundLocationToServer:(NSArray *)locations {
     
     self.bgTask = [[UIApplication sharedApplication]
               beginBackgroundTaskWithExpirationHandler:^{
                   [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
                    }];
     
-    [[TSJavelinAPIClient sharedClient] locationUpdated:_location completion:^(BOOL finished) {
+    [[TSJavelinAPIClient sharedClient] locationUpdated:locations completion:^(BOOL finished) {
         if (self.bgTask != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
             self.bgTask = UIBackgroundTaskInvalid;

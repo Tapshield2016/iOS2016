@@ -27,7 +27,6 @@ NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureUnknownError = @"
 static NSString *const kTSJavelinAPIAuthenticationManagerAPNSTokenArchiveKey = @"kTSJavelinAPIAuthenticationManagerAPNSTokenArchiveKey";
 
 // Notifications
-NSString * const kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully = @"kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully";
 NSString * const kTSJavelinAPIAuthenticationManagerDidFailToLogin = @"kTSJavelinAPIAuthenticationManagerDidFailToLogin";
 NSString * const kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL = @"kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL";
 NSString * const kTSJavelinAPIAuthenticationManagerDidRegisterUserNotification = @"kTSJavelinAPIAuthenticationManagerDidRegisterUserNotification";
@@ -124,7 +123,7 @@ static dispatch_once_t onceToken;
         _emailAddress = _loggedInUser.username;
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification
                                                         object:nil];
     [self storeUserCredentials:_emailAddress password:_password];
     _emailAddress = nil;
@@ -899,6 +898,16 @@ static dispatch_once_t onceToken;
     return [NSString stringWithFormat:@"Token %@", _masterAccessToken];
 }
 
+- (NSString *)loggedInUserTokenOrMasterAuthorizationHeader {
+    
+    NSString *token = [self masterAccessTokenAuthorizationHeader];
+    if (_loggedInUser.apiToken) {
+        token = [NSString stringWithFormat:@"Token %@", _loggedInUser.apiToken];
+    }
+    
+    return token;
+}
+
 - (NSString *)loggedInUserTokenAuthorizationHeader {
     
     if (!_loggedInUser.apiToken) {
@@ -1181,7 +1190,7 @@ static dispatch_once_t onceToken;
         if ([_delegate respondsToSelector:@selector(loginSuccessful:)]) {
             [_delegate loginSuccessful:nil];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully object:_loggedInUser];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification object:_loggedInUser];
     }
     [self.responseData setLength:0];
 }

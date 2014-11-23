@@ -20,8 +20,8 @@
     self.status = [attributes nonNullObjectForKey:@"status"];
     self.travelMode = [attributes nonNullObjectForKey:@"travel_mode"];
     
-    self.startLocation = [self parseLocation:[attributes nonNullObjectForKey:@"start_location"]];
-    self.endLocation = [self parseLocation:[attributes nonNullObjectForKey:@"end_location"]];
+    self.startLocation = [[TSJavelinAPINamedLocation alloc] initWithAttributes:[attributes nonNullObjectForKey:@"start_location"]];
+    self.endLocation = [[TSJavelinAPINamedLocation alloc] initWithAttributes:[attributes nonNullObjectForKey:@"end_location"]];
     
     self.eta = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"eta"]];
     self.startTime = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"start_time"]];
@@ -49,6 +49,23 @@
     }
 }
 
+
+- (void)setTransportType:(MKDirectionsTransportType)transportType {
+    
+    _transportType = transportType;
+    
+    if (_transportType == MKDirectionsTransportTypeAutomobile) {
+        _travelMode = @"D";
+    }
+    else if (_transportType == MKDirectionsTransportTypeWalking) {
+        _travelMode = @"W";
+    }
+    else {
+        _travelMode = @"U";
+    }
+}
+
+
 - (TSEntourageSessionPolyline *)parseLocations:(NSArray *)points {
     
     TSEntourageSessionPolyline *route;
@@ -71,17 +88,35 @@
 }
 
 
-- (MKMapItem *)parseLocation:(NSDictionary *)attributes {
-    MKMapItem *item;
+- (NSDictionary *)parametersFromSession {
     
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:[[attributes objectForKey:@"latitude"] doubleValue] longitude:[[attributes objectForKey:@"longitude"] doubleValue]];
-    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:location.coordinate addressDictionary:nil];
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
     
-    item = [[MKMapItem alloc] initWithPlacemark:placemark];
-    item.name = [attributes objectForKey:@"name"];
+    if (self.travelMode) {
+        [dictionary setObject:_travelMode forKey:@"travel_mode"];
+    }
     
-    return item;
+    if (self.startLocation) {
+        [dictionary setObject:[_startLocation parametersFromLocation] forKey:@"start_location"];
+    }
+    
+    if (self.endLocation) {
+        [dictionary setObject:[_endLocation parametersFromLocation] forKey:@"end_location"];
+    }
+    
+    if (self.eta) {
+        [dictionary setObject:_eta.iso8601String forKey:@"eta"];
+    }
+    
+    if (self.startTime) {
+        [dictionary setObject:_startTime.iso8601String forKey:@"start_time"];
+    }
+    
+    if (self.arrivalTime) {
+        [dictionary setObject:_arrivalTime.iso8601String forKey:@"arrival_time"];
+    }
+    
+    return dictionary;
 }
-
 
 @end

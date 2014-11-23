@@ -208,17 +208,20 @@
 - (void)userDidLeaveAgency:(NSNotification *)notification {
     
     [self setAgencyButtonsAlpha:0.5];
+    
+    [_callButton setTitle:[TSJavelinAPIClient loggedInUser].agency.alertModeName forState:UIControlStateNormal];
 }
 
 - (void)userDidEnterAgency:(NSNotification *)notification {
     
     [self setAgencyButtonsAlpha:1.0];
+    
+    [_callButton setTitle:[TSJavelinAPIClient loggedInUser].agency.alertModeName forState:UIControlStateNormal];
 }
 
 - (void)setAgencyButtonsAlpha:(float)alpha {
     
     _chatButton.alpha = alpha;
-    _callButton.alpha = alpha;
 }
 
 @end

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "TSJavelinAPIClient.h"
 
+extern NSString * const TSUserSessionManagerDidLogOut;
+
 @interface TSUserSessionManager : NSObject <UITextFieldDelegate>
 
 + (instancetype)sharedManager;
@@ -27,5 +29,7 @@
 - (void)dismissWindow:(void (^)(BOOL finished))completion;
 
 + (BOOL)phoneNumberWasVerified;
+
+- (void)logout;
 
 @end

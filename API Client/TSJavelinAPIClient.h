@@ -91,6 +91,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 
+- (NSString *)loggedInUserTokenOrMasterAuthorizationHeader;
 - (NSString *)masterAccessTokenAuthorizationHeader;
 - (NSString *)loggedInUserTokenAuthorizationHeader;
 
@@ -120,7 +121,6 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 @property (nonatomic, strong) TSJavelinS3UploadManager *uploadManager;
 @property (nonatomic, strong) TSJavelinAPIUserProfileUploadBlock profileUploadBlock;
 @property (nonatomic, strong) NSTimer *locationPostTimer;
-@property (nonatomic, strong) CLLocation *locationAwaitingPost;
 @property (nonatomic) bool isStillActiveAlert;
 
 // Init methods
@@ -152,7 +152,7 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 - (void)findActiveAlertAndCancel;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
 - (void)alertCompletionReceivedForAlertURL:(NSString *)url;
-- (void)locationUpdated:(CLLocation *)location completion:(void(^)(BOOL finished))completion;
+- (void)locationUpdated:(NSArray *)locations completion:(void(^)(BOOL finished))completion;
 - (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 
 - (void)sendDirectRestAPIAlertWithParameters:(NSDictionary *)parameters completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
@@ -178,6 +178,10 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 - (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion;
 - (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(NSArray *entourageMembers, NSError *error))completion;
 - (void)getEntourageSession:(TSJavelinAPIEntourageSession *)session withLocationsSince:(NSDate *)date completion:(void (^)(TSJavelinAPIEntourageSession *entourageSession, NSError *error))completion;
+
+- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)cancelEntourageSession:(void (^)(BOOL cancelled))completion;
+- (void)arrivedForEntourageSession:(void (^)(BOOL arrived))completion;
 
 //Report
 - (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius since:(NSDate *)date completion:(void (^)(NSArray *reports))completion;

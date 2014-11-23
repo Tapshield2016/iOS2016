@@ -15,6 +15,7 @@
 #import "TSEntourageMemberSettingsViewController.h"
 #import <KVOController/FBKVOController.h>
 #import "TSEntourageSessionManager.h"
+#import "TSUserSessionManager.h"
 
 @interface TSEntourageContactsTableViewController ()
 
@@ -24,6 +25,8 @@
 @property (strong, nonatomic) FBKVOController *kvoController;
 
 @property (strong, nonatomic) NSDate *lastRefresh;
+
+@property (assign, nonatomic) BOOL needsContactRefresh;
 
 @end
 
@@ -39,7 +42,6 @@
     self.searchController.dimsBackgroundDuringPresentation = NO;
     [self.searchController.searchBar sizeToFit];
     
-    CGRect frame = self.searchController.searchBar.frame;
     self.searchController.searchBar.delegate = self;
     
     // Include the search controller's search bar within the table's header view.
@@ -54,8 +56,14 @@
     
     [self initRefreshControl];
     
-    [self getAddressBook];
-    [self refresh];
+    
+    if ([TSJavelinAPIClient loggedInUser]) {
+        [self getAddressBook];
+        [self refresh];
+    }
+    else {
+        _needsContactRefresh = YES;
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(entourageDidFinishSyncing:)
@@ -64,6 +72,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(entourageDidStartSyncing:)
                                                  name:TSJavelinAPIClientDidStartSyncingEntourage
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refresh)
+                                                 name:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reset)
+                                                 name:TSUserSessionManagerDidLogOut
                                                object:nil];
     
     [self monitorEntourageSessions];
@@ -80,7 +97,11 @@
     [super viewWillAppear:animated];
     
     [self.refreshControl endRefreshing];
-    [_resultsController.tableView reloadData];
+    [_resultsController reloadTableView];
+    
+    if (_needsContactRefresh) {
+        [self refresh];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -88,6 +109,15 @@
     [super viewWillDisappear:animated];
     
     [[self.view findFirstResponder] resignFirstResponder];
+}
+
+- (void)reset {
+    
+    self.entourageMembers = nil;
+    self.whoAddedUser = nil;
+    [self reloadTableView];
+    
+    _needsContactRefresh = YES;
 }
 
 - (void)initRefreshControl {
@@ -106,14 +136,20 @@
     _kvoController = [FBKVOController controllerWithObserver:self];
     
     [_kvoController observe:[TSJavelinAPIClient loggedInUser] keyPath:@"usersWhoAddedUser" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSJavelinAPIUser *loggedInUser, NSDictionary *change) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             weakSelf.whoAddedUser = loggedInUser.usersWhoAddedUser;
-            [weakSelf.tableView reloadData];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [weakSelf reloadTableView];
         }];
     }];
 }
 
 - (void)refresh {
+    
+    if (![TSJavelinAPIClient loggedInUser]) {
+        _needsContactRefresh = YES;
+    }
+    
+    _needsContactRefresh = NO;
     
     if (self.isEditing) {
         [self.refreshControl endRefreshing];
@@ -152,7 +188,7 @@
     }
     
     [self updateEditingButton];
-    [_resultsController.tableView reloadData];
+    [_resultsController reloadTableView];
     
     [self.tableView setEditing:self.isEditing animated:YES];
     [_resultsController setEditing:self.isEditing animated:YES];
@@ -216,8 +252,13 @@
             NSArray *matchingEntourageArray = [self.entourageMembers filteredArrayUsingPredicate:predicate];
             NSArray *whoAddedArray = [self.whoAddedUser filteredArrayUsingPredicate:predicate];
             
-            if (!matchingEntourageArray.count && !whoAddedArray.count && (member.phoneNumber || member.email)) {
-                [mutableArray addObject:member];
+            if (!matchingEntourageArray.count &&
+                !whoAddedArray.count &&
+                (member.phoneNumber || member.email)) {
+                if (![member.phoneNumber isEqualToString:[TSJavelinAPIClient loggedInUser].phoneNumber] &&
+                    ![member.email isEqualToString:[TSJavelinAPIClient loggedInUser].email]) {
+                    [mutableArray addObject:member];
+                }
             }
             
             CFRelease(person);
@@ -332,7 +373,7 @@
             // animation has finished
             self.animating = NO;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.tableView reloadData];
+                [self reloadTableView];
             }];
         }];
         
@@ -343,7 +384,9 @@
         [CATransaction commit];
     }
     else {
-        [self.tableView reloadData];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self reloadTableView];
+        }];
     }
     
     self.movingMember = NO;
@@ -397,7 +440,7 @@
     [self.searchController.searchBar resignFirstResponder];
     
     if (self.isEditing) {
-        [self.tableView reloadData];
+        [self reloadTableView];
     }
     
     [self animatePane:self.isEditing];
@@ -498,11 +541,13 @@
 }
 
 - (void)entourageDidFinishSyncing:(NSNotification *)notification {
+    
+    self.entourageMembers = [[TSJavelinAPIClient loggedInUser].entourageMembers allValues];
+    
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.refreshControl endRefreshing];
         [self setSyncing:NO];
-        self.entourageMembers = [[TSJavelinAPIClient loggedInUser].entourageMembers allValues];
-        [self.tableView reloadData];
+        [self reloadTableView];
         [_syncingView removeFromSuperview];
     }];
 }

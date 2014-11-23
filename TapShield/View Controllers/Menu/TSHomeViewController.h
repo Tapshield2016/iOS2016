@@ -29,6 +29,8 @@
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *helpButton;
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *reportButton;
 
+@property (strong, nonatomic) MKMapItem *userLocationItem;
+
 @property (strong, nonatomic) TSIconBadgeView *badgeView;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;

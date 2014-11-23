@@ -74,4 +74,6 @@
 
 - (void)animatePane:(BOOL)openWide;
 
+- (void)reloadTableView;
+
 @end

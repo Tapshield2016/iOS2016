@@ -92,4 +92,9 @@ NSString * const k911Icon = @"call_911";
     }
 }
 
+- (void)setTitle:(NSString *)title forState:(UIControlState)state {
+    
+    _label.text = title;
+}
+
 @end

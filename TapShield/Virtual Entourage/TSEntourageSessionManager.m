@@ -113,9 +113,19 @@ static dispatch_once_t predicate;
     
     [self syncEntourageMembers:members];
     
-    if (completion) {
-        completion(YES);
-    }
+    TSJavelinAPIEntourageSession *session = [[TSJavelinAPIEntourageSession alloc] init];
+    session.endLocation = [[TSJavelinAPINamedLocation alloc] initWithMapItem:_routeManager.destinationMapItem];
+    session.startLocation = [[TSJavelinAPINamedLocation alloc] initWithMapItem:_homeView.userLocationItem];
+    session.eta = [[NSDate date] dateByAddingTimeInterval:eta];
+    session.startTime = [NSDate date];
+    session.transportType = _routeManager.destinationTransportType;
+    
+    [[TSJavelinAPIClient sharedClient] postNewEntourageSession:session completion:^(id responseObject, NSError *error) {
+        if (completion) {
+            completion(YES);
+        }
+    }];
+    
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:TSEntourageSessionManagerWarning911]) {
         _warningWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSEntourageSessionManagerWarning911
@@ -200,21 +210,14 @@ static dispatch_once_t predicate;
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(arrivedAtDestination) object:nil];
     
+    if (!_isEnabled) {
+        return;
+    }
+    
+    [[TSJavelinAPIClient sharedClient] arrivedForEntourageSession:nil];
+    
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        
-        if (!_isEnabled) {
-            return;
-        }
-        
         [_homeView clearEntourageAndResetMap];
-        
-        NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName];
-        NSString *destinationName = _routeManager.destinationMapItem.name;
-        NSString *message = [NSString stringWithFormat:ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
-        
-        [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {
-            
-        }];
     }];
 }
 
@@ -225,23 +228,6 @@ static dispatch_once_t predicate;
     }
     
     [_homeView clearEntourageAndResetMap];
-    
-    NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].lastName];
-    NSString *destinationName = _routeManager.destinationMapItem.name;
-    NSString *message = [NSString stringWithFormat:NON_ARRIVAL_MESSAGE, fullName, destinationName, [TSUtilities formattedAddressWithoutNameFromMapItem:_routeManager.destinationMapItem]];
-    
-    NSString *googleLocation;
-    CLLocation *location = [TSLocationController sharedLocationController].location;
-    if (location) {
-        googleLocation = [NSString stringWithFormat:kGoogleMapsPath, location.coordinate.latitude, location.coordinate.longitude];
-        googleLocation = [NSString stringWithFormat:NON_ARRIVAL_LOCATION, [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].firstName, googleLocation];
-    }
-    
-    [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:message completion:^(id responseObject, NSError *error) {
-        if (googleLocation) {
-            [[TSJavelinAPIClient sharedClient] notifyEntourageMembers:googleLocation completion:nil];
-        }
-    }];
 }
 
 
@@ -276,6 +262,10 @@ static dispatch_once_t predicate;
     [self resetEndTimer];
     [_routeManager removeRouteOverlaysAndAnnotations];
     [_routeManager removeCurrentDestinationAnnotation];
+    
+    [[TSJavelinAPIClient sharedClient] cancelEntourageSession:^(BOOL cancelled) {
+        
+    }];
 }
 
 #pragma mark - Timer
@@ -518,7 +508,7 @@ static dispatch_once_t predicate;
     
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
     TSSelectedDestinationAnnotation *destination;
-    destination = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:member.session.endLocation.placemark.coordinate
+    destination = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:member.session.endLocation.location.coordinate
                                                                      placeName:member.session.endLocation.name
                                                                    description:nil
                                                                     travelType:member.session.transportType];
@@ -527,7 +517,7 @@ static dispatch_once_t predicate;
     }
     
     TSStartAnnotation *start;
-    start = [[TSStartAnnotation alloc] initWithCoordinates:member.session.startLocation.placemark.coordinate
+    start = [[TSStartAnnotation alloc] initWithCoordinates:member.session.startLocation.location.coordinate
                                                  placeName:member.session.startLocation.name
                                                description:nil];
     if (start) {
@@ -664,7 +654,7 @@ static dispatch_once_t predicate;
     
     for (TSJavelinAPIEntourageMember *member in entourageMembers) {
         
-        if (member.session) {
+        if (member.session.locations) {
             [mutableArray addObject:member.session.locations];
         }
     }

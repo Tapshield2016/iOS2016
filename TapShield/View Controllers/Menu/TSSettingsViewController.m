@@ -15,8 +15,6 @@
 NSString * const TSSettingsNotificationsEnabled = @"TSSettingsNotificationsEnabled";
 NSString * const TSSettingsICloudSyncEnabled = @"TSSettingsICloudSyncEnabled";
 
-NSString * const TSSettingsViewControllerDidLogOut = @"TSSettingsViewControllerDidLogOut";
-
 NSString * const TSSettingsCurrentOrg = @"Your current organization: %@";
 
 @interface TSSettingsViewController ()
@@ -83,13 +81,7 @@ NSString * const TSSettingsCurrentOrg = @"Your current organization: %@";
 
 - (IBAction)logOutUser:(id)sender {
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
-        if (success) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:TSSettingsViewControllerDidLogOut object:nil];
-        }
-        
-        [[TSUserSessionManager sharedManager] userStatusCheck];
-    }];
+    [[TSUserSessionManager sharedManager] logout];
 }
 
 #pragma mark - Table view delegate

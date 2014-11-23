@@ -14,6 +14,7 @@
 #import "TSEntourageSessionManager.h"
 #import "TSHelpViewController.h"
 #import "TSAlertManager.h"
+#import "TSUserSessionManager.h"
 
 #define MENU_CELL_SIZE 80
 
@@ -50,7 +51,7 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(returnToMapViewForLogOut)
-                                                 name:TSSettingsViewControllerDidLogOut
+                                                 name:TSUserSessionManagerDidLogOut
                                                object:nil];
     
 

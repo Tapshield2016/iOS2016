@@ -77,7 +77,7 @@ static dispatch_once_t predicate;
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(signUpDidLoginSuccessfully:)
-                                                     name:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+                                                     name:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(finishedLoading)

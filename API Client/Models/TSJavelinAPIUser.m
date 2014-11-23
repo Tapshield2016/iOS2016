@@ -186,10 +186,13 @@
 
 - (void)setEntourageMembersForKeys:(NSArray *)entourageMembers {
     
+    NSArray *allKeys = _entourageMembers.allKeys;
+    
     if (!_entourageMembers) {
         _entourageMembers = [[NSMutableDictionary alloc] initWithCapacity:entourageMembers.count];
     }
     
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:entourageMembers.count];
     for (id object in entourageMembers) {
         TSJavelinAPIEntourageMember *member;
         if ([object isKindOfClass:[TSJavelinAPIEntourageMember class]]) {
@@ -199,7 +202,22 @@
             member = [[TSJavelinAPIEntourageMember alloc] initWithAttributes:object];
         }
         
+        [mutableArray addObject:member];
         [_entourageMembers setObject:member forKey:member.url];
+    }
+    
+    if (allKeys) {
+        NSArray *keysToRemove = [allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            
+            for (TSJavelinAPIEntourageMember *member in mutableArray) {
+                if ([member.url isEqualToString:evaluatedObject]) {
+                    return NO;
+                }
+            }
+            return YES;
+        }]];
+        
+        [_entourageMembers removeObjectsForKeys:keysToRemove];
     }
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
@@ -589,16 +607,6 @@
     }
     else if (![currentMember compareURLAndMerge:member]) {
         [_entourageMembers setObject:member forKey:member.url];
-//        NSMutableArray *mutable = [[NSMutableArray alloc] initWithArray:_entourageMembers];
-//        for (TSJavelinAPIEntourageMember *currentMember in _entourageMembers) {
-//            if ([currentMember isEqual:member]) {
-//                [mutable removeObject:currentMember];
-//                [mutable addObject:member];
-//            }
-//        }
-//        
-//        _entourageMembers = mutable;
-        
         
     }
     

@@ -9,6 +9,7 @@
 #import "TSBaseViewController.h"
 #import "TSGeofence.h"
 #import <KVOController/FBKVOController.h>
+#import "TSAlertManager.h"
 
 @interface TSBaseViewController ()
 
@@ -140,9 +141,14 @@
         
         if (!image) {
             if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+                
                 if ([[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherSecondaryPhoneNumber isEqualToString:kEmergencyNumber] ||
                     ![[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency) {
                     defaultImage = TSLogoImageView911;
+                }
+                
+                if ([TSAlertManager sharedManager].type == kAlertTypeAlertCall) {
+                    image = [TSJavelinAPIClient loggedInUser].agency.theme.navbarLogoAlternate;
                 }
             }
         }

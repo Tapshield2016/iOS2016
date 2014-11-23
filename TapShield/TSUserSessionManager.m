@@ -23,6 +23,8 @@ static NSString * const TSUserSessionManagerMultipleAgenciesMessage = @"Would yo
 static NSString * const TSUserSessionManagerSingleAgencyTitle = @"%@ is nearby";
 static NSString * const TSUserSessionManagerSingleMessage = @"Would you like to join this organization?";
 
+NSString * const TSUserSessionManagerDidLogOut = @"TSUserSessionManagerDidLogOut";
+
 @interface TSUserSessionManager ()
 
 @property (strong, nonatomic) UIWindow *window;
@@ -47,6 +49,18 @@ static dispatch_once_t predicate;
     }
     
     return _sharedManagerInstance;
+}
+
+
+- (void)logout {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
+        if (success) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSUserSessionManagerDidLogOut object:nil];
+        }
+        
+        [self userStatusCheck];
+    }];
 }
 
 - (void)userStatusCheck {

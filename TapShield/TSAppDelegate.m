@@ -214,6 +214,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     }
     else {
         if ([TSJavelinAPIClient loggedInUser]) {
+            [[TSLocationController sharedLocationController] stopLocationUpdates];
             [[TSLocationController sharedLocationController] startSignificantChangeUpdates:nil];
         }
     }

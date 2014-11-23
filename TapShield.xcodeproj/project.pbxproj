@@ -518,6 +518,10 @@
 		C58B31EF199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
 		C58B31F0199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
 		C58B31F1199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */; };
+		C58EC5381A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C58EC5371A1D956700C87E74 /* TSJavelinAPINamedLocation.m */; };
+		C58EC5391A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C58EC5371A1D956700C87E74 /* TSJavelinAPINamedLocation.m */; };
+		C58EC53A1A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C58EC5371A1D956700C87E74 /* TSJavelinAPINamedLocation.m */; };
+		C58EC53B1A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C58EC5371A1D956700C87E74 /* TSJavelinAPINamedLocation.m */; };
 		C596C63B1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
 		C596C63C1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
 		C596C63D1979A26300DF2E29 /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C596C63A1979A26200DF2E29 /* NSNull+JSON.m */; };
@@ -1300,6 +1304,8 @@
 		C586E69E197390430047002B /* TSClusterOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClusterOperation.m; sourceTree = "<group>"; };
 		C58B31EC199EBEB100F9C3A4 /* TSAddSecondaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAddSecondaryViewController.h; path = "View Controllers/Login:Signup/Post/TSAddSecondaryViewController.h"; sourceTree = "<group>"; };
 		C58B31ED199EBEB100F9C3A4 /* TSAddSecondaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAddSecondaryViewController.m; path = "View Controllers/Login:Signup/Post/TSAddSecondaryViewController.m"; sourceTree = "<group>"; };
+		C58EC5361A1D956700C87E74 /* TSJavelinAPINamedLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPINamedLocation.h; sourceTree = "<group>"; };
+		C58EC5371A1D956700C87E74 /* TSJavelinAPINamedLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPINamedLocation.m; sourceTree = "<group>"; };
 		C596C6391979A26200DF2E29 /* NSNull+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+JSON.h"; sourceTree = "<group>"; };
 		C596C63A1979A26200DF2E29 /* NSNull+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+JSON.m"; sourceTree = "<group>"; };
 		C599C036193FD7CA00B77410 /* NSURL+FileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+FileType.h"; sourceTree = "<group>"; };
@@ -1856,6 +1862,8 @@
 		C520C8D118A974C000D1D2E9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C58EC5361A1D956700C87E74 /* TSJavelinAPINamedLocation.h */,
+				C58EC5371A1D956700C87E74 /* TSJavelinAPINamedLocation.m */,
 				C520C8D218A974C000D1D2E9 /* TSJavelinAPIAgency.h */,
 				C520C8D318A974C000D1D2E9 /* TSJavelinAPIAgency.m */,
 				C520C8D418A974C000D1D2E9 /* TSJavelinAPIAlert.h */,
@@ -2905,6 +2913,7 @@
 				C5EAABF719066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C5CC4B94193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C56356F618EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
+				C58EC5381A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */,
 				C5B8B1401993F55F0008B018 /* TSSwipeView.m in Sources */,
 				C5C1C9AE1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C585F2E518DB6B66009EEF16 /* TSAnimatedView.m in Sources */,
@@ -3286,6 +3295,7 @@
 				C534ACF119759359001608C7 /* TSBoundariesOverlay.m in Sources */,
 				C586E69C197335B10047002B /* CLLocation+Utilities.m in Sources */,
 				C5CB078618C6851D00BC9425 /* TSCircularButton.m in Sources */,
+				C58EC53B1A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */,
 				C520C8FD18A974C100D1D2E9 /* TSJavelinAPIAgency.m in Sources */,
 				C532E8E018BCF85E00FC111A /* TSLocationController.m in Sources */,
 				C520C90518A974C100D1D2E9 /* TSJavelinAPIGroup.m in Sources */,
@@ -3348,6 +3358,7 @@
 				C5EAABF819066002005EDD7B /* TSAppearanceTableViewController.m in Sources */,
 				C5CC4B95193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C56356F718EC825C00BAA5D7 /* TSRouteManager.m in Sources */,
+				C58EC5391A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */,
 				C5B8B1411993F55F0008B018 /* TSSwipeView.m in Sources */,
 				C5C1C9AF1909B9220087F622 /* TSCircularControl.m in Sources */,
 				C5662BCF18DB8A3C00FD4F44 /* TSButtonLabel.m in Sources */,
@@ -3570,6 +3581,7 @@
 				C5AFB94F191D35DE00EC62A5 /* TSAppearanceTableViewController.m in Sources */,
 				C5CC4B96193EC11500285DB3 /* TSSoundFileFolderViewController.m in Sources */,
 				C5AFB950191D35DE00EC62A5 /* TSRouteManager.m in Sources */,
+				C58EC53A1A1D956700C87E74 /* TSJavelinAPINamedLocation.m in Sources */,
 				C5B8B1421993F55F0008B018 /* TSSwipeView.m in Sources */,
 				C5AFB951191D35DE00EC62A5 /* TSCircularControl.m in Sources */,
 				C5AFB952191D35DE00EC62A5 /* TSButtonLabel.m in Sources */,

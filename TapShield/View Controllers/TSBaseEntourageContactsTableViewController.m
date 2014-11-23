@@ -13,6 +13,9 @@
 
 @interface TSBaseEntourageContactsTableViewController ()
 
+@property (assign, nonatomic) BOOL isViewInBackground;
+@property (assign, nonatomic) BOOL needsReloadData;
+
 @end
 
 @implementation TSBaseEntourageContactsTableViewController
@@ -24,6 +27,9 @@
     self.movingMember = NO;
     self.shouldReload = NO;
     self.animating = NO;
+    
+    _isViewInBackground = YES;
+    _needsReloadData = NO;
     
     self.tableView.sectionIndexColor = [TSColorPalette tapshieldBlue];
     self.tableView.sectionIndexTrackingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -47,7 +53,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    _isViewInBackground = NO;
+    
+    if (_needsReloadData) {
+        [self reloadTableView];
+    }
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    _isViewInBackground = YES;
+}
 
 - (void)setEntourageMembers:(NSArray *)entourageMembers {
     _entourageMembers = entourageMembers;
@@ -77,7 +99,7 @@
     self.allContacts = contacts;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self.tableView reloadData];
+        [self reloadTableView];
     }];
 }
 
@@ -110,7 +132,9 @@
         
         if (!_animating) {
             _shouldReload = NO;
-            [self.tableView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self reloadTableView];
+            }];
         }
     }
 }
@@ -202,7 +226,7 @@
     [delegate drawerCanDragForContacts:NO];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.view.frame = frame;
-        [self.tableView reloadData];
+        [self reloadTableView];
         [delegate toggleWidePaneState:openWide];
         if (self.searching) {
             self.tableView.hidden = YES;
@@ -406,8 +430,13 @@
     cell.contact = member;
     
     if ([indexPath isEqual:_selectedRowIndex] && [member isEqual:_selectedMember]) {
-        [cell setSelected:YES animated:NO];
-        [cell displaySelectedView:YES animated:NO];
+        if (member.session) {
+            [cell setSelected:YES animated:NO];
+            [cell displaySelectedView:YES animated:NO];
+        }
+        else {
+            [cell displaySelectedView:NO animated:NO];
+        }
     }
     else {
         [cell displaySelectedView:NO animated:NO];
@@ -495,7 +524,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if([self.selectedRowIndex isEqual:indexPath] && [_selectedMember isEqual:[self memberForIndexPath:indexPath]]) {
+    TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
+    if([self.selectedRowIndex isEqual:indexPath] && [_selectedMember isEqual:member] && member.session) {
         return [TSEntourageContactTableViewCell selectedHeight];
     }
     
@@ -544,6 +574,17 @@
     
     if (indexPath.section == 0) {
         return UITableViewCellEditingStyleDelete;
+    }
+    
+    if (indexPath.section == 1) {
+        if (self.staticEntourageMembers) {
+            TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordID == %i", member.recordID];
+            NSArray *matchingEntourageArray = [self.staticEntourageMembers filteredArrayUsingPredicate:predicate];
+            if (matchingEntourageArray.count) {
+                return UITableViewCellEditingStyleNone;
+            }
+        }
     }
     
     return UITableViewCellEditingStyleInsert;
@@ -633,5 +674,19 @@
     return YES;
 }
 
+
+- (void)reloadTableView {
+    
+    NSLog(@"reloading %@", self);
+    
+    if (_isViewInBackground) {
+        _needsReloadData = YES;
+        return;
+    }
+    
+    _needsReloadData = NO;
+    
+    [self.tableView reloadData];
+}
 
 @end

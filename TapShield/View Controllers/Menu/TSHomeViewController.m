@@ -749,7 +749,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 [self setStatusViewText:_statusView.userLocation];
                 
                 _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
-//                _mapView.userLocationAnnotation.accessibilityLabel 
+                
+                _userLocationItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithPlacemark:placemark]];
             }
             else {
                 _statusView.userLocation = nil;
@@ -1245,10 +1246,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)callAgencyDispatcher:(id)sender {
     
-    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
-        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
-        return;
-    }
+//    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
+//        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
+//        return;
+//    }
     
     [self hideCallChatButtons];
     [self transitionForAlert];

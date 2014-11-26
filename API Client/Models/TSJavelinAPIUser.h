@@ -11,7 +11,7 @@
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIEmail.h"
-#import <FacebookSDK/Facebook.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import "TSJavelinAPIEntourageSession.h"
 
 @class TSJavelinAPIGroup;
@@ -41,6 +41,8 @@
 @property (nonatomic, strong) NSString *apiToken;
 
 @property (strong, nonatomic) TSJavelinAPIEntourageSession *entourageSession;
+
+@property (readonly) NSString *fullName;
 
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;

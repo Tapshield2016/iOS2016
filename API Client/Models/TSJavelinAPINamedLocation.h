@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSDictionary *addressDictionary;
 @property (strong, nonatomic) NSString *formattedAddress;
 @property (strong, nonatomic) CLLocation *location;
-@property (strong, nonatomic) MKMapItem *mapItem;
+@property (readonly) MKMapItem *mapItem;
 
 - (NSDictionary *)parametersFromLocation;
 

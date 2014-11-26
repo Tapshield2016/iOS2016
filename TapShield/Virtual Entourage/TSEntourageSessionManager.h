@@ -30,8 +30,6 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 - (void)recalculateEntourageTimerETA;
 - (void)checkRegion:(CLLocation *)userLocation;
 
-- (void)failedToArriveAtDestination;
-
 - (void)removeHomeViewController;
 
 - (void)locateEntourageMember:(TSJavelinAPIEntourageMember *)member;
@@ -59,5 +57,17 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 - (void)showSessionForMember:(TSJavelinAPIEntourageMember *)member;
 
 - (void)removeCurrentMemberSession;
+
+- (void)startStatusBarTimer;
+
+- (void)stopStatusBartTimer;
+
+- (void)cancelCurrentEntourageSession;
+
+- (void)stopEntourageCancelled;
+- (void)stopEntourageArrived;
+- (void)stopEntourageNonArrival;
+
+- (void)actionForEntourageNotificationObject:(TSJavelinAPIUserNotification *)notification;
 
 @end

@@ -7,12 +7,12 @@
 //
 #import "TSSocialAccountsManager.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import <FacebookSDK/FBRequestConnection+Internal.h>
+#import <FacebookSDK/FBRequestConnection.h>
 #import "TSUtilities.h"
 #import <FBShimmeringView.h>
 #import "TSPopUpWindow.h"
 #import "TSJavelinAPIAuthenticationManager.h"
-#import <FacebookSDK/FBSession+Internal.h>
+#import <FacebookSDK/FBSession.h>
 #import <Social/Social.h>
 #import "TSApplication.h"
 #import "TSWebViewController.h"
@@ -518,17 +518,18 @@ static dispatch_once_t predicate;
     
     
     
-    //    // Open session with public_profile (required) and user_birthday read permissions
-    //    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
-    //                                       allowLoginUI:YES
-    //                                  completionHandler:
+        // Open session with public_profile (required) and user_birthday read permissions
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+                                           allowLoginUI:YES
+                                      completionHandler:
     
     
-    [FBSession openActiveSessionWithPermissions:@[@"public_profile", @"email"]
-                                  loginBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent
-                                         isRead:YES
-                                defaultAudience:FBSessionDefaultAudienceNone
-                              completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+//    [FBSession openActiveSessionWithPermissions:@[@"public_profile", @"email"]
+//                                  loginBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent
+//                                         isRead:YES
+//                                defaultAudience:FBSessionDefaultAudienceNone
+//                              completionHandler:
+     ^(FBSession *session, FBSessionState state, NSError *error) {
          __block NSString *alertText;
          __block NSString *alertTitle;
          if (!error){

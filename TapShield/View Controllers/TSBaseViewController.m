@@ -333,5 +333,8 @@
     [(TSAppDelegate *)[UIApplication sharedApplication].delegate drawerCanDragForMenu:enabled];
 }
 
+- (void)drawerCanDragForContacts:(BOOL)enabled {
+    [(TSAppDelegate *)[UIApplication sharedApplication].delegate drawerCanDragForContacts:enabled];
+}
 
 @end

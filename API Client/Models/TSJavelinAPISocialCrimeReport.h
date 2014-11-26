@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSJavelinAPIBaseModel.h"
+#import "TSJavelinAPITimeStampedModel.h"
 #import <CoreLocation/CoreLocation.h>
 
 
@@ -32,7 +32,7 @@ typedef enum {
 //@"Repair Needed",
 
 
-@interface TSJavelinAPISocialCrimeReport : TSJavelinAPIBaseModel
+@interface TSJavelinAPISocialCrimeReport : TSJavelinAPITimeStampedModel
 
 //body = Assault;
 //"creation_date" = "2014-05-11T09:08:36.690Z";
@@ -47,8 +47,6 @@ typedef enum {
 //url = "https://dev.tapshield.com/api/v1/social-crime-reports/32/";
 
 @property (strong, nonatomic) NSString *body;
-@property (strong, nonatomic) NSDate *creationDate;
-@property (strong, nonatomic) NSDate *lastModified;
 @property (strong, nonatomic) NSString *reportImageUrl;
 @property (strong, nonatomic) NSString *reportVideoUrl;
 @property (strong, nonatomic) NSString *reportAudioUrl;

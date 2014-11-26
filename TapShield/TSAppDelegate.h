@@ -44,4 +44,6 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 - (void)shiftStatusBarToPane:(BOOL)pane;
 
++ (UIView *)statusBar;
+
 @end

@@ -493,12 +493,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)shiftStatusBarToPane:(BOOL)pane {
     
-    NSString *key = [[NSString alloc] initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
-    id object = [UIApplication sharedApplication];
-    UIView *statusBar;
-    if ([object respondsToSelector:NSSelectorFromString(key)]) {
-        statusBar = [object valueForKey:key];
-    }
+    UIView *statusBar = [TSAppDelegate statusBar];
     
     [UIView animateWithDuration:0.5
                           delay:0
@@ -515,6 +510,17 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                      } completion:^(BOOL finished) {
                          
                      }];
+}
+
++ (UIView *)statusBar {
+    
+    NSString *key = [[NSString alloc] initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
+    id object = [UIApplication sharedApplication];
+    UIView *statusBar;
+    if ([object respondsToSelector:NSSelectorFromString(key)]) {
+        statusBar = [object valueForKey:key];
+    }
+    return statusBar;
 }
 
 @end

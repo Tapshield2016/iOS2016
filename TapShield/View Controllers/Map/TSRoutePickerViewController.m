@@ -69,6 +69,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     [super viewWillAppear:animated];
     
     [self drawerCanDragForMenu:NO];
+    [self drawerCanDragForContacts:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -76,6 +77,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     [super viewWillDisappear:animated];
     
     [self drawerCanDragForMenu:YES];
+    [self drawerCanDragForContacts:YES];
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {

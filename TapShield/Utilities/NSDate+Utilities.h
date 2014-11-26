@@ -127,4 +127,8 @@
 
 + (NSDate *)dateWithISO8061Format:(NSString *)dateString;
 
+
+- (NSString *)dateDescriptionSinceNow;
+- (NSString *)formattedDateTime;
+
 @end

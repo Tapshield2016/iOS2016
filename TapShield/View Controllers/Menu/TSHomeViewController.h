@@ -46,9 +46,8 @@
 
 //Entourage
 @property (strong, nonatomic) TSEntourageSessionManager *entourageManager;
-@property (strong, nonatomic) NSTimer *clockTimer;
 
-- (void)clearEntourageAndResetMap;
+- (void)clearEntourageMap;
 - (void)entourageModeOn;
 - (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate;
 - (void)moveMapViewToCoordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta;

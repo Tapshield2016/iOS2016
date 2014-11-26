@@ -105,6 +105,56 @@ static dispatch_once_t onceToken;
     return objects;
 }
 
+#pragma mark - Error Codes
+
+- (BOOL)shouldRetry:(NSError *)error {
+    
+    NSArray *networkFailureCodes = @[@(NSURLErrorCannotFindHost),
+                                     @(NSURLErrorCannotConnectToHost),
+                                     @(NSURLErrorNetworkConnectionLost),
+                                     @(NSURLErrorDNSLookupFailed),
+                                     @(NSURLErrorHTTPTooManyRedirects),
+                                     @(NSURLErrorResourceUnavailable),
+                                     @(NSURLErrorNotConnectedToInternet),
+                                     @(NSURLErrorRedirectToNonExistentLocation),
+                                     @(NSURLErrorInternationalRoamingOff),
+                                     @(NSURLErrorCallIsActive),
+                                     @(NSURLErrorDataNotAllowed),
+                                     @(NSURLErrorSecureConnectionFailed),
+                                     @(NSURLErrorCannotLoadFromNetwork)];
+    
+    BOOL networkError = NO;
+    if (error) {
+        for (NSNumber *number in networkFailureCodes) {
+            if (error.code == [number integerValue]) {
+                NSLog(@"%li", (long)error.code);
+                networkError = YES;
+            }
+        }
+    }
+    
+    if (!networkError) {
+        return NO;
+    }
+    
+    return YES;
+}
+
++ (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSJavelinAPIClientDidUpdateAgency object:nil];
+}
+
++ (TSJavelinAPIUser *)loggedInUser {
+    
+    return [[[self sharedClient] authenticationManager] loggedInUser];
+}
+
++ (TSJavelinAPIAgency *)userAgency {
+    
+    return [[[self sharedClient] authenticationManager] loggedInUser].agency;
+}
+
 #pragma mark - Agency Methods
 
 - (void)getAgencies:(void (^)(NSArray *agencies))completion {
@@ -112,7 +162,7 @@ static dispatch_once_t onceToken;
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenOrMasterAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"agencies/"
-   parameters:nil
+   parameters:@{@"page_size": @(100),}
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:@"TSJavelinAPIAgency" fromJSON:responseObject withKey:@"results"]);
@@ -1292,102 +1342,59 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            NSLog(@"%@", error);
-           
-//           if ([self shouldRetry:error]) {
-//               // Delay execution of my block for 10 seconds.
-//               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
-//               dispatch_after(popTime, dispatch_get_main_queue(), ^{
-//                   [self postSocialCrimeReport:report completion:completion];
-//               });
-//           }
-//           else {
-               if (completion) {
-                   completion(nil);
-//               }
+           if (completion) {
+               completion(nil);
            }
        }];
 }
 
 
-#pragma mark - Error Codes
+#pragma mark - User Notifications
 
-- (BOOL)shouldRetry:(NSError *)error {
+- (void)getLatestUserNotifications:(void (^)(NSArray *notifications))completion {
     
-    /*
-     No Connection errors
-     
-     NSURLErrorCannotFindHost = -1003,
-     
-     NSURLErrorCannotConnectToHost = -1004,
-     
-     NSURLErrorNetworkConnectionLost = -1005,
-     
-     NSURLErrorDNSLookupFailed = -1006,
-     
-     NSURLErrorHTTPTooManyRedirects = -1007,
-     
-     NSURLErrorResourceUnavailable = -1008,
-     
-     NSURLErrorNotConnectedToInternet = -1009,
-     
-     NSURLErrorRedirectToNonExistentLocation = -1010,
-     
-     NSURLErrorInternationalRoamingOff = -1018,
-     
-     NSURLErrorCallIsActive = -1019,
-     
-     NSURLErrorDataNotAllowed = -1020,
-     
-     NSURLErrorSecureConnectionFailed = -1200,
-     
-     NSURLErrorCannotLoadFromNetwork = -2000,
-     */
-    
-    NSArray *networkFailureCodes = @[@(NSURLErrorCannotFindHost),
-                                     @(NSURLErrorCannotConnectToHost),
-                                     @(NSURLErrorNetworkConnectionLost),
-                                     @(NSURLErrorDNSLookupFailed),
-                                     @(NSURLErrorHTTPTooManyRedirects),
-                                     @(NSURLErrorResourceUnavailable),
-                                     @(NSURLErrorNotConnectedToInternet),
-                                     @(NSURLErrorRedirectToNonExistentLocation),
-                                     @(NSURLErrorInternationalRoamingOff),
-                                     @(NSURLErrorCallIsActive),
-                                     @(NSURLErrorDataNotAllowed),
-                                     @(NSURLErrorSecureConnectionFailed),
-                                     @(NSURLErrorCannotLoadFromNetwork)];
-    
-    BOOL networkError = NO;
-    if (error) {
-        for (NSNumber *number in networkFailureCodes) {
-            if (error.code == [number integerValue]) {
-                NSLog(@"%li", (long)error.code);
-                networkError = YES;
-            }
-        }
+    if (![TSJavelinAPIClient loggedInUser].url) {
+        return;
     }
     
-    if (!networkError) {
-        return NO;
-    }
-    
-    return YES;
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:@"user-notifications/"
+   parameters:@{@"user": [TSJavelinAPIClient loggedInUser].url}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if (completion) {
+              completion([self apiObjectArrayOfClass:NSStringFromClass([TSJavelinAPIUserNotification class]) fromJSON:responseObject withKey:@"results"]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          if (completion) {
+              completion(nil);
+          }
+      }];
 }
 
-+ (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSJavelinAPIClientDidUpdateAgency object:nil];
-}
 
-+ (TSJavelinAPIUser *)loggedInUser {
+- (void)markRead:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion {
     
-    return [[[self sharedClient] authenticationManager] loggedInUser];
-}
-
-+ (TSJavelinAPIAgency *)userAgency {
+    notification.read = YES;
     
-    return [[[self sharedClient] authenticationManager] loggedInUser].agency;
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self PATCH:notification.url
+   parameters:@{@"read": @(1)}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          
+          if (completion) {
+              completion(YES);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error);
+          if (completion) {
+              completion(NO);
+          }
+      }];
 }
-
 
 @end

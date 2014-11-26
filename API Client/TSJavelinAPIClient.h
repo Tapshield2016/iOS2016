@@ -17,6 +17,9 @@
 #import "TSJavelinAPIRegion.h"
 #import "TSJavelinAPIDispatchCenter.h"
 #import "TSJavelinAPIPushNotification.h"
+#import "TSJavelinAPIAlert.h"
+#import "TSJavelinAPIUserNotification.h"
+#import "TSJavelinPushNotificationManager.h"
 #import "NSNull+JSON.h"
 
 @class TSJavelinAPIUser;
@@ -190,5 +193,10 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 
 - (BOOL)shouldRetry:(NSError *)error;
 + (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector;
+
+
+//User Notifications
+- (void)getLatestUserNotifications:(void (^)(NSArray *notifications))completion;
+- (void)markRead:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion;
 
 @end

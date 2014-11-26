@@ -46,6 +46,7 @@
 - (void)customizeTableView:(UITableView *)tableView;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;
+- (void)drawerCanDragForContacts:(BOOL)enabled;
 
 @property (assign, nonatomic) BOOL firstAppear;
 @property (assign, nonatomic) BOOL translucentBackground;

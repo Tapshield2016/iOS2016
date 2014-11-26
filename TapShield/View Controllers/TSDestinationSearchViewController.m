@@ -182,7 +182,7 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     [self dismissViewControllerAnimated:YES completion:^{
         [_homeViewController viewWillAppear:NO];
         [_homeViewController viewDidAppear:NO];
-        [_homeViewController clearEntourageAndResetMap];
+        [[TSEntourageSessionManager sharedManager] stopEntourage];
     }];
 }
 

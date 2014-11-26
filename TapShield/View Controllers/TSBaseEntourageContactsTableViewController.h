@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSNavigationViewController.h"
-#define kContactsSectionOffset 3
+#define kContactsSectionOffset 4
 
 @interface TSBaseEntourageContactsTableViewController : UITableViewController
 
@@ -17,10 +17,12 @@
 @property (strong, nonatomic) NSArray *allContacts;
 @property (strong, nonatomic) NSArray *entourageMembers;
 @property (strong, nonatomic) NSArray *whoAddedUser;
+@property (strong, nonatomic) NSArray *userNotifications;
 
 @property (strong, nonatomic) NSArray *staticAllContacts;
 @property (strong, nonatomic) NSArray *staticEntourageMembers;
 @property (strong, nonatomic) NSArray *staticWhoAddedUser;
+@property (strong, nonatomic) NSArray *staticUserNotifications;
 
 
 @property (strong, nonatomic) NSMutableDictionary *sortedContacts;
@@ -75,5 +77,7 @@
 - (void)animatePane:(BOOL)openWide;
 
 - (void)reloadTableView;
+
+- (void)reloadTableViewOnMainThread;
 
 @end

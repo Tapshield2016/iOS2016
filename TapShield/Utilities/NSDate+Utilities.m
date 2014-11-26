@@ -605,4 +605,58 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 
+- (NSString *)dateDescriptionSinceNow {
+    
+    NSDate *now = [NSDate date];
+    int seconds = abs([self timeIntervalSinceNow]);
+    
+    if (seconds < 60) {
+        
+        if (seconds == 1) {
+            return [NSString stringWithFormat:@"%i second ago", seconds];
+        }
+        
+        return [NSString stringWithFormat:@"%i seconds ago", seconds];
+    }
+    
+    if ([self minutesBeforeDate:now] < 60) {
+        
+        if ([self minutesBeforeDate:now] == 1) {
+            return [NSString stringWithFormat:@"%li minute ago", (long)[self minutesBeforeDate:now]];
+        }
+        
+        return [NSString stringWithFormat:@"%li minutes ago", (long)[self minutesBeforeDate:now]];
+    }
+    
+    if ([self hoursBeforeDate:now] < 6) {
+        
+        if ([self hoursBeforeDate:now] == 1) {
+            return [NSString stringWithFormat:@"%li hour ago", (long)[self hoursBeforeDate:now]];
+        }
+        
+        return [NSString stringWithFormat:@"%li hours ago", (long)[self hoursBeforeDate:now]];
+    }
+    
+    
+    if (self.isToday) {
+        return [NSString stringWithFormat:@"%@ today", self.shortTimeString];
+    }
+    
+    if (self.isYesterday) {
+        return [NSString stringWithFormat:@"%@ yesterday", self.shortTimeString];
+    }
+    
+    
+    return [self formattedDateTime];
+}
+
+- (NSString *)formattedDateTime {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MM/dd/yy h:mm a"];
+    NSString *dateString = [dateFormat stringFromDate:self];
+    
+    return dateString;
+}
+
+
 @end

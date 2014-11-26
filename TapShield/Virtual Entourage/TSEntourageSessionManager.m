@@ -14,6 +14,7 @@
 #import "NSDate+Utilities.h"
 #import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
 #import "TSStartAnnotation.h"
+#import "TSAlertAnnotation.h"
 
 #define WALKING_RADIUS_MIN 25
 #define DRIVING_RADIUS_MIN 50
@@ -51,6 +52,11 @@ NSString * const TSEntourageSessionManagerTimerDidEnd = @"TSEntourageSessionMana
 @property (strong, nonatomic) NSArray *entourageMemberAnnotations;
 @property (strong, nonatomic) NSArray *entourageMemberOverlays;
 @property (strong, nonatomic) NSArray *entourageMemberStartEndAnnotations;
+
+
+@property (strong, nonatomic) NSTimer *clockTimer;
+@property (strong, nonatomic) TSBaseLabel *timerLabel;
+@property (assign, nonatomic) NSUInteger changeAlpha;
 
 @end
 
@@ -98,6 +104,13 @@ static dispatch_once_t predicate;
     _homeView = homeView;
     
     [self refreshEntourageMemberOverlaysAndAnnotations];
+}
+
+- (void)resumePreviousEntourage {
+    
+    if ([TSJavelinAPIClient loggedInUser].entourageSession) {
+        
+    }
 }
 
 - (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion {
@@ -173,13 +186,13 @@ static dispatch_once_t predicate;
     if (userLocation.horizontalAccuracy > 100) {
         if (contains) {
             
-            [self performSelector:@selector(arrivedAtDestination) withObject:nil afterDelay:5.0];
+            [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:5.0];
         }
     }
     else {
         if (contains) {
             
-            [self arrivedAtDestination];
+            [self stopEntourageArrived];
         }
     }
     
@@ -196,38 +209,11 @@ static dispatch_once_t predicate;
     }
     
     if (contains) {
-        [self performSelector:@selector(arrivedAtDestination) withObject:nil afterDelay:30.0];
+        [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:30.0];
     }
     else {
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(arrivedAtDestination) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
     }
-}
-
-
-- (void)arrivedAtDestination {
-    
-    _endRegions = nil;
-    
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(arrivedAtDestination) object:nil];
-    
-    if (!_isEnabled) {
-        return;
-    }
-    
-    [[TSJavelinAPIClient sharedClient] arrivedForEntourageSession:nil];
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_homeView clearEntourageAndResetMap];
-    }];
-}
-
-- (void)failedToArriveAtDestination {
-    
-    if (!_isEnabled) {
-        return;
-    }
-    
-    [_homeView clearEntourageAndResetMap];
 }
 
 
@@ -241,10 +227,10 @@ static dispatch_once_t predicate;
                                                                           preferredStyle:UIAlertControllerStyleAlert];
         
         [alertController addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            [self.homeView clearEntourageAndResetMap];
+            [self stopEntourageCancelled];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"Arrived" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self arrivedAtDestination];
+            [self stopEntourageArrived];
         }]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -252,21 +238,57 @@ static dispatch_once_t predicate;
         });
     }
     else {
-        [_homeView clearEntourageAndResetMap];
+        [self stopEntourageCancelled];
     }
 }
 
 - (void)stopEntourage {
     
+    if (!_isEnabled) {
+        return;
+    }
+    
     _isEnabled = NO;
+    [_homeView clearEntourageMap];
     [self resetEndTimer];
+    [self stopStatusBartTimer];
     [_routeManager removeRouteOverlaysAndAnnotations];
     [_routeManager removeCurrentDestinationAnnotation];
+}
+
+- (void)stopEntourageCancelled {
     
-    [[TSJavelinAPIClient sharedClient] cancelEntourageSession:^(BOOL cancelled) {
-        
+    if (!_isEnabled) {
+        return;
+    }
+    
+    [self stopEntourage];
+    [[TSJavelinAPIClient sharedClient] cancelEntourageSession:nil];
+}
+
+- (void)stopEntourageArrived {
+    
+    _endRegions = nil;
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
+    
+    if (!_isEnabled) {
+        return;
+    }
+    
+    [[TSJavelinAPIClient sharedClient] arrivedForEntourageSession:nil];
+    
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self stopEntourage];
     }];
 }
+
+- (void)stopEntourageNonArrival {
+    
+    [self stopEntourage];
+}
+
 
 #pragma mark - Timer
 
@@ -274,16 +296,17 @@ static dispatch_once_t predicate;
     
     _isEnabled = YES;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self resetEndTimer];
-        _endTimer = [NSTimer scheduledTimerWithTimeInterval:interval
-                                                     target:self
-                                                   selector:@selector(timerEnded)
-                                                   userInfo:nil
-                                                    repeats:NO];
-        [self scheduleLocalNotifications];
-        [self setNextTimer];
-    });
+    [self resetEndTimer];
+    _endTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                 target:self
+                                               selector:@selector(timerEnded)
+                                               userInfo:nil
+                                                repeats:NO];
+    _endTimer.tolerance = 1;
+    [[NSRunLoop currentRunLoop] addTimer:_endTimer forMode:NSRunLoopCommonModes];
+    [self scheduleLocalNotifications];
+    [self setNextTimer];
+    [self startStatusBarTimer];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSEntourageSessionManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
 }
@@ -315,7 +338,7 @@ static dispatch_once_t predicate;
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
     [alertController addAction:[UIAlertAction actionWithTitle:@"End Route" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        [self.homeView clearEntourageAndResetMap];
+        [self stopEntourageCancelled];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"Update ETA" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self newMapsETA];
@@ -424,6 +447,7 @@ static dispatch_once_t predicate;
                                                    selector:@selector(sayTimerTarget:)
                                                    userInfo:nil
                                                     repeats:NO];
+        _textToSpeechTimer.tolerance = 1;
         [_textToSpeechTimer setFireDate:date];
     });
 }
@@ -504,33 +528,62 @@ static dispatch_once_t predicate;
 
 - (void)showSessionForMember:(TSJavelinAPIEntourageMember *)member {
     
+    [self showSessionAnnotations:[self createStartEndAnnotations:member.session]];
+}
+
+- (void)showSessionAnnotations:(NSArray *)array {
+    
     [_homeView.mapView removeAnnotations:_entourageMemberStartEndAnnotations];
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
-    TSSelectedDestinationAnnotation *destination;
-    destination = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:member.session.endLocation.location.coordinate
-                                                                     placeName:member.session.endLocation.name
-                                                                   description:nil
-                                                                    travelType:member.session.transportType];
-    if (destination) {
-        [mutableArray addObject:destination];
+    _entourageMemberStartEndAnnotations = [NSArray arrayWithArray:array];
+    
+    if (!_entourageMemberStartEndAnnotations.count) {
+        return;
     }
     
-    TSStartAnnotation *start;
-    start = [[TSStartAnnotation alloc] initWithCoordinates:member.session.startLocation.location.coordinate
-                                                 placeName:member.session.startLocation.name
-                                               description:nil];
-    if (start) {
-        [mutableArray addObject:start];
-    }
-    
-    _entourageMemberStartEndAnnotations = [NSArray arrayWithArray:mutableArray];
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [_homeView.mapView addAnnotations:_entourageMemberStartEndAnnotations];
         [_homeView setIsTrackingUser:NO animateToUser:NO];
         [_homeView.mapView showAnnotations:_entourageMemberStartEndAnnotations animated:YES];
         [self closeDrawer];
     }];
+}
+
+- (NSMutableArray *)createStartEndAnnotations:(TSJavelinAPIEntourageSession *)session {
+    
+    NSMutableArray *mutableArray = [self createDestinationAnnotationArray:session];
+    
+    TSStartAnnotation *start;
+    start = [[TSStartAnnotation alloc] initWithCoordinates:session.startLocation.location.coordinate
+                                                 placeName:session.startLocation.name
+                                               description:nil];
+    if (start) {
+        [mutableArray addObject:start];
+    }
+    
+    return mutableArray;
+}
+
+- (NSMutableArray *)createDestinationAnnotationArray:(TSJavelinAPIEntourageSession *)session {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
+    TSSelectedDestinationAnnotation *destination;
+    destination = [self createDestinationAnnotation:session];
+    if (destination) {
+        [mutableArray addObject:destination];
+    }
+    
+    return mutableArray;
+}
+
+- (TSSelectedDestinationAnnotation *)createDestinationAnnotation:(TSJavelinAPIEntourageSession *)session {
+    
+    TSSelectedDestinationAnnotation *destination;
+    destination = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:session.endLocation.location.coordinate
+                                                                     placeName:session.endLocation.name
+                                                                   description:nil
+                                                                    travelType:session.transportType];
+    return destination;
 }
 
 - (void)removeCurrentMemberSession {
@@ -627,7 +680,7 @@ static dispatch_once_t predicate;
         
         TSEntourageMemberAnnotation *annotation;
         if (member.location) {
-            annotation = [[TSEntourageMemberAnnotation alloc] initWithCoordinates:member.location.coordinate placeName:member.name description:[TSUtilities dateDescriptionSinceNow:member.location.timestamp]];
+            annotation = [[TSEntourageMemberAnnotation alloc] initWithCoordinates:member.location.coordinate placeName:member.name description:[member.location.timestamp dateDescriptionSinceNow]];
             annotation.member = member;
             [mutableArray addObject:annotation];
             member.mapAnnotation = annotation;
@@ -663,6 +716,138 @@ static dispatch_once_t predicate;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [_homeView.mapView addOverlays:_entourageMemberOverlays level:MKOverlayLevelAboveRoads];
     }];
+}
+
+
+#pragma mark - Entourage Timer
+
+- (void)startStatusBarTimer {
+    
+    if (!_clockTimer) {
+        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:0.2
+                                                       target:self
+                                                     selector:@selector(startStatusBarTimer)
+                                                     userInfo:nil
+                                                      repeats:YES];
+        _clockTimer.tolerance = 0.2;
+        [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
+    }
+    
+    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
+    
+    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
+    
+    if (!_timerLabel.superview) {
+        _changeAlpha = 0;
+        UIView *statusBar = [TSAppDelegate statusBar];
+        _timerLabel = [[TSBaseLabel alloc] init];
+        _timerLabel.backgroundColor = [TSColorPalette clearColor];
+        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
+        _timerLabel.frame = statusBar.bounds;
+        _timerLabel.textAlignment = NSTextAlignmentCenter;
+        _timerLabel.font = [UIFont fontWithName:kFontWeightSemiBold size:12];
+        [statusBar addSubview:_timerLabel];
+    }
+    
+    if (time < 60) {
+        _timerLabel.textColor = [TSColorPalette alertRed];
+    }
+    else {
+        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
+    }
+    
+    _timerLabel.text = [NSString stringWithFormat:@"%@ ETA", [TSUtilities formattedStringForTime:time]];
+    
+    NSInteger intervalChange = 25;
+    if (_changeAlpha > intervalChange || time <= 60) {
+        [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:0.0];
+        _timerLabel.alpha = 1.0;
+        if (_changeAlpha == intervalChange*2) {
+            _changeAlpha = 0;
+        }
+    }
+    else {
+        [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:1.0];
+        _timerLabel.alpha = 0.0;
+    }
+    
+    _changeAlpha++;
+}
+
+- (BOOL)setTimeViewOnStatusBar:(UIView *)view alpha:(float)alpha {
+    
+    CGRect frame = CGRectMake(125, 0, 70, 20);
+    
+    for (UIView *subview in view.subviews) {
+        if (CGRectContainsRect(frame, subview.frame)) {
+            subview.alpha = alpha;
+            [subview setHidden:!alpha];
+            return YES;
+        }
+        else {
+            if ([self setTimeViewOnStatusBar:subview alpha:alpha]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+
+- (void)stopStatusBartTimer {
+    
+    [_clockTimer invalidate];
+    _clockTimer = nil;
+    
+    [_timerLabel removeFromSuperview];
+    _timerLabel = nil;
+    
+    [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:1.0];
+}
+
+#pragma mark - Entourage User Notifications
+
+- (void)actionForEntourageNotificationObject:(TSJavelinAPIUserNotification *)notification {
+    
+    if (notification.alert) {
+        [self viewAlertLocation:notification.alert];
+    }
+    else if (notification.entourageSession) {
+        [self viewEntourageSessionDestination:notification.entourageSession];
+    }
+}
+
+- (void)viewAlertLocation:(TSJavelinAPIAlert *)alert {
+    
+    [self showSessionAnnotations:[self createAlertAnnotationArray:alert]];
+}
+
+
+- (void)viewEntourageSessionDestination:(TSJavelinAPIEntourageSession *)session {
+    
+    [self showSessionAnnotations:[self createDestinationAnnotationArray:session]];
+}
+
+
+- (NSMutableArray *)createAlertAnnotationArray:(TSJavelinAPIAlert *)alert {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
+    TSAlertAnnotation *alertLocation = [self createAlertAnnotation:alert];
+    if (alertLocation) {
+        [mutableArray addObject:alertLocation];
+    }
+    
+    return mutableArray;
+}
+
+- (TSAlertAnnotation *)createAlertAnnotation:(TSJavelinAPIAlert *)alert {
+    
+    TSAlertAnnotation *alertAnnotation;
+    alertAnnotation = [[TSAlertAnnotation alloc] initWithCoordinates:alert.latestLocation.coordinate
+                                                           placeName:alert.agencyUser.fullName
+                                                         description:[alert.lastModified dateDescriptionSinceNow]];
+    alertAnnotation.alert = alert;
+    return alertAnnotation;
 }
 
 @end

@@ -35,6 +35,8 @@
 #import "TSEntourageMemberAnnotationView.h"
 #import "TSStartAnnotationView.h"
 #import "TSStartAnnotation.h"
+#import "TSAlertAnnotation.h"
+#import "TSAlertAnnotationView.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -50,7 +52,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
 @property (strong, nonatomic) FBKVOController *KVOController;
 @property (nonatomic) BOOL viewDidAppear;
-@property (strong, nonatomic) TSBaseLabel *timerLabel;
+
 @property (assign, nonatomic) BOOL annotationsLoaded;
 @property (assign, nonatomic) BOOL firstMapLoad;
 @property (assign, nonatomic) BOOL locationServicesWereDisabled;
@@ -262,46 +264,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
 }
 
-#pragma mark - Entourage Timer
 
-- (void)adjustViewableTime {
-    
-    if (!_clockTimer) {
-        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                       target:self
-                                                     selector:@selector(adjustViewableTime)
-                                                     userInfo:nil
-                                                      repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
-    }
-    
-    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
-    
-    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
-    
-    if (!_timerLabel) {
-        [self.navigationItem setPrompt:@""];
-        _timerLabel = [[TSBaseLabel alloc] init];
-        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
-        _timerLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 30);
-        _timerLabel.textAlignment = NSTextAlignmentCenter;
-        [self.navigationController.navigationBar addSubview:_timerLabel];
-    }
-    
-    _timerLabel.text = [TSUtilities formattedStringForTime:time];
-    [_timerLabel setNeedsDisplay];
-}
-
-- (void)stopClockTimer {
-    
-    [_clockTimer invalidate];
-    _clockTimer = nil;
-    
-    self.navigationController.navigationBar.topItem.prompt = nil;
-    
-    [_timerLabel removeFromSuperview];
-    _timerLabel = nil;
-}
 
 #pragma mark - UI Changes
 
@@ -316,7 +279,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [self setIsTrackingUser:YES animateToUser:YES];
     [self drawerCanDragForMenu:NO];
-    [self adjustViewableTime];
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
@@ -324,14 +286,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
 }
 
-- (void)clearEntourageAndResetMap {
+- (void)clearEntourageMap {
     
     [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [_menuViewController showMenuButton:self];
-    [[TSEntourageSessionManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
-    
-    [self stopClockTimer];
 }
 
 
@@ -349,7 +308,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)enterPasscodeCancel {
     
-    _cancelEntourageAlertController = [UIAlertController alertControllerWithTitle:@"Stop Entourage"
+    _cancelEntourageAlertController = [UIAlertController alertControllerWithTitle:@"Stop Tracking"
                                                                           message:@"Please enter passcode"
                                                                    preferredStyle:UIAlertControllerStyleAlert];
     
@@ -367,10 +326,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self presentViewController:_cancelEntourageAlertController animated:YES completion:nil];
 }
 
-- (void)showEntourageMembers:(id)sender {
-    
-    
-}
 
 - (void)sendYankAlert {
     
@@ -437,7 +392,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (IBAction)openEntourage:(id)sender {
     
     [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
-    
+    [[TSEntourageSessionManager sharedManager] stopStatusBartTimer];
     
     if (!_topDownTransitioningDelegate) {
         _topDownTransitioningDelegate = [[TSTopDownTransitioningDelegate alloc] init];
@@ -858,6 +813,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             annotationView = [[TSStartAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSStartAnnotation class])];
         }
     }
+    else if ([annotation isKindOfClass:[TSAlertAnnotation class]]) {
+        annotationView = (TSAlertAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSAlertAnnotation class])];
+        if (!annotationView) {
+            annotationView = [[TSAlertAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSAlertAnnotation class])];
+        }
+    }
     else if ([annotation isKindOfClass:[TSRouteTimeAnnotation class]]) {
         
         annotationView = (TSRouteTimeAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSRouteTimeAnnotation class])];
@@ -1005,10 +966,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         TSJavelinAPISocialCrimeReport *report = annotation.socialReport;
         
         if (report) {
-            subtitle = [TSUtilities dateDescriptionSinceNow:report.creationDate];
+            subtitle = [report.creationDate dateDescriptionSinceNow];
         }
         else {
-            subtitle = [TSUtilities dateDescriptionSinceNow:location.date];
+            subtitle = [location.date dateDescriptionSinceNow];
         }
         
         annotation.subtitle = subtitle;
@@ -1201,7 +1162,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     LAContext *context = [[LAContext alloc] init];
     
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-            localizedReason:@"Stop Entourage"
+            localizedReason:@"Stop Tracking"
                       reply:^(BOOL success, NSError *error) {
                           
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -1246,10 +1207,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)callAgencyDispatcher:(id)sender {
     
-//    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
-//        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
-//        return;
-//    }
+    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSJavelinAPIClient loggedInUser].agency) {
+        [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
+        return;
+    }
     
     [self hideCallChatButtons];
     [self transitionForAlert];
@@ -1336,76 +1297,76 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 #pragma mark - MBXRaster
 
-- (void)initMapBoxOverlays {
-    
-    // Configure the amount of storage to use for NSURLCache's shared cache: You can also omit this and allow NSURLCache's
-    // to use its default cache size. These sizes determines how much storage will be used for performance caching of HTTP
-    // requests made by MBXOfflineMapDownloader and MBXRasterTileOverlay. Please note that these values apply only to the
-    // HTTP cache, and persistent offline map data is stored using an entirely separate mechanism.
-    //
-    NSUInteger memoryCapacity = 4 * 1024 * 1024;
-    NSUInteger diskCapacity = 40 * 1024 * 1024;
-    NSURLCache *urlCache = [[NSURLCache alloc] initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:nil];
-    //[urlCache removeAllCachedResponses];
-    [NSURLCache setSharedURLCache:urlCache];
-    
-    [MBXMapKit setAccessToken:@"pk.eyJ1IjoiYWRhbXNoYXJlIiwiYSI6ImNvWUtodTQifQ.KdVngge_lPq-xj0bOVxpSw"];
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    // Configure a raster tile overlay to use the initial sample map
-    //
-    _rasterOverlay = [[MBXRasterTileOverlay alloc] initWithMapID:@"adamshare.k610je3e"];
-    
-    // Let the raster tile overlay know that we want to be notified when it has asynchronously loaded the sample map's metadata
-    // (so we can set the map's center and zoom) and the sample map's markers (so we can add them to the map).
-    //
-    _rasterOverlay.delegate = self;
-    
-    // Add the raster tile overlay to our mapView so that it will immediately start rendering tiles. At this point the MKMapView's
-    // default center and zoom don't match the center and zoom of the sample map, but that's okay. Adding the layer now will prevent
-    // a percieved visual glitch in the UI (an empty map), and we'll fix the center and zoom when tileOverlay:didLoadMetadata:withError:
-    // gets called to notify us that the raster tile overlay has finished asynchronously loading its metadata.
-    //
-    [_mapView addOverlay:_rasterOverlay];
-    
-}
-
-#pragma mark - MBXRasterTileOverlayDelegate implementation
-
-- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMetadata:(NSDictionary *)metadata withError:(NSError *)error
-{
-    // This delegate callback is for centering the map once the map metadata has been loaded
-    //
-    if (error)
-    {
-        NSLog(@"Failed to load metadata for map ID %@ - (%@)", overlay.mapID, error?error:@"");
-    }
-    else
-    {
-        [_mapView mbx_setCenterCoordinate:overlay.center zoomLevel:overlay.centerZoom animated:NO];
-    }
-}
-
-
-- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMarkers:(NSArray *)markers withError:(NSError *)error
-{
-    // This delegate callback is for adding map markers to an MKMapView once all the markers for the tile overlay have loaded
-    //
-    if (error)
-    {
-        NSLog(@"Failed to load markers for map ID %@ - (%@)", overlay.mapID, error?error:@"");
-    }
-    else
-    {
-        [_mapView addAnnotations:markers];
-    }
-}
-
-- (void)tileOverlayDidFinishLoadingMetadataAndMarkers:(MBXRasterTileOverlay *)overlay
-{
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-}
+//- (void)initMapBoxOverlays {
+//    
+//    // Configure the amount of storage to use for NSURLCache's shared cache: You can also omit this and allow NSURLCache's
+//    // to use its default cache size. These sizes determines how much storage will be used for performance caching of HTTP
+//    // requests made by MBXOfflineMapDownloader and MBXRasterTileOverlay. Please note that these values apply only to the
+//    // HTTP cache, and persistent offline map data is stored using an entirely separate mechanism.
+//    //
+//    NSUInteger memoryCapacity = 4 * 1024 * 1024;
+//    NSUInteger diskCapacity = 40 * 1024 * 1024;
+//    NSURLCache *urlCache = [[NSURLCache alloc] initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:nil];
+//    //[urlCache removeAllCachedResponses];
+//    [NSURLCache setSharedURLCache:urlCache];
+//    
+//    [MBXMapKit setAccessToken:@"pk.eyJ1IjoiYWRhbXNoYXJlIiwiYSI6ImNvWUtodTQifQ.KdVngge_lPq-xj0bOVxpSw"];
+//    
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+//    
+//    // Configure a raster tile overlay to use the initial sample map
+//    //
+//    _rasterOverlay = [[MBXRasterTileOverlay alloc] initWithMapID:@"adamshare.k610je3e"];
+//    
+//    // Let the raster tile overlay know that we want to be notified when it has asynchronously loaded the sample map's metadata
+//    // (so we can set the map's center and zoom) and the sample map's markers (so we can add them to the map).
+//    //
+//    _rasterOverlay.delegate = self;
+//    
+//    // Add the raster tile overlay to our mapView so that it will immediately start rendering tiles. At this point the MKMapView's
+//    // default center and zoom don't match the center and zoom of the sample map, but that's okay. Adding the layer now will prevent
+//    // a percieved visual glitch in the UI (an empty map), and we'll fix the center and zoom when tileOverlay:didLoadMetadata:withError:
+//    // gets called to notify us that the raster tile overlay has finished asynchronously loading its metadata.
+//    //
+//    [_mapView addOverlay:_rasterOverlay];
+//    
+//}
+//
+//#pragma mark - MBXRasterTileOverlayDelegate implementation
+//
+//- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMetadata:(NSDictionary *)metadata withError:(NSError *)error
+//{
+//    // This delegate callback is for centering the map once the map metadata has been loaded
+//    //
+//    if (error)
+//    {
+//        NSLog(@"Failed to load metadata for map ID %@ - (%@)", overlay.mapID, error?error:@"");
+//    }
+//    else
+//    {
+//        [_mapView mbx_setCenterCoordinate:overlay.center zoomLevel:overlay.centerZoom animated:NO];
+//    }
+//}
+//
+//
+//- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMarkers:(NSArray *)markers withError:(NSError *)error
+//{
+//    // This delegate callback is for adding map markers to an MKMapView once all the markers for the tile overlay have loaded
+//    //
+//    if (error)
+//    {
+//        NSLog(@"Failed to load markers for map ID %@ - (%@)", overlay.mapID, error?error:@"");
+//    }
+//    else
+//    {
+//        [_mapView addAnnotations:markers];
+//    }
+//}
+//
+//- (void)tileOverlayDidFinishLoadingMetadataAndMarkers:(MBXRasterTileOverlay *)overlay
+//{
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+//}
 
 
 @end

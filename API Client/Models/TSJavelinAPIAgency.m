@@ -116,7 +116,8 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     //Encode properties, other class variables, etc
-    [encoder encodeObject:self.url forKey:@"url"];
+    [super encodeWithCoder:encoder];
+    
     [encoder encodeObject:_name forKey:@"name"];
     [encoder encodeObject:_domain forKey:@"domain"];
     [encoder encodeObject:_dispatcherPhoneNumber forKey:@"dispatcherPhoneNumber"];
@@ -171,9 +172,9 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
+    if((self = [super initWithCoder:decoder])) {
         //decode properties, other class vars
-        self.url = [decoder decodeObjectForKey:@"url"];
+        
         _name = [decoder decodeObjectForKey:@"name"];
         _domain = [decoder decodeObjectForKey:@"domain"];
         _dispatcherPhoneNumber = [decoder decodeObjectForKey:@"dispatcherPhoneNumber"];

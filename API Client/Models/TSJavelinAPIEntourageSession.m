@@ -34,6 +34,39 @@
     return self;
 }
 
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:_status forKey:@"status"];
+    [encoder encodeObject:_travelMode forKey:@"travel_mode"];
+    [encoder encodeObject:_startLocation forKey:@"start_location"];
+    [encoder encodeObject:_endLocation forKey:@"end_location"];
+    [encoder encodeObject:_eta forKey:@"eta"];
+    [encoder encodeObject:_startTime forKey:@"start_time"];
+    [encoder encodeObject:_arrivalTime forKey:@"arrival_time"];
+    [encoder encodeBool:_entourageNotified forKey:@"entourage_notified"];
+    [encoder encodeObject:_locations forKey:@"locations"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super initWithCoder:decoder])) {
+        
+        _status = [decoder decodeObjectForKey:@"status"];
+        _travelMode = [decoder decodeObjectForKey:@"travel_mode"];
+        _startLocation = [decoder decodeObjectForKey:@"start_location"];
+        _endLocation = [decoder decodeObjectForKey:@"end_location"];
+        _eta = [decoder decodeObjectForKey:@"eta"];
+        _startTime = [decoder decodeObjectForKey:@"start_time"];
+        _arrivalTime = [decoder decodeObjectForKey:@"arrival_time"];
+        _entourageNotified = [decoder decodeBoolForKey:@"entourage_notified"];
+        _locations = [decoder decodeObjectForKey:@"locations"];
+    }
+    return self;
+}
+
 - (void)setTravelMode:(NSString *)travelMode {
     
     _travelMode = travelMode;

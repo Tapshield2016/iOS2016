@@ -14,6 +14,7 @@
 #import <Shimmer/FBShimmering.h>
 
 #define LeftMargin 10
+#define ImageRightMargin 10
 #define StatusImageWidth 40
 #define ContactImageSize 40
 #define LocateButtonWidth 60
@@ -432,7 +433,7 @@ static NSString * const kEmailImage = @"emailSmall";
     
     _statusImageView.hidden = YES;
     
-    _contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 250, 50)];
+    _contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 0, 250, 50)];
     _contactNameLabel.textColor = [UIColor whiteColor];
     _contactNameLabel.font = [TSFont fontWithName:kFontWeightThin size:16];
     

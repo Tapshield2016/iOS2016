@@ -105,7 +105,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
+    if((self = [super initWithCoder:decoder])) {
         //decode properties, other class vars
         self.url = [decoder decodeObjectForKey:@"url"];
         _username = [decoder decodeObjectForKey:@"username"];
@@ -612,5 +612,19 @@
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
 }
+
+- (NSString *)fullName {
+    
+    NSString *name = self.firstName;
+    if (!name.length) {
+        name = self.lastName;
+    }
+    else if (self.lastName) {
+        name = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+    }
+    
+    return name;
+}
+
 
 @end

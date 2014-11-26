@@ -408,6 +408,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     }
     else {
         [self dismissViewController];
+        [[TSEntourageSessionManager sharedManager] startStatusBarTimer];
     }
 }
 

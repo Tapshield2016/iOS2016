@@ -94,7 +94,7 @@
     
     TSJavelinAPIEntourageMember *member;
     
-    if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 0) {
+    if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 1) {
         
         if (!self.entourageMembers.count) {
             self.movingMember = NO;
@@ -120,7 +120,7 @@
         toIndexPath = [self indexPathOfSortedContact:member];
         
     }
-    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 1) {
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 2) {
         
         self.shouldMoveCell = NO;
         member = [self.whoAddedUser objectAtIndex:indexPath.row];
@@ -129,7 +129,7 @@
         [plusArray addObject:member];
         _contactsTableViewController.entourageMembers = plusArray;
     }
-    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 1) {
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 2) {
         
         NSString *key = [[self sortedKeyArray:self.sortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];
         NSArray *arrayOfSection = [self.sortedContacts objectForKey:key];
@@ -163,9 +163,7 @@
         [CATransaction setCompletionBlock:^{
             // animation has finished
             self.animating = NO;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self reloadTableView];
-            }];
+            [self reloadTableViewOnMainThread];
         }];
         
         [self.tableView beginUpdates];

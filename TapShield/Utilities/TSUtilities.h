@@ -30,8 +30,6 @@
 
 + (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem;
 
-+ (NSString *)relativeDateStringForDate:(NSDate *)date;
-+ (NSString *)dateDescriptionSinceNow:(NSDate *)date;
 
 
 //video

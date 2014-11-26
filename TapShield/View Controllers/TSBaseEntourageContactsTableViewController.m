@@ -10,6 +10,7 @@
 #import "TSEntourageContactTableViewCell.h"
 #import "TSEntourageMemberSettingsViewController.h"
 #import "TSEntourageSessionManager.h"
+#import "TSUserNotificationCell.h"
 
 @interface TSBaseEntourageContactsTableViewController ()
 
@@ -71,6 +72,11 @@
     _isViewInBackground = YES;
 }
 
+- (void)setUserNotifications:(NSArray *)userNotifications {
+    _userNotifications = userNotifications;
+    _staticUserNotifications = _userNotifications;
+}
+
 - (void)setEntourageMembers:(NSArray *)entourageMembers {
     _entourageMembers = entourageMembers;
     _staticEntourageMembers = _entourageMembers;
@@ -98,9 +104,7 @@
     
     self.allContacts = contacts;
     
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self reloadTableView];
-    }];
+    [self reloadTableViewOnMainThread];
 }
 
 - (void)setFilterString:(NSString *)filterString {
@@ -132,9 +136,7 @@
         
         if (!_animating) {
             _shouldReload = NO;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self reloadTableView];
-            }];
+            [self reloadTableViewOnMainThread];
         }
     }
 }
@@ -261,10 +263,10 @@
     
     NSArray *arrayWithContact;
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
         arrayWithContact = self.entourageMembers;
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 2) {
         arrayWithContact = self.whoAddedUser;
     }
     if (indexPath.section >= kContactsSectionOffset) {
@@ -378,6 +380,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (indexPath.section == 0) {
+        static NSString *notificationTableViewCell = @"notificationTableViewCell";
+        
+        TSUserNotificationCell *cell = [self.tableView dequeueReusableCellWithIdentifier:notificationTableViewCell];
+        
+        if (!cell) {
+            cell = [[TSUserNotificationCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:notificationTableViewCell];
+        }
+        cell.notification = _userNotifications[indexPath.row];
+        return cell;
+    }
+    
     static NSString *entourageContactTableViewCell = @"entourageContactTableViewCell";
     static NSString *emptyCell = @"emptyCell";
     
@@ -406,12 +420,12 @@
     cell.contentView.alpha = 1.0;
     
     switch (indexPath.section) {
-        case 0:
+        case 1:
             cell.statusImageView.hidden = NO;
             cell.isInEntourage = YES;
             break;
             
-        case 1:
+        case 2:
             cell.statusImageView.hidden = NO;
             cell.isInEntourage = NO;
             if (!member.location && !member.session && !self.tableView.editing) {
@@ -449,10 +463,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
+    if (section == 0) {
+        return 0;
+    }
+    
     return 35;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return nil;
+    }
     
     float height = 35;
     
@@ -472,14 +494,15 @@
     
     
     CGRect frame = view.frame;
-    frame.origin.x += 25;
-    frame.size.width -= 25;
+    frame.origin.x += 16;
+    frame.size.width -= 16;
+    
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont fontWithName:kFontWeightLight size:16];
     [view addSubview:label];
     
-    if (section == 0) {
+    if (section == 1) {
         label.text = @"Entourage";
         
         if (!self.editButton) {
@@ -493,13 +516,13 @@
         [fillView addSubview:self.editButton];
         [self updateEditingButton];
     }
-    else if (section == 1) {
+    else if (section == 2) {
         label.text = @"Users Who Added You";
     }
-    else if (section == 2) {
-        label.text = @"All Contacts";
+    else if (section == 3) {
+        label.text = [NSString stringWithFormat:@"Contacts (%i)", self.allContacts.count];
     }
-    else {
+    else if (section >= kContactsSectionOffset) {
         UIVisualEffectView *visualEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
         visualEffect.frame = view.frame;
         
@@ -524,6 +547,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (indexPath.section == 0) {
+        return 80;
+    }
+    
     TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
     if([self.selectedRowIndex isEqual:indexPath] && [_selectedMember isEqual:member] && member.session) {
         return [TSEntourageContactTableViewCell selectedHeight];
@@ -544,12 +571,18 @@
     switch (section) {
             
         case 0:
+            if (self.isEditing) {
+                return 0;
+            }
+            return self.userNotifications.count;
+            
+        case 1:
             if (!self.entourageMembers.count) {
                 return 1;
             }
             return self.entourageMembers.count;
             
-        case 1:
+        case 2:
             if (!self.whoAddedUser.count) {
                 return 1;
             }
@@ -577,6 +610,10 @@
     }
     
     if (indexPath.section == 1) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    
+    if (indexPath.section == 2) {
         if (self.staticEntourageMembers) {
             TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordID == %i", member.recordID];
@@ -597,17 +634,21 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 0) {
+    if (indexPath.section==0 && self.tableView.isEditing) {
+        return NO;
+    }
+    
+    if (indexPath.section == 1) {
         if (!self.entourageMembers.count) {
             return NO;
         }
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 2) {
         if (!self.whoAddedUser.count) {
             return NO;
         }
     }
-    else if (indexPath.section >= 2) {
+    else if (indexPath.section >= 3) {
         if (!self.allContacts.count) {
             return NO;
         }
@@ -620,17 +661,17 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
         if (!self.entourageMembers.count) {
             return NO;
         }
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 2) {
         if (!self.whoAddedUser.count) {
             return NO;
         }
     }
-    else if (indexPath.section >= 2) {
+    else if (indexPath.section >= 3) {
         return NO;
     }
     
@@ -640,13 +681,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
+        [[TSEntourageSessionManager sharedManager] actionForEntourageNotificationObject:self.userNotifications[indexPath.row]];
+    }
+    else if (indexPath.section == 1) {
         if (self.selectedRowIndex) {
             [[self.tableView cellForRowAtIndexPath:self.selectedRowIndex] setSelected:NO animated:YES];
         }
         self.selectedRowIndex = nil;
         [self presentMemberSettingsWithMember:[self memberForIndexPath:indexPath]];
     }
-    else {
+    else if (indexPath.section == 2) {
         TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
         if (member.session) {
             [self toggleSelectedIndexPath:indexPath];
@@ -674,7 +718,6 @@
     return YES;
 }
 
-
 - (void)reloadTableView {
     
     NSLog(@"reloading %@", self);
@@ -687,6 +730,13 @@
     _needsReloadData = NO;
     
     [self.tableView reloadData];
+}
+
+- (void)reloadTableViewOnMainThread {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self reloadTableView];
+    }];
 }
 
 @end

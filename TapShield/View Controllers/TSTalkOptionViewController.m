@@ -93,7 +93,12 @@
     [self.view addSubview:_emergencyButton];
     
     frame.origin.y += frame.size.height + buttonSpace;
-    _callButton = [[TSTalkOptionButton alloc] initWithFrame:frame imageType:kPhoneIcon title:userAgency.alertModeName];
+    
+    NSString *title = @"Police";
+    if (userAgency.alertModeName) {
+        title = userAgency.alertModeName;
+    }
+    _callButton = [[TSTalkOptionButton alloc] initWithFrame:frame imageType:kPhoneIcon title:title];
     
     if ([self.parentViewController respondsToSelector:@selector(callAgencyDispatcher:)]) {
         [_callButton addTarget:self.parentViewController action:@selector(callAgencyDispatcher:) forControlEvents:UIControlEventTouchUpInside];
@@ -151,8 +156,11 @@
 
 - (void)showTalkButtons {
     
-    if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+    if (![TSJavelinAPIClient loggedInUser].agency) {
         [self setAgencyButtonsAlpha:0.5];
+    }
+    else if (![TSLocationController sharedLocationController].geofence.currentAgency) {
+        self.chatButton.alpha = 0.5;
     }
     
     self.view.transform = CGAffineTransformIdentity;
@@ -207,20 +215,30 @@
 
 - (void)userDidLeaveAgency:(NSNotification *)notification {
     
-    [self setAgencyButtonsAlpha:0.5];
+    _chatButton.alpha = 0.5;
     
-    [_callButton setTitle:[TSJavelinAPIClient loggedInUser].agency.alertModeName forState:UIControlStateNormal];
+    NSString *title = @"Police";
+    if ([TSJavelinAPIClient loggedInUser].agency.alertModeName) {
+        title = [TSJavelinAPIClient loggedInUser].agency.alertModeName;
+    }
+    [_callButton setTitle:title forState:UIControlStateNormal];
 }
 
 - (void)userDidEnterAgency:(NSNotification *)notification {
     
     [self setAgencyButtonsAlpha:1.0];
     
-    [_callButton setTitle:[TSJavelinAPIClient loggedInUser].agency.alertModeName forState:UIControlStateNormal];
+    NSString *title = @"Police";
+    if ([TSJavelinAPIClient loggedInUser].agency.alertModeName) {
+        title = [TSJavelinAPIClient loggedInUser].agency.alertModeName;
+    }
+    
+    [_callButton setTitle:title forState:UIControlStateNormal];
 }
 
 - (void)setAgencyButtonsAlpha:(float)alpha {
     
+    _callButton.alpha = alpha;
     _chatButton.alpha = alpha;
 }
 

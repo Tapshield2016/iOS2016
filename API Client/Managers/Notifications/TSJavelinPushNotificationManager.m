@@ -27,6 +27,19 @@ NSString * const TSJavelinPushNotificationTypeEntourageYankAlert = @"entourage-y
 
 @implementation TSJavelinPushNotificationManager
 
+static TSJavelinPushNotificationManager *_sharedInstance = nil;
+static dispatch_once_t predicate;
+
++ (instancetype)sharedManager {
+    
+    if (_sharedInstance == nil) {
+        dispatch_once(&predicate, ^{
+            _sharedInstance = [[self alloc] init];
+        });
+    }
+    return _sharedInstance;
+}
+
 + (void)analyzeNotification:(NSDictionary *)userInfo completion:(void (^)(BOOL matchFound, TSJavelinAPIPushNotification *notification))completion {
     
     TSJavelinAPIPushNotification *notification = [[TSJavelinAPIPushNotification alloc] initWithAttributes:userInfo];
@@ -85,6 +98,10 @@ NSString * const TSJavelinPushNotificationTypeEntourageYankAlert = @"entourage-y
             [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
                                                                 object:notification];
         }
+        else if (notification.alertType == TSJavelinPushNotificationTypeEntourageYankAlert) {
+            
+            
+        }
         else {
             if (completion) {
                 completion(NO, notification);
@@ -98,5 +115,56 @@ NSString * const TSJavelinPushNotificationTypeEntourageYankAlert = @"entourage-y
         completion(NO, nil);
     }
 }
+
+
+- (void)getNewUserNotifications:(void(^)(NSArray *notifications))completion {
+    
+    [[TSJavelinAPIClient sharedClient] getLatestUserNotifications:^(NSArray *notifications) {
+        [self newNotifications:notifications];
+        
+        if (completion) {
+            completion(self.sortedNotificationsArray);
+        }
+    }];
+}
+
+- (void)newNotifications:(NSArray *)notifications {
+    
+    if (!_userNotificationsDictionary) {
+        _userNotificationsDictionary = [[NSMutableDictionary alloc] initWithCapacity:5];
+    }
+    
+    for (TSJavelinAPIUserNotification *note in notifications) {
+        [_userNotificationsDictionary setObject:note forKey:note.url];
+    }
+}
+
+- (NSMutableArray *)sortedNotificationsArray {
+    
+    if (!_userNotificationsDictionary) {
+        return nil;
+    }
+    return [self sortUserNotificationsByCreationDate:[[NSMutableArray alloc] initWithArray:_userNotificationsDictionary.allValues]];
+}
+
+- (NSMutableArray *)sortUserNotificationsByCreationDate:(NSMutableArray *)notifications {
+    
+    NSSortDescriptor *dateSort = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO];
+    [notifications sortUsingDescriptors:@[dateSort]];
+    return notifications;
+}
+
+- (void)readNotification:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion {
+    
+    [[TSJavelinAPIClient sharedClient] markRead:notification completion:completion];
+}
+
+
+- (void)deleteNotification:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion {
+    
+    [[TSJavelinAPIClient sharedClient] removeUrl:notification.url completion:completion];
+    [_userNotificationsDictionary removeObjectForKey:notification.url];
+}
+
 
 @end

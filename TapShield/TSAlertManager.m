@@ -264,7 +264,7 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
-    [[TSEntourageSessionManager sharedManager] failedToArriveAtDestination];
+    [[TSEntourageSessionManager sharedManager] stopEntourageNonArrival];
     
     _status = kAlertSending;
     if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
@@ -376,7 +376,7 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
-    [[TSEntourageSessionManager sharedManager] failedToArriveAtDestination];
+    [[TSEntourageSessionManager sharedManager] stopEntourageNonArrival];
     
     _type = kAlertType911Call;
     

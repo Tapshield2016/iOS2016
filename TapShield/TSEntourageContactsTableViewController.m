@@ -147,6 +147,7 @@
     
     if (![TSJavelinAPIClient loggedInUser]) {
         _needsContactRefresh = YES;
+        return;
     }
     
     _needsContactRefresh = NO;
@@ -155,6 +156,11 @@
         [self.refreshControl endRefreshing];
         return;
     }
+    
+    [[TSJavelinPushNotificationManager sharedManager] getNewUserNotifications:^(NSArray *notifications) {
+        self.userNotifications = notifications;
+        [self reloadTableViewOnMainThread];
+    }];
     
     [[TSEntourageSessionManager sharedManager] getAllEntourageSessions:^(NSArray *entourageMembers) {
         [self getAddressBook];
@@ -303,7 +309,11 @@
     
     TSJavelinAPIEntourageMember *member;
     
-    if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 0) {
+    if (!indexPath.section) {
+        [[TSJavelinPushNotificationManager sharedManager] deleteNotification:self.userNotifications[indexPath.row] completion:nil];
+        self.userNotifications = [TSJavelinPushNotificationManager sharedManager].sortedNotificationsArray;
+    }
+    else if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 1) {
         
         member = [self.entourageMembers objectAtIndex:indexPath.row];
         
@@ -325,7 +335,7 @@
             animate = NO;
         }
     }
-    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 1) {
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section == 2) {
         
         member = [self.whoAddedUser objectAtIndex:indexPath.row];
         
@@ -335,7 +345,7 @@
         animate = NO;
         
     }
-    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 1) {
+    else if (editingStyle == UITableViewCellEditingStyleInsert && indexPath.section > 2) {
         
         NSString *key = [[self sortedKeyArray:self.sortedContacts.allKeys] objectAtIndex:indexPath.section-kContactsSectionOffset];
         NSArray *arrayOfSection = [self.sortedContacts objectForKey:key];
@@ -361,10 +371,12 @@
     
     if (!self.isEditing) {
         animate = NO;
-        [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
+        if (member) {
+            [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
+        }
     }
     
-    if (animate && !self.animating) {
+    if ((animate && !self.animating) || !indexPath.section) {
         self.animating = YES;
         [CATransaction begin];
         
@@ -372,21 +384,22 @@
             
             // animation has finished
             self.animating = NO;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self reloadTableView];
-            }];
+            [self reloadTableViewOnMainThread];
         }];
         
         [self.tableView beginUpdates];
-        [self.tableView moveRowAtIndexPath:indexPath toIndexPath:toIndexPath];
+        if (indexPath.section) {
+            [self.tableView moveRowAtIndexPath:indexPath toIndexPath:toIndexPath];
+        }
+        else {
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
         [self.tableView endUpdates];
         
         [CATransaction commit];
     }
     else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self reloadTableView];
-        }];
+        [self reloadTableViewOnMainThread];
     }
     
     self.movingMember = NO;
@@ -514,7 +527,7 @@
 - (void)entourageDidStartSyncing:(NSNotification *)notification {
     
     CGRect entourageFrame = CGRectZero;
-    entourageFrame.origin.y = self.tableView.tableHeaderView.frame.size.height + 35;
+    entourageFrame.origin.y = self.tableView.tableHeaderView.frame.size.height + 35 + 80*self.userNotifications.count;
     
     if (self.entourageMembers.count) {
         entourageFrame.size.height = self.entourageMembers.count*[TSEntourageContactTableViewCell height];

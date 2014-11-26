@@ -56,6 +56,27 @@
     return self;
 }
 
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:_addressDictionary forKey:@"addressDictionary"];
+    [encoder encodeObject:_formattedAddress forKey:@"formatted_address"];
+    [encoder encodeObject:_name forKey:@"name"];
+    [encoder encodeObject:_location forKey:@"location"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super initWithCoder:decoder])) {
+        
+        _addressDictionary = [decoder decodeObjectForKey:@"addressDictionary"];
+        _formattedAddress = [decoder decodeObjectForKey:@"formatted_address"];
+        _name = [decoder decodeObjectForKey:@"name"];
+        _location = [decoder decodeObjectForKey:@"location"];
+    }
+    return self;
+}
+
 - (id)initWithMapItem:(MKMapItem *)item {
     
     self = [super init];

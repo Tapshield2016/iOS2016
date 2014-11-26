@@ -63,7 +63,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
+    if((self = [super initWithCoder:decoder])) {
         //decode properties, other class vars
         _profileImage = [decoder decodeObjectForKey:@"profile_image"];
         _profileImageURL = [decoder decodeObjectForKey:@"profile_image_url"];

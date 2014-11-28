@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UIView *unreadView;
 @property (strong, nonatomic) UIView *borderView;
+@property (strong, nonatomic) UIView *highlightedView;
 
 @end
 
@@ -43,6 +44,7 @@
         _unreadView = [[UIView alloc] initWithFrame:CGRectZero];
         _unreadView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.1];
         [self.contentView addSubview:_unreadView];
+        
     }
     return self;
 }
@@ -56,6 +58,30 @@
     if (selected) {
         [self markRead];
     }
+}
+
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
+    [super setHighlighted:highlighted animated:animated];
+    
+    [self displayHighlightedView:highlighted];
+}
+
+- (void)displayHighlightedView:(BOOL)highlighted {
+    
+    CGRect frame = CGRectMake(0, 0, self.frame.size.width - 15, self.frame.size.height);
+    
+    if (!_highlightedView) {
+        _highlightedView = [[UIView alloc] initWithFrame:frame];
+        _highlightedView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+        [self.contentView insertSubview:_highlightedView atIndex:0];
+    }
+    else {
+        _highlightedView.frame = frame;
+    }
+    
+    _highlightedView.hidden = !highlighted;
 }
 
 

@@ -135,6 +135,10 @@ static dispatch_once_t onceToken;
         alertInfo[@"alert_type"] = type;
         alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
         [[TSJavelinAPIClient sharedClient] sendDirectRestAPIAlertWithParameters:alertInfo completion:^(TSJavelinAPIAlert *activeAlert) {
+            if (!activeAlert) {
+                [self setActiveAlert:nil];
+            }
+            
             if (completion) {
                 completion(activeAlert, YES);
             }

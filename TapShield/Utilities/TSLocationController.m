@@ -337,16 +337,23 @@ static dispatch_once_t predicate;
         [_locationCompletions removeObjectsInArray:toRemove];
     }
     
+    NSMutableArray *accurateLocations = [[NSMutableArray alloc] initWithArray:locations];
+    for (CLLocation *location in locations) {
+        if (location.horizontalAccuracy > 300) {
+            [accurateLocations removeObject:location];
+        }
+    }
+    
     BOOL isInBackground = NO;
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
         isInBackground = YES;
     }
     
     if (isInBackground) {
-        [self sendBackgroundLocationToServer:locations];
+        [self sendBackgroundLocationToServer:accurateLocations];
     }
     else {
-        [[TSJavelinAPIClient sharedClient] locationUpdated:locations completion:nil];
+        [[TSJavelinAPIClient sharedClient] locationUpdated:accurateLocations completion:nil];
     }
     
     if ([_delegate respondsToSelector:@selector(locationDidUpdate:)]) {

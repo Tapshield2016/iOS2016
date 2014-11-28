@@ -50,7 +50,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
 @property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
 @property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
-@property (strong, nonatomic) FBKVOController *KVOController;
+@property (strong, nonatomic) FBKVOController *mapKVOController;
+@property (strong, nonatomic) FBKVOController *notificationCountKVOController;
 @property (nonatomic) BOOL viewDidAppear;
 
 @property (assign, nonatomic) BOOL annotationsLoaded;
@@ -59,6 +60,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 @property (strong, nonatomic) UIAlertController *cancelEntourageAlertController;
 
 @property (strong, nonatomic) UIVisualEffectView *blackoutView;
+
+@property (strong, nonatomic) TSIconBadgeView *entourageButtonBadge;
 
 @end
 
@@ -143,6 +146,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [self initTalkOptionController];
     
+    [self monitorNewEntourageNotificationsCount];
 //    [self initMapBoxOverlays];
 }
 
@@ -212,6 +216,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [[TSReportAnnotationManager sharedManager] removeOldSpotCrimes];
 }
 
+- (void)monitorNewEntourageNotificationsCount {
+    
+    float size = 34;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-size - 13, 2, size, size)];
+    [view setUserInteractionEnabled:NO];
+    view.backgroundColor = [UIColor clearColor];
+    _entourageButtonBadge = [[TSIconBadgeView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-50, 10, 24, 24) observing:[TSJavelinPushNotificationManager sharedManager] integerKeyPath:@"notificationsNewCount"];
+    [view addSubview:_entourageButtonBadge];
+    [self.navigationController.navigationBar addSubview:view];
+}
 
 #pragma mark - Map Setup
 
@@ -243,9 +257,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         FBKVOController *KVOController = [FBKVOController controllerWithObserver:_mapView];
         
         // add strong reference from observer to KVO controller
-        _KVOController = KVOController;
+        _mapKVOController = KVOController;
         
-        [_KVOController observe:[TSJavelinAPIClient loggedInUser].userProfile
+        [_mapKVOController observe:[TSJavelinAPIClient loggedInUser].userProfile
                         keyPath:@"profileImage"
                         options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSMapView *mapView, TSJavelinAPIUserProfile *userProfile, NSDictionary *change) {
                             

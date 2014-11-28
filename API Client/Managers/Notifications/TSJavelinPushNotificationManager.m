@@ -130,13 +130,20 @@ static dispatch_once_t predicate;
 
 - (void)newNotifications:(NSArray *)notifications {
     
+    NSUInteger countNew = 0;
+    
     if (!_userNotificationsDictionary) {
         _userNotificationsDictionary = [[NSMutableDictionary alloc] initWithCapacity:5];
     }
     
     for (TSJavelinAPIUserNotification *note in notifications) {
         [_userNotificationsDictionary setObject:note forKey:note.url];
+        if (!note.read) {
+            countNew++;
+        }
     }
+    
+    self.notificationsNewCount = countNew;
 }
 
 - (NSMutableArray *)sortedNotificationsArray {
@@ -155,6 +162,10 @@ static dispatch_once_t predicate;
 }
 
 - (void)readNotification:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion {
+    
+    if (!notification.read) {
+        self.notificationsNewCount--;
+    }
     
     [[TSJavelinAPIClient sharedClient] markRead:notification completion:completion];
 }

@@ -405,7 +405,7 @@ static dispatch_once_t onceToken;
           }
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -655,10 +655,10 @@ static dispatch_once_t onceToken;
 
 - (void)startTimerForFailedFindActiveAlertURL
 {
+    [_timerForFailedFindActiveAlertURL invalidate];
+    _timerForFailedFindActiveAlertURL = nil;
     
     if (_retryAttempts > 6) {
-        [_timerForFailedFindActiveAlertURL invalidate];
-        _timerForFailedFindActiveAlertURL = nil;
         _retryAttempts = 0;
         return;
     }
@@ -670,7 +670,7 @@ static dispatch_once_t onceToken;
                                                                              target:self
                                                                            selector:@selector(findActiveAlertAndCancel)
                                                                            userInfo:nil
-                                                                            repeats:YES];
+                                                                            repeats:NO];
     });
 }
 

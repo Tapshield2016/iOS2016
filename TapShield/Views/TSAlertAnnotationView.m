@@ -22,6 +22,8 @@ static NSString * const k911AlertImage = @"Alert911";
         
         self.image = [UIImage imageNamed:k911AlertImage];
         self.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+        self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
+        self.canShowCallout = YES;
     }
     return self;
 }

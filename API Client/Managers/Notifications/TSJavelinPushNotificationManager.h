@@ -34,6 +34,8 @@ extern NSString * const TSJavelinPushNotificationTypeEntourageYankAlert;
 
 @property (strong, nonatomic) NSMutableArray *sortedNotificationsArray;
 
+@property (assign, nonatomic) NSUInteger notificationsNewCount;
+
 + (instancetype)sharedManager;
 
 - (void)getNewUserNotifications:(void(^)(NSArray *notifications))completion;

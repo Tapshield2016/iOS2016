@@ -19,9 +19,11 @@
     }
     
     _agency = [[TSJavelinAPIAgency alloc] initWithOnlyURLAttribute:attributes forKey:@"agency"];
-    _agencyUser = [[TSJavelinAPIUser alloc] initWithAttributes:[attributes nonNullObjectForKey:@"agency_user"]];
-    _agencyDispatcher = [[TSJavelinAPIUser alloc] initWithAttributes:[attributes nonNullObjectForKey:@"agency_dispatcher"]];
     
+    if (![[attributes nonNullObjectForKey:@"agency_user"] isKindOfClass:[NSString class]]) {
+        _agencyUser = [[TSJavelinAPIUser alloc] initWithAttributes:[attributes nonNullObjectForKey:@"agency_user"]];
+    }
+    _agencyDispatcher = [[TSJavelinAPIUser alloc] initWithOnlyURLAttribute:attributes forKey:@"agency_dispatcher"];
     
     _completedTime = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"completed_time"]];
     _disarmedTime = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"disarmed_time"]];

@@ -310,6 +310,7 @@
     TSJavelinAPIEntourageMember *member;
     
     if (!indexPath.section) {
+        [[TSEntourageSessionManager sharedManager] removeCurrentMemberSession];
         [[TSJavelinPushNotificationManager sharedManager] deleteNotification:self.userNotifications[indexPath.row] completion:nil];
         self.userNotifications = [TSJavelinPushNotificationManager sharedManager].sortedNotificationsArray;
     }

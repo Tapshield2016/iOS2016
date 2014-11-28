@@ -842,10 +842,16 @@ static dispatch_once_t predicate;
 
 - (TSAlertAnnotation *)createAlertAnnotation:(TSJavelinAPIAlert *)alert {
     
+    NSDate *date = alert.lastModified;
+    
+    if (alert.disarmedTime) {
+        date = alert.disarmedTime;
+    }
+    
     TSAlertAnnotation *alertAnnotation;
     alertAnnotation = [[TSAlertAnnotation alloc] initWithCoordinates:alert.latestLocation.coordinate
                                                            placeName:alert.agencyUser.fullName
-                                                         description:[alert.lastModified dateDescriptionSinceNow]];
+                                                         description:[date dateDescriptionSinceNow]];
     alertAnnotation.alert = alert;
     return alertAnnotation;
 }

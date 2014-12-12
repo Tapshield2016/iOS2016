@@ -274,6 +274,10 @@
 		C53A6643190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */; };
 		C53F17341A2186C10041F717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
 		C53F17351A2186C20041F717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
+		C547AE501A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C547AE4F1A2E531C0087F56A /* MKPolyline+EncodeDecode.m */; };
+		C547AE511A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C547AE4F1A2E531C0087F56A /* MKPolyline+EncodeDecode.m */; };
+		C547AE521A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C547AE4F1A2E531C0087F56A /* MKPolyline+EncodeDecode.m */; };
+		C547AE531A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = C547AE4F1A2E531C0087F56A /* MKPolyline+EncodeDecode.m */; };
 		C54843B71A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
 		C54843B81A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
 		C54843B91A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */; };
@@ -1207,6 +1211,8 @@
 		C53A663A190E527000760656 /* TSMemberCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayout.m; path = Views/TSMemberCollectionViewLayout.m; sourceTree = "<group>"; };
 		C53A663F190E566000760656 /* TSMemberCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMemberCollectionViewLayoutAttributes.h; path = Views/TSMemberCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		C53A6640190E566000760656 /* TSMemberCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMemberCollectionViewLayoutAttributes.m; path = Views/TSMemberCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
+		C547AE4E1A2E531C0087F56A /* MKPolyline+EncodeDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+EncodeDecode.h"; sourceTree = "<group>"; };
+		C547AE4F1A2E531C0087F56A /* MKPolyline+EncodeDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+EncodeDecode.m"; sourceTree = "<group>"; };
 		C54843B51A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSEntourageMemberSettingsViewController.h; path = "View Controllers/TSEntourageMemberSettingsViewController.h"; sourceTree = "<group>"; };
 		C54843B61A108D7D00E80E1D /* TSEntourageMemberSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSEntourageMemberSettingsViewController.m; path = "View Controllers/TSEntourageMemberSettingsViewController.m"; sourceTree = "<group>"; };
 		C54843BB1A11B9B400E80E1D /* TSBaseEntourageContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSBaseEntourageContactsTableViewController.h; path = "View Controllers/TSBaseEntourageContactsTableViewController.h"; sourceTree = "<group>"; };
@@ -1758,6 +1764,8 @@
 			children = (
 				C501CC2718F1D12E005A0B98 /* MKMapItem+EncodeDecode.h */,
 				C501CC2818F1D12E005A0B98 /* MKMapItem+EncodeDecode.m */,
+				C547AE4E1A2E531C0087F56A /* MKPolyline+EncodeDecode.h */,
+				C547AE4F1A2E531C0087F56A /* MKPolyline+EncodeDecode.m */,
 				C532E62918BBF1E900FC111A /* TSColorPalette.h */,
 				C532E62A18BBF1E900FC111A /* TSColorPalette.m */,
 				C532E62B18BBF1E900FC111A /* TSConstants.h */,
@@ -3000,6 +3008,7 @@
 				C5BBF42B18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
 				C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */,
 				C520C8F418A974C100D1D2E9 /* TSJavelinAlertManager.m in Sources */,
+				C547AE501A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */,
 				C585F2DC18DA551F009EEF16 /* TSWelcomeViewController.m in Sources */,
 				C520C90C18A974C100D1D2E9 /* TSJavelinAPIClient.m in Sources */,
 				B5F2DCE818B3E70A009A7CA4 /* TSUtilities.m in Sources */,
@@ -3318,6 +3327,7 @@
 				C54CEB0A18FB3F8D0077350E /* TSRoundToolBarView.m in Sources */,
 				C532E63918BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C53A6306196F0DE500C34BF0 /* TSHeatMapOverlay.m in Sources */,
+				C547AE531A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */,
 				C5FFB4CE195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C520C90318A974C100D1D2E9 /* TSJavelinAPIChatMessage.m in Sources */,
 				C58B31F1199EBEB100F9C3A4 /* TSAddSecondaryViewController.m in Sources */,
@@ -3455,6 +3465,7 @@
 				C5BBF42C18F9D04F008B5CB2 /* TSRoundUserImageView.m in Sources */,
 				C57C48C818BBDB1900DFFBCE /* TSMassNotificationsViewController.m in Sources */,
 				C57C48C918BBDB1900DFFBCE /* TSJavelinAlertManager.m in Sources */,
+				C547AE511A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */,
 				C57C48CA18BBDB1900DFFBCE /* TSJavelinAPIClient.m in Sources */,
 				C585F1CC18CFB294009EEF16 /* TSFacebookLogin.m in Sources */,
 				C57C48CB18BBDB1900DFFBCE /* main.m in Sources */,
@@ -3683,6 +3694,7 @@
 				C5AFB96F191D35DE00EC62A5 /* TSRoundUserImageView.m in Sources */,
 				C5AFB970191D35DE00EC62A5 /* TSMassNotificationsViewController.m in Sources */,
 				C5AFB971191D35DE00EC62A5 /* TSJavelinAlertManager.m in Sources */,
+				C547AE521A2E531C0087F56A /* MKPolyline+EncodeDecode.m in Sources */,
 				C5AFB972191D35DE00EC62A5 /* TSJavelinAPIClient.m in Sources */,
 				C5AFB973191D35DE00EC62A5 /* TSFacebookLogin.m in Sources */,
 				C5AFB974191D35DE00EC62A5 /* main.m in Sources */,

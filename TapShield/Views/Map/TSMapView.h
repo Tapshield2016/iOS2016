@@ -42,6 +42,7 @@
 - (void)zoomToRegionForLocation:(CLLocation *)location animated:(BOOL)animated;
 - (void)refreshRegionBoundariesOverlay;
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
+- (void)removeAccuracyCircleOverlay;
 
 //animated radius
 - (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;

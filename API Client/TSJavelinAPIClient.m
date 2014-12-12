@@ -169,7 +169,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
           dispatch_after(popTime, dispatch_get_main_queue(), ^{
@@ -193,7 +193,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
           dispatch_after(popTime, dispatch_get_main_queue(), ^{
               if ([self shouldRetry:error]) {
@@ -221,7 +221,7 @@ static dispatch_once_t onceToken;
               completion(agency);
           }
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               // Delay execution of my block for 10 seconds.
@@ -256,7 +256,7 @@ static dispatch_once_t onceToken;
           }
           [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidUpdateAgency object:nil];
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               // Delay execution of my block for 10 seconds.
@@ -286,7 +286,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -367,7 +367,7 @@ static dispatch_once_t onceToken;
           }
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -442,7 +442,7 @@ static dispatch_once_t onceToken;
           }
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -802,7 +802,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -843,7 +843,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error);
+           NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
                // Delay execution of my block for 10 seconds.
@@ -861,6 +861,10 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 }
 
 - (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(NSArray *entourageMembers, NSError *error))completion {
+    
+    if (![TSJavelinAPIClient loggedInUser].url) {
+        return;
+    }
     
     NSDictionary *params;
 //    if (date) {
@@ -1027,7 +1031,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               // Delay execution of my block for 10 seconds.
@@ -1064,7 +1068,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error);
+           NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
                // Delay execution of my block for 10 seconds.
@@ -1094,7 +1098,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
              }
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"%@", error);
+             NSLog(@"%@", error.localizedDescription);
              
              if ([self shouldRetry:error]) {
                  // Delay execution of my block for 10 seconds.
@@ -1115,12 +1119,15 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
 #pragma mark - Entourage Session
 
 
-- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(id responseObject, NSError *error))completion {
+- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(BOOL completed))completion {
+    
+    [TSJavelinAPIClient loggedInUser].entourageSession = session;
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
     
     if (session.url) {
         NSLog(@"Entourage session already has a url");
         if (completion) {
-            completion(session, nil);
+            completion(YES);
         }
         return;
     }
@@ -1129,7 +1136,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     if (!parameters) {
         NSLog(@"Session missing parameters");
         if (completion) {
-            completion(session, nil);
+            completion(NO);
         }
         return;
     }
@@ -1141,12 +1148,11 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     parameters:parameters
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
-           session.url = [responseObject objectForKey:@"url"];
-           [TSJavelinAPIClient loggedInUser].entourageSession = session;
+           [TSJavelinAPIClient loggedInUser].entourageSession.url = [responseObject objectForKey:@"url"];
            [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
            
            if (completion) {
-               completion(session, nil);
+               completion(YES);
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1161,11 +1167,64 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
            else {
                if (completion) {
-                   completion(nil, error);
+                   completion(NO);
                }
            }
        }];
 }
+
+
+- (void)updateEntourageSessionETA:(NSDate *)eta completion:(void (^)(BOOL updated))completion {
+    
+    TSJavelinAPIEntourageSession *session = [TSJavelinAPIClient loggedInUser].entourageSession;
+    session.eta = eta;
+    
+    if (!session.url) {
+        NSLog(@"Entourage session needs url");
+        [self postNewEntourageSession:session completion:completion];
+        return;
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+    
+    NSDictionary *parameters = [session etaParametersFromSession];
+    if (!parameters) {
+        NSLog(@"Session missing parameters");
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self PATCH:session.url
+    parameters:parameters
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           
+           if (completion) {
+               completion(YES);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error.localizedDescription);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self updateEntourageSessionETA:eta completion:completion];
+               });
+           }
+           else {
+               if (completion) {
+                   completion(NO);
+               }
+           }
+       }];
+}
+
 
 - (void)cancelEntourageSession:(void (^)(BOOL cancelled))completion {
     
@@ -1201,6 +1260,10 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                                   });
                               }
                               else {
+                                  
+                                  [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+                                  [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                                  
                                   if (completion) {
                                       completion(NO);
                                   }
@@ -1287,7 +1350,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -1341,7 +1404,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error);
+           NSLog(@"%@", error.localizedDescription);
            if (completion) {
                completion(nil);
            }
@@ -1360,14 +1423,14 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"user-notifications/"
-   parameters:@{@"user": [TSJavelinAPIClient loggedInUser].url}
+   parameters:@{ @"user": @([[self authenticationManager] loggedInUser].identifier) }
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:NSStringFromClass([TSJavelinAPIUserNotification class]) fromJSON:responseObject withKey:@"results"]);
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -1390,7 +1453,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(NO);
           }

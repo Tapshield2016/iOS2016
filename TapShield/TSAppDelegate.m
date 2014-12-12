@@ -213,7 +213,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         }
     }
     else {
-        if ([TSJavelinAPIClient loggedInUser]) {
+        if ([TSJavelinAPIClient loggedInUser] && [[TSJavelinAPIClient loggedInUser] shouldUpdateAlwaysVisibleLocation]) {
             [[TSLocationController sharedLocationController] stopLocationUpdates];
             [[TSLocationController sharedLocationController] startSignificantChangeUpdates:nil];
         }

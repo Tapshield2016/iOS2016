@@ -30,6 +30,8 @@
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
 @property (nonatomic, assign) MKDirectionsTransportType destinationTransportType;
 
+@property (nonatomic, strong) MKDirections *directions;
+
 - (instancetype)initWithMapView:(MKMapView *)mapView;
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint;
@@ -38,8 +40,12 @@
 - (void)removeRouteOverlaysAndAnnotations;
 - (void)removeCurrentDestinationAnnotation;
 - (void)showOnlySelectedRoute;
+- (void)showDestinationAnnotation;
 
 - (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType;
 - (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion;
+- (void)calculateEtaAndDistanceForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime, CLLocationDistance distance))completion;
+
+- (void)getRoutesForDestination:(void (^)(TSRouteOption *bestRoute, NSError *error))completion;
 
 @end

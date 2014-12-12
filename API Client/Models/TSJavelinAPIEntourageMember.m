@@ -323,7 +323,7 @@
         TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:recordRef];
         
         if ([self isEqual:member]) {
-            [self imageFromPerson:recordRef];
+            self.image = member.image;
         }
         else {
             self.recordID = 0;
@@ -342,8 +342,8 @@
         BOOL phoneNumberSame = NO;
         BOOL emailSame = NO;
         BOOL recordIDSame = NO;
-        BOOL firstNameSame = NO;
-        BOOL lastNameSame = NO;
+//        BOOL firstNameSame = NO;
+//        BOOL lastNameSame = NO;
         
         if (member.recordID == self.recordID) {
             recordIDSame = YES;
@@ -366,14 +366,14 @@
         
         if (member.first && self.first) {
             if ([member.first isEqualToString:self.first]) {
-                firstNameSame = YES;
+//                firstNameSame = YES;
                 numberYes++;
             }
         }
         
         if (member.last && self.last) {
             if ([member.last isEqualToString:self.last]) {
-                lastNameSame = YES;
+//                lastNameSame = YES;
                 numberYes++;
             }
         }
@@ -498,9 +498,7 @@
         return (__bridge ABRecordRef)[filteredContacts firstObject];
     }
     
-    ABRecordRef matching;
-    
-    
+    ABRecordRef matching = NULL;
     
     for (int i = 0; i < filteredContacts.count; i++) {
         BOOL firstNameMatch = NO;
@@ -522,7 +520,7 @@
         if (firstNameMatch && lastNameMatch) {
             return matching;
         }
-        if (!matching) {
+        if (matching == NULL) {
             matching = person;
         }
     }
@@ -570,7 +568,6 @@
         
         _location = member.location;
         _session = member.session;
-        _mapAnnotation = member.mapAnnotation;
         
         return YES;
     }

@@ -169,7 +169,10 @@ static dispatch_once_t predicate;
 
 - (void)showAlertWindowAndStartCountdownWithType:(NSString *)type {
     
-    if (_isPresented){
+    if (_isPresented) {
+        [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:^(BOOL finished) {
+            [self showAlertWindowAndStartCountdownWithType:type];
+        }];
         return;
     }
     _isPresented = YES;
@@ -178,6 +181,7 @@ static dispatch_once_t predicate;
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
         
         _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
+        [_pageviewController showDisarmViewController];
         [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoomIn completion:nil];
     });
 }
@@ -204,6 +208,22 @@ static dispatch_once_t predicate;
 
 #pragma mark - Countdown To Alert
 
+- (BOOL)shouldStartCountdown {
+    
+    if (_isPresented) {
+        
+        if (_countdownTimer) {
+            return NO;
+        }
+        
+        if (_type && _type != kAlertTypeChat) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void)startAlertCountdown:(int)seconds type:(NSString *)type {
     
     if (!_shouldStartTimer) {
@@ -222,14 +242,11 @@ static dispatch_once_t predicate;
     _type = type;
     _endDate = [NSDate dateWithTimeInterval:seconds sinceDate:[NSDate date]];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-        _countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                           target:self
-                                                         selector:@selector(countdown:)
-                                                         userInfo:nil
-                                                          repeats:YES];
-    });
+    _countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                       target:self
+                                                     selector:@selector(countdown:)
+                                                     userInfo:nil
+                                                      repeats:YES];
 }
 
 - (void)stopAlertCountdown {

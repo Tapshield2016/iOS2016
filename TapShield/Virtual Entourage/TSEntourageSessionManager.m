@@ -15,6 +15,7 @@
 #import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
 #import "TSStartAnnotation.h"
 #import "TSAlertAnnotation.h"
+#import "CLLocation+Utilities.h"
 
 #define WALKING_RADIUS_MIN 25
 #define DRIVING_RADIUS_MIN 50
@@ -49,7 +50,7 @@ NSString * const TSEntourageSessionManagerTimerDidEnd = @"TSEntourageSessionMana
 @property (strong, nonatomic) NSTimer *singleSessionRefreshTimer;
 @property (strong, nonatomic) NSTimer *allSessionRefreshTimer;
 
-@property (strong, nonatomic) NSArray *entourageMemberAnnotations;
+@property (strong, nonatomic) NSMutableDictionary *entourageMemberAnnotations;
 @property (strong, nonatomic) NSArray *entourageMemberOverlays;
 @property (strong, nonatomic) NSArray *entourageMemberStartEndAnnotations;
 
@@ -108,23 +109,39 @@ static dispatch_once_t predicate;
 
 - (void)resumePreviousEntourage {
     
-    if ([TSJavelinAPIClient loggedInUser].entourageSession) {
-        
+    TSJavelinAPIEntourageSession *session = [TSJavelinAPIClient loggedInUser].entourageSession;
+    if (session) {
+        _routeManager.selectedRoute = session.route;
+        _routeManager.destinationMapItem = session.endLocation.mapItem;
+        _routeManager.destinationTransportType = session.transportType;
+        [self trackingSession:session];
     }
 }
 
-- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion {
+- (void)trackingSession:(TSJavelinAPIEntourageSession *)session {
     
-    _selectedETA = eta;
+    if (!_routeManager.destinationAnnotation) {
+        [_routeManager userSelectedDestination:session.endLocation.mapItem forTransportType:session.transportType];
+    }
     [_homeView entourageModeOn];
     [_routeManager showOnlySelectedRoute];
-    
     _endRegions = [self regionsForEndPoint];
-    
-    [self resetTimerWithTimeInterval:eta];
+    [self resetTimerWithTimeInterval:[session.eta timeIntervalSinceDate:[NSDate date]]];
     [self checkRegion:[TSLocationController sharedLocationController].location];
+}
+
+- (void)updateTrackingWithETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion {
     
-    [self syncEntourageMembers:members];
+    [[TSJavelinAPIClient sharedClient] updateEntourageSessionETA:[[NSDate date] dateByAddingTimeInterval:eta] completion:completion];
+    [self trackingSession:[TSJavelinAPIClient loggedInUser].entourageSession];
+}
+
+- (void)startTrackingWithETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion {
+    
+    if ([TSJavelinAPIClient loggedInUser].entourageSession) {
+        [self updateTrackingWithETA:eta completion:completion];
+        return;
+    }
     
     TSJavelinAPIEntourageSession *session = [[TSJavelinAPIEntourageSession alloc] init];
     session.endLocation = [[TSJavelinAPINamedLocation alloc] initWithMapItem:_routeManager.destinationMapItem];
@@ -132,13 +149,11 @@ static dispatch_once_t predicate;
     session.eta = [[NSDate date] dateByAddingTimeInterval:eta];
     session.startTime = [NSDate date];
     session.transportType = _routeManager.destinationTransportType;
+    session.route = _routeManager.selectedRoute;
     
-    [[TSJavelinAPIClient sharedClient] postNewEntourageSession:session completion:^(id responseObject, NSError *error) {
-        if (completion) {
-            completion(YES);
-        }
-    }];
+    [[TSJavelinAPIClient sharedClient] postNewEntourageSession:session completion:completion];
     
+    [self trackingSession:[TSJavelinAPIClient loggedInUser].entourageSession];
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:TSEntourageSessionManagerWarning911]) {
         _warningWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSEntourageSessionManagerWarning911
@@ -159,18 +174,36 @@ static dispatch_once_t predicate;
         radius = DRIVING_RADIUS_MIN;
     }
     
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
+    
     CLLocationCoordinate2D destinationCoord = _routeManager.destinationAnnotation.coordinate;
-    MKMapPoint routeEnd = _routeManager.selectedRoute.route.polyline.points[_routeManager.selectedRoute.route.polyline.pointCount - 1];
-    CLLocationCoordinate2D routeEndcoord = MKCoordinateForMapPoint(routeEnd);
+    
+    
+    MKPolyline *polyline = _routeManager.selectedRoute.polyline;
+    NSString *name = _routeManager.selectedRoute.name;
+    
+    if (polyline.points) {
+        MKMapPoint routeEnd = polyline.points[polyline.pointCount - 1];
+        
+        CLLocationCoordinate2D routeEndcoord = MKCoordinateForMapPoint(routeEnd);
+        
+        CLCircularRegion *routeEndRegion = [[CLCircularRegion alloc] initWithCenter:routeEndcoord
+                                                                             radius:radius
+                                                                         identifier:name];
+        if (routeEndRegion) {
+            [mutableArray addObject:routeEndRegion];
+        }
+    }
+    
     
     CLCircularRegion *destinationRegion = [[CLCircularRegion alloc] initWithCenter:destinationCoord
                                                                            radius:radius
                                                                        identifier:_routeManager.destinationAnnotation.title];
-    CLCircularRegion *routeEndRegion = [[CLCircularRegion alloc] initWithCenter:routeEndcoord
-                                                                            radius:radius
-                                                                        identifier:_routeManager.selectedRoute.route.name];
+    if (destinationRegion) {
+        [mutableArray addObject:destinationRegion];
+    }
     
-    return @[destinationRegion, routeEndRegion];
+    return mutableArray;
 }
 
 - (void)checkRegion:(CLLocation *)userLocation  {
@@ -481,6 +514,7 @@ static dispatch_once_t predicate;
 
 - (void)timerGetAllSessions {
     
+    NSLog(@"Time fired %@", _allSessionRefreshTimer);
     [self _getAllEntourageSessions:nil];
 }
 
@@ -510,12 +544,12 @@ static dispatch_once_t predicate;
 
 - (void)startAllSessionRefreshTimer {
     
-    [self stopSingleSessionRefreshTimer];
+    [self stopAllSessionRefreshTimer];
     
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    if (!_allSessionRefreshTimer) {
         _allSessionRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(timerGetAllSessions) userInfo:nil repeats:YES];
-        _allSessionRefreshTimer.tolerance = 5;
-    }];
+    }
+    _allSessionRefreshTimer.tolerance = 5;
 }
 
 - (void)stopAllSessionRefreshTimer {
@@ -652,8 +686,12 @@ static dispatch_once_t predicate;
         delta = maxDelta;
     }
     
-    [_homeView moveMapViewToCoordinate:member.mapAnnotation.coordinate spanDelta:delta];
-//    [_homeView.mapView selectAnnotation:member.mapAnnotation animated:YES];
+    [_homeView moveMapViewToCoordinate:member.location.coordinate spanDelta:delta];
+    
+    if ([_entourageMemberAnnotations objectForKey:member.matchedUser.url]) {
+        [_homeView.mapView selectAnnotation:[_entourageMemberAnnotations objectForKey:member.matchedUser.url] animated:YES];
+    }
+    
     [self closeDrawer];
 }
 
@@ -667,30 +705,52 @@ static dispatch_once_t predicate;
 #pragma mark Entourage Annotations
 
 - (void)refreshEntourageMemberAnnotations {
-    
-    [_homeView.mapView removeAnnotations:_entourageMemberAnnotations];
     [self addEntourageMembersToMap:[TSJavelinAPIClient loggedInUser].usersWhoAddedUser];
 }
 
 - (void)addEntourageMembersToMap:(NSArray *)entourageMembers {
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:entourageMembers.count];
+    if (!_entourageMemberAnnotations) {
+        _entourageMemberAnnotations = [[NSMutableDictionary alloc] initWithCapacity:entourageMembers.count];
+    }
+    
+    NSMutableDictionary *keysToRemove = [[NSMutableDictionary alloc] initWithObjects:_entourageMemberAnnotations.allKeys forKeys:_entourageMemberAnnotations.allKeys];
     
     for (TSJavelinAPIEntourageMember *member in entourageMembers) {
         
-        TSEntourageMemberAnnotation *annotation;
         if (member.location) {
-            annotation = [[TSEntourageMemberAnnotation alloc] initWithCoordinates:member.location.coordinate placeName:member.name description:[member.location.timestamp dateDescriptionSinceNow]];
-            annotation.member = member;
-            [mutableArray addObject:annotation];
-            member.mapAnnotation = annotation;
+            
+            TSEntourageMemberAnnotation *annotation = [_entourageMemberAnnotations objectForKey:member.matchedUser.url];
+            
+            if (annotation) {
+                [keysToRemove removeObjectForKey:member.matchedUser.url];
+                
+                if (!CLLocationCoordinate2DIsApproxEqual(member.location.coordinate, annotation.coordinate, 0.00005)) {
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        [UIView animateWithDuration:1.0f delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^(void){
+                            annotation.coordinate = member.location.coordinate;
+                        } completion:nil];
+                    }];
+                }
+            }
+            else {
+                annotation = [[TSEntourageMemberAnnotation alloc] initWithCoordinates:member.location.coordinate placeName:member.name description:[member.location.timestamp dateDescriptionSinceNow]];
+                annotation.member = member;
+                [_entourageMemberAnnotations setObject:annotation forKey:member.matchedUser.url];
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [_homeView.mapView addAnnotation:annotation];
+                }];
+            }
         }
     }
     
-    _entourageMemberAnnotations = [NSArray arrayWithArray:mutableArray];
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_homeView.mapView addAnnotations:_entourageMemberAnnotations];
-    }];
+    for (NSString *key in keysToRemove.allKeys) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [_homeView.mapView removeAnnotation:[_entourageMemberAnnotations objectForKey:key]];
+        }];
+    }
+    [_entourageMemberAnnotations removeObjectsForKeys:keysToRemove.allKeys];
 }
 
 #pragma mark Entourage Overlays

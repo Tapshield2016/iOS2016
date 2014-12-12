@@ -24,7 +24,7 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 + (instancetype)sharedManager;
 - (instancetype)initWithHomeView:(id)homeView;
 
-- (void)startEntourageWithMembers:(NSSet *)members ETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion;
+- (void)startTrackingWithETA:(NSTimeInterval)eta completion:(TSEntourageSessionManagerPostCompletion)completion;
 - (void)stopEntourage;
 - (void)manuallyEndTracking;
 - (void)recalculateEntourageTimerETA;
@@ -34,13 +34,13 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 - (void)locateEntourageMember:(TSJavelinAPIEntourageMember *)member;
 
+- (void)resumePreviousEntourage;
+
 @property (nonatomic, strong) TSRouteManager *routeManager;
 
 @property (weak, nonatomic) TSHomeViewController *homeView;
 
 @property (strong, nonatomic) NSTimer *endTimer;
-
-@property (nonatomic, assign) NSTimeInterval selectedETA;
 
 @property (nonatomic, strong) NSArray *endRegions;
 
@@ -61,8 +61,6 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 - (void)startStatusBarTimer;
 
 - (void)stopStatusBartTimer;
-
-- (void)cancelCurrentEntourageSession;
 
 - (void)stopEntourageCancelled;
 - (void)stopEntourageArrived;

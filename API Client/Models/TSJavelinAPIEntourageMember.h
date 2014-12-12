@@ -33,7 +33,6 @@
 @property (assign, nonatomic) BOOL notifyCalled911;
 @property (assign, nonatomic) BOOL notifyYank;
 
-@property (strong, nonatomic) TSEntourageMemberAnnotation<MKAnnotation> *mapAnnotation;
 @property (strong, nonatomic) TSJavelinAPIEntourageSession *session;
 
 - (instancetype)initWithPerson:(ABRecordRef)person;

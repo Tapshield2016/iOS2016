@@ -81,7 +81,9 @@
     
     [super viewDidAppear:animated];
     
-    if ([TSAlertManager sharedManager].isAlertInProgress) {
+    if ([TSAlertManager sharedManager].isAlertInProgress &&
+        [TSAlertManager sharedManager].type != kAlertTypeChat &&
+        ![TSAlertManager sharedManager].countdownTimer) {
         [self showAlertViewController];
     }
     
@@ -193,7 +195,7 @@
     
     NSDate *endDate = [TSAlertManager sharedManager].endDate;
     
-    if ([TSAlertManager sharedManager].isAlertInProgress) {
+    if ([TSAlertManager sharedManager].isAlertInProgress && ![TSAlertManager sharedManager].countdownTimer) {
         [self stopTintViewAnimation];
         return;
     }

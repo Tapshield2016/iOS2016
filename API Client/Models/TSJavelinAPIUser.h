@@ -44,6 +44,9 @@
 
 @property (readonly) NSString *fullName;
 
+- (BOOL)shouldUpdateAlwaysVisibleLocation;
+- (BOOL)shouldUpdateTrackingLocation;
+
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
 

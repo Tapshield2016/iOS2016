@@ -83,6 +83,11 @@
                                                  name:TSUserSessionManagerDidLogOut
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(newUserNotifications:)
+                                                 name:TSJavelinPushNotificationManagerDidReceiveNewUserNotifications
+                                               object:nil];
+    
     [self monitorEntourageSessions];
 }
 
@@ -98,6 +103,8 @@
     
     [self.refreshControl endRefreshing];
     [_resultsController reloadTableView];
+    
+    [self userNotificationRefresh];
     
     if (_needsContactRefresh) {
         [self refresh];
@@ -129,7 +136,6 @@
                   forControlEvents:UIControlEventValueChanged];
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
 }
-
 
 - (void)monitorEntourageSessions {
     
@@ -266,8 +272,6 @@
                     [mutableArray addObject:member];
                 }
             }
-            
-            CFRelease(person);
         }
         
         if (mutableArray.count) {
@@ -365,7 +369,7 @@
         [minusArray removeObject:member];
         self.allContacts = minusArray;
         
-        toIndexPath = [NSIndexPath indexPathForRow:[self.entourageMembers indexOfObject:member] inSection:0];
+        toIndexPath = [NSIndexPath indexPathForRow:[self.entourageMembers indexOfObject:member] inSection:1];
     }
     
     self.changesMade = YES;
@@ -385,15 +389,18 @@
             
             // animation has finished
             self.animating = NO;
-            [self reloadTableViewOnMainThread];
+//            [self reloadTableViewOnMainThread];
         }];
         
         [self.tableView beginUpdates];
-        if (indexPath.section) {
+        if (indexPath.section > 1) {
             [self.tableView moveRowAtIndexPath:indexPath toIndexPath:toIndexPath];
         }
         else {
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (indexPath.section == 1 && toIndexPath) {
+                [self.tableView insertRowsAtIndexPaths:@[toIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
         }
         [self.tableView endUpdates];
         
@@ -581,6 +588,22 @@
     if (![_resultsController.selectedRowIndex isEqual:selectedRowIndex] &&
         (selectedRowIndex || _resultsController.selectedRowIndex)) {
         _resultsController.selectedRowIndex = selectedRowIndex;
+    }
+}
+
+- (void)userNotificationRefresh {
+    
+    if (self.userNotifications.count != [TSJavelinPushNotificationManager sharedManager].userNotificationsDictionary.allValues.count) {
+        self.userNotifications = [TSJavelinPushNotificationManager sharedManager].sortedNotificationsArray;
+        [self reloadTableView];
+    }
+}
+
+- (void)newUserNotifications:(NSNotification *)notification {
+    
+    if ([notification.object isKindOfClass:[NSArray class]]) {
+        self.userNotifications = notification.object;
+        [self reloadTableViewOnMainThread];
     }
 }
 

@@ -49,13 +49,15 @@
     [encoder encodeObject:_arrivalTime forKey:@"arrival_time"];
     [encoder encodeBool:_entourageNotified forKey:@"entourage_notified"];
     [encoder encodeObject:_locations forKey:@"locations"];
+    
+    [encoder encodeObject:_route forKey:@"route"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
     if((self = [super initWithCoder:decoder])) {
         
         _status = [decoder decodeObjectForKey:@"status"];
-        _travelMode = [decoder decodeObjectForKey:@"travel_mode"];
+        self.travelMode = [decoder decodeObjectForKey:@"travel_mode"];
         _startLocation = [decoder decodeObjectForKey:@"start_location"];
         _endLocation = [decoder decodeObjectForKey:@"end_location"];
         _eta = [decoder decodeObjectForKey:@"eta"];
@@ -63,6 +65,8 @@
         _arrivalTime = [decoder decodeObjectForKey:@"arrival_time"];
         _entourageNotified = [decoder decodeBoolForKey:@"entourage_notified"];
         _locations = [decoder decodeObjectForKey:@"locations"];
+        
+        _route = [decoder decodeObjectForKey:@"route"];
     }
     return self;
 }
@@ -145,8 +149,16 @@
         [dictionary setObject:_startTime.iso8601String forKey:@"start_time"];
     }
     
-    if (self.arrivalTime) {
-        [dictionary setObject:_arrivalTime.iso8601String forKey:@"arrival_time"];
+    return dictionary;
+}
+
+
+- (NSDictionary *)etaParametersFromSession {
+    
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
+    
+    if (self.eta) {
+        [dictionary setObject:_eta.iso8601String forKey:@"eta"];
     }
     
     return dictionary;

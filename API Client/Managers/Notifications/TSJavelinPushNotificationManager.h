@@ -14,6 +14,7 @@
 extern NSString * const TSJavelinPushNotificationManagerDidReceiveAlertAcknowledgementNotification;
 extern NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewChatMessageNotification;
 extern NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification;
+extern NSString * const TSJavelinPushNotificationManagerDidReceiveNewUserNotifications;
 
 extern NSString * const TSJavelinPushNotificationTypeCrimeReport;
 extern NSString * const TSJavelinPushNotificationTypeMassAlert;

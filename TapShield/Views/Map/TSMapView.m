@@ -14,6 +14,7 @@
 #import "TSHeatMapOverlay.h"
 #import "TSBoundariesOverlay.h"
 #import <KVOController/FBKVOController.h>
+#import "TSAlertManager.h"
 
 @interface TSMapView ()
 
@@ -100,7 +101,7 @@
     }
     
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
-    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
         ((MKCircle *)overlay).title = @"red";
     }
@@ -115,6 +116,12 @@
     return circleRenderer;
 }
 
+- (void)removeAccuracyCircleOverlay {
+    
+    [self removeOverlay:_accuracyCircle];
+    _accuracyCircle = nil;
+}
+
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location {
     
     if (!location) {
@@ -124,16 +131,13 @@
     MKCircle *previousCircle = _accuracyCircle;
     MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
     
-//    if (MKMetersBetweenMapPoints(MKMapPointForCoordinate(previousCircle.coordinate),
-//                                 MKMapPointForCoordinate(newcircle.coordinate)) < 0.5 &&
-//        previousCircle.radius == newcircle.radius) {
-//        return;
-//    }
-    
     _accuracyCircle = newcircle;
     _animatedOverlay.circle = _accuracyCircle;
     [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];
-    [self removeOverlay:previousCircle];
+    
+    if (previousCircle) {
+        [self removeOverlay:previousCircle];
+    }
 }
 
 - (void)refreshRegionBoundariesOverlay {
@@ -235,7 +239,7 @@
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, radius*2, radius*2);
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
     
-    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
         region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
         isBlueColor = NO;

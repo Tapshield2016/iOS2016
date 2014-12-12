@@ -102,6 +102,10 @@
     if (_usersWhoAddedUser) {
         [encoder encodeObject:_usersWhoAddedUser forKey:@"usersWhoAddedUser"];
     }
+    
+    if (_entourageSession) {
+        [encoder encodeObject:_entourageSession forKey:@"entourageSession"];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -143,6 +147,10 @@
         
         if ([decoder containsValueForKey:@"usersWhoAddedUser"]) {
             _usersWhoAddedUser = [decoder decodeObjectForKey:@"usersWhoAddedUser"];
+        }
+        
+        if ([decoder containsValueForKey:@"entourageSession"]) {
+            _entourageSession = [decoder decodeObjectForKey:@"entourageSession"];
         }
     }
     return self;
@@ -626,5 +634,27 @@
     return name;
 }
 
+
+- (BOOL)shouldUpdateAlwaysVisibleLocation {
+    
+    for (TSJavelinAPIEntourageMember *member in self.entourageMembers.allValues) {
+        if (member.alwaysVisible) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)shouldUpdateTrackingLocation {
+    
+    for (TSJavelinAPIEntourageMember *member in self.entourageMembers.allValues) {
+        if (member.trackRoute || member.alwaysVisible) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
 
 @end

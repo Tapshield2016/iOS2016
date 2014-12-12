@@ -68,15 +68,7 @@ static NSString * const kNoUserFound = @"Real-time location sharing is only avai
     label.textColor = [UIColor darkTextColor];
     label.font = [TSFont fontWithName:kFontWeightThin size:16];
     
-    NSString *emailOrPhone;
-    if (_member.phoneNumber) {
-        emailOrPhone = [NSString stringWithFormat:@"phone number %@", _member.phoneNumber];
-    }
-    else {
-        emailOrPhone = [NSString stringWithFormat:@"email %@", _member.email];
-    }
-    
-    label.text = kNoUserFound;//[NSString stringWithFormat:@"No users with %@ could be found.", emailOrPhone];
+    label.text = kNoUserFound;
     
     [view addSubview:label];
     

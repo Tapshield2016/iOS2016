@@ -11,6 +11,6 @@
 
 @interface TSEntourageMemberAnnotation : TSBaseMapAnnotation
 
-@property (weak, nonatomic) TSJavelinAPIEntourageMember *member;
+@property (strong, nonatomic) TSJavelinAPIEntourageMember *member;
 
 @end

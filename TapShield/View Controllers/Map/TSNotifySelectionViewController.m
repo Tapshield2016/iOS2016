@@ -62,7 +62,8 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _slider = [[TSCircularControl alloc]initWithFrame:_circleContainerView.frame];
 //    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
     
-    _estimatedTimeInterval = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime;
+    _estimatedTimeInterval = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.expectedTravelTime;
+    
     _timeAdjusted = _estimatedTimeInterval;
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
     _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
@@ -137,11 +138,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [[navcontroller.childViewControllers lastObject] beginAppearanceTransition:YES animated:YES];
     
     [self dismissViewControllerAnimated:YES completion:^{
-        if (_keyValueObserver) {
-            [[TSEntourageSessionManager sharedManager].routeManager removeObserver:_keyValueObserver
-                                                                   forKeyPath:@"selectedRoute"
-                                                                      context: NULL];
-        }
         [[navcontroller.childViewControllers lastObject] endAppearanceTransition];
     }];
 }
@@ -158,10 +154,14 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)addDescriptionToNavBar {
     
-    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.distance]];
+    NSTimeInterval travelTime = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.expectedTravelTime;
+    
+    CLLocationDistance distance = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.distance;
+    
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:travelTime], [TSUtilities formattedStringForDistanceInUSStandard:distance]];
     
     _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
-    _addressLabel.text = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.route.name;
+    _addressLabel.text = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.name;
     _addressLabel.textColor = [TSColorPalette whiteColor];
     _addressLabel.font = [TSFont fontWithName:kFontWeightLight size:13.0f];
     _addressLabel.textAlignment = NSTextAlignmentCenter;
@@ -373,8 +373,7 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self shimmerCollectionView];
     [self.navigationItem setHidesBackButton:YES animated:YES];
     
-    [[TSEntourageSessionManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
-        
+    [[TSEntourageSessionManager sharedManager] startTrackingWithETA:_timeAdjusted completion:^(BOOL finished) {
         [self dismissViewController];
     }];
 }

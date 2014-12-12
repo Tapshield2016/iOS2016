@@ -7,7 +7,7 @@
 //
 
 #import "TSHomeViewController.h"
-#import "TSDestinationSearchViewController.h"
+#import "TSRoutePickerViewController.h"
 #import "TSNotifySelectionViewController.h"
 #import <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
@@ -148,6 +148,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [self monitorNewEntourageNotificationsCount];
 //    [self initMapBoxOverlays];
+    
+    [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -349,7 +351,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _yankButton.accessibilityValue = @"Off";
         _yankButton.accessibilityHint = kYankHintOff;
         
-        if ([TSAlertManager sharedManager].isPresented) {
+        if (![TSAlertManager sharedManager].shouldStartCountdown) {
             return;
         }
         
@@ -360,7 +362,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)sendEntourageAlert {
     
-    if ([TSAlertManager sharedManager].isPresented) {
+    if (![TSAlertManager sharedManager].shouldStartCountdown) {
         return;
     }
     
@@ -413,7 +415,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if (![TSEntourageSessionManager sharedManager].isEnabled) {
-        TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
+        TSRoutePickerViewController *viewController = (TSRoutePickerViewController *)[self presentViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
         
         [self showOnlyMap];
@@ -569,6 +571,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [self setIsTrackingUser:NO animateToUser:NO];
     [self setStatusViewText:nil];
+    [_geocoder cancelGeocode];
 }
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
@@ -606,11 +609,26 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if (_mapView.userLocationAnnotation) {
+        [_mapView removeAccuracyCircleOverlay];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_mapView updateAccuracyCircleWithLocation:location];
-            _mapView.userLocationAnnotation.coordinate = location.coordinate;
-        });
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
+            [_mapView.userLocationAnnotationView.layer removeAllAnimations];
+            [_mapView.animatedOverlay.layer removeAllAnimations];
+            [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
+                if (_viewDidAppear) {
+                    [_mapView resetAnimatedOverlayAt:location];
+                }
+                _mapView.userLocationAnnotation.coordinate = location.coordinate;
+                
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [_mapView updateAccuracyCircleWithLocation:location];
+                }
+            }];
+        }];
+        
+        
     }
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
@@ -624,10 +642,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
     
     _mapView.previousLocation = location;
-    
-    if (_viewDidAppear) {
-        [_mapView resetAnimatedOverlayAt:location];
-    }
 }
 
 - (void)didEnterRegion:(CLRegion *)region {
@@ -679,6 +693,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         _mapView.lastReverseGeocodeLocation = location;
         
+        [_geocoder cancelGeocode];
         [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
             
             if (error) {
@@ -766,6 +781,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [renderer setLineWidth:6.0];
     [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
+    if (![TSEntourageSessionManager sharedManager].routeManager.routeOptions && [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.polyline == overlay) {
+        [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
+        return renderer;
+    }
+    
     if (![TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
         [TSEntourageSessionManager sharedManager].routeManager.selectedRoute = [[TSEntourageSessionManager sharedManager].routeManager.routeOptions firstObject];
     }
@@ -773,7 +793,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if ([TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
         for (TSRouteOption *routeOption in [TSEntourageSessionManager sharedManager].routeManager.routeOptions) {
             if (routeOption == [TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
-                if (routeOption.route.polyline == overlay) {
+                if (routeOption.polyline == overlay) {
                     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
                 }
@@ -1042,6 +1062,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         view.alpha = [(TSSpotCrimeAnnotationView *)view alphaForReportDate];
     }
 }
+
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     

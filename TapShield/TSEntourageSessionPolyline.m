@@ -14,8 +14,8 @@
 
 - (MKPolylineRenderer *)renderer {
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:self];
-    [renderer setLineWidth:4.0];
-    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.4]];
+    [renderer setLineWidth:6.0];
+    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
     
     return renderer;
 }

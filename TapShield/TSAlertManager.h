@@ -73,7 +73,6 @@ extern NSString * const kAlertTypeChat;
 
 + (instancetype)sharedManager;
 
-- (void)startAlertCountdown:(int)seconds type:(NSString *)type;
 - (void)sendAlertType:(NSString *)type;
 - (void)disarmAlert;
 
@@ -92,6 +91,8 @@ extern NSString * const kAlertTypeChat;
 - (void)startChatAlert;
 - (void)startYankAlertCountdown;
 - (void)startEntourageAlertCountdown;
+
+- (BOOL)shouldStartCountdown;
 
 - (void)notifiedCTCallStateDialing:(CTCall *)call;
 - (void)notifiedCTCallStateConnected:(CTCall *)call;

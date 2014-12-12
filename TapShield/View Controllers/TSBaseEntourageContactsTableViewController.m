@@ -720,8 +720,6 @@
 
 - (void)reloadTableView {
     
-    NSLog(@"reloading %@", self);
-    
     if (_isViewInBackground) {
         _needsReloadData = YES;
         return;

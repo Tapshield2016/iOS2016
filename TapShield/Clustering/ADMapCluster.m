@@ -201,10 +201,6 @@
 
             _leftChild = [[ADMapCluster alloc] initWithAnnotations:leftAnnotations atDepth:depth+1 inMapRect:leftMapRect gamma:gamma clusterTitle:clusterTitle showSubtitle:showSubtitle];
             _rightChild = [[ADMapCluster alloc] initWithAnnotations:rightAnnotations atDepth:depth+1 inMapRect:rightMapRect gamma:gamma clusterTitle:clusterTitle showSubtitle:showSubtitle];
-//            if (CLLocationCoordinate2DIsApproxEqual(_leftChild.clusterCoordinate, _rightChild.clusterCoordinate, 0.00005f) ) {
-//                _leftChild.clusterCoordinate = CLLocationCoordinate2DOffset(_leftChild.clusterCoordinate, -0.00005f, 0.0);
-//                _rightChild.clusterCoordinate = CLLocationCoordinate2DOffset(_rightChild.clusterCoordinate, 0.00005f, 0.0);
-//            }
         }
     }
     return self;

@@ -11,7 +11,7 @@
 #import "TSHitTestForwardingView.h"
 #import <MapKit/MapKit.h>
 
-@interface TSRoutePickerViewController : TSNavigationViewController 
+@interface TSRoutePickerViewController : TSNavigationViewController <UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) TSHomeViewController *homeViewController;
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
@@ -24,5 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 
 - (IBAction)nextViewController:(id)sender;
+
+- (IBAction)dismissViewController:(id)sender;
 
 @end

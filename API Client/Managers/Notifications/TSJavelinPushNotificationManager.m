@@ -13,6 +13,8 @@ NSString * const TSJavelinPushNotificationManagerDidReceiveAlertAcknowledgementN
 NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewChatMessageNotification = @"kTSJavelinPushNotificationManagerDidReceiveNotificationOfNewChatMessageNotification";
 NSString * const TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification = @"kTSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification";
 
+NSString * const TSJavelinPushNotificationManagerDidReceiveNewUserNotifications = @"TSJavelinPushNotificationManagerDidReceiveNewUserNotifications";
+
 NSString * const TSJavelinPushNotificationTypeCrimeReport = @"crime-report";
 NSString * const TSJavelinPushNotificationTypeMassAlert = @"mass-alert";
 NSString * const TSJavelinPushNotificationTypeChatMessage = @"chat-message-available";
@@ -98,9 +100,19 @@ static dispatch_once_t predicate;
             [[NSNotificationCenter defaultCenter] postNotificationName: TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
                                                                 object:notification];
         }
-        else if (notification.alertType == TSJavelinPushNotificationTypeEntourageYankAlert) {
+        else if (notification.alertType == TSJavelinPushNotificationTypeEntourageYankAlert ||
+                 notification.alertType == TSJavelinPushNotificationTypeEntourageArrival ||
+                 notification.alertType == TSJavelinPushNotificationTypeEntourageEmergencyCallAlert ||
+                 notification.alertType == TSJavelinPushNotificationTypeEntourageNonArrival) {
             
+            if (completion) {
+                completion(YES, notification);
+            }
             
+            [[TSJavelinPushNotificationManager sharedManager] getNewUserNotifications:^(NSArray *notifications) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinPushNotificationManagerDidReceiveNewUserNotifications
+                                                                    object:notifications];
+            }];
         }
         else {
             if (completion) {

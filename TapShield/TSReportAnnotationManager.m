@@ -128,6 +128,9 @@ static dispatch_once_t predicate;
 
 - (void)getSpotCrimeAnnotations:(CLLocation *)location {
     
+#warning No Spotcrimes
+    return;
+    
     if (![location isKindOfClass:[CLLocation class]]) {
         if (_mapView) {
             location = [[CLLocation alloc] initWithLatitude:_mapView.region.center.latitude

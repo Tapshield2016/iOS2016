@@ -182,7 +182,8 @@ extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 - (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(NSArray *entourageMembers, NSError *error))completion;
 - (void)getEntourageSession:(TSJavelinAPIEntourageSession *)session withLocationsSince:(NSDate *)date completion:(void (^)(TSJavelinAPIEntourageSession *entourageSession, NSError *error))completion;
 
-- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(BOOL completed))completion;
+- (void)updateEntourageSessionETA:(NSDate *)eta completion:(void (^)(BOOL updated))completion;
 - (void)cancelEntourageSession:(void (^)(BOOL cancelled))completion;
 - (void)arrivedForEntourageSession:(void (^)(BOOL arrived))completion;
 

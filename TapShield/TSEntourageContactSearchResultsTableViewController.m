@@ -148,7 +148,7 @@
         [minusArray removeObject:member];
         _contactsTableViewController.allContacts = minusArray;
         
-        toIndexPath = [NSIndexPath indexPathForRow:[self.entourageMembers indexOfObject:member] inSection:0];
+        toIndexPath = [NSIndexPath indexPathForRow:[self.entourageMembers indexOfObject:member] inSection:1];
     }
     
     if (!self.isEditing) {
@@ -163,11 +163,19 @@
         [CATransaction setCompletionBlock:^{
             // animation has finished
             self.animating = NO;
-            [self reloadTableViewOnMainThread];
+//            [self reloadTableViewOnMainThread];
         }];
         
         [self.tableView beginUpdates];
-        [self.tableView moveRowAtIndexPath:indexPath toIndexPath:toIndexPath];
+        if (indexPath.section > 1) {
+            [self.tableView moveRowAtIndexPath:indexPath toIndexPath:toIndexPath];
+        }
+        else {
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (indexPath.section == 1 && toIndexPath) {
+                [self.tableView insertRowsAtIndexPaths:@[toIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        }
         [self.tableView endUpdates];
         
         [CATransaction commit];

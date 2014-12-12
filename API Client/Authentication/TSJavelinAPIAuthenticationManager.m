@@ -120,7 +120,12 @@ static dispatch_once_t onceToken;
     }
     
     if (!_emailAddress) {
-        _emailAddress = _loggedInUser.username;
+        if (_loggedInUser.email) {
+            _emailAddress = _loggedInUser.email;
+        }
+        else {
+            _emailAddress = _loggedInUser.username;
+        }
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification
@@ -157,6 +162,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createFacebookUser:(NSString *)facebookAPIAuthToken completion:(void (^)(BOOL))completion {
+    
+    _password = facebookAPIAuthToken;
+    
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-facebook-user/"
@@ -210,6 +218,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createGoogleUser:(NSString *)googleAccessToken refreshToken:(NSString *)googleRefreshToken completion:(void (^)(BOOL))completion {
+    
+    _password = googleAccessToken;
+    
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-google-user/"
@@ -234,6 +245,9 @@ static dispatch_once_t onceToken;
 }
 
 - (void)createLinkedInUser:(NSString *)linkedInAccessToken completion:(void(^)(BOOL finished))completion {
+    
+    _password = linkedInAccessToken;
+    
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-linkedin-user/"
@@ -281,7 +295,7 @@ static dispatch_once_t onceToken;
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
            [self storeUserCredentials:user.email password:user.password];
-           _emailAddress = user.username;
+           _emailAddress = user.email;
            _password = user.password;
            
            if (completion) {

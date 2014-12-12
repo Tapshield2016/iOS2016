@@ -41,6 +41,9 @@
     
     [super setAnnotation:annotation];
     
+    if (!annotation) {
+        return;
+    }
     UIImage *image = annotation.member.image;
     self.accessibilityLabel = [NSString stringWithFormat:@"%@'s current location", annotation.member.name];
     if (image) {

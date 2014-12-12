@@ -65,7 +65,7 @@
     
     [encoder encodeObject:_location forKey:@"location"];
     
-    [encoder encodeInteger:_reportType forKey:@"report_type"];
+    [encoder encodeInt:_reportType forKey:@"report_type"];
     [encoder encodeObject:_user forKey:@"reporter"];
     [encoder encodeBool:_reportAnonymous forKey:@"report_anonymous"];
     [encoder encodeBool:_isSpam forKey:@"flagged_spam"];
@@ -84,7 +84,7 @@
         
         _location = [decoder decodeObjectForKey:@"location"];
         
-        _reportType = [decoder decodeIntegerForKey:@"report_type"];
+        _reportType = [decoder decodeIntForKey:@"report_type"];
         _user = [decoder decodeObjectForKey:@"reporter"];
         _reportAnonymous = [decoder decodeBoolForKey:@"report_anonymous"];
         _isSpam = [decoder decodeBoolForKey:@"flagged_spam"];

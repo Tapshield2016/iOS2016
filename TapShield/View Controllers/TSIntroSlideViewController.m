@@ -51,12 +51,12 @@
 
 - (UIImage *)imageForPage:(NSUInteger)page {
     
-    NSString *imageName = [NSString stringWithFormat:@"slide_%i", page];
+    NSString *imageName = [NSString stringWithFormat:@"slide_%lu", (unsigned long)page];
     
     return [UIImage imageNamed:imageName];
 }
 
-- (NSString *)textForPage:(int)page {
+- (NSString *)textForPage:(NSUInteger)page {
     
     switch (page) {
         case 2:

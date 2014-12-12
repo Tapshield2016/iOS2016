@@ -2658,7 +2658,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TS;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "TapShield, LLC";
 				TargetAttributes = {
 					B53BBCEC18980FDA006A27E0 = {
@@ -3966,7 +3966,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1FFC0D2BF8F8BD4A6C0153F7 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Adam Share (N9M8832F78)";
@@ -3992,7 +3991,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E27FF9B8F701EB1E61CA4836 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Adam Share (N9M8832F78)";
@@ -4072,7 +4070,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1FFC0D2BF8F8BD4A6C0153F7 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC";
@@ -4097,7 +4094,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E27FF9B8F701EB1E61CA4836 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC";
@@ -4122,7 +4118,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1FFC0D2BF8F8BD4A6C0153F7 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC (896VCD8T65)";
@@ -4146,7 +4141,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E27FF9B8F701EB1E61CA4836 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: TapShield, LLC (896VCD8T65)";

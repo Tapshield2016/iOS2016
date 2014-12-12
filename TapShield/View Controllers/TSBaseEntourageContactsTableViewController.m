@@ -328,8 +328,8 @@
     NSString *firstLetter = [member.name substringToIndex:1];
     firstLetter = [firstLetter uppercaseString];
     
-    int section = 0;
-    int row = 0;
+    NSUInteger section = 0;
+    NSUInteger row = 0;
     for (NSString *string in [self sortedKeyArray:self.sortedContacts.allKeys]) {
         if ([string isEqualToString:firstLetter]) {
             NSArray *array = [self.sortedContacts objectForKey:string];
@@ -520,7 +520,7 @@
         label.text = @"Users Who Added You";
     }
     else if (section == 3) {
-        label.text = [NSString stringWithFormat:@"Contacts (%i)", self.allContacts.count];
+        label.text = [NSString stringWithFormat:@"Contacts (%lu)", (unsigned long)self.allContacts.count];
     }
     else if (section >= kContactsSectionOffset) {
         UIVisualEffectView *visualEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];

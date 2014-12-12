@@ -14,6 +14,10 @@
 #import "CLLocation+Utilities.h"
 #import "TSClusterOperation.h"
 
+NSString * const TSMapViewWillChangeRegion = @"TSMapViewWillChangeRegion";
+NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
+
+
 @interface ADClusterMapView ()
 
 @property (nonatomic, weak) id <ADClusterMapViewDelegate>  secondaryDelegate;
@@ -438,6 +442,8 @@
     if ([_secondaryDelegate respondsToSelector:@selector(mapView:regionWillChangeAnimated:)]) {
         [_secondaryDelegate mapView:self regionWillChangeAnimated:animated];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSMapViewWillChangeRegion object:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
@@ -463,6 +469,8 @@
         [self selectClusterAnnotation:_previouslySelectedAnnotation animated:YES];
         _previouslySelectedAnnotation = nil;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSMapViewDidChangeRegion object:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {

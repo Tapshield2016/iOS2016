@@ -15,6 +15,7 @@
     self = [super initWithCoordinates:location placeName:placeName description:description];
     
     if (self) {
+        self.temp = NO;
         self.transportType = type;
     }
     

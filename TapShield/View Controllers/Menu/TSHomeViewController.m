@@ -915,7 +915,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             
             if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]] ||
                 [view isKindOfClass:[TSUserAnnotationView class]] ||
-                [view isKindOfClass:[TSEntourageMemberAnnotationView class]]) {
+                [view isKindOfClass:[TSEntourageMemberAnnotationView class]] ||
+                [view isKindOfClass:[TSDestinationAnnotationView class]]) {
                 return;
             }
             
@@ -925,17 +926,26 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 if (!_viewDidAppear) {
                     return;
                 }
+                
                 CGRect endFrame = view.frame;
                 
-                CGRect startFrame = endFrame; startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
-                view.frame = startFrame;
+                if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+                    view.transform = CGAffineTransformMakeScale(0.001, 0.001);
+                }
+                else {
+                    CGRect startFrame = endFrame;
+                    startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
+                    view.frame = startFrame;
+                }
                 
-                [UIView beginAnimations:@"drop" context:NULL];
-                [UIView setAnimationDuration:0.3];
-                
-                view.frame = endFrame;
-                
-                [UIView commitAnimations];
+                [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+                        view.transform = CGAffineTransformIdentity;
+                    }
+                    else {
+                        view.frame = endFrame;
+                    }
+                } completion:nil];
             }
         }
     }

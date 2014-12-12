@@ -20,7 +20,6 @@
 
 @property (nonatomic, weak) TSMapView *mapView;
 @property (nonatomic, strong) TSRouteOption *selectedRoute;
-@property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) NSArray *routeOptions;
 @property (nonatomic, strong) NSArray *routingAnnotations;
 
@@ -33,6 +32,9 @@
 @property (nonatomic, strong) MKDirections *directions;
 
 - (instancetype)initWithMapView:(MKMapView *)mapView;
+
+- (void)updateTempMapItemLocation:(CLLocation *)location;
+- (void)updateTempMapItemTransportType;
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint;
 - (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView;
@@ -47,5 +49,7 @@
 - (void)calculateEtaAndDistanceForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime, CLLocationDistance distance))completion;
 
 - (void)getRoutesForDestination:(void (^)(TSRouteOption *bestRoute, NSError *error))completion;
+
+- (void)cancelSearch;
 
 @end

@@ -17,7 +17,6 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        [self displayTransportationType:annotation];
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
         
@@ -27,6 +26,13 @@
 
 }
 
+- (void)setAnnotation:(id<MKAnnotation>)annotation {
+    
+    [super setAnnotation:annotation];
+    
+    [self displayTransportationType:annotation];
+}
+
 - (void)displayTransportationType:(id<MKAnnotation>)annotation {
     
     self.image = [UIImage imageNamed:@"CarEndPoint"];
@@ -34,10 +40,22 @@
     if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
         TSSelectedDestinationAnnotation *selectedAnnotation = (TSSelectedDestinationAnnotation *)annotation;
         
+        
         if (selectedAnnotation.transportType == MKDirectionsTransportTypeWalking) {
             self.image = [UIImage imageNamed:@"WalkEndPoint"];
         }
+        
+        if (selectedAnnotation.temp) {
+            if (selectedAnnotation.transportType == MKDirectionsTransportTypeWalking) {
+                self.image = [UIImage imageNamed:@"WalkEndPointGray"];
+            }
+            else {
+                self.image = [UIImage imageNamed:@"CarEndPointGray"];
+            }
+        }
     }
+    
+    
 }
 
 - (void)addLeftCalloutAccessoryView {

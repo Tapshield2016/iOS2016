@@ -11,6 +11,9 @@
 #import "ADMapCluster.h"
 #import "ADClusterAnnotation.h"
 
+extern NSString * const TSMapViewWillChangeRegion;
+extern NSString * const TSMapViewDidChangeRegion;
+
 @class ADClusterMapView;
 @protocol ADClusterMapViewDelegate <MKMapViewDelegate, UIGestureRecognizerDelegate>
 @optional

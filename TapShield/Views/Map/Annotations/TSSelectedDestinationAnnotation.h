@@ -13,5 +13,6 @@
 - (id)initWithCoordinates:(CLLocationCoordinate2D)location placeName:(NSString *)placeName description:(NSString *)description travelType:(MKDirectionsTransportType)type;
 
 @property (assign, nonatomic) MKDirectionsTransportType transportType;
+@property (assign, nonatomic) BOOL temp;
 
 @end

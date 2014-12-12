@@ -16,7 +16,6 @@
 @property (nonatomic, weak) TSHomeViewController *homeViewController;
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
 @property (nonatomic, strong) UISegmentedControl *directionsTypeSegmentedControl;
-@property (nonatomic, assign) MKDirectionsTransportType directionsTransportType;
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *addressLabel;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *etaLabel;

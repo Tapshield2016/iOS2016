@@ -15,6 +15,7 @@
 #define TUTORIAL_MESSAGE @"Walking or Driving? Pick the route that best represents your intended journey. We'll automatically calculate and suggest an ETA."
 
 static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePickerViewControllerTutorialShow";
+static NSString * const TSRoutePickerViewControllerTravelType = @"TSRouteTravelType";
 
 @interface TSRoutePickerViewController ()
 
@@ -23,8 +24,6 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
 @property (nonatomic, strong) FBKVOController *kvoController;
 
 @property (nonatomic, strong) UIImageView *centerPin;
-
-@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;
 
@@ -37,7 +36,12 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    [self monitorSelectedRoute];
+    //    [self monitorSelectedRoute];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeRegion) name:TSMapViewDidChangeRegion object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willChangeRegion) name:TSMapViewWillChangeRegion object:nil];
+    
+    [TSEntourageSessionManager sharedManager].routeManager.destinationMapItem = nil;
     
     [_homeViewController setIsTrackingUser:NO animateToUser:NO];
     
@@ -45,13 +49,16 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     
     _hitTestView.sendToView = _homeViewController.view;
     
-    _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[[UIImage imageNamed:@"Car"], [UIImage imageNamed:@"Walk"]]];
+    _directionsTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[[UIImage imageNamed:@"Walk"], [UIImage imageNamed:@"Car"]]];
     _directionsTypeSegmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width/3, self.navigationController.navigationBar.frame.size.height - 10);
     [_directionsTypeSegmentedControl setApportionsSegmentWidthsByContent:NO];
     _directionsTypeSegmentedControl.tintColor = [TSColorPalette tapshieldBlue];
-    [_directionsTypeSegmentedControl setSelectedSegmentIndex:0];
     
-    _directionsTransportType = MKDirectionsTransportTypeAutomobile;
+    
+    [TSEntourageSessionManager sharedManager].routeManager.destinationTransportType = [[NSUserDefaults standardUserDefaults] integerForKey:TSRoutePickerViewControllerTravelType];
+    [_directionsTypeSegmentedControl setSelectedSegmentIndex:self.directionsTransportType];
+    
+    
     [_directionsTypeSegmentedControl addTarget:self
                                         action:@selector(transportTypeSegmentedControlValueChanged:)
                               forControlEvents:UIControlEventValueChanged];
@@ -70,11 +77,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     }
     
     [self showTutorial];
-    [self setCenterPinType:_directionsTransportType];
-    
-    _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPanMap:)];
-    [_panGesture setDelegate:self];
-    [_homeViewController.mapView addGestureRecognizer:_panGesture];
+    [self setCenterPinType:self.directionsTransportType];
 }
 
 - (void)setCenterPinType:(MKDirectionsTransportType)type {
@@ -91,11 +94,22 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     if (!_centerPin) {
         _centerPin = [[UIImageView alloc] initWithImage:image];
         [self.view addSubview:_centerPin];
-        _centerPin.center = CGPointMake(_homeViewController.mapView.contentCenter.x, _homeViewController.mapView.contentCenter.y+15);
+        _centerPin.center = CGPointMake(_homeViewController.mapView.contentCenter.x, _homeViewController.mapView.contentCenter.y+12);
     }
     else {
         _centerPin.image = image;
     }
+}
+
+- (MKDirectionsTransportType)directionsTransportType {
+    
+    return [TSEntourageSessionManager sharedManager].routeManager.destinationTransportType;
+}
+
+- (void)setDirectionsTransportType:(MKDirectionsTransportType) type {
+    
+    [TSEntourageSessionManager sharedManager].routeManager.destinationTransportType = type;
+    [self setCenterPinType:type];
 }
 
 - (void)showCenterPin:(BOOL)show {
@@ -104,32 +118,32 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
 }
 
 //- (void)monitorSelectedRoute {
-//    
+//
 //    _kvoController = [FBKVOController controllerWithObserver:self];
-//    
+//
 //    [_kvoController observe:[TSEntourageSessionManager sharedManager].routeManager keyPath:@"selectedRoute" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSRoutePickerViewController *weakSelf, TSRouteManager *routeManager, NSDictionary *change) {
-//        
+//
 //        if (!routeManager.selectedRoute) {
 //            return;
 //        }
-//        
+//
 //        NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:routeManager.selectedRoute.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:routeManager.selectedRoute.distance]];
-//        
+//
 //        [weakSelf.addressLabel setText:routeManager.selectedRoute.name withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
 //        [weakSelf.etaLabel setText:formattedText withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
 //    }];
 //}
 
 //- (void)monitorDestinationMapItem {
-//    
+//
 //    _kvoController = [FBKVOController controllerWithObserver:self];
-//    
+//
 //    [_kvoController observe:[TSEntourageSessionManager sharedManager].routeManager keyPath:@"destinationMapItem" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSRoutePickerViewController *weakSelf, TSRouteManager *routeManager, NSDictionary *change) {
-//        
+//
 //        if (!routeManager.destinationMapItem) {
 //            return;
 //        }
-//        
+//
 //        [self requestAndDisplayRoutesForSelectedDestination];
 //    }];
 //}
@@ -138,7 +152,7 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     
     _destinationMapItem = destinationMapItem;
     
-    [[TSEntourageSessionManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
+    [[TSEntourageSessionManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:self.directionsTransportType];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -155,8 +169,6 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     
     [self drawerCanDragForMenu:YES];
     [self drawerCanDragForContacts:YES];
-    
-    [_homeViewController.mapView removeGestureRecognizer:_panGesture];
 }
 
 - (void)didReceiveMemoryWarning
@@ -188,22 +200,22 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
     switch ([_directionsTypeSegmentedControl selectedSegmentIndex]) {
             
         case 0:
-            _directionsTransportType = MKDirectionsTransportTypeAutomobile;
+            [self setDirectionsTransportType:MKDirectionsTransportTypeWalking];
             break;
             
         case 1:
-            _directionsTransportType = MKDirectionsTransportTypeWalking;
+            [self setDirectionsTransportType:MKDirectionsTransportTypeAutomobile];
             break;
             
         default:
-            _directionsTransportType = MKDirectionsTransportTypeAny;
+            [self setDirectionsTransportType:MKDirectionsTransportTypeAny];
             break;
     }
     
+    [[NSUserDefaults standardUserDefaults] setInteger:self.directionsTransportType forKey:TSRoutePickerViewControllerTravelType];
     
-    
-//    [[TSEntourageSessionManager sharedManager].routeManager userSelectedDestination:_destinationMapItem forTransportType:_directionsTransportType];
-//    [self requestAndDisplayRoutesForSelectedDestination];
+    [self updateRoutes];
+    [[TSEntourageSessionManager sharedManager].routeManager updateTempMapItemTransportType];
 }
 
 
@@ -271,36 +283,70 @@ static NSString * const TSRoutePickerViewControllerTutorialShow = @"TSRoutePicke
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
+    //    if (gestureRecognizer == _pinchGesture && [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+    //        return NO;
+    //    }
+    //
+    //    if (gestureRecognizer == _panGesture && [otherGestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
+    //        return NO;
+    //    }
+    
     return YES;
 }
 
-- (void)didPanMap:(UIGestureRecognizer*)gestureRecognizer {
+- (void)willChangeRegion {
     
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan){
+    [_geocoder cancelGeocode];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+}
+
+- (void)didChangeRegion {
+    
+    if (!_geocoder) {
+        _geocoder = [[CLGeocoder alloc] init];
+    }
+    [_geocoder cancelGeocode];
+    
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:_homeViewController.mapView.centerCoordinate.latitude longitude:_homeViewController.mapView.centerCoordinate.longitude];
+    
+    if ([location distanceFromLocation:[TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.placemark.location] < 20 && [TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.placemark.location) {
+        [[TSEntourageSessionManager sharedManager].routeManager updateTempMapItemLocation:location];
+        return;
+    }
+    
+    [self performSelector:@selector(routeLocation:) withObject:location afterDelay:1.0];
+}
+
+- (void)routeLocation:(CLLocation *)location {
+    
+    NSLog(@"Searching location %@", location);
+    
+    [_addressLabel setText:@"Searching" withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+    [_etaLabel setText:@"" withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+    
+    [[TSEntourageSessionManager sharedManager].routeManager cancelSearch];
+    
+    [_geocoder reverseGeocodeLocation:[[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude] completionHandler:^(NSArray *placemarks, NSError *error){
+        CLPlacemark *placemark = placemarks[0];
+        NSLog(@"Found %@", placemark.name);
         
-    }
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        if (!_geocoder) {
-            _geocoder = [[CLGeocoder alloc] init];
-        }
-        [_geocoder cancelGeocode];
-        [_geocoder reverseGeocodeLocation:[[CLLocation alloc] initWithLatitude:_homeViewController.mapView.centerCoordinate.latitude longitude:_homeViewController.mapView.centerCoordinate.longitude] completionHandler:^(NSArray *placemarks, NSError *error){
-            CLPlacemark *placemark = placemarks[0];
-            NSLog(@"Found %@", placemark.name);
+        if (placemark) {
             
-            if (placemark) {
-                [TSEntourageSessionManager sharedManager].routeManager.destinationMapItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithPlacemark:placemark]];
-                [[TSEntourageSessionManager sharedManager].routeManager calculateEtaAndDistanceForSelectedDestination:^(NSTimeInterval expectedTravelTime, CLLocationDistance distance) {
-                    
-                    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:distance]];
-                    
-                    [_addressLabel setText:[TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.name withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
-                    [_etaLabel setText:formattedText withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
-                }];
-            }
-        }];
-    }
+            [TSEntourageSessionManager sharedManager].routeManager.destinationMapItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:location.coordinate addressDictionary:placemark.addressDictionary]];
+            [_addressLabel setText:[TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.name withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+            [_etaLabel setText:@"Routing..." withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+            [self updateRoutes];
+        }
+    }];
+}
+
+- (void)updateRoutes {
+    
+    [[TSEntourageSessionManager sharedManager].routeManager getRoutesForDestination:^(TSRouteOption *bestRoute, NSError *error) {
+        
+        NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:bestRoute.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:bestRoute.distance]];
+        [_etaLabel setText:formattedText withAnimationType:kCATransitionPush direction:kCATransitionFromRight duration:0.3];
+    }];
 }
 
 @end

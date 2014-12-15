@@ -192,6 +192,11 @@
     if (changesMade != _resultsController.changesMade) {
         _resultsController.changesMade = changesMade;
     }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    if (changesMade && !self.isEditing) {
+        [self performSelector:@selector(syncEntourageMembers) withObject:nil afterDelay:5.0];
+    }
 }
 
 - (void)editEntourageMembers {
@@ -367,7 +372,7 @@
     
     self.changesMade = YES;
     
-    if (!self.isEditing) {
+    if (!self.isEditing && editingStyle == UITableViewCellEditingStyleDelete) {
         animate = NO;
         if (member) {
             [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
@@ -520,6 +525,8 @@
     [super setIsEditing:isEditing];
     
     _resultsController.isEditing = isEditing;
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 

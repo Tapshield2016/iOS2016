@@ -174,19 +174,6 @@ static dispatch_once_t predicate;
     [_locationManager startUpdatingLocation];
 }
 
-- (void)latestAccurateLocation:(TSLocationControllerLocationReceived)completion {
-    
-    if (_location.horizontalAccuracy <= GOOD_ACCURACY) {
-        completion(_location);
-        return;
-    }
-    else if (completion) {
-        _accurateLocationReceivedBlock = completion;
-    }
-    
-    [_locationManager startUpdatingLocation];
-}
-
 - (void)stopLocationUpdates {
     [_locationManager stopUpdatingLocation];
     
@@ -319,24 +306,6 @@ static dispatch_once_t predicate;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     
-    _location  = [locations lastObject];
-    
-    if (_accurateLocationReceivedBlock) {
-        if (_location.horizontalAccuracy <= GOOD_ACCURACY) {
-            _accurateLocationReceivedBlock(_location);
-            _accurateLocationReceivedBlock = nil;
-        }
-    }
-    
-    if (_locationCompletions.count) {
-        NSMutableArray *toRemove = [[NSMutableArray alloc] initWithCapacity:_locationCompletions.count];
-        for (TSLocationControllerLocationReceived completion in [NSArray arrayWithArray:_locationCompletions]) {
-            completion(_location);
-            [toRemove addObject:completion];
-        }
-        [_locationCompletions removeObjectsInArray:toRemove];
-    }
-    
     NSMutableArray *accurateLocations = [[NSMutableArray alloc] initWithArray:locations];
     for (CLLocation *location in locations) {
         if (location.horizontalAccuracy > 300) {
@@ -354,6 +323,23 @@ static dispatch_once_t predicate;
     }
     else {
         [[TSJavelinAPIClient sharedClient] locationUpdated:accurateLocations completion:nil];
+    }
+    
+    
+    CLLocation *latestLocation = [locations lastObject];
+    if (_location && _location.horizontalAccuracy < 300 && latestLocation.horizontalAccuracy > 300 && _location.timestamp.timeIntervalUntilNow < 60) {
+        return;
+    }
+    
+    _location  = latestLocation;
+    
+    if (_locationCompletions.count) {
+        NSMutableArray *toRemove = [[NSMutableArray alloc] initWithCapacity:_locationCompletions.count];
+        for (TSLocationControllerLocationReceived completion in [NSArray arrayWithArray:_locationCompletions]) {
+            completion(_location);
+            [toRemove addObject:completion];
+        }
+        [_locationCompletions removeObjectsInArray:toRemove];
     }
     
     if ([_delegate respondsToSelector:@selector(locationDidUpdate:)]) {

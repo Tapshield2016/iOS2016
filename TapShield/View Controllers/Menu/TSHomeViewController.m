@@ -160,7 +160,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [super viewWillAppear:animated];
     
     _mapView.isAnimatingToRegion = YES;
-    [_mapView removeAnimatedOverlay];
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [self addOverlaysAndAnnotations];
@@ -186,7 +185,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _mapView.isAnimatingToRegion = NO;
     
-    [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
+    [_mapView.userLocationAnnotationView updateAnimatedUserAnnotation];
     
     [self showAllSubviews];
     
@@ -275,9 +274,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                 
                                 [mapView removeAnnotation:mapView.userLocationAnnotation];
                                 
-                                mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithCoordinates:location.coordinate
-                                                                                                              placeName:nil
-                                                                                                            description:nil];
+                                mapView.userLocationAnnotation = [[TSUserLocationAnnotation alloc] initWithLocation:location];
                                 
                                 [mapView addAnnotation:mapView.userLocationAnnotation];
                                 [mapView updateAccuracyCircleWithLocation:location];
@@ -293,7 +290,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)mapAlertModeToggle {
     
     [_mapView updateAccuracyCircleWithLocation:[TSLocationController sharedLocationController].location];
-    [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
+    [_mapView.userLocationAnnotationView updateAnimatedUserAnnotation];
 }
 
 - (void)entourageModeOn {
@@ -620,12 +617,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if (_mapView.userLocationAnnotation) {
         [_mapView removeAccuracyCircleOverlay];
         
+        _mapView.userLocationAnnotation.location = location;
+        
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             
             if (_viewDidAppear) {
                 [_mapView.userLocationAnnotationView.layer removeAllAnimations];
                 [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
-                    [_mapView resetAnimatedOverlayAt:location];
+                    
                     _mapView.userLocationAnnotation.coordinate = location.coordinate;
                     
                 } completion:^(BOOL finished) {
@@ -635,8 +634,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 }];
             }
             else {
-                [_mapView resetAnimatedOverlayAt:location];
-                _mapView.userLocationAnnotation.coordinate = location.coordinate;
+                _mapView.userLocationAnnotation.location = location;
                 [_mapView updateAccuracyCircleWithLocation:location];
             }
         }];
@@ -646,8 +644,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
         //avoid loop from negligible differences in region change
-        if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
-            fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
+        if (!CLLocationCoordinate2DIsApproxEqual(_mapView.region.center, location.coordinate, .0000001)) {
             [_mapView setCenterCoordinate:location.coordinate animated:_viewDidAppear];
         }
     }
@@ -832,6 +829,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         _mapView.userLocationAnnotationView = (TSUserAnnotationView *)annotationView;
         _mapView.userLocationAnnotationView.canShowCallout = NO;
+        _mapView.userLocationAnnotationView.mapView = _mapView;
     }
     else if ([annotation isKindOfClass:[TSEntourageMemberAnnotation class]]) {
         annotationView = (TSEntourageMemberAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSEntourageMemberAnnotationView class])];
@@ -967,7 +965,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
-    [_mapView removeAnimatedOverlay];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
@@ -981,14 +978,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if (_viewDidAppear) {
-        [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
+        [_mapView.userLocationAnnotationView updateAnimatedUserAnnotation];
     }
     
     CLLocation *location = [TSLocationController sharedLocationController].location;
     if (_isTrackingUser) {
         //avoid loop from negligible differences in region change during zoom
-        if (fabs(_mapView.region.center.latitude - location.coordinate.latitude) >= .0000001 ||
-            fabs(_mapView.region.center.longitude - location.coordinate.longitude) >= .0000001) {
+        if (!CLLocationCoordinate2DIsApproxEqual(_mapView.region.center, location.coordinate, .0000001)) {
             [_mapView setCenterCoordinate:location.coordinate animated:_viewDidAppear];
         }
     }

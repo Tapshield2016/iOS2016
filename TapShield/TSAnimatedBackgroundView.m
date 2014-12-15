@@ -57,8 +57,8 @@
 - (void)addRouteAnimation {
     
     CGPoint point1 = CGPointMake(553/3 + 3, 1704/3 + 5);
-    CGPoint point2 = CGPointMake(391/3, 1527/3);
-    CGPoint point3 = CGPointMake(292/3, 887/3);
+    CGPoint point2 = CGPointMake(391/3, 1524/3);
+    CGPoint point3 = CGPointMake(298/3, 887/3);
     CGPoint point4 = CGPointMake(903/3, 768/3);
     CGPoint point5 = CGPointMake(774/3, 0-10);
     CGPoint point6 = CGPointMake(422/3, -10);

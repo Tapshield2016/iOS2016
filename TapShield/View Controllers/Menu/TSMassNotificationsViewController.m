@@ -19,6 +19,9 @@
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) TSJavelinMassNotificationManager *massNotificationManager;
+@property (assign) BOOL didAppear;
+
+@property (assign) BOOL needsReload;
 
 @end
 
@@ -32,6 +35,9 @@
     
     _massNotificationManager = [[TSJavelinMassNotificationManager alloc] init];
     
+    _needsReload = NO;
+    _didAppear = NO;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(messageReceived:)
                                                  name:TSJavelinPushNotificationManagerDidReceiveNotificationOfNewMassAlertNotification
@@ -39,6 +45,18 @@
     [self loadMassAlerts];
     
     _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    _didAppear = YES;
+    
+    if (_needsReload) {
+        [self.tableView reloadData];
+        _needsReload = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -124,7 +142,15 @@
     
     
     [_massNotificationManager getNewMassAlerts:^(NSArray *massAlerts) {
-        [_tableView reloadData];
+        if (_didAppear) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [_tableView reloadData];
+            }];
+        }
+        else {
+            _needsReload = YES;
+        }
+        
         [_activityIndicator stopAnimating];
         [_activityIndicator setHidden:YES];
     }];

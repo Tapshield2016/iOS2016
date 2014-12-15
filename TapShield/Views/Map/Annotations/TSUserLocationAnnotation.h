@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "TSBaseMapAnnotation.h"
 
+@class TSUserAnnotationView;
+
 @interface TSUserLocationAnnotation : TSBaseMapAnnotation
+
+- (instancetype)initWithLocation:(CLLocation *)location;
+
+@property (nonatomic, weak) TSUserAnnotationView *annotationView;
+@property (nonatomic, strong) CLLocation *location;
 
 @end

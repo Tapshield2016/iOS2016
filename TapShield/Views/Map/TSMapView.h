@@ -12,13 +12,11 @@
 #import "TSAgencyAnnotation.h"
 #import "TSAppDelegate.h"
 #import "TSColorPalette.h"
-#import "TSMapOverlayCircle.h"
 #import "TSSelectedDestinationAnnotation.h"
 #import "TSRouteTimeAnnotation.h"
 #import "TSRouteOption.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUserAnnotationView.h"
-//#import "OCMapview.h"
 #import "ADClusterMapView.h"
 
 #define kMaxLonDeltaCluster 0.1
@@ -28,7 +26,6 @@
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
 @property (nonatomic, strong) MKCircle *accuracyCircle;
-@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
 @property (nonatomic, strong) TSUserAnnotationView *userLocationAnnotationView;
 
@@ -44,9 +41,5 @@
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location;
 - (void)removeAccuracyCircleOverlay;
 
-//animated radius
-- (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation;
-- (void)removeAnimatedOverlay;
-- (void)resetAnimatedOverlayAt:(CLLocation *)location;
 
 @end

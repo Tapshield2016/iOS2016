@@ -10,6 +10,8 @@
 #import "TSJavelinAPIEntourageMember.h"
 #import "TSJavelinAPIUser.h"
 
+@class TSBaseEntourageContactsTableViewController;
+
 @interface TSEntourageContactTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) TSJavelinAPIEntourageMember *contact;
@@ -25,9 +27,14 @@
 
 @property (assign, nonatomic) CGFloat width;
 
-//@property (nonatomic, weak)
+@property (nonatomic, weak) TSBaseEntourageContactsTableViewController *tableViewController;
 
 - (void)displaySelectedView:(BOOL)selected animated:(BOOL)animated;
+
+- (void)addPlusButton:(id)target;
+
+- (void)dimContent;
+- (void)resetAlphas;
 
 - (void)emptyCell;
 + (CGFloat)selectedHeight;

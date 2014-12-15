@@ -132,7 +132,6 @@
     MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
     
     _accuracyCircle = newcircle;
-    _animatedOverlay.circle = _accuracyCircle;
     [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];
     
     if (previousCircle) {
@@ -205,76 +204,6 @@
     free(boundaries);
     
     return geofencePolygon;
-}
-
-#pragma mark Animated Overlay
-
-- (void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation {
-    //get a frame around the annotation
-    CLLocation *location = [TSLocationController sharedLocationController].location;
-    [self resetAnimatedOverlayAt:location];
-}
-
-- (void)removeAnimatedOverlay {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if(_animatedOverlay){
-            [_animatedOverlay stopAnimating];
-        }
-    });
-}
-
-- (void)resetAnimatedOverlayAt:(CLLocation *)location {
-    
-    if (self.isAnimatingToRegion) {
-        return;
-    }
-    
-    BOOL isBlueColor = YES;
-    
-    float radius = location.horizontalAccuracy;
-    if (radius > 500) {
-        radius = 500;
-    }
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, radius*2, radius*2);
-    UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
-    
-    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
-        color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
-        region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
-        isBlueColor = NO;
-    }
-    
-    CGRect rect = [self  convertRegion:region toRectToView:self];
-    //set up the animated overlay
-    rect.size.width = rect.size.height;
-    
-    if (ceilf(_animatedOverlay.frame.size.width)  == ceilf(rect.size.width) &&
-        ceilf(_animatedOverlay.frame.origin.y) == ceilf(rect.origin.y) &&
-        ceilf(_animatedOverlay.frame.origin.x) == ceilf(rect.origin.x) &&
-        _animatedOverlay.isBlueColor == isBlueColor &&
-        _animatedOverlay.superview) {
-        
-        return;
-    }
-    
-    [_animatedOverlay stopAnimating];
-    
-    _animatedOverlay.isBlueColor = isBlueColor;
-    
-    if(!_animatedOverlay){
-        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
-        [_animatedOverlay setUserInteractionEnabled:NO];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_animatedOverlay setFrame:rect];
-        [_animatedOverlay startAnimatingWithColor:color
-                                         andFrame:rect];
-        if (![_animatedOverlay.superview isEqual:self]) {
-            [self addSubview:_animatedOverlay];
-        }
-    });
 }
 
 

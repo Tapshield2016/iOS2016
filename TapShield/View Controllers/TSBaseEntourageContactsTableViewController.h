@@ -80,4 +80,6 @@
 
 - (void)reloadTableViewOnMainThread;
 
+- (void)moveContactToEntourage:(TSJavelinAPIEntourageMember *)contact;
+
 @end

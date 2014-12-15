@@ -42,7 +42,6 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion;
 - (void)startSignificantChangeUpdates:(TSLocationControllerLocationReceived)completion;
 - (void)latestLocation:(TSLocationControllerLocationReceived)completion;
-- (void)latestAccurateLocation:(TSLocationControllerLocationReceived)completion;
 
 - (void)stopMonitoringSignificantLocationChanges;
 

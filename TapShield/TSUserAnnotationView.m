@@ -10,10 +10,17 @@
 #import "TSJavelinAPIClient.h"
 #import "TSJavelinAPIAuthenticationManager.h"
 #import "UIImage+Resize.h"
+#import "UIImage+Color.h"
+#import "TSAlertManager.h"
+#import "TSMapOverlayCircle.h"
 
 @interface TSUserAnnotationView ()
 
 @property (strong, nonatomic) UIImageView *imageView;
+
+@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
+
+@property (assign) BOOL isBlueColor;
 
 @end
 
@@ -28,20 +35,53 @@
         self.accessibilityLabel = @"Your Location";
         
         [self setCanShowCallout:YES];
+        
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowRadius = 1.0f;
+        self.layer.shadowOpacity = 0.5;
+        self.layer.shadowOffset = CGSizeZero;
+        
+        self.isBlueColor = NO;
     }
     return self;
     
 }
 
-- (void)setAnnotation:(id<MKAnnotation>)annotation {
+- (void)setAnnotation:(TSUserLocationAnnotation *)annotation {
     
     [super setAnnotation:annotation];
     
+    annotation.annotationView = self;
+    
+    [self updateImage];
+    
+    [self updateAnimatedViewAt:annotation.location];
+}
+
+- (void)updateImage {
+    
     UIImage *image = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].userProfile.profileImage;
-    if (image) {
-        CGSize size = self.image.size;
+    
+    CGSize size = self.image.size;
+    
+    
+    if (!image) {
+        
+        if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
+            image = [UIImage imageFromColor:[TSColorPalette alertRed]];
+            self.isBlueColor = NO;
+        }
+        else {
+            image = [UIImage imageFromColor:[TSColorPalette tapshieldBlue]];
+            self.isBlueColor = YES;
+        }
+    }
+    else {
         size.height = size.height * 1.5;
         size.width = size.height;
+    }
+    
+    if (image) {
         
         [_imageView removeFromSuperview];
         _imageView = [[UIImageView alloc] initWithImage:[[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size]];
@@ -53,11 +93,70 @@
         self.layer.cornerRadius = _imageView.frame.size.height/2;
         self.layer.borderColor = [UIColor whiteColor].CGColor;
         self.layer.borderWidth = 2.0f;
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowRadius = 1.0f;
-        self.layer.shadowOpacity = 1;
-        self.layer.shadowOffset = CGSizeZero;
     }
+}
+
+#pragma mark Animated Overlay
+
+- (void)updateAnimatedUserAnnotation {
+    
+    [self updateAnimatedViewAt:[(TSUserLocationAnnotation *)self.annotation location]];
+}
+
+- (void)updateAnimatedViewAt:(CLLocation *)location {
+    
+    BOOL isBlueColor = YES;
+    
+    float radius = location.horizontalAccuracy;
+    if (radius > 500) {
+        radius = 500;
+    }
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, radius*2, radius*2);
+    UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
+    
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
+        color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
+        region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
+        isBlueColor = NO;
+        
+        if (self.isBlueColor) {
+            [self updateImage];
+        }
+    }
+    else {
+        if (!self.isBlueColor) {
+            [self updateImage];
+        }
+    }
+    
+    CGRect rect = [self.mapView  convertRegion:region toRectToView:self.mapView];
+    //set up the animated overlay
+    rect.size.width = rect.size.height;
+    
+    if (ceilf(_animatedOverlay.frame.size.width)  == ceilf(rect.size.width) &&
+        _animatedOverlay.isBlueColor == isBlueColor &&
+        _animatedOverlay.superview) {
+        
+        return;
+    }
+    
+    [_animatedOverlay stopAnimating];
+    
+    _animatedOverlay.isBlueColor = isBlueColor;
+    
+    if(!_animatedOverlay){
+        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
+        [_animatedOverlay setUserInteractionEnabled:NO];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_animatedOverlay setFrame:rect];
+        [_animatedOverlay startAnimatingWithColor:color
+                                         andFrame:rect];
+        if (![_animatedOverlay.superview isEqual:self]) {
+            [self insertSubview:_animatedOverlay atIndex:0];
+        }
+    });
 }
 
 @end

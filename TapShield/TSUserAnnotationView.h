@@ -10,4 +10,10 @@
 
 @interface TSUserAnnotationView : TSBaseAnnotationView
 
+@property (nonatomic, weak) MKMapView *mapView;
+
+- (void)updateAnimatedViewAt:(CLLocation *)location;
+
+- (void)updateAnimatedUserAnnotation;
+
 @end

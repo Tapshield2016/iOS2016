@@ -7,8 +7,9 @@
 //
 
 #import "TSMapOverlayCircle.h"
+#import "UIView+FirstResponder.h"
 
-#define MAX_RATIO 1.2
+#define MAX_RATIO 1.3
 #define MIN_RATIO 0.01
 
 #define ANIMATION_DURATION 3
@@ -29,7 +30,16 @@
     return self;
 }
 
+- (void)setFrame:(CGRect)frame {
+    
+    [super setFrame:frame];
+    
+    self.center = self.superview.contentCenter;
+}
+
 - (void)startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame{
+    
+    [self setHidden:NO];
     
     //create the image
     self.image = [UIImage imageNamed:@"circle"];
@@ -64,7 +74,7 @@
     opacityAnimation.duration = ANIMATION_DURATION;
     opacityAnimation.repeatCount = ANIMATION_REPEAT;
     //opacityAnimation.autoreverses=YES;
-    opacityAnimation.fromValue = [NSNumber numberWithFloat:0.85];
+    opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
     opacityAnimation.toValue = [NSNumber numberWithFloat:0.0];
     
     //resize animation setup
@@ -92,7 +102,7 @@
 
 -(void)stopAnimating{
     [self.layer removeAllAnimations];
-    [self removeFromSuperview];
+    [self setHidden:YES];
 }
 
 

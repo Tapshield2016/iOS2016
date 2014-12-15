@@ -171,21 +171,6 @@
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
-    /** Draw the Background **/
-    
-//    //Create the path
-//    CGContextAddArc(ctx, self.frame.size.width/2, self.frame.size.height/2, _radius, 0, M_PI *2, 0);
-//    
-//    //Set the stroke color to black
-//    [[[UIColor whiteColor] colorWithAlphaComponent:0.2] setStroke];
-//    
-//    //Define line width and cap
-//    CGContextSetLineWidth(ctx, LINE_WIDTH);
-//    CGContextSetLineCap(ctx, kCGLineCapButt);
-//    
-//    //draw it!
-//    CGContextDrawPath(ctx, kCGPathStroke);
-    
     
     //** Draw the circle (using a clipped gradient) **/
     
@@ -194,6 +179,7 @@
     UIGraphicsBeginImageContext(self.frame.size);
     CGContextRef imageCtx = UIGraphicsGetCurrentContext();
     
+//Gradient arc
     CGContextAddArc(imageCtx, self.frame.size.width/2  , self.frame.size.height/2, _radius, M_PI_2, ToRad(self.angle), 1);
     
     [[UIColor blueColor]set];
@@ -256,13 +242,13 @@
     
     //Draw the outside light
     CGContextBeginPath(ctx);
-    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius+BACKGROUND_WIDTH/2, M_PI_2, ToRad(self.angle), 1);
+    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius+BACKGROUND_WIDTH/2, M_PI_2, ToRad(adjustedAngle), 1);
     [[UIColor colorWithWhite:1.0 alpha:0.05]set];
     CGContextDrawPath(ctx, kCGPathStroke);
     
     //draw the inner light
     CGContextBeginPath(ctx);
-    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius-BACKGROUND_WIDTH/2, M_PI_2, ToRad(self.angle), 1);
+    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, _radius-BACKGROUND_WIDTH/2, M_PI_2, ToRad(adjustedAngle), 1);
     [[UIColor colorWithWhite:1.0 alpha:0.05]set];
     CGContextDrawPath(ctx, kCGPathStroke);
     

@@ -16,6 +16,8 @@
 #import "MKMapItem+EncodeDecode.h"
 #import <MapKit/MapKit.h>
 
+@class TSRoutePickerViewController;
+
 @interface TSRouteManager : NSObject
 
 @property (nonatomic, weak) TSMapView *mapView;
@@ -31,6 +33,12 @@
 
 @property (nonatomic, strong) MKDirections *directions;
 
+@property (nonatomic, assign) NSTimeInterval selectedTravelTime;
+
+@property (nonatomic, assign) BOOL shouldCancel;
+
+@property (weak, nonatomic) TSRoutePickerViewController *destinationPickerVC;
+
 - (instancetype)initWithMapView:(MKMapView *)mapView;
 
 - (void)updateTempMapItemLocation:(CLLocation *)location;
@@ -38,18 +46,33 @@
 
 - (void)selectRouteClosestTo:(MKMapPoint)mapPoint;
 - (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView;
-- (void)addRouteOverlaysToMapViewAndAnnotations;
+- (void)addRouteOverlaysAndAnnotations;
 - (void)removeRouteOverlaysAndAnnotations;
 - (void)removeCurrentDestinationAnnotation;
 - (void)showOnlySelectedRoute;
 - (void)showDestinationAnnotation;
+- (void)showTempDestinationAnnotationSelected:(BOOL)selected;
+
+- (void)showAllRouteAnnotations;
+
+- (void)centerMapOnSelectedDestination;
+
+- (void)clearRouteAndMapData;
 
 - (void)userSelectedDestination:(MKMapItem *)mapItem forTransportType:(MKDirectionsTransportType)transportType;
 - (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion;
 - (void)calculateEtaAndDistanceForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime, CLLocationDistance distance))completion;
 
 - (void)getRoutesForDestination:(void (^)(TSRouteOption *bestRoute, NSError *error))completion;
+- (void)getAndShowBestRoute;
+
+- (void)addOnlySelectedRouteOverlaysToMapView;
 
 - (void)cancelSearch;
+
+- (void)selectTempAnnotation;
+- (void)deselectTempAnnotation;
+
+- (void)showActiveEntourageSession;
 
 @end

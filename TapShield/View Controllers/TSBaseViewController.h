@@ -39,6 +39,8 @@
 
 - (UIViewController *)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated;
 
+- (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated navigationBarHidden:(BOOL)navBarHidden;
+
 - (void)whiteNavigationBar;
 - (void)blackNavigationBar;
 

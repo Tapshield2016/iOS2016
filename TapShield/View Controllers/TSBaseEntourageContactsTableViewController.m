@@ -11,6 +11,8 @@
 #import "TSEntourageMemberSettingsViewController.h"
 #import "TSEntourageSessionManager.h"
 #import "TSUserNotificationCell.h"
+#import "TSAddPhoneNumberCell.h"
+#import "TSUserSessionManager.h"
 
 @interface TSBaseEntourageContactsTableViewController ()
 
@@ -392,6 +394,19 @@
         return cell;
     }
     
+    if (indexPath.section == 2 && !self.isEditing && !self.searching) {
+        if (![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified) {
+            static NSString *notificationTableViewCell = @"addPhoneNumberCell";
+            
+            TSAddPhoneNumberCell *cell = [self.tableView dequeueReusableCellWithIdentifier:notificationTableViewCell];
+            
+            if (!cell) {
+                cell = [[TSAddPhoneNumberCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:notificationTableViewCell];
+            }
+            return cell;
+        }
+    }
+    
     static NSString *entourageContactTableViewCell = @"entourageContactTableViewCell";
     static NSString *emptyCell = @"emptyCell";
     
@@ -413,6 +428,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (!member) {
+        
         [cell emptyCell];
         return cell;
     }
@@ -551,6 +567,10 @@
         return 80;
     }
     
+    if (indexPath.section == 2 && ![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified) {
+        return 80;
+    }
+    
     TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
     if([self.selectedRowIndex isEqual:indexPath] && [_selectedMember isEqual:member] && member.session) {
         return [TSEntourageContactTableViewCell selectedHeight];
@@ -583,6 +603,11 @@
             return self.entourageMembers.count;
             
         case 2:
+            
+            if (![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified) {
+                return 1;
+            }
+            
             if (!self.whoAddedUser.count) {
                 return 1;
             }
@@ -667,7 +692,11 @@
         }
     }
     else if (indexPath.section == 2) {
-        if (!self.whoAddedUser.count) {
+        
+        if (![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified) {
+            return YES;
+        }
+        else if (!self.whoAddedUser.count) {
             return NO;
         }
     }
@@ -684,6 +713,7 @@
         [[TSEntourageSessionManager sharedManager] actionForEntourageNotificationObject:self.userNotifications[indexPath.row]];
     }
     else if (indexPath.section == 1) {
+        
         if (self.selectedRowIndex) {
             [[self.tableView cellForRowAtIndexPath:self.selectedRowIndex] setSelected:NO animated:YES];
         }
@@ -691,6 +721,12 @@
         [self presentMemberSettingsWithMember:[self memberForIndexPath:indexPath]];
     }
     else if (indexPath.section == 2) {
+        
+        if (![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified) {
+            [TSUserSessionManager showPhoneVerification];
+            return;
+        }
+        
         TSJavelinAPIEntourageMember *member = [self memberForIndexPath:indexPath];
         if (member.session) {
             [self toggleSelectedIndexPath:indexPath];

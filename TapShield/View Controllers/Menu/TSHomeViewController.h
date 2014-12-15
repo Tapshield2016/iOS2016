@@ -49,6 +49,8 @@
 //Entourage
 @property (strong, nonatomic) TSEntourageSessionManager *entourageManager;
 
+- (void)showTimeAdjustViewController;
+
 - (void)clearEntourageMap;
 - (void)entourageModeOn;
 - (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate;

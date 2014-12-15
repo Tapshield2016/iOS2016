@@ -40,9 +40,17 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     if ([TSJavelinAPIClient loggedInUser].phoneNumber.length) {
+        
         _phoneNumberTextField.text = [TSJavelinAPIClient loggedInUser].phoneNumber;
         _sendVerificationButton.enabled = YES;
-        [self smsWasSent];
+        
+        if ([self removeNonNumericalCharacters:_phoneNumberTextField.text].length == 10) {
+            _phoneNumberTextField.text = [self formatPhoneNumber:_phoneNumberTextField.text];
+        }
+        
+        if (self.navigationController.viewControllers.count > 1) {
+            [self smsWasSent];
+        }
     }
 }
 
@@ -77,7 +85,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
 
 - (void)cancel {
     
-    [[TSUserSessionManager sharedManager] dismissWindow:nil];
+    [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
 }
 
 - (void)applicationWillEnterForeground {
@@ -109,7 +117,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
             }];
     }
     
-    [_codeTextField becomeFirstResponder];
+//    [_codeTextField becomeFirstResponder];
     
     _topLabel.text = kSMSSent;
     _topLabel.textColor = [TSColorPalette activeTextColor];
@@ -142,7 +150,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
             }
             _topLabel.textColor = [TSColorPalette alertRed];
             [self incorrectShakeView:_phoneNumberTextField];
-            [_phoneNumberTextField becomeFirstResponder];
+//            [_phoneNumberTextField becomeFirstResponder];
         }
     }];
 }
@@ -306,9 +314,8 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
         if (!responseObject) {
             [self stopCodeVerificationIndicator];
             
-            if ([[TSUserSessionManager sharedManager] didJoinFromSelectedAgency]) {
-                [[TSUserSessionManager sharedManager] dismissWindow:nil];
-            }
+            [[TSUserSessionManager sharedManager] didJoinFromSelectedAgency];
+            [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
             
             _codeTextField.text = @"";
         }

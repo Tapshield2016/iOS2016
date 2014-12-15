@@ -73,7 +73,7 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
 
 - (void)cancel {
     
-    [[TSUserSessionManager sharedManager] dismissWindow:nil];
+    [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
 }
 
 
@@ -108,7 +108,7 @@ static NSString * const kDomainMatchEmail = @"You must enter a %@ email address"
         [TSUserSessionManager showPhoneVerification];
     }
     else if ([[TSUserSessionManager sharedManager] didJoinFromSelectedAgency]) {
-        [[TSUserSessionManager sharedManager] dismissWindow:nil];
+        [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
     }
 }
 

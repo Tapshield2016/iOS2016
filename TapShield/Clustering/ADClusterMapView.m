@@ -102,7 +102,7 @@ NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
     _clusterAnnotations = [_singleAnnotationsPool setByAddingObjectsFromSet:_clusterAnnotationsPool];
 }
 
-- (void)setAnnotations:(NSSet *)annotations {
+- (void)setClusterableAnnotations:(NSSet *)annotations {
     
     if (!annotations) {
         return;
@@ -217,7 +217,7 @@ NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
         _clusterableAnnotationsAdded = [[NSMutableSet alloc] initWithObjects:annotation, nil];
     }
     
-    [self setAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
+    [self setClusterableAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
 }
 
 - (void)addClusteredAnnotations:(NSArray *)annotations {
@@ -233,7 +233,7 @@ NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
         _clusterableAnnotationsAdded = [[NSMutableSet alloc] initWithArray:annotations];
     }
     
-    [self setAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
+    [self setClusterableAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
 }
 
 - (void)addAnnotation:(id<MKAnnotation>)annotation {
@@ -249,7 +249,7 @@ NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
     
     if ([_clusterableAnnotationsAdded containsObject:annotation]) {
         [_clusterableAnnotationsAdded removeObject:annotation];
-        [self setAnnotations:_clusterableAnnotationsAdded];
+        [self setClusterableAnnotations:_clusterableAnnotationsAdded];
     }
     
     [super removeAnnotation:annotation];
@@ -262,7 +262,7 @@ NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
     [_clusterableAnnotationsAdded minusSet:set];
     
     if (_clusterableAnnotationsAdded.count != previousCount) {
-        [self setAnnotations:_clusterableAnnotationsAdded];
+        [self setClusterableAnnotations:_clusterableAnnotationsAdded];
     }
     
     [super removeAnnotations:annotations];
@@ -402,7 +402,7 @@ NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
         if (_annotationsToBeSet) {
             NSSet *annotations = _annotationsToBeSet;
             _annotationsToBeSet = nil;
-            [self setAnnotations:annotations];
+            [self setClusterableAnnotations:annotations];
         }
     }];
 }

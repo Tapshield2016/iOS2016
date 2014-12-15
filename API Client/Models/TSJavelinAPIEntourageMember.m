@@ -330,7 +330,9 @@
         }
     }
     
-    CFRelease(addressBook);
+    if (addressBook) {
+        CFRelease(addressBook);
+    }
 }
 
 - (BOOL)isEqual:(id)object {

@@ -460,4 +460,34 @@
     }
 }
 
+
++ (NSString *)formattedAddressSecondLine:(NSDictionary *)addressDictionary {
+    
+    NSString *formatted;
+    
+    NSString *city = addressDictionary[(__bridge NSString *)kABPersonAddressCityKey];
+    if (city.length) {
+        formatted = city;
+    }
+    
+    NSString *state = addressDictionary[(__bridge NSString *)kABPersonAddressStateKey];
+    if (state.length && formatted) {
+        formatted = [NSString stringWithFormat:@"%@, %@", formatted, state];
+    }
+    else if (state.length) {
+        formatted = state;
+    }
+    
+    NSString *zip = addressDictionary[(__bridge NSString *)kABPersonAddressZIPKey];
+    
+    if (zip.length && formatted) {
+        formatted = [NSString stringWithFormat:@"%@ %@", formatted, zip];
+    }
+    else if (zip.length) {
+        formatted = zip;
+    }
+    
+    return formatted;
+}
+
 @end

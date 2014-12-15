@@ -19,9 +19,15 @@
 
 @implementation TSBaseViewController
 
+
 - (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated {
     
-    [self viewWillDisappear:animated];
+    return [self presentViewControllerWithClass:viewControllerClass transitionDelegate:delegate animated:animated navigationBarHidden:YES];
+}
+
+- (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated navigationBarHidden:(BOOL)navBarHidden {
+    
+    [self beginAppearanceTransition:NO animated:YES];
     
     UIViewController *viewController = [[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([viewControllerClass class])];
     
@@ -29,14 +35,17 @@
     [navigationViewController setNavigationBarHidden:animated];
     navigationViewController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
     
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:navBarHidden animated:animated];
+    
     [self.navigationController setToolbarHidden:YES animated:animated];
     
     if (delegate) {
         [navigationViewController setTransitioningDelegate:delegate];
         navigationViewController.modalPresentationStyle = UIModalPresentationCustom;
     }
-    [self presentViewController:navigationViewController animated:animated completion:nil];
+    [self presentViewController:navigationViewController animated:animated completion:^{
+        [self endAppearanceTransition];
+    }];
     
     return viewController;
 }

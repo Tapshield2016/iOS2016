@@ -75,7 +75,7 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refresh)
+                                             selector:@selector(didLogin:)
                                                  name:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -143,10 +143,19 @@
     
     [_kvoController observe:[TSJavelinAPIClient loggedInUser] keyPath:@"usersWhoAddedUser" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSJavelinAPIUser *loggedInUser, NSDictionary *change) {
             weakSelf.whoAddedUser = loggedInUser.usersWhoAddedUser;
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [weakSelf reloadTableView];
-        }];
+        [weakSelf reloadTableViewOnMainThread];
     }];
+    
+    [_kvoController observe:[TSJavelinAPIClient loggedInUser] keyPath:@"phoneNumberVerified" options:NSKeyValueObservingOptionNew block:^(TSEntourageContactsTableViewController *weakSelf, TSJavelinAPIUser *loggedInUser, NSDictionary *change) {
+        [weakSelf reloadTableViewOnMainThread];
+        [self refresh];
+    }];
+}
+
+- (void)didLogin:(NSNotification *)notification {
+    
+    [self monitorEntourageSessions];
+    [self refresh];
 }
 
 - (void)refresh {
@@ -227,26 +236,10 @@
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
         
         if (error) {
-            NSLog(@"error");
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Error"
-                                            message:@"Failed requesting access to contacts"
-                                           delegate:nil
-                                  cancelButtonTitle:@"Ok"
-                                  otherButtonTitles:nil] show];
-            });
             return;
         }
         
         if (!granted) {
-            NSLog(@"Denied access");
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
-                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
-                                           delegate:nil
-                                  cancelButtonTitle:@"Ok"
-                                  otherButtonTitles:nil] show];
-            });
             return;
         }
         

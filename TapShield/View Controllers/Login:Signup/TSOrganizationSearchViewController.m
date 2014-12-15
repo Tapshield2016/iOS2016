@@ -50,6 +50,9 @@
     [self customizeTableView:_tableView];
     [self customizeSearchBarAppearance:self.searchController.searchBar];
     
+    _tableView.separatorInset = UIEdgeInsetsZero;
+    _tableView.layoutMargins = UIEdgeInsetsZero;
+    
     [self.navigationItem.rightBarButtonItem setEnabled:NO];
 }
 
@@ -322,7 +325,7 @@
 
 - (IBAction)dismissRegistration:(id)sender {
     
-    [[TSUserSessionManager sharedManager] dismissWindow:nil];
+    [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
 }
 
 

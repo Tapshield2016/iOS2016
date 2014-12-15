@@ -16,6 +16,8 @@
 #import "TSStartAnnotation.h"
 #import "TSAlertAnnotation.h"
 #import "CLLocation+Utilities.h"
+#import "NSDate+Utilities.h"
+#import "TSNotifySelectionViewController.h"
 
 #define WALKING_RADIUS_MIN 25
 #define DRIVING_RADIUS_MIN 50
@@ -54,9 +56,12 @@ NSString * const TSEntourageSessionManagerTimerDidEnd = @"TSEntourageSessionMana
 @property (strong, nonatomic) NSArray *entourageMemberOverlays;
 @property (strong, nonatomic) NSArray *entourageMemberStartEndAnnotations;
 
+@property (nonatomic, strong) UIButton *timeButton;
 
 @property (strong, nonatomic) NSTimer *clockTimer;
+
 @property (strong, nonatomic) TSBaseLabel *timerLabel;
+@property (strong, nonatomic) TSBaseLabel *etaLabel;
 @property (assign, nonatomic) NSUInteger changeAlpha;
 
 @end
@@ -104,17 +109,28 @@ static dispatch_once_t predicate;
     
     _homeView = homeView;
     
-    [self refreshEntourageMemberOverlaysAndAnnotations];
+    _showEntourageAnnotationsAndOverlays = YES;
+    [self hardRefreshMap];
 }
 
 - (void)resumePreviousEntourage {
     
     TSJavelinAPIEntourageSession *session = [TSJavelinAPIClient loggedInUser].entourageSession;
     if (session) {
+        if (session.eta.isInPast) {
+            if (session.eta.timeIntervalUntilNow > 1800) {
+                [[TSJavelinAPIClient sharedClient] cancelEntourageSession:nil];
+                return;
+            }
+        }
         _routeManager.selectedRoute = session.route;
         _routeManager.destinationMapItem = session.endLocation.mapItem;
         _routeManager.destinationTransportType = session.transportType;
         [self trackingSession:session];
+        
+        if (!_routeManager.selectedRoute) {
+            [_routeManager getAndShowBestRoute];
+        }
     }
 }
 
@@ -208,6 +224,10 @@ static dispatch_once_t predicate;
 
 - (void)checkRegion:(CLLocation *)userLocation  {
     
+    if (!userLocation) {
+        return;
+    }
+    
     BOOL contains = NO;
     
     for (CLCircularRegion *region in [_endRegions copy]) {
@@ -253,7 +273,7 @@ static dispatch_once_t predicate;
 - (void)manuallyEndTracking {
     
     CLLocationDistance distance = [[TSLocationController sharedLocationController].location distanceFromLocation:_routeManager.destinationMapItem.placemark.location] ;
-    if (distance <= 300) {
+    if (distance <= 300 && [TSLocationController sharedLocationController].location) {
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"You are %@ from your destination", [TSUtilities formattedStringForDistanceInUSStandard:distance]]
                                                                                  message:@"Would you like notify entourage members of your arrival?"
@@ -277,23 +297,19 @@ static dispatch_once_t predicate;
 
 - (void)stopEntourage {
     
-    if (!_isEnabled) {
-        return;
-    }
-    
     _isEnabled = NO;
     [_homeView clearEntourageMap];
+    
     [self resetEndTimer];
-    [self stopStatusBartTimer];
+//    [self stopStatusBartTimer];
+    [self stopNavBarTimer];
+    [self hideETAButton];
+    
     [_routeManager removeRouteOverlaysAndAnnotations];
     [_routeManager removeCurrentDestinationAnnotation];
 }
 
 - (void)stopEntourageCancelled {
-    
-    if (!_isEnabled) {
-        return;
-    }
     
     [self stopEntourage];
     [[TSJavelinAPIClient sharedClient] cancelEntourageSession:nil];
@@ -320,10 +336,53 @@ static dispatch_once_t predicate;
 - (void)stopEntourageNonArrival {
     
     [self stopEntourage];
+    [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+    [[TSJavelinAPIClient sharedClient].authenticationManager archiveLoggedInUser];
 }
 
 
 #pragma mark - Timer
+
+- (void)showETAButtonOnHomeView {
+    
+    _homeView.showLogoInNavBar = NO;
+    
+    _timeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_timeButton addTarget:_homeView action:@selector(showTimeAdjustViewController) forControlEvents:UIControlEventTouchUpInside];
+    _timeButton.titleLabel.font = [UIFont fontWithName:kFontWeightThin size:28];
+    [_timeButton setTitleColor:[TSColorPalette tapshieldBlue] forState:UIControlStateNormal];
+    [_timeButton setTitleColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [_homeView.navigationItem setTitleView:_timeButton];
+}
+
+
+- (void)hideETAButton {
+    
+    [_timeButton removeFromSuperview];
+    _timeButton = nil;
+    _homeView.showLogoInNavBar = YES;
+}
+
+- (void)timeAdjusted {
+    
+    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
+    
+    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
+    
+    [_timeButton setTitle:[TSUtilities formattedStringForTime:time] forState:UIControlStateNormal];
+    
+    if (time < 60) {
+        [_timeButton setTitleColor:[TSColorPalette alertRed] forState:UIControlStateNormal];
+        [_timeButton setTitleColor:[[TSColorPalette alertRed] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    }
+    else {
+        [_timeButton setTitleColor:[TSColorPalette tapshieldBlue] forState:UIControlStateNormal];
+        [_timeButton setTitleColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    }
+    
+    [_timeButton sizeToFit];
+    [_timeButton setNeedsDisplay];
+}
 
 - (void)resetTimerWithTimeInterval:(NSTimeInterval)interval {
     
@@ -339,7 +398,9 @@ static dispatch_once_t predicate;
     [[NSRunLoop currentRunLoop] addTimer:_endTimer forMode:NSRunLoopCommonModes];
     [self scheduleLocalNotifications];
     [self setNextTimer];
-    [self startStatusBarTimer];
+//    [self startStatusBarTimer];
+    [self startNavBarTimer];
+    [self showETAButtonOnHomeView];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TSEntourageSessionManagerTimerDidStart object:[NSDate dateWithTimeIntervalSinceNow:interval]];
 }
@@ -504,6 +565,34 @@ static dispatch_once_t predicate;
 
 
 #pragma mark - Entourage Member Sessions
+
+- (void)setShowEntourageAnnotationsAndOverlays:(BOOL)showEntourageAnnotationsAndOverlays {
+    
+    if (showEntourageAnnotationsAndOverlays == _showEntourageAnnotationsAndOverlays) {
+        return;
+    }
+    
+    _showEntourageAnnotationsAndOverlays = showEntourageAnnotationsAndOverlays;
+    
+    if (showEntourageAnnotationsAndOverlays) {
+        [_homeView.mapView addAnnotations:_entourageMemberAnnotations.allValues];
+        [_homeView.mapView addOverlays:_entourageMemberOverlays];
+    }
+    else {
+        [_homeView.mapView removeAnnotations:_entourageMemberAnnotations.allValues];
+        [_homeView.mapView removeAnnotations:_entourageMemberStartEndAnnotations];
+        [_homeView.mapView removeOverlays:_entourageMemberOverlays];
+    }
+}
+
+- (void)hardRefreshMap {
+    [_homeView.mapView removeAnnotations:_entourageMemberAnnotations.allValues];
+    [_homeView.mapView removeAnnotations:_entourageMemberStartEndAnnotations];
+    [_homeView.mapView removeOverlays:_entourageMemberOverlays];
+    [_homeView.mapView addAnnotations:_entourageMemberAnnotations.allValues];
+    [_homeView.mapView addOverlays:_entourageMemberOverlays];
+}
+
 
 - (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion {
     
@@ -739,7 +828,10 @@ static dispatch_once_t predicate;
                 [_entourageMemberAnnotations setObject:annotation forKey:member.matchedUser.url];
                 
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [_homeView.mapView addAnnotation:annotation];
+                    
+                    if (_showEntourageAnnotationsAndOverlays) {
+                        [_homeView.mapView addAnnotation:annotation];
+                    }
                 }];
             }
         }
@@ -774,96 +866,121 @@ static dispatch_once_t predicate;
     
     _entourageMemberOverlays = [NSArray arrayWithArray:mutableArray];
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_homeView.mapView addOverlays:_entourageMemberOverlays level:MKOverlayLevelAboveRoads];
+        
+        if (_showEntourageAnnotationsAndOverlays) {
+            [_homeView.mapView addOverlays:_entourageMemberOverlays level:MKOverlayLevelAboveRoads];
+        }
     }];
 }
 
 
 #pragma mark - Entourage Timer
 
-- (void)startStatusBarTimer {
+
+- (void)startNavBarTimer {
     
+    [self stopNavBarTimer];
     if (!_clockTimer) {
-        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:0.2
+        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                        target:self
-                                                     selector:@selector(startStatusBarTimer)
+                                                     selector:@selector(timeAdjusted)
                                                      userInfo:nil
                                                       repeats:YES];
-        _clockTimer.tolerance = 0.2;
+        _clockTimer.tolerance = 0.1;
         [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
     }
-    
-    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
-    
-    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
-    
-    if (!_timerLabel.superview) {
-        _changeAlpha = 0;
-        UIView *statusBar = [TSAppDelegate statusBar];
-        _timerLabel = [[TSBaseLabel alloc] init];
-        _timerLabel.backgroundColor = [TSColorPalette clearColor];
-        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
-        _timerLabel.frame = statusBar.bounds;
-        _timerLabel.textAlignment = NSTextAlignmentCenter;
-        _timerLabel.font = [UIFont fontWithName:kFontWeightSemiBold size:12];
-        [statusBar addSubview:_timerLabel];
-    }
-    
-    if (time < 60) {
-        _timerLabel.textColor = [TSColorPalette alertRed];
-    }
-    else {
-        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
-    }
-    
-    _timerLabel.text = [NSString stringWithFormat:@"%@ ETA", [TSUtilities formattedStringForTime:time]];
-    
-    NSInteger intervalChange = 25;
-    if (_changeAlpha > intervalChange || time <= 60) {
-        [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:0.0];
-        _timerLabel.alpha = 1.0;
-        if (_changeAlpha == intervalChange*2) {
-            _changeAlpha = 0;
-        }
-    }
-    else {
-        [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:1.0];
-        _timerLabel.alpha = 0.0;
-    }
-    
-    _changeAlpha++;
 }
 
-- (BOOL)setTimeViewOnStatusBar:(UIView *)view alpha:(float)alpha {
-    
-    CGRect frame = CGRectMake(125, 0, 70, 20);
-    
-    for (UIView *subview in view.subviews) {
-        if (CGRectContainsRect(frame, subview.frame)) {
-            subview.alpha = alpha;
-            [subview setHidden:!alpha];
-            return YES;
-        }
-        else {
-            if ([self setTimeViewOnStatusBar:subview alpha:alpha]) {
-                return YES;
-            }
-        }
-    }
-    return NO;
-}
-
-
-- (void)stopStatusBartTimer {
+- (void)stopNavBarTimer {
     
     [_clockTimer invalidate];
     _clockTimer = nil;
-    
-    [_timerLabel removeFromSuperview];
-    _timerLabel = nil;
-    
-    [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:1.0];
 }
+
+
+//- (void)startStatusBarTimer {
+//    
+//    if (!_clockTimer) {
+//        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:0.2
+//                                                       target:self
+//                                                     selector:@selector(startStatusBarTimer)
+//                                                     userInfo:nil
+//                                                      repeats:YES];
+//        _clockTimer.tolerance = 0.2;
+//        [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
+//    }
+//    
+//    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
+//    
+//    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
+//    
+//    if (!_timerLabel.superview) {
+//        _changeAlpha = 0;
+//        UIView *statusBar = [TSAppDelegate statusBar];
+//        _timerLabel = [[TSBaseLabel alloc] init];
+//        _timerLabel.backgroundColor = [TSColorPalette clearColor];
+//        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
+//        _timerLabel.frame = statusBar.bounds;
+//        _timerLabel.textAlignment = NSTextAlignmentCenter;
+//        _timerLabel.font = [UIFont fontWithName:kFontWeightSemiBold size:12];
+//        [statusBar addSubview:_timerLabel];
+//    }
+//    
+//    if (time < 60) {
+//        _timerLabel.textColor = [TSColorPalette alertRed];
+//    }
+//    else {
+//        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
+//    }
+//    
+//    _timerLabel.text = [NSString stringWithFormat:@"%@ ETA", [TSUtilities formattedStringForTime:time]];
+//    
+//    NSInteger intervalChange = 25;
+//    if (_changeAlpha > intervalChange || time <= 60) {
+//        [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:0.0];
+//        _timerLabel.alpha = 1.0;
+//        if (_changeAlpha == intervalChange*2) {
+//            _changeAlpha = 0;
+//        }
+//    }
+//    else {
+//        [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:1.0];
+//        _timerLabel.alpha = 0.0;
+//    }
+//    
+//    _changeAlpha++;
+//}
+//
+//- (BOOL)setTimeViewOnStatusBar:(UIView *)view alpha:(float)alpha {
+//    
+//    CGRect frame = CGRectMake(125, 0, 70, 20);
+//    
+//    for (UIView *subview in view.subviews) {
+//        if (CGRectContainsRect(frame, subview.frame)) {
+//            subview.alpha = alpha;
+//            [subview setHidden:!alpha];
+//            return YES;
+//        }
+//        else {
+//            if ([self setTimeViewOnStatusBar:subview alpha:alpha]) {
+//                return YES;
+//            }
+//        }
+//    }
+//    return NO;
+//}
+
+
+//- (void)stopStatusBarTimer {
+//    
+//    [_clockTimer invalidate];
+//    _clockTimer = nil;
+//    
+//    [_timerLabel removeFromSuperview];
+//    _timerLabel = nil;
+//    
+//    [self setTimeViewOnStatusBar:[TSAppDelegate statusBar] alpha:1.0];
+//}
 
 #pragma mark - Entourage User Notifications
 

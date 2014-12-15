@@ -189,6 +189,10 @@
         _apiToken = [attributes nonNullObjectForKey:@"token"];
     }
     
+    if (!_entourageSession.url && [attributes nonNullObjectForKey:@"entourage_session"]) {
+        _entourageSession = [[TSJavelinAPIEntourageSession alloc] initWithAttributes:[attributes nonNullObjectForKey:@"entourage_session"]];
+    }
+    
     return self;
 }
 

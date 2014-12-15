@@ -355,7 +355,7 @@
     if (!_statusView) {
         CGRect statusFrame = self.view.bounds;
         statusFrame.origin.y = self.view.frame.size.height-1;
-        statusFrame.size.height = 35;
+        statusFrame.size.height = 40;
         _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
         
         [self.view insertSubview:_statusView belowSubview:_animatedView];

@@ -658,5 +658,10 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     return dateString;
 }
 
+- (NSTimeInterval)timeIntervalUntilNow {
+    
+    return [[NSDate date] timeIntervalSinceDate:self];
+}
+
 
 @end

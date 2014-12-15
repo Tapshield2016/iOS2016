@@ -29,7 +29,7 @@
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
 
 + (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem;
-
++ (NSString *)formattedAddressSecondLine:(NSDictionary *)addressDictionary;
 
 
 //video

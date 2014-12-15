@@ -866,6 +866,10 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
         return;
     }
     
+    if (![TSJavelinAPIClient loggedInUser].phoneNumberVerified) {
+        return;
+    }
+    
     NSDictionary *params;
 //    if (date) {
 //        params = @{@"modified_since": date.iso8601String};
@@ -1230,6 +1234,8 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     
     if (![TSJavelinAPIClient loggedInUser].entourageSession.url) {
         NSLog(@"Entourage session needs url");
+        [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
         if (completion) {
             completion(NO);
         }

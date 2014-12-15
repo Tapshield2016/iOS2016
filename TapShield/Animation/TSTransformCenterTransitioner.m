@@ -68,7 +68,7 @@
     
     CGAffineTransform presentedTransform = CGAffineTransformIdentity;
     CGAffineTransform entryTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
-    CGAffineTransform dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(1.5, 1.5), CGAffineTransformMakeRotation(8 * M_PI));
+    CGAffineTransform dismissedTransform = entryTransform;
     
     [animatingView setTransform:isPresentation ? entryTransform : presentedTransform];
     

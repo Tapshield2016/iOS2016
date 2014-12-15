@@ -15,12 +15,10 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        
-//        self.textView.font = [TSFont customFontFromStandardFont:self.textView.font];
         self.textView.textColor = [TSColorPalette listCellTextColor];
-        
-        self.timestampLabel.textColor = [TSColorPalette listCellDetailsTextColor];
+        self.timestampLabel.textColor = [TSColorPalette tapshieldDarkBlue];
         self.backgroundColor = [TSColorPalette cellBackgroundColor];
+        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

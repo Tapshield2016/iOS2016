@@ -37,6 +37,7 @@
 #import "TSStartAnnotation.h"
 #import "TSAlertAnnotation.h"
 #import "TSAlertAnnotationView.h"
+#import "CLLocation+Utilities.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -49,7 +50,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
 @property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
-@property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
 @property (strong, nonatomic) FBKVOController *mapKVOController;
 @property (strong, nonatomic) FBKVOController *notificationCountKVOController;
 @property (nonatomic) BOOL viewDidAppear;
@@ -149,7 +149,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self monitorNewEntourageNotificationsCount];
 //    [self initMapBoxOverlays];
     
-    [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
+    if (![TSEntourageSessionManager sharedManager].isEnabled) {
+        [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -167,6 +170,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _firstMapLoad = NO;
         [_mapView setRegionAtAppearanceAnimated:self.firstAppear];
     }
+    
+    [TSEntourageSessionManager sharedManager].showEntourageAnnotationsAndOverlays = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -247,6 +252,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             [[TSReportAnnotationManager sharedManager] performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
             [strongSelf addUserLocationAnnotation:location];
             [strongSelf geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
+            [strongSelf locationDidUpdate:location];
         }];
     }
 }
@@ -403,27 +409,30 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [self showOnlyMap];
     [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
+    [[TSEntourageSessionManager sharedManager] closeDrawer];
 }
 
 - (IBAction)openEntourage:(id)sender {
     
     [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
-    [[TSEntourageSessionManager sharedManager] stopStatusBartTimer];
+//    [[TSEntourageSessionManager sharedManager] stopStatusBarTimer];
     
     if (!_topDownTransitioningDelegate) {
         _topDownTransitioningDelegate = [[TSTopDownTransitioningDelegate alloc] init];
     }
     
     if (![TSEntourageSessionManager sharedManager].isEnabled) {
+        
+        [TSEntourageSessionManager sharedManager].showEntourageAnnotationsAndOverlays = NO;
+        
         TSRoutePickerViewController *viewController = (TSRoutePickerViewController *)[self presentViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
         
         [self showOnlyMap];
     }
     else {
-        
-        TSNotifySelectionViewController *viewController = (TSNotifySelectionViewController *)[self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
-        viewController.homeViewController = self;
+        [self setIsTrackingUser:NO animateToUser:NO];
+        [[TSEntourageSessionManager sharedManager].routeManager showActiveEntourageSession];
     }
 }
 
@@ -613,19 +622,23 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             
-            [_mapView.userLocationAnnotationView.layer removeAllAnimations];
-            [_mapView.animatedOverlay.layer removeAllAnimations];
-            [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
-                if (_viewDidAppear) {
+            if (_viewDidAppear) {
+                [_mapView.userLocationAnnotationView.layer removeAllAnimations];
+                [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
                     [_mapView resetAnimatedOverlayAt:location];
-                }
+                    _mapView.userLocationAnnotation.coordinate = location.coordinate;
+                    
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        [_mapView updateAccuracyCircleWithLocation:location];
+                    }
+                }];
+            }
+            else {
+                [_mapView resetAnimatedOverlayAt:location];
                 _mapView.userLocationAnnotation.coordinate = location.coordinate;
-                
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [_mapView updateAccuracyCircleWithLocation:location];
-                }
-            }];
+                [_mapView updateAccuracyCircleWithLocation:location];
+            }
         }];
         
         
@@ -960,6 +973,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
     
+    if (_mapView.camera.altitude < 330) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
     if (_viewDidAppear) {
         [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
     }
@@ -986,7 +1006,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
     }
-    
     
     MKCoordinateSpan span = mapView.region.span;
     
@@ -1071,6 +1090,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         view.alpha = [(TSSpotCrimeAnnotationView *)view alphaForReportDate];
     }
+    
+    if ([view isKindOfClass:[TSDestinationAnnotationView class]]) {
+        if ([(TSSelectedDestinationAnnotation *)view.annotation shouldStaySelected]) {
+            [_mapView selectAnnotation:view.annotation animated:NO];
+        }
+    }
 }
 
 
@@ -1090,6 +1115,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         }
         
         [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)annotation from:self];
+    }
+    else if ([view isKindOfClass:[TSDestinationAnnotationView class]]) {
+        
     }
 }
 
@@ -1412,6 +1440,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 //{
 //    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //}
+
+- (void)showTimeAdjustViewController {
+    
+    [self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES navigationBarHidden:NO];
+}
 
 
 @end

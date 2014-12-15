@@ -34,6 +34,8 @@
         
         [self addSubview:self.logoImageView];
         [self addSubview:self.organizationLabel];
+        
+        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

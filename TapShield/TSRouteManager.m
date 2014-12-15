@@ -7,11 +7,13 @@
 //
 
 #import "TSRouteManager.h"
+#import "TSLocationController.h"
 
 @interface TSRouteManager ()
 
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) MKMapItem *tempMapItem;
+@property (nonatomic, strong) NSArray *routeOverlays;
 
 @end
 
@@ -23,6 +25,7 @@
     self = [super init];
     if (self) {
         self.mapView = mapView;
+        self.shouldCancel = NO;
     }
     return self;
 }
@@ -49,10 +52,16 @@
     
     _routeOptions = routeOptions;
     
-    [self creatRouteAnnotations];
+    if (routeOptions) {
+        [self creatRouteAnnotations];
+    }
 }
 
 - (void)creatRouteAnnotations {
+    
+    if (!_mapView.userLocationAnnotation || !_destinationAnnotation) {
+        return;
+    }
     
     NSMutableArray *annotationCoordinates = [[NSMutableArray alloc] initWithArray:@[_mapView.userLocationAnnotation, _destinationAnnotation]];
     
@@ -102,6 +111,8 @@
 
     _selectedRoute = selectedRoute;
     
+    _selectedTravelTime = _selectedRoute.expectedTravelTime;
+    
     _selectedRoute.routeTimeAnnotation.isSelected = YES;
 }
 
@@ -149,7 +160,9 @@
     if ([struckRoutes count] > 0) {
         // If only one route, just take that one
         if ([struckRoutes count] == 1) {
-            self.selectedRoute = (TSRouteOption *)struckRoutes[0];
+            if (_selectedRoute != (TSRouteOption *)struckRoutes[0]) {
+                self.selectedRoute = (TSRouteOption *)struckRoutes[0];
+            }
         }
         else {
             // If multiple overlapping routes, alternate if one is already selected
@@ -171,13 +184,21 @@
     }
 }
 
-- (void)addRouteOverlaysToMapViewAndAnnotations {
+- (void)addRouteOverlaysAndAnnotations {
     
     [self addRouteOverlaysToMapView];
     [self addRouteAnnotations];
 }
 
 - (void)addRouteAnnotations {
+    
+    if (_routeOptions.count <= 1) {
+        return;
+    }
+    
+    if (_shouldCancel) {
+        return;
+    }
     
     for (TSRouteOption *routeOption in _routeOptions) {
         
@@ -198,17 +219,63 @@
 
 - (void)addRouteOverlaysToMapView {
     
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:3];
+    
+    [self removeRouteOverlaysAndAnnotations];
+    
+    if (_shouldCancel) {
+        return;
+    }
+    
     for (TSRouteOption *routeOption in _routeOptions) {
         
         if (routeOption.route == _selectedRoute.route) {
             continue;
         }
         [_mapView addOverlay:routeOption.polyline level:MKOverlayLevelAboveRoads];
+        [mutableArray addObject:routeOption.polyline];
     }
     
     if (_selectedRoute.polyline) {
         [_mapView addOverlay:_selectedRoute.polyline level:MKOverlayLevelAboveRoads];
+        [mutableArray addObject:_selectedRoute.polyline];
     }
+    
+    _routeOverlays = mutableArray;
+}
+
+
+- (void)addOnlySelectedRouteOverlaysToMapView {
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:3];
+    
+    [self removeRouteOverlaysAndAnnotations];
+    
+    if (_shouldCancel) {
+        return;
+    }
+    
+    if (_selectedRoute.polyline) {
+        [_mapView addOverlay:_selectedRoute.polyline level:MKOverlayLevelAboveRoads];
+        [mutableArray addObject:_selectedRoute.polyline];
+    }
+    
+    _routeOverlays = mutableArray;
+}
+
+- (void)clearRouteAndMapData {
+    
+    [self removeRouteOverlaysAndAnnotations];
+    [self hideDestinationAnnotation];
+    
+    _destinationAnnotation = nil;
+    _destinationMapItem = nil;
+    _tempMapItem = nil;
+    _routes = nil;
+    _selectedRoute = nil;
+    _routeOptions = nil;
+    _routeOverlays = nil;
+    _routingAnnotations = nil;
 }
 
 - (void)removeRouteOverlaysAndAnnotations {
@@ -231,23 +298,13 @@
 }
 
 - (void)removeRouteOverlays{
-    NSMutableArray *overlays = [[NSMutableArray alloc] initWithCapacity:[_routes count]];
     
-    if (_routeOptions.count) {
-        for (TSRouteOption *routeOption in [NSArray arrayWithArray:_routeOptions]) {
-            [overlays addObject:routeOption.polyline];
-        }
-    }
-    else if (_selectedRoute.polyline) {
-        [overlays addObject:_selectedRoute.polyline];
-    }
-    
-    [_mapView removeOverlays:overlays];
+    [_mapView removeOverlays:_routeOverlays];
 }
 
 - (void)refreshOverlays {
     [self removeRouteOverlaysAndAnnotations];
-    [self addRouteOverlaysToMapViewAndAnnotations];
+    [self addRouteOverlaysAndAnnotations];
 }
 
 
@@ -259,7 +316,14 @@
     [self removeRouteOverlaysAndAnnotations];
     
     if (_selectedRoute.polyline) {
+        
+        [self removeRouteOverlaysAndAnnotations];
+        
+        if (_shouldCancel) {
+            return;
+        }
         [_mapView addOverlay:_selectedRoute.polyline level:MKOverlayLevelAboveRoads];
+        _routeOverlays = @[_selectedRoute.polyline];
     }
 }
 
@@ -275,7 +339,7 @@
 - (void)updateTempMapItemTransportType {
     
     if (_destinationTransportType != _destinationAnnotation.transportType) {
-        [self showTempDestinationAnnotation];
+        [self showTempDestinationAnnotationSelected:NO];
     }
 }
 
@@ -287,8 +351,10 @@
         _destinationAnnotation.coordinate = location.coordinate;
     }
     else {
-        [self showTempDestinationAnnotation];
+        [self showTempDestinationAnnotationSelected:YES];
     }
+    
+    _destinationAnnotation.title = [NSString stringWithFormat:@"%@", [TSUtilities formattedDescriptiveStringForDuration:_selectedRoute.expectedTravelTime]];
 }
 
 
@@ -298,28 +364,26 @@
 }
 
 
-- (void)showTempDestinationAnnotation {
+- (void)showTempDestinationAnnotationSelected:(BOOL)selected {
     
     if (_destinationAnnotation) {
         [_mapView removeAnnotation:_destinationAnnotation];
     }
     
-    _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_tempMapItem.placemark.location.coordinate
-                                                                                placeName:_tempMapItem.name
-                                                                              description:_tempMapItem.placemark.addressDictionary[@"Street"]
-                                                                               travelType:_destinationTransportType];
-    _destinationAnnotation.title = _destinationMapItem.name;
-    _destinationAnnotation.temp = YES;
+    if (_shouldCancel) {
+        return;
+    }
     
-    // Ensure we have a title so callout will always come up
-    if (!_destinationAnnotation.title || [_destinationAnnotation.title isEqualToString:@""]) {
-        _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
-    }
-    else {
-        _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[@"Street"];
-    }
+    _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_tempMapItem.placemark.location.coordinate
+                                                                                placeName:[NSString stringWithFormat:@"%@", [TSUtilities formattedDescriptiveStringForDuration:_selectedRoute.expectedTravelTime]]
+                                                                              description:nil
+                                                                               travelType:_destinationTransportType];
+    _destinationAnnotation.temp = YES;
     [_mapView addAnnotation:_destinationAnnotation];
-    [_mapView selectAnnotation:_destinationAnnotation animated:YES];
+    
+    if (selected) {
+        [self selectTempAnnotation];
+    }
 }
 
 
@@ -327,21 +391,25 @@
 - (void)showDestinationAnnotation {
     
     if (_destinationAnnotation) {
-        
+        [_mapView removeAnnotation:_destinationAnnotation];
     }
+    
+    if (_shouldCancel) {
+        return;
+    }
+    
     
     _destinationAnnotation = [[TSSelectedDestinationAnnotation alloc] initWithCoordinates:_destinationMapItem.placemark.location.coordinate
                                                                                 placeName:_destinationMapItem.name
-                                                                              description:_destinationMapItem.placemark.addressDictionary[@"Street"]
+                                                                              description:[TSUtilities formattedAddressSecondLine:_destinationMapItem.placemark.addressDictionary]
                                                                                travelType:_destinationTransportType];
-    _destinationAnnotation.title = _destinationMapItem.name;
     
     // Ensure we have a title so callout will always come up
     if (!_destinationAnnotation.title || [_destinationAnnotation.title isEqualToString:@""]) {
-        _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[@"Street"];
+        _destinationAnnotation.title = _destinationMapItem.placemark.addressDictionary[(__bridge NSString *)kABPersonAddressStreetKey];
     }
-    else {
-        _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[@"Street"];
+    else if (![_destinationAnnotation.title isEqualToString:_destinationMapItem.placemark.addressDictionary[(__bridge NSString *)kABPersonAddressStreetKey]]) {
+        _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[(__bridge NSString *)kABPersonAddressStreetKey];
     }
     [_mapView addAnnotation:_destinationAnnotation];
 }
@@ -374,50 +442,46 @@
 }
 
 - (void)centerMapOnSelectedDestination {
+    
     [_mapView showAnnotations:@[_destinationAnnotation] animated:NO];
+    [_mapView setCenterCoordinate:_destinationMapItem.placemark.coordinate animated:NO];
 }
 
 - (void)selectDestinationAnnotation {
     [_mapView selectAnnotation:_destinationAnnotation animated:YES];
 }
 
-
-- (void)showTempDestinationAndRoute {
-    
-    [self getRoutesForDestination:^(TSRouteOption *bestRoute, NSError *error) {
-        
-    }];
-}
-
 - (void)calculateETAForSelectedDestination:(void (^)(NSTimeInterval expectedTravelTime))completion {
     
-    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-    [request setSource:[MKMapItem mapItemForCurrentLocation]];
-    [request setDestination:_destinationMapItem];
-    [request setTransportType:_destinationTransportType];
-    [request setRequestsAlternateRoutes:YES];
-    
-    if (_directions.isCalculating) {
-        [_directions cancel];
-    }
-    
-    _directions = [[MKDirections alloc] initWithRequest:request];
-    [_directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+    __weak __typeof(self)weakSelf = self;
+    [[TSLocationController sharedLocationController] startStandardLocationUpdates:^(CLLocation *location) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+        [request setSource:[MKMapItem mapItemForCurrentLocation]];
+        [request setDestination:strongSelf.destinationMapItem];
+        [request setTransportType:strongSelf.destinationTransportType];
+        [request setRequestsAlternateRoutes:YES];
         
-        if (!error) {
-            NSLog(@"%@", response);
-            completion(response.expectedTravelTime);
+        if (strongSelf.directions.isCalculating) {
+            [strongSelf.directions cancel];
         }
-        else {
-            NSLog(@"%@", error);
-            // May have gotten an error due to attempting walking directions over too far
-            // a distance, retry with 'Any'.
-            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _destinationTransportType == MKDirectionsTransportTypeWalking) {
-                NSLog(@"Error with walking directions, trying again with 'Any'");
-                _destinationTransportType = MKDirectionsTransportTypeAny;
-                [self calculateETAForSelectedDestination:completion];
+        
+        strongSelf.directions = [[MKDirections alloc] initWithRequest:request];
+        [strongSelf.directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+            
+            if (!error) {
+                completion(response.expectedTravelTime);
             }
-        }
+            else {
+                // May have gotten an error due to attempting walking directions over too far
+                // a distance, retry with 'Any'.
+                if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && strongSelf.destinationTransportType == MKDirectionsTransportTypeWalking) {
+                    strongSelf.destinationTransportType = MKDirectionsTransportTypeAny;
+                    [strongSelf calculateETAForSelectedDestination:completion];
+                }
+            }
+        }];
+        
     }];
 }
 
@@ -460,7 +524,59 @@
     }];
 }
 
-- (void)showAnnotationsWithPadding:(NSArray *)annotations {
+- (void)getAndShowBestRoute {
+    
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    [request setSource:[MKMapItem mapItemForCurrentLocation]];
+    [request setDestination:_destinationMapItem];
+    [request setTransportType:_destinationTransportType];
+    [request setRequestsAlternateRoutes:NO];
+    
+    if (_directions.isCalculating) {
+        [_directions cancel];
+    }
+    
+    _directions = [[MKDirections alloc] initWithRequest:request];
+    [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        
+        if (!error && response.routes.count) {
+            self.routes = response.routes;
+            self.selectedRoute = [self.routeOptions firstObject];
+            [self addOnlySelectedRouteOverlaysToMapView];
+        }
+        else {
+            NSLog(@"%@", error);
+            // May have gotten an error due to attempting walking directions over too far
+            // a distance, retry with 'Any'.
+            if ((error.code == MKErrorPlacemarkNotFound || error.code == MKErrorDirectionsNotFound) && _destinationTransportType == MKDirectionsTransportTypeWalking) {
+                NSLog(@"Error with walking directions, trying again with 'Any'");
+                _destinationTransportType = MKDirectionsTransportTypeAny;
+            }
+        }
+    }];
+}
+
+- (void)showAllRouteAnnotations {
+    
+    [self showDestinationAnnotation];
+    [self showWithPaddingAnnotations:_routingAnnotations overlays:_routeOptions];
+}
+
+- (void)showActiveEntourageSession {
+    
+    if (!_mapView.userLocationAnnotation || !_destinationAnnotation) {
+        return;
+    }
+    
+    NSArray *overlays;
+    if (_selectedRoute) {
+        overlays = @[_selectedRoute];
+    }
+    
+    [self showWithBottomMapButtonPaddingAnnotations:@[_mapView.userLocationAnnotation, _destinationAnnotation] overlays:overlays];
+}
+
+- (void)showWithPaddingAnnotations:(NSArray *)annotations overlays:(NSArray *)overlays {
     
     MKMapRect zoomRect = MKMapRectNull;
     for (id <MKAnnotation> annotation in annotations) {
@@ -468,9 +584,30 @@
         MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
         zoomRect = MKMapRectUnion(zoomRect, pointRect);
     }
+    
+    for (TSRouteOption *option in overlays) {
+        zoomRect = MKMapRectUnion(zoomRect, option.polyline.boundingMapRect);
+    }
+    
     [_mapView setVisibleMapRect:zoomRect edgePadding:UIEdgeInsetsMake(130, 60, 30, 60) animated:YES];
 }
 
+
+- (void)showWithBottomMapButtonPaddingAnnotations:(NSArray *)annotations overlays:(NSArray *)overlays {
+    
+    MKMapRect zoomRect = MKMapRectNull;
+    for (id <MKAnnotation> annotation in annotations) {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
+        zoomRect = MKMapRectUnion(zoomRect, pointRect);
+    }
+    
+    for (TSRouteOption *option in overlays) {
+        zoomRect = MKMapRectUnion(zoomRect, option.polyline.boundingMapRect);
+    }
+    
+    [_mapView setVisibleMapRect:zoomRect edgePadding:UIEdgeInsetsMake(130, 60, 120, 60) animated:YES];
+}
 
 
 - (void)getRoutesForDestination:(void (^)(TSRouteOption *bestRoute, NSError *error))completion {
@@ -487,19 +624,21 @@
         [_directions cancel];
     }
     
-    _selectedRoute = nil;
     [self removeRouteOverlaysAndAnnotations];
     [self hideDestinationAnnotation];
+    _selectedRoute = nil;
+    self.routes = nil;
     
     _directions = [[MKDirections alloc] initWithRequest:request];
     [_directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         if (!error) {
-            [self showTempDestinationAnnotation];
+            [self showTempDestinationAnnotationSelected:YES];
             self.routes = response.routes;
             self.selectedRoute = [self.routeOptions firstObject];
-            [self addRouteOverlaysToMapViewAndAnnotations];
+            _destinationAnnotation.title = [NSString stringWithFormat:@"%@", [TSUtilities formattedDescriptiveStringForDuration:_selectedRoute.expectedTravelTime]];
+            [self addOnlySelectedRouteOverlaysToMapView];
             
             if (completion) {
                 completion(_selectedRoute, nil);
@@ -516,6 +655,22 @@
 - (void)cancelSearch {
     
     [_directions cancel];
+}
+
+
+- (void)selectTempAnnotation {
+    
+    [_mapView.userLocationAnnotationView setEnabled:NO];
+    self.destinationAnnotation.shouldStaySelected = YES;
+    [_mapView selectAnnotation:self.destinationAnnotation animated:YES];
+}
+
+
+- (void)deselectTempAnnotation {
+    
+    [_mapView.userLocationAnnotationView setEnabled:YES];
+    self.destinationAnnotation.shouldStaySelected = NO;
+    [_mapView deselectAnnotation:self.destinationAnnotation animated:YES];
 }
 
 @end

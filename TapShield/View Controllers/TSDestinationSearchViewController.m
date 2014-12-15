@@ -14,11 +14,7 @@
 
 #define CELL_HEIGHT 50
 
-#define TUTORIAL_TITLE @"Choose a destination"
-#define TUTORIAL_MESSAGE @"You can search for a place or select a saved location."
-
 static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
-static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchTutorialShow";
 
 @interface TSDestinationSearchViewController ()
 
@@ -68,7 +64,6 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     [super viewWillAppear:animated];
     
     if (!self.firstAppear) {
-        [self showTutorial];
         self.tableViewTopLayout.constant = self.view.frame.size.height*2;
         self.tableViewBottomLayout.constant = -self.view.frame.size.height*2;
         self.firstAppear = YES;
@@ -97,18 +92,6 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)showTutorial {
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:TSDestinationSearchTutorialShow]) {
-        return;
-    }
-    
-    _tutorialWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSDestinationSearchTutorialShow
-                                                              title:TUTORIAL_TITLE
-                                                            message:TUTORIAL_MESSAGE];
-    [_tutorialWindow show];
 }
 
 #pragma mark - Saved MapItems
@@ -179,10 +162,10 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     
     [self dismissalAnimation];
     
+    UINavigationController *nav = (UINavigationController *)self.presentingViewController;
+    [[nav.viewControllers firstObject] beginAppearanceTransition:YES animated:YES];
     [self dismissViewControllerAnimated:YES completion:^{
-        [_homeViewController viewWillAppear:NO];
-        [_homeViewController viewDidAppear:NO];
-        [[TSEntourageSessionManager sharedManager] stopEntourage];
+        [[nav.viewControllers firstObject] endAppearanceTransition];
     }];
 }
 
@@ -204,106 +187,6 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
         [self presentViewController:picker animated:YES completion:nil];
         self.navigationItem.rightBarButtonItem.enabled = YES;
     });
-    
-//    CFErrorRef *error = nil;
-//    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
-//    if (error) {
-//        NSLog(@"error");
-//        self.navigationItem.rightBarButtonItem.enabled = YES;
-//        return;
-//    }
-//    
-//    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
-//        
-//        if (error) {
-//            NSLog(@"error");
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.navigationItem.rightBarButtonItem.enabled = YES;
-//                
-//                [[[UIAlertView alloc] initWithTitle:@"Error"
-//                                            message:@"Failed requesting access to contacts"
-//                                           delegate:nil
-//                                  cancelButtonTitle:@"Ok"
-//                                  otherButtonTitles:nil] show];
-//            });
-//            return;
-//        }
-//        
-//        if (!granted) {
-//            NSLog(@"Denied access");
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.navigationItem.rightBarButtonItem.enabled = YES;
-//                
-//                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
-//                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
-//                                           delegate:nil
-//                                  cancelButtonTitle:@"Ok"
-//                                  otherButtonTitles:nil] show];
-//            });
-//            return;
-//        }
-//        
-//        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
-//        CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
-//        
-//        for( CFIndex index = 0; index < nPeople; index++ ) {
-//            ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
-//            ABMutableMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
-//            NSUInteger addressCount = ABMultiValueGetCount(addressRef);
-//            
-//            if (!addressCount) {
-//                CFErrorRef error = nil;
-//                ABAddressBookRemoveRecord(addressBook, person, &error);
-//                if (error) {
-//                    NSLog(@"Error: %@", error);
-//                }
-//            }
-//            else {
-//                ABMultiValueRef addressMultiValue = ABRecordCopyValue(person, kABPersonAddressProperty);
-//                NSDictionary *address = (__bridge_transfer NSDictionary *)ABMultiValueCopyValueAtIndex(addressMultiValue, 0);
-//                CFRelease(addressMultiValue);
-//                
-//                if (![address objectForKey:@"Street"]) {
-//                    CFErrorRef error = nil;
-//                    ABAddressBookRemoveRecord(addressBook, person, &error);
-//                    if (error) {
-//                        NSLog(@"Error: %@", error);
-//                    }
-//                }
-//            }
-//            
-//            CFRelease(addressRef);
-//        }
-//        
-//        nPeople = ABAddressBookGetPersonCount( addressBook );
-//        
-//        CFRelease(allPeople);
-//        
-//        if (nPeople == 0) {
-//            NSLog(@"No contacts with street addresses");
-//            CFRelease(addressBook);
-//            return;
-//        }
-    
-    
-        
-//    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-//    picker.predicateForEnablingPerson = [NSPredicate predicateWithFormat:@""];
-//    //        picker.addressBook = addressBook;
-//    picker.topViewController.navigationItem.title = @"Contacts";
-//    picker.navigationBar.topItem.prompt = @"Choose a saved address";
-//    picker.peoplePickerDelegate = self;
-//    picker.displayedProperties = @[@(kABPersonAddressProperty)];
-//    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        
-//        [self presentViewController:picker animated:YES completion:nil];
-//        
-//        //            CFRelease(addressBook);
-//        
-//        self.navigationItem.rightBarButtonItem.enabled = YES;
-//    });
-//    });
 }
 
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
@@ -458,11 +341,9 @@ static NSString * const TSDestinationSearchTutorialShow = @"TSDestinationSearchT
     
     [_searchBar resignFirstResponder];
     
-    _transitionDelegate = [[TSPushTransitionDelegate alloc] init];
-    
-    UIViewController *destinationViewController = [self pushViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_transitionDelegate navigationDelegate:_transitionDelegate animated:YES];
-    ((TSRoutePickerViewController *)destinationViewController).homeViewController = _homeViewController;
-    ((TSRoutePickerViewController *)destinationViewController).destinationMapItem = mapItem;
+    TSRoutePickerViewController *vc = [[(UINavigationController *)self.presentingViewController viewControllers] firstObject];
+    [vc searchSelectedMapItem:mapItem];
+    [self performSelector:@selector(dismissViewController:) withObject:nil];
 }
 
 #pragma mark - UITableViewDelegate methods

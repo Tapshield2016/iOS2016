@@ -21,8 +21,8 @@
 @interface TSMenuViewController ()
 
 @property (nonatomic, strong) NSString *currentPanelStoryBoardIdentifier;
-@property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
-@property (nonatomic, strong) NSMutableArray *viewControllerTitles;
+//@property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
+//@property (nonatomic, strong) NSMutableArray *viewControllerTitles;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, strong) UIWindow *mailWindow;
@@ -54,20 +54,20 @@
                                                  name:TSUserSessionManagerDidLogOut
                                                object:nil];
     
-
-    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
-                                                                    @"Home",
-                                                                    @"Mass Notifications",
-                                                                    @"Settings",
-                                                                    @"Help",
-                                                                    @"About", nil];
-
-    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects: @"TSProfileViewController",
-                                                                            @"TSHomeViewController",
-                                                                            @"TSMassNotificationsViewController",
-                                                                            @"TSSettingsViewController",
-                                                                            @"TSHelpViewController",
-                                                                            @"TSAboutViewController", nil];
+//
+//    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
+//                                                                    @"Home",
+//                                                                    @"Mass Notifications",
+//                                                                    @"Settings",
+//                                                                    @"Help",
+//                                                                    @"About", nil];
+//
+//    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects: @"TSProfileViewController",
+//                                                                            @"TSHomeViewController",
+//                                                                            @"TSMassNotificationsViewController",
+//                                                                            @"TSSettingsViewController",
+//                                                                            @"TSHelpViewController",
+//                                                                            @"TSAboutViewController", nil];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
@@ -189,7 +189,6 @@
 
 - (IBAction)showAbout:(id)sender {
     
-    [self.tableView reloadData];
     [self transitionToViewController:@"TSAboutViewController" animated:YES];
 }
 
@@ -313,13 +312,29 @@
         }
     }
     
+    if (!indexPath.row) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageFromColor:[[UIColor whiteColor] colorWithAlphaComponent:0.1]] forState:UIControlStateHighlighted];
+        [button addTarget:self action:@selector(showAbout:) forControlEvents:UIControlEventTouchUpInside];
+        button.frame = cell.bounds;
+        [cell addSubview:button];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == 0 || indexPath.row == 6) {
-        
-        return ([UIScreen mainScreen].bounds.size.height - MENU_CELL_SIZE * 5)/2;
+    float top = 64;
+    
+    if (!indexPath.row) {
+        return top;
+    }
+    
+    
+    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl.length) {
+        return ([UIScreen mainScreen].bounds.size.height - top)/5;
+    }
+    else {
+        return ([UIScreen mainScreen].bounds.size.height - top)/4;
     }
     
     return MENU_CELL_SIZE;

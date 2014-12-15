@@ -50,6 +50,8 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 @property (nonatomic, strong) TSEntourageSessionManagerPostCompletion finishedDeleting;
 
+@property (assign, nonatomic) BOOL showEntourageAnnotationsAndOverlays;
+
 #pragma mark - Entourage Members
 
 - (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion;
@@ -58,14 +60,16 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 - (void)removeCurrentMemberSession;
 
-- (void)startStatusBarTimer;
+//- (void)startStatusBarTimer;
 
-- (void)stopStatusBartTimer;
+//- (void)stopStatusBarTimer;
 
 - (void)stopEntourageCancelled;
 - (void)stopEntourageArrived;
 - (void)stopEntourageNonArrival;
 
 - (void)actionForEntourageNotificationObject:(TSJavelinAPIUserNotification *)notification;
+
+- (void)closeDrawer;
 
 @end

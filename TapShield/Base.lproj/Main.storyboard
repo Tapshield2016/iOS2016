@@ -24,203 +24,6 @@
             </objects>
             <point key="canvasLocation" x="-85" y="299"/>
         </scene>
-        <!--Menu View Controller-->
-        <scene sceneID="NZr-Q5-E1m">
-            <objects>
-                <tableViewController storyboardIdentifier="TSMenuViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Bag-d9-OVn" customClass="TSMenuViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="85E-Eo-AHo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <sections>
-                            <tableViewSection id="UsI-ep-Xz4">
-                                <cells>
-                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="i37-H6-cwR">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i37-H6-cwR" id="N5a-pI-IeF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSProfileViewController" textLabel="hTP-Q4-Tdp" imageView="Z96-1S-jrI" rowHeight="80" style="IBUITableViewCellStyleDefault" id="t2F-4X-sTk">
-                                        <rect key="frame" x="0.0" y="80" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t2F-4X-sTk" id="OuN-Dl-oBH">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hTP-Q4-Tdp">
-                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_menu_icon_active" id="Z96-1S-jrI">
-                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSHomeViewController" textLabel="0UQ-Cy-8lc" imageView="9Wi-Nu-eE3" rowHeight="80" style="IBUITableViewCellStyleDefault" id="HL3-sL-j1N">
-                                        <rect key="frame" x="0.0" y="160" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HL3-sL-j1N" id="b3T-F7-ghQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Home" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0UQ-Cy-8lc">
-                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="home_menu_icon_active" id="9Wi-Nu-eE3">
-                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSMassNotificationsViewController" textLabel="igr-hx-2Xr" imageView="lzP-wT-6Xb" rowHeight="80" style="IBUITableViewCellStyleDefault" id="DbR-OS-NnN">
-                                        <rect key="frame" x="0.0" y="240" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DbR-OS-NnN" id="gvg-KG-Hfe">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="igr-hx-2Xr">
-                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="notifications_menu_icon_active" id="lzP-wT-6Xb">
-                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSSettingsViewController" textLabel="2TO-gp-wbD" imageView="OXv-ma-nfv" rowHeight="80" style="IBUITableViewCellStyleDefault" id="Osx-ut-eQh">
-                                        <rect key="frame" x="0.0" y="320" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Osx-ut-eQh" id="iEP-lh-rw8">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2TO-gp-wbD">
-                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="settings_menu_icon_active" id="OXv-ma-nfv">
-                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSHelpViewController" textLabel="Flq-iw-b8J" imageView="rrM-8M-AzA" rowHeight="80" style="IBUITableViewCellStyleDefault" id="dmD-qL-RKI">
-                                        <rect key="frame" x="0.0" y="400" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dmD-qL-RKI" id="5Mw-e9-GYB">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Organization" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" id="Flq-iw-b8J">
-                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="help_menu_icon_active" id="rrM-8M-AzA">
-                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="88" id="FiA-QV-Cq8">
-                                        <rect key="frame" x="0.0" y="480" width="320" height="88"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FiA-QV-Cq8" id="XzI-sA-ufm">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aD4-At-RJ0" customClass="TSBaseButton">
-                                                    <rect key="frame" x="28" y="58" width="47" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="Y8U-Xk-Jkg"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <state key="normal" title="About">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="showAbout:" destination="Bag-d9-OVn" eventType="touchUpInside" id="aWU-zH-Z2H"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LW5-b7-ZU6" customClass="TSBaseButton">
-                                                    <rect key="frame" x="156" y="58" width="89" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="FFU-4G-eBc"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="89" id="Hi2-Hn-qmU"/>
-                                                        <constraint firstAttribute="width" constant="89" id="o0d-Sc-SM6"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <state key="normal" title="Feedback">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="sendFeedback:" destination="Bag-d9-OVn" eventType="touchUpInside" id="Ojr-fz-EnH"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="LW5-b7-ZU6" secondAttribute="bottom" id="Flr-gf-E6a"/>
-                                                <constraint firstAttribute="trailing" secondItem="LW5-b7-ZU6" secondAttribute="trailing" constant="75" id="IyW-Ac-g4N"/>
-                                                <constraint firstItem="LW5-b7-ZU6" firstAttribute="top" relation="lessThanOrEqual" secondItem="XzI-sA-ufm" secondAttribute="top" priority="250" constant="58" id="bfa-rO-q8d"/>
-                                                <constraint firstItem="aD4-At-RJ0" firstAttribute="top" relation="lessThanOrEqual" secondItem="XzI-sA-ufm" secondAttribute="top" priority="250" constant="58" id="egp-Oc-WLe"/>
-                                                <constraint firstAttribute="bottom" secondItem="aD4-At-RJ0" secondAttribute="bottom" id="kRN-SG-cIS"/>
-                                                <constraint firstItem="LW5-b7-ZU6" firstAttribute="leading" secondItem="aD4-At-RJ0" secondAttribute="trailing" constant="81" id="rOf-v2-SuM"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="Bag-d9-OVn" id="Dqi-Dt-8Qz"/>
-                            <outlet property="delegate" destination="Bag-d9-OVn" id="dPW-mw-iq0"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hes-mS-bXK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-24" y="1329"/>
-        </scene>
         <!--Entourage Contacts View Controller-->
         <scene sceneID="Ymp-6M-2qq">
             <objects>
@@ -254,6 +57,40 @@
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="mh2-Uf-KXQ">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c73-q4-h1p">
+                                            <rect key="frame" x="53" y="134" width="267" height="300"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E36-xb-j7M" customClass="TSRoundRectButton">
+                                                    <rect key="frame" x="43" y="256" width="180" height="44"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                                    <state key="normal" title="Get Started">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="getPermission:" destination="ksf-w3-ZVX" eventType="touchUpInside" id="LIO-kL-R5v"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Empower Your Entourage" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rte-SU-t0H">
+                                                    <rect key="frame" x="0.0" y="0.0" width="267" height="26"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Entourage requires access to your contacts. Tap the button below to give TapShield permission." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlP-HD-BB6">
+                                                    <rect key="frame" x="20" y="150" width="227" height="106"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ContactBook" translatesAutoresizingMaskIntoConstraints="NO" id="0Ms-Oa-zBe">
+                                                    <rect key="frame" x="87" y="50" width="93" height="100"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
                                 </view>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
@@ -266,6 +103,11 @@
                             <constraint firstAttribute="trailing" secondItem="i4b-lr-ySs" secondAttribute="trailing" id="lpr-PY-fMx"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="xlP-HD-BB6" id="0fm-0M-dA5"/>
+                        <outlet property="permissionsButton" destination="E36-xb-j7M" id="Yz3-G9-Qu3"/>
+                        <outlet property="permissionsView" destination="c73-q4-h1p" id="aO9-hj-BSp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="28N-xz-Rfv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -518,7 +360,7 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="64" sectionHeaderHeight="10" sectionFooterHeight="10" id="ARl-dZ-1NQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="    Tracking" id="DGS-XG-5zj">
                                 <cells>
@@ -1008,7 +850,7 @@
                                                         <bool key="isElement" value="NO"/>
                                                     </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_basic_ico" id="Ud7-r4-CI8">
@@ -1037,7 +879,7 @@
                                                         <bool key="isElement" value="NO"/>
                                                     </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_contact_ico" id="DO4-st-spD">
@@ -1066,7 +908,7 @@
                                                         <bool key="isElement" value="NO"/>
                                                     </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_appearance_ico" id="5Re-Wc-OyN">
@@ -1094,7 +936,7 @@
                                                         <bool key="isElement" value="NO"/>
                                                     </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_med_ico" id="cwP-Gy-pJo">
@@ -1122,7 +964,7 @@
                                                         <bool key="isElement" value="NO"/>
                                                     </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_ice_ico" id="4LB-vr-cav">
@@ -1350,8 +1192,8 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nmi-f3-9h9">
-                                <rect key="frame" x="0.0" y="364" width="320" height="88"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nmi-f3-9h9">
+                                <rect key="frame" x="0.0" y="343" width="320" height="132"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EULA" textLabel="f01-4d-k92" style="IBUITableViewCellStyleDefault" id="KPa-cF-wyS">
@@ -1368,7 +1210,7 @@
                                                         <bool key="isElement" value="NO"/>
                                                     </accessibility>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1384,17 +1226,14 @@
                                     <outlet property="delegate" destination="Me5-cN-nf1" id="hhc-9Z-Bnt"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about_logo" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-Xi-iQ3">
-                                <rect key="frame" x="40" y="65" width="240" height="128"/>
-                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Tta-bg-b0h">
-                                <rect key="frame" x="20" y="181" width="280" height="106"/>
+                                <rect key="frame" x="20" y="165" width="280" height="106"/>
                                 <string key="text">TapShield is the market leader in mobile personal safety. TapShield designs, develops and markets enterprise-grade mobile solutions designed for college campuses and global enterprises that significantly improve emergency alerting and response. Learn more at www.tapshield.com</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5T-Na-Bci">
-                                <rect key="frame" x="20" y="310" width="280" height="21"/>
+                                <rect key="frame" x="20" y="301" width="280" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                 <state key="normal" title="Tap here to request a demo today!">
                                     <color key="titleColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
@@ -1405,13 +1244,16 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="qlF-fD-y4w">
-                                <rect key="frame" x="0.0" y="288" width="320" height="25"/>
+                                <rect key="frame" x="0.0" y="279" width="320" height="25"/>
                                 <string key="text">Want to bring TapShield to your campus or corporation?
 </string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about_logo" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-Xi-iQ3">
+                                <rect key="frame" x="40" y="89" width="240" height="64"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                     </view>
@@ -2674,7 +2516,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                         <constraint firstAttribute="height" constant="30" id="c4A-g9-FjW"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2788,7 +2630,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2H-Q3-BBF">
-                                <rect key="frame" x="259" y="109" width="45" height="45"/>
+                                <rect key="frame" x="259" y="114" width="45" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZ6-Zp-Gpl" customClass="TSUserLocationButton">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -2812,7 +2654,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Llm-Q6-w56">
-                                <rect key="frame" x="16" y="109" width="45" height="45"/>
+                                <rect key="frame" x="16" y="114" width="45" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSe-tK-QET" customClass="TSUserLocationButton">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -2833,11 +2675,11 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J4r-zu-51U" customClass="TSStatusView">
-                                <rect key="frame" x="0.0" y="64" width="320" height="35"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="W5b-wZ-Kig"/>
-                                    <constraint firstAttribute="height" constant="35" id="ZZD-v3-oxH"/>
+                                    <constraint firstAttribute="height" constant="40" id="ZZD-v3-oxH"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CNt-Kp-jHu" userLabel="View - Alert View">
@@ -2924,14 +2766,18 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background568" translatesAutoresizingMaskIntoConstraints="NO" id="OnW-Eo-5LD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-6B-3HB">
+                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-6B-3HB">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BdZ-87-B7I" customClass="FBShimmeringView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BdZ-87-B7I" customClass="FBShimmeringView">
                                         <rect key="frame" x="87" y="64" width="146" height="87"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="146" id="cHN-wc-Nog"/>
+                                            <constraint firstAttribute="height" constant="87" id="wbf-wn-b1C"/>
+                                        </constraints>
                                     </view>
-                                    <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Lh-7A-8lx">
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Lh-7A-8lx">
                                         <rect key="frame" x="40" y="226" width="240" height="100"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@domain.com" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="OyF-89-nmb" customClass="TSLoginTextField">
@@ -2962,15 +2808,26 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="LOA-z5-Gqe"/>
+                                            <constraint firstAttribute="height" constant="100" id="UeP-hc-g2H"/>
+                                        </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="tyL-JO-qqZ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="tyL-JO-qqZ">
                                         <rect key="frame" x="40" y="326" width="240" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="Hoe-f6-Jv3"/>
+                                            <constraint firstAttribute="width" constant="240" id="uQc-IV-6Fn"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAk-v2-ZLC">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAk-v2-ZLC">
                                         <rect key="frame" x="59" y="362" width="203" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="LU0-ed-0qf"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
                                         <state key="normal" title="LOG IN" backgroundImage="btn_login_normal">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -2981,6 +2838,21 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="tyL-JO-qqZ" secondAttribute="trailing" constant="40" id="0ft-fI-dTM"/>
+                                    <constraint firstItem="tyL-JO-qqZ" firstAttribute="top" secondItem="4Lh-7A-8lx" secondAttribute="bottom" id="1Ax-LC-IOl"/>
+                                    <constraint firstItem="SAk-v2-ZLC" firstAttribute="top" secondItem="tyL-JO-qqZ" secondAttribute="bottom" id="1mW-eI-rfb"/>
+                                    <constraint firstAttribute="bottom" secondItem="SAk-v2-ZLC" secondAttribute="bottom" constant="166" id="C0x-rA-DqE"/>
+                                    <constraint firstAttribute="trailing" secondItem="SAk-v2-ZLC" secondAttribute="trailing" constant="58" id="Gg1-5U-tov"/>
+                                    <constraint firstItem="4Lh-7A-8lx" firstAttribute="leading" secondItem="YjK-6B-3HB" secondAttribute="leading" constant="40" id="K3v-oW-pbN"/>
+                                    <constraint firstItem="BdZ-87-B7I" firstAttribute="top" secondItem="YjK-6B-3HB" secondAttribute="top" constant="64" id="M7u-6H-79X"/>
+                                    <constraint firstItem="4Lh-7A-8lx" firstAttribute="top" secondItem="BdZ-87-B7I" secondAttribute="bottom" constant="75" id="NTi-vQ-jeF"/>
+                                    <constraint firstItem="tyL-JO-qqZ" firstAttribute="leading" secondItem="YjK-6B-3HB" secondAttribute="leading" constant="40" id="V0k-Ye-F19"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Lh-7A-8lx" secondAttribute="trailing" constant="40" id="e9d-kZ-tQJ"/>
+                                    <constraint firstItem="SAk-v2-ZLC" firstAttribute="leading" secondItem="YjK-6B-3HB" secondAttribute="leading" constant="59" id="mOf-dt-AR6"/>
+                                    <constraint firstAttribute="trailing" secondItem="BdZ-87-B7I" secondAttribute="trailing" constant="87" id="qfr-55-GWh"/>
+                                    <constraint firstItem="BdZ-87-B7I" firstAttribute="leading" secondItem="YjK-6B-3HB" secondAttribute="leading" constant="87" id="tyN-Th-IkB"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -3591,7 +3463,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                     </view>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -3934,7 +3806,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
-                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="useTouchID:" destination="b9r-js-Ebz" eventType="touchUpInside" id="gas-9d-FH5"/>
@@ -4160,7 +4032,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFX-u2-ofq" customClass="TSBaseLabel">
                                                     <rect key="frame" x="63" y="11" width="237" height="33"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -4282,7 +4154,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="titleEdgeInsets" minX="3" minY="1" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="Report anonymously" image="CheckBox_Unselected">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="selected" title="Reporting anonymously" image="CheckBox_Selected">
@@ -4491,7 +4363,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="highlighted">
-                                            <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="addAlertDetails:" destination="9zb-cU-CuH" eventType="touchUpInside" id="L41-EU-CVB"/>
@@ -4503,7 +4375,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                         <state key="normal" title="Redial"/>
                                         <state key="highlighted">
-                                            <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="redialTwilio:" destination="9zb-cU-CuH" eventType="touchUpInside" id="1Ns-Y0-o1p"/>
@@ -4613,7 +4485,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GgN-I0-Vx7" customClass="TSToolBarView">
                                 <rect key="frame" x="0.0" y="60" width="320" height="44"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
+                                    <searchBar contentMode="redraw" fixedFrame="YES" text="" placeholder="Search Place or Address" translatesAutoresizingMaskIntoConstraints="NO" id="R8m-ie-HlH">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -4645,11 +4517,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="Nqj-m2-DoR">
                             <connections>
                                 <action selector="dismissViewController:" destination="vuB-WZ-keb" id="Gnq-8x-qOm"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="bookmarks" id="su8-Lj-Fp1">
-                            <connections>
-                                <action selector="searchContacts:" destination="vuB-WZ-keb" id="Czr-Mn-7Gk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -4684,15 +4551,15 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cJ-xl-oGK" customClass="TSToolBarView">
-                                <rect key="frame" x="0.0" y="60" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Routing to your destination" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQl-OT-QPc" customClass="TSBaseLabel">
-                                        <rect key="frame" x="0.0" y="4" width="320" height="21"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Your Destination" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQl-OT-QPc" customClass="TSBaseLabel">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="21"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIf-WA-DEI" customClass="TSBaseLabel">
-                                        <rect key="frame" x="0.0" y="21" width="320" height="23"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hint: move marker to your estimated final location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="gIf-WA-DEI" customClass="TSBaseLabel">
+                                        <rect key="frame" x="10" y="17" width="300" height="23"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4703,20 +4570,22 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="3FT-6n-aB4">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="5fK-05-I2j">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="5fK-05-I2j">
                             <connections>
                                 <action selector="dismissViewController:" destination="GTK-a7-ESV" id="0nM-bA-v4f"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="lCF-k3-3an">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="lCF-k3-3an">
+                            <color key="tintColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="nextViewController:" destination="GTK-a7-ESV" id="hYB-ik-Byl"/>
+                                <action selector="presentSearchViewController:" destination="GTK-a7-ESV" id="yuq-kk-rAI"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="addressLabel" destination="wQl-OT-QPc" id="FYD-XS-b0S"/>
+                        <outlet property="cancelButton" destination="5fK-05-I2j" id="poz-9y-88g"/>
                         <outlet property="etaLabel" destination="gIf-WA-DEI" id="al8-FU-Vkj"/>
                         <outlet property="hitTestView" destination="umI-fa-4nR" id="gG5-Rt-irc"/>
                         <outlet property="nextButton" destination="lCF-k3-3an" id="Jbp-XJ-s5r"/>
@@ -4739,15 +4608,112 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xlm-cC-fOf">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fE4-yb-wzw">
+                                <rect key="frame" x="45" y="162" width="230" height="244"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahz-xv-Jfc">
+                                        <rect key="frame" x="0.0" y="0.0" width="230" height="244"/>
+                                        <subviews>
+                                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ns0-hZ-Wfn">
+                                                <rect key="frame" x="0.0" y="0.0" width="230" height="244"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gm6-cU-AoV">
+                                                    <rect key="frame" x="0.0" y="0.0" width="230" height="244"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </view>
+                                                <blurEffect style="dark"/>
+                                            </visualEffectView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v23-bE-CoF">
+                                        <rect key="frame" x="0.0" y="0.0" width="230" height="244"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tws-qz-z6d">
+                                        <rect key="frame" x="115" y="210" width="1" height="24"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999964" contentMode="center" id="dlD-yv-wvN">
+                                            <rect key="frame" x="0.0" y="0.0" width="1" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <vibrancyEffect>
+                                            <blurEffect style="dark"/>
+                                        </vibrancyEffect>
+                                    </visualEffectView>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VvZ-Ug-5nW">
+                                        <rect key="frame" x="0.0" y="200" width="230" height="1"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999964" contentMode="center" id="wcE-QL-adi">
+                                            <rect key="frame" x="0.0" y="0.0" width="230" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <vibrancyEffect>
+                                            <blurEffect style="dark"/>
+                                        </vibrancyEffect>
+                                    </visualEffectView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3cw-fI-Zc8">
+                                        <rect key="frame" x="0.0" y="200" width="115" height="44"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancel:" destination="6vl-xP-Mpq" eventType="touchUpInside" id="bx1-ai-RjZ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0DT-Tx-GRz">
+                                        <rect key="frame" x="115" y="200" width="115" height="44"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <state key="normal" title="Set">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.35000000000000003" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="ok:" destination="6vl-xP-Mpq" eventType="touchUpInside" id="irb-GZ-2BW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="circleContainerView" destination="v23-bE-CoF" id="kJm-gO-mRV"/>
+                        <outlet property="insideView" destination="fE4-yb-wzw" id="blA-Wq-4hJ"/>
+                        <outlet property="okButton" destination="0DT-Tx-GRz" id="1Zm-4D-w5A"/>
+                        <outlet property="roundedRect" destination="ahz-xv-Jfc" id="foa-zk-ukV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pO8-ty-5mm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2388" y="1371"/>
+        </scene>
+        <!--Notify-->
+        <scene sceneID="phR-ia-bZL">
+            <objects>
+                <viewController storyboardIdentifier="TSNotifySelectionViewController2" title="Notify" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HDN-0g-bqk" customClass="TSNotifySelectionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XtG-zC-dD9"/>
+                        <viewControllerLayoutGuide type="bottom" id="htf-3X-WLe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="H5A-Hf-Liw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uvL-79-cuN">
                                 <rect key="frame" x="50" y="0.0" width="220" height="44"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIR-z6-bGA" customClass="TSBaseLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tar-Rx-VOV" customClass="TSBaseLabel">
                                         <rect key="frame" x="0.0" y="4" width="220" height="21"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1g-8b-MNF" customClass="TSBaseLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4lg-HN-yik" customClass="TSBaseLabel">
                                         <rect key="frame" x="0.0" y="24" width="220" height="16"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                         <nil key="highlightedColor"/>
@@ -4755,30 +4721,30 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" alwaysBounceVertical="YES" indicatorStyle="white" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mlK-ye-eiI">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" alwaysBounceVertical="YES" indicatorStyle="white" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e4J-Ky-BdS">
                                 <rect key="frame" x="0.0" y="298" width="320" height="270"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="Rc0-JE-UhE">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="UKH-in-FN7">
                                     <size key="itemSize" width="100" height="97"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddCell" id="vOr-qt-32o" customClass="TSAddMemberCell">
+                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddCell" id="q8B-iw-OcI" customClass="TSAddMemberCell">
                                         <rect key="frame" x="5" y="0.0" width="100" height="97"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-LN-T6n">
+                                                <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tt-x4-9IR">
                                                     <rect key="frame" x="10" y="0.0" width="80" height="77"/>
                                                     <state key="normal" image="user_new_icon">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add new" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCP-eh-wzw" customClass="TSBaseLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add new" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t35-rd-1Rq" customClass="TSBaseLabel">
                                                     <rect key="frame" x="0.0" y="77" width="100" height="24"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4788,24 +4754,24 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="button" destination="ccc-LN-T6n" id="Guw-2g-3B9"/>
+                                            <outlet property="button" destination="5tt-x4-9IR" id="Ob9-Ib-TW8"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContactCell" id="REJ-dv-25A" customClass="TSEntourageMemberCell">
+                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContactCell" id="Ord-An-AcY" customClass="TSEntourageMemberCell">
                                         <rect key="frame" x="110" y="0.0" width="100" height="97"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="center" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fnd-rV-Iak">
+                                                <button opaque="NO" contentMode="center" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tPO-Sr-dcK">
                                                     <rect key="frame" x="10" y="0.0" width="80" height="77"/>
                                                     <state key="normal" backgroundImage="user_default_icon">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="selected" image="user_tick_icon" backgroundImage="user_default_icon"/>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiQ-t5-1v9" customClass="TSBaseLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qgg-8i-2Os" customClass="TSBaseLabel">
                                                     <rect key="frame" x="0.0" y="77" width="100" height="24"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4815,71 +4781,71 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="button" destination="fnd-rV-Iak" id="kI2-UJ-cdb"/>
-                                            <outlet property="label" destination="fiQ-t5-1v9" id="emj-CX-4Xm"/>
+                                            <outlet property="button" destination="tPO-Sr-dcK" id="rWy-ba-yre"/>
+                                            <outlet property="label" destination="Qgg-8i-2Os" id="skJ-CB-x0V"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="6vl-xP-Mpq" id="JN8-pD-wBp"/>
-                                    <outlet property="delegate" destination="6vl-xP-Mpq" id="IGI-3E-peJ"/>
+                                    <outlet property="dataSource" destination="HDN-0g-bqk" id="RJJ-yl-xIh"/>
+                                    <outlet property="delegate" destination="HDN-0g-bqk" id="gU0-nF-vfv"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notify selected contacts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geG-tc-etU" customClass="TSBaseLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notify selected contacts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="686-Te-HOx" customClass="TSBaseLabel">
                                 <rect key="frame" x="20" y="300" width="280" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="Kh0-22-Mye"/>
-                                    <constraint firstAttribute="height" constant="30" id="mqf-rU-3WO"/>
+                                    <constraint firstAttribute="height" constant="30" id="In8-FN-tfj"/>
+                                    <constraint firstAttribute="width" constant="280" id="Vx0-J3-6lZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Arrival time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKD-Ra-3qH" customClass="TSBaseLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Arrival time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBi-jJ-HBB" customClass="TSBaseLabel">
                                 <rect key="frame" x="20" y="85" width="280" height="30"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v23-bE-CoF">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B45-g4-kMI">
                                 <rect key="frame" x="45" y="88" width="230" height="230"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="v23-bE-CoF" secondAttribute="height" multiplier="1:1" id="Zg4-XH-eBI"/>
+                                    <constraint firstAttribute="width" secondItem="B45-g4-kMI" secondAttribute="height" multiplier="1:1" id="bFs-Kn-KAs"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="geG-tc-etU" firstAttribute="leading" secondItem="b5O-Js-xfV" secondAttribute="leading" constant="20" id="6U8-6a-HDW"/>
-                            <constraint firstItem="mlK-ye-eiI" firstAttribute="top" secondItem="b5O-Js-xfV" secondAttribute="top" constant="298" id="NUI-dN-Aty"/>
-                            <constraint firstAttribute="trailing" secondItem="v23-bE-CoF" secondAttribute="trailing" priority="250" constant="45" id="P95-4Y-Xlw"/>
-                            <constraint firstItem="geG-tc-etU" firstAttribute="top" secondItem="b5O-Js-xfV" secondAttribute="top" constant="300" id="ZUZ-UU-qgo"/>
-                            <constraint firstItem="v23-bE-CoF" firstAttribute="top" secondItem="15g-9b-86J" secondAttribute="bottom" constant="24" id="dVW-30-dUu"/>
-                            <constraint firstAttribute="trailing" secondItem="mlK-ye-eiI" secondAttribute="trailing" id="hEd-Jq-uXW"/>
-                            <constraint firstItem="R1r-tL-cQQ" firstAttribute="top" secondItem="mlK-ye-eiI" secondAttribute="bottom" id="lKG-lP-dsH"/>
-                            <constraint firstItem="mlK-ye-eiI" firstAttribute="leading" secondItem="b5O-Js-xfV" secondAttribute="leading" id="pfM-VX-UOv"/>
-                            <constraint firstItem="v23-bE-CoF" firstAttribute="leading" secondItem="b5O-Js-xfV" secondAttribute="leading" priority="250" constant="45" id="u2c-EK-Xcu"/>
-                            <constraint firstAttribute="trailing" secondItem="geG-tc-etU" secondAttribute="trailing" constant="20" id="xOm-7v-t6N"/>
+                            <constraint firstItem="e4J-Ky-BdS" firstAttribute="leading" secondItem="H5A-Hf-Liw" secondAttribute="leading" id="0ls-OB-FWg"/>
+                            <constraint firstItem="htf-3X-WLe" firstAttribute="top" secondItem="e4J-Ky-BdS" secondAttribute="bottom" id="2LR-Pi-C2O"/>
+                            <constraint firstAttribute="trailing" secondItem="e4J-Ky-BdS" secondAttribute="trailing" id="72l-mJ-2FC"/>
+                            <constraint firstItem="B45-g4-kMI" firstAttribute="top" secondItem="XtG-zC-dD9" secondAttribute="bottom" constant="24" id="GDo-bt-PAa"/>
+                            <constraint firstItem="686-Te-HOx" firstAttribute="leading" secondItem="H5A-Hf-Liw" secondAttribute="leading" constant="20" id="HdK-PE-cmu"/>
+                            <constraint firstItem="686-Te-HOx" firstAttribute="top" secondItem="H5A-Hf-Liw" secondAttribute="top" constant="300" id="KNj-Mp-OoM"/>
+                            <constraint firstAttribute="trailing" secondItem="B45-g4-kMI" secondAttribute="trailing" priority="250" constant="45" id="LZL-BN-7Ua"/>
+                            <constraint firstItem="B45-g4-kMI" firstAttribute="leading" secondItem="H5A-Hf-Liw" secondAttribute="leading" priority="250" constant="45" id="R3r-4W-PeF"/>
+                            <constraint firstAttribute="trailing" secondItem="686-Te-HOx" secondAttribute="trailing" constant="20" id="Zym-C9-yPC"/>
+                            <constraint firstItem="e4J-Ky-BdS" firstAttribute="top" secondItem="H5A-Hf-Liw" secondAttribute="top" constant="298" id="v5e-xZ-IjW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Z7S-aV-dJY">
-                        <barButtonItem key="rightBarButtonItem" title="Start" id="4XX-gF-CT7">
+                    <navigationItem key="navigationItem" id="udU-HZ-8fN">
+                        <barButtonItem key="rightBarButtonItem" title="Start" id="Gnz-3X-ToJ">
                             <connections>
-                                <action selector="startEntourage:" destination="6vl-xP-Mpq" id="tv6-5d-BfG"/>
+                                <action selector="startEntourage:" destination="HDN-0g-bqk" id="1U1-PA-eKX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
-                        <outlet property="circleContainerView" destination="v23-bE-CoF" id="kJm-gO-mRV"/>
-                        <outlet property="collectionView" destination="mlK-ye-eiI" id="Vah-KF-A4o"/>
-                        <outlet property="routeInfoView" destination="Xlm-cC-fOf" id="NeG-yx-oJn"/>
+                        <outlet property="circleContainerView" destination="B45-g4-kMI" id="bW5-fI-6Kn"/>
+                        <outlet property="collectionView" destination="e4J-Ky-BdS" id="fai-3I-0LS"/>
+                        <outlet property="routeInfoView" destination="uvL-79-cuN" id="bmi-67-fKR"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pO8-ty-5mm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cah-36-vAg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2326" y="1339"/>
+            <point key="canvasLocation" x="2732" y="1376"/>
         </scene>
         <!--Basic Info-->
         <scene sceneID="7VP-ie-99f">
@@ -5641,11 +5607,15 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="uB8-I8-7yJ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bK2-lj-CRy" customClass="FBShimmeringView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bK2-lj-CRy" customClass="FBShimmeringView">
                                         <rect key="frame" x="87" y="64" width="146" height="87"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="87" id="8UT-yB-Crv"/>
+                                            <constraint firstAttribute="width" constant="146" id="Cix-RX-ylS"/>
+                                        </constraints>
                                     </view>
-                                    <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vyY-VA-g54">
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyY-VA-g54">
                                         <rect key="frame" x="40" y="226" width="240" height="100"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@domain.com" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Lj-An-aDb" customClass="TSLoginTextField">
@@ -5663,15 +5633,27 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="Vt7-Kv-E09"/>
+                                            <constraint firstAttribute="width" constant="240" id="vGD-eN-RBy"/>
+                                        </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="NRN-MS-AsY">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="NRN-MS-AsY">
                                         <rect key="frame" x="40" y="326" width="240" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="PbS-T1-yIo"/>
+                                            <constraint firstAttribute="height" constant="36" id="suV-yd-X77"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VIP-Id-r9e">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VIP-Id-r9e">
                                         <rect key="frame" x="59" y="362" width="203" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="L3K-hL-ql7"/>
+                                            <constraint firstAttribute="width" constant="203" id="PSI-7w-1uL"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
                                         <state key="normal" title="RESET PASSWORD" backgroundImage="btn_login_normal">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -5682,6 +5664,21 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="vyY-VA-g54" secondAttribute="trailing" constant="40" id="0Nl-Ry-M8M"/>
+                                    <constraint firstItem="VIP-Id-r9e" firstAttribute="top" secondItem="NRN-MS-AsY" secondAttribute="bottom" id="21A-YR-so1"/>
+                                    <constraint firstItem="bK2-lj-CRy" firstAttribute="top" secondItem="uB8-I8-7yJ" secondAttribute="top" constant="64" id="5gM-aR-jxY"/>
+                                    <constraint firstItem="NRN-MS-AsY" firstAttribute="leading" secondItem="uB8-I8-7yJ" secondAttribute="leading" constant="40" id="Dsj-hl-8Bo"/>
+                                    <constraint firstAttribute="trailing" secondItem="bK2-lj-CRy" secondAttribute="trailing" constant="87" id="K4A-bO-pqZ"/>
+                                    <constraint firstItem="vyY-VA-g54" firstAttribute="top" secondItem="bK2-lj-CRy" secondAttribute="bottom" constant="75" id="Oo3-nQ-HYn"/>
+                                    <constraint firstAttribute="bottom" secondItem="VIP-Id-r9e" secondAttribute="bottom" constant="166" id="SWT-BA-mr1"/>
+                                    <constraint firstAttribute="trailing" secondItem="NRN-MS-AsY" secondAttribute="trailing" constant="40" id="XW5-GU-bzT"/>
+                                    <constraint firstItem="NRN-MS-AsY" firstAttribute="top" secondItem="vyY-VA-g54" secondAttribute="bottom" id="cMi-JT-WJY"/>
+                                    <constraint firstItem="VIP-Id-r9e" firstAttribute="leading" secondItem="uB8-I8-7yJ" secondAttribute="leading" constant="59" id="eW9-eY-WwS"/>
+                                    <constraint firstItem="vyY-VA-g54" firstAttribute="leading" secondItem="uB8-I8-7yJ" secondAttribute="leading" constant="40" id="g9z-cL-Ha3"/>
+                                    <constraint firstItem="bK2-lj-CRy" firstAttribute="leading" secondItem="uB8-I8-7yJ" secondAttribute="leading" constant="87" id="ooh-DW-RF2"/>
+                                    <constraint firstAttribute="trailing" secondItem="VIP-Id-r9e" secondAttribute="trailing" constant="58" id="qa2-lW-0Hj"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -6147,7 +6144,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="disabled">
-                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="sendVerification:" destination="MXU-CM-ZUp" eventType="touchUpInside" id="nhC-FJ-elv"/>
@@ -6192,7 +6189,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <constraint firstAttribute="trailing" secondItem="4rs-gg-azo" secondAttribute="trailing" id="wz5-nl-3PO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Verification" id="v1n-DS-6oJ"/>
+                    <navigationItem key="navigationItem" title="User Verification" id="v1n-DS-6oJ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="bottomLabel" destination="WWK-JR-z0y" id="hDK-cb-bgH"/>
@@ -6284,7 +6281,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="disabled">
-                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="sendVerification:" destination="oKU-fE-9W7" eventType="touchUpInside" id="EIc-64-z2c"/>
@@ -6296,7 +6293,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your 10-digit number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="syd-Ib-oKa" customClass="TSRegistrationLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your phone's 10-digit number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="syd-Ib-oKa" customClass="TSRegistrationLabel">
                                 <rect key="frame" x="0.0" y="64" width="320" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dSM-92-GwJ"/>
@@ -6326,7 +6323,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <constraint firstItem="geg-eh-05B" firstAttribute="leading" secondItem="qNK-r5-E1T" secondAttribute="leading" id="w7F-Nm-KQV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Verification" id="afZ-aM-rdi"/>
+                    <navigationItem key="navigationItem" title="User Verification" id="afZ-aM-rdi"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="codeTextField" destination="d2V-nz-S6V" id="Jhn-f6-7Qi"/>
@@ -6386,11 +6383,11 @@ http://www.apache.org/licenses/LICENSE-2.0
             </objects>
             <point key="canvasLocation" x="706" y="5712"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Menu View Controller-->
         <scene sceneID="Sny-fO-iiT">
             <objects>
-                <tableViewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="mm5-dj-Ou8" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="o4L-sd-HZz">
+                <tableViewController storyboardIdentifier="TSMenuViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mm5-dj-Ou8" customClass="TSMenuViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="o4L-sd-HZz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6398,17 +6395,25 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <sections>
                             <tableViewSection id="vlS-EK-XDM">
                                 <cells>
-                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="LZ1-Yh-1Gn">
+                                    <tableViewCell contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSAboutViewController" rowHeight="64" id="LZ1-Yh-1Gn">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LZ1-Yh-1Gn" id="saO-U6-j1p">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="talkaphone_logo" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-Fa-Mjw">
-                                                    <rect key="frame" x="0.0" y="0.0" width="270" height="96"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TapShieldWhiteIcon" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-Fa-Mjw">
+                                                    <rect key="frame" x="15" y="0.0" width="52" height="64"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TapShieldWhiteNoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="h3g-E4-bgU">
+                                                    <rect key="frame" x="82" y="0.0" width="160" height="64"/>
+                                                </imageView>
+                                                <view alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h4T-7N-Mif">
+                                                    <rect key="frame" x="0.0" y="64" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.32156863810000003" green="0.71764707569999997" blue="0.9098039269" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -6423,7 +6428,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <rect key="frame" x="82" y="0.0" width="223" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile_menu_icon_active" id="Q4S-J3-54A">
@@ -6431,6 +6436,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -6445,14 +6451,15 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <rect key="frame" x="82" y="0.0" width="223" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="home_menu_icon_active" id="NYL-fI-76C">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="home_menu_icon_active" id="NYL-fI-76C">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -6467,7 +6474,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <rect key="frame" x="82" y="0.0" width="223" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="notifications_menu_icon_active" id="Dcf-Zt-be2">
@@ -6475,6 +6482,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -6489,7 +6497,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <rect key="frame" x="82" y="0.0" width="223" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="settings_menu_icon_active" id="DcA-P3-W6r">
@@ -6497,10 +6505,11 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSHelpViewController" textLabel="TYs-GE-RZD" imageView="MfS-KY-si1" rowHeight="80" style="IBUITableViewCellStyleDefault" id="dsw-wm-CHl">
+                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSHelpViewController" textLabel="TYs-GE-RZD" imageView="MfS-KY-si1" rowHeight="184" style="IBUITableViewCellStyleDefault" id="dsw-wm-CHl">
                                         <rect key="frame" x="0.0" y="400" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dsw-wm-CHl" id="Mqj-Om-boC">
@@ -6511,70 +6520,15 @@ http://www.apache.org/licenses/LICENSE-2.0
                                                     <rect key="frame" x="82" y="0.0" width="223" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="help_menu_icon_active" id="MfS-KY-si1">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="university_menu_icon" id="MfS-KY-si1">
                                                     <rect key="frame" x="15" y="14" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="88" id="Ukp-cU-aaW">
-                                        <rect key="frame" x="0.0" y="480" width="320" height="88"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ukp-cU-aaW" id="IEG-nJ-VQM">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0z-Jo-c6d" customClass="TSBaseButton">
-                                                    <rect key="frame" x="28" y="58" width="47" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="Ock-Zj-aA1"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <state key="normal" title="About">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="showAbout:" destination="mm5-dj-Ou8" eventType="touchUpInside" id="UJV-zC-eyx"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lBr-0b-OoK" customClass="TSBaseButton">
-                                                    <rect key="frame" x="156" y="58" width="89" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="89" id="52h-RM-iiV"/>
-                                                        <constraint firstAttribute="width" constant="89" id="Ocf-gC-rW5"/>
-                                                        <constraint firstAttribute="height" constant="30" id="cLy-Ef-qIF"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <state key="normal" title="Feedback">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="sendFeedback:" destination="mm5-dj-Ou8" eventType="touchUpInside" id="JOL-ko-KDE"/>
-                                                    </connections>
-                                                </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="powerd_by_tapshield_logo" translatesAutoresizingMaskIntoConstraints="NO" id="sv0-Lc-7AG">
-                                                    <rect key="frame" x="0.0" y="-15" width="270" height="82"/>
-                                                </imageView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="j0z-Jo-c6d" firstAttribute="top" relation="lessThanOrEqual" secondItem="IEG-nJ-VQM" secondAttribute="top" priority="250" constant="58" id="15J-TP-VZL"/>
-                                                <constraint firstAttribute="trailing" secondItem="lBr-0b-OoK" secondAttribute="trailing" constant="75" id="E1n-8n-KEQ"/>
-                                                <constraint firstAttribute="bottom" secondItem="j0z-Jo-c6d" secondAttribute="bottom" id="Tqg-EA-pLk"/>
-                                                <constraint firstAttribute="bottom" secondItem="lBr-0b-OoK" secondAttribute="bottom" id="bCq-u7-3CN"/>
-                                                <constraint firstItem="lBr-0b-OoK" firstAttribute="top" relation="lessThanOrEqual" secondItem="IEG-nJ-VQM" secondAttribute="top" priority="250" constant="58" id="qFO-Ac-hjO"/>
-                                                <constraint firstItem="lBr-0b-OoK" firstAttribute="leading" secondItem="j0z-Jo-c6d" secondAttribute="trailing" constant="81" id="zD9-xx-RPS"/>
-                                            </constraints>
+                                            <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -6586,10 +6540,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <outlet property="delegate" destination="mm5-dj-Ou8" id="Ecp-7Y-Qk5"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="poweredByLogo" destination="sv0-Lc-7AG" id="lu8-Lx-re8"/>
-                        <outlet property="topLogo" destination="7UK-Fa-Mjw" id="fXE-Eb-fxQ"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7pq-3W-OpC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -6600,7 +6550,10 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="CheckBox_Selected" width="16" height="16"/>
         <image name="CheckBox_Unselected" width="16" height="16"/>
         <image name="CheckBox_UnselectedDown" width="16" height="16"/>
+        <image name="ContactBook" width="76" height="100"/>
         <image name="TalkIcon" width="50" height="34"/>
+        <image name="TapShieldWhiteIcon" width="23" height="26"/>
+        <image name="TapShieldWhiteNoIcon" width="75" height="26"/>
         <image name="TouchIDRed" width="40" height="40"/>
         <image name="Yank_icon" width="25" height="22"/>
         <image name="about_logo" width="154" height="93"/>
@@ -6618,7 +6571,6 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="entourage_icon_white" width="28" height="24"/>
         <image name="facebook_icon" width="30" height="30"/>
         <image name="google_icon" width="30" height="30"/>
-        <image name="help_menu_icon_active" width="52" height="52"/>
         <image name="home_menu_icon_active" width="52" height="52"/>
         <image name="image_deafult" width="100" height="88"/>
         <image name="input_email_icon" width="26" height="26"/>
@@ -6632,7 +6584,6 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="password_input_icon" width="25" height="26"/>
         <image name="phone_call_large" width="40" height="39"/>
         <image name="pointer_icon" width="6" height="10"/>
-        <image name="powerd_by_tapshield_logo" width="140" height="24"/>
         <image name="profile_appearance_ico" width="30" height="30"/>
         <image name="profile_basic_ico" width="30" height="30"/>
         <image name="profile_contact_ico" width="30" height="30"/>
@@ -6647,9 +6598,9 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="splash_logo_small" width="146" height="87"/>
         <image name="switch_off" width="29" height="30"/>
         <image name="switch_on" width="29" height="30"/>
-        <image name="talkaphone_logo" width="132" height="70"/>
         <image name="time_icon" width="9" height="10"/>
         <image name="twitter_icon" width="30" height="30"/>
+        <image name="university_menu_icon" width="52" height="52"/>
         <image name="user_default_icon" width="77" height="77"/>
         <image name="user_new_icon" width="77" height="77"/>
         <image name="user_tick_icon" width="21" height="15"/>

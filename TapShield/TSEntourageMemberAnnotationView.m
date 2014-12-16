@@ -28,7 +28,7 @@
         self.accessibilityLabel = @"Entourage member location";
         self.layer.shadowColor = [UIColor blackColor].CGColor;
         self.layer.shadowRadius = 1.0f;
-        self.layer.shadowOpacity = 1;
+        self.layer.shadowOpacity = 0.5;
         self.layer.shadowOffset = CGSizeZero;
         
         [self setCanShowCallout:YES];

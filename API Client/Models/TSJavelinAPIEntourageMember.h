@@ -48,4 +48,10 @@
 
 + (NSArray *)sortedMemberArray:(NSArray *)array;
 
+- (BOOL)isEqualToMember:(id)object;
+
+- (void)compareAndMergeMember:(TSJavelinAPIEntourageMember *)member;
+
+- (void)forceMergeMember:(TSJavelinAPIEntourageMember *)member;
+
 @end

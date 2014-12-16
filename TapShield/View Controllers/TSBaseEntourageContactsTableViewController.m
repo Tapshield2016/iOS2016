@@ -433,7 +433,7 @@
         return cell;
     }
     
-    cell.contentView.alpha = 1.0;
+    [cell resetAlphas];
     
     switch (indexPath.section) {
         case 1:
@@ -445,14 +445,15 @@
             cell.statusImageView.hidden = NO;
             cell.isInEntourage = NO;
             if (!member.location && !member.session && !self.tableView.editing) {
-                cell.contentView.alpha = 0.5;
+                [cell dimContent];
             }
             break;
             
         default:
             cell.statusImageView.hidden = YES;
             if (!self.tableView.editing) {
-                cell.contentView.alpha = 0.5;
+                [cell addPlusButton:self];
+                [cell dimContent];
             }
             break;
     }
@@ -771,6 +772,11 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self reloadTableView];
     }];
+}
+
+- (void)moveContactToEntourage:(TSJavelinAPIEntourageMember *)contact {
+    
+    [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:[self indexPathOfSortedContact:contact]];
 }
 
 @end

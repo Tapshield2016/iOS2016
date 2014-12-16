@@ -12,6 +12,12 @@
 #import "TSEntourageSessionManager.h"
 #import "TSRoutePickerViewController.h"
 
+@interface TSDestinationAnnotationView ()
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+
+@end
+
 @implementation TSDestinationAnnotationView
 
 - (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
@@ -52,8 +58,9 @@
         
         if (selectedAnnotation.temp) {
             
-            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:[TSEntourageSessionManager sharedManager].routeManager.destinationPickerVC  action:@selector(calloutTapped:)];
-            [self addGestureRecognizer:tapGesture];
+            [self removeGestureRecognizer:_tapGesture];
+            _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:[TSEntourageSessionManager sharedManager].routeManager.destinationPickerVC  action:@selector(calloutTapped:)];
+            [self addGestureRecognizer:_tapGesture];
             
             UIImage *image = [[UIImage imageNamed:@"chevron_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -71,6 +78,8 @@
         }
         else {
             self.rightCalloutAccessoryView = nil;
+            [self removeGestureRecognizer:_tapGesture];
+            _tapGesture = nil;
         }
     }
     

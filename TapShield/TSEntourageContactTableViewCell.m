@@ -12,6 +12,7 @@
 #import "TSEntourageMemberSettingsViewController.h"
 #import "TSEntourageSessionManager.h"
 #import <Shimmer/FBShimmering.h>
+#import "TSBaseEntourageContactsTableViewController.h"
 
 #define LeftMargin 10
 #define ImageRightMargin 10
@@ -40,6 +41,8 @@ static NSString * const kEmailImage = @"emailSmall";
 
 @property (strong, nonatomic) NSTimer *etaTimer;
 @property (strong, nonatomic) UILabel *timerLabel;
+
+@property (strong, nonatomic) UIButton *addButton;
 
 @end
 
@@ -103,11 +106,24 @@ static NSString * const kEmailImage = @"emailSmall";
     if (width == [UIScreen mainScreen].bounds.size.width) {
         _contactNameLabel.frame = CGRectMake(ContactImageSize+LeftMargin*2, 0, width - LocateButtonWidth - IndexWidth - (ContactImageSize+LeftMargin*2), [TSEntourageContactTableViewCell height]);
         _shimmeringView.frame = _timerLabel.frame;
+        _addButton.frame = _shimmeringView.frame;
     }
     else {
         _contactNameLabel.frame = CGRectMake(ContactImageSize+LeftMargin*2, 0, width - StatusImageWidth - IndexWidth - LeftMargin - ContactImageSize, [TSEntourageContactTableViewCell height]);
         _shimmeringView.frame = CGRectMake(width - StatusImageWidth - IndexWidth, 0, StatusImageWidth, [TSEntourageContactTableViewCell height]);
+        _addButton.frame = _shimmeringView.frame;
     }
+}
+
+- (void)dimContent {
+    _contactImageView.alpha = 0.5;
+    _contactNameLabel.alpha = 0.5;
+}
+
+- (void)resetAlphas {
+    _addButton.hidden = YES;
+    _contactImageView.alpha = 1.0;
+    _contactNameLabel.alpha = 1.0;
 }
 
 + (CGFloat)selectedHeight {
@@ -466,6 +482,31 @@ static NSString * const kEmailImage = @"emailSmall";
     else if (![_timerLabel.textColor isEqual:[TSColorPalette whiteColor]]) {
         _timerLabel.textColor = [TSColorPalette whiteColor];
     }
+}
+
+
+- (void)addPlusButton:(id)target {
+    
+    _tableViewController = target;
+    
+    if (!_addButton) {
+        UIImage *image = [UIImage imageNamed:@"plus_icon"];
+        
+        _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addButton setImage:image forState:UIControlStateNormal];
+        [_addButton setImage:[image imageWithAlpha:0.5] forState:UIControlStateHighlighted];
+        [_addButton setFrame:_shimmeringView.frame];
+        [self.contentView addSubview:_addButton];
+        [_addButton addTarget:self action:@selector(addToEntourage:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        _addButton.hidden = NO;
+    }
+}
+
+- (IBAction)addToEntourage:(id)sender {
+    
+    [_tableViewController moveContactToEntourage:self.contact];
 }
 
 @end

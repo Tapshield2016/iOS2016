@@ -192,6 +192,11 @@
     if (changesMade != _resultsController.changesMade) {
         _resultsController.changesMade = changesMade;
     }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    if (changesMade && !self.isEditing) {
+        [self performSelector:@selector(syncEntourageMembers) withObject:nil afterDelay:5.0];
+    }
 }
 
 - (void)editEntourageMembers {
@@ -253,12 +258,16 @@
             
             TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person];
             
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordID == %i", member.recordID];
+            NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(TSJavelinAPIEntourageMember *evaluatedObject, NSDictionary *bindings) {
+                return [evaluatedObject isEqualToMember:member];
+            }];
             NSArray *matchingEntourageArray = [self.entourageMembers filteredArrayUsingPredicate:predicate];
             NSArray *whoAddedArray = [self.whoAddedUser filteredArrayUsingPredicate:predicate];
+            NSArray *alreadyAdded = [mutableArray filteredArrayUsingPredicate:predicate];
             
             if (!matchingEntourageArray.count &&
                 !whoAddedArray.count &&
+                !alreadyAdded.count &&
                 (member.phoneNumber || member.email)) {
                 if (![member.phoneNumber isEqualToString:[TSJavelinAPIClient loggedInUser].phoneNumber] &&
                     ![member.email isEqualToString:[TSJavelinAPIClient loggedInUser].email]) {
@@ -367,8 +376,7 @@
     
     self.changesMade = YES;
     
-    if (!self.isEditing) {
-        animate = NO;
+    if (!self.isEditing && editingStyle == UITableViewCellEditingStyleDelete) {
         if (member) {
             [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
         }
@@ -382,7 +390,7 @@
             
             // animation has finished
             self.animating = NO;
-//            [self reloadTableViewOnMainThread];
+            [self reloadTableViewOnMainThread];
         }];
         
         [self.tableView beginUpdates];
@@ -520,6 +528,8 @@
     [super setIsEditing:isEditing];
     
     _resultsController.isEditing = isEditing;
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 

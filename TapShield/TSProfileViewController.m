@@ -63,10 +63,8 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     _userImageView.image = profileImage;
     _blurredUserImage.image = profileImage;
     
-    _mediaPicker = [[UIImagePickerController alloc] init];
-    [_mediaPicker setDelegate:self];
-    _mediaPicker.allowsEditing = YES;
-    _mediaPicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
+    _userImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _userImageView.layer.borderWidth = 3.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,6 +91,10 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     
     [super viewDidAppear:animated];
     
+    _mediaPicker = [[UIImagePickerController alloc] init];
+    [_mediaPicker setDelegate:self];
+    _mediaPicker.allowsEditing = YES;
+    _mediaPicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

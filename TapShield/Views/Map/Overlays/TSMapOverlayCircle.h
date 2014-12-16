@@ -10,12 +10,12 @@
 
 @interface TSMapOverlayCircle : UIImageView
 
-//for use if animating over an MKOverlay. Otherwise set to nil
-@property (nonatomic,strong) MKCircle *circle;
 @property (nonatomic, assign) BOOL isBlueColor;
 
+@property (nonatomic, assign) BOOL annotationAnimating;
+
 //methods to control animations
--(void) startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame;
--(void) stopAnimating;
+- (void) startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame;
+- (void) stopAnimating;
 
 @end

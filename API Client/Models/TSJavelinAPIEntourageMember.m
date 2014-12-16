@@ -30,6 +30,23 @@
         [self resetBoolsToDefault];
         self.recordID = ABRecordGetRecordID(person);
         [self getContactInfoFromPerson:person];
+        
+        NSArray *linkedRecordsArray = (__bridge NSArray *)ABPersonCopyArrayOfAllLinkedPeople(person);
+        
+        for (int i = 0; i < linkedRecordsArray.count; i++) {
+            [self forceMergeMember:[[TSJavelinAPIEntourageMember alloc] initWithPersonNoLinkedPeople:(__bridge ABRecordRef)(linkedRecordsArray[i])]];
+        }
+    }
+    return self;
+}
+
+- (instancetype)initWithPersonNoLinkedPeople:(ABRecordRef)person {
+    
+    self = [super init];
+    if (self) {
+        [self resetBoolsToDefault];
+        self.recordID = ABRecordGetRecordID(person);
+        [self getContactInfoFromPerson:person];
     }
     return self;
 }
@@ -322,7 +339,7 @@
         
         TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:recordRef];
         
-        if ([self isEqual:member]) {
+        if ([self isEqualToMember:member]) {
             self.image = member.image;
         }
         else {
@@ -335,7 +352,11 @@
     }
 }
 
-- (BOOL)isEqual:(id)object {
+- (BOOL)isEqualToMember:(id)object {
+    
+    if (object == self) {
+        return YES;
+    }
     
     if ([object isKindOfClass:[TSJavelinAPIEntourageMember class]]) {
         TSJavelinAPIEntourageMember *member = object;
@@ -344,8 +365,8 @@
         BOOL phoneNumberSame = NO;
         BOOL emailSame = NO;
         BOOL recordIDSame = NO;
-//        BOOL firstNameSame = NO;
-//        BOOL lastNameSame = NO;
+        //        BOOL firstNameSame = NO;
+        //        BOOL lastNameSame = NO;
         
         if (member.recordID == self.recordID) {
             recordIDSame = YES;
@@ -368,14 +389,14 @@
         
         if (member.first && self.first) {
             if ([member.first isEqualToString:self.first]) {
-//                firstNameSame = YES;
+                //                firstNameSame = YES;
                 numberYes++;
             }
         }
         
         if (member.last && self.last) {
             if ([member.last isEqualToString:self.last]) {
-//                lastNameSame = YES;
+                //                lastNameSame = YES;
                 numberYes++;
             }
         }
@@ -390,6 +411,7 @@
     }
     
     return NO;
+    
 }
 
 
@@ -575,6 +597,57 @@
     }
     
     return NO;
+}
+
+- (void)compareAndMergeMember:(TSJavelinAPIEntourageMember *)member {
+    
+    if ([self isEqualToMember:member]) {
+        
+        [self forceMergeMember:member];
+    }
+}
+
+- (void)forceMergeMember:(TSJavelinAPIEntourageMember *)member {
+    
+    if (!_name) {
+        _name = member.name;
+    }
+    
+    if (!_first) {
+        _first = member.first;
+    }
+    
+    if (!_last) {
+        _last = member.last;
+    }
+    
+    if (!_email) {
+        _email = member.email;
+    }
+    if (!_phoneNumber) {
+        _phoneNumber = member.phoneNumber;
+    }
+    
+    if (!_recordID) {
+        _recordID  = member.recordID;
+    }
+    
+    if (!_image) {
+        _image = member.image;
+        _recordID  = member.recordID;
+    }
+    
+    if (!_matchedUser) {
+        _matchedUser = member.matchedUser;
+    }
+    
+    if (!_location) {
+        _location = member.location;
+    }
+    
+    if (!_session) {
+        _session = member.session;
+    }
 }
 
 + (NSArray *)sortedMemberArray:(NSArray *)array {

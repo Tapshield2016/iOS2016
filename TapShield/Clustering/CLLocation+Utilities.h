@@ -19,4 +19,6 @@ CLLocationCoordinate2D CLLocationCoordinate2DRoundedLonLat(CLLocationCoordinate2
 
 BOOL MKMapRectSizeIsEqual(MKMapRect rect1, MKMapRect rect2);
 
+- (NSDictionary *)toLocationParameterDictionary;
+
 @end

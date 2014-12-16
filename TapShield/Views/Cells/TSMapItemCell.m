@@ -36,6 +36,8 @@
         self.addressLabel.numberOfLines = 1;
 
         self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chevron_icon"]];
+        
+        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

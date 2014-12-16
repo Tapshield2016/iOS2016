@@ -40,8 +40,11 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 + (instancetype)sharedLocationController;
 
 - (void)startStandardLocationUpdates:(TSLocationControllerLocationReceived)completion;
+- (void)startSignificantChangeUpdates:(TSLocationControllerLocationReceived)completion;
 - (void)latestLocation:(TSLocationControllerLocationReceived)completion;
 - (void)latestAccurateLocation:(TSLocationControllerLocationReceived)completion;
+
+- (void)stopMonitoringSignificantLocationChanges;
 
 - (void)startMonitoringForRegion:(CLRegion *)region;
 - (void)stopMonitoringForRegion:(CLRegion *)region;
@@ -54,6 +57,9 @@ typedef void (^TSLocationControllerLocationReceived)(CLLocation *location);
 - (void)bestAccuracyForBattery;
 - (void)bestAccuracyRefresh;
 - (void)enterLowPowerState;
+
++ (void)driving;
++ (void)walking;
 
 - (void)geocodeAddressString:(NSString *)address completion:(void(^)(NSString *street, NSString *cityStateZip))completion;
 - (void)geocodeAddressString:(NSString *)address dictionaryCompletion:(void(^)(NSDictionary *addressDictionary))completion;

@@ -61,7 +61,6 @@ static dispatch_once_t predicate;
     
     if (_mapView != mapView) {
         _mapView = mapView;
-        [self showSpotCrimes];
     }
 }
 
@@ -128,6 +127,9 @@ static dispatch_once_t predicate;
 }
 
 - (void)getSpotCrimeAnnotations:(CLLocation *)location {
+    
+#warning No Spotcrimes
+    return;
     
     if (![location isKindOfClass:[CLLocation class]]) {
         if (_mapView) {

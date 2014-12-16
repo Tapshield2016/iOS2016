@@ -7,7 +7,7 @@
 //
 
 #import "TSHomeViewController.h"
-#import "TSDestinationSearchViewController.h"
+#import "TSRoutePickerViewController.h"
 #import "TSNotifySelectionViewController.h"
 #import <MapKit/MapKit.h>
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
@@ -29,6 +29,15 @@
 #import "ADClusterAnnotation.h"
 #import <KVOController/FBKVOController.h>
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "TSJavelinChatManager.h"
+#import "TSTalkOptionViewController.h"
+#import "MBXMapKit.h"
+#import "TSEntourageMemberAnnotationView.h"
+#import "TSStartAnnotationView.h"
+#import "TSStartAnnotation.h"
+#import "TSAlertAnnotation.h"
+#import "TSAlertAnnotationView.h"
+#import "CLLocation+Utilities.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -36,21 +45,23 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 @interface TSHomeViewController ()
 
+@property (strong, nonatomic) MBXRasterTileOverlay *rasterOverlay;
+@property (strong, nonatomic) TSTalkOptionViewController *talkOptionsViewController;
 
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
 @property (nonatomic, strong) TSBottomUpTransitioningDelegate *bottomUpTransitioningDelegate;
-@property (nonatomic, strong) TSTransformCenterTransitioningDelegate *transformCenterTransitioningDelegate;
-@property (strong, nonatomic) FBKVOController *KVOController;
+@property (strong, nonatomic) FBKVOController *mapKVOController;
+@property (strong, nonatomic) FBKVOController *notificationCountKVOController;
 @property (nonatomic) BOOL viewDidAppear;
-@property (strong, nonatomic) TSBaseLabel *timerLabel;
+
 @property (assign, nonatomic) BOOL annotationsLoaded;
 @property (assign, nonatomic) BOOL firstMapLoad;
 @property (assign, nonatomic) BOOL locationServicesWereDisabled;
 @property (strong, nonatomic) UIAlertController *cancelEntourageAlertController;
 
-@property (strong, nonatomic) TSBottomMapButton *policeButton;
-@property (strong, nonatomic) TSBottomMapButton *emergencyButton;
-@property (strong, nonatomic) TSBottomMapButton *chatButton;
+@property (strong, nonatomic) UIVisualEffectView *blackoutView;
+
+@property (strong, nonatomic) TSIconBadgeView *entourageButtonBadge;
 
 @end
 
@@ -68,14 +79,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _annotationsLoaded = NO;
     
-    self.showSmallLogoInNavBar = YES;
+    self.showLogoInNavBar = YES;
     _mapView.isAnimatingToRegion = YES;
     
     [TSAlertManager sharedManager].homeViewController = self;
     
     [TSReportAnnotationManager sharedManager].mapView = _mapView;
     
-    [TSVirtualEntourageManager initSharedEntourageManagerWithHomeView:self];
+    [TSEntourageSessionManager initSharedEntourageManagerWithHomeView:self];
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -97,7 +108,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sendEntourageAlert)
-                                                 name:TSVirtualEntourageManagerTimerDidEnd
+                                                 name:TSEntourageSessionManagerTimerDidEnd
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userDidLeaveAgency:)
@@ -111,8 +122,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     _statusViewHeight.constant = 0;
     
     [[TSLocationController sharedLocationController] bestAccuracyRefresh];
-    
-    [self initCallChatButtons];
     
     if ([TSYankManager sharedYankManager].isEnabled) {
         UIImage *image = [_yankButton imageForState:UIControlStateNormal];
@@ -131,6 +140,19 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [_helpButton setImage:[[UIImage alloc] init] forState:UIControlStateSelected|UIControlStateHighlighted];
     [_helpButton setTitle:@"X" forState:UIControlStateSelected|UIControlStateHighlighted];
     [_helpButton setLabelTitle:@"Talk"];
+    
+    _badgeView = [[TSIconBadgeView alloc] initWithFrame:CGRectZero];
+    [_helpButton.superview addSubview:_badgeView];
+    
+    [self initTalkOptionController];
+    
+    [self monitorNewEntourageNotificationsCount];
+//    [self initMapBoxOverlays];
+    
+    if (![TSEntourageSessionManager sharedManager].isEnabled) {
+        [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -148,6 +170,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _firstMapLoad = NO;
         [_mapView setRegionAtAppearanceAnimated:self.firstAppear];
     }
+    
+    [TSEntourageSessionManager sharedManager].showEntourageAnnotationsAndOverlays = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -157,6 +181,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if ([TSJavelinAPIClient loggedInUser]) {
         [self whiteNavigationBar];
     }
+    
+    [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     
     _mapView.isAnimatingToRegion = NO;
     
@@ -197,6 +223,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [[TSReportAnnotationManager sharedManager] removeOldSpotCrimes];
 }
 
+- (void)monitorNewEntourageNotificationsCount {
+    
+    float size = 34;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-size - 13, 2, size, size)];
+    [view setUserInteractionEnabled:NO];
+    view.backgroundColor = [UIColor clearColor];
+    _entourageButtonBadge = [[TSIconBadgeView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-50, 10, 24, 24) observing:[TSJavelinPushNotificationManager sharedManager] integerKeyPath:@"notificationsNewCount"];
+    [view addSubview:_entourageButtonBadge];
+    [self.navigationController.navigationBar addSubview:view];
+}
 
 #pragma mark - Map Setup
 
@@ -216,6 +252,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
             [[TSReportAnnotationManager sharedManager] performSelector:@selector(loadSpotCrimeAndSocialAnnotations:) withObject:location afterDelay:2.0];
             [strongSelf addUserLocationAnnotation:location];
             [strongSelf geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
+            [strongSelf locationDidUpdate:location];
         }];
     }
 }
@@ -228,9 +265,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         FBKVOController *KVOController = [FBKVOController controllerWithObserver:_mapView];
         
         // add strong reference from observer to KVO controller
-        _KVOController = KVOController;
+        _mapKVOController = KVOController;
         
-        [_KVOController observe:[TSJavelinAPIClient loggedInUser].userProfile
+        [_mapKVOController observe:[TSJavelinAPIClient loggedInUser].userProfile
                         keyPath:@"profileImage"
                         options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(TSMapView *mapView, TSJavelinAPIUserProfile *userProfile, NSDictionary *change) {
                             
@@ -249,46 +286,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
 }
 
-#pragma mark - Entourage Timer
 
-- (void)adjustViewableTime {
-    
-    if (!_clockTimer) {
-        _clockTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                       target:self
-                                                     selector:@selector(adjustViewableTime)
-                                                     userInfo:nil
-                                                      repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
-    }
-    
-    NSDate *fireDate = [TSVirtualEntourageManager sharedManager].endTimer.fireDate;
-    
-    NSTimeInterval time = [fireDate timeIntervalSinceDate:[NSDate date]];
-    
-    if (!_timerLabel) {
-        [self.navigationItem setPrompt:@""];
-        _timerLabel = [[TSBaseLabel alloc] init];
-        _timerLabel.textColor = [TSColorPalette tapshieldBlue];
-        _timerLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 30);
-        _timerLabel.textAlignment = NSTextAlignmentCenter;
-        [self.navigationController.navigationBar addSubview:_timerLabel];
-    }
-    
-    _timerLabel.text = [TSUtilities formattedStringForTime:time];
-    [_timerLabel setNeedsDisplay];
-}
-
-- (void)stopClockTimer {
-    
-    [_clockTimer invalidate];
-    _clockTimer = nil;
-    
-    self.navigationController.navigationBar.topItem.prompt = nil;
-    
-    [_timerLabel removeFromSuperview];
-    _timerLabel = nil;
-}
 
 #pragma mark - UI Changes
 
@@ -303,22 +301,18 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [self setIsTrackingUser:YES animateToUser:YES];
     [self drawerCanDragForMenu:NO];
-    [self adjustViewableTime];
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"End Tracking" style:UIBarButtonItemStylePlain target:self action:@selector(cancelEntourage)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:self action:@selector(cancelEntourage)];
     [barButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue],
                                         NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:barButton animated:YES];
 }
 
-- (void)clearEntourageAndResetMap {
+- (void)clearEntourageMap {
     
     [[TSReportAnnotationManager sharedManager] showSpotCrimes];
     [_menuViewController showMenuButton:self];
-    [[TSVirtualEntourageManager sharedManager] stopEntourage];
     [self drawerCanDragForMenu:YES];
-    
-    [self stopClockTimer];
 }
 
 
@@ -336,7 +330,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)enterPasscodeCancel {
     
-    _cancelEntourageAlertController = [UIAlertController alertControllerWithTitle:@"Stop Entourage"
+    _cancelEntourageAlertController = [UIAlertController alertControllerWithTitle:@"Stop Tracking"
                                                                           message:@"Please enter passcode"
                                                                    preferredStyle:UIAlertControllerStyleAlert];
     
@@ -354,10 +348,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self presentViewController:_cancelEntourageAlertController animated:YES completion:nil];
 }
 
-- (void)showEntourageMembers:(id)sender {
-    
-    
-}
 
 - (void)sendYankAlert {
     
@@ -367,7 +357,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _yankButton.accessibilityValue = @"Off";
         _yankButton.accessibilityHint = kYankHintOff;
         
-        if ([TSAlertManager sharedManager].isPresented) {
+        if (![TSAlertManager sharedManager].shouldStartCountdown) {
             return;
         }
         
@@ -378,7 +368,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)sendEntourageAlert {
     
-    if ([TSAlertManager sharedManager].isPresented) {
+    if (![TSAlertManager sharedManager].shouldStartCountdown) {
         return;
     }
     
@@ -392,9 +382,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)sendAlert:(id)sender {
     
+    
+    
     _helpButton.selected = !_helpButton.selected;
     
     if (_helpButton.selected) {
+        if ([TSJavelinChatManager sharedManager].unreadMessages != 0) {
+            [self openChat:nil];
+            return;
+        }
+        [_badgeView removeFromSuperview];
         [self showCallChatButtons];
     }
     else {
@@ -412,27 +409,30 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [self showOnlyMap];
     [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
+    [[TSEntourageSessionManager sharedManager] closeDrawer];
 }
 
 - (IBAction)openEntourage:(id)sender {
     
     [[TSReportAnnotationManager sharedManager] hideSpotCrimes];
-    
+//    [[TSEntourageSessionManager sharedManager] stopStatusBarTimer];
     
     if (!_topDownTransitioningDelegate) {
         _topDownTransitioningDelegate = [[TSTopDownTransitioningDelegate alloc] init];
     }
     
-    if (![TSVirtualEntourageManager sharedManager].isEnabled) {
-        TSDestinationSearchViewController *viewController = (TSDestinationSearchViewController *)[self presentViewControllerWithClass:[TSDestinationSearchViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
+    if (![TSEntourageSessionManager sharedManager].isEnabled) {
+        
+        [TSEntourageSessionManager sharedManager].showEntourageAnnotationsAndOverlays = NO;
+        
+        TSRoutePickerViewController *viewController = (TSRoutePickerViewController *)[self presentViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
         
         [self showOnlyMap];
     }
     else {
-        
-        TSNotifySelectionViewController *viewController = (TSNotifySelectionViewController *)[self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
-        viewController.homeViewController = self;
+        [self setIsTrackingUser:NO animateToUser:NO];
+        [[TSEntourageSessionManager sharedManager].routeManager showActiveEntourageSession];
     }
 }
 
@@ -465,6 +465,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (IBAction)userLocationTUI:(id)sender {
+    
+    if (_isTrackingUser) {
+        [_mapView setRegionAtAppearanceAnimated:YES];
+    }
     
     [self setIsTrackingUser:YES animateToUser:YES];
     
@@ -576,11 +580,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [self setIsTrackingUser:NO animateToUser:NO];
     [self setStatusViewText:nil];
+    [_geocoder cancelGeocode];
 }
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled ) {
+    if ([TSEntourageSessionManager sharedManager].isEnabled ) {
         return;
     }
     
@@ -596,7 +601,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
             CLLocationCoordinate2D coord = [_mapView convertPoint:point toCoordinateFromView:_mapView];
             MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
-            [[TSVirtualEntourageManager sharedManager].routeManager selectRouteClosestTo:mapPoint];
+            [[TSEntourageSessionManager sharedManager].routeManager selectRouteClosestTo:mapPoint];
         }
     }
 }
@@ -608,16 +613,35 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)locationDidUpdate:(CLLocation *)location {
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
-        [[TSVirtualEntourageManager sharedManager] checkRegion:location];
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
+        [[TSEntourageSessionManager sharedManager] checkRegion:location];
     }
     
     if (_mapView.userLocationAnnotation) {
+        [_mapView removeAccuracyCircleOverlay];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_mapView updateAccuracyCircleWithLocation:location];
-            _mapView.userLocationAnnotation.coordinate = location.coordinate;
-        });
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
+            if (_viewDidAppear) {
+                [_mapView.userLocationAnnotationView.layer removeAllAnimations];
+                [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
+                    [_mapView resetAnimatedOverlayAt:location];
+                    _mapView.userLocationAnnotation.coordinate = location.coordinate;
+                    
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        [_mapView updateAccuracyCircleWithLocation:location];
+                    }
+                }];
+            }
+            else {
+                [_mapView resetAnimatedOverlayAt:location];
+                _mapView.userLocationAnnotation.coordinate = location.coordinate;
+                [_mapView updateAccuracyCircleWithLocation:location];
+            }
+        }];
+        
+        
     }
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {
@@ -631,10 +655,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self geocoderUpdateUserLocationAnnotationCallOutForLocation:location];
     
     _mapView.previousLocation = location;
-    
-    if (_viewDidAppear) {
-        [_mapView resetAnimatedOverlayAt:location];
-    }
 }
 
 - (void)didEnterRegion:(CLRegion *)region {
@@ -686,6 +706,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         _mapView.lastReverseGeocodeLocation = location;
         
+        [_geocoder cancelGeocode];
         [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
             
             if (error) {
@@ -725,7 +746,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 [self setStatusViewText:_statusView.userLocation];
                 
                 _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
-//                _mapView.userLocationAnnotation.accessibilityLabel 
+                
+                _userLocationItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithPlacemark:placemark]];
             }
             else {
                 _statusView.userLocation = nil;
@@ -744,7 +766,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     
-    if([overlay isKindOfClass:[MKPolygon class]]){
+    if ([overlay isKindOfClass:[TSEntourageSessionPolyline class]]) {
+        return [(TSEntourageSessionPolyline *)overlay renderer];
+    }
+    else if([overlay isKindOfClass:[MKPolygon class]]){
         
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
@@ -756,6 +781,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     else if ([overlay isKindOfClass:[MKPolyline class]]) {
         return [self rendererForRoutePolyline:overlay];
     }
+    else if ([overlay isKindOfClass:[MBXRasterTileOverlay class]]) {
+        MKTileOverlayRenderer *renderer = [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
+        return renderer;
+    }
     
     return nil;
 }
@@ -765,14 +794,19 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [renderer setLineWidth:6.0];
     [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
-    if (![TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
-        [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute = [[TSVirtualEntourageManager sharedManager].routeManager.routeOptions firstObject];
+    if (![TSEntourageSessionManager sharedManager].routeManager.routeOptions && [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.polyline == overlay) {
+        [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
+        return renderer;
     }
     
-    if ([TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
-        for (TSRouteOption *routeOption in [TSVirtualEntourageManager sharedManager].routeManager.routeOptions) {
-            if (routeOption == [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute) {
-                if (routeOption.route.polyline == overlay) {
+    if (![TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
+        [TSEntourageSessionManager sharedManager].routeManager.selectedRoute = [[TSEntourageSessionManager sharedManager].routeManager.routeOptions firstObject];
+    }
+    
+    if ([TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
+        for (TSRouteOption *routeOption in [TSEntourageSessionManager sharedManager].routeManager.routeOptions) {
+            if (routeOption == [TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
+                if (routeOption.polyline == overlay) {
                     [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
                     break;
                 }
@@ -799,6 +833,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         _mapView.userLocationAnnotationView = (TSUserAnnotationView *)annotationView;
         _mapView.userLocationAnnotationView.canShowCallout = NO;
     }
+    else if ([annotation isKindOfClass:[TSEntourageMemberAnnotation class]]) {
+        annotationView = (TSEntourageMemberAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSEntourageMemberAnnotationView class])];
+        if (!annotationView) {
+            annotationView = [[TSEntourageMemberAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSEntourageMemberAnnotationView class])];
+        }
+    }
     else if ([annotation isKindOfClass:[TSAgencyAnnotation class]]) {
 
         annotationView = (TSOrganizationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSAgencyAnnotation class])];
@@ -812,6 +852,18 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [annotationView displayTransportationType:annotation];
         if (!annotationView) {
             annotationView = [[TSDestinationAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSSelectedDestinationAnnotation class])];
+        }
+    }
+    else if ([annotation isKindOfClass:[TSStartAnnotation class]]) {
+        annotationView = (TSStartAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSStartAnnotation class])];
+        if (!annotationView) {
+            annotationView = [[TSStartAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSStartAnnotation class])];
+        }
+    }
+    else if ([annotation isKindOfClass:[TSAlertAnnotation class]]) {
+        annotationView = (TSAlertAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([TSAlertAnnotation class])];
+        if (!annotationView) {
+            annotationView = [[TSAlertAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([TSAlertAnnotation class])];
         }
     }
     else if ([annotation isKindOfClass:[TSRouteTimeAnnotation class]]) {
@@ -875,7 +927,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         if ([view isKindOfClass:[TSBaseAnnotationView class]]) {
             
             if (![view.annotation isKindOfClass:[TSBaseMapAnnotation class]] ||
-                [view isKindOfClass:[TSUserAnnotationView class]]) {
+                [view isKindOfClass:[TSUserAnnotationView class]] ||
+                [view isKindOfClass:[TSEntourageMemberAnnotationView class]] ||
+                [view isKindOfClass:[TSDestinationAnnotationView class]]) {
                 return;
             }
             
@@ -885,17 +939,26 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 if (!_viewDidAppear) {
                     return;
                 }
+                
                 CGRect endFrame = view.frame;
                 
-                CGRect startFrame = endFrame; startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
-                view.frame = startFrame;
+                if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+                    view.transform = CGAffineTransformMakeScale(0.001, 0.001);
+                }
+                else {
+                    CGRect startFrame = endFrame;
+                    startFrame.origin.y = visibleRect.origin.y - startFrame.size.height;
+                    view.frame = startFrame;
+                }
                 
-                [UIView beginAnimations:@"drop" context:NULL];
-                [UIView setAnimationDuration:0.3];
-                
-                view.frame = endFrame;
-                
-                [UIView commitAnimations];
+                [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
+                        view.transform = CGAffineTransformIdentity;
+                    }
+                    else {
+                        view.frame = endFrame;
+                    }
+                } completion:nil];
             }
         }
     }
@@ -909,6 +972,13 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = NO;
+    
+    if (_mapView.camera.altitude < 330) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
     
     if (_viewDidAppear) {
         [_mapView resetAnimatedOverlayAt:[TSLocationController sharedLocationController].location];
@@ -937,7 +1007,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [self geocoderUpdateUserLocationAnnotationCallOutForLocation:[TSLocationController sharedLocationController].location];
     }
     
-    
     MKCoordinateSpan span = mapView.region.span;
     
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
@@ -960,10 +1029,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         TSJavelinAPISocialCrimeReport *report = annotation.socialReport;
         
         if (report) {
-            subtitle = [TSUtilities dateDescriptionSinceNow:report.creationDate];
+            subtitle = [report.creationDate dateDescriptionSinceNow];
         }
         else {
-            subtitle = [TSUtilities dateDescriptionSinceNow:location.date];
+            subtitle = [location.date dateDescriptionSinceNow];
         }
         
         annotation.subtitle = subtitle;
@@ -971,13 +1040,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         ((ADClusterAnnotation *)view.annotation).title = annotation.title;
         
         if (span.longitudeDelta > kMaxLonDeltaCluster) {
-            
-            [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:kMaxLonDeltaCluster];
+            [self moveMapViewToCoordinate:view.annotation.coordinate spanDelta:kMaxLonDeltaCluster];
         }
     }
     
     if ([view isKindOfClass:[TSRouteTimeAnnotationView class]]) {
-        [[TSVirtualEntourageManager sharedManager].routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
+        [[TSEntourageSessionManager sharedManager].routeManager selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)view];
         [self flipIntersectingRouteAnnotation];
     }
     
@@ -988,32 +1056,29 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         if (span.longitudeDelta > .4) {
             delta = span.longitudeDelta*.3;
         }
-//        else if (span.longitudeDelta > kMaxLonDeltaCluster) {
-//            delta = kMaxLonDeltaCluster;
-//        }
         else {
             delta = span.longitudeDelta*.5;
         }
         
-        [self moveMapView:mapView coordinate:view.annotation.coordinate spanDelta:delta];
+        [self moveMapViewToCoordinate:view.annotation.coordinate spanDelta:delta];
     }
     
     [_mapView bringSubviewToFront:view];
 }
 
-- (void)moveMapView:(MKMapView *)mapView coordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
+- (void)moveMapViewToCoordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta {
     
     [self setIsTrackingUser:NO animateToUser:NO];
     
-    MKCoordinateRegion region = mapView.region;
-    MKCoordinateSpan span = mapView.region.span;
+    MKCoordinateRegion region = _mapView.region;
+    MKCoordinateSpan span = _mapView.region.span;
     
     span.latitudeDelta = delta;
     span.longitudeDelta = delta;
     
     region.span = span;
     region.center = coordinate;
-    [mapView setRegion:region animated:YES];
+    [_mapView setRegion:region animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
@@ -1025,7 +1090,14 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if ([view isKindOfClass:[TSSpotCrimeAnnotationView class]]) {
         view.alpha = [(TSSpotCrimeAnnotationView *)view alphaForReportDate];
     }
+    
+    if ([view isKindOfClass:[TSDestinationAnnotationView class]]) {
+        if ([(TSSelectedDestinationAnnotation *)view.annotation shouldStaySelected]) {
+            [_mapView selectAnnotation:view.annotation animated:NO];
+        }
+    }
 }
+
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     
@@ -1043,6 +1115,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         }
         
         [TSViewReportDetailsViewController presentDetails:(TSSpotCrimeAnnotation *)annotation from:self];
+    }
+    else if ([view isKindOfClass:[TSDestinationAnnotationView class]]) {
+        
     }
 }
 
@@ -1063,7 +1138,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 for (UIView *annotationView in [subview.subviews copy]) {
                     if ([annotationView isKindOfClass:[TSRouteTimeAnnotationView class]]) {
                         [annotationViewArray addObject:annotationView];
-                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.routeTimeAnnotation]) {
+                        if ([((TSRouteTimeAnnotationView *)annotationView).annotation isEqual:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.routeTimeAnnotation]) {
                             [subview bringSubviewToFront:annotationView];
                         }
                     }
@@ -1141,7 +1216,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if ([textField.text isEqualToString:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].disarmCode]) {
-        [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+        [[TSEntourageSessionManager sharedManager] manuallyEndTracking];
         [_cancelEntourageAlertController dismissViewControllerAnimated:YES completion:nil];
     }
     else {
@@ -1160,7 +1235,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     LAContext *context = [[LAContext alloc] init];
     
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-            localizedReason:@"Stop Entourage"
+            localizedReason:@"Stop Tracking"
                       reply:^(BOOL success, NSError *error) {
                           
                           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -1180,7 +1255,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                   }
                               }
                               else if (success) {
-                                  [[TSVirtualEntourageManager sharedManager] manuallyEndTracking];
+                                  [[TSEntourageSessionManager sharedManager] manuallyEndTracking];
                               }
                           }];
                       }];
@@ -1205,7 +1280,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)callAgencyDispatcher:(id)sender {
     
-    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
+    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSJavelinAPIClient loggedInUser].agency) {
         [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
         return;
     }
@@ -1227,138 +1302,148 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [self transitionForAlert];
 }
 
-- (void)initCallChatButtons {
-    
-    CGRect frame = _routeButton.frame;
-    
-    _policeButton = [[TSBottomMapButton alloc] initWithFrame:frame];
-    [_policeButton setImage:[UIImage imageNamed:@"phone_call"] forState:UIControlStateNormal];
-    [_policeButton setLabelTitle:@"Police"];
-    [_policeButton addTarget:self action:@selector(callAgencyDispatcher:) forControlEvents:UIControlEventTouchUpInside];
-    
-    _emergencyButton = [[TSBottomMapButton alloc] initWithFrame:frame];
-    [_emergencyButton setImage:[UIImage imageNamed:@"call_911"] forState:UIControlStateNormal];
-    [_emergencyButton setLabelTitle:@"Call"];
-    [_emergencyButton addTarget:self action:@selector(callEmergencyNumber:) forControlEvents:UIControlEventTouchUpInside];
-    
-    _chatButton = [[TSBottomMapButton alloc] initWithFrame:frame];
-    [_chatButton setImage:[UIImage imageNamed:@"alert_chat_icon"] forState:UIControlStateNormal];
-    [_chatButton setLabelTitle:@"Chat"];
-    [_chatButton addTarget:self action:@selector(openChat:) forControlEvents:UIControlEventTouchUpInside];
-    
-    float scale = 1.5;
-    
-    _policeButton.transform = CGAffineTransformMakeScale(scale, scale);
-    _emergencyButton.transform = CGAffineTransformMakeScale(scale, scale);
-    _chatButton.transform = CGAffineTransformMakeScale(scale, scale);
-    
-    _policeButton.center = _helpButton.superview.center;
-    _emergencyButton.center = _helpButton.superview.center;
-    _chatButton.center = _helpButton.superview.center;
-    
-    [self.view insertSubview:_policeButton belowSubview:_helpButton.superview];
-    [self.view insertSubview:_emergencyButton belowSubview:_helpButton.superview];
-    [self.view insertSubview:_chatButton belowSubview:_helpButton.superview];
-    
-    _policeButton.hidden = YES;
-    _emergencyButton.hidden = YES;
-    _chatButton.hidden = YES;
-    
-    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
-        _policeButton.selected = YES;
-        _chatButton.selected = YES;
-    }
-}
-
 - (void)showCallChatButtons {
     
     _helpButton.selected = YES;
-    
-    [_policeButton.layer removeAllAnimations];
-    [_emergencyButton.layer removeAllAnimations];
-    [_chatButton.layer removeAllAnimations];
-    [_reportButton.layer removeAllAnimations];
-    [_routeButton.layer removeAllAnimations];
-    
-    _policeButton.hidden = NO;
-    _emergencyButton.hidden = NO;
-    _chatButton.hidden = NO;
+    [_talkOptionsViewController showTalkButtons];
     
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-        
-        _policeButton.transform = CGAffineTransformIdentity;
-        _emergencyButton.transform = CGAffineTransformIdentity;
-        _chatButton.transform = CGAffineTransformIdentity;
-        
-        _policeButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:215];
-        _emergencyButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:270];
-        _chatButton.center = [self pointOnCircleWithView:_helpButton.superview radius:_helpButton.frame.size.height*1.1 angle:325];
-        
-        _reportButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
-        _routeButton.transform = CGAffineTransformMakeScale(0.001, 0.001);
-        
         _helpButton.label.hidden = YES;
-        _helpButton.transform = CGAffineTransformMakeScale(0.6667, 0.6667);
         
+        CGAffineTransform t = CGAffineTransformMakeScale(0.6667, 0.6667);
+        t = CGAffineTransformTranslate(t, 0, 15);
+        _helpButton.transform = t;
+        
+        _blackoutView.hidden = NO;
     } completion:nil];
-}
-
-- (CGPoint)pointOnCircleWithView:(UIView *)view radius:(float)radius angle:(float)angle {
-    CGPoint newPoint;
-    newPoint.x = view.center.x + (radius * cosf(angle * M_PI / 180));
-    newPoint.y = view.center.y + (radius * sinf(angle * M_PI / 180));
-    
-    return newPoint;
 }
 
 
 - (void)hideCallChatButtons {
     
     _helpButton.selected = NO;
-    
-    [_policeButton.layer removeAllAnimations];
-    [_emergencyButton.layer removeAllAnimations];
-    [_chatButton.layer removeAllAnimations];
-    [_reportButton.layer removeAllAnimations];
-    [_routeButton.layer removeAllAnimations];
+    [_talkOptionsViewController hideTalkButtons];
     
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-        
-        float scale = 1.5;
-        
-        _policeButton.transform = CGAffineTransformMakeScale(scale, scale);
-        _emergencyButton.transform = CGAffineTransformMakeScale(scale, scale);
-        _chatButton.transform = CGAffineTransformMakeScale(scale, scale);
-        
-        _policeButton.center = _helpButton.superview.center;
-        _emergencyButton.center = _helpButton.superview.center;
-        _chatButton.center = _helpButton.superview.center;
-        
-        _reportButton.transform = CGAffineTransformIdentity;
-        _routeButton.transform = CGAffineTransformIdentity;
         _helpButton.transform = CGAffineTransformIdentity;
-        
+        _blackoutView.hidden = YES;
         _helpButton.label.hidden = NO;
-        
     } completion:^(BOOL finished) {
-        if (finished && _policeButton.transform.a != CGAffineTransformIdentity.a) {
-            _policeButton.hidden = YES;
-            _emergencyButton.hidden = YES;
-            _chatButton.hidden = YES;
+        if (finished && _helpButton.transform.a == CGAffineTransformIdentity.a) {
+            [_helpButton.superview addSubview:_badgeView];
         }
     }];
 }
 
+- (void)initTalkOptionController {
+    float inset = 30;
+    _talkOptionsViewController = [[TSTalkOptionViewController alloc] init];
+    CGRect talkOptionFrame = CGRectMake(inset, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width-inset*2, self.view.frame.size.height - (self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height)*2);
+    _talkOptionsViewController.view.frame = talkOptionFrame;
+    [_talkOptionsViewController willMoveToParentViewController:self];
+    [_talkOptionsViewController beginAppearanceTransition:YES animated:NO];
+    [self addChildViewController:_talkOptionsViewController];
+    [self.view insertSubview:_talkOptionsViewController.view belowSubview:_helpButton.superview];
+    [_talkOptionsViewController didMoveToParentViewController:self];
+    [_talkOptionsViewController endAppearanceTransition];
+    _talkOptionsViewController.view.hidden = YES;
+    [_talkOptionsViewController initTalkOptions];
+    
+    _blackoutView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    _blackoutView.frame = self.view.frame;
+    _blackoutView.hidden = YES;
+    [self.view insertSubview:_blackoutView belowSubview:_talkOptionsViewController.view];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideCallChatButtons)];
+    [_blackoutView addGestureRecognizer:tap];
+}
+
+#pragma mark - Agency Status 
+
 - (void)userDidLeaveAgency:(NSNotification *)notification {
     
-    _policeButton.selected = YES;
-    _chatButton.selected = YES;
 }
 
 - (void)userDidEnterAgency:(NSNotification *)notification {
     
-    _policeButton.selected = NO;
-    _chatButton.selected = NO;
+}
+
+#pragma mark - MBXRaster
+
+//- (void)initMapBoxOverlays {
+//    
+//    // Configure the amount of storage to use for NSURLCache's shared cache: You can also omit this and allow NSURLCache's
+//    // to use its default cache size. These sizes determines how much storage will be used for performance caching of HTTP
+//    // requests made by MBXOfflineMapDownloader and MBXRasterTileOverlay. Please note that these values apply only to the
+//    // HTTP cache, and persistent offline map data is stored using an entirely separate mechanism.
+//    //
+//    NSUInteger memoryCapacity = 4 * 1024 * 1024;
+//    NSUInteger diskCapacity = 40 * 1024 * 1024;
+//    NSURLCache *urlCache = [[NSURLCache alloc] initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:nil];
+//    //[urlCache removeAllCachedResponses];
+//    [NSURLCache setSharedURLCache:urlCache];
+//    
+//    [MBXMapKit setAccessToken:@"pk.eyJ1IjoiYWRhbXNoYXJlIiwiYSI6ImNvWUtodTQifQ.KdVngge_lPq-xj0bOVxpSw"];
+//    
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+//    
+//    // Configure a raster tile overlay to use the initial sample map
+//    //
+//    _rasterOverlay = [[MBXRasterTileOverlay alloc] initWithMapID:@"adamshare.k610je3e"];
+//    
+//    // Let the raster tile overlay know that we want to be notified when it has asynchronously loaded the sample map's metadata
+//    // (so we can set the map's center and zoom) and the sample map's markers (so we can add them to the map).
+//    //
+//    _rasterOverlay.delegate = self;
+//    
+//    // Add the raster tile overlay to our mapView so that it will immediately start rendering tiles. At this point the MKMapView's
+//    // default center and zoom don't match the center and zoom of the sample map, but that's okay. Adding the layer now will prevent
+//    // a percieved visual glitch in the UI (an empty map), and we'll fix the center and zoom when tileOverlay:didLoadMetadata:withError:
+//    // gets called to notify us that the raster tile overlay has finished asynchronously loading its metadata.
+//    //
+//    [_mapView addOverlay:_rasterOverlay];
+//    
+//}
+//
+//#pragma mark - MBXRasterTileOverlayDelegate implementation
+//
+//- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMetadata:(NSDictionary *)metadata withError:(NSError *)error
+//{
+//    // This delegate callback is for centering the map once the map metadata has been loaded
+//    //
+//    if (error)
+//    {
+//        NSLog(@"Failed to load metadata for map ID %@ - (%@)", overlay.mapID, error?error:@"");
+//    }
+//    else
+//    {
+//        [_mapView mbx_setCenterCoordinate:overlay.center zoomLevel:overlay.centerZoom animated:NO];
+//    }
+//}
+//
+//
+//- (void)tileOverlay:(MBXRasterTileOverlay *)overlay didLoadMarkers:(NSArray *)markers withError:(NSError *)error
+//{
+//    // This delegate callback is for adding map markers to an MKMapView once all the markers for the tile overlay have loaded
+//    //
+//    if (error)
+//    {
+//        NSLog(@"Failed to load markers for map ID %@ - (%@)", overlay.mapID, error?error:@"");
+//    }
+//    else
+//    {
+//        [_mapView addAnnotations:markers];
+//    }
+//}
+//
+//- (void)tileOverlayDidFinishLoadingMetadataAndMarkers:(MBXRasterTileOverlay *)overlay
+//{
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+//}
+
+- (void)showTimeAdjustViewController {
+    
+    [self presentViewControllerWithClass:[TSNotifySelectionViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES navigationBarHidden:NO];
 }
 
 

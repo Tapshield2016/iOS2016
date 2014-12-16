@@ -16,6 +16,7 @@
 
 - (void)setNumber:(NSUInteger)number;
 - (void)incrementBadgeNumber;
-- (void)clearBadge;
+
+- (id)initWithFrame:(CGRect)frame observing:(id)object integerKeyPath:(NSString *)keypath;
 
 @end

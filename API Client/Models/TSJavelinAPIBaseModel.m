@@ -7,7 +7,6 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
-#import <AWSiOSSDK/AmazonSDKUtil.h>
 
 @implementation TSJavelinAPIBaseModel
 
@@ -19,6 +18,13 @@
 
     self.url = [attributes valueForKey:@"url"];
 
+    return self;
+}
+
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes {
+    
+    self.url = [attributes valueForKey:@"url"];
+    
     return self;
 }
 

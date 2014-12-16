@@ -63,7 +63,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
+    if((self = [super initWithCoder:decoder])) {
         //decode properties, other class vars
         _profileImage = [decoder decodeObjectForKey:@"profile_image"];
         _profileImageURL = [decoder decodeObjectForKey:@"profile_image_url"];
@@ -337,45 +337,6 @@
     }
     
     return ABCreateStringWithAddressDictionary(addressDictionary, NO);
-    
-//    NSString *address;
-//    
-//    NSString *street = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressStreetKey];
-//    if (street) {
-//        address = street;
-//    }
-//    
-//    NSString *city = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressCityKey];
-//    if (city) {
-//        if (address) {
-//            address = [NSString stringWithFormat:@"%@, %@", address, city];
-//        }
-//        else {
-//            address = city;
-//        }
-//    }
-//    
-//    NSString *state = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressStateKey];
-//    if (state) {
-//        if (address) {
-//            address = [NSString stringWithFormat:@"%@, %@", address, state];
-//        }
-//        else {
-//            address = state;
-//        }
-//    }
-//    
-//    NSString *zip = [addressDictionary objectForKey:(__bridge NSString *)kABPersonAddressZIPKey];
-//    if (zip) {
-//        if (address) {
-//            address = [NSString stringWithFormat:@"%@ %@", address, zip];
-//        }
-//        else {
-//            address = zip;
-//        }
-//    }
-//    
-//    return address;
 }
 
 

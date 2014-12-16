@@ -16,6 +16,15 @@ NSString * const TSLogoImageViewSmallTapShieldLogo = @"tapshield_icon"; //@"talk
 
 @implementation TSLogoImageView
 
+- (id)initWithFrame:(CGRect)frame {
+    
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        self.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return self;
+}
 
 - (id)initWithImage:(UIImage *)image defaultImageName:(NSString *)defaultImageName {
     
@@ -26,30 +35,9 @@ NSString * const TSLogoImageViewSmallTapShieldLogo = @"tapshield_icon"; //@"talk
     self = [super initWithImage:image];
     if (self) {
         // Initialization code
-        self.contentMode = UIViewContentModeCenter;
+        self.contentMode = UIViewContentModeScaleAspectFit;
     }
     return self;
-}
-
-- (void)setPreferredHeight:(float)preferredHeight {
-    
-    _preferredHeight = preferredHeight;
-    
-    [self checkPreferredHieght];
-}
-
-- (void)checkPreferredHieght {
-    
-    if (self.frame.size.height > _preferredHeight) {
-        self.contentMode = UIViewContentModeScaleAspectFit;
-        
-        CGRect frame = self.frame;
-        frame.size.height = _preferredHeight;
-        self.frame = frame;
-    }
-    else {
-        self.contentMode = UIViewContentModeCenter;
-    }
 }
 
 - (void)setImage:(UIImage *)image defaultImageName:(NSString *)defaultImageName {
@@ -59,11 +47,6 @@ NSString * const TSLogoImageViewSmallTapShieldLogo = @"tapshield_icon"; //@"talk
     }
     
     [super setImage:image];
-    
-    CGPoint center = self.center;
-    [self sizeToFit];
-    [self checkPreferredHieght];
-    self.center = center;
     
     [self setNeedsDisplay];
 }

@@ -28,10 +28,6 @@
         _statusString = @"No network connection";
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(newPicture)
-                                                 name:TSJavelinAPIAgencyDidFinishSmallLogoDownload
-                                               object:nil];
     
     [self getOrganizationsToDisplay];
     
@@ -54,6 +50,9 @@
     [self customizeTableView:_tableView];
     [self customizeSearchBarAppearance:self.searchController.searchBar];
     
+    _tableView.separatorInset = UIEdgeInsetsZero;
+    _tableView.layoutMargins = UIEdgeInsetsZero;
+    
     [self.navigationItem.rightBarButtonItem setEnabled:NO];
 }
 
@@ -67,10 +66,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)newPicture {
-    [_tableView reloadData];
 }
 
 #pragma mark - Bar Button Action
@@ -330,7 +325,7 @@
 
 - (IBAction)dismissRegistration:(id)sender {
     
-    [[TSUserSessionManager sharedManager] dismissWindow:nil];
+    [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
 }
 
 

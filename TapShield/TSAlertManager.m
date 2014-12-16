@@ -8,7 +8,7 @@
 
 #import "TSAlertManager.h"
 #import "TSLocationController.h"
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TSLocalNotification.h"
 #import "TSPageViewController.h"
@@ -169,7 +169,10 @@ static dispatch_once_t predicate;
 
 - (void)showAlertWindowAndStartCountdownWithType:(NSString *)type {
     
-    if (_isPresented){
+    if (_isPresented) {
+        [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:^(BOOL finished) {
+            [self showAlertWindowAndStartCountdownWithType:type];
+        }];
         return;
     }
     _isPresented = YES;
@@ -178,6 +181,7 @@ static dispatch_once_t predicate;
         [[TSAlertManager sharedManager] startAlertCountdown:10 type:type];
         
         _pageviewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([TSPageViewController class])];
+        [_pageviewController showDisarmViewController];
         [self showWindowWithRootViewController:_pageviewController animated:YES animationType:kAlertWindowAnimationTypeZoomIn completion:nil];
     });
 }
@@ -204,6 +208,22 @@ static dispatch_once_t predicate;
 
 #pragma mark - Countdown To Alert
 
+- (BOOL)shouldStartCountdown {
+    
+    if (_isPresented) {
+        
+        if (_countdownTimer) {
+            return NO;
+        }
+        
+        if (_type && _type != kAlertTypeChat) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void)startAlertCountdown:(int)seconds type:(NSString *)type {
     
     if (!_shouldStartTimer) {
@@ -222,14 +242,11 @@ static dispatch_once_t predicate;
     _type = type;
     _endDate = [NSDate dateWithTimeInterval:seconds sinceDate:[NSDate date]];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-        _countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                           target:self
-                                                         selector:@selector(countdown:)
-                                                         userInfo:nil
-                                                          repeats:YES];
-    });
+    _countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                       target:self
+                                                     selector:@selector(countdown:)
+                                                     userInfo:nil
+                                                      repeats:YES];
 }
 
 - (void)stopAlertCountdown {
@@ -264,7 +281,7 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
-    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
+    [[TSEntourageSessionManager sharedManager] stopEntourageNonArrival];
     
     _status = kAlertSending;
     if ([_alertDelegate respondsToSelector:@selector(alertStatusChanged:)]) {
@@ -275,26 +292,31 @@ static dispatch_once_t predicate;
         
         [self didLoseConnection:nil];
         
-        NSString *number = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
-        if (!number) {
-            number = kEmergencyNumber;
+        if (type != kAlertType911Call) {
+            if (type == kAlertTypeChat) {
+                NSString *number = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
+                if (!number) {
+                    number = kEmergencyNumber;
+                }
+                NSString *callButtonTitle = [NSString stringWithFormat:@"Call %@", number];
+                
+                _noConnectionAlertController = [UIAlertController alertControllerWithTitle:@"No Network Data Connection"
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action = [UIAlertAction actionWithTitle:callButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [self callEmergencyNumber];
+                }];
+                [_noConnectionAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+                [_noConnectionAlertController addAction:action];
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.window.rootViewController presentViewController:_noConnectionAlertController animated:YES completion:nil];
+                }];
+                
+                [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kNoConnectionNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
+            }
+            [self callPrimary];
         }
-        NSString *callButtonTitle = [NSString stringWithFormat:@"Call %@", number];
-        
-        _noConnectionAlertController = [UIAlertController alertControllerWithTitle:@"No Network Data Connection"
-                                                                           message:nil
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:callButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self callEmergencyNumber];
-        }];
-        [_noConnectionAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-        [_noConnectionAlertController addAction:action];
-        
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.window.rootViewController presentViewController:_noConnectionAlertController animated:YES completion:nil];
-        }];
-        
-        [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kNoConnectionNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
     }
     
     [[TSJavelinAPIClient sharedClient] sendQueuedAlertWithAlertType:type location:[TSLocationController sharedLocationController].location completion:^(BOOL sent, BOOL inside) {
@@ -324,7 +346,7 @@ static dispatch_once_t predicate;
             
         }
         else if (![type isEqualToString:kAlertTypeChat]) {
-            [self alertSentOutsideGeofence];
+            [self alertSentOutsideGeofence:type];
         }
         
     }];
@@ -371,7 +393,7 @@ static dispatch_once_t predicate;
     
     [self stopAlertCountdown];
     
-    [[TSVirtualEntourageManager sharedManager] failedToArriveAtDestination];
+    [[TSEntourageSessionManager sharedManager] stopEntourageNonArrival];
     
     _type = kAlertType911Call;
     
@@ -423,14 +445,15 @@ static dispatch_once_t predicate;
     }];
 }
 
-- (void)alertSentOutsideGeofence {
+- (void)alertSentOutsideGeofence:(NSString *)type {
     
     NSString *number = [[TSJavelinAPIClient sharedClient].authenticationManager loggedInUser].agency.dispatcherSecondaryPhoneNumber;
     if (!number) {
         number = kEmergencyNumber;
     }
     
-    if ([TSGeofence insideButClosed]) {
+    BOOL closed = [TSGeofence insideButClosed];
+    if (closed) {
         [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kClosedNotification, number] openDestination:kAlertOutsideGeofence alertAction:@"Call"];
         _status = kAlertClosedDispatchCenter;
         NSLog(@"Closed dispatch center");
@@ -446,7 +469,13 @@ static dispatch_once_t predicate;
         [_alertDelegate alertStatusChanged:_status];
     }
     
-    [[TSAlertManager sharedManager] callEmergencyNumber];
+    if (type == kAlertTypeAlertCall && !closed) {
+        [self callPrimary];
+        [self disarmAlert];
+    }
+    else {
+        [self callEmergencyNumber];
+    }
 }
 
 - (void)callPrimary {
@@ -529,7 +558,6 @@ static dispatch_once_t predicate;
     
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
         
-        
         NSString *phoneNumber = [@"tel://" stringByAppendingString:number];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
@@ -589,9 +617,9 @@ static dispatch_once_t predicate;
         [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeZoomIn completion:nil];
     }];
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled &&
-        ![TSVirtualEntourageManager sharedManager].endTimer) {
-        [[TSVirtualEntourageManager sharedManager] recalculateEntourageTimerETA];
+    if ([TSEntourageSessionManager sharedManager].isEnabled &&
+        ![TSEntourageSessionManager sharedManager].endTimer) {
+        [[TSEntourageSessionManager sharedManager] recalculateEntourageTimerETA];
     }
 }
 

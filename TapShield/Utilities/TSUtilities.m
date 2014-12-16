@@ -353,68 +353,6 @@
     return dateString;
 }
 
-+ (NSString *)dateDescriptionSinceNow:(NSDate *)date {
-    
-    NSDate *now = [NSDate date];
-    int seconds = abs([date timeIntervalSinceNow]);
-    
-    if (seconds < 60) {
-        
-        if (seconds == 1) {
-            return [NSString stringWithFormat:@"%i second ago", seconds];
-        }
-        
-        return [NSString stringWithFormat:@"%i seconds ago", seconds];
-    }
-    
-    if ([date minutesBeforeDate:now] < 60) {
-        
-        if ([date minutesBeforeDate:now] == 1) {
-            return [NSString stringWithFormat:@"%li minute ago", (long)[date minutesBeforeDate:now]];
-        }
-        
-        return [NSString stringWithFormat:@"%li minutes ago", (long)[date minutesBeforeDate:now]];
-    }
-    
-    if ([date hoursBeforeDate:now] < 6) {
-        
-        if ([date hoursBeforeDate:now] == 1) {
-            return [NSString stringWithFormat:@"%li hour ago", (long)[date hoursBeforeDate:now]];
-        }
-        
-        return [NSString stringWithFormat:@"%li hours ago", (long)[date hoursBeforeDate:now]];
-    }
-    
-    
-    if (date.isToday) {
-        return [NSString stringWithFormat:@"%@ today", date.shortTimeString];
-    }
-    
-    if (date.isYesterday) {
-        return [NSString stringWithFormat:@"%@ yesterday", date.shortTimeString];
-    }
-    
-    
-    return [TSUtilities formattedDateTime:date];
-}
-
-+ (NSString *)formattedTime:(NSDate *)date {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"h:mm a"];
-    NSString *dateString = [dateFormat stringFromDate:date];
-    
-    return dateString;
-}
-
-+ (NSString *)relativeDateStringForDate:(NSDate *)date {
-
-    if (date.isToday) {
-        return [NSString stringWithFormat:@"%@", [TSUtilities formattedTime:date]];
-    }
-    
-    return [TSUtilities formattedDateTime:date];
-}
-
 
 #pragma mark - File Management
 
@@ -520,6 +458,36 @@
     if (error) {
         NSLog(@"%@", error.localizedDescription);
     }
+}
+
+
++ (NSString *)formattedAddressSecondLine:(NSDictionary *)addressDictionary {
+    
+    NSString *formatted;
+    
+    NSString *city = addressDictionary[(__bridge NSString *)kABPersonAddressCityKey];
+    if (city.length) {
+        formatted = city;
+    }
+    
+    NSString *state = addressDictionary[(__bridge NSString *)kABPersonAddressStateKey];
+    if (state.length && formatted) {
+        formatted = [NSString stringWithFormat:@"%@, %@", formatted, state];
+    }
+    else if (state.length) {
+        formatted = state;
+    }
+    
+    NSString *zip = addressDictionary[(__bridge NSString *)kABPersonAddressZIPKey];
+    
+    if (zip.length && formatted) {
+        formatted = [NSString stringWithFormat:@"%@ %@", formatted, zip];
+    }
+    else if (zip.length) {
+        formatted = zip;
+    }
+    
+    return formatted;
 }
 
 @end

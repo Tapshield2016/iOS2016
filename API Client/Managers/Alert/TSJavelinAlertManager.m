@@ -17,8 +17,9 @@
 #import "TSLocationGeofenceTestView.h"
 #import <AFNetworkReachabilityManager.h>
 #import <MapKit/MapKit.h>
-#import <AmazonSQSClient.h>
-#import <AmazonEndpoints.h>
+#import <AWSiOSSDKv2/AWSCore.h>
+#import <AWSiOSSDKv2/AWSService.h>
+#import <AWSiOSSDKv2/AWSSQS.h>
 
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentAccessKey = @"AKIAJSDRUWW6PPF2FWWA";
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentSecretKey = @"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";
@@ -53,7 +54,7 @@ NSString * const TSJavelinAlertManagerDidReceiveAlertCompletion = @"TSJavelinAle
 
 @interface TSJavelinAlertManager ()
 
-@property (nonatomic, strong) AmazonSQSClient *sqs;
+@property (nonatomic, strong) AWSSQS *sqs;
 @property (nonatomic, assign) CLLocation *lastReportedLocation;
 @property (nonatomic, assign) BOOL locationUpdatesInProgress;
 @property (nonatomic, strong) TSJavelinAPIAlertManagerLocationReceived locationReceivedBlock;
@@ -74,21 +75,32 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedManager = [[TSJavelinAlertManager alloc] init];
         });
+        
+        _sharedManager.sqs = [AWSSQS defaultSQS];
+        
 #ifdef DEV
-        _sharedManager.sqs = [[AmazonSQSClient alloc] initWithAccessKey:kTSJavelinAlertManagerSQSDevelopmentAccessKey
-                                                          withSecretKey:kTSJavelinAlertManagerSQSDevelopmentSecretKey];
+        AWSStaticCredentialsProvider *credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAlertManagerSQSDevelopmentAccessKey
+                                                                                                         secretKey:kTSJavelinAlertManagerSQSDevelopmentSecretKey];
+        AWSServiceConfiguration *configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+        _sharedManager.sqs = [[AWSSQS alloc] initWithConfiguration:configuration];
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSDevelopmentAlertQueueName;
-        _sharedManager.sqs.endpoint = [AmazonEndpoints sqsEndpoint:US_EAST_1];
+        
 #elif DEMO
-        _sharedManager.sqs = [[AmazonSQSClient alloc] initWithAccessKey:kTSJavelinAlertManagerSQSDevelopmentAccessKey
-                                                          withSecretKey:kTSJavelinAlertManagerSQSDevelopmentSecretKey];
+        
+        AWSStaticCredentialsProvider *credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAlertManagerSQSDevelopmentAccessKey
+                                                                                                         secretKey:kTSJavelinAlertManagerSQSDevelopmentSecretKey];
+        AWSServiceConfiguration *configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+        _sharedManager.sqs = [[AWSSQS alloc] initWithConfiguration:configuration];
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSDemoAlertQueueName;
-        _sharedManager.sqs.endpoint = [AmazonEndpoints sqsEndpoint:US_EAST_1];
+        
 #elif APP_STORE
-        _sharedManager.sqs = [[AmazonSQSClient alloc] initWithAccessKey:kTSJavelinAlertManagerSQSProductionAccessKey
-                                                          withSecretKey:kTSJavelinAlertManagerSQSProductionSecretKey];
+        
+        AWSStaticCredentialsProvider *credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAlertManagerSQSProductionAccessKey
+                                                                                                         secretKey:kTSJavelinAlertManagerSQSProductionSecretKey];
+        AWSServiceConfiguration *configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+        _sharedManager.sqs = [[AWSSQS alloc] initWithConfiguration:configuration];
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSProductionAlertQueueName;
-        _sharedManager.sqs.endpoint = [AmazonEndpoints sqsEndpoint:US_EAST_1];
+        
 #endif
     }
     
@@ -123,6 +135,10 @@ static dispatch_once_t onceToken;
         alertInfo[@"alert_type"] = type;
         alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
         [[TSJavelinAPIClient sharedClient] sendDirectRestAPIAlertWithParameters:alertInfo completion:^(TSJavelinAPIAlert *activeAlert) {
+            if (!activeAlert) {
+                [self setActiveAlert:nil];
+            }
+            
             if (completion) {
                 completion(activeAlert, YES);
             }
@@ -158,25 +174,21 @@ static dispatch_once_t onceToken;
         NSMutableDictionary *alertInfo = [[NSMutableDictionary alloc] initWithCapacity:7];
         alertInfo[@"user"] = alert.agencyUser.username;
         
+        BOOL inside = NO;
+        
         if ([TSGeofence isWithinBoundariesWithOverhangAndOpen:location agency:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency] || (_activeAlert && _activeAlert.agency.identifier == [TSJavelinAPIClient loggedInUser].agency.identifier)) {
+            inside = YES;
             
             _activeAlert = alert;
-            
-            alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
-            alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
-            alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
-            alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
-            alertInfo[@"alert_type"] = type;
-            alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
         }
-        else {
-            NSLog(@"Out of bounds or no agency");
-            if (completion) {
-                completion(NO, NO);
-            }
-            [self setActiveAlert:nil];
-            return;
-        }
+        
+        alertInfo[@"location_accuracy"] = [NSNumber numberWithDouble:location.horizontalAccuracy];
+        alertInfo[@"location_altitude"] = [NSNumber numberWithDouble:location.altitude];
+        alertInfo[@"location_latitude"] = [NSNumber numberWithDouble:location.coordinate.latitude];
+        alertInfo[@"location_longitude"] = [NSNumber numberWithDouble:location.coordinate.longitude];
+        alertInfo[@"alert_type"] = type;
+        alertInfo[@"agency"] = [NSNumber numberWithInteger:[TSJavelinAPIClient loggedInUser].agency.identifier];
+        alertInfo[@"alert_initiated_outside"] = [NSNumber numberWithBool:!inside];
         
         NSString *alertJson = [TSJavelinAlertAMQPMessage amqpMessageStringFromDictionary:alertInfo];
         
@@ -184,54 +196,74 @@ static dispatch_once_t onceToken;
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         });
         
-        SQSGetQueueUrlRequest *getQueueURLRequest = [[SQSGetQueueUrlRequest alloc] initWithQueueName:_alertQueueName];
-        SQSGetQueueUrlResponse *getQueueURLResponse = [_sqs getQueueUrl:getQueueURLRequest];
+        AWSSQSGetQueueUrlRequest *getQueueURLRequest = [[AWSSQSGetQueueUrlRequest alloc] init];
+        getQueueURLRequest.queueName = _alertQueueName;
+        BFTask *getQueueUrlTask = [_sqs getQueueUrl:getQueueURLRequest];
         
-        if (getQueueURLResponse.error != nil) {
-            NSLog(@"Error: %@", getQueueURLResponse.error);
-            if (completion) {
-                completion(NO, YES);
+        [[getQueueUrlTask continueWithBlock:^id(BFTask *task) {
+            if (task.error) {
+                NSLog(@"Error: %@", task.error);
+                if (completion) {
+                    completion(NO, inside);
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                });
+                return nil;
             }
+            
+            AWSSQSGetQueueUrlResult *result = task.result;
+            AWSSQSSendMessageRequest *sendMessageRequest = [[AWSSQSSendMessageRequest alloc] init];
+            sendMessageRequest.queueUrl = result.queueUrl;
+            sendMessageRequest.messageBody = alertJson;
+            
+            return [_sqs sendMessage:sendMessageRequest];
+        }] continueWithBlock:^id(BFTask *task) {
+            
+            if (task.error) {
+                NSLog(@"Error: %@", task.error);
+                if (completion) {
+                    completion(NO, inside);
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                });
+                return nil;
+            }
+            
+            if (inside) {
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
+            }
+            
+            if (completion) {
+                completion(YES, inside);
+            }
+            
+            if (inside) {
+                _retryAttempts = 0;
+                [self scheduleFindActiveAlertTimer];
+            }
+            
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             });
-            return;
-        }
-        
-        SQSSendMessageRequest *sendMessageRequest = [[SQSSendMessageRequest alloc] initWithQueueUrl:getQueueURLResponse.queueUrl
-                                                                                     andMessageBody:alertJson];
-        SQSSendMessageResponse *sendMessageResponse = [_sqs sendMessage:sendMessageRequest];
-
-        if (sendMessageResponse.error != nil) {
-            NSLog(@"Error: %@", sendMessageResponse.error);
-            if (completion) {
-                completion(NO, YES);
-            }
-        }
-        else {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTSJavelinAlertManagerSentActiveAlert];
             
-            if (completion) {
-                completion(YES, YES);
+            if (inside) {
+                // Send user profile using API client method
+                [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
+                    if (profileDataUploadSucceeded) {
+                        NSLog(@"profileDataUploadSucceeded");
+                    }
+                    if (imageUploadSucceeded) {
+                        NSLog(@"imageUploadSucceeded");
+                    }
+                }];
             }
             
-            _retryAttempts = 0;
-            [self scheduleFindActiveAlertTimer];
             
-            // Send user profile using API client method
-            [[TSJavelinAPIClient sharedClient] uploadUserProfileData:^(BOOL profileDataUploadSucceeded, BOOL imageUploadSucceeded) {
-                if (profileDataUploadSucceeded) {
-                    NSLog(@"profileDataUploadSucceeded");
-                }
-                if (imageUploadSucceeded) {
-                    NSLog(@"imageUploadSucceeded");
-                }
-            }];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        });
+            return nil;
+        }];
     });
 }
 

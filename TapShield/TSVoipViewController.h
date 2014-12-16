@@ -35,6 +35,4 @@
 - (IBAction)speakerToggle:(id)sender;
 - (IBAction)muteToggle:(id)sender;
 
-- (void)unreadChatMessage;
-
 @end

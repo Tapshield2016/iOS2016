@@ -80,9 +80,9 @@
     AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:string];
     [utterance setRate:AVSpeechUtteranceDefaultSpeechRate/2];
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [synthesizer speakUtterance:utterance];
-    }];
+//    }];
 }
 
 

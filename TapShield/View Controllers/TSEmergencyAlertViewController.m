@@ -15,7 +15,6 @@
 @interface TSEmergencyAlertViewController ()
 
 @property (strong, nonatomic) TSVoipViewController *voipController;
-@property (strong, nonatomic) TSTransformCenterTransitioningDelegate *transitionDelegate;
 
 @end
 
@@ -27,7 +26,7 @@
 	// Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor clearColor]];
     
-    self.showLargeLogo = YES;
+    self.showAlternateLogoInNavBar = YES;
     
     [self.view addSubview:_voipController.view];
     
@@ -66,18 +65,12 @@
         [self initPhoneView];
     }
     [TSAlertManager sharedManager].alertDelegate = self;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(unreadChatMessage)
-                                                 name:TSJavelinChatManagerDidReceiveNewChatMessageNotification
-                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    [self unreadChatMessage];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -124,12 +117,6 @@
     [[TSAlertManager sharedManager] endTwilioCall];
 }
 
-- (void)unreadChatMessage {
-    
-    [_badgeView setNumber:[TSJavelinChatManager sharedManager].unreadMessages];
-    [_voipController unreadChatMessage];
-}
-
 #pragma mark - Alert Methods
 
 
@@ -174,17 +161,8 @@
 
 - (IBAction)showChatViewController:(id)sender {
     
-    [_badgeView clearBadge];
-    [_voipController.badgeView clearBadge];
-    
     UIViewController *viewController = ((TSPageViewController *)self.parentViewController).chatViewController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    
-//    if (!_transitionDelegate) {
-//        _transitionDelegate = [[TSTransitionDelegate alloc] init];
-//    }
-//    navigationController.transitioningDelegate = _transitionDelegate;
-//    navigationController.modalPresentationStyle = UIModalPresentationCustom;
     
     [((TSPageViewController *)self.parentViewController).navigationController presentViewController:navigationController animated:YES completion:nil];
 }

@@ -43,7 +43,7 @@
     _lastName = [attributes valueForKey:@"last_name"];
     _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
-    self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
+    [self setEntourageMembersForKeys:[attributes nonNullObjectForKey:@"entourage_members"]];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     _userProfile = [self unarchiveUserProfile];
@@ -53,6 +53,16 @@
     }
     
     _apiToken = [attributes nonNullObjectForKey:@"token"];
+    
+    double lat = [[attributes nonNullObjectForKey:@"latitude"] doubleValue];
+    double lon = [[attributes nonNullObjectForKey:@"longitude"] doubleValue];
+    if (lat && lon) {
+        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(lat, lon) altitude:[[attributes nonNullObjectForKey:@"altitude"] floatValue]  horizontalAccuracy:[[attributes nonNullObjectForKey:@"accuracy"] floatValue] verticalAccuracy:0 timestamp:[self reformattedTimeStamp:[attributes nonNullObjectForKey:@"location_timestamp"]]];
+    }
+    
+    if ([attributes nonNullObjectForKey:@"entourage_session"]) {
+        _entourageSession = [[TSJavelinAPIEntourageSession alloc] initWithAttributes:[attributes nonNullObjectForKey:@"entourage_session"]];
+    }
         
     return self;
 }
@@ -86,12 +96,20 @@
     }
     
     if (_secondaryEmails) {
-        [encoder encodeObject:_entourageMembers forKey:@"secondary_emails"];
+        [encoder encodeObject:_secondaryEmails forKey:@"secondary_emails"];
+    }
+    
+    if (_usersWhoAddedUser) {
+        [encoder encodeObject:_usersWhoAddedUser forKey:@"usersWhoAddedUser"];
+    }
+    
+    if (_entourageSession) {
+        [encoder encodeObject:_entourageSession forKey:@"entourageSession"];
     }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
+    if((self = [super initWithCoder:decoder])) {
         //decode properties, other class vars
         self.url = [decoder decodeObjectForKey:@"url"];
         _username = [decoder decodeObjectForKey:@"username"];
@@ -113,17 +131,32 @@
         }
         
         if ([decoder containsValueForKey:@"entourage_members"]) {
-            _entourageMembers = [decoder decodeObjectForKey:@"entourage_members"];
+            id object = [decoder decodeObjectForKey:@"entourage_members"];
+            if ([object isKindOfClass:[NSMutableDictionary class]]) {
+                _entourageMembers = object;
+            }
+            else {
+                [self setEntourageMembersForKeys:object];
+            }
         }
         
         if ([decoder containsValueForKey:@"secondary_emails"]) {
             _secondaryEmails = [decoder decodeObjectForKey:@"secondary_emails"];
         }
+        
+        
+        if ([decoder containsValueForKey:@"usersWhoAddedUser"]) {
+            _usersWhoAddedUser = [decoder decodeObjectForKey:@"usersWhoAddedUser"];
+        }
+        
+        if ([decoder containsValueForKey:@"entourageSession"]) {
+            _entourageSession = [decoder decodeObjectForKey:@"entourageSession"];
+        }
     }
     return self;
 }
 
-- (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes {
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes {
     
     _username = [attributes valueForKey:@"username"];
     _email = [attributes valueForKey:@"email"];
@@ -149,25 +182,71 @@
     _lastName = [attributes valueForKey:@"last_name"];
     _isEmailVerified = [[attributes nonNullObjectForKey:@"is_active"] boolValue];
     _phoneNumberVerified = [[attributes nonNullObjectForKey:@"phone_number_verified"] boolValue];
-    self.entourageMembers = [attributes nonNullObjectForKey:@"entourage_members"];
+    [self setEntourageMembersForKeys:[attributes nonNullObjectForKey:@"entourage_members"]];
     self.secondaryEmails = [attributes nonNullObjectForKey:@"secondary_emails"];
     
     if ([attributes nonNullObjectForKey:@"token"]) {
         _apiToken = [attributes nonNullObjectForKey:@"token"];
     }
     
+    if (!_entourageSession.url && [attributes nonNullObjectForKey:@"entourage_session"]) {
+        _entourageSession = [[TSJavelinAPIEntourageSession alloc] initWithAttributes:[attributes nonNullObjectForKey:@"entourage_session"]];
+    }
+    
     return self;
 }
 
-- (void)setEntourageMembers:(NSArray *)entourageMembers {
+- (void)setEntourageMembersForKeys:(NSArray *)entourageMembers {
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:entourageMembers.count];
-    for (NSDictionary *dictionary in entourageMembers) {
-        TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithAttributes:dictionary];
-        [mutableArray addObject:member];
+    NSArray *allKeys = _entourageMembers.allKeys;
+    
+    if (!_entourageMembers) {
+        _entourageMembers = [[NSMutableDictionary alloc] initWithCapacity:entourageMembers.count];
     }
     
-    _entourageMembers = mutableArray;
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:entourageMembers.count];
+    for (id object in entourageMembers) {
+        TSJavelinAPIEntourageMember *member;
+        if ([object isKindOfClass:[TSJavelinAPIEntourageMember class]]) {
+            member = object;
+        }
+        else {
+            member = [[TSJavelinAPIEntourageMember alloc] initWithAttributes:object];
+        }
+        
+        [mutableArray addObject:member];
+        [_entourageMembers setObject:member forKey:member.url];
+    }
+    
+    if (allKeys) {
+        NSArray *keysToRemove = [allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            
+            for (TSJavelinAPIEntourageMember *member in mutableArray) {
+                if ([member.url isEqualToString:evaluatedObject]) {
+                    return NO;
+                }
+            }
+            return YES;
+        }]];
+        
+        [_entourageMembers removeObjectsForKeys:keysToRemove];
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+}
+
+- (void)setUsersWhoAddedUserWithoutKVO:(NSArray *)usersWhoAddedUser {
+    
+    _usersWhoAddedUser = usersWhoAddedUser;
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+}
+
+- (void)setUsersWhoAddedUser:(NSArray *)usersWhoAddedUser {
+    
+    _usersWhoAddedUser = usersWhoAddedUser;
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
 }
 
 - (void)setSecondaryEmails:(NSArray *)secondaryEmails {
@@ -526,6 +605,60 @@
     }
     
     return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+}
+
+- (void)updateEntourageMember:(TSJavelinAPIEntourageMember *)member {
+    
+    if (!member) {
+        return;
+    }
+    
+    TSJavelinAPIEntourageMember *currentMember = [_entourageMembers objectForKey:member.url];
+    if (!currentMember) {
+        [_entourageMembers setObject:member forKey:member.url];
+    }
+    else if (![currentMember compareURLAndMerge:member]) {
+        [_entourageMembers setObject:member forKey:member.url];
+        
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+}
+
+- (NSString *)fullName {
+    
+    NSString *name = self.firstName;
+    if (!name.length) {
+        name = self.lastName;
+    }
+    else if (self.lastName) {
+        name = [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+    }
+    
+    return name;
+}
+
+
+- (BOOL)shouldUpdateAlwaysVisibleLocation {
+    
+    for (TSJavelinAPIEntourageMember *member in self.entourageMembers.allValues) {
+        if (member.alwaysVisible) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)shouldUpdateTrackingLocation {
+    
+    for (TSJavelinAPIEntourageMember *member in self.entourageMembers.allValues) {
+        if (member.trackRoute || member.alwaysVisible) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 @end

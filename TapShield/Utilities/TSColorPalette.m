@@ -202,4 +202,20 @@
     return UIColorFromRGB(0xCCCFD1);
 }
 
+
++ (UIColor *)colorFromStringHex:(NSString *)string {
+    
+    if (!string || !string.length) {
+        return nil;
+    }
+    
+    string = [string stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    unsigned int temp;
+    [scanner scanHexInt:&temp];
+    
+    return UIColorFromRGB(temp);
+}
+
 @end

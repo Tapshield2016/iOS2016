@@ -28,6 +28,7 @@ NSString * const  kNoChatNoAgency = @"Feature Unavailable\n\nYou are located out
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSTimer *updateTimer;
+@property (strong, nonatomic) FBKVOController *KVOController;
 
 @end
 
@@ -477,46 +478,6 @@ NSString * const  kNoChatNoAgency = @"Feature Unavailable\n\nYou are located out
     
     _currentAgency = currentAgency;
     
-    //    if (!_currentAgency.largeLogo) {
-    //        [_currentAgency addObserver:self forKeyPath:@"largeLogo" options: 0  context: NULL];
-    //    }
-    //    if (!_currentAgency.alternateLogo) {
-    //        [_currentAgency addObserver:self forKeyPath:@"alternateLogo" options: 0  context: NULL];
-    //    }
-    //    if (!_currentAgency.smallLogo) {
-    //        [_currentAgency addObserver:self forKeyPath:@"smallLogo" options: 0  context: NULL];
-    //    }
-    
-    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
-    
-    [KVOController observe:_currentAgency keyPath:@"largeLogo" options:NSKeyValueObservingOptionNew block:^(TSGeofence *geofence, TSJavelinAPIAgency *agency, NSDictionary *change) {
-        
-        if (agency.largeLogo) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:nil];
-        }
-    }];
-    
-    [KVOController observe:_currentAgency keyPath:@"alternateLogo" options:NSKeyValueObservingOptionNew block:^(TSGeofence *geofence, TSJavelinAPIAgency *agency, NSDictionary *change) {
-        
-        if (agency.alternateLogo) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:nil];
-        }
-    }];
-    
-    [KVOController observe:_currentAgency keyPath:@"smallLogo" options:NSKeyValueObservingOptionNew block:^(TSGeofence *geofence, TSJavelinAPIAgency *agency, NSDictionary *change) {
-        
-        if (agency.smallLogo) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:nil];
-        }
-    }];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    
-    //    [object removeObserver:self forKeyPath:keyPath];
-    if (_currentAgency) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TSGeofenceUserDidEnterAgency object:object userInfo:nil];
-    }
 }
 
 + (void)registerForAgencyProximityUpdates:(id)object action:(SEL)selector {

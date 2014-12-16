@@ -7,8 +7,9 @@
 //
 
 #import "TSNavigationViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface TSAboutViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate>
+@interface TSAboutViewController : TSNavigationViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *versionBuildLabel;
 - (IBAction)requestDemo:(id)sender;
 

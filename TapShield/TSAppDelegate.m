@@ -17,7 +17,7 @@
 #import <TestFlightSDK/TestFlight.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <AFNetworking/AFNetworkReachabilityManager.h>
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSLocationController.h"
 #import "TSAlertManager.h"
 #import "GAI.h"
@@ -26,6 +26,8 @@
 #import "GAIDictionaryBuilder.h"
 #import "TSNoNetworkWindow.h"
 #import "TSUserSessionManager.h"
+#import "TSEntourageContactsViewController.h"
+#import "TSAnimatedBackgroundView.h"
 
 @import CoreTelephony;
 
@@ -38,9 +40,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 
 @interface TSAppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
-@property (nonatomic, strong) UIImageView *windowBackground;
+@property (nonatomic, strong) TSAnimatedBackgroundView *windowBackground;
 @property (nonatomic, strong) TSNoNetworkWindow *noNetworkWindow;
 @property (nonatomic, strong) TSPopUpWindow *pushNotificationAlertWindow;
+@property (nonatomic, strong) TSEntourageContactsViewController *entourageContactsViewController;
 @property (strong, nonatomic) CTCallCenter *callCenter;
 
 @end
@@ -90,14 +93,16 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
 #endif
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:nil];
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
+       [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
+    }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
     
-    _reachability = [Reachability reachabilityWithHostName:remoteHostName];
+    _reachability = [Reachability reachabilityWithHostname:remoteHostName];
     [_reachability startNotifier];
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -107,26 +112,27 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
+    [[UIView appearanceWhenContainedIn:[UIAlertController class], nil] setTintColor:[TSColorPalette tapshieldBlue]];
+    
     [UINavigationBar appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.3] , NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateDisabled];
     
-    [UITableView appearance].separatorInset = UIEdgeInsetsZero;
-    [UITableView appearance].layoutMargins = UIEdgeInsetsZero;
+//    [UITableView appearance].separatorInset = UIEdgeInsetsZero;
+//    [UITableView appearance].layoutMargins = UIEdgeInsetsZero;
     [UITableView appearance].tintColor = [TSColorPalette tapshieldBlue];
     [UITableView appearance].separatorColor = [TSColorPalette cellSeparatorColor];
     [UITableView appearance].backgroundColor = [TSColorPalette listBackgroundColor];
     [UITableViewCell appearance].backgroundColor = [TSColorPalette cellBackgroundColor];
-    [UITableViewCell appearance].layoutMargins = UIEdgeInsetsZero;
+//    [UITableViewCell appearance].layoutMargins = UIEdgeInsetsZero;
     
-    [UITableViewCell appearanceWhenContainedIn:[UIImagePickerController class], nil].backgroundColor = [TSColorPalette whiteColor];
+    [UITableViewCell appearanceWhenContainedIn:[UIImagePickerController class], nil].backgroundColor = [TSColorPalette clearColor];
     
-//    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
-    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
-    
-    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
-    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+//    [UITableViewCell appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+//    
+//    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].layoutMargins = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
+//    [UITableView appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], [UIImagePickerController class], nil].separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0);
     
     [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].barStyle = UIBarStyleDefault;
     [UINavigationBar appearanceWhenContainedIn:[ABPeoplePickerNavigationController class], nil].tintColor = [TSColorPalette tapshieldBlue];
@@ -138,37 +144,40 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     self.dynamicsDrawerViewController.delegate = self;
     // Add some styles for the drawer
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]] forDirection:MSDynamicsDrawerDirectionRight];
     
     [self.dynamicsDrawerViewController setElasticity:0.0f];
-    [self.dynamicsDrawerViewController setGravityMagnitude:4.0f];
+    [self.dynamicsDrawerViewController setGravityMagnitude:8.0f];
+    [self.dynamicsDrawerViewController setBounceElasticity:0.0f];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
+    
+    _entourageContactsViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSEntourageContactsViewController"];
+    
     [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.dynamicsDrawerViewController setDrawerViewController:_entourageContactsViewController forDirection:MSDynamicsDrawerDirectionRight];
     
     self.dynamicsDrawerViewController.view.backgroundColor = [UIColor clearColor];
-    
-    UIImage *bgImage = [UIImage imageNamed:@"side_menu_bg"];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
-        bgImage = [UIImage imageNamed:@"side_menu_bg_talkaphone"];
-    }
-    
-    self.windowBackground = [[UIImageView alloc] initWithImage:bgImage];
-    self.windowBackground.frame = self.window.bounds;
 
     // Transition to the first view controller
     [menuViewController transitionToViewController:@"TSHomeViewController" animated:NO];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.dynamicsDrawerViewController;
     [self.window makeKeyAndVisible];
+    
+    self.windowBackground = [[TSAnimatedBackgroundView alloc] initWithFrame:self.window.bounds];
     [self.window addSubview:self.windowBackground];
     [self.window sendSubviewToBack:self.windowBackground];
     
     [[TSUserSessionManager sharedManager] userStatusCheck];
     
     [self registerForCallHandler];
+    
+    
 
     return YES;
 }
@@ -186,15 +195,15 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     if ([[TSJavelinAPIClient sharedClient] isStillActiveAlert] ||
         [TSYankManager sharedYankManager].isEnabled ||
-        [TSVirtualEntourageManager sharedManager].isEnabled ||
+        [TSEntourageSessionManager sharedManager].isEnabled ||
         [TSAlertManager sharedManager].countdownTimer ||
         [TSAlertManager sharedManager].isAlertInProgress) {
         
         if (![TSAlertManager sharedManager].countdownTimer &&
             ![TSAlertManager sharedManager].isAlertInProgress ) {
             
-            if ([TSVirtualEntourageManager sharedManager].isEnabled) {
-                [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSVirtualEntourageManager sharedManager].endTimer.fireDate];
+            if ([TSEntourageSessionManager sharedManager].isEnabled) {
+                [[TSLocationController sharedLocationController] cycleGPSSignalStrengthUntilDate:[TSEntourageSessionManager sharedManager].endTimer.fireDate];
             }
             else {
                 [[TSLocationController sharedLocationController] enterLowPowerState];
@@ -202,7 +211,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         }
     }
     else {
-        [[TSLocationController sharedLocationController] stopLocationUpdates];
+        if ([TSJavelinAPIClient loggedInUser] && [[TSJavelinAPIClient loggedInUser] shouldUpdateAlwaysVisibleLocation]) {
+            [[TSLocationController sharedLocationController] stopLocationUpdates];
+            [[TSLocationController sharedLocationController] startSignificantChangeUpdates:nil];
+        }
     }
 }
 
@@ -215,6 +227,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    
+    [[TSLocationController sharedLocationController] stopMonitoringSignificantLocationChanges];
     
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
@@ -250,20 +264,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     NSLog(@"Failed to get token, error: %@", error);
-    
-    
-//    NSString *name = @"Notification Center";
-//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
-//        name = @"Notifications";
-//    }
-//    NSString *message = [NSString stringWithFormat:@"Push Notifications are used during real-time chat and to recieve Mass Alerts from your agency. \n \n Go to Settings->%@->TapShield  to turn TapShield Push Notifications on", name];
-//    
-//    UIAlertView *enablePushNotificationsAlert = [[UIAlertView alloc] initWithTitle:@"Push Notifications enhance the functionality of TapShield.\n"
-//                                                                           message:message
-//                                                                          delegate:nil
-//                                                                 cancelButtonTitle:@"OK"
-//                                                                 otherButtonTitles: nil];
-//    [enablePushNotificationsAlert show];
 }
 
 - (void)application:(UIApplication *)application
@@ -348,6 +348,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [self.dynamicsDrawerViewController setPaneDragRevealEnabled:enabled forDirection:MSDynamicsDrawerDirectionLeft];
 }
 
+- (void)drawerCanDragForContacts:(BOOL)enabled; {
+    
+    [self.dynamicsDrawerViewController setPaneDragRevealEnabled:enabled forDirection:MSDynamicsDrawerDirectionRight];
+}
 
 #pragma mark - Reachability
 
@@ -448,6 +452,73 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
          }
          
      }];
+}
+
+- (void)removeAllDrawerAnimations {
+    [self.dynamicsDrawerViewController.dynamicAnimator removeAllBehaviors];
+}
+
+- (void)toggleWidePaneState:(BOOL)open {
+    
+    if (self.dynamicsDrawerViewController.paneState == MSDynamicsDrawerPaneStateOpenWide && !open) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionRight];
+    }
+    else if (open) {
+        [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpenWide inDirection:MSDynamicsDrawerDirectionRight];
+    }
+}
+
+- (void)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController didUpdateToPaneState:(MSDynamicsDrawerPaneState)paneState forDirection:(MSDynamicsDrawerDirection)direction {
+    
+    if (paneState == MSDynamicsDrawerPaneStateOpen) {
+        [self.windowBackground animateRoute];
+    }
+    else if (paneState == MSDynamicsDrawerPaneStateClosed) {
+        [self.windowBackground stopRouteAnimation];
+        [_entourageContactsViewController.tableViewController clearSearch];
+    }
+}
+
+- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer {
+    
+    return YES;
+}
+
+- (void)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController mayUpdateToPaneState:(MSDynamicsDrawerPaneState)paneState forDirection:(MSDynamicsDrawerDirection)direction {
+    
+    
+}
+
+- (void)shiftStatusBarToPane:(BOOL)pane {
+    
+    UIView *statusBar = [TSAppDelegate statusBar];
+    
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:300.0
+          initialSpringVelocity:5.0
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         if (pane) {
+                             statusBar.transform = CGAffineTransformMakeTranslation(self.dynamicsDrawerViewController.paneView.frame.origin.x, self.dynamicsDrawerViewController.paneView.frame.origin.y);
+                         }
+                         else {
+                             statusBar.transform = CGAffineTransformMakeTranslation(0, 0);
+                         }
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
+
++ (UIView *)statusBar {
+    
+    NSString *key = [[NSString alloc] initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
+    id object = [UIApplication sharedApplication];
+    UIView *statusBar;
+    if ([object respondsToSelector:NSSelectorFromString(key)]) {
+        statusBar = [object valueForKey:key];
+    }
+    return statusBar;
 }
 
 @end

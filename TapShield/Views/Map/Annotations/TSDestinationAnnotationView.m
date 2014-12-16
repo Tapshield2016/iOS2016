@@ -9,6 +9,8 @@
 #import "TSDestinationAnnotationView.h"
 #import "TSSelectedDestinationLeftCalloutAccessoryView.h"
 #import "TSSelectedDestinationAnnotation.h"
+#import "TSEntourageSessionManager.h"
+#import "TSRoutePickerViewController.h"
 
 @implementation TSDestinationAnnotationView
 
@@ -17,14 +19,23 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        [self displayTransportationType:annotation];
         self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
         [self setCanShowCallout:YES];
-        
+        self.alpha = 0.9;
         self.accessibilityLabel = @"Destination";
+        
+        UIImageView *imageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"entourage_icon"]];
+        self.leftCalloutAccessoryView = imageview;
     }
     return self;
 
+}
+
+- (void)setAnnotation:(id<MKAnnotation>)annotation {
+    
+    [super setAnnotation:annotation];
+    
+    [self displayTransportationType:annotation];
 }
 
 - (void)displayTransportationType:(id<MKAnnotation>)annotation {
@@ -34,10 +45,36 @@
     if ([annotation isKindOfClass:[TSSelectedDestinationAnnotation class]]) {
         TSSelectedDestinationAnnotation *selectedAnnotation = (TSSelectedDestinationAnnotation *)annotation;
         
+        
         if (selectedAnnotation.transportType == MKDirectionsTransportTypeWalking) {
             self.image = [UIImage imageNamed:@"WalkEndPoint"];
         }
+        
+        if (selectedAnnotation.temp) {
+            
+            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:[TSEntourageSessionManager sharedManager].routeManager.destinationPickerVC  action:@selector(calloutTapped:)];
+            [self addGestureRecognizer:tapGesture];
+            
+            UIImage *image = [[UIImage imageNamed:@"chevron_icon"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            button.frame = CGRectMake(0, 0, image.size.width, self.leftCalloutAccessoryView.frame.size.height);
+            [button setImage:image forState:UIControlStateNormal];
+            button.userInteractionEnabled = NO;
+            self.rightCalloutAccessoryView = button;
+            
+            if (selectedAnnotation.transportType == MKDirectionsTransportTypeWalking) {
+                self.image = [UIImage imageNamed:@"WalkEndPointGray"];
+            }
+            else {
+                self.image = [UIImage imageNamed:@"CarEndPointGray"];
+            }
+        }
+        else {
+            self.rightCalloutAccessoryView = nil;
+        }
     }
+    
+    
 }
 
 - (void)addLeftCalloutAccessoryView {

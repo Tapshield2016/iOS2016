@@ -11,7 +11,8 @@
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIEmail.h"
-#import <FacebookSDK/Facebook.h>
+#import <FacebookSDK/FacebookSDK.h>
+#import "TSJavelinAPIEntourageSession.h"
 
 @class TSJavelinAPIGroup;
 @class TSJavelinAPIAgency;
@@ -28,16 +29,28 @@
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) TSJavelinAPIUserProfile *userProfile;
-@property (nonatomic, strong) NSArray *entourageMembers;
+@property (nonatomic, strong) NSMutableDictionary *entourageMembers;
+@property (nonatomic, strong) NSArray *usersWhoAddedUser;
 @property (nonatomic, strong) NSArray *secondaryEmails;
+
+@property (nonatomic, strong) NSDate *locationTimestamp;
+@property (nonatomic, strong) CLLocation *location;
 
 @property (assign) BOOL isEmailVerified;
 @property (assign, getter=isPhoneNumberVerified) BOOL phoneNumberVerified;
 @property (nonatomic, strong) NSString *apiToken;
 
-- (TSJavelinAPIUser *)updateWithAttributes:(NSDictionary *)attributes;
+@property (strong, nonatomic) TSJavelinAPIEntourageSession *entourageSession;
+
+@property (readonly) NSString *fullName;
+
+- (BOOL)shouldUpdateAlwaysVisibleLocation;
+- (BOOL)shouldUpdateTrackingLocation;
+
 - (NSDictionary *)parametersForUpdate;
 - (NSDictionary *)parametersForRegistration;
+
+- (void)setEntourageMembersForKeys:(NSArray *)entourageMembers;
 
 - (BOOL)canJoinAgency:(TSJavelinAPIAgency *)agency;
 - (BOOL)isAvailableForDomain:(NSString *)emailDomain;
@@ -50,5 +63,9 @@
 - (void)updateUserProfileFromTwitter:(NSDictionary *)attributes;
 - (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person;
 - (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes;
+
+- (void)updateEntourageMember:(id)member;
+
+- (void)setUsersWhoAddedUserWithoutKVO:(NSArray *)usersWhoAddedUser;
 
 @end

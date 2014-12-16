@@ -29,9 +29,7 @@
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record;
 
 + (NSString *)formattedAddressWithoutNameFromMapItem:(MKMapItem *)mapItem;
-
-+ (NSString *)relativeDateStringForDate:(NSDate *)date;
-+ (NSString *)dateDescriptionSinceNow:(NSDate *)date;
++ (NSString *)formattedAddressSecondLine:(NSDictionary *)addressDictionary;
 
 
 //video

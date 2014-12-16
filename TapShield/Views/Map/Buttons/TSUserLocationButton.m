@@ -69,8 +69,6 @@
 }
 
 - (UIView *)roundBezierPathCornersOnView:(UIView *)view radius:(float)radius {
-    
-
         
         UIView *roundedView = view;
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:roundedView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(radius, radius)];
@@ -79,7 +77,6 @@
         maskLayer.path = maskPath.CGPath;
         roundedView.layer.mask = maskLayer;
         return roundedView;
-    
 }
 
 @end

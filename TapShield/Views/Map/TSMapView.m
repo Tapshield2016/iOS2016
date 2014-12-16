@@ -13,9 +13,12 @@
 #import "NSDate+Utilities.h"
 #import "TSHeatMapOverlay.h"
 #import "TSBoundariesOverlay.h"
+#import <KVOController/FBKVOController.h>
+#import "TSAlertManager.h"
 
 @interface TSMapView ()
 
+@property (strong, nonatomic) FBKVOController *kvoController;
 @property (strong, nonatomic) NSArray *regionPolygons;
 
 @end
@@ -53,12 +56,19 @@
     //will not work if view has not appeared
     
     [[TSLocationController sharedLocationController] latestLocation:^(CLLocation *location) {
-        MKCoordinateRegion region;
-        region.center = location.coordinate;
-        region.span = MKCoordinateSpanMake(0.006, 0.006);
-        region = [self regionThatFits:region];
-        [self setRegion:region animated:animated];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self zoomToRegionForLocation:location animated:animated];
+        }];
     }];
+}
+
+- (void)zoomToRegionForLocation:(CLLocation *)location animated:(BOOL)animated {
+    
+    MKCoordinateRegion region;
+    region.center = location.coordinate;
+    region.span = MKCoordinateSpanMake(0.006, 0.006);
+    region = [self regionThatFits:region];
+    [self setRegion:region animated:animated];
 }
 
 
@@ -91,7 +101,7 @@
     }
     
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
-    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
         ((MKCircle *)overlay).title = @"red";
     }
@@ -106,6 +116,12 @@
     return circleRenderer;
 }
 
+- (void)removeAccuracyCircleOverlay {
+    
+    [self removeOverlay:_accuracyCircle];
+    _accuracyCircle = nil;
+}
+
 - (void)updateAccuracyCircleWithLocation:(CLLocation *)location {
     
     if (!location) {
@@ -115,16 +131,13 @@
     MKCircle *previousCircle = _accuracyCircle;
     MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
     
-//    if (MKMetersBetweenMapPoints(MKMapPointForCoordinate(previousCircle.coordinate),
-//                                 MKMapPointForCoordinate(newcircle.coordinate)) < 0.5 &&
-//        previousCircle.radius == newcircle.radius) {
-//        return;
-//    }
-    
     _accuracyCircle = newcircle;
     _animatedOverlay.circle = _accuracyCircle;
     [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];
-    [self removeOverlay:previousCircle];
+    
+    if (previousCircle) {
+        [self removeOverlay:previousCircle];
+    }
 }
 
 - (void)refreshRegionBoundariesOverlay {
@@ -138,6 +151,16 @@
     NSArray *agencies = @[agency];
     NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
     for (TSJavelinAPIAgency *agency in agencies) {
+        
+        if (!_kvoController) {
+            _kvoController = [FBKVOController controllerWithObserver:self];
+        }
+        [_kvoController observe:agency.theme keyPath:@"mapOverlayLogo" options:NSKeyValueObservingOptionNew block:^(TSMapView *weakSelf, TSJavelinAPITheme *theme, NSDictionary *change) {
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [weakSelf refreshRegionBoundariesOverlay];
+            }];
+        }];
         
         NSArray *regionsArray = agency.regions;
         
@@ -159,12 +182,6 @@
             }
             
             [mutableArray addObject:regionPolygon];
-            
-            TSAgencyAnnotation *agencyAnnotation = [[TSAgencyAnnotation alloc] initWithCoordinates:region.centerPoint
-                                                                                         placeName:agency.name
-                                                                                       description:region.name];
-            agencyAnnotation.image = agency.alternateLogo;
-            [self addAnnotation:agencyAnnotation];
         }
     }
     
@@ -222,7 +239,7 @@
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, radius*2, radius*2);
     UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.35f];
     
-    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert) {
+    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
         region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
         isBlueColor = NO;

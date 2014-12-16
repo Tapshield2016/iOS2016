@@ -19,14 +19,22 @@
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIUtilities.h"
 #import "TSJavelinAPISocialCrimeReport.h"
+#import "CLLocation+Utilities.h"
 
 NSString * const TSJavelinAPIClientDidUpdateAgency = @"TSJavelinAPIClientDidUpdateAgency";
+
+NSString * const TSJavelinAPIClientDidStartSyncingEntourage = @"TSJavelinAPIClientDidStartSyncingEntourage";
+NSString * const TSJavelinAPIClientDidFinishSyncingEntourage = @"TSJavelinAPIClientDidFinishSyncingEntourage";
 
 @interface TSJavelinAPIClient ()
 
 @property (nonatomic, strong) NSString *baseAuthURL;
 @property (nonatomic, strong) NSTimer *timerForFailedFindActiveAlertURL;
 @property (nonatomic, assign) NSUInteger retryAttempts;
+@property (nonatomic, strong) AFHTTPRequestOperationManager *jsonRequestManager;
+
+@property (nonatomic, strong) NSDate *lastLocationUpdateTime;
+@property (nonatomic, strong) NSMutableArray *locationsAwaitingPost;
 
 @end
 
@@ -40,7 +48,6 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedClient = [[TSJavelinAPIClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
         });
-        [AmazonErrorHandler shouldNotThrowExceptions];
 
         // Enable the network activity manager
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -61,6 +68,10 @@ static dispatch_once_t onceToken;
         }
         
         _sharedClient.baseAuthURL = baseAuthURL;
+        
+        _sharedClient.jsonRequestManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
+        _sharedClient.jsonRequestManager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _sharedClient.jsonRequestManager.responseSerializer = [AFJSONResponseSerializer serializer];
 
         // Initialize shared auth client
         _sharedClient.authenticationManager = [TSJavelinAPIAuthenticationManager initializeSharedManagerWithBaseAuthURL:baseAuthURL];
@@ -94,20 +105,71 @@ static dispatch_once_t onceToken;
     return objects;
 }
 
+#pragma mark - Error Codes
+
+- (BOOL)shouldRetry:(NSError *)error {
+    
+    NSArray *networkFailureCodes = @[@(NSURLErrorCannotFindHost),
+                                     @(NSURLErrorCannotConnectToHost),
+                                     @(NSURLErrorNetworkConnectionLost),
+                                     @(NSURLErrorDNSLookupFailed),
+                                     @(NSURLErrorHTTPTooManyRedirects),
+                                     @(NSURLErrorResourceUnavailable),
+                                     @(NSURLErrorNotConnectedToInternet),
+                                     @(NSURLErrorRedirectToNonExistentLocation),
+                                     @(NSURLErrorInternationalRoamingOff),
+                                     @(NSURLErrorCallIsActive),
+                                     @(NSURLErrorDataNotAllowed),
+                                     @(NSURLErrorSecureConnectionFailed),
+                                     @(NSURLErrorCannotLoadFromNetwork)];
+    
+    BOOL networkError = NO;
+    if (error) {
+        for (NSNumber *number in networkFailureCodes) {
+            if (error.code == [number integerValue]) {
+                NSLog(@"%li", (long)error.code);
+                networkError = YES;
+            }
+        }
+    }
+    
+    if (!networkError) {
+        return NO;
+    }
+    
+    return YES;
+}
+
++ (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSJavelinAPIClientDidUpdateAgency object:nil];
+}
+
++ (TSJavelinAPIUser *)loggedInUser {
+    
+    return [[[self sharedClient] authenticationManager] loggedInUser];
+}
+
++ (TSJavelinAPIAgency *)userAgency {
+    
+    return [[[self sharedClient] authenticationManager] loggedInUser].agency;
+}
+
 #pragma mark - Agency Methods
 
 - (void)getAgencies:(void (^)(NSArray *agencies))completion {
-    [self.requestSerializer setValue:[[self authenticationManager] masterAccessTokenAuthorizationHeader]
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenOrMasterAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"agencies/"
-   parameters:nil
+   parameters:@{@"page_size": @(100),}
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:@"TSJavelinAPIAgency" fromJSON:responseObject withKey:@"results"]);
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
           dispatch_after(popTime, dispatch_get_main_queue(), ^{
@@ -119,7 +181,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)getAgenciesNearby:(CLLocation *)currentLocation radius:(float)radius completion:(void (^)(NSArray *agencies))completion {
-    [self.requestSerializer setValue:[[self authenticationManager] masterAccessTokenAuthorizationHeader]
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenOrMasterAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"agencies/"
    parameters:@{@"latitude": [[NSNumber numberWithDouble:currentLocation.coordinate.latitude] stringValue],
@@ -131,7 +193,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
           dispatch_after(popTime, dispatch_get_main_queue(), ^{
               if ([self shouldRetry:error]) {
@@ -159,7 +221,7 @@ static dispatch_once_t onceToken;
               completion(agency);
           }
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               // Delay execution of my block for 10 seconds.
@@ -187,15 +249,14 @@ static dispatch_once_t onceToken;
     [self GET:agencyUrl
    parameters:nil
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          TSJavelinAPIAgency *agency = [[TSJavelinAPIAgency alloc] initWithAttributes:responseObject];
-          [[self authenticationManager] loggedInUser].agency = agency;
+          [[[self authenticationManager] loggedInUser].agency updateWithAttributes:responseObject];
           [[self authenticationManager] archiveLoggedInUser];
           if (completion) {
-              completion(agency);
+              completion([[self authenticationManager] loggedInUser].agency);
           }
           [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidUpdateAgency object:nil];
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               // Delay execution of my block for 10 seconds.
@@ -225,7 +286,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -306,7 +367,7 @@ static dispatch_once_t onceToken;
           }
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -344,7 +405,7 @@ static dispatch_once_t onceToken;
           }
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -381,7 +442,7 @@ static dispatch_once_t onceToken;
           }
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -500,96 +561,104 @@ static dispatch_once_t onceToken;
 
 #pragma mark Location Updates
 
-- (void)locationUpdated:(CLLocation *)location {
-    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
-    if (!activeAlert || !activeAlert.url) {
-        return;
+- (void)locationUpdated:(NSArray *)locations completion:(void(^)(BOOL finished))completion {
+    
+    if (!_locationsAwaitingPost) {
+        _locationsAwaitingPost = [[NSMutableArray alloc] initWithCapacity:10];
     }
     
-    if (!_isStillActiveAlert) {
-        return;
+    [_locationsAwaitingPost addObjectsFromArray:locations];
+    
+    NSTimeInterval sendInterval = 120;
+    CLLocationDistance distanceInterval = 500;
+    if (_isStillActiveAlert) {
+        sendInterval = 60;
+        distanceInterval = 100;
     }
     
-    
-    _locationAwaitingPost = location;
-    
-    if (!_locationPostTimer) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _locationPostTimer = [NSTimer scheduledTimerWithTimeInterval:20
-                                                                  target:self
-                                                                selector:@selector(sendLocationUpdate:)
-                                                                userInfo:nil
-                                                                 repeats:YES];
-            [self sendLocationUpdate:location];
-            return;
-        });
-    }
-    
-    if (location.coordinate.latitude == _previouslyPostedLocation.coordinate.latitude && location.coordinate.longitude == _previouslyPostedLocation.coordinate.longitude) {
-        return;
-    }
-    
-    //Send Location right away if enough time has passed or accuracy increased
-    NSTimeInterval timeOfPreviousLocation = [_previouslyPostedLocation.timestamp timeIntervalSinceNow];
-    if (abs(timeOfPreviousLocation) > 20 || location.horizontalAccuracy < _previouslyPostedLocation.horizontalAccuracy) {
-        [self sendLocationUpdate:location];
+    CLLocation *previouslyPostedLocation = [TSJavelinAPIClient loggedInUser].location;
+    if (!previouslyPostedLocation ||
+        [[_locationsAwaitingPost lastObject] distanceFromLocation:previouslyPostedLocation] > distanceInterval ||
+        abs([[NSDate date] timeIntervalSinceDate:_lastLocationUpdateTime]) > sendInterval) {
+        
+        [self sendLocationsAwaitingUpdate:completion];
     }
 }
 
-- (void)sendLocationUpdate:(CLLocation *)location {
+- (void)startLocationSendTimerWithInterval:(NSTimeInterval)interval {
     
-    if (!_isStillActiveAlert) {
-        [_locationPostTimer invalidate];
-        return;
+    if (_locationPostTimer) {
+        [self stopLocationSendTimer];
     }
     
-    if (![location isKindOfClass:[CLLocation class]] || !location) {
-        location = _locationAwaitingPost;
-    }
+    _locationPostTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                          target:self
+                                                        selector:@selector(sendLocationFromTimer)
+                                                        userInfo:nil
+                                                         repeats:NO];
+    _locationPostTimer.tolerance = 20;
+}
+
+- (void)stopLocationSendTimer {
     
-    TSJavelinAPIAlert *activeAlert = [[TSJavelinAlertManager sharedManager] activeAlert];
+    [_locationPostTimer invalidate];
+    _locationPostTimer = nil;
+}
+
+- (void)sendLocationFromTimer {
     
-    //Check to make sure location needs to be sent
-    if (_previouslyPostedLocation) {
-        if ([location distanceFromLocation:_previouslyPostedLocation] < 5 && location.horizontalAccuracy >= _previouslyPostedLocation.horizontalAccuracy) {
-            return;
+    [self sendLocationsAwaitingUpdate:nil];
+}
+
+- (void)sendLocationsAwaitingUpdate:(void(^)(BOOL finished))completion {
+    
+    _lastLocationUpdateTime = [NSDate date];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self startLocationSendTimerWithInterval:180];
+    }];
+    
+    if (![TSJavelinAPIClient loggedInUser]) {
+        if (completion) {
+            completion(NO);
         }
-    }
-    NSLog(@"New location distance change = %f", [location distanceFromLocation:_previouslyPostedLocation]);
-    _previouslyPostedLocation = location;
-    
-    if (!activeAlert.url) {
         return;
     }
     
-    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+    NSArray *locationsToSend = [NSArray arrayWithArray:_locationsAwaitingPost];
+    [_locationsAwaitingPost removeAllObjects];
+    
+    NSMutableArray *parameters = [[NSMutableArray alloc] init];
+    for (CLLocation *location in locationsToSend) {
+        [parameters addObject:[location toLocationParameterDictionary]];
+    }
+    
+    NSLog(@"New locations: %@\nDistance change = %f", locationsToSend, [locationsToSend.lastObject distanceFromLocation:[TSJavelinAPIClient loggedInUser].location]);
+    [TSJavelinAPIClient loggedInUser].location = locationsToSend.lastObject;
+    
+    [self.jsonRequestManager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
-    [self POST:@"alert-locations/"
-    parameters:@{ @"alert": activeAlert.url,
-                  @"accuracy": [NSNumber numberWithDouble:location.horizontalAccuracy],
-                  @"altitude": [NSNumber numberWithDouble:location.altitude],
-                  @"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
-                  @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude] }
+    [self.jsonRequestManager POST:[NSString stringWithFormat:@"%@locations/", [TSJavelinAPIClient loggedInUser].url]
+    parameters:parameters
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           NSLog(@"Successfully created new alert location: %@", responseObject);
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           
-           if (operation.response.statusCode == 404) {
-               NSLog(@"Alert not found. Alert must be completed. Disarm");
-               [[TSJavelinAlertManager sharedManager] alertWasCompletedByDispatcher:activeAlert.url];
+           NSLog(@"Posted locations");
+           if (completion) {
+               completion(YES);
            }
-           else {
-               NSLog(@"Failed to create new alert location: %@", error);
+       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"Failed to patch location: %@", error.localizedDescription);
+           if (completion) {
+               completion(NO);
            }
        }];
 }
 
 - (void)startTimerForFailedFindActiveAlertURL
 {
+    [_timerForFailedFindActiveAlertURL invalidate];
+    _timerForFailedFindActiveAlertURL = nil;
     
     if (_retryAttempts > 6) {
-        [_timerForFailedFindActiveAlertURL invalidate];
-        _timerForFailedFindActiveAlertURL = nil;
         _retryAttempts = 0;
         return;
     }
@@ -601,7 +670,7 @@ static dispatch_once_t onceToken;
                                                                              target:self
                                                                            selector:@selector(findActiveAlertAndCancel)
                                                                            userInfo:nil
-                                                                            repeats:YES];
+                                                                            repeats:NO];
     });
 }
 
@@ -733,7 +802,7 @@ static dispatch_once_t onceToken;
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -774,7 +843,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error);
+           NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
                // Delay execution of my block for 10 seconds.
@@ -789,6 +858,149 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                }
            }
        }];
+}
+
+- (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(NSArray *entourageMembers, NSError *error))completion {
+    
+    if (![TSJavelinAPIClient loggedInUser].url) {
+        return;
+    }
+    
+    if (![TSJavelinAPIClient loggedInUser].phoneNumberVerified) {
+        return;
+    }
+    
+    NSDictionary *params;
+//    if (date) {
+//        params = @{@"modified_since": date.iso8601String};
+//    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:[NSString stringWithFormat:@"%@matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
+       parameters:params
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              
+              if (completion) {
+                  completion([TSJavelinAPIEntourageMember entourageMembersFromUsers:responseObject], nil);
+              }
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Error: %@", operation.response);
+              
+              if ([self shouldRetry:error]) {
+                  // Delay execution of my block for 10 seconds.
+                  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                  dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                      [self getEntourageSessionsWithLocationsSince:date completion:completion];
+                  });
+              }
+              else {
+                  if (completion) {
+                      completion(operation.responseObject, error);
+                  }
+              }
+          }];
+}
+
+
+- (void)getEntourageSession:(TSJavelinAPIEntourageSession *)session withLocationsSince:(NSDate *)date completion:(void (^)(TSJavelinAPIEntourageSession *entourageSession, NSError *error))completion {
+    
+    NSDictionary *params;
+//    if (date) {
+//        params = @{@"modified_since": date.iso8601String};
+//    }
+    
+    if (!session.url) {
+        if (completion) {
+            completion(nil, nil);
+        }
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
+    
+    [self GET:session.url
+      parameters:params
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             
+             if (completion) {
+                 completion([[TSJavelinAPIEntourageSession alloc] initWithAttributes:responseObject], nil);
+             }
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Error: %@", operation.response);
+             
+             if ([self shouldRetry:error]) {
+                 // Delay execution of my block for 10 seconds.
+                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                 dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                     [self getEntourageSession:session withLocationsSince:date completion:completion];
+                 });
+             }
+             else {
+                 if (completion) {
+                     completion(operation.responseObject, error);
+                 }
+             }
+         }];
+}
+
+
+
+- (void)syncEntourageMembers:(NSArray *)members completion:(void (^)(id responseObject, NSError *error))completion {
+    
+    if (!members) {
+        NSLog(@"No members to add");
+        if (completion) {
+            completion(members, nil);
+        }
+        return;
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:members.count];
+    
+    for (TSJavelinAPIEntourageMember *member in members) {
+        
+        NSDictionary *parameters = [member parametersFromMember];
+        if (parameters) {
+            [mutableArray addObject:parameters];
+        }
+    }
+    
+    if (!mutableArray.count) {
+        mutableArray = nil;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidStartSyncingEntourage object:nil];
+    
+    [self.jsonRequestManager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
+    [self.jsonRequestManager POST:[NSString stringWithFormat:@"%@api/entourage/members/", _baseAuthURL]
+       parameters:mutableArray
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              [[TSJavelinAPIClient loggedInUser] setEntourageMembersForKeys:responseObject];
+              if (completion) {
+                  completion([TSJavelinAPIClient loggedInUser], nil);
+              }
+              [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidFinishSyncingEntourage object:nil];
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Error: %@", operation.response);
+              
+              if ([self shouldRetry:error]) {
+                  // Delay execution of my block for 10 seconds.
+                  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                  dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                      [self syncEntourageMembers:members completion:completion];
+                  });
+              }
+              else {
+                  if (completion) {
+                      completion(operation.responseObject, error);
+                  }
+                  [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidFinishSyncingEntourage object:nil];
+              }
+          }];
 }
 
 - (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion {
@@ -823,7 +1035,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
               // Delay execution of my block for 10 seconds.
@@ -854,12 +1066,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            
+           [[TSJavelinAPIClient loggedInUser].entourageMembers removeObjectForKey:member.url];
            if (completion) {
                completion(member, nil);
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error);
+           NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
                // Delay execution of my block for 10 seconds.
@@ -889,7 +1102,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
              }
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"%@", error);
+             NSLog(@"%@", error.localizedDescription);
              
              if ([self shouldRetry:error]) {
                  // Delay execution of my block for 10 seconds.
@@ -906,7 +1119,209 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
          }];
 }
 
-#pragma mark - Social Reporting 
+
+#pragma mark - Entourage Session
+
+
+- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(BOOL completed))completion {
+    
+    [TSJavelinAPIClient loggedInUser].entourageSession = session;
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+    
+    if (session.url) {
+        NSLog(@"Entourage session already has a url");
+        if (completion) {
+            completion(YES);
+        }
+        return;
+    }
+    
+    NSDictionary *parameters = [session parametersFromSession];
+    if (!parameters) {
+        NSLog(@"Session missing parameters");
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    
+    [self.jsonRequestManager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self.jsonRequestManager POST:@"entourage-sessions/"
+    parameters:parameters
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           [TSJavelinAPIClient loggedInUser].entourageSession.url = [responseObject objectForKey:@"url"];
+           [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+           
+           if (completion) {
+               completion(YES);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error.localizedDescription);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self postNewEntourageSession:session completion:completion];
+               });
+           }
+           else {
+               if (completion) {
+                   completion(NO);
+               }
+           }
+       }];
+}
+
+
+- (void)updateEntourageSessionETA:(NSDate *)eta completion:(void (^)(BOOL updated))completion {
+    
+    TSJavelinAPIEntourageSession *session = [TSJavelinAPIClient loggedInUser].entourageSession;
+    session.eta = eta;
+    
+    if (!session.url) {
+        NSLog(@"Entourage session needs url");
+        [self postNewEntourageSession:session completion:completion];
+        return;
+    }
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+    
+    NSDictionary *parameters = [session etaParametersFromSession];
+    if (!parameters) {
+        NSLog(@"Session missing parameters");
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self PATCH:session.url
+    parameters:parameters
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           
+           if (completion) {
+               completion(YES);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error.localizedDescription);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self updateEntourageSessionETA:eta completion:completion];
+               });
+           }
+           else {
+               if (completion) {
+                   completion(NO);
+               }
+           }
+       }];
+}
+
+
+- (void)cancelEntourageSession:(void (^)(BOOL cancelled))completion {
+    
+    if (![TSJavelinAPIClient loggedInUser].entourageSession.url) {
+        NSLog(@"Entourage session needs url");
+        [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                                     forHTTPHeaderField:@"Authorization"];
+    [self POST:[NSString stringWithFormat:@"%@cancel/", [TSJavelinAPIClient loggedInUser].entourageSession.url]
+                       parameters:nil
+                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                              
+                              [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+                              [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                              
+                              if (completion) {
+                                  completion(YES);
+                              }
+                          }
+                          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                              NSLog(@"%@", error.localizedDescription);
+                              
+                              if ([self shouldRetry:error]) {
+                                  // Delay execution of my block for 10 seconds.
+                                  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+                                  dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                                      [self cancelEntourageSession:completion];
+                                  });
+                              }
+                              else {
+                                  
+                                  [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+                                  [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                                  
+                                  if (completion) {
+                                      completion(NO);
+                                  }
+                              }
+                          }];
+}
+
+
+- (void)arrivedForEntourageSession:(void (^)(BOOL arrived))completion {
+    
+    if (![TSJavelinAPIClient loggedInUser].entourageSession.url) {
+        NSLog(@"Entourage session needs url");
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self POST:[NSString stringWithFormat:@"%@arrived/", [TSJavelinAPIClient loggedInUser].entourageSession.url]
+    parameters:nil
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           
+           [TSJavelinAPIClient loggedInUser].entourageSession = nil;
+           [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+           
+           if (completion) {
+               completion(YES);
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           NSLog(@"%@", error.localizedDescription);
+           
+           if ([self shouldRetry:error]) {
+               // Delay execution of my block for 10 seconds.
+               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
+               dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                   [self cancelEntourageSession:completion];
+               });
+           }
+           else {
+               if (completion) {
+                   completion(NO);
+               }
+           }
+       }];
+}
+
+//matched_entourage_users
+
+#pragma mark - Social Reporting
 
 //Given a latitude, longitude, and a distance radius, you can get a list of socially-reported crimes/suspicious incidents that surround the user. These are reported by other users of the app.
 //
@@ -941,7 +1356,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"%@", error);
+          NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
           }
@@ -995,103 +1410,60 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error);
-           
-//           if ([self shouldRetry:error]) {
-//               // Delay execution of my block for 10 seconds.
-//               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
-//               dispatch_after(popTime, dispatch_get_main_queue(), ^{
-//                   [self postSocialCrimeReport:report completion:completion];
-//               });
-//           }
-//           else {
-               if (completion) {
-                   completion(nil);
-//               }
+           NSLog(@"%@", error.localizedDescription);
+           if (completion) {
+               completion(nil);
            }
        }];
 }
 
 
-#pragma mark - Error Codes
+#pragma mark - User Notifications
 
-- (BOOL)shouldRetry:(NSError *)error {
+- (void)getLatestUserNotifications:(void (^)(NSArray *notifications))completion {
     
-    /*
-     No Connection errors
-     
-     NSURLErrorCannotFindHost = -1003,
-     
-     NSURLErrorCannotConnectToHost = -1004,
-     
-     NSURLErrorNetworkConnectionLost = -1005,
-     
-     NSURLErrorDNSLookupFailed = -1006,
-     
-     NSURLErrorHTTPTooManyRedirects = -1007,
-     
-     NSURLErrorResourceUnavailable = -1008,
-     
-     NSURLErrorNotConnectedToInternet = -1009,
-     
-     NSURLErrorRedirectToNonExistentLocation = -1010,
-     
-     NSURLErrorInternationalRoamingOff = -1018,
-     
-     NSURLErrorCallIsActive = -1019,
-     
-     NSURLErrorDataNotAllowed = -1020,
-     
-     NSURLErrorSecureConnectionFailed = -1200,
-     
-     NSURLErrorCannotLoadFromNetwork = -2000,
-     */
-    
-    NSArray *networkFailureCodes = @[@(NSURLErrorCannotFindHost),
-                                     @(NSURLErrorCannotConnectToHost),
-                                     @(NSURLErrorNetworkConnectionLost),
-                                     @(NSURLErrorDNSLookupFailed),
-                                     @(NSURLErrorHTTPTooManyRedirects),
-                                     @(NSURLErrorResourceUnavailable),
-                                     @(NSURLErrorNotConnectedToInternet),
-                                     @(NSURLErrorRedirectToNonExistentLocation),
-                                     @(NSURLErrorInternationalRoamingOff),
-                                     @(NSURLErrorCallIsActive),
-                                     @(NSURLErrorDataNotAllowed),
-                                     @(NSURLErrorSecureConnectionFailed),
-                                     @(NSURLErrorCannotLoadFromNetwork)];
-    
-    BOOL networkError = NO;
-    if (error) {
-        for (NSNumber *number in networkFailureCodes) {
-            if (error.code == [number integerValue]) {
-                NSLog(@"%li", (long)error.code);
-                networkError = YES;
-            }
-        }
+    if (![TSJavelinAPIClient loggedInUser].url) {
+        return;
     }
     
-    if (!networkError) {
-        return NO;
-    }
-    
-    return YES;
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self GET:@"user-notifications/"
+   parameters:@{ @"user": @([[self authenticationManager] loggedInUser].identifier) }
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if (completion) {
+              completion([self apiObjectArrayOfClass:NSStringFromClass([TSJavelinAPIUserNotification class]) fromJSON:responseObject withKey:@"results"]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error.localizedDescription);
+          if (completion) {
+              completion(nil);
+          }
+      }];
 }
 
-+ (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:object selector:selector name:TSJavelinAPIClientDidUpdateAgency object:nil];
-}
 
-+ (TSJavelinAPIUser *)loggedInUser {
+- (void)markRead:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion {
     
-    return [[[self sharedClient] authenticationManager] loggedInUser];
-}
-
-+ (TSJavelinAPIAgency *)userAgency {
+    notification.read = YES;
     
-    return [[[self sharedClient] authenticationManager] loggedInUser].agency;
+    [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader]
+                  forHTTPHeaderField:@"Authorization"];
+    [self PATCH:notification.url
+   parameters:@{@"read": @(1)}
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          
+          if (completion) {
+              completion(YES);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", error.localizedDescription);
+          if (completion) {
+              completion(NO);
+          }
+      }];
 }
-
 
 @end

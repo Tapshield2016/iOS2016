@@ -10,6 +10,8 @@
 #import "UIImage+Resize.h"
 #import "TSColorPalette.h"
 
+
+
 @implementation TSBoundariesOverlay
 
 - (instancetype)initWithPolygon:(MKPolygon *)polygon agency:(TSJavelinAPIAgency *)agency region:(TSJavelinAPIRegion *)region
@@ -18,9 +20,9 @@
     if (self) {
         self.alpha = 0.5;
         self.lineWidth = 2.0;
-        self.image = agency.alternateLogo;
+        self.image = agency.theme.mapOverlayLogo;
         
-        UIColor *color = agency.secondaryColor;
+        UIColor *color = agency.theme.secondaryColor;
         if (!color) {
             color = [TSColorPalette randomColor];
         }
@@ -30,6 +32,8 @@
                 color = [TSColorPalette darkGrayColor];
             }
         }
+        
+        self.centroid = MKMapPointForCoordinate(agency.agencyCenter);
         
         self.strokeColor = [TSColorPalette colorByAdjustingColor:color Alpha:1.0f];
         self.fillColor = [TSColorPalette colorByAdjustingColor:color Alpha:0.5f];
@@ -42,29 +46,32 @@
     [super drawMapRect:mapRect zoomScale:zoomScale inContext:context];
     
     if (_image) {
-        CGImageRef imageReference = _image.CGImage;
         
         MKMapRect theMapRect = [self.overlay boundingMapRect];
         
-        MKMapPoint point = MKMapPointMake(MKMapRectGetMidX(theMapRect), MKMapRectGetMidY(theMapRect));
-        float imageRatio = _image.size.width/_image.size.height;
+        MKMapPoint point = self.centroid;
+        float widthByHeight = _image.size.width/_image.size.height;
+        float heightByWidth = _image.size.height/_image.size.width;
         
         
-        float newHeight = theMapRect.size.height/4;
+        float newHeight = theMapRect.size.height/2;
         if (newHeight > 3000) {
             newHeight = 3000;
         }
-        float newWidth = newHeight*imageRatio;
+        float newWidth = newHeight*widthByHeight;
+        
+        if (newWidth > theMapRect.size.width/2) {
+            newWidth = theMapRect.size.width/2;
+            newHeight = newWidth * heightByWidth;
+        }
         
         theMapRect = MKMapRectMake(point.x - newWidth/2, point.y - newHeight/2, newWidth, newHeight);
         
         CGRect theRect = [self rectForMapRect:theMapRect];
-        CGRect orignalRect = [self rectForMapRect:[self.overlay boundingMapRect]];
         
-        CGContextScaleCTM(context, 1.0, -1.0);
-        CGContextTranslateCTM(context, 0.0, -orignalRect.size.height);
-        
-        CGContextDrawImage(context, theRect, imageReference);
+        UIGraphicsPushContext(context);
+        [_image drawInRect:theRect blendMode:kCGBlendModeNormal alpha:0.5];
+        UIGraphicsPopContext();
     }
 }
 

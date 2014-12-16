@@ -27,14 +27,10 @@
     self = [super initWithAttributes:attributes];
     if (self) {
         _body = [attributes nonNullObjectForKey:@"body"];
-        _creationDate = [self reformattedTimeStamp:[attributes nonNullObjectForKey:@"creation_date"]];
-        
         id distance = [attributes nonNullObjectForKey:@"distance"];
         if (distance) {
             _distance = [distance unsignedIntegerValue];
         }
-        
-        _lastModified = [self reformattedTimeStamp:[attributes valueForKey:@"last_modified"]];
         
         _reportImageUrl = [attributes nonNullObjectForKey:@"report_image_url"];
         _reportVideoUrl = [attributes nonNullObjectForKey:@"report_video_url"];
@@ -54,6 +50,48 @@
     }
     return self;
 }
+
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:_body forKey:@"body"];
+    [encoder encodeInteger:_distance forKey:@"distance"];
+    
+    [encoder encodeObject:_reportImageUrl forKey:@"report_image_url"];
+    [encoder encodeObject:_reportVideoUrl forKey:@"report_video_url"];
+    [encoder encodeObject:_reportAudioUrl forKey:@"report_audio_url"];
+    
+    [encoder encodeObject:_location forKey:@"location"];
+    
+    [encoder encodeInt:_reportType forKey:@"report_type"];
+    [encoder encodeObject:_user forKey:@"reporter"];
+    [encoder encodeBool:_reportAnonymous forKey:@"report_anonymous"];
+    [encoder encodeBool:_isSpam forKey:@"flagged_spam"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super initWithCoder:decoder])) {
+        //decode properties, other class vars
+        
+        _body = [decoder decodeObjectForKey:@"body"];
+        _distance = [decoder decodeIntegerForKey:@"distance"];
+        
+        _reportImageUrl = [decoder decodeObjectForKey:@"report_image_url"];
+        _reportVideoUrl = [decoder decodeObjectForKey:@"report_video_url"];
+        _reportAudioUrl = [decoder decodeObjectForKey:@"report_audio_url"];
+        
+        _location = [decoder decodeObjectForKey:@"location"];
+        
+        _reportType = [decoder decodeIntForKey:@"report_type"];
+        _user = [decoder decodeObjectForKey:@"reporter"];
+        _reportAnonymous = [decoder decodeBoolForKey:@"report_anonymous"];
+        _isSpam = [decoder decodeBoolForKey:@"flagged_spam"];
+    }
+    return self;
+}
+
 
 + (NSArray *)socialCrimeReportArray:(NSArray *)socialCrimes {
     

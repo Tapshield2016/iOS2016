@@ -9,19 +9,7 @@
 #import "TSNotifySelectionViewController.h"
 #import "TSAddMemberCell.h"
 #import "TSCircularControl.h"
-#import "TSMemberCollectionViewLayout.h"
 #import <LocalAuthentication/LocalAuthentication.h>
-
-
-#define TUTORIAL_TITLE @"Set ETA, add your Entourage"
-#define TUTORIAL_MESSAGE @"Contacts with a check mark will be notified of your arrival or non-arrival. If you're on-campus and you don't arrive at your destination, we'll also notify campus police."
-
-#define WARNING_TITLE @"WARNING"
-#define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
-
-static NSString * const TSNotifySelectionViewControllerTutorialShow = @"TSNotifySelectionViewControllerTutorialShow";
-static NSString * const TSNotifySelectionViewController911WarningShow = @"TSNotifySelectionViewController911WarningShow";
-static NSString * const kRecentSelections = @"kRecentSelections";
 
 @interface TSNotifySelectionViewController ()
 
@@ -29,9 +17,13 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 @property (strong, nonatomic) UIAlertController *saveChangesAlertController;
 @property (assign, nonatomic) BOOL changedTime;
 @property (strong, nonatomic) TSCircularControl *slider;
-@property (strong, nonatomic) TSMemberCollectionViewLayout *collectionLayout;
 @property (strong, nonatomic) TSPopUpWindow *tutorialWindow;
 @property (assign, nonatomic) BOOL isStarting;
+
+@property (assign, nonatomic) BOOL showDateTime;
+
+
+@property (strong, nonatomic) UIView *backView;
 
 @end
 
@@ -44,31 +36,42 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     // Do any additional setup after loading the view.
     
     _changedTime = NO;
-    _isStarting = NO;
     
-    _collectionLayout = [[TSMemberCollectionViewLayout alloc] init];
-    _collectionView.contentInset = UIEdgeInsetsMake(INSET, 0, 20.0, 0);
-    [_collectionView setCollectionViewLayout:_collectionLayout];
+    _okButton.enabled = NO;
     
-    NSSet *set = [TSVirtualEntourageManager sharedManager].entourageMembersPosted;
-    _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:[set allObjects]]];
-    _entourageMembers = [[NSMutableSet alloc] initWithSet:set];
-    [self mergeRecentPicksWithCurrentMembers];
+    [_roundedRect roundBezierPathCornerRadius:10];
     
-    self.translucentBackground = YES;
+    _insideView.layer.shadowColor = [[UIColor blackColor] CGColor];
+    _insideView.layer.shadowOpacity = .6;
+    _insideView.layer.shadowOffset = CGSizeZero;
+    _insideView.layer.masksToBounds = NO;
+    _insideView.layer.shadowRadius = 10.0f;
     
-    [self addDescriptionToNavBar];
     //Create the Circular Slider
-    _slider = [[TSCircularControl alloc]initWithFrame:_circleContainerView.frame];
-//    slider.center = CGPointMake(self.view.center.x, self.view.center.y/1.5);
+    CGRect frame = _insideView.frame;
+    frame.size.height -= 44;
+    _slider = [[TSCircularControl alloc]initWithFrame:frame];
     
-    _estimatedTimeInterval = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime;
-    _timeAdjusted = _estimatedTimeInterval;
+    _estimatedTimeInterval = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.expectedTravelTime;
+    
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
+        _timeAdjusted = [[TSJavelinAPIClient loggedInUser].entourageSession.eta timeIntervalSinceNow];
+    }
+    else {
+        _timeAdjusted = [TSEntourageSessionManager sharedManager].routeManager.selectedTravelTime;
+    }
+    
     _timeAdjustLabel = [[TSBaseLabel alloc] initWithFrame:_slider.frame];
-    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_estimatedTimeInterval];
+    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
     _timeAdjustLabel.font = [TSFont fontWithName:kFontWeightThin size:30.0];
     _timeAdjustLabel.textAlignment = NSTextAlignmentCenter;
     _timeAdjustLabel.textColor = [UIColor whiteColor];
+    
+    _showDateTime = NO;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleTimeFormat)];
+    tap.delegate = self;
+    [_slider addGestureRecognizer:tap];
     
     //Define Target-Action behaviour
     [_slider addTarget:self action:@selector(newValue:) forControlEvents:UIControlEventValueChanged];
@@ -76,19 +79,12 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     [self.view addSubview:_slider];
     [self.view addSubview:_timeAdjustLabel];
     
-    if ([TSVirtualEntourageManager sharedManager].isEnabled) {
-        [self blackNavigationBar];
-        self.removeNavigationShadow = YES;
-        
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(doneEditingEntourage)];
-        [doneButton setTitleTextAttributes:@{NSForegroundColorAttributeName : [TSColorPalette whiteColor],
-                                            NSFontAttributeName :[TSFont fontWithName:kFontWeightLight size:17.0f]} forState:UIControlStateNormal];
-        [self.navigationItem setRightBarButtonItem:doneButton];
-        
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
         [self adjustViewableTime];
     }
-    
-    [self showTutorial];
+    else {
+        [_slider setDegreeForStartTime:_estimatedTimeInterval currentTime:_timeAdjusted];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,101 +95,56 @@ static NSString * const kRecentSelections = @"kRecentSelections";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    
-    [self showContainerView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
+    _backView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _backView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    _backView.alpha = 0.0;
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancel:)];
+    tap.delegate = self;
+    [_backView addGestureRecognizer:tap];
+    [self.view insertSubview:_backView atIndex:0];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        _backView.alpha = 1.0;
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
     
-    [self hideContainerView];
+    _backView.hidden = YES;
 }
 
-- (void)showTutorial {
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:TSNotifySelectionViewControllerTutorialShow]) {
-        return;
-    }
-    
-    _tutorialWindow = [[TSPopUpWindow alloc] initWithRepeatCheckBox:TSNotifySelectionViewControllerTutorialShow
-                                                              title:TUTORIAL_TITLE
-                                                            message:TUTORIAL_MESSAGE];
-    [_tutorialWindow show];
+    return YES;
 }
 
 - (void)dismissViewController {
+    UINavigationController *navcontroller;
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
+        navcontroller = (UINavigationController *)[[UIApplication sharedApplication].delegate.window.rootViewController.childViewControllers firstObject];
+    }
+    else {
+        navcontroller = (UINavigationController *)self.presentingViewController;
+    }
+    
+    
+    [[navcontroller.childViewControllers lastObject] beginAppearanceTransition:YES animated:YES];
     
     [self dismissViewControllerAnimated:YES completion:^{
-        if (_keyValueObserver) {
-            [[TSVirtualEntourageManager sharedManager].routeManager removeObserver:_keyValueObserver
-                                                                   forKeyPath:@"selectedRoute"
-                                                                      context: NULL];
-        }
-        [_homeViewController viewWillAppear:NO];
-        [_homeViewController viewDidAppear:NO];
+        [[navcontroller.childViewControllers lastObject] endAppearanceTransition];
     }];
 }
 
-- (void)willMoveToParentViewController:(UIViewController *)parent {
-    
-    [super willMoveToParentViewController:parent];
-    
-    if (!parent) {
-        [self transitionNavigationBarAnimatedRight];
-        [self whiteNavigationBar];
-    }
-}
-
-- (void)addDescriptionToNavBar {
-    
-    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.distance]];
-    
-    _addressLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _routeInfoView.frame.size.width, 21.0f)];
-    _addressLabel.text = [TSVirtualEntourageManager sharedManager].routeManager.selectedRoute.route.name;
-    _addressLabel.textColor = [TSColorPalette whiteColor];
-    _addressLabel.font = [TSFont fontWithName:kFontWeightLight size:13.0f];
-    _addressLabel.textAlignment = NSTextAlignmentCenter;
-    [_addressLabel setAdjustsFontSizeToFitWidth:YES];
-    
-    _etaLabel = [[TSBaseLabel alloc] initWithFrame:CGRectMake(0.0f, 20.0f, _routeInfoView.frame.size.width, 16.0f)];
-    _etaLabel.textColor = [TSColorPalette whiteColor];
-    _etaLabel.text = formattedText;
-    _etaLabel.font = [TSFont fontWithName:kFontWeightLight size:12.0f];
-    _etaLabel.textAlignment = NSTextAlignmentCenter;
-    [_etaLabel setAdjustsFontSizeToFitWidth:YES];
-    
-    
-    _containerView = [[UIView alloc] initWithFrame:_routeInfoView.frame];
-    [_containerView addSubview:_addressLabel];
-    [_containerView addSubview:_etaLabel];
-    [self.navigationController.navigationBar addSubview:_containerView];
-    
-    _containerView.alpha = 0.0f;
-}
-
-- (void)showContainerView {
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        _containerView.alpha = 1.0f;
-    }];
-}
-
-- (void)hideContainerView {
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        _containerView.alpha = 0.0f;
-    }];
-}
 
 #pragma mark - Circular Control 
 
@@ -214,16 +165,36 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     float timeRatio = _estimatedTimeInterval/180;
     
     addedTime = _estimatedTimeInterval + addedTime * timeRatio;
-    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:addedTime];
+    
     _timeAdjusted = (int)addedTime;
     
+    if (_showDateTime) {
+        _timeAdjustLabel.text = [NSDate dateWithTimeIntervalSinceNow:_timeAdjusted].shortTimeString;
+    }
+    else {
+        _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
+    }
+    
     _changedTime = YES;
+    _okButton.enabled = YES;
+}
+
+- (void)toggleTimeFormat {
+    
+    _showDateTime = !_showDateTime;
+    
+    if (_showDateTime) {
+        _timeAdjustLabel.text = [NSDate dateWithTimeIntervalSinceNow:_timeAdjusted].shortTimeString;
+    }
+    else {
+        _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
+    }
 }
 
 - (void)adjustViewableTime {
     
     NSTimeInterval interval = 1;
-    if (_estimatedTimeInterval < 320) {
+    if (_estimatedTimeInterval < 360) {
         interval = .1;
     }
     
@@ -236,10 +207,16 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [[NSRunLoop currentRunLoop] addTimer:_clockTimer forMode:NSRunLoopCommonModes];
     }
     
-    NSDate *fireDate = [TSVirtualEntourageManager sharedManager].endTimer.fireDate;
+    NSDate *fireDate = [TSEntourageSessionManager sharedManager].endTimer.fireDate;
     
     _timeAdjusted = [fireDate timeIntervalSinceDate:[NSDate date]];
-    _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
+    
+    if (_showDateTime) {
+        _timeAdjustLabel.text = fireDate.shortTimeString;
+    }
+    else {
+        _timeAdjustLabel.text = [TSUtilities formattedStringForTime:_timeAdjusted];
+    }
     
     [_slider setDegreeForStartTime:_estimatedTimeInterval currentTime:_timeAdjusted];
 }
@@ -250,154 +227,12 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     _clockTimer = nil;
 }
 
-#pragma mark - Scroll View Delegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    NSArray *array = [_collectionView.visibleCells copy];
-    for (UICollectionViewCell *cell in array) {
-        NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
-        
-        UICollectionViewCell *cellAtIndex = (UICollectionViewCell *)[_collectionView cellForItemAtIndexPath:indexPath];
-        [self adjustCell:cellAtIndex forOffset:scrollView.contentOffset.y];
-    }
-}
-
-- (void)adjustCell:(UICollectionViewCell *)cell forOffset:(float)offset {
-    
-    float cellHeight = 107;
-    
-    offset = offset + INSET;
-    int page = offset/cellHeight;
-    
-    offset -= cellHeight * page;
-    float ratio = offset/cellHeight;
-    float ratioChange = 1 - ratio;
-    float acceleratedAlpha = 1 - (ratio * 1.5);
-    
-    if (offset < 0) {
-        cell.alpha = 1.0;
-        cell.transform = CGAffineTransformMakeScale(1.0, 1.0);
-        return;
-    }
-    
-    if (cell.frame.origin.y < (page + 1) * cellHeight) {
-        cell.alpha = acceleratedAlpha;
-        cell.transform = CGAffineTransformMakeScale(ratioChange, ratioChange);
-    }
-    else {
-        cell.alpha = 1.0;
-        cell.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    }
-    
-    if (cell.frame.origin.y < page * cellHeight) {
-        cell.alpha = 0.0;
-    }
-}
-
-#pragma mark - Collection View Data Source
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-     NSString *cellIdentifier = @"ContactCell";
-    
-    if (indexPath.item == 0) {
-         cellIdentifier = @"AddCell";
-        
-        TSAddMemberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-        [cell addButtonTarget:self action:@selector(showPeoplePickerNavigationController)];
-        
-        [self adjustCell:cell forOffset:_collectionView.contentOffset.y];
-        
-        return cell;
-    }
-
-    TSEntourageMemberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (indexPath.item <= _savedContacts.count && indexPath.item != 0) {
-        cell.member = _savedContacts[indexPath.item - 1];
-        [cell addButtonTarget:self action:@selector(addOrRemoveMember:)];
-        
-        if (![_entourageMembers containsObject:cell.member]) {
-            cell.button.selected = NO;
-        }
-    }
-    
-    [self adjustCell:cell forOffset:_collectionView.contentOffset.y];
-    
-    return cell;
-}
-
-
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    if (_savedContacts.count < 3) {
-        return 3;
-    }
-    
-    return _savedContacts.count + 1;
-}
-
-
-- (void)shimmerCollectionView {
-    
-    [UIView animateWithDuration:0.1 animations:^{
-        [_collectionView setContentOffset:CGPointMake(0, -INSET)];
-    } completion:^(BOOL finished) {
-        CGRect frame = _collectionView.frame;
-        frame.origin.y += INSET;
-        FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:frame];
-        shimmeringView.contentView = _collectionView;
-        
-        frame.origin.y = 0;
-        _collectionView.frame = frame;
-        [_collectionView setContentOffset:CGPointMake(0, -INSET) animated:NO];
-        [self scrollViewDidScroll:_collectionView];
-        
-        [self.view addSubview:shimmeringView];
-        shimmeringView.shimmering = YES;
-    }];
-}
-
-#pragma mark - Entourage
-
-- (IBAction)startEntourage:(id)sender {
-    if (_isStarting) {
-        return;
-    }
-    _isStarting = YES;
-    [_containerView setUserInteractionEnabled:NO];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    [self shimmerCollectionView];
-    [self.navigationItem setHidesBackButton:YES animated:YES];
-    
-    [[TSVirtualEntourageManager sharedManager] startEntourageWithMembers:_entourageMembers ETA:_timeAdjusted completion:^(BOOL finished) {
-        
-        [self dismissViewController];
-    }];
-}
 
 - (void)didDismissWindow:(UIWindow *)window {
     
     [self dismissViewController];
 }
 
-- (void)doneEditingEntourage {
-    
-    if ([self changesWereMade]) {
-        
-        if ([self touchIDAvailable]) {
-            [self useTouchID];
-        }
-        else {
-            [self saveWithPasscode];
-        }
-        
-    }
-    else {
-        [self dismissViewController];
-    }
-}
 
 - (void)saveWithPasscode {
     
@@ -414,284 +249,17 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         [textField setKeyboardAppearance:UIKeyboardAppearanceDark];
         [textField setDelegate:weakSelf];
     }];
-    [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        [self dismissViewController];
-    }]];
+    [_saveChangesAlertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     [self presentViewController:_saveChangesAlertController animated:YES completion:nil];
 }
 
 - (BOOL)changesWereMade {
     
-    if (_entourageMembers.count != [TSVirtualEntourageManager sharedManager].entourageMembersPosted.count) {
-        return YES;
-    }
-    
-    if (_entourageMembers) {
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-            TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-            
-            if (!sortingMember.identifier) {
-                return YES;
-            }
-            
-            for (TSJavelinAPIEntourageMember *member in [[TSVirtualEntourageManager sharedManager].entourageMembersPosted copy]) {
-                if (sortingMember.identifier == member.identifier) {
-                    return NO;
-                }
-            }
-            
-            return YES;
-        }];
-        
-        NSSet *filtered = [_entourageMembers filteredSetUsingPredicate:predicate];
-        
-        if (filtered.count) {
-            NSLog(@"changed users");
-            return YES;
-        }
-    }
-    
-    
-    
     return _changedTime;
 }
 
-- (void)addOrRemoveMember:(TSEntourageMemberCell *)memberCell {
-    
-    if ([_entourageMembers containsObject:memberCell.member]) {
-        if (!memberCell.button.selected) {
-            [_entourageMembers removeObject:memberCell.member];
-            [self reorderSavedUsersMovingCell:memberCell];
-        }
-    }
-    else {
-        if (memberCell.button.selected) {
-            [_entourageMembers addObject:memberCell.member];
-            [self reorderSavedUsersMovingCell:memberCell];
-        }
-    }
-    
-}
 
-- (void)reorderSavedUsersMovingCell:(TSEntourageMemberCell *)cell {
-    NSIndexPath *from = [_collectionView indexPathForCell:cell];
-    
-    [self reorderSavedUsers];
-    
-    NSIndexPath *to = [NSIndexPath indexPathForItem:[_savedContacts indexOfObject:cell.member]+1 inSection:0];
-    
-    [_collectionView performBatchUpdates:^{
-        [_collectionView moveItemAtIndexPath:from toIndexPath:to];
-         } completion:^(BOOL finished) {
-             [_collectionView reloadData];
-         }];
-}
-
-- (void)reorderSavedUsers {
-    
-    [_savedContacts removeObjectsInArray:[_entourageMembers allObjects]];
-    _savedContacts = [[NSMutableArray alloc] initWithArray:[self alphabeticalMembers:_savedContacts]];
-    [_savedContacts insertObjects:[self alphabeticalMembers:[_entourageMembers allObjects]] atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _entourageMembers.count)]];
-}
-
-- (void)archiveUsersPicked {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
-                                             (unsigned long)NULL), ^(void) {
-        NSArray *array = _savedContacts;
-        if (_savedContacts.count > 11) {
-            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 11)];
-            array = [_savedContacts objectsAtIndexes:indexSet];
-        }
-        
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:array];
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kRecentSelections];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    });
-}
-
-+ (NSArray *)unarchiveRecentPicks {
-    
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kRecentSelections];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-}
-
-- (void)mergeRecentPicksWithCurrentMembers {
-    
-    NSArray *recentPicks = [TSNotifySelectionViewController unarchiveRecentPicks];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        
-        for (TSJavelinAPIEntourageMember *member in [_savedContacts copy]) {
-            if (sortingMember.recordID == member.recordID) {
-                return NO;
-            }
-        }
-        
-        sortingMember.url = nil;
-        
-        return YES;
-    }];
-    
-    
-    NSArray *filtered = [recentPicks filteredArrayUsingPredicate:predicate];
-    filtered = [self alphabeticalMembers:filtered];
-    [_savedContacts addObjectsFromArray:filtered];
-}
-
-- (NSArray *)alphabeticalMembers:(NSArray *)rawArray {
-    
-    NSSortDescriptor *sorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    return [rawArray sortedArrayUsingDescriptors:@[sorter]];
-}
-
-- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member {
-    
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        TSJavelinAPIEntourageMember *sortingMember = (TSJavelinAPIEntourageMember *)evaluatedObject;
-        if (sortingMember.recordID == member.recordID) {
-            return YES;
-        }
-        return NO;
-    }];
-    NSArray *filtered = [_savedContacts filteredArrayUsingPredicate:predicate];
-    
-    [_savedContacts removeObjectsInArray:filtered];
-    [_entourageMembers minusSet:[NSSet setWithArray:filtered]];
-    
-    [_savedContacts insertObject:member atIndex:0];
-    [_entourageMembers addObject:member];
-}
-
-
-
-#pragma mark - ABPeoplePickerNavigationControllerDelegate methods
-
-- (void)setNavigationBarStyle:(UIViewController *)picker {
-    
-    picker.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    picker.navigationController.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-    
-    [self whiteNavigationBar];
-    
-    [picker.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [picker.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    picker.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
-}
-
-- (void)showPeoplePickerNavigationController {
-    
-    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-    picker.predicateForEnablingPerson = [NSPredicate predicateWithFormat:@"phoneNumbers.@count > 0 OR emailAddresses.@count > 0"];
-    picker.topViewController.navigationItem.title = @"Contacts";
-    picker.navigationBar.topItem.prompt = @"Select an email or SMS capable phone number";
-    picker.peoplePickerDelegate = self;
-    picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self presentViewController:picker animated:YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        }];
-    });
-    
-//    CFErrorRef *error = nil;
-//    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
-//    if (error) {
-//        NSLog(@"error");
-//    }
-//    
-//    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
-//        
-//        if (error) {
-//            NSLog(@"error");
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [[[UIAlertView alloc] initWithTitle:@"Error"
-//                                            message:@"Failed requesting access to contacts"
-//                                           delegate:nil
-//                                  cancelButtonTitle:@"Ok"
-//                                  otherButtonTitles:nil] show];
-//            });
-//            return;
-//        }
-//        
-//        if (!granted) {
-//            NSLog(@"Denied access");
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Denied"
-//                                            message:@"Please go to\nSettings->Privacy->Contacts\nand enable TapShield"
-//                                           delegate:nil
-//                                  cancelButtonTitle:@"Ok"
-//                                  otherButtonTitles:nil] show];
-//            });
-//            return;
-//        }
-//        
-//        CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
-//        CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
-//        
-//        for( CFIndex index = 0; index < nPeople; index++ ) {
-//            ABRecordRef person = CFArrayGetValueAtIndex( allPeople, index );
-//            ABMutableMultiValueRef phoneRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
-//            ABMutableMultiValueRef emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
-//            NSUInteger phoneCount = ABMultiValueGetCount(phoneRef);
-//            NSUInteger emailCount = ABMultiValueGetCount(emailRef);
-//            
-//            if (!phoneCount && !emailCount) {
-//                CFErrorRef error = nil;
-//                ABAddressBookRemoveRecord(addressBook, person, &error);
-//                if (error) {
-//                    NSLog(@"Error: %@", error);
-//                }
-//            }
-//            
-//            CFRelease(phoneRef);
-//            CFRelease(emailRef);
-//        }
-//        
-//        nPeople = ABAddressBookGetPersonCount( addressBook );
-//        
-//        CFRelease(allPeople);
-//        
-//        if (nPeople == 0) {
-//            NSLog(@"No contacts with Phone Numbers or Email");
-//            CFRelease(addressBook);
-//            return;
-//        }
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-//            [self setNavigationBarStyle:picker];
-//            picker.addressBook = addressBook;
-//            picker.topViewController.navigationItem.title = @"Contacts";
-//            picker.navigationBar.topItem.prompt = @"Select an email or SMS capable phone number";
-//            picker.peoplePickerDelegate = self;
-//            picker.displayedProperties = @[@(kABPersonEmailProperty), @(kABPersonPhoneProperty)];
-//            [self presentViewController:picker animated:YES completion:nil];
-//            
-//            CFRelease(addressBook);
-//        });
-//    });
-}
-
-- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
-    
-    [self blackNavigationBar];
-    TSJavelinAPIEntourageMember *member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:person property:property identifier:identifier];
-    [self addEntourageMember:member];
-    [self reorderSavedUsers];
-    [_collectionView reloadData];
-    [self archiveUsersPicked];
-}
-
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
-    
-    [self blackNavigationBar];
-    [peoplePicker dismissViewControllerAnimated:YES completion:nil];
-}
 
 
 #pragma mark - Text Field Delegate
@@ -729,67 +297,6 @@ static NSString * const kRecentSelections = @"kRecentSelections";
         textField.text = @"";
         textField.backgroundColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.3];
     }
-}
-
-#pragma mark - Syncing Window
-
-- (UIWindow *)showSyncingWindow {
-    
-    CGRect frame = CGRectMake(0.0f, 0.0f, 260, 100);
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    window.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-    window.alpha = 0.0f;
-    
-    UIView *view = [[UIView alloc] initWithFrame:frame];
-    view.center = window.center;
-    view.layer.cornerRadius = 10;
-    view.layer.masksToBounds = YES;
-    view.transform = CGAffineTransformMakeScale(0.01, 0.01);
-    
-    
-    UIVisualEffectView *toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-    toolbar.frame = frame;
-    [view addSubview:toolbar];
-    
-    UIActivityIndicatorView *indicatoryView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [indicatoryView startAnimating];
-    indicatoryView.center = CGPointMake(frame.size.width/2, frame.size.height*.75 - 5);
-    [view addSubview:indicatoryView];
-    
-    float inset = 10;
-    TSBaseLabel *windowMessage = [[TSBaseLabel alloc] initWithFrame:CGRectMake(inset, 0, frame.size.width - inset*2, frame.size.height/2)];
-    windowMessage.numberOfLines = 0;
-    windowMessage.backgroundColor = [UIColor clearColor];
-    windowMessage.text = @"Syncing entourage members to be notified";
-    windowMessage.font = [TSFont fontWithName:kFontWeightLight size:17.0f];
-    windowMessage.textColor = [UIColor whiteColor];
-    windowMessage.textAlignment = NSTextAlignmentCenter;
-    
-    [view addSubview:windowMessage];
-    
-    [window addSubview:view];
-    [window makeKeyAndVisible];
-    
-    [UIView animateWithDuration:0.5
-                          delay:0
-         usingSpringWithDamping:300.0
-          initialSpringVelocity:5.0
-                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-        window.alpha = 1.0f;
-        view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    } completion:nil];
-    
-    return window;
-}
-
-- (void)hideWindow:(UIWindow *)window {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.3f animations:^{
-            window.alpha = 0.0f;
-        } completion:nil];
-    });
 }
 
 
@@ -835,4 +342,40 @@ static NSString * const kRecentSelections = @"kRecentSelections";
     return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
 }
 
+
+- (IBAction)startEntourage:(id)sender {
+    if (_isStarting) {
+        return;
+    }
+    _isStarting = YES;
+    
+    [[TSEntourageSessionManager sharedManager] startTrackingWithETA:_timeAdjusted completion:nil];
+    
+    [self dismissViewController];
+}
+
+- (IBAction)ok:(id)sender {
+    
+    if ([TSEntourageSessionManager sharedManager].isEnabled && [self changesWereMade]) {
+        if ([self touchIDAvailable]) {
+            [self useTouchID];
+        }
+        else {
+            [self saveWithPasscode];
+        }
+    }
+    else {
+        [TSEntourageSessionManager sharedManager].routeManager.selectedTravelTime = _timeAdjusted;
+        [self dismissViewController];
+    }
+}
+
+- (IBAction)cancel:(id)sender {
+    
+    if ([TSEntourageSessionManager sharedManager].isEnabled) {
+//        [[TSEntourageSessionManager sharedManager] startStatusBarTimer];
+    }
+    
+    [self dismissViewController];
+}
 @end

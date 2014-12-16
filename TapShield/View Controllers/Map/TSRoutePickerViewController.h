@@ -11,18 +11,24 @@
 #import "TSHitTestForwardingView.h"
 #import <MapKit/MapKit.h>
 
-@interface TSRoutePickerViewController : TSNavigationViewController 
+@interface TSRoutePickerViewController : TSNavigationViewController
 
 @property (nonatomic, weak) TSHomeViewController *homeViewController;
 @property (nonatomic, strong) MKMapItem *destinationMapItem;
 @property (nonatomic, strong) UISegmentedControl *directionsTypeSegmentedControl;
-@property (nonatomic, assign) MKDirectionsTransportType directionsTransportType;
 @property (weak, nonatomic) IBOutlet UIView *routeInfoView;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *addressLabel;
 @property (weak, nonatomic) IBOutlet TSBaseLabel *etaLabel;
 @property (weak, nonatomic) IBOutlet TSHitTestForwardingView *hitTestView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 
-- (IBAction)nextViewController:(id)sender;
+- (IBAction)presentSearchViewController:(id)sender;
+
+- (IBAction)dismissViewController:(id)sender;
+
+- (void)searchSelectedMapItem:(MKMapItem *)item;
+
+- (void)calloutTapped:(UITapGestureRecognizer *)sender;
 
 @end

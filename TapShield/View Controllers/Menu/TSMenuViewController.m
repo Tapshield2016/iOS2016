@@ -11,18 +11,20 @@
 #import "TSHomeViewController.h"
 #import "TSYankManager.h"
 #import "TSSettingsViewController.h"
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSHelpViewController.h"
 #import "TSAlertManager.h"
+#import "TSUserSessionManager.h"
 
 #define MENU_CELL_SIZE 80
 
 @interface TSMenuViewController ()
 
 @property (nonatomic, strong) NSString *currentPanelStoryBoardIdentifier;
-@property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
-@property (nonatomic, strong) NSMutableArray *viewControllerTitles;
+//@property (nonatomic, strong) NSMutableArray *viewControllerStoryboardIDs;
+//@property (nonatomic, strong) NSMutableArray *viewControllerTitles;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, strong) UIWindow *mailWindow;
 
 @end
@@ -49,26 +51,26 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(returnToMapViewForLogOut)
-                                                 name:TSSettingsViewControllerDidLogOut
+                                                 name:TSUserSessionManagerDidLogOut
                                                object:nil];
     
-
-    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
-                                                                    @"Home",
-                                                                    @"Mass Notifications",
-                                                                    @"Settings",
-                                                                    @"Help",
-                                                                    @"About", nil];
-
-    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects: @"TSProfileViewController",
-                                                                            @"TSHomeViewController",
-                                                                            @"TSMassNotificationsViewController",
-                                                                            @"TSSettingsViewController",
-                                                                            @"TSHelpViewController",
-                                                                            @"TSAboutViewController", nil];
+//
+//    _viewControllerTitles = [[NSMutableArray alloc] initWithObjects:@"Profile",
+//                                                                    @"Home",
+//                                                                    @"Mass Notifications",
+//                                                                    @"Settings",
+//                                                                    @"Help",
+//                                                                    @"About", nil];
+//
+//    _viewControllerStoryboardIDs = [[NSMutableArray alloc] initWithObjects: @"TSProfileViewController",
+//                                                                            @"TSHomeViewController",
+//                                                                            @"TSMassNotificationsViewController",
+//                                                                            @"TSSettingsViewController",
+//                                                                            @"TSHelpViewController",
+//                                                                            @"TSAboutViewController", nil];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     
     
 }
@@ -149,6 +151,11 @@
     [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
 }
 
+- (void)dynamicsDrawerRevealRightBarButtonItemTapped:(id)sender {
+    
+    [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionRight animated:YES allowUserInterruption:YES completion:nil];
+}
+
 - (void)showMenuButton:(UIViewController *)viewController {
     
     if (!_leftBarButtonItem) {
@@ -161,11 +168,27 @@
     }
     
     [viewController.navigationItem setLeftBarButtonItem:_leftBarButtonItem animated:NO];
+    
+    if (!_rightBarButtonItem) {
+        _rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Entourage"]
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(dynamicsDrawerRevealRightBarButtonItemTapped:)];
+        _rightBarButtonItem.accessibilityLabel = @"Entourage";
+        _rightBarButtonItem.accessibilityHint = @"opens list of contacts to add to your entourage";
+    }
+    
+    if ([viewController isKindOfClass:[TSHomeViewController class]]) {
+        [viewController.navigationItem setRightBarButtonItem:_rightBarButtonItem animated:NO];
+        [self.dynamicsDrawerViewController setPaneDragRevealEnabled:YES forDirection:MSDynamicsDrawerDirectionRight];
+    }
+    else {
+        [self.dynamicsDrawerViewController setPaneDragRevealEnabled:NO forDirection:MSDynamicsDrawerDirectionRight];
+    }
 }
 
 - (IBAction)showAbout:(id)sender {
     
-    [self.tableView reloadData];
     [self transitionToViewController:@"TSAboutViewController" animated:YES];
 }
 
@@ -219,7 +242,6 @@
             break;
     }
     // Close the Mail Interface
-//    [controller dismissViewControllerAnimated:YES completion:nil];
     
     [UIView animateWithDuration:0.3f animations:^{
         _mailWindow.transform = CGAffineTransformMakeScale(0.25, 0.25);
@@ -264,7 +286,12 @@
     float dimAlpha = 0.5f;
     
     cell.textLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:dimAlpha];
-    cell.textLabel.font = [UIFont fontWithName:kFontWeightThin size:23];
+    cell.textLabel.font = [UIFont fontWithName:kFontWeightThin size:20];
+    cell.textLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.textLabel.layer.shadowRadius = 1.0f;
+    cell.textLabel.layer.shadowOpacity = 1;
+    cell.textLabel.layer.shadowOffset = CGSizeZero;
+    
     cell.backgroundColor = [TSColorPalette clearColor];
     cell.imageView.alpha = dimAlpha;
     
@@ -285,13 +312,29 @@
         }
     }
     
+    if (!indexPath.row) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageFromColor:[[UIColor whiteColor] colorWithAlphaComponent:0.1]] forState:UIControlStateHighlighted];
+        [button addTarget:self action:@selector(showAbout:) forControlEvents:UIControlEventTouchUpInside];
+        button.frame = cell.bounds;
+        [cell addSubview:button];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == 0 || indexPath.row == 6) {
-        
-        return ([UIScreen mainScreen].bounds.size.height - MENU_CELL_SIZE * 5)/2;
+    float top = 64;
+    
+    if (!indexPath.row) {
+        return top;
+    }
+    
+    
+    if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl.length) {
+        return ([UIScreen mainScreen].bounds.size.height - top)/5;
+    }
+    else {
+        return ([UIScreen mainScreen].bounds.size.height - top)/4;
     }
     
     return MENU_CELL_SIZE;

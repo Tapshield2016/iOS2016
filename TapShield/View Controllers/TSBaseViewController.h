@@ -39,6 +39,8 @@
 
 - (UIViewController *)pushViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)transitionDelegate navigationDelegate:(id <UINavigationControllerDelegate>)navigationDelegate animated:(BOOL)animated;
 
+- (UIViewController *)presentViewControllerWithClass:(Class)viewControllerClass transitionDelegate:(id <UIViewControllerTransitioningDelegate>)delegate animated:(BOOL)animated navigationBarHidden:(BOOL)navBarHidden;
+
 - (void)whiteNavigationBar;
 - (void)blackNavigationBar;
 
@@ -46,18 +48,17 @@
 - (void)customizeTableView:(UITableView *)tableView;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;
+- (void)drawerCanDragForContacts:(BOOL)enabled;
 
 @property (assign, nonatomic) BOOL firstAppear;
 @property (assign, nonatomic) BOOL translucentBackground;
 @property (strong, nonatomic) UIVisualEffectView *toolbar;
 @property (strong, nonatomic) UIImage *clearButtonImage;
 
-@property (strong, nonatomic) TSLogoImageView *smallLogoImageView;
-@property (strong, nonatomic) TSLogoImageView *largeLogoImageView;
-@property (strong, nonatomic) TSLogoImageView *alternateLogoImageView;
+@property (strong, nonatomic) TSLogoImageView *navbarLogoImageView;
+@property (strong, nonatomic) UIView *logoTitleView;
 
-@property (assign, nonatomic) BOOL showSmallLogoInNavBar;
-@property (assign, nonatomic) BOOL showLargeLogo;
-@property (assign, nonatomic) BOOL showAlternateLogo;
+@property (assign, nonatomic) BOOL showLogoInNavBar;
+@property (assign, nonatomic) BOOL showAlternateLogoInNavBar;
 
 @end

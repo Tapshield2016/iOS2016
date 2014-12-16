@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.7</string>
+	<string>2.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -56,7 +56,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>856</string>
+	<string>865</string>
 	<key>FacebookAppID</key>
 	<string>412321438904850</string>
 	<key>FacebookDisplayName</key>
@@ -66,7 +66,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSContactsUsageDescription</key>
-	<string>Contacts will be used to add entourage members and pick a saved address as a destination</string>
+	<string>Contact data will be used to create your Entourage from friends and family</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>TapShield will only share your location with authorities during an emergency alert.</string>
 	<key>NSLocationUsageDescription</key>

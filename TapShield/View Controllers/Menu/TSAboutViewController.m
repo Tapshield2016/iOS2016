@@ -37,7 +37,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -50,9 +50,12 @@
     }
     
     if (indexPath.row == 0) {
-        cell.textLabel.text = @"EULA";
+        cell.textLabel.text = @"Send Feedback";
     }
     else if (indexPath.row == 1) {
+        cell.textLabel.text = @"EULA";
+    }
+    else if (indexPath.row == 2) {
         NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
         NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         cell.textLabel.text = [NSString stringWithFormat:@"v%@ (%@)", appVersionString, appBuildString];
@@ -68,9 +71,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == 0) {
-        [self pushViewControllerWithClass:[TSAgreementViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+        [self presentFeedbackEmail];
     }
     else if (indexPath.row == 1) {
+        [self pushViewControllerWithClass:[TSAgreementViewController class] transitionDelegate:nil navigationDelegate:nil animated:YES];
+    }
+    else if (indexPath.row == 2) {
         
         [self.navigationController pushViewController:[UIViewController instantiateFromStoryboardID:@"TSThirdPartyLicenses"]
                                              animated:YES];
@@ -83,4 +89,38 @@
     
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://tapshield.com/demo-landing-page/"]];
 }
+
+
+- (void)presentFeedbackEmail {
+    
+    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *emailTitle = [NSString stringWithFormat:@"TapShield iOS App Feedback v%@ (%@)", appVersionString, appBuildString];
+    // Email Content
+    NSString *messageBody = @"";
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"hello@tapshield.com"];
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:NO];
+    [mc setToRecipients:toRecipents];
+    
+    [[UIView appearanceWhenContainedIn:[MFMailComposeViewController class], nil] setTintColor:[TSColorPalette tapshieldBlue]];
+    mc.view.tintColor = [TSColorPalette tapshieldBlue];
+    mc.navigationBar.tintColor = [TSColorPalette tapshieldBlue];
+    [mc.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [mc.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[TSColorPalette tapshieldBlue], NSForegroundColorAttributeName, [TSFont fontWithName:kFontWeightLight size:17.0f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    mc.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [TSColorPalette tapshieldBlue], NSFontAttributeName : [UIFont fontWithName:kFontWeightNormal size:17.0f] };
+    
+    [self presentViewController:mc animated:YES completion:nil];
+}
+
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 @end

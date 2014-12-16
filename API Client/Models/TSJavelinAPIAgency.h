@@ -7,6 +7,7 @@
 //
 
 #import "TSJavelinAPIBaseModel.h"
+#import "TSJavelinAPITheme.h"
 
 extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 
@@ -16,6 +17,7 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 @property (readonly) NSString *domain;
 @property (readonly) NSString *dispatcherPhoneNumber;
 @property (readonly) NSString *dispatcherSecondaryPhoneNumber;
+@property (readonly) NSString *alertModeName;
 @property (readonly) NSString *dispatcherScheduleStart;
 @property (readonly) NSString *dispatcherScheduleEnd;
 @property (readonly) NSString *alertCompletedMessage;
@@ -36,14 +38,7 @@ extern NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload;
 @property (readonly) NSArray *regions;
 
 //Theme
-@property (readonly) NSDictionary *agencyTheme;
-
-@property (strong, nonatomic) UIImage *largeLogo;
-@property (strong, nonatomic) UIImage *alternateLogo;
-@property (strong, nonatomic) UIImage *smallLogo;
-
-@property (strong, nonatomic) UIColor *primaryColor;
-@property (strong, nonatomic) UIColor *secondaryColor;
+@property (strong, nonatomic) TSJavelinAPITheme *theme;
 
 - (NSArray *)openDispatchCenters;
 - (NSDate *)nextOpeningHoursStatusChange;

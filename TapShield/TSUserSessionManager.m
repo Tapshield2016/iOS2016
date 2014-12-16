@@ -23,6 +23,8 @@ static NSString * const TSUserSessionManagerMultipleAgenciesMessage = @"Would yo
 static NSString * const TSUserSessionManagerSingleAgencyTitle = @"%@ is nearby";
 static NSString * const TSUserSessionManagerSingleMessage = @"Would you like to join this organization?";
 
+NSString * const TSUserSessionManagerDidLogOut = @"TSUserSessionManagerDidLogOut";
+
 @interface TSUserSessionManager ()
 
 @property (strong, nonatomic) UIWindow *window;
@@ -47,6 +49,18 @@ static dispatch_once_t predicate;
     }
     
     return _sharedManagerInstance;
+}
+
+
+- (void)logout {
+    
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] logoutUser:^(BOOL success) {
+        if (success) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TSUserSessionManagerDidLogOut object:nil];
+        }
+        
+        [self userStatusCheck];
+    }];
 }
 
 - (void)userStatusCheck {
@@ -245,7 +259,7 @@ static dispatch_once_t predicate;
     [TSUserSessionManager sharedManager].agencyChosen = agency;
     
     if ([[TSUserSessionManager sharedManager] didJoinFromAgency:agency]) {
-        [[TSUserSessionManager sharedManager] dismissWindow:nil];
+        [[TSUserSessionManager sharedManager] dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
     }
     else if (![[TSJavelinAPIClient loggedInUser] isAvailableForDomain:agency.domain] && agency.requireDomainEmails) {
         TSAddSecondaryViewController *addSecondaryVC = [TSUserSessionManager showAddSecondary];
@@ -275,7 +289,7 @@ static dispatch_once_t predicate;
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TSUserSessionManagerDeclinedAgency];
     
-    [self dismissWindow:nil];
+    [self dismissWindowWithAnimationType:kAlertWindowAnimationTypeDown completion:nil];
 }
 
 #pragma mark UIWindow
@@ -300,6 +314,8 @@ static dispatch_once_t predicate;
                             options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
                              _window.frame = [UIScreen mainScreen].bounds;
+                             TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+                             [delegate shiftStatusBarToPane:NO];
                          } completion:nil];
     }
 }
@@ -332,9 +348,31 @@ static dispatch_once_t predicate;
 
 - (void)dismissWindow:(void (^)(BOOL finished))completion  {
     
+    [self dismissWindowWithAnimationType:nil completion:completion];
+}
+
+- (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion  {
+    
     UIWindow *mainWindow = [UIApplication sharedApplication].delegate.window;
+    if (!_window) {
+        [mainWindow makeKeyAndVisible];
+        return;
+    }
+    
+    float alpha = 1.0;
+    CGRect frame = [UIScreen mainScreen].bounds;
+    
+    if (!type) {
+        alpha = 0.0;
+    }
+    else {
+        frame.origin.y = frame.size.height;
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+        [delegate shiftStatusBarToPane:YES];
         
         UIViewController *viewcontroller = [mainWindow.rootViewController.childViewControllers firstObject];
         
@@ -346,19 +384,25 @@ static dispatch_once_t predicate;
               initialSpringVelocity:5.0
                             options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-            _window.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            
-            if (completion) {
-                completion(finished);
-            }
-            
-            [viewcontroller endAppearanceTransition];
-            [mainWindow makeKeyAndVisible];
-            _window = nil;
-        }];
+                             
+                             if (type == kAlertWindowAnimationTypeDown) {
+                                 _window.frame = frame;
+                             }
+                             
+                             _window.alpha = alpha;
+                             
+                         } completion:^(BOOL finished) {
+                             if (completion) {
+                                 completion(finished);
+                             }
+                             
+                             [viewcontroller endAppearanceTransition];
+                             [mainWindow makeKeyAndVisible];
+                             _window = nil;
+                         }];
     });
 }
+
          
 
 + (UIViewController *)controllerFromClass:(Class)class {

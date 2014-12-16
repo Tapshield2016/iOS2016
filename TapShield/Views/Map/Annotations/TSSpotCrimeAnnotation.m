@@ -16,7 +16,7 @@ NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip";
 
 - (instancetype)initWithSpotCrime:(TSSpotCrimeLocation *)location
 {
-    self = [super initWithCoordinates:location.coordinate placeName:location.type description:[TSUtilities dateDescriptionSinceNow:location.date]];
+    self = [super initWithCoordinates:location.coordinate placeName:location.type description:[location.date dateDescriptionSinceNow]];
     if (self) {
         self.title = location.type;
         _spotCrime = location;
@@ -30,7 +30,7 @@ NSString * const TSSpotCrimeAnnotationSocialReport = @"User submitted tip";
 
 - (instancetype)initWithSpocialReport:(TSJavelinAPISocialCrimeReport *)report
 {
-    self = [super initWithCoordinates:report.location.coordinate placeName:[TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType] description:[TSUtilities dateDescriptionSinceNow:report.creationDate]];
+    self = [super initWithCoordinates:report.location.coordinate placeName:[TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType] description:[report.creationDate dateDescriptionSinceNow]];
     if (self) {
         _socialReport = report;
         _type = [TSJavelinAPISocialCrimeReport socialReportTypesToString:report.reportType];

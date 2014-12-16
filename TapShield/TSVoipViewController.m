@@ -67,9 +67,6 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (IBAction)showChatViewController:(id)sender {
     
-    [((TSEmergencyAlertViewController *)_emergencyView).badgeView clearBadge];
-    [_badgeView clearBadge];
-    
     TSEmergencyAlertViewController *emergencyView = (TSEmergencyAlertViewController *)_emergencyView;
     
     [emergencyView performSelectorOnMainThread:@selector(showChatViewController:) withObject:self waitUntilDone:YES];
@@ -107,12 +104,6 @@ static NSString * const kCallRedialing = @"Redialing";
     
     [self updatePhoneNumberWithMessage:[TSUtilities formatPhoneNumber:[[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.dispatcherPhoneNumber]];
 }
-
-- (void)unreadChatMessage {
-    
-    [_badgeView setNumber:[TSJavelinChatManager sharedManager].unreadMessages];
-}
-
 
 #pragma mark - Actions
 

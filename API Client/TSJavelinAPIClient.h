@@ -17,6 +17,9 @@
 #import "TSJavelinAPIRegion.h"
 #import "TSJavelinAPIDispatchCenter.h"
 #import "TSJavelinAPIPushNotification.h"
+#import "TSJavelinAPIAlert.h"
+#import "TSJavelinAPIUserNotification.h"
+#import "TSJavelinPushNotificationManager.h"
 #import "NSNull+JSON.h"
 
 @class TSJavelinAPIUser;
@@ -91,6 +94,7 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (NSString *)getPasswordForEmailAddress:(NSString *)emailAddress;
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 
+- (NSString *)loggedInUserTokenOrMasterAuthorizationHeader;
 - (NSString *)masterAccessTokenAuthorizationHeader;
 - (NSString *)loggedInUserTokenAuthorizationHeader;
 
@@ -105,6 +109,8 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 @end
 
 extern NSString * const TSJavelinAPIClientDidUpdateAgency;
+extern NSString * const TSJavelinAPIClientDidStartSyncingEntourage;
+extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 
 @interface TSJavelinAPIClient : AFHTTPRequestOperationManager
 
@@ -118,8 +124,6 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 @property (nonatomic, strong) TSJavelinS3UploadManager *uploadManager;
 @property (nonatomic, strong) TSJavelinAPIUserProfileUploadBlock profileUploadBlock;
 @property (nonatomic, strong) NSTimer *locationPostTimer;
-@property (nonatomic, strong) CLLocation *previouslyPostedLocation;
-@property (nonatomic, strong) CLLocation *locationAwaitingPost;
 @property (nonatomic) bool isStillActiveAlert;
 
 // Init methods
@@ -151,7 +155,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 - (void)findActiveAlertAndCancel;
 - (void)alertReceiptReceivedForAlertWithURL:(NSString *)url;
 - (void)alertCompletionReceivedForAlertURL:(NSString *)url;
-- (void)locationUpdated:(CLLocation *)location;
+- (void)locationUpdated:(NSArray *)locations completion:(void(^)(BOOL finished))completion;
 - (void)updateAlertWithCallLength:(NSTimeInterval)length completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
 
 - (void)sendDirectRestAPIAlertWithParameters:(NSDictionary *)parameters completion:(void (^)(TSJavelinAPIAlert *activeAlert))completion;
@@ -172,9 +176,16 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 - (void)getTwilioCallToken:(void (^)(NSString *callToken))completion;
 
 //Entourage
-- (void)addEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)syncEntourageMembers:(NSArray *)members completion:(void (^)(id responseObject, NSError *error))completion;
 - (void)removeEntourageMember:(TSJavelinAPIEntourageMember *)member completion:(void (^)(id responseObject, NSError *error))completion;
 - (void)notifyEntourageMembers:(NSString *)message completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)getEntourageSessionsWithLocationsSince:(NSDate *)date completion:(void (^)(NSArray *entourageMembers, NSError *error))completion;
+- (void)getEntourageSession:(TSJavelinAPIEntourageSession *)session withLocationsSince:(NSDate *)date completion:(void (^)(TSJavelinAPIEntourageSession *entourageSession, NSError *error))completion;
+
+- (void)postNewEntourageSession:(TSJavelinAPIEntourageSession *)session completion:(void (^)(BOOL completed))completion;
+- (void)updateEntourageSessionETA:(NSDate *)eta completion:(void (^)(BOOL updated))completion;
+- (void)cancelEntourageSession:(void (^)(BOOL cancelled))completion;
+- (void)arrivedForEntourageSession:(void (^)(BOOL arrived))completion;
 
 //Report
 - (void)getSocialCrimeReports:(CLLocation *)location radius:(float)radius since:(NSDate *)date completion:(void (^)(NSArray *reports))completion;
@@ -183,5 +194,10 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 
 - (BOOL)shouldRetry:(NSError *)error;
 + (void)registerForUserAgencyUpdatesNotification:(id)object action:(SEL)selector;
+
+
+//User Notifications
+- (void)getLatestUserNotifications:(void (^)(NSArray *notifications))completion;
+- (void)markRead:(TSJavelinAPIUserNotification *)notification completion:(void (^)(BOOL read))completion;
 
 @end

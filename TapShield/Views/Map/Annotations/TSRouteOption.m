@@ -17,11 +17,40 @@
     
     if (self) {
         self.route = route;
+        
+        _name = route.name;
+        _expectedTravelTime = route.expectedTravelTime;
+        _polyline = route.polyline;
+        _distance = route.distance;
+        _transportType = route.transportType;
     }
     
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super init];
+    if (self) {
+        
+        _name = [coder decodeObjectForKey:@"routeName"];
+        _expectedTravelTime = [coder decodeIntegerForKey:@"routeExpectedTravelTime"];
+        _polyline = [coder decodeObjectForKey:@"routePolyline"];
+        _distance = [coder decodeDoubleForKey:@"distance"];
+        _transportType = [coder decodeIntForKey:@"transportType"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    
+    [encoder encodeObject:_name forKey:@"routeName"];
+    [encoder encodeInteger:_expectedTravelTime forKey:@"routeExpectedTravelTime"];
+    [encoder encodeObject:_polyline forKey:@"routePolyline"];
+    [encoder encodeDouble:_distance forKey:@"distance"];
+    [encoder encodeInt:_transportType forKey:@"transportType"];
+}
 
 - (void)findUniqueMapPointComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromSet))completion {
     

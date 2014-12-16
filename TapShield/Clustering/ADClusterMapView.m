@@ -14,6 +14,10 @@
 #import "CLLocation+Utilities.h"
 #import "TSClusterOperation.h"
 
+NSString * const TSMapViewWillChangeRegion = @"TSMapViewWillChangeRegion";
+NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
+
+
 @interface ADClusterMapView ()
 
 @property (nonatomic, weak) id <ADClusterMapViewDelegate>  secondaryDelegate;
@@ -98,7 +102,7 @@
     _clusterAnnotations = [_singleAnnotationsPool setByAddingObjectsFromSet:_clusterAnnotationsPool];
 }
 
-- (void)setAnnotations:(NSSet *)annotations {
+- (void)setClusterableAnnotations:(NSSet *)annotations {
     
     if (!annotations) {
         return;
@@ -213,7 +217,7 @@
         _clusterableAnnotationsAdded = [[NSMutableSet alloc] initWithObjects:annotation, nil];
     }
     
-    [self setAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
+    [self setClusterableAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
 }
 
 - (void)addClusteredAnnotations:(NSArray *)annotations {
@@ -229,7 +233,7 @@
         _clusterableAnnotationsAdded = [[NSMutableSet alloc] initWithArray:annotations];
     }
     
-    [self setAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
+    [self setClusterableAnnotations:[NSSet setWithSet:_clusterableAnnotationsAdded]];
 }
 
 - (void)addAnnotation:(id<MKAnnotation>)annotation {
@@ -245,7 +249,7 @@
     
     if ([_clusterableAnnotationsAdded containsObject:annotation]) {
         [_clusterableAnnotationsAdded removeObject:annotation];
-        [self setAnnotations:_clusterableAnnotationsAdded];
+        [self setClusterableAnnotations:_clusterableAnnotationsAdded];
     }
     
     [super removeAnnotation:annotation];
@@ -258,7 +262,7 @@
     [_clusterableAnnotationsAdded minusSet:set];
     
     if (_clusterableAnnotationsAdded.count != previousCount) {
-        [self setAnnotations:_clusterableAnnotationsAdded];
+        [self setClusterableAnnotations:_clusterableAnnotationsAdded];
     }
     
     [super removeAnnotations:annotations];
@@ -398,7 +402,7 @@
         if (_annotationsToBeSet) {
             NSSet *annotations = _annotationsToBeSet;
             _annotationsToBeSet = nil;
-            [self setAnnotations:annotations];
+            [self setClusterableAnnotations:annotations];
         }
     }];
 }
@@ -438,6 +442,8 @@
     if ([_secondaryDelegate respondsToSelector:@selector(mapView:regionWillChangeAnimated:)]) {
         [_secondaryDelegate mapView:self regionWillChangeAnimated:animated];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSMapViewWillChangeRegion object:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
@@ -463,6 +469,8 @@
         [self selectClusterAnnotation:_previouslySelectedAnnotation animated:YES];
         _previouslySelectedAnnotation = nil;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSMapViewDidChangeRegion object:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {

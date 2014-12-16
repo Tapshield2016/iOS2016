@@ -14,6 +14,12 @@
 #define D_WEEK		604800
 #define D_YEAR		31556926
 
+#define kISO8061DateFormat           @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+#define kISO8601DateFormat           @"yyyy-MM-dd'T'HH:mm:ss'Z'"
+#define kRFC822DateFormat            @"EEE, dd MMM yyyy HH:mm:ss z"
+#define kDateStampFormat             @"yyyyMMdd"
+#define kDateTimeFormat              @"yyyyMMdd'T'HHmmss'Z'"
+
 @interface NSDate (Utilities)
 + (NSCalendar *) currentCalendar; // avoid bottlenecks
 
@@ -118,5 +124,12 @@
 - (NSDate *)resetDateKeepTime;
 + (NSDate *)nextWeekday:(NSInteger)day;
 - (NSDate *)setTime:(NSDate *)dateTime;
+
++ (NSDate *)dateWithISO8061Format:(NSString *)dateString;
+
+- (NSString *)dateDescriptionSinceNow;
+- (NSString *)formattedDateTime;
+
+- (NSTimeInterval)timeIntervalUntilNow;
 
 @end

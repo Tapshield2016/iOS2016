@@ -9,13 +9,15 @@
 #import "TSMapView.h"
 #import "TSUserLocationButton.h"
 #import "TSNavigationViewController.h"
-#import "TSVirtualEntourageManager.h"
+#import "TSEntourageSessionManager.h"
 #import "TSMenuViewController.h"
 #import "TSReportAnnotationManager.h"
 #import "TSStatusView.h"
 #import "TSBottomMapButton.h"
+#import "TSIconBadgeView.h"
+#import "MBXMapKit.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate>
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate, MBXRasterTileOverlayDelegate, MBXOfflineMapDownloaderDelegate>
 
 @property (weak, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;
@@ -26,6 +28,10 @@
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *routeButton;
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *helpButton;
 @property (weak, nonatomic) IBOutlet TSBottomMapButton *reportButton;
+
+@property (strong, nonatomic) MKMapItem *userLocationItem;
+
+@property (strong, nonatomic) TSIconBadgeView *badgeView;
 
 @property (strong, nonatomic) CLGeocoder *geocoder;
 @property (assign, nonatomic) BOOL isTrackingUser;
@@ -38,12 +44,20 @@
 - (IBAction)reportAlert:(id)sender;
 
 
-//Entourage
-@property (strong, nonatomic) TSVirtualEntourageManager *entourageManager;
-@property (strong, nonatomic) NSTimer *clockTimer;
 
-- (void)clearEntourageAndResetMap;
+
+//Entourage
+@property (strong, nonatomic) TSEntourageSessionManager *entourageManager;
+
+- (void)showTimeAdjustViewController;
+
+- (void)clearEntourageMap;
 - (void)entourageModeOn;
 - (void)setIsTrackingUser:(BOOL)isTrackingUser animateToUser:(BOOL)animate;
+- (void)moveMapViewToCoordinate:(CLLocationCoordinate2D)coordinate spanDelta:(float)delta;
+
+- (IBAction)callEmergencyNumber:(id)sender;
+- (IBAction)callAgencyDispatcher:(id)sender;
+- (IBAction)openChat:(id)sender;
 
 @end

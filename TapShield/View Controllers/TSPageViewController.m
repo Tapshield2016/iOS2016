@@ -48,7 +48,7 @@
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    self.showLargeLogo = YES;
+    self.showAlternateLogoInNavBar = YES;
     
     [self sendBarButton];
     [self setRemoveNavigationShadow:YES];
@@ -81,7 +81,9 @@
     
     [super viewDidAppear:animated];
     
-    if ([TSAlertManager sharedManager].isAlertInProgress) {
+    if ([TSAlertManager sharedManager].isAlertInProgress &&
+        [TSAlertManager sharedManager].type != kAlertTypeChat &&
+        ![TSAlertManager sharedManager].countdownTimer) {
         [self showAlertViewController];
     }
     
@@ -193,7 +195,7 @@
     
     NSDate *endDate = [TSAlertManager sharedManager].endDate;
     
-    if ([TSAlertManager sharedManager].isAlertInProgress) {
+    if ([TSAlertManager sharedManager].isAlertInProgress && ![TSAlertManager sharedManager].countdownTimer) {
         [self stopTintViewAnimation];
         return;
     }
@@ -353,7 +355,7 @@
     if (!_statusView) {
         CGRect statusFrame = self.view.bounds;
         statusFrame.origin.y = self.view.frame.size.height-1;
-        statusFrame.size.height = 35;
+        statusFrame.size.height = 40;
         _statusView = [[TSStatusView alloc] initWithFrame:statusFrame];
         
         [self.view insertSubview:_statusView belowSubview:_animatedView];

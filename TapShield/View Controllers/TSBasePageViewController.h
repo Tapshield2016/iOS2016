@@ -17,15 +17,6 @@
 
 @property (strong, nonatomic) UIVisualEffectView *toolbar;
 
-@property (strong, nonatomic) TSLogoImageView *smallLogoImageView;
-@property (strong, nonatomic) TSLogoImageView *largeLogoImageView;
-@property (strong, nonatomic) TSLogoImageView *alternateLogoImageView;
-
-@property (assign, nonatomic) BOOL showSmallLogoInNavBar;
-@property (assign, nonatomic) BOOL showLargeLogo;
-@property (assign, nonatomic) BOOL showAlternateLogo;
-
-
 - (void)whiteNavigationBar;
 - (void)blackNavigationBar;
 - (void)transitionNavigationBarAnimatedLeft;

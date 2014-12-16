@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         
-        
+       self.separatorInset = UIEdgeInsetsZero; 
     }
     return self;
 }
@@ -34,6 +34,8 @@
         _typeLabel.font = [TSFont fontWithName:kFontWeightLight size:18.0f];
         _typeLabel.textColor = [TSColorPalette listCellTextColor];
         self.backgroundColor = [TSColorPalette cellBackgroundColor];
+        
+        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

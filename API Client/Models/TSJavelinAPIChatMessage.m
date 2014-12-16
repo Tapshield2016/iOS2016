@@ -13,7 +13,7 @@
 #import "TSJavelinAPIAuthenticationManager.h"
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIUtilities.h"
-#import <AmazonDynamoDBClient.h>
+#import <AWSiOSSDKv2/DynamoDB.h>
 
 @implementation TSJavelinAPIChatMessage
 
@@ -50,11 +50,11 @@
         return nil;
     }
 
-    _message = ((DynamoDBAttributeValue *)[attributes valueForKey:@"message"]).s;
-    _messageID = ((DynamoDBAttributeValue *)[attributes valueForKey:@"message_id"]).s;
-    _alertID = [((DynamoDBAttributeValue *)[attributes valueForKey:@"alert_id"]).n integerValue];
-    _senderID = [((DynamoDBAttributeValue *)[attributes valueForKey:@"sender_id"]).n integerValue];
-    _timestamp = [NSDate dateWithTimeIntervalSince1970:[((DynamoDBAttributeValue *)[attributes valueForKey:@"timestamp"]).n doubleValue]];
+    _message = ((AWSDynamoDBAttributeValue *)[attributes valueForKey:@"message"]).S;
+    _messageID = ((AWSDynamoDBAttributeValue *)[attributes valueForKey:@"message_id"]).S;
+    _alertID = [((AWSDynamoDBAttributeValue *)[attributes valueForKey:@"alert_id"]).N integerValue];
+    _senderID = [((AWSDynamoDBAttributeValue *)[attributes valueForKey:@"sender_id"]).N integerValue];
+    _timestamp = [NSDate dateWithTimeIntervalSince1970:[((AWSDynamoDBAttributeValue *)[attributes valueForKey:@"timestamp"]).N doubleValue]];
 
     return self;
 }

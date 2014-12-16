@@ -7,6 +7,7 @@
 //
 
 #import "CLLocation+Utilities.h"
+#import "NSDate+Utilities.h"
 
 @implementation CLLocation (Utilities)
 
@@ -36,6 +37,16 @@ BOOL MKMapRectSizeIsEqual(MKMapRect rect1, MKMapRect rect2) {
     
     return (round(rect1.size.height) == round(rect2.size.height) &&
             round(rect1.size.width) == round(rect2.size.width));
+}
+
+- (NSDictionary *)toLocationParameterDictionary {
+    
+    return @{@"latitude": @(self.coordinate.latitude),
+             @"longitude": @(self.coordinate.longitude),
+             @"accuracy": @(self.horizontalAccuracy),
+             @"altitude": @(self.altitude),
+             @"floor_level": @(self.floor.level),
+             @"location_timestamp": self.timestamp.iso8601String};
 }
 
 @end

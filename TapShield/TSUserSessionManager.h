@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "TSJavelinAPIClient.h"
+#import "TSAlertManager.h"
+
+extern NSString * const TSUserSessionManagerDidLogOut;
 
 @interface TSUserSessionManager : NSObject <UITextFieldDelegate>
 
@@ -24,8 +27,11 @@
 + (void)showPhoneVerification;
 + (void)showAddSecondaryWithAgency:(TSJavelinAPIAgency *)agency;
 
+- (void)dismissWindowWithAnimationType:(NSString *)type completion:(void (^)(BOOL finished))completion;
 - (void)dismissWindow:(void (^)(BOOL finished))completion;
 
 + (BOOL)phoneNumberWasVerified;
+
+- (void)logout;
 
 @end

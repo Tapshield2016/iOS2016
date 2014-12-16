@@ -29,7 +29,16 @@
                         
                         if ([alert nonNullObjectForKey:@"alert_type"]) {
                             _alertType = [alert nonNullObjectForKey:@"alert_type"];
-                            NSArray *types = @[TSJavelinPushNotificationTypeCrimeReport, TSJavelinPushNotificationTypeMassAlert,TSJavelinPushNotificationTypeChatMessage,TSJavelinPushNotificationTypeAlertReceived,TSJavelinPushNotificationTypeAlertCompletion];
+                            NSArray *types = @[TSJavelinPushNotificationTypeCrimeReport,
+                                               TSJavelinPushNotificationTypeMassAlert,
+                                               TSJavelinPushNotificationTypeChatMessage,
+                                               TSJavelinPushNotificationTypeAlertReceived,
+                                               TSJavelinPushNotificationTypeAlertCompletion,
+                                               TSJavelinPushNotificationTypeEntourageArrival,
+                                               TSJavelinPushNotificationTypeEntourageNonArrival,
+                                               TSJavelinPushNotificationTypeEntourageEmergencyCallAlert,
+                                               TSJavelinPushNotificationTypeEntourageMemberAdded,
+                                               TSJavelinPushNotificationTypeEntourageYankAlert];
                             for (NSString *constType in types) {
                                 if ([_alertType isEqualToString:constType]) {
                                     _alertType = constType;

@@ -12,7 +12,6 @@
 extern NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureInvalidCredentials;
 extern NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureInactiveAccount;
 extern NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureUnverifiedEmail;
-extern NSString * const kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully;
 extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToLogin;
 extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL;
 extern NSString * const kTSJavelinAPIAuthenticationManagerDidRegisterUserNotification;
@@ -75,6 +74,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserR
 - (void)removePasswordFromKeychainForEmailAddress:(NSString *)emailAddress;
 - (void)setRegistrationRecoveryEmail:(NSString *)email Password:(NSString *)password;
 
+- (NSString *)loggedInUserTokenOrMasterAuthorizationHeader;
 - (NSString *)masterAccessTokenAuthorizationHeader;
 - (NSString *)loggedInUserTokenAuthorizationHeader;
 

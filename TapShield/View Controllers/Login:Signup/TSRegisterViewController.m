@@ -119,19 +119,8 @@
         return;
     }
     
-    //Check to see if user already succesfully registerd with username and password
-    NSString *storedPassword = [[[TSJavelinAPIClient sharedClient] authenticationManager] getPasswordForEmailAddress:[_emailTextField.text lowercaseString]];
-    if (storedPassword) {
-        if ([storedPassword isEqualToString:_passwordTextField.text]) {
-            [[[TSJavelinAPIClient sharedClient] authenticationManager] setRegistrationRecoveryEmail:_emailTextField.text Password:storedPassword];
-            [self segueToEmailVerification];
-            return;
-        }
-    }
-    
     _user.email = _emailTextField.text;
     _user.password = _passwordTextField.text;
-//    _user.phoneNumber = _phoneNumberTextField.text;
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] registerUser:_user completion:^(id responseObject) {
         NSLog(@"%@", responseObject);

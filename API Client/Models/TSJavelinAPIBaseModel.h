@@ -16,8 +16,8 @@
 @property (nonatomic, assign, readonly) NSUInteger identifier;
 @property (nonatomic, strong) NSString *url;
 
-- (id)initWithCoder:(NSCoder *)decoder;
-- (id)initWithAttributes:(NSDictionary *)attributes;
+- (instancetype)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithAttributes:(NSDictionary *)attributes;
 - (instancetype)initWithOnlyURLAttribute:(NSDictionary *)attributes forKey:(NSString *)key;
 
 - (void)encodeWithCoder:(NSCoder *)encoder;
@@ -26,5 +26,7 @@
 - (NSDate *)timeFromString:(NSString *)string;
 
 - (NSUInteger)filterIdentifier:(NSString *)url;
+
+- (instancetype)updateWithAttributes:(NSDictionary *)attributes;
 
 @end

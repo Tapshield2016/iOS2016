@@ -7,12 +7,12 @@
 //
 #import "TSSocialAccountsManager.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import <FacebookSDK/FBRequestConnection+Internal.h>
+#import <FacebookSDK/FBRequestConnection.h>
 #import "TSUtilities.h"
 #import <FBShimmeringView.h>
 #import "TSPopUpWindow.h"
 #import "TSJavelinAPIAuthenticationManager.h"
-#import <FacebookSDK/FBSession+Internal.h>
+#import <FacebookSDK/FBSession.h>
 #import <Social/Social.h>
 #import "TSApplication.h"
 #import "TSWebViewController.h"
@@ -77,7 +77,7 @@ static dispatch_once_t predicate;
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(signUpDidLoginSuccessfully:)
-                                                     name:kTSJavelinAPIAuthenticationManagerDidLoginSuccessfully
+                                                     name:kTSJavelinAPIAuthenticationManagerDidLogInUserNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(finishedLoading)
@@ -282,7 +282,7 @@ static dispatch_once_t predicate;
 
 
 
-- (void)twitterRequest {
+- (void)twitterRequest:(ACAccount *)account {
     
     //  Step 1:  Obtain access to the user's Twitter accounts
     ACAccountType *twitterAccountType =
@@ -294,7 +294,7 @@ static dispatch_once_t predicate;
     [self.accountStore accountsWithAccountType:twitterAccountType];
     NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"
                   @"/1.1/users/show.json"];
-    NSDictionary *params = @{@"screen_name" : [TSJavelinAPIClient loggedInUser].username};
+    NSDictionary *params = @{@"screen_name" : account.username};
     SLRequest *request =
     [SLRequest requestForServiceType:SLServiceTypeTwitter
                        requestMethod:SLRequestMethodGET
@@ -465,7 +465,7 @@ static dispatch_once_t predicate;
                     [self loading:twitter];
                     [[[TSJavelinAPIClient sharedClient] authenticationManager] createTwitterUser:params[@"oauth_token"] secretToken:params[@"oauth_token_secret"] completion:^(BOOL finished) {
                         if (finished) {
-                            [self twitterRequest];
+                            [self twitterRequest:acct];
                         }
                     }];
                 }
@@ -494,6 +494,9 @@ static dispatch_once_t predicate;
             message = @"Make sure your Twitter accounts have the correct username and password in your Settings app";
         }
     }
+    if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
+        message = @"Network error, please try again";
+    }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error"
                                                                              message:message
@@ -515,17 +518,18 @@ static dispatch_once_t predicate;
     
     
     
-    //    // Open session with public_profile (required) and user_birthday read permissions
-    //    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
-    //                                       allowLoginUI:YES
-    //                                  completionHandler:
+        // Open session with public_profile (required) and user_birthday read permissions
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+                                           allowLoginUI:YES
+                                      completionHandler:
     
     
-    [FBSession openActiveSessionWithPermissions:@[@"public_profile", @"email"]
-                                  loginBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent
-                                         isRead:YES
-                                defaultAudience:FBSessionDefaultAudienceNone
-                              completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+//    [FBSession openActiveSessionWithPermissions:@[@"public_profile", @"email"]
+//                                  loginBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent
+//                                         isRead:YES
+//                                defaultAudience:FBSessionDefaultAudienceNone
+//                              completionHandler:
+     ^(FBSession *session, FBSessionState state, NSError *error) {
          __block NSString *alertText;
          __block NSString *alertTitle;
          if (!error){

@@ -16,4 +16,6 @@
 
 @property (nonatomic, strong) UIImage *image;
 
+@property (nonatomic, assign) MKMapPoint centroid;
+
 @end

@@ -36,4 +36,14 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 
 + (void)openSettings;
 
+- (void)toggleWidePaneState:(BOOL)open;
+
+- (void)removeAllDrawerAnimations;
+
+- (void)drawerCanDragForContacts:(BOOL)enabled;
+
+- (void)shiftStatusBarToPane:(BOOL)pane;
+
++ (UIView *)statusBar;
+
 @end

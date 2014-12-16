@@ -52,8 +52,8 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     CGRect frame = self.bounds;
-    frame.origin.y = frame.size.height*.35 + 1;
-    frame.size.height *= .65;
+    frame.origin.y = frame.size.height*.3 + 1;
+    frame.size.height *= .7;
     _label = [[TSBaseLabel alloc] initWithFrame:frame];
     _label.text = @"Searching for location";
     _label.font = [UIFont fontWithName:kFontWeightLight size:18];

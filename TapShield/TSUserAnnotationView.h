@@ -7,12 +7,17 @@
 //
 
 #import "TSBaseAnnotationView.h"
+#import "TSMapOverlayCircle.h"
+
+@class TSMapView;
 
 @interface TSUserAnnotationView : TSBaseAnnotationView
 
-@property (nonatomic, weak) MKMapView *mapView;
+@property (nonatomic, weak) TSMapView *mapView;
 
 - (void)updateAnimatedViewAt:(CLLocation *)location;
+
+@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
 
 - (void)updateAnimatedUserAnnotation;
 

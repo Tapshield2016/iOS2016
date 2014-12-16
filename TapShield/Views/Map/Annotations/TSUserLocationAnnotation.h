@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/CoreAnimation.h>
 #import "TSBaseMapAnnotation.h"
 
 @class TSUserAnnotationView;
 
-@interface TSUserLocationAnnotation : TSBaseMapAnnotation
+@interface TSUserLocationAnnotation : TSBaseMapAnnotation 
 
 - (instancetype)initWithLocation:(CLLocation *)location;
 

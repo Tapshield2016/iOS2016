@@ -8,14 +8,25 @@
 
 #import "TSMapOverlayCircle.h"
 #import "UIView+FirstResponder.h"
+#import "TSColorPalette.h"
 
-#define MAX_RATIO 1.3
+#define MAX_RATIO 1.0
 #define MIN_RATIO 0.01
 
 #define ANIMATION_DURATION 3
 
 //repeat forever
 #define ANIMATION_REPEAT HUGE_VALF
+
+@interface TSMapOverlayCircle ()
+
+@property (nonatomic, assign) BOOL shouldRefresh;
+@property (nonatomic, assign) BOOL shouldStop;
+
+@property (nonatomic, assign) float ratio;
+@property (nonatomic, strong) UIImage *nextImage;
+
+@end
 
 @implementation TSMapOverlayCircle
 
@@ -24,8 +35,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
-        self.circle = nil;
+        _shouldStop = YES;
     }
     return self;
 }
@@ -37,72 +47,78 @@
     self.center = self.superview.contentCenter;
 }
 
-- (void)startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame{
+- (UIImage *)createImageWithColor:(UIColor *)color andFrame:(CGRect)frame {
     
-    [self setHidden:NO];
-    
-    //create the image
-    self.image = [UIImage imageNamed:@"circle"];
-    
-    UIColor *colorForAnimation = color;
+    UIImage *image = [UIImage imageNamed:@"circle"];
     
     //image color change
     
-    CGRect rect = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    CGRect rect = CGRectMake(0, 0, frame.size.width, frame.size.width);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    if (!context) {
-        return;
+    if (context) {
+        CGContextClipToMask(context, rect, image.CGImage);
+        CGContextSetFillColorWithColor(context, [color CGColor]);
+        CGContextFillRect(context, rect);
+        UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        image = [UIImage imageWithCGImage:img.CGImage
+                                    scale:1.0
+                              orientation: UIImageOrientationDownMirrored];
     }
     
-    CGContextClipToMask(context, rect, self.image.CGImage);
-    CGContextSetFillColorWithColor(context, [colorForAnimation CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    UIImage *flippedImage = [UIImage imageWithCGImage:img.CGImage
-                                                scale:1.0 orientation: UIImageOrientationDownMirrored];
-    self.image = flippedImage;
-    
-    
-    //opacity animation setup
-    CABasicAnimation *opacityAnimation;
-    
-    opacityAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
-    opacityAnimation.duration = ANIMATION_DURATION;
-    opacityAnimation.repeatCount = ANIMATION_REPEAT;
-    //opacityAnimation.autoreverses=YES;
-    opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-    opacityAnimation.toValue = [NSNumber numberWithFloat:0.0];
-    
-    //resize animation setup
-    CABasicAnimation *transformAnimation;
-    
-    transformAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    
-    transformAnimation.duration = ANIMATION_DURATION;
-    transformAnimation.repeatCount = ANIMATION_REPEAT;
-    //transformAnimation.autoreverses=YES;
-    transformAnimation.fromValue = [NSNumber numberWithFloat:MIN_RATIO];
-    transformAnimation.toValue = [NSNumber numberWithFloat:MAX_RATIO];
-    
-    
-    //group the two animation
-    CAAnimationGroup *group = [CAAnimationGroup animation];
-    
-    group.repeatCount = ANIMATION_REPEAT;
-    [group setAnimations:[NSArray arrayWithObjects:opacityAnimation, transformAnimation, nil]];
-    group.duration = ANIMATION_DURATION;
-    
-    //apply the grouped animaton
-    [self.layer addAnimation:group forKey:@"groupAnimation"];
+    return image;
 }
 
--(void)stopAnimating{
+- (void)startAnimatingWithColor:(UIColor *)color andFrame:(CGRect)frame{
+    
+    frame = CGRectMake(0, 0, frame.size.width*1.3, frame.size.width*1.3);
+    _nextImage = [self createImageWithColor:color andFrame:frame];
+    
+    if (_shouldStop) {
+        _shouldStop = NO;
+        [self refreshImage];
+    }
+    else {
+        _shouldRefresh = YES;
+    }
+}
+
+- (void)refreshImage {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        _shouldRefresh = NO;
+        self.image = _nextImage;
+        self.frame = CGRectMake(0, 0, _nextImage.size.width, _nextImage.size.height);
+        [self repeatingAnimation];
+    }];
+}
+
+- (void)repeatingAnimation {
+    
+    self.alpha = 1.0;
+    self.transform = CGAffineTransformMakeScale(MIN_RATIO, MIN_RATIO);
+    
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.alpha = 0.0;
+        self.transform = CGAffineTransformIdentity;
+        
+    } completion:^(BOOL finished) {
+        if (_shouldRefresh) {
+            [self refreshImage];
+        }
+        else if (!_shouldStop) {
+            [self repeatingAnimation];
+        }
+    }];
+}
+
+-(void)stopAnimating {
+    
+    _shouldStop = YES;
     [self.layer removeAllAnimations];
-    [self setHidden:YES];
 }
 
 

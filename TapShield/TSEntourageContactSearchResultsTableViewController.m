@@ -151,8 +151,10 @@
         toIndexPath = [NSIndexPath indexPathForRow:[self.entourageMembers indexOfObject:member] inSection:1];
     }
     
-    if (!self.isEditing) {
-        [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
+    if (!self.isEditing && editingStyle == UITableViewCellEditingStyleDelete) {
+        if (member) {
+            [[TSJavelinAPIClient sharedClient] removeEntourageMember:member completion:nil];
+        }
     }
     
     self.changesMade = YES;
@@ -163,7 +165,7 @@
         [CATransaction setCompletionBlock:^{
             // animation has finished
             self.animating = NO;
-//            [self reloadTableViewOnMainThread];
+            [self reloadTableViewOnMainThread];
         }];
         
         [self.tableView beginUpdates];

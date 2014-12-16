@@ -18,9 +18,8 @@
 
 @property (strong, nonatomic) UIImageView *imageView;
 
-@property (nonatomic, strong) TSMapOverlayCircle *animatedOverlay;
-
 @property (assign) BOOL isBlueColor;
+@property (assign) BOOL isUserImage;
 
 @end
 
@@ -41,7 +40,13 @@
         self.layer.shadowOpacity = 0.5;
         self.layer.shadowOffset = CGSizeZero;
         
-        self.isBlueColor = NO;
+        self.isBlueColor = YES;
+        self.isUserImage = YES;
+        
+        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:CGRectZero];
+        [_animatedOverlay setUserInteractionEnabled:NO];
+        
+        [self insertSubview:_animatedOverlay atIndex:0];
     }
     return self;
     
@@ -66,7 +71,7 @@
     
     
     if (!image) {
-        
+        self.isUserImage = NO;
         if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
             image = [UIImage imageFromColor:[TSColorPalette alertRed]];
             self.isBlueColor = NO;
@@ -82,6 +87,7 @@
     }
     
     if (image) {
+        self.isUserImage = YES;
         
         [_imageView removeFromSuperview];
         _imageView = [[UIImageView alloc] initWithImage:[[image imageWithRoundedCornersRadius:image.size.height/2] resizeToSize:size]];
@@ -94,6 +100,8 @@
         self.layer.borderColor = [UIColor whiteColor].CGColor;
         self.layer.borderWidth = 2.0f;
     }
+    
+    [self insertSubview:_animatedOverlay atIndex:0];
 }
 
 #pragma mark Animated Overlay
@@ -118,15 +126,13 @@
         color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.15f];
         region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000);
         isBlueColor = NO;
-        
-        if (self.isBlueColor) {
-            [self updateImage];
-        }
     }
-    else {
-        if (!self.isBlueColor) {
+    
+    if (self.isBlueColor != isBlueColor && !self.isUserImage) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self updateImage];
-        }
+        }];
+        
     }
     
     CGRect rect = [self.mapView  convertRegion:region toRectToView:self.mapView];
@@ -134,29 +140,14 @@
     rect.size.width = rect.size.height;
     
     if (ceilf(_animatedOverlay.frame.size.width)  == ceilf(rect.size.width) &&
-        _animatedOverlay.isBlueColor == isBlueColor &&
-        _animatedOverlay.superview) {
-        
+        _animatedOverlay.isBlueColor == isBlueColor) {
         return;
     }
     
-    [_animatedOverlay stopAnimating];
-    
     _animatedOverlay.isBlueColor = isBlueColor;
     
-    if(!_animatedOverlay){
-        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:rect];
-        [_animatedOverlay setUserInteractionEnabled:NO];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_animatedOverlay setFrame:rect];
-        [_animatedOverlay startAnimatingWithColor:color
-                                         andFrame:rect];
-        if (![_animatedOverlay.superview isEqual:self]) {
-            [self insertSubview:_animatedOverlay atIndex:0];
-        }
-    });
+    [_animatedOverlay startAnimatingWithColor:color
+                                     andFrame:rect];
 }
 
 @end

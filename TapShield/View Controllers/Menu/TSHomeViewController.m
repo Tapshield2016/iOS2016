@@ -615,31 +615,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     }
     
     if (_mapView.userLocationAnnotation) {
-        [_mapView removeAccuracyCircleOverlay];
         
         _mapView.userLocationAnnotation.location = location;
-        
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            
-            if (_viewDidAppear) {
-                [_mapView.userLocationAnnotationView.layer removeAllAnimations];
-                [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
-                    
-                    _mapView.userLocationAnnotation.coordinate = location.coordinate;
-                    
-                } completion:^(BOOL finished) {
-                    if (finished) {
-                        [_mapView updateAccuracyCircleWithLocation:location];
-                    }
-                }];
-            }
-            else {
-                _mapView.userLocationAnnotation.location = location;
-                [_mapView updateAccuracyCircleWithLocation:location];
-            }
-        }];
-        
-        
     }
 
     if (!_mapView.isAnimatingToRegion && _isTrackingUser) {

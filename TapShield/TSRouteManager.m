@@ -15,6 +15,7 @@
 @property (nonatomic, strong) MKMapItem *tempMapItem;
 @property (nonatomic, strong) NSArray *routeOverlays;
 
+
 @end
 
 
@@ -188,6 +189,7 @@
     
     [self addRouteOverlaysToMapView];
     [self addRouteAnnotations];
+    [self showSafeZoneOverlay];
 }
 
 - (void)addRouteAnnotations {
@@ -261,14 +263,18 @@
     }
     
     _routeOverlays = mutableArray;
+    
+    [self showSafeZoneOverlay];
 }
 
 - (void)clearRouteAndMapData {
     
     [self removeRouteOverlaysAndAnnotations];
     [self hideDestinationAnnotation];
+    [self hideSafeZoneOverlay];
     
     _destinationAnnotation = nil;
+    _safeZoneOverlay = nil;
     _destinationMapItem = nil;
     _tempMapItem = nil;
     _routes = nil;
@@ -276,6 +282,25 @@
     _routeOptions = nil;
     _routeOverlays = nil;
     _routingAnnotations = nil;
+}
+
+- (void)showSafeZoneOverlay {
+    
+    if (_safeZoneOverlay) {
+        [self hideSafeZoneOverlay];
+    }
+    
+    _safeZoneOverlay = [TSSafeZoneCircleOverlay circleWithCenterCoordinate:_destinationAnnotation.coordinate radius:30];
+    _safeZoneOverlay.mapView = _mapView;
+    [_mapView addOverlay:_safeZoneOverlay level:MKOverlayLevelAboveRoads];
+}
+
+- (void)hideSafeZoneOverlay {
+    
+    [_mapView removeOverlay:_safeZoneOverlay];
+    
+    _safeZoneOverlay.inside = NO;
+    _safeZoneOverlay = nil;
 }
 
 - (void)removeRouteOverlaysAndAnnotations {
@@ -355,6 +380,7 @@
     }
     
     _destinationAnnotation.title = [NSString stringWithFormat:@"%@", [TSUtilities formattedDescriptiveStringForDuration:_selectedRoute.expectedTravelTime]];
+    [self showSafeZoneOverlay];
 }
 
 
@@ -380,6 +406,8 @@
                                                                                travelType:_destinationTransportType];
     _destinationAnnotation.temp = YES;
     [_mapView addAnnotation:_destinationAnnotation];
+    
+    [self showSafeZoneOverlay];
     
     if (selected) {
         [self selectTempAnnotation];
@@ -412,6 +440,8 @@
         _destinationAnnotation.subtitle = _destinationMapItem.placemark.addressDictionary[(__bridge NSString *)kABPersonAddressStreetKey];
     }
     [_mapView addAnnotation:_destinationAnnotation];
+    
+    [self showSafeZoneOverlay];
 }
 
 - (void)hideDestinationAnnotation {
@@ -432,13 +462,6 @@
     _destinationMapItem = mapItem;
     
     [self showDestinationAnnotation];
-}
-
-- (void)removeCurrentDestinationAnnotation {
-    
-    if (_destinationAnnotation) {
-        [_mapView removeAnnotation:_destinationAnnotation];
-    }
 }
 
 - (void)centerMapOnSelectedDestination {
@@ -626,6 +649,7 @@
     
     [self removeRouteOverlaysAndAnnotations];
     [self hideDestinationAnnotation];
+    [self hideSafeZoneOverlay];
     _selectedRoute = nil;
     self.routes = nil;
     

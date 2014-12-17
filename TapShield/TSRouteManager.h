@@ -15,6 +15,7 @@
 #import "TSRouteTimeAnnotationView.h"
 #import "MKMapItem+EncodeDecode.h"
 #import <MapKit/MapKit.h>
+#import "TSSafeZoneCircleOverlay.h"
 
 @class TSRoutePickerViewController;
 
@@ -24,6 +25,9 @@
 @property (nonatomic, strong) TSRouteOption *selectedRoute;
 @property (nonatomic, strong) NSArray *routeOptions;
 @property (nonatomic, strong) NSArray *routingAnnotations;
+
+
+@property (nonatomic, strong) TSSafeZoneCircleOverlay *safeZoneOverlay;
 
 // Virtual Entourage selected destination
 @property (nonatomic, strong) TSSelectedDestinationAnnotation *destinationAnnotation;
@@ -48,7 +52,6 @@
 - (void)selectedRouteAnnotationView:(TSRouteTimeAnnotationView *)routeAnnotationView;
 - (void)addRouteOverlaysAndAnnotations;
 - (void)removeRouteOverlaysAndAnnotations;
-- (void)removeCurrentDestinationAnnotation;
 - (void)showOnlySelectedRoute;
 - (void)showDestinationAnnotation;
 - (void)showTempDestinationAnnotationSelected:(BOOL)selected;

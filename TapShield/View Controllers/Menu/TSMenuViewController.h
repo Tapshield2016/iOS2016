@@ -17,6 +17,7 @@
 @interface TSMenuViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, weak) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
+@property (weak, nonatomic) IBOutlet UILabel *orgLabel;
 
 - (UIViewController *)transitionToViewController:(NSString *)storyBoardIdentifier animated:(BOOL)animated;
 - (void)showMenuButton:(UIViewController *)viewController;

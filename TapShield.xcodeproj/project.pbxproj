@@ -97,6 +97,18 @@
 		C5060EB81A259AF50078B287 /* TSAlertAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5060EB61A259AF50078B287 /* TSAlertAnnotationView.m */; };
 		C5060EB91A259AF50078B287 /* TSAlertAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5060EB61A259AF50078B287 /* TSAlertAnnotationView.m */; };
 		C5060EBA1A259AF50078B287 /* TSAlertAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5060EB61A259AF50078B287 /* TSAlertAnnotationView.m */; };
+		C506BC2E1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC2D1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m */; };
+		C506BC2F1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC2D1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m */; };
+		C506BC301A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC2D1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m */; };
+		C506BC311A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC2D1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m */; };
+		C506BC341A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC331A4144E200DA3436 /* TSBaseCircleOverlay.m */; };
+		C506BC351A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC331A4144E200DA3436 /* TSBaseCircleOverlay.m */; };
+		C506BC361A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC331A4144E200DA3436 /* TSBaseCircleOverlay.m */; };
+		C506BC371A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC331A4144E200DA3436 /* TSBaseCircleOverlay.m */; };
+		C506BC3A1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC391A4162BE00DA3436 /* TSAccuracyCircleOverlay.m */; };
+		C506BC3B1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC391A4162BE00DA3436 /* TSAccuracyCircleOverlay.m */; };
+		C506BC3C1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC391A4162BE00DA3436 /* TSAccuracyCircleOverlay.m */; };
+		C506BC3D1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C506BC391A4162BE00DA3436 /* TSAccuracyCircleOverlay.m */; };
 		C508918718E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918818E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
 		C508918918E525CE00D370E3 /* TSRoutePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */; };
@@ -435,7 +447,7 @@
 		C57C48D818BBDB1900DFFBCE /* TSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F09318AABC05004C2B26 /* TSBaseViewController.m */; };
 		C57C48D918BBDB1900DFFBCE /* TSUserLocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD3318983648006A27E0 /* TSUserLocationAnnotation.m */; };
 		C57C48DA18BBDB1900DFFBCE /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
-		C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
+		C57C48DB18BBDB1900DFFBCE /* TSAnimatedAccuracyCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m */; };
 		C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E118A974C100D1D2E9 /* TSJavelinAPIUserProfile.m */; };
 		C57C48DD18BBDB1900DFFBCE /* TSFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */; };
 		C57C48DE18BBDB1900DFFBCE /* TSMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B53BBD2B1898158A006A27E0 /* TSMenuViewController.m */; };
@@ -673,7 +685,7 @@
 		C5AFB9A1191D35DE00EC62A5 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
 		C5AFB9A2191D35DE00EC62A5 /* TSRegistrationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C5662BF718DD144800FD4F44 /* TSRegistrationLabel.m */; };
 		C5AFB9A3191D35DE00EC62A5 /* TSOrganizationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C563570418ED148D00BAA5D7 /* TSOrganizationAnnotationView.m */; };
-		C5AFB9A4191D35DE00EC62A5 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
+		C5AFB9A4191D35DE00EC62A5 /* TSAnimatedAccuracyCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m */; };
 		C5AFB9A5191D35DE00EC62A5 /* TSEntourageSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C56356F018EC824D00BAA5D7 /* TSEntourageSessionManager.m */; };
 		C5AFB9A6191D35DE00EC62A5 /* TSJavelinAPIUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = C520C8E118A974C100D1D2E9 /* TSJavelinAPIUserProfile.m */; };
 		C5AFB9A7191D35DE00EC62A5 /* TSFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B543F08718AAB40E004C2B26 /* TSFeedbackViewController.m */; };
@@ -829,10 +841,10 @@
 		C5BF02B21A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
 		C5BF02B31A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
 		C5BF02B41A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */; };
-		C5BF02B71A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
-		C5BF02B81A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
-		C5BF02B91A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
-		C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */; };
+		C5BF02B71A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m */; };
+		C5BF02B81A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m */; };
+		C5BF02B91A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m */; };
+		C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02B61A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m */; };
 		C5BF02BD1A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
 		C5BF02BE1A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
 		C5BF02BF1A19554C000F6177 /* TSStartAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */; };
@@ -841,8 +853,8 @@
 		C5BF02C41A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
 		C5BF02C51A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
 		C5BF02C61A195B29000F6177 /* TSStartAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */; };
-		C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
-		C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */; };
+		C5C1706018AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m */; };
+		C5C1706118AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1705F18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m */; };
 		C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
 		C5C1707318AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */; };
 		C5C1C9A419085CEA0087F622 /* TSAddMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C1C9A319085CEA0087F622 /* TSAddMemberCell.m */; };
@@ -1082,6 +1094,12 @@
 		C5060EB01A259AC60078B287 /* TSAlertAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAlertAnnotation.m; sourceTree = "<group>"; };
 		C5060EB51A259AF50078B287 /* TSAlertAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAlertAnnotationView.h; path = Views/TSAlertAnnotationView.h; sourceTree = "<group>"; };
 		C5060EB61A259AF50078B287 /* TSAlertAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAlertAnnotationView.m; path = Views/TSAlertAnnotationView.m; sourceTree = "<group>"; };
+		C506BC2C1A40C47500DA3436 /* TSSafeZoneCircleOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSafeZoneCircleOverlay.h; sourceTree = "<group>"; };
+		C506BC2D1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSafeZoneCircleOverlay.m; sourceTree = "<group>"; };
+		C506BC321A4144E200DA3436 /* TSBaseCircleOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBaseCircleOverlay.h; sourceTree = "<group>"; };
+		C506BC331A4144E200DA3436 /* TSBaseCircleOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBaseCircleOverlay.m; sourceTree = "<group>"; };
+		C506BC381A4162BE00DA3436 /* TSAccuracyCircleOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAccuracyCircleOverlay.h; sourceTree = "<group>"; };
+		C506BC391A4162BE00DA3436 /* TSAccuracyCircleOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAccuracyCircleOverlay.m; sourceTree = "<group>"; };
 		C508918518E525CE00D370E3 /* TSRoutePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSRoutePickerViewController.h; path = "View Controllers/Map/TSRoutePickerViewController.h"; sourceTree = "<group>"; };
 		C508918618E525CE00D370E3 /* TSRoutePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSRoutePickerViewController.m; path = "View Controllers/Map/TSRoutePickerViewController.m"; sourceTree = "<group>"; };
 		C51A40A618CBE88B007D7884 /* TSTextMessageBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSTextMessageBarView.h; path = Views/Keyboard/TSTextMessageBarView.h; sourceTree = "<group>"; };
@@ -1401,14 +1419,14 @@
 		C5BF02AA1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageMemberAnnotation.m; sourceTree = "<group>"; };
 		C5BF02AF1A16F620000F6177 /* TSEntourageMemberAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageMemberAnnotationView.h; sourceTree = "<group>"; };
 		C5BF02B01A16F620000F6177 /* TSEntourageMemberAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageMemberAnnotationView.m; sourceTree = "<group>"; };
-		C5BF02B51A19211A000F6177 /* TSEntourageSessionPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageSessionPolyline.h; sourceTree = "<group>"; };
-		C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageSessionPolyline.m; sourceTree = "<group>"; };
+		C5BF02B51A19211A000F6177 /* TSEntourageSessionPolylineOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSEntourageSessionPolylineOverlay.h; sourceTree = "<group>"; };
+		C5BF02B61A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSEntourageSessionPolylineOverlay.m; sourceTree = "<group>"; };
 		C5BF02BB1A19554C000F6177 /* TSStartAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStartAnnotation.h; sourceTree = "<group>"; };
 		C5BF02BC1A19554C000F6177 /* TSStartAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStartAnnotation.m; sourceTree = "<group>"; };
 		C5BF02C11A195B29000F6177 /* TSStartAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSStartAnnotationView.h; path = Views/TSStartAnnotationView.h; sourceTree = "<group>"; };
 		C5BF02C21A195B29000F6177 /* TSStartAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSStartAnnotationView.m; path = Views/TSStartAnnotationView.m; sourceTree = "<group>"; };
-		C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMapOverlayCircle.h; path = Views/Map/Overlays/TSMapOverlayCircle.h; sourceTree = "<group>"; };
-		C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMapOverlayCircle.m; path = Views/Map/Overlays/TSMapOverlayCircle.m; sourceTree = "<group>"; };
+		C5C1705E18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSAnimatedAccuracyCircle.h; path = Views/Map/Overlays/TSAnimatedAccuracyCircle.h; sourceTree = "<group>"; };
+		C5C1705F18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSAnimatedAccuracyCircle.m; path = Views/Map/Overlays/TSAnimatedAccuracyCircle.m; sourceTree = "<group>"; };
 		C5C1707018AC08D900EEFBD6 /* TSUserLocationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSUserLocationButton.h; path = Views/Map/Buttons/TSUserLocationButton.h; sourceTree = "<group>"; };
 		C5C1707118AC08D900EEFBD6 /* TSUserLocationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSUserLocationButton.m; path = Views/Map/Buttons/TSUserLocationButton.m; sourceTree = "<group>"; };
 		C5C1C9A219085CEA0087F622 /* TSAddMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAddMemberCell.h; sourceTree = "<group>"; };
@@ -2016,8 +2034,6 @@
 				C5372DA118AEAC9E00D22682 /* Annotations */,
 				C520C92118AA8C0F00D1D2E9 /* TSMapView.h */,
 				C520C92218AA8C0F00D1D2E9 /* TSMapView.m */,
-				C534ACEC19759359001608C7 /* TSBoundariesOverlay.h */,
-				C534ACED19759359001608C7 /* TSBoundariesOverlay.m */,
 			);
 			name = Map;
 			path = TapShield;
@@ -2287,14 +2303,22 @@
 		C585F1CF18D0B2FE009EEF16 /* Overlays */ = {
 			isa = PBXGroup;
 			children = (
-				C5C1705E18AAEEF800EEFBD6 /* TSMapOverlayCircle.h */,
-				C5C1705F18AAEEF800EEFBD6 /* TSMapOverlayCircle.m */,
-				C5BF02B51A19211A000F6177 /* TSEntourageSessionPolyline.h */,
-				C5BF02B61A19211A000F6177 /* TSEntourageSessionPolyline.m */,
-				C56356E918EC7FA100BAA5D7 /* TSRouteOption.h */,
-				C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */,
+				C5C1705E18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.h */,
+				C5C1705F18AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m */,
+				C506BC321A4144E200DA3436 /* TSBaseCircleOverlay.h */,
+				C506BC331A4144E200DA3436 /* TSBaseCircleOverlay.m */,
+				C534ACEC19759359001608C7 /* TSBoundariesOverlay.h */,
+				C534ACED19759359001608C7 /* TSBoundariesOverlay.m */,
+				C5BF02B51A19211A000F6177 /* TSEntourageSessionPolylineOverlay.h */,
+				C5BF02B61A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m */,
 				C53A6301196F0DE500C34BF0 /* TSHeatMapOverlay.h */,
 				C53A6302196F0DE500C34BF0 /* TSHeatMapOverlay.m */,
+				C56356E918EC7FA100BAA5D7 /* TSRouteOption.h */,
+				C56356EA18EC7FA100BAA5D7 /* TSRouteOption.m */,
+				C506BC2C1A40C47500DA3436 /* TSSafeZoneCircleOverlay.h */,
+				C506BC2D1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m */,
+				C506BC381A4162BE00DA3436 /* TSAccuracyCircleOverlay.h */,
+				C506BC391A4162BE00DA3436 /* TSAccuracyCircleOverlay.m */,
 			);
 			name = Overlays;
 			sourceTree = "<group>";
@@ -2936,6 +2960,7 @@
 				C5CB078918C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C5C466B719D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C502515D199BD68700717E6D /* TSUserSessionManager.m in Sources */,
+				C506BC3A1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */,
 				C53A63401970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C55644F718E2048000D29B0D /* TSRegistrationButton.m in Sources */,
 				C5662BF318DD0C8B00FD4F44 /* TSRegistrationTextField.m in Sources */,
@@ -3015,7 +3040,7 @@
 				C5BF02B11A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				B583B9BC18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
 				C520C8F618A974C100D1D2E9 /* TSJavelinChatManager.m in Sources */,
-				C5BF02B71A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
+				C5BF02B71A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */,
 				B53BBD0118980FDA006A27E0 /* TSAppDelegate.m in Sources */,
 				C596C63B1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CB195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
@@ -3063,7 +3088,7 @@
 				C585F1A518CF88CF009EEF16 /* OAuthCore.m in Sources */,
 				C5C1707218AC08D900EEFBD6 /* TSUserLocationButton.m in Sources */,
 				C5CA372519C8F0770021BB7F /* TSBasePresentationController.m in Sources */,
-				C5C1706018AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
+				C5C1706018AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m in Sources */,
 				C534ACF41975C54C001608C7 /* TSNoNetworkWindow.m in Sources */,
 				C5B2E98618CE2D6F00E2CF04 /* TSObservingInputAccessoryView.m in Sources */,
 				C520C90A18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
@@ -3115,8 +3140,10 @@
 				C532E63718BBF1E900FC111A /* UIImage+Color.m in Sources */,
 				C520C8FE18A974C100D1D2E9 /* TSJavelinAPIAlert.m in Sources */,
 				C5CC4596193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
+				C506BC341A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */,
 				C520C8F018A974C100D1D2E9 /* TSJavelinAPIAuthenticationResult.m in Sources */,
 				C501CC3D18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C506BC2E1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */,
 				C5F2E5A4194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C5060EB71A259AF50078B287 /* TSAlertAnnotationView.m in Sources */,
 				C55568E31910082000685FB0 /* TSIntroSlideViewController.m in Sources */,
@@ -3160,6 +3187,7 @@
 				C501CC3A18F1DE95005A0B98 /* TSMapItemCell.m in Sources */,
 				C5EAAC0319066035005EDD7B /* TSEmergencyContactTableViewController.m in Sources */,
 				C56B3D6218FD75C700324FE8 /* TSEmergencyContactViewController.m in Sources */,
+				C506BC3D1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */,
 				C57C48A418B6B32F00DFFBCE /* TSOrganizationCell.m in Sources */,
 				C520C8F318A974C100D1D2E9 /* TSJavelinAlertAMQPMessage.m in Sources */,
 				C585F1AA18CF88CF009EEF16 /* TWAPIManager.m in Sources */,
@@ -3259,15 +3287,17 @@
 				C532E63318BBF1E900FC111A /* TSColorPalette.m in Sources */,
 				C5662BCB18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C520C91318A974C100D1D2E9 /* TSJavelinAPIUtilities.m in Sources */,
-				C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
+				C5BF02BA1A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */,
 				C525FA4C19FC8C620014A9CB /* TSEntourageContactTableViewCell.m in Sources */,
 				C520C8F918A974C100D1D2E9 /* TSJavelinPushNotificationManager.m in Sources */,
 				C5CC4599193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
 				C532E65218BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
+				C506BC371A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */,
 				C5F2E5B31950FBFF005B32A1 /* NSDictionary+ReplaceNull.m in Sources */,
 				C5BF02AE1A16F5F6000F6177 /* TSEntourageMemberAnnotation.m in Sources */,
 				C520986519D1FAA90078B2AC /* TSVibrancyButton.m in Sources */,
 				C596C63E1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
+				C506BC311A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */,
 				C585F1AD18CF88CF009EEF16 /* TWSignedRequest.m in Sources */,
 				C5C5E4D418EC58F000E1D868 /* TSRouteTimeAnnotation.m in Sources */,
 				C56B3D4E18FD753D00324FE8 /* TSBasicInfoViewController.m in Sources */,
@@ -3292,7 +3322,7 @@
 				C5CB078B18C68B6100BC9425 /* TSDisarmPadViewController.m in Sources */,
 				C5C1C9B01909B9220087F622 /* TSCircularControl.m in Sources */,
 				B583B9BD18AEB03600C5B8DA /* TSDestinationSearchViewController.m in Sources */,
-				C5C1706118AAEEF800EEFBD6 /* TSMapOverlayCircle.m in Sources */,
+				C5C1706118AAEEF800EEFBD6 /* TSAnimatedAccuracyCircle.m in Sources */,
 				C57E85001A1569E200CD4A5B /* TSJavelinAPIBaseModel+AFNetworking.m in Sources */,
 				C520C90B18A974C100D1D2E9 /* TSJavelinAPIUserProfile.m in Sources */,
 				C5662BF018DD091500FD4F44 /* TSBorderedView.m in Sources */,
@@ -3389,6 +3419,7 @@
 				C585F1A918CF88CF009EEF16 /* TWAPIManager.m in Sources */,
 				C5C466B819D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C502515E199BD68800717E6D /* TSUserSessionManager.m in Sources */,
+				C506BC3B1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */,
 				C53A63411970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C532E65118BBF2DE00FC111A /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C57C48BC18BBDB1900DFFBCE /* TSJavelinS3UploadManager.m in Sources */,
@@ -3468,7 +3499,7 @@
 				C5BF02B21A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				C5662BCA18DB88C000FD4F44 /* TSBaseLabel.m in Sources */,
 				C57C48D018BBDB1900DFFBCE /* TSJavelinAlertAMQPMessage.m in Sources */,
-				C5BF02B81A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
+				C5BF02B81A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */,
 				C596C63C1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CC195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C57C48D118BBDB1900DFFBCE /* TSAgreementViewController.m in Sources */,
@@ -3522,7 +3553,7 @@
 				C5662BF918DD144900FD4F44 /* TSRegistrationLabel.m in Sources */,
 				C563570618ED148D00BAA5D7 /* TSOrganizationAnnotationView.m in Sources */,
 				C5BF02BE1A19554C000F6177 /* TSStartAnnotation.m in Sources */,
-				C57C48DB18BBDB1900DFFBCE /* TSMapOverlayCircle.m in Sources */,
+				C57C48DB18BBDB1900DFFBCE /* TSAnimatedAccuracyCircle.m in Sources */,
 				C5060EAC1A23E8330078B287 /* TSUserNotificationCell.m in Sources */,
 				C56356F218EC824D00BAA5D7 /* TSEntourageSessionManager.m in Sources */,
 				C57C48DC18BBDB1900DFFBCE /* TSJavelinAPIUserProfile.m in Sources */,
@@ -3568,8 +3599,10 @@
 				C57C48E218BBDB1900DFFBCE /* TSAboutViewController.m in Sources */,
 				C57C48E318BBDB1900DFFBCE /* TSGeofence.m in Sources */,
 				C5CC4597193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
+				C506BC351A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */,
 				C5391EA418C7D19100C23C0A /* TSPushTransitionAnimation.m in Sources */,
 				C501CC3E18F22751005A0B98 /* TSNotifySelectionViewController.m in Sources */,
+				C506BC2F1A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */,
 				C5F2E5A5194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C5060EB81A259AF50078B287 /* TSAlertAnnotationView.m in Sources */,
 				C55568E41910082000685FB0 /* TSIntroSlideViewController.m in Sources */,
@@ -3616,6 +3649,7 @@
 				C5AFB94A191D35DE00EC62A5 /* TWAPIManager.m in Sources */,
 				C5C466B919D376F900CB6F0A /* TSJavelinAPIPushNotification.m in Sources */,
 				C502515F199BD68800717E6D /* TSUserSessionManager.m in Sources */,
+				C506BC3C1A4162BE00DA3436 /* TSAccuracyCircleOverlay.m in Sources */,
 				C53A63421970533500C34BF0 /* ADMapCluster.m in Sources */,
 				C5AFB94B191D35DE00EC62A5 /* TSSelectedDestinationLeftCalloutAccessoryView.m in Sources */,
 				C5AFB94C191D35DE00EC62A5 /* TSJavelinS3UploadManager.m in Sources */,
@@ -3695,7 +3729,7 @@
 				C5BF02B31A16F620000F6177 /* TSEntourageMemberAnnotationView.m in Sources */,
 				C5AFB97E191D35DE00EC62A5 /* TSBaseLabel.m in Sources */,
 				C5AFB97F191D35DE00EC62A5 /* TSJavelinAlertAMQPMessage.m in Sources */,
-				C5BF02B91A19211A000F6177 /* TSEntourageSessionPolyline.m in Sources */,
+				C5BF02B91A19211A000F6177 /* TSEntourageSessionPolylineOverlay.m in Sources */,
 				C596C63D1979A26300DF2E29 /* NSNull+JSON.m in Sources */,
 				C5FFB4CD195E689C003D6368 /* TSJavelinAPIEmail.m in Sources */,
 				C5AFB980191D35DE00EC62A5 /* TSAgreementViewController.m in Sources */,
@@ -3749,7 +3783,7 @@
 				C5AFB9A2191D35DE00EC62A5 /* TSRegistrationLabel.m in Sources */,
 				C5AFB9A3191D35DE00EC62A5 /* TSOrganizationAnnotationView.m in Sources */,
 				C5BF02BF1A19554C000F6177 /* TSStartAnnotation.m in Sources */,
-				C5AFB9A4191D35DE00EC62A5 /* TSMapOverlayCircle.m in Sources */,
+				C5AFB9A4191D35DE00EC62A5 /* TSAnimatedAccuracyCircle.m in Sources */,
 				C5060EAD1A23E8330078B287 /* TSUserNotificationCell.m in Sources */,
 				C5AFB9A5191D35DE00EC62A5 /* TSEntourageSessionManager.m in Sources */,
 				C5AFB9A6191D35DE00EC62A5 /* TSJavelinAPIUserProfile.m in Sources */,
@@ -3795,8 +3829,10 @@
 				C5AFB9C2191D35DE00EC62A5 /* TSAboutViewController.m in Sources */,
 				C5AFB9C3191D35DE00EC62A5 /* TSGeofence.m in Sources */,
 				C5CC4598193D48B100285DB3 /* TSViewReportDetailsViewController.m in Sources */,
+				C506BC361A4144E200DA3436 /* TSBaseCircleOverlay.m in Sources */,
 				C5AFB9C4191D35DE00EC62A5 /* TSPushTransitionAnimation.m in Sources */,
 				C5AFB9C5191D35DE00EC62A5 /* TSNotifySelectionViewController.m in Sources */,
+				C506BC301A40C47500DA3436 /* TSSafeZoneCircleOverlay.m in Sources */,
 				C5F2E5A6194FA696005B32A1 /* TSJavelinAPIClosedDate.m in Sources */,
 				C5060EB91A259AF50078B287 /* TSAlertAnnotationView.m in Sources */,
 				C5AFB9C6191D35DE00EC62A5 /* TSIntroSlideViewController.m in Sources */,

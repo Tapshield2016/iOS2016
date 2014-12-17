@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSMapOverlayCircle.h"
+#import "TSAnimatedAccuracyCircle.h"
 #import "UIView+FirstResponder.h"
 #import "TSColorPalette.h"
 
@@ -18,7 +18,7 @@
 //repeat forever
 #define ANIMATION_REPEAT HUGE_VALF
 
-@interface TSMapOverlayCircle ()
+@interface TSAnimatedAccuracyCircle ()
 
 @property (nonatomic, assign) BOOL shouldRefresh;
 @property (nonatomic, assign) BOOL shouldStop;
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation TSMapOverlayCircle
+@implementation TSAnimatedAccuracyCircle
 
 - (id)initWithFrame:(CGRect)frame
 {

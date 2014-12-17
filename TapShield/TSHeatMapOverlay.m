@@ -7,31 +7,19 @@
 //
 
 #import "TSHeatMapOverlay.h"
+#import "TSColorPalette.h"
 
 @implementation TSHeatMapOverlay
 
-+ (TSHeatMapOverlay *)circleWithCenterCoordinate:(CLLocationCoordinate2D)coord
-                                          radius:(CLLocationDistance)radius {
+- (MKCircleRenderer *)renderer {
     
-    TSHeatMapOverlay *overlay = [[TSHeatMapOverlay alloc] init];
-    overlay.coordinate = coord;
-    overlay.radius = radius;
+    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:self];
     
-    return overlay;
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
+    circleRenderer.lineWidth = 1.0;
+    circleRenderer.strokeColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
+    circleRenderer.fillColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
         
-    }
-    return self;
-}
-
-- (void)setRadius:(CLLocationDistance)radius {
-    
-    _radius = radius;
+    return circleRenderer;
 }
 
 @end

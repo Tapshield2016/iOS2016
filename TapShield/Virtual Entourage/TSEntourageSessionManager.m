@@ -22,9 +22,6 @@
 #define WALKING_RADIUS_MIN 25
 #define DRIVING_RADIUS_MIN 50
 
-#define ARRIVAL_MESSAGE @"%@ has arrived at %@, %@."
-#define NON_ARRIVAL_MESSAGE @"%@ has not made it to %@, %@, within their estimated time of arrival."
-#define NON_ARRIVAL_LOCATION @"%@'s latest location %@"
 #define NOTIFICATION_TIMES @(60*5), @(60), @(30), @(10), @(5), nil
 
 #define WARNING_TITLE @"WARNING"
@@ -32,6 +29,9 @@
 
 static NSString * const kSpeechRemaining = @"%@ remaining";
 static NSString * const kSpeechEntourageNotify = @"Entourage will be notified in 10 seconds, please enter your pass code.";
+static NSString * const kSpeechEntourageArrived = @"You have arrived at your destination";
+static NSString * const kLocalNoteArrived = @"You have arrived at %@";
+
 static NSString * const kLocalNoteEnterPasscode = @"Entourage will be notified in 10 seconds, please enter passcode.";
 
 static NSString * const kGoogleMapsPath = @"http://maps.google.com/maps?q=%f,%f";
@@ -182,44 +182,50 @@ static dispatch_once_t predicate;
 
 - (NSArray *)regionsForEndPoint {
     
-    float radius;
-    if (_routeManager.destinationTransportType == MKDirectionsTransportTypeWalking) {
-        radius = WALKING_RADIUS_MIN;
-    }
-    else {
-        radius = DRIVING_RADIUS_MIN;
-    }
+    CLCircularRegion *destinationRegion = [[CLCircularRegion alloc] initWithCenter:_routeManager.destinationAnnotation.coordinate
+                                                                            radius:_routeManager.safeZoneOverlay.radius
+                                                                        identifier:_routeManager.destinationAnnotation.title];
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
+    return @[destinationRegion];
     
-    CLLocationCoordinate2D destinationCoord = _routeManager.destinationAnnotation.coordinate;
-    
-    
-    MKPolyline *polyline = _routeManager.selectedRoute.polyline;
-    NSString *name = _routeManager.selectedRoute.name;
-    
-    if (polyline.points) {
-        MKMapPoint routeEnd = polyline.points[polyline.pointCount - 1];
-        
-        CLLocationCoordinate2D routeEndcoord = MKCoordinateForMapPoint(routeEnd);
-        
-        CLCircularRegion *routeEndRegion = [[CLCircularRegion alloc] initWithCenter:routeEndcoord
-                                                                             radius:radius
-                                                                         identifier:name];
-        if (routeEndRegion) {
-            [mutableArray addObject:routeEndRegion];
-        }
-    }
-    
-    
-    CLCircularRegion *destinationRegion = [[CLCircularRegion alloc] initWithCenter:destinationCoord
-                                                                           radius:radius
-                                                                       identifier:_routeManager.destinationAnnotation.title];
-    if (destinationRegion) {
-        [mutableArray addObject:destinationRegion];
-    }
-    
-    return mutableArray;
+//    float radius;
+//    if (_routeManager.destinationTransportType == MKDirectionsTransportTypeWalking) {
+//        radius = WALKING_RADIUS_MIN;
+//    }
+//    else {
+//        radius = DRIVING_RADIUS_MIN;
+//    }
+//    
+//    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
+//    
+//    CLLocationCoordinate2D destinationCoord = _routeManager.destinationAnnotation.coordinate;
+//    
+//    
+//    MKPolyline *polyline = _routeManager.selectedRoute.polyline;
+//    NSString *name = _routeManager.selectedRoute.name;
+//    
+//    if (polyline.points) {
+//        MKMapPoint routeEnd = polyline.points[polyline.pointCount - 1];
+//        
+//        CLLocationCoordinate2D routeEndcoord = MKCoordinateForMapPoint(routeEnd);
+//        
+//        CLCircularRegion *routeEndRegion = [[CLCircularRegion alloc] initWithCenter:routeEndcoord
+//                                                                             radius:radius
+//                                                                         identifier:name];
+//        if (routeEndRegion) {
+//            [mutableArray addObject:routeEndRegion];
+//        }
+//    }
+//    
+//    
+//    CLCircularRegion *destinationRegion = [[CLCircularRegion alloc] initWithCenter:destinationCoord
+//                                                                           radius:radius
+//                                                                       identifier:_routeManager.destinationAnnotation.title];
+//    if (destinationRegion) {
+//        [mutableArray addObject:destinationRegion];
+//    }
+//    
+//    return mutableArray;
 }
 
 - (void)checkRegion:(CLLocation *)userLocation  {
@@ -236,37 +242,55 @@ static dispatch_once_t predicate;
         }
     }
     
-    if (userLocation.horizontalAccuracy > 100) {
-        if (contains) {
-            
-            [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:5.0];
-        }
-    }
-    else {
-        if (contains) {
-            
-            [self stopEntourageArrived];
-        }
-    }
-    
-    contains = NO;
-    CLCircularRegion *bufferCircle;
-    
-    for (CLCircularRegion *region in [_endRegions copy]) {
-        bufferCircle = [[CLCircularRegion alloc] initWithCenter:region.center
-                                                         radius:region.radius*2
-                                                     identifier:[NSString stringWithFormat:@"%@-bufferCircle", region.identifier]];
-        if ([bufferCircle containsCoordinate:userLocation.coordinate]) {
-            contains = YES;
-        }
-    }
-    
     if (contains) {
-        [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:30.0];
+        _routeManager.safeZoneOverlay.inside = YES;
+        [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:10.0];
     }
     else {
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
+        _routeManager.safeZoneOverlay.inside = NO;
+//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
     }
+    
+//    BOOL contains = NO;
+//    
+//    for (CLCircularRegion *region in [_endRegions copy]) {
+//        if ([region containsCoordinate:userLocation.coordinate]) {
+//            contains = YES;
+//        }
+//    }
+//
+//    if (userLocation.horizontalAccuracy > 100) {
+//        if (contains) {
+//            
+//            [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:5.0];
+//        }
+//    }
+//    else {
+//        if (contains) {
+//            
+//            [self stopEntourageArrived];
+//        }
+//    }
+    
+//    contains = NO;
+//    CLCircularRegion *bufferCircle;
+//    
+//    for (CLCircularRegion *region in [_endRegions copy]) {
+//        bufferCircle = [[CLCircularRegion alloc] initWithCenter:region.center
+//                                                         radius:region.radius*2
+//                                                     identifier:[NSString stringWithFormat:@"%@-bufferCircle", region.identifier]];
+//        if ([bufferCircle containsCoordinate:userLocation.coordinate]) {
+//            contains = YES;
+//        }
+//    }
+//    
+//    if (contains) {
+//        [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:30.0];
+//    }
+//    else {
+//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
+//    }
 }
 
 
@@ -301,12 +325,10 @@ static dispatch_once_t predicate;
     [_homeView clearEntourageMap];
     
     [self resetEndTimer];
-//    [self stopStatusBartTimer];
     [self stopNavBarTimer];
     [self hideETAButton];
     
-    [_routeManager removeRouteOverlaysAndAnnotations];
-    [_routeManager removeCurrentDestinationAnnotation];
+    [_routeManager clearRouteAndMapData];
 }
 
 - (void)stopEntourageCancelled {
@@ -324,6 +346,10 @@ static dispatch_once_t predicate;
     if (!_isEnabled) {
         return;
     }
+    
+    [TSLocalNotification say:kSpeechEntourageArrived];
+    
+    [TSLocalNotification presentLocalNotification:[NSString stringWithFormat:kLocalNoteArrived, _routeManager.destinationMapItem.name]];
     
     [[TSJavelinAPIClient sharedClient] arrivedForEntourageSession:nil];
     
@@ -446,7 +472,11 @@ static dispatch_once_t predicate;
 - (void)newMapsETA {
     
     [_routeManager calculateETAForSelectedDestination:^(NSTimeInterval expectedTravelTime) {
+        if (expectedTravelTime < 60) {
+            expectedTravelTime = 60;
+        }
         [self resetTimerWithTimeInterval:expectedTravelTime];
+        [self updateTrackingWithETA:expectedTravelTime completion:nil];
     }];
 }
 

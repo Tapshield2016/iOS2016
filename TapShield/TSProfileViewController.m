@@ -78,6 +78,8 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
     
     [super viewWillAppear:animated];
     
+    [self drawerCanDragForMenu:YES];
+    
     if ([TSJavelinAPIClient loggedInUser].firstAndLastName) {
         _nameLabel.text = [TSJavelinAPIClient loggedInUser].firstAndLastName;
         _nameLabel.adjustsFontSizeToFitWidth = YES;
@@ -185,6 +187,8 @@ static NSString * const TSProfileViewControllerBlurredProfileImage = @"TSProfile
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self drawerCanDragForMenu:NO];
     
     TSBasicInfoViewController *viewController = (TSBasicInfoViewController *)[[UIStoryboard storyboardWithName:kTSConstanstsMainStoryboard bundle:nil] instantiateViewControllerWithIdentifier:_cellIdentifiers[indexPath.row]];
     

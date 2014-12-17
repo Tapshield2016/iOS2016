@@ -18,6 +18,7 @@
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUserAnnotationView.h"
 #import "ADClusterMapView.h"
+#import "TSAccuracyCircleOverlay.h"
 
 #define kMaxLonDeltaCluster 0.1
 
@@ -25,7 +26,7 @@
 
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;
-@property (nonatomic, strong) MKCircle *accuracyCircle;
+@property (nonatomic, strong) TSAccuracyCircleOverlay *accuracyCircle;
 @property (nonatomic, strong) TSUserLocationAnnotation *userLocationAnnotation;
 @property (nonatomic, strong) TSUserAnnotationView *userLocationAnnotationView;
 
@@ -33,7 +34,6 @@
 @property (nonatomic) BOOL shouldUpdateCallOut;
 
 + (MKOverlayRenderer *)mapViewPolygonOverlay:(id<MKOverlay>)overlay;
-+ (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay;
 
 - (void)setRegionAtAppearanceAnimated:(BOOL)animated;
 - (void)zoomToRegionForLocation:(CLLocation *)location animated:(BOOL)animated;

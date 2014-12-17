@@ -479,6 +479,10 @@ static NSString * const TSRoutePickerViewControllerTravelType = @"TSRouteTravelT
     
     _centerPin.hidden = NO;
     _routePickingMode = NO;
+    
+    if (![_addressLabel.text isEqualToString:[TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.name]) {
+        [_addressLabel setText:[TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.name withAnimationType:kCATransitionPush direction:kCATransitionFromLeft duration:0.3];
+    }
 }
 
 

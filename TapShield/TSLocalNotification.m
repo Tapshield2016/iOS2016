@@ -7,7 +7,6 @@
 //
 
 #import "TSLocalNotification.h"
-#import <AVFoundation/AVFoundation.h>
 
 @implementation TSLocalNotification
 
@@ -79,10 +78,8 @@
     
     AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:string];
-    [utterance setRate:AVSpeechUtteranceDefaultSpeechRate/2];
-//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [synthesizer speakUtterance:utterance];
-//    }];
+    [utterance setRate:AVSpeechUtteranceDefaultSpeechRate/4];
+    [synthesizer speakUtterance:utterance];
 }
 
 

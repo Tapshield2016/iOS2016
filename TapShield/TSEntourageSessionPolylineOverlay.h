@@ -8,8 +8,16 @@
 
 #import <MapKit/MapKit.h>
 
-@interface TSEntourageSessionPolyline : MKPolyline
+@interface TSEntourageSessionPolylineOverlay : MKPolyline
 
 - (MKPolylineRenderer *)renderer;
+
+@end
+
+
+@interface TSEntourageSessionPolylineRenderer : MKPolylineRenderer
+
+@property (assign) BOOL selectedRoute;
+@property (assign) BOOL history;
 
 @end

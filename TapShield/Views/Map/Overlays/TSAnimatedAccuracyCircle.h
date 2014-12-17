@@ -8,7 +8,7 @@
 
 #import <MapKit/MapKit.h>
 
-@interface TSMapOverlayCircle : UIImageView
+@interface TSAnimatedAccuracyCircle : UIImageView
 
 @property (nonatomic, assign) BOOL isBlueColor;
 

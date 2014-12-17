@@ -103,9 +103,9 @@
 }
 
 
-- (TSEntourageSessionPolyline *)parseLocations:(NSArray *)points {
+- (TSEntourageSessionPolylineOverlay *)parseLocations:(NSArray *)points {
     
-    TSEntourageSessionPolyline *route;
+    TSEntourageSessionPolylineOverlay *route;
     
     if (!points. count) {
         return route;
@@ -119,7 +119,7 @@
         i++;
     }
     
-    route = [TSEntourageSessionPolyline polylineWithCoordinates:lineCoordinates count:points.count];
+    route = [TSEntourageSessionPolylineOverlay polylineWithCoordinates:lineCoordinates count:points.count];
     
     return route;
 }

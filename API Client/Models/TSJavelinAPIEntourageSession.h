@@ -9,7 +9,7 @@
 #import "TSJavelinAPIBaseModel.h"
 #import "MKMapItem+EncodeDecode.h"
 
-#import "TSEntourageSessionPolyline.h"
+#import "TSEntourageSessionPolylineOverlay.h"
 #import "TSJavelinAPINamedLocation.h"
 #import "TSRouteOption.h"
 
@@ -32,7 +32,7 @@
 @property (assign, nonatomic) BOOL entourageNotified;
 
 
-@property (strong, nonatomic) TSEntourageSessionPolyline *locations;
+@property (strong, nonatomic) TSEntourageSessionPolylineOverlay *locations;
 
 @property (strong, nonatomic) TSRouteOption *route;
 

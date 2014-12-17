@@ -38,6 +38,7 @@
 #import "TSAlertAnnotation.h"
 #import "TSAlertAnnotationView.h"
 #import "CLLocation+Utilities.h"
+#import "TSSafeZoneCircleOverlay.h"
 
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
@@ -740,22 +741,24 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     
-    if ([overlay isKindOfClass:[TSEntourageSessionPolyline class]]) {
-        return [(TSEntourageSessionPolyline *)overlay renderer];
+    if ([overlay isKindOfClass:[TSBaseCircleOverlay class]]) {
+        return [(TSBaseCircleOverlay *)overlay renderer];
     }
-    else if([overlay isKindOfClass:[MKPolygon class]]){
+    
+    if ([overlay isKindOfClass:[TSEntourageSessionPolylineOverlay class]]) {
+        return [(TSEntourageSessionPolylineOverlay *)overlay renderer];
+    }
+    
+    if([overlay isKindOfClass:[MKPolygon class]]){
         
         return [TSMapView mapViewPolygonOverlay:overlay];
     }
-    else if ([overlay isKindOfClass:[MKCircle class]] ||
-             [overlay isKindOfClass:[TSHeatMapOverlay class]]) {
-        
-        return [TSMapView mapViewCircleOverlay:overlay];
-    }
-    else if ([overlay isKindOfClass:[MKPolyline class]]) {
+    
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
         return [self rendererForRoutePolyline:overlay];
     }
-    else if ([overlay isKindOfClass:[MBXRasterTileOverlay class]]) {
+    
+    if ([overlay isKindOfClass:[MBXRasterTileOverlay class]]) {
         MKTileOverlayRenderer *renderer = [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
         return renderer;
     }
@@ -764,12 +767,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (MKPolylineRenderer *)rendererForRoutePolyline:(id<MKOverlay>)overlay {
-    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-    [renderer setLineWidth:6.0];
+    TSEntourageSessionPolylineRenderer *renderer = [[TSEntourageSessionPolylineRenderer alloc] initWithOverlay:overlay];
     [renderer setStrokeColor:[TSColorPalette lightGrayColor]];
     
     if (![TSEntourageSessionManager sharedManager].routeManager.routeOptions && [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.polyline == overlay) {
-        [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
+        [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
+        renderer.selectedRoute = YES;
         return renderer;
     }
     
@@ -781,14 +784,12 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         for (TSRouteOption *routeOption in [TSEntourageSessionManager sharedManager].routeManager.routeOptions) {
             if (routeOption == [TSEntourageSessionManager sharedManager].routeManager.selectedRoute) {
                 if (routeOption.polyline == overlay) {
-                    [renderer setStrokeColor:[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.8]];
+                    [renderer setStrokeColor:[TSColorPalette tapshieldBlue]];
+                    renderer.selectedRoute = YES;
                     break;
                 }
             }
         }
-    }
-    else {
-        NSLog(@"No selected route right now");
     }
     
     return renderer;
@@ -1253,7 +1254,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (IBAction)callAgencyDispatcher:(id)sender {
     
-    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSJavelinAPIClient loggedInUser].agency) {
+    if (![TSAlertManager sharedManager].isAlertInProgress && ![TSLocationController sharedLocationController].geofence.currentAgency) {
         [[TSLocationController sharedLocationController].geofence showOutsideBoundariesWindow];
         return;
     }
@@ -1283,8 +1284,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
         _helpButton.label.hidden = YES;
         
-        CGAffineTransform t = CGAffineTransformMakeScale(0.6667, 0.6667);
-        t = CGAffineTransformTranslate(t, 0, 15);
+        CGAffineTransform t = CGAffineTransformMakeScale(0.75, 0.75);
+        t = CGAffineTransformTranslate(t, 0, 10);
         _helpButton.transform = t;
         
         _blackoutView.hidden = NO;

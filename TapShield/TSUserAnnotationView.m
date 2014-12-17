@@ -12,7 +12,7 @@
 #import "UIImage+Resize.h"
 #import "UIImage+Color.h"
 #import "TSAlertManager.h"
-#import "TSMapOverlayCircle.h"
+#import "TSAnimatedAccuracyCircle.h"
 
 @interface TSUserAnnotationView ()
 
@@ -43,7 +43,7 @@
         self.isBlueColor = YES;
         self.isUserImage = YES;
         
-        _animatedOverlay = [[TSMapOverlayCircle alloc] initWithFrame:CGRectZero];
+        _animatedOverlay = [[TSAnimatedAccuracyCircle alloc] initWithFrame:CGRectZero];
         [_animatedOverlay setUserInteractionEnabled:NO];
         
         [self insertSubview:_animatedOverlay atIndex:0];

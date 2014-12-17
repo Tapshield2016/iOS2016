@@ -54,6 +54,10 @@
     
     _estimatedTimeInterval = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.expectedTravelTime;
     
+    if (_estimatedTimeInterval < 60) {
+        _estimatedTimeInterval = 60;
+    }
+    
     if ([TSEntourageSessionManager sharedManager].isEnabled) {
         _timeAdjusted = [[TSJavelinAPIClient loggedInUser].entourageSession.eta timeIntervalSinceNow];
     }
@@ -85,6 +89,15 @@
     else {
         [_slider setDegreeForStartTime:_estimatedTimeInterval currentTime:_timeAdjusted];
     }
+    
+    _backView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _backView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    _backView.alpha = 0.0;
+    
+    UITapGestureRecognizer *closetap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancel:)];
+    tap.delegate = self;
+    [_backView addGestureRecognizer:closetap];
+    [self.view insertSubview:_backView atIndex:0];
 }
 
 - (void)didReceiveMemoryWarning
@@ -101,15 +114,6 @@
     
     [super viewDidAppear:animated];
     
-    _backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _backView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
-    _backView.alpha = 0.0;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancel:)];
-    tap.delegate = self;
-    [_backView addGestureRecognizer:tap];
-    [self.view insertSubview:_backView atIndex:0];
-    
     [UIView animateWithDuration:0.3 animations:^{
         _backView.alpha = 1.0;
     }];
@@ -125,7 +129,7 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
-    return YES;
+    return NO;
 }
 
 - (void)dismissViewController {
@@ -166,7 +170,7 @@
     
     addedTime = _estimatedTimeInterval + addedTime * timeRatio;
     
-    _timeAdjusted = (int)addedTime;
+    _timeAdjusted = [self roundTime:(int)addedTime];
     
     if (_showDateTime) {
         _timeAdjustLabel.text = [NSDate dateWithTimeIntervalSinceNow:_timeAdjusted].shortTimeString;
@@ -177,6 +181,23 @@
     
     _changedTime = YES;
     _okButton.enabled = YES;
+}
+
+- (NSTimeInterval)roundTime:(NSTimeInterval)interval {
+    
+    if (ceil(_estimatedTimeInterval/60) <=  10) {
+        return interval;
+    }
+    
+    NSTimeInterval minutes = ceil(interval/60);
+    
+    if (ceil((_estimatedTimeInterval/60)/60) <=  6) {
+        return minutes * 60;
+    }
+    
+    minutes = ceil(minutes/5);
+    
+    return minutes * 60 * 5;
 }
 
 - (void)toggleTimeFormat {

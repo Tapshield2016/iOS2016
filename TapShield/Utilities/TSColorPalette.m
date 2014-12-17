@@ -86,20 +86,20 @@
 
 + (UIColor *)blueButtonColor {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
-        //Talkaphone
-        return UIColorFromRGB(0xb30838);
-    }
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+//        //Talkaphone
+//        return UIColorFromRGB(0xb30838);
+//    }
     
     return UIColorFromRGB(0x53b7e8);
 }
 
 + (UIColor *)tapshieldBlue {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
-        //Talkaphone
-        return UIColorFromRGB(0xb30838);
-    }
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:kTalkaphoneBranding]) {
+//        //Talkaphone
+//        return UIColorFromRGB(0xb30838);
+//    }
     
     return UIColorFromRGB(0x3aa1d3);
 }
@@ -216,6 +216,16 @@
     [scanner scanHexInt:&temp];
     
     return UIColorFromRGB(temp);
+}
+
++ (UIColor *)TSGreenColor {
+    
+    return UIColorFromRGB(0x55d33a);
+}
+
++ (UIColor *)TSDarkGreenColor {
+    
+    return UIColorFromRGB(0x55d33a);
 }
 
 @end

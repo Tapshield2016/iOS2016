@@ -160,7 +160,7 @@
         [self setAgencyButtonsAlpha:0.5];
     }
     else if (![TSLocationController sharedLocationController].geofence.currentAgency) {
-        self.chatButton.alpha = 0.5;
+        [self setAgencyButtonsAlpha:0.5];
     }
     
     self.view.transform = CGAffineTransformIdentity;

@@ -520,7 +520,7 @@
     [view addSubview:label];
     
     if (section == 1) {
-        label.text = @"Entourage";
+        label.text = @"My Entourage";
         
         if (!self.editButton) {
             self.editButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -534,7 +534,7 @@
         [self updateEditingButton];
     }
     else if (section == 2) {
-        label.text = @"Users Who Added You";
+        label.text = @"Users Who Added Me";
     }
     else if (section == 3) {
         label.text = [NSString stringWithFormat:@"Contacts (%lu)", (unsigned long)self.allContacts.count];

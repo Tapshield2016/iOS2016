@@ -269,8 +269,7 @@ static dispatch_once_t predicate;
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:spotCrimes.count];
     
     for (TSSpotCrimeAnnotation *annotation in [spotCrimes copy]) {
-        MKCircle *heatMarker = [MKCircle circleWithCenterCoordinate:annotation.coordinate radius:50];
-        heatMarker.title = @"heat_marker";
+        TSHeatMapOverlay *heatMarker = [TSHeatMapOverlay circleWithCenterCoordinate:annotation.coordinate radius:50];
         [mutableArray addObject:heatMarker];
     }
     

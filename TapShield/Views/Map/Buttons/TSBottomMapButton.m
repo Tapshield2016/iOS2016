@@ -41,7 +41,7 @@
         [self setup];
         _originalImageInsets = self.imageEdgeInsets;
         _originalTitleInsets = self.titleEdgeInsets;
-        _labelYOffset = 61;
+        _labelYOffset = 51;
     }
     return self;
 }

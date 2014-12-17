@@ -15,6 +15,8 @@
 @property (strong, nonatomic) UIView *bottomView;
 @property (strong, nonatomic) UIImageView *topImageView;
 @property (strong, nonatomic) UIImageView *circleImageView;
+@property (strong, nonatomic) UIImageView *pinShootingImageView;
+@property (strong, nonatomic) UIImageView *pinRobberyImageView;
 
 @end
 
@@ -40,6 +42,18 @@
         [self.circleImageView setAlpha:0.0];
         self.circleImageView.image = [[UIImage imageNamed:@"circle"] fillImageWithColor:[TSColorPalette tapshieldBlue]];
         [self addSubview:self.circleImageView];
+        
+        
+        self.pinShootingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinOutline"]];
+        self.pinShootingImageView.center = CGPointMake(70, 160);
+        [self addSubview:self.pinShootingImageView];
+        
+        
+        self.pinRobberyImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinOutline2"]];
+        self.pinRobberyImageView.center = CGPointMake(200, 400);
+        [self addSubview:self.pinRobberyImageView];
+        
+        [self stopPinAnimation];
     }
     return self;
 }
@@ -52,6 +66,32 @@
         }];
         [self addRouteAnimation];
     } [CATransaction commit];
+    
+    [self animatePin];
+}
+
+- (void)animatePin {
+    [self stopPinAnimation];
+    
+    [UIView animateWithDuration:0.5 delay:5.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.pinShootingImageView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.5 delay:1.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.pinRobberyImageView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+}
+
+- (void)stopPinAnimation {
+    
+    [self.pinShootingImageView.layer removeAllAnimations];
+    CGAffineTransform t = CGAffineTransformMakeScale(0.001, 0.001);
+    t = CGAffineTransformTranslate(t, 0, self.pinShootingImageView.frame.size.height);
+    
+    [self.pinRobberyImageView.layer removeAllAnimations];
+    t = CGAffineTransformMakeScale(0.001, 0.001);
+    t = CGAffineTransformTranslate(t, 0, self.pinRobberyImageView.frame.size.height);
+    self.pinRobberyImageView.transform = t;
 }
 
 - (void)addRouteAnimation {
@@ -100,6 +140,8 @@
     [self.pathLayer removeFromSuperlayer];
     
     [self stopCircleAnimation];
+    
+    [self stopPinAnimation];
 }
 
 - (void)animateCircle {

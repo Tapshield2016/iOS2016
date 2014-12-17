@@ -2693,11 +2693,11 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <rect key="frame" x="115" y="466" width="90" height="90"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lqB-ga-v8n" userLabel="Button - Alert" customClass="TSBottomMapButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                        <rect key="frame" x="5" y="10" width="80" height="80"/>
                                         <accessibility key="accessibilityConfiguration" hint="Send alert to authorities" label="Alert"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
-                                        <state key="normal" image="TalkIcon">
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="16"/>
+                                        <state key="normal" image="TalkBubble">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="selected" title="X"/>
@@ -3883,10 +3883,10 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <rect key="frame" x="115" y="8" width="90" height="90"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEt-O9-qhg" userLabel="Button - Alert" customClass="TSBottomMapAlertButton">
-                                                <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                                <rect key="frame" x="5" y="10" width="80" height="80"/>
                                                 <accessibility key="accessibilityConfiguration" hint="Call authorities" label="Call"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="-16" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" image="phone_call_large">
                                                     <color key="titleColor" red="1" green="0.32549020648002625" blue="0.30588236451148987" alpha="1" colorSpace="deviceRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -6516,26 +6516,29 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSHelpViewController" textLabel="TYs-GE-RZD" imageView="MfS-KY-si1" rowHeight="184" style="IBUITableViewCellStyleDefault" id="dsw-wm-CHl">
+                                    <tableViewCell contentMode="scaleToFill" verticalCompressionResistancePriority="1000" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TSHelpViewController" rowHeight="184" id="dsw-wm-CHl">
                                         <rect key="frame" x="0.0" y="400" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dsw-wm-CHl" id="Mqj-Om-boC">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Organization" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TYs-GE-RZD">
-                                                    <rect key="frame" x="82" y="0.0" width="223" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbz-ev-BA6">
+                                                    <rect key="frame" x="82" y="8" width="185" height="168"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="185" id="YNY-Tt-gP9"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="university_menu_icon" id="MfS-KY-si1">
-                                                    <rect key="frame" x="15" y="14" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="hbz-ev-BA6" firstAttribute="bottom" secondItem="Mqj-Om-boC" secondAttribute="bottomMargin" id="S8W-oZ-00S"/>
+                                                <constraint firstItem="hbz-ev-BA6" firstAttribute="top" secondItem="Mqj-Om-boC" secondAttribute="topMargin" id="cUv-hB-b8P"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="hbz-ev-BA6" secondAttribute="trailing" constant="45" id="hli-Lb-Bmw"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -6547,6 +6550,9 @@ http://www.apache.org/licenses/LICENSE-2.0
                             <outlet property="delegate" destination="mm5-dj-Ou8" id="Ecp-7Y-Qk5"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="orgLabel" destination="hbz-ev-BA6" id="QwS-5x-rR2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7pq-3W-OpC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -6558,7 +6564,7 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="CheckBox_Unselected" width="16" height="16"/>
         <image name="CheckBox_UnselectedDown" width="16" height="16"/>
         <image name="ContactBook" width="76" height="100"/>
-        <image name="TalkIcon" width="50" height="34"/>
+        <image name="TalkBubble" width="40" height="36"/>
         <image name="TapShieldWhiteIcon" width="23" height="26"/>
         <image name="TapShieldWhiteNoIcon" width="75" height="26"/>
         <image name="TouchIDRed" width="40" height="40"/>
@@ -6607,7 +6613,6 @@ http://www.apache.org/licenses/LICENSE-2.0
         <image name="switch_on" width="29" height="30"/>
         <image name="time_icon" width="9" height="10"/>
         <image name="twitter_icon" width="30" height="30"/>
-        <image name="university_menu_icon" width="52" height="52"/>
         <image name="user_default_icon" width="77" height="77"/>
         <image name="user_new_icon" width="77" height="77"/>
         <image name="user_tick_icon" width="21" height="15"/>

@@ -44,6 +44,13 @@
         [_topLogo setHidden:YES];
         [_poweredByLogo setHidden:YES];
     }
+    
+    
+    _orgLabel.font = [UIFont fontWithName:kFontWeightThin size:20];
+    _orgLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    _orgLabel.layer.shadowRadius = 1.0f;
+    _orgLabel.layer.shadowOpacity = 1;
+    _orgLabel.layer.shadowOffset = CGSizeZero;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(returnToMapViewForYankAlert)
@@ -73,6 +80,13 @@
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -301,8 +315,16 @@
     }
     
     if ([cell.reuseIdentifier isEqualToString:NSStringFromClass([TSHelpViewController class])]) {
+        
+        cell.imageView.image = [UIImage imageNamed:@"university_menu_icon"];
+        
+        _orgLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:dimAlpha];
+        if ([cell.reuseIdentifier isEqualToString:_currentPanelStoryBoardIdentifier]) {
+            _orgLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0f];
+        }
+        
         if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.infoUrl.length) {
-            cell.textLabel.text = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name;
+            _orgLabel.text = [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].agency.name;
             [cell setHidden:NO];
             [cell setAccessibilityElementsHidden:NO];
         }

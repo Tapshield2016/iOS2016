@@ -87,34 +87,6 @@
     return renderer;
 }
 
-+ (MKOverlayRenderer *)mapViewCircleOverlay:(id<MKOverlay>)overlay {
-    
-    
-    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
-    
-    if ([overlay.title isEqualToString:@"heat_marker"]) {
-        circleRenderer.lineWidth = 1.0;
-        circleRenderer.strokeColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
-        circleRenderer.fillColor = [[TSColorPalette alertRed] colorWithAlphaComponent:0.2f];
-        
-        return circleRenderer;
-    }
-    
-    UIColor *color = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.1f];
-    if ([TSJavelinAPIClient sharedClient].isStillActiveAlert && [TSAlertManager sharedManager].type != kAlertTypeChat) {
-        color = [[TSColorPalette alertRed] colorWithAlphaComponent:0.1f];
-        ((MKCircle *)overlay).title = @"red";
-    }
-    else {
-        ((MKCircle *)overlay).title = nil;
-    }
-    
-    circleRenderer.lineWidth = 1.0;
-    circleRenderer.strokeColor = color;
-    circleRenderer.fillColor = color;
-    
-    return circleRenderer;
-}
 
 - (void)removeAccuracyCircleOverlay {
     
@@ -128,8 +100,8 @@
         return;
     }
     
-    MKCircle *previousCircle = _accuracyCircle;
-    MKCircle *newcircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
+    TSAccuracyCircleOverlay *previousCircle = _accuracyCircle;
+    TSAccuracyCircleOverlay *newcircle = [TSAccuracyCircleOverlay circleWithCenterCoordinate:location.coordinate radius:location.horizontalAccuracy];
     
     _accuracyCircle = newcircle;
     [self addOverlay:_accuracyCircle level:MKOverlayLevelAboveRoads];

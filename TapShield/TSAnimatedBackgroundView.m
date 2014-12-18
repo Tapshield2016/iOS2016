@@ -86,11 +86,12 @@
     
     [self.pinShootingImageView.layer removeAllAnimations];
     CGAffineTransform t = CGAffineTransformMakeScale(0.001, 0.001);
-    t = CGAffineTransformTranslate(t, 0, self.pinShootingImageView.frame.size.height);
+    t = CGAffineTransformTranslate(t, 0, -self.pinShootingImageView.image.size.height);
+    self.pinShootingImageView.transform = t;
     
     [self.pinRobberyImageView.layer removeAllAnimations];
     t = CGAffineTransformMakeScale(0.001, 0.001);
-    t = CGAffineTransformTranslate(t, 0, self.pinRobberyImageView.frame.size.height);
+    t = CGAffineTransformTranslate(t, 0, -self.pinRobberyImageView.image.size.height);
     self.pinRobberyImageView.transform = t;
 }
 

@@ -20,6 +20,9 @@
 @property (strong, nonatomic) MKPolyline *polyline;
 @property (assign, nonatomic) MKDirectionsTransportType transportType;
 
+@property (readonly) CLLocationDistance distanceRemaining;
+@property (readonly) MKRouteStep *currentStep;
+
 - (id)initWithRoute:(MKRoute *)route;
 
 - (void)findUniqueMapPointComparingRoutes:(NSArray *)routeArray completion:(void (^)(MKMapPoint uniquePointFromSet))completion;

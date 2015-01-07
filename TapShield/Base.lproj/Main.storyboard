@@ -2596,7 +2596,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <state key="normal" title="Inform" image="report_icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted" title="Report">
+                                        <state key="highlighted" title="Inform">
                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -2622,7 +2622,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <state key="normal" title="Track" image="entourage_icon_white">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted" title="Route">
+                                        <state key="highlighted" title="Track">
                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>

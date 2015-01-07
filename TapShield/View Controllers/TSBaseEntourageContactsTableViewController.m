@@ -217,7 +217,7 @@
 
 - (void)animatePane:(BOOL)openWide {
     
-    TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    TSAppDelegate *delegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     
     CGRect frame = self.view.frame;
     if (openWide) {

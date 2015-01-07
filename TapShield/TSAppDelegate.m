@@ -14,7 +14,6 @@
 #import "TSMenuViewController.h"
 #import "TSSocialAccountsManager.h"
 #import "TSYankManager.h"
-#import <TestFlightSDK/TestFlight.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <AFNetworking/AFNetworkReachabilityManager.h>
 #import "TSEntourageSessionManager.h"
@@ -56,16 +55,9 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #ifdef DEV
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDevelopmentBaseURL];
     NSString *remoteHostName = @"dev.tapshield.com";
-    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
 
     
 #elif DEMO
-
-//internal
-    [TestFlight takeOff:@"6bad24cf-5b30-4d46-b045-94d798b7eb37"];
-    
-//Demo
-//    [TestFlight takeOff:@"635cdc81-64bd-4dd7-85b2-5690de5f0226"];
     
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDemoBaseURL];
     NSString *remoteHostName = @"demo.tapshield.com";

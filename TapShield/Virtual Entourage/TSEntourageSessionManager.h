@@ -18,7 +18,7 @@ extern NSString * const TSEntourageSessionManagerTimerDidEnd;
 
 typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
-@interface TSEntourageSessionManager : NSObject <TSPopUpWindowDelegate>
+@interface TSEntourageSessionManager : NSObject <TSPopUpWindowDelegate, AVSpeechSynthesizerDelegate>
 
 + (instancetype)initSharedEntourageManagerWithHomeView:(id)homeView;
 + (instancetype)sharedManager;

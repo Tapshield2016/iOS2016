@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Reachability.h"
+#import <AVFoundation/AVFoundation.h>
 
 #ifdef DEV
 #define kEmergencyNumber @"555"

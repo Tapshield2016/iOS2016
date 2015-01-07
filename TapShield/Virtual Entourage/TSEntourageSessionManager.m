@@ -541,17 +541,6 @@ static dispatch_once_t predicate;
 
 - (void)setNextTimer {
     
-    NSError *error = NULL;
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayback error:&error];
-    if(error) {
-        // Do some error handling
-    }
-    [session setActive:YES error:&error];
-    if (error) {
-        // Do some error handling
-    }
-    
     NSArray *times = [NSArray arrayWithObjects:NOTIFICATION_TIMES];
     for (NSNumber *time in times) {
         if ([[_endTimer.fireDate dateByAddingTimeInterval:-time.integerValue] timeIntervalSinceNow] > 1) {
@@ -813,7 +802,7 @@ static dispatch_once_t predicate;
 }
 
 - (void)closeDrawer {
-    TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    TSAppDelegate *delegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     if (delegate.dynamicsDrawerViewController.paneState != MSDynamicsDrawerPaneStateClosed) {
         [delegate.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:YES allowUserInterruption:NO completion:nil];
     }
@@ -1059,6 +1048,11 @@ static dispatch_once_t predicate;
                                                          description:[date dateDescriptionSinceNow]];
     alertAnnotation.alert = alert;
     return alertAnnotation;
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance
+{
+    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 }
 
 @end

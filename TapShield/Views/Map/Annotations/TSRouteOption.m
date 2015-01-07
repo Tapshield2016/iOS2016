@@ -8,6 +8,8 @@
 
 #import "TSRouteOption.h"
 #import "TSUtilities.h"
+#import "TSLocationController.h"
+#import "MKPolyline+EncodeDecode.h"
 
 @implementation TSRouteOption
 
@@ -180,5 +182,45 @@
     return MKMapPointMake(x,y);
 }
 
+
+- (CLLocationDistance)distanceRemaining {
+    
+   return [self distanceRemainingFromLocation:[TSLocationController sharedLocationController].location];
+}
+
+
+- (CLLocationDistance)distanceRemainingFromLocation:(CLLocation *)location {
+    
+    return [self.route.polyline distanceToEndFromPoint:MKMapPointForCoordinate(location.coordinate)];
+}
+
+- (MKRouteStep *)currentStep {
+    
+    MKRouteStep *currentStep;
+    CLLocationDistance distance = MAXFLOAT;
+    
+    NSUInteger distanceIncreasing = 0;
+    
+    for (MKRouteStep *step in _route.steps) {
+        
+        CLLocationDistance stepDistance = [step.polyline distanceOfPoint:MKMapPointForCoordinate([TSLocationController sharedLocationController].location.coordinate)];
+        
+        if (stepDistance < distance) {
+            distance = stepDistance;
+            currentStep = step;
+            distanceIncreasing = 0;
+        }
+        else {
+            distanceIncreasing++;
+        }
+        
+        //probably already found the right step no need to continue
+        if (distanceIncreasing > 5) {
+            break;
+        }
+    }
+    
+    return currentStep;
+}
 
 @end

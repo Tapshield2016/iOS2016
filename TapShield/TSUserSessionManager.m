@@ -314,7 +314,7 @@ static dispatch_once_t predicate;
                             options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
                              _window.frame = [UIScreen mainScreen].bounds;
-                             TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+                             TSAppDelegate *delegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
                              [delegate shiftStatusBarToPane:NO];
                          } completion:nil];
     }
@@ -371,7 +371,7 @@ static dispatch_once_t predicate;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+        TSAppDelegate *delegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
         [delegate shiftStatusBarToPane:YES];
         
         UIViewController *viewcontroller = [mainWindow.rootViewController.childViewControllers firstObject];

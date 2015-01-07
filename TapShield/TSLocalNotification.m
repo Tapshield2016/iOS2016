@@ -7,6 +7,8 @@
 //
 
 #import "TSLocalNotification.h"
+#import "TSAppDelegate.h"
+#import "TSEntourageSessionManager.h"
 
 @implementation TSLocalNotification
 
@@ -67,20 +69,19 @@
     
     NSError *error = NULL;
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayback error:&error];
-    if(error) {
-        // Do some error handling
-    }
+    [session setCategory:AVAudioSessionCategoryPlayback
+             withOptions:AVAudioSessionCategoryOptionDuckOthers
+                   error:&error];
     [session setActive:YES error:&error];
     if (error) {
         // Do some error handling
     }
     
     AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+    synthesizer.delegate = [TSEntourageSessionManager sharedManager];
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:string];
     [utterance setRate:AVSpeechUtteranceDefaultSpeechRate/4];
     [synthesizer speakUtterance:utterance];
 }
-
 
 @end

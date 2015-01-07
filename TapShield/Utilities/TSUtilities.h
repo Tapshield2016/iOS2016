@@ -37,7 +37,7 @@
 + (void)convertToMP4:(NSString *)videoPath completion:(void(^)(AVAssetExportSessionStatus status, NSString *path))completion;
 
 //distance
-+ (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
++ (CLLocationDistance)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
 + (MKMapPoint)closestPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline;
 
 @end

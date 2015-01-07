@@ -203,7 +203,7 @@
 
 # pragma mark - Distance Methods
 
-+ (double)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline {
++ (CLLocationDistance)distanceOfPoint:(MKMapPoint)point toPoly:(MKPolyline *)polyline {
     
     MKMapPoint pointClosest = pointClosest = [TSUtilities closestPoint:point toPoly:polyline];
     
@@ -251,6 +251,7 @@
     
     return returnPoint;
 }
+
 
 //- (CLLocationCoordinate2D)centroidOfPolygon:(MKPolygon *)polygon
 //{

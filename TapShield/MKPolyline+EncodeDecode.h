@@ -13,4 +13,12 @@
 - (void)encodeWithCoder:(NSCoder *)coder;
 - (id)initWithCoder:(NSCoder *)coder;
 
+
+//distance
+- (CLLocationDistance)distanceOfPoint:(MKMapPoint)point;
+- (MKMapPoint)closestPoint:(MKMapPoint)point;
+
+- (MKPolyline *)polyLineFromPoint:(MKMapPoint)point;
+- (CLLocationDistance)distanceToEndFromPoint:(MKMapPoint)point;
+
 @end

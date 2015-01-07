@@ -8,6 +8,7 @@
 
 #import "TSStatusView.h"
 #import "TSBaseLabel.h"
+#import "TSEntourageSessionManager.h"
 
 NSString * const kTSStatusViewApproxAddress = @"Approximate Location";
 NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
@@ -47,6 +48,8 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
 }
 
 - (void)setupViews {
+    _shouldShowRouteInfo = NO;
+    
     _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
     [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
     _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -78,6 +81,22 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     [self addSubview:_titleLabel];
     
     _originalHeight = self.frame.size.height;
+}
+
+- (void)setUserLocation:(NSString *)userLocation {
+    
+    _userLocation = userLocation;
+    
+    if (!_shouldShowRouteInfo) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self setText:userLocation];
+        }];
+    }
+}
+
+- (void)hideText {
+    
+    
 }
 
 - (void)setText:(NSString *)string {
@@ -116,23 +135,44 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     _titleLabel.text = title;
 }
 
-- (void)alternateMessages {
+
+- (void)setShouldShowRouteInfo:(BOOL)shouldShowRouteInfo {
     
-    int timeRemaining = [_timeLeft intValue];
+    _shouldShowRouteInfo = shouldShowRouteInfo;
     
-    if ([_titleLabel.text isEqualToString:kTSStatusViewTimeRemaining] || timeRemaining < 10) {
-        _label.text = _userLocation;
-        _titleLabel.text = kTSStatusViewApproxAddress;
+    if (shouldShowRouteInfo) {
+        [self showRouteInfo];
     }
     else {
-        _label.text = _timeLeft;
-        _titleLabel.text = kTSStatusViewTimeRemaining;
+        [self showUserLocationInfo];
     }
-    
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(alternateMessages) withObject:nil afterDelay:5.0];
 }
 
+- (void)showRouteInfo {
+    
+    _statusToolbar.barTintColor = nil;
+    _label.textColor = [TSColorPalette tapshieldBlue];
+    _titleLabel.textColor = [TSColorPalette tapshieldBlue];
+    
+    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.distanceRemaining]];
+    
+    MKRouteStep *step = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.currentStep;
+    NSString *title = step.instructions;
+    if (!title) {
+        title = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.name;
+    }
+    
+    [self setTitle:title message:formattedText];
+}
+
+- (void)showUserLocationInfo {
+    
+    _statusToolbar.barTintColor = [TSColorPalette tapshieldBlue];
+    _label.textColor = [UIColor whiteColor];
+    _titleLabel.textColor = [UIColor whiteColor];
+    
+    [self setTitle:kTSStatusViewApproxAddress message:_userLocation];
+}
 
 
 @end

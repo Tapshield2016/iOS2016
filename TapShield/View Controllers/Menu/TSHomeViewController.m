@@ -213,7 +213,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [super viewWillDisappear:animated];
     
-    [self setStatusViewText:nil];
+    [_statusView setShouldShowRouteInfo:NO];
+    [self showStatusView:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -429,6 +430,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [self showOnlyMap];
     }
     else {
+        _statusView.shouldShowRouteInfo = YES;
+        [self showStatusView:YES];
         [self setIsTrackingUser:NO animateToUser:NO];
         [[TSEntourageSessionManager sharedManager].routeManager showActiveEntourageSession];
     }
@@ -515,20 +518,15 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 
-- (void)setStatusViewText:(NSString *)string {
+- (void)showStatusView:(BOOL)show {
     
-    if (!self.viewDidAppear) {
-        [self performSelector:@selector(setStatusViewText:) withObject:string afterDelay:1.0];
-        return;
+    if (_statusView.shouldShowRouteInfo) {
+        show = YES;
     }
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_statusView setText:string];
-    }];
     
     float height = _statusView.originalHeight;
     
-    if (!string) {
+    if (!show) {
         height = 0;
     }
     
@@ -577,7 +575,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)userWillPanMapView:(ADClusterMapView *)mapView {
     
     [self setIsTrackingUser:NO animateToUser:NO];
-    [self setStatusViewText:nil];
+    [self showStatusView:NO];
     [_geocoder cancelGeocode];
 }
 
@@ -677,6 +675,10 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         }
     }
     
+    if (show) {
+        _statusView.shouldShowRouteInfo = NO;
+    }
+    
     if (search) {
         
         _mapView.lastReverseGeocodeLocation = location;
@@ -718,23 +720,21 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                 }
                 
                 _statusView.userLocation = [NSString stringWithFormat:@"%@", title];
-                [self setStatusViewText:_statusView.userLocation];
+                [self showStatusView:YES];
                 
                 _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"Approx: %@", title];
                 
                 _userLocationItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithPlacemark:placemark]];
             }
             else {
-                _statusView.userLocation = nil;
-                [self setStatusViewText:@"Searching"];
+                _statusView.userLocation = @"Searching";
+                [self showStatusView:YES];
             }
         }];
     }
     else if (show) {
-        [self setStatusViewText:_statusView.userLocation];
+        [self showStatusView:YES];
     }
-    
-//    _mapView.userLocationAnnotation.title = [NSString stringWithFormat:@"%f, %f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
 #pragma mark - MKMapViewDelegate methods

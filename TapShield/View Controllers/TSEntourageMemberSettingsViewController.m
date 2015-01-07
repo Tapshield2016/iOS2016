@@ -41,7 +41,7 @@ static NSString * const kNoUserFound = @"Real-time location sharing is only avai
     
     [super viewDidAppear:animated];
     
-    TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    TSAppDelegate *delegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     
     [delegate shiftStatusBarToPane:NO];
 }
@@ -281,7 +281,7 @@ static NSString * const kNoUserFound = @"Real-time location sharing is only avai
         [[TSJavelinAPIClient sharedClient] syncEntourageMembers:[TSJavelinAPIClient loggedInUser].entourageMembers.allValues completion:nil];
     }
     
-    TSAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    TSAppDelegate *delegate = (TSAppDelegate *)[UIApplication sharedApplication].delegate;
     [delegate shiftStatusBarToPane:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

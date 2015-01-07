@@ -15,11 +15,14 @@ extern NSString * const kTSStatusViewTimeRemaining;
 
 @property (assign, nonatomic) float originalHeight;
 @property (strong, nonatomic) NSString *userLocation;
-@property (strong, nonatomic) NSString *timeLeft;
+
+@property (assign, nonatomic) BOOL shouldShowRouteInfo;
 
 - (void)setText:(NSString *)string;
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)setTitle:(NSString *)title message:(NSString *)message;
+
+- (void)showRouteInfo;
 
 @end

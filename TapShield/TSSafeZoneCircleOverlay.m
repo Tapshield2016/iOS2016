@@ -94,7 +94,7 @@
 {
     TSSafeZoneCircleOverlay *circle = (TSSafeZoneCircleOverlay *)self.circle;
     
-    NSString *text = @"Arrival Area";
+    NSString *text = @"Safe Zone";
     if (circle.inside) {
         text = [NSString stringWithFormat:@"Arrived In: %lu", (unsigned long)circle.countdown];
         
@@ -121,7 +121,7 @@
     }
     else {
         fill = [UIColor whiteColor];
-        stroke = [UIColor blackColor];
+        stroke = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     }
     
    

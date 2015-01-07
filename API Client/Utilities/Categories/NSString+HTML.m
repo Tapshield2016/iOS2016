@@ -110,4 +110,8 @@ finish:
     return [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
 
+- (BOOL)isEqualIgnoringCase:(NSString *)string {
+    return [self caseInsensitiveCompare:string] == NSOrderedSame;
+}
+
 @end

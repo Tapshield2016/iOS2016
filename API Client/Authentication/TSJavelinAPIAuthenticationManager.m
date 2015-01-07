@@ -157,7 +157,7 @@ static dispatch_once_t onceToken;
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"ERROR: %@", error.description);
+          NSLog(@"ERROR: %@", error.localizedDescription);
       }];
 }
 
@@ -178,7 +178,7 @@ static dispatch_once_t onceToken;
            }
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.description);
+           NSLog(@"%@", error.localizedDescription);
            
            [self socialLoginFailed];
            
@@ -207,7 +207,7 @@ static dispatch_once_t onceToken;
            }
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.description);
+           NSLog(@"%@", error.localizedDescription);
            
            [self socialLoginFailed];
            
@@ -235,7 +235,7 @@ static dispatch_once_t onceToken;
            }
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.description);
+           NSLog(@"%@", error.localizedDescription);
            [self socialLoginFailed];
            
            if (completion) {
@@ -261,7 +261,7 @@ static dispatch_once_t onceToken;
            }
            
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.description);
+           NSLog(@"%@", error.localizedDescription);
            [self socialLoginFailed];
            
            if (completion) {
@@ -308,7 +308,7 @@ static dispatch_once_t onceToken;
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
            
-           NSLog(@"%@", error.description);
+           NSLog(@"%@", error.localizedDescription);
            
            [self.requestSerializer clearAuthorizationHeader];
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserNotification
@@ -396,7 +396,7 @@ static dispatch_once_t onceToken;
               });
           }
           else {
-              NSLog(@"%@", error.description);
+              NSLog(@"%@", error.localizedDescription);
               if (completion) {
                   completion(nil);
               }
@@ -438,7 +438,7 @@ static dispatch_once_t onceToken;
                                                                object:responseObject];
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.description);
+           NSLog(@"%@", error.localizedDescription);
            [self.requestSerializer clearAuthorizationHeader];
            if (completion) {
                completion(NO);
@@ -486,7 +486,7 @@ static dispatch_once_t onceToken;
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error.description);
+            NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error.localizedDescription);
             
             if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
                 // Delay execution of my block for 10 seconds.
@@ -521,7 +521,7 @@ static dispatch_once_t onceToken;
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error.description);
+            NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error.localizedDescription);
             
             if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
                 // Delay execution of my block for 10 seconds.
@@ -551,7 +551,7 @@ static dispatch_once_t onceToken;
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"ERROR!!!!! updateLoggedInUserDisarmCode: %@", error.description);
+            NSLog(@"ERROR!!!!! updateLoggedInUserDisarmCode: %@", error.localizedDescription);
             
             if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
                 // Delay execution of my block for 10 seconds.
@@ -599,7 +599,7 @@ static dispatch_once_t onceToken;
                    completion(YES);
                }
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"Error during password reset POST: %@", error.description);
+             NSLog(@"Error during password reset POST: %@", error.localizedDescription);
              
              if (completion) {
                  completion(NO);
@@ -607,7 +607,7 @@ static dispatch_once_t onceToken;
          }];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error during password reset GET: %@", error.description);
+        NSLog(@"Error during password reset GET: %@", error.localizedDescription);
         
         if (completion) {
             completion(NO);
@@ -884,7 +884,7 @@ static dispatch_once_t onceToken;
                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidRetrieveAPITokenNotification object:responseObject];
                
            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               NSLog(@"%@", error.description);
+               NSLog(@"%@", error.localizedDescription);
                if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
                    // Delay execution of my block for 10 seconds.
                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -965,7 +965,7 @@ static dispatch_once_t onceToken;
                NSLog(@"DEVICE TOKEN UPDATED!");
            }
            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               NSLog(@"%@", error.description);
+               NSLog(@"%@", error.localizedDescription);
            }
          ];
     }
@@ -999,7 +999,7 @@ static dispatch_once_t onceToken;
     [SSKeychain setPassword:password forService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress error:&error];
 
     if (error) {
-        NSLog(@"Error storing user credentials: %@", error.description);
+        NSLog(@"Error storing user credentials: %@", error.localizedDescription);
     }
 }
 
@@ -1190,7 +1190,7 @@ static dispatch_once_t onceToken;
     NSError *error;
     NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingAllowFragments error:&error];
     if (error) {
-        NSLog(@"%@", error.description);
+        NSLog(@"%@", error.localizedDescription);
     }
     else {
         [self setLoggedInUser:[[TSJavelinAPIUser alloc] initWithAttributes:responseJSON]];

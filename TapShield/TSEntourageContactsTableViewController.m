@@ -248,6 +248,8 @@
             return;
         }
         
+        self.contactsLoading = YES;
+        
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
         CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
         

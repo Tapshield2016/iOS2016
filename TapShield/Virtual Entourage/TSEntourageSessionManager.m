@@ -632,8 +632,6 @@ static dispatch_once_t predicate;
 }
 
 - (void)timerGetAllSessions {
-    
-    NSLog(@"Time fired %@", _allSessionRefreshTimer);
     [self _getAllEntourageSessions:nil];
 }
 

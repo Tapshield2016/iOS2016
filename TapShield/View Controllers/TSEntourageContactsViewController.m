@@ -121,11 +121,13 @@
     
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
         
-        ABAuthorizationStatus status = [self checkStatus];
-        if (status == kABAuthorizationStatusDenied ||
-            status == kABAuthorizationStatusRestricted) {
-            [TSAppDelegate openSettings];
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            ABAuthorizationStatus status = [self checkStatus];
+            if (status == kABAuthorizationStatusDenied ||
+                status == kABAuthorizationStatusRestricted) {
+                [TSAppDelegate openSettings];
+            }
+        }];
     });
     
 }

@@ -37,6 +37,7 @@
 @property (assign, nonatomic, getter=isSyncing) BOOL syncing;
 @property (assign, nonatomic) BOOL changesMade;
 
+@property (assign, nonatomic) BOOL contactsLoading;
 @property (assign, nonatomic) BOOL searching;
 @property (assign, nonatomic) BOOL animating;
 @property (assign, nonatomic) BOOL shouldReload;

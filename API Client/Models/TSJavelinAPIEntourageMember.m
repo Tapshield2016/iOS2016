@@ -11,6 +11,7 @@
 #import "UIImage+Resize.h"
 #import "TSJavelinAPIClient.h"
 #import "TSUtilities.h"
+#import "NSString+HTML.h"
 
 @implementation TSJavelinAPIEntourageMember
 
@@ -31,10 +32,14 @@
         self.recordID = ABRecordGetRecordID(person);
         [self getContactInfoFromPerson:person];
         
-        NSArray *linkedRecordsArray = (__bridge NSArray *)ABPersonCopyArrayOfAllLinkedPeople(person);
+        CFArrayRef array = ABPersonCopyArrayOfAllLinkedPeople(person);
+        NSArray *linkedRecordsArray = (__bridge NSArray *)array;
         
         for (int i = 0; i < linkedRecordsArray.count; i++) {
             [self forceMergeMember:[[TSJavelinAPIEntourageMember alloc] initWithPersonNoLinkedPeople:(__bridge ABRecordRef)(linkedRecordsArray[i])]];
+        }
+        if (array) {
+            CFRelease(array);
         }
     }
     return self;
@@ -98,6 +103,8 @@
     _notifyCalled911 = [[attributes nonNullObjectForKey:@"notify_called_911"] boolValue];
     _notifyYank = [[attributes nonNullObjectForKey:@"notify_yank"] boolValue];
     
+    [self checkNameExists];
+    
     return self;
 }
 
@@ -125,6 +132,8 @@
         
         _notifyCalled911 = [[coder decodeObjectForKey:@"notify_called_911"] boolValue];
         _notifyYank = [[coder decodeObjectForKey:@"notify_yank"] boolValue];
+        
+        [self checkNameExists];
     }
     return self;
 }
@@ -317,15 +326,18 @@
         
         self.image = [image imageWithRoundedCornersRadius:image.size.height/2];
     }
+    
 }
 
 - (void)getContactInfoFromPerson:(ABRecordRef)person {
     
-    self.name = [self getTitleForABRecordRef:person];
+    _name = [self getTitleForABRecordRef:person];
     
     [self mobileNumberFromPerson:person];
     [self emailFromPerson:person];
     [self imageFromPerson:person];
+    
+    [self checkNameExists];
 }
 
 
@@ -381,21 +393,21 @@
         }
         
         if (member.email && self.email) {
-            if ([member.email isEqualToString:self.email]) {
+            if ([member.email isEqualIgnoringCase:self.email]) {
                 emailSame = YES;
                 numberYes++;
             }
         }
         
         if (member.first && self.first) {
-            if ([member.first isEqualToString:self.first]) {
+            if ([member.first isEqualIgnoringCase:self.first]) {
                 //                firstNameSame = YES;
                 numberYes++;
             }
         }
         
         if (member.last && self.last) {
-            if ([member.last isEqualToString:self.last]) {
+            if ([member.last isEqualIgnoringCase:self.last]) {
                 //                lastNameSame = YES;
                 numberYes++;
             }
@@ -417,14 +429,11 @@
 
 + (TSJavelinAPIEntourageMember *)memberFromUser:(TSJavelinAPIUser *)user {
     
-    TSJavelinAPIEntourageMember *member;
-    
-    ABRecordRef matching = [TSJavelinAPIEntourageMember contactContainingPhoneNumber:user.phoneNumber
+    TSJavelinAPIEntourageMember *member = [TSJavelinAPIEntourageMember memberContainingPhoneNumber:user.phoneNumber
                                                                                email:user.email
                                                                            firstName:user.firstName
                                                                             lastName:user.lastName];
-    if (matching) {
-        member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:matching];
+    if (member) {
         
         if (user.email) {
             member.email = user.email;
@@ -451,7 +460,7 @@
 }
 
 
-+ (ABRecordRef)contactContainingPhoneNumber:(NSString *)phoneNumber email:(NSString *)email firstName:(NSString *)firstName lastName:(NSString *)lastName {
++ (TSJavelinAPIEntourageMember *)memberContainingPhoneNumber:(NSString *)phoneNumber email:(NSString *)email firstName:(NSString *)firstName lastName:(NSString *)lastName {
     
     // Remove non numeric characters from the phone number
     phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
@@ -500,7 +509,7 @@
             BOOL result = NO;
             for (CFIndex i = 0; i < ABMultiValueGetCount(emails); i++) {
                 NSString *contactEmail = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(emails, i);
-                if ([contactEmail isEqualToString:email]) {
+                if ([contactEmail isEqualIgnoringCase:email]) {
                     result = YES;
                     break;
                 }
@@ -512,44 +521,55 @@
         filteredContacts = [allPeople filteredArrayUsingPredicate:predicate];
     }
     
-    CFRelease(addressBook);
-    
     if (!filteredContacts.count) {
+        CFRelease(addressBook);
         return nil;
     }
     
-    if (filteredContacts.count == 1) {
-        return (__bridge ABRecordRef)[filteredContacts firstObject];
-    }
     
     ABRecordRef matching = NULL;
     
-    for (int i = 0; i < filteredContacts.count; i++) {
-        BOOL firstNameMatch = NO;
-        BOOL lastNameMatch = NO;
-        ABRecordRef person = (__bridge ABRecordRef)filteredContacts[i];
+    if (filteredContacts.count > 1) {
         
-        NSString *firstNameProperty = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-        NSString *lastNameProperty = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-        
-        if ([firstNameProperty isEqualToString:firstName]) {
-            firstNameMatch = YES;
-            matching = person;
-        }
-        if ([lastNameProperty isEqualToString:lastName]) {
-            lastNameMatch = YES;
-            matching = person;
-        }
-        
-        if (firstNameMatch && lastNameMatch) {
-            return matching;
-        }
-        if (matching == NULL) {
-            matching = person;
+        for (int i = 0; i < filteredContacts.count; i++) {
+            BOOL firstNameMatch = NO;
+            BOOL lastNameMatch = NO;
+            ABRecordRef person = (__bridge ABRecordRef)filteredContacts[i];
+            
+            NSString *firstNameProperty = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+            NSString *lastNameProperty = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+            
+            if ([firstNameProperty isEqualIgnoringCase:firstName]) {
+                firstNameMatch = YES;
+                matching = person;
+            }
+            if ([lastNameProperty isEqualIgnoringCase:lastName]) {
+                lastNameMatch = YES;
+                matching = person;
+            }
+            
+            if (firstNameMatch && lastNameMatch) {
+                break;
+            }
+            if (matching == NULL) {
+                matching = person;
+            }
         }
     }
+    else {
+        matching = (__bridge ABRecordRef)([filteredContacts firstObject]);
+    }
     
-    return matching;
+    TSJavelinAPIEntourageMember *member;
+    
+    if (matching) {
+        member = [[TSJavelinAPIEntourageMember alloc] initWithPerson:matching];
+    }
+    
+    
+    CFRelease(addressBook);
+    
+    return member;
 }
 
 + (NSArray *)entourageMembersFromUsers:(NSArray *)arrayOfUsers {
@@ -592,6 +612,8 @@
         
         _location = member.location;
         _session = member.session;
+        
+        [self checkNameExists];
         
         return YES;
     }
@@ -648,12 +670,25 @@
     if (!_session) {
         _session = member.session;
     }
+    
+    [self checkNameExists];
 }
 
 + (NSArray *)sortedMemberArray:(NSArray *)array {
     
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     return [array sortedArrayUsingDescriptors:@[sort]];
+}
+
+- (void)checkNameExists {
+    
+    if (!_name.length) {
+        _name = _email;
+        
+        if (!_name) {
+            _name = _phoneNumber;
+        }
+    }
 }
 
 @end

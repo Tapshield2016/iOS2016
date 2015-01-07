@@ -18,6 +18,7 @@
 
 @property (assign, nonatomic) BOOL isViewInBackground;
 @property (assign, nonatomic) BOOL needsReloadData;
+@property (strong, nonatomic) FBShimmeringView *contactsSectionHeaderView;
 
 @end
 
@@ -30,6 +31,7 @@
     self.movingMember = NO;
     self.shouldReload = NO;
     self.animating = NO;
+    _contactsLoading = YES;
     
     _isViewInBackground = YES;
     _needsReloadData = NO;
@@ -106,6 +108,8 @@
     
     self.allContacts = contacts;
     
+    _contactsLoading = NO;
+    
     [self reloadTableViewOnMainThread];
 }
 
@@ -150,16 +154,25 @@
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithCapacity:10];
     
     for (TSJavelinAPIEntourageMember *member in contacts) {
-        NSString *firstLetter = [[member.name substringToIndex:1] uppercaseString];
         
-        if ([mutableDictionary objectForKey:firstLetter]) {
-            NSMutableArray *mutableArray = [mutableDictionary objectForKey:firstLetter];
-            [mutableArray addObject:member];
+        NSString *firstLetter;
+        
+        if (!member.name.length) {
+            continue;
         }
-        else {
-            NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:5];
-            [mutableArray addObject:member];
-            [mutableDictionary setObject:mutableArray forKey:firstLetter];
+        
+        firstLetter = [[member.name substringToIndex:1] uppercaseString];
+        
+        if (firstLetter) {
+            if ([mutableDictionary objectForKey:firstLetter]) {
+                NSMutableArray *mutableArray = [mutableDictionary objectForKey:firstLetter];
+                [mutableArray addObject:member];
+            }
+            else {
+                NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:5];
+                [mutableArray addObject:member];
+                [mutableDictionary setObject:mutableArray forKey:firstLetter];
+            }
         }
     }
     
@@ -497,27 +510,33 @@
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width - 15, height)];
     view.backgroundColor = [UIColor clearColor];
-    
-    UIView *fillView = [[UIView alloc] initWithFrame:view.frame];
-    fillView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.9];
-    
     view.layer.masksToBounds = NO;
     view.layer.shadowOffset = CGSizeMake(0, 3);
     view.layer.shadowRadius = 5;
     view.layer.shadowOpacity = 0.5;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
     
+    UIView *fillView = [[UIView alloc] initWithFrame:view.frame];
+    fillView.backgroundColor = [[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.9];
     [view addSubview:fillView];
     
     
-    CGRect frame = view.frame;
+    CGRect frame = view.bounds;
     frame.origin.x += 16;
     frame.size.width -= 16;
+    
+    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width - 15, height)];
+    shimmeringView.shimmering = NO;
+    [fillView addSubview:shimmeringView];
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:view.frame];
+    contentView.backgroundColor = [UIColor clearColor];
+    shimmeringView.contentView = contentView;
     
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont fontWithName:kFontWeightLight size:16];
-    [view addSubview:label];
+    [contentView addSubview:label];
     
     if (section == 1) {
         label.text = @"My Entourage";
@@ -537,14 +556,22 @@
         label.text = @"Users Who Added Me";
     }
     else if (section == 3) {
-        label.text = [NSString stringWithFormat:@"Contacts (%lu)", (unsigned long)self.allContacts.count];
+        label.text = [NSString stringWithFormat:@"Contacts (%lu)", (unsigned long)_allContacts.count];
+        
+        if (_contactsLoading) {
+            if (!_allContacts.count) {
+                label.text = @"Contacts Loading";
+            }
+            shimmeringView.shimmering = YES;
+        }
+        _contactsSectionHeaderView = shimmeringView;
     }
     else if (section >= kContactsSectionOffset) {
         UIVisualEffectView *visualEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
         visualEffect.frame = view.frame;
         
-        [fillView removeFromSuperview];
-        [view insertSubview:visualEffect belowSubview:label];
+        [fillView setBackgroundColor:[UIColor clearColor]];
+        [fillView insertSubview:visualEffect belowSubview:label];
         if (self.sortedContacts.allKeys) {
             label.text = [self sortedKeyArray:self.sortedContacts.allKeys][section-kContactsSectionOffset];
         }
@@ -568,7 +595,7 @@
         return 80;
     }
     
-    if (indexPath.section == 2 && ![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified) {
+    if (indexPath.section == 2 && ![TSJavelinAPIClient loggedInUser].isPhoneNumberVerified && !self.isEditing) {
         return 80;
     }
     
@@ -777,6 +804,13 @@
 - (void)moveContactToEntourage:(TSJavelinAPIEntourageMember *)contact {
     
     [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:[self indexPathOfSortedContact:contact]];
+}
+
+- (void)setContactsLoading:(BOOL)contactsLoading {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        _contactsSectionHeaderView.shimmering = contactsLoading;
+    }];
 }
 
 @end

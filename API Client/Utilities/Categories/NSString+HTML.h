@@ -13,4 +13,6 @@
 - (NSString *)stringByDecodingXMLEntities;
 - (NSString *)encodeStringForURLPath;
 
+- (BOOL)isEqualIgnoringCase:(NSString *)string;
+
 @end

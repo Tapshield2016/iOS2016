@@ -983,14 +983,6 @@ static dispatch_once_t predicate;
 }
 
 
-#pragma mark - Speech Delegate
-
-- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance
-{
-    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
-}
-
-
 #pragma mark - Saved MapItems
 
 - (NSMutableArray *)previousMapItems {

@@ -12,6 +12,19 @@
 
 @implementation TSLocalNotification
 
+static TSLocalNotification *_sharedInstance = nil;
+static dispatch_once_t predicate;
+
++ (instancetype)sharedManager {
+    
+    if (_sharedInstance == nil) {
+        dispatch_once(&predicate, ^{
+            _sharedInstance = [[self alloc] init];
+        });
+    }
+    return _sharedInstance;
+}
+
 + (UILocalNotification *)localNotificationWithMessage:(NSString *)message date:(NSDate *)date {
     
     UILocalNotification *note = [[UILocalNotification alloc] init];
@@ -77,11 +90,31 @@
         // Do some error handling
     }
     
-    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
-    synthesizer.delegate = [TSEntourageSessionManager sharedManager];
+    AVSpeechSynthesizer *synthesizer = [TSLocalNotification speechSynth];
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:string];
     [utterance setRate:AVSpeechUtteranceDefaultSpeechRate/4];
+    
+    if (synthesizer.isSpeaking) {
+        [synthesizer stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+    }
     [synthesizer speakUtterance:utterance];
+}
+
++ (AVSpeechSynthesizer *)speechSynth {
+    
+    if (![TSLocalNotification sharedManager].synthesizer) {
+        [TSLocalNotification sharedManager].synthesizer = [[AVSpeechSynthesizer alloc] init];
+        [TSLocalNotification sharedManager].synthesizer.delegate = [TSLocalNotification sharedManager];
+    }
+    
+    return [TSLocalNotification sharedManager].synthesizer;
+}
+
+#pragma mark - Speech Delegate
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance
+{
+    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 }
 
 @end

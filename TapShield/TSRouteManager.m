@@ -64,16 +64,19 @@
         return;
     }
     
-    NSMutableArray *annotationCoordinates = [[NSMutableArray alloc] initWithArray:@[_mapView.userLocationAnnotation, _destinationAnnotation]];
+    NSMutableArray *annotations = [[NSMutableArray alloc] initWithArray:@[_mapView.userLocationAnnotation, _destinationAnnotation]];
     
-    for (TSRouteOption *routeOption in _routeOptions) {
-        
-        [routeOption findUniqueMapPointComparingRoutes:_routes completion:^(MKMapPoint uniquePointFromSet) {
-            routeOption.routeTimeAnnotation = [[TSRouteTimeAnnotation alloc] initWithCoordinates:MKCoordinateForMapPoint(uniquePointFromSet) placeName:[TSUtilities formattedStringForDuration:routeOption.expectedTravelTime] description:@""];
-            [annotationCoordinates addObject:routeOption.routeTimeAnnotation];
-        }];
+    if (_routeOptions.count > 1) {
+        for (TSRouteOption *routeOption in _routeOptions) {
+            
+            [routeOption findUniqueMapPointComparingRoutes:_routes completion:^(MKMapPoint uniquePointFromSet) {
+                routeOption.routeTimeAnnotation = [[TSRouteTimeAnnotation alloc] initWithCoordinates:MKCoordinateForMapPoint(uniquePointFromSet) placeName:[TSUtilities formattedStringForDuration:routeOption.expectedTravelTime] description:@""];
+                [annotations addObject:routeOption.routeTimeAnnotation];
+            }];
+        }
     }
-    _routingAnnotations = annotationCoordinates;
+    
+    _routingAnnotations = annotations;
     [self adjustAnnotationImageDirections];
 }
 

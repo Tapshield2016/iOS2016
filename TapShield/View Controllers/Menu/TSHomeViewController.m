@@ -213,8 +213,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     [super viewWillDisappear:animated];
     
-    [_statusView setShouldShowRouteInfo:NO];
-    [self showStatusView:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -402,6 +400,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     
     _mapView.shouldUpdateCallOut = YES;
     
+    [_statusView setShouldShowRouteInfo:NO];
+    [self showStatusView:NO];
+    
     if (self.presentedViewController) {
         [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     }
@@ -424,6 +425,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         
         [TSEntourageSessionManager sharedManager].showEntourageAnnotationsAndOverlays = NO;
         
+        [_statusView setShouldShowRouteInfo:NO];
+        [self showStatusView:NO];
+        
         TSRoutePickerViewController *viewController = (TSRoutePickerViewController *)[self presentViewControllerWithClass:[TSRoutePickerViewController class] transitionDelegate:_topDownTransitioningDelegate animated:YES];
         viewController.homeViewController = self;
         
@@ -438,6 +442,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 }
 
 - (IBAction)reportAlert:(id)sender {
+    
+    [_statusView setShouldShowRouteInfo:NO];
+    [self showStatusView:NO];
     
     [self presentViewControllerWithClass:[TSAlertDetailsTableViewController class] transitionDelegate:nil animated:YES];
 }
@@ -523,6 +530,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     if (_statusView.shouldShowRouteInfo) {
         show = YES;
     }
+    
+    self.removeNavigationShadow = _statusView.shouldShowRouteInfo;
     
     float height = _statusView.originalHeight;
     

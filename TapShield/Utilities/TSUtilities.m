@@ -160,22 +160,23 @@
 
 + (NSString *)formattedStringForDistanceInUSStandard:(CLLocationDistance)meters {
     
-    long distanceInMiles = lroundf(meters * 0.000621371);
+    double distanceInMiles = meters * 0.000621371;
     
-    if (distanceInMiles == 1) {
-        return [NSString stringWithFormat:@"%i mile", (int)distanceInMiles];
-    }
-    else if (distanceInMiles == 0) {
-        
-        long distanceInFeet = (int)lroundf(meters*3.28084);
-        
+    float distanceInFeet = lroundf(meters*3.28084);
+    float distanceInMilesRounded = roundf(distanceInMiles * 10.0)/10.0;
+    
+    if (distanceInFeet < 1000) {
         if (distanceInFeet == 1) {
             return [NSString stringWithFormat:@"%i foot", (int)distanceInFeet];
         }
         return [NSString stringWithFormat:@"%i feet", (int)distanceInFeet];
     }
     
-    return [NSString stringWithFormat:@"%i miles", (int)distanceInMiles];
+    if (distanceInMilesRounded == 1) {
+        return [NSString stringWithFormat:@"%i mile", (int)distanceInMilesRounded];
+    }
+    
+    return [NSString stringWithFormat:@"%.1f miles", distanceInMilesRounded];
 }
 
 + (NSString *)getTitleForABRecordRef:(ABRecordRef)record {

@@ -28,6 +28,5 @@
 - (void)presentationAnimation;
 
 - (IBAction)dismissViewController:(id)sender;
-- (IBAction)searchContacts:(id)sender;
 
 @end

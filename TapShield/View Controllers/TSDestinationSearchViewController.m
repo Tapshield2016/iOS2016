@@ -98,8 +98,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (void)unarchivePreviousMapItems {
     
-    NSArray *savedArray = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:TSDestinationSearchPastResults]];
-    _previousMapItemSelections = [[NSMutableArray alloc] initWithArray:savedArray];
+    _previousMapItemSelections = [TSEntourageSessionManager sharedManager].previousMapItems;
     
     if (_searchResults.count == 0) {
         _searchResults = _previousMapItemSelections;
@@ -108,7 +107,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (void)archivePreviousMapItems {
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_previousMapItemSelections] forKey:TSDestinationSearchPastResults];
+    [[TSEntourageSessionManager sharedManager] archivePreviousMapItems:_previousMapItemSelections];
 }
 
 - (void)showPreviousSelections {
@@ -118,18 +117,7 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
 
 - (void)addMapItemToSavedSelections:(MKMapItem *)mapItem {
     
-    if (!_previousMapItemSelections) {
-        _previousMapItemSelections = [[NSMutableArray alloc] initWithCapacity:10];
-    }
-    
-    [_previousMapItemSelections removeObject:mapItem];
-    [_previousMapItemSelections insertObject:mapItem atIndex:0];
-    
-    if (_previousMapItemSelections.count > 20) {
-        [_previousMapItemSelections removeObjectsInRange:NSMakeRange(20, _previousMapItemSelections.count-20)];
-    }
-    
-    [self archivePreviousMapItems];
+    _previousMapItemSelections = [[TSEntourageSessionManager sharedManager] addMapItemToSavedSelections:mapItem];
 }
 
 
@@ -167,26 +155,6 @@ static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPa
     [self dismissViewControllerAnimated:YES completion:^{
         [[nav.viewControllers firstObject] endAppearanceTransition];
     }];
-}
-
-- (IBAction)searchContacts:(id)sender {
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    
-    
-    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-    picker.predicateForEnablingPerson = [NSPredicate predicateWithFormat:@"postalAddresses.@count > 0"];
-    picker.topViewController.navigationItem.title = @"Contacts";
-    picker.navigationBar.topItem.prompt = @"Choose a saved address";
-    picker.peoplePickerDelegate = self;
-    picker.displayedProperties = @[@(kABPersonAddressProperty)];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self presentViewController:picker animated:YES completion:nil];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    });
 }
 
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {

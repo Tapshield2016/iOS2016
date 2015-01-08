@@ -87,11 +87,14 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     
     _userLocation = userLocation;
     
-    if (!_shouldShowRouteInfo) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!_shouldShowRouteInfo) {
             [self setText:userLocation];
-        }];
-    }
+        }
+        else {
+            [self showRouteInfo];
+        }
+    }];
 }
 
 - (void)hideText {
@@ -138,6 +141,10 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
 
 - (void)setShouldShowRouteInfo:(BOOL)shouldShowRouteInfo {
     
+    if (shouldShowRouteInfo == _shouldShowRouteInfo) {
+        return;
+    }
+    
     _shouldShowRouteInfo = shouldShowRouteInfo;
     
     if (shouldShowRouteInfo) {
@@ -150,22 +157,25 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
 
 - (void)showRouteInfo {
     
+    _titleLabel.font = [UIFont fontWithName:kFontWeightLight size:13];
+    _label.font = [UIFont fontWithName:kFontWeightLight size:12];
+    
     _statusToolbar.barTintColor = nil;
     _label.textColor = [TSColorPalette tapshieldBlue];
     _titleLabel.textColor = [TSColorPalette tapshieldBlue];
     
-    NSString *formattedText = [NSString stringWithFormat:@"%@ - %@", [TSUtilities formattedDescriptiveStringForDuration:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.expectedTravelTime], [TSUtilities formattedStringForDistanceInUSStandard:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.distanceRemaining]];
+    NSString *formattedText = [NSString stringWithFormat:@"%@", [TSUtilities formattedStringForDistanceInUSStandard:[TSEntourageSessionManager sharedManager].routeManager.selectedRoute.distanceRemaining]];
     
-    MKRouteStep *step = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.currentStep;
-    NSString *title = step.instructions;
-    if (!title) {
-        title = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.name;
-    }
+//    MKRouteStep *step = [TSEntourageSessionManager sharedManager].routeManager.selectedRoute.currentStep;
+    NSString *title = [TSEntourageSessionManager sharedManager].routeManager.destinationMapItem.name;
     
     [self setTitle:title message:formattedText];
 }
 
 - (void)showUserLocationInfo {
+    
+    _label.font = [UIFont fontWithName:kFontWeightLight size:18];
+    _titleLabel.font = [UIFont fontWithName:kFontWeightNormal size:10];
     
     _statusToolbar.barTintColor = [TSColorPalette tapshieldBlue];
     _label.textColor = [UIColor whiteColor];

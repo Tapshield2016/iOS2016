@@ -191,7 +191,7 @@
 
 - (CLLocationDistance)distanceRemainingFromLocation:(CLLocation *)location {
     
-    return [self.route.polyline distanceToEndFromPoint:MKMapPointForCoordinate(location.coordinate)];
+    return [self.polyline distanceToEndFromPoint:MKMapPointForCoordinate(location.coordinate)];
 }
 
 - (MKRouteStep *)currentStep {

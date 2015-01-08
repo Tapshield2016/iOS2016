@@ -24,8 +24,8 @@
 
 #define NOTIFICATION_TIMES @(60*5), @(60), @(30), @(10), @(5), nil
 
-#define WARNING_TITLE @"WARNING"
-#define WARNING_MESSAGE @"Due to iOS software limitations, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
+#define WARNING_TITLE @"Please Note"
+#define WARNING_MESSAGE @"If you fail to arrive, TapShield is unable to automatically call 911 when the app is running in the background. Authorities will be alerted if you are within your organization's boundaries"
 
 static NSString * const kSpeechRemaining = @"%@ remaining";
 static NSString * const kSpeechEntourageNotify = @"Entourage will be notified in 10 seconds, please enter your pass code.";
@@ -41,6 +41,8 @@ static NSString * const TSEntourageSessionManagerWarning911 = @"TSEntourageSessi
 
 NSString * const TSEntourageSessionManagerTimerDidStart = @"TSEntourageSessionManagerTimerDidStart";
 NSString * const TSEntourageSessionManagerTimerDidEnd = @"TSEntourageSessionManagerTimerDidEnd";
+
+static NSString * const TSDestinationSearchPastResults = @"TSDestinationSearchPastResults";
 
 @interface TSEntourageSessionManager ()
 
@@ -178,6 +180,8 @@ static dispatch_once_t predicate;
         _warningWindow.popUpDelegate = self;
         [_warningWindow show];
     }
+    
+    [self addMapItemToSavedSelections:_routeManager.destinationMapItem];
 }
 
 - (NSArray *)regionsForEndPoint {
@@ -187,45 +191,6 @@ static dispatch_once_t predicate;
                                                                         identifier:_routeManager.destinationAnnotation.title];
     
     return @[destinationRegion];
-    
-//    float radius;
-//    if (_routeManager.destinationTransportType == MKDirectionsTransportTypeWalking) {
-//        radius = WALKING_RADIUS_MIN;
-//    }
-//    else {
-//        radius = DRIVING_RADIUS_MIN;
-//    }
-//    
-//    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:2];
-//    
-//    CLLocationCoordinate2D destinationCoord = _routeManager.destinationAnnotation.coordinate;
-//    
-//    
-//    MKPolyline *polyline = _routeManager.selectedRoute.polyline;
-//    NSString *name = _routeManager.selectedRoute.name;
-//    
-//    if (polyline.points) {
-//        MKMapPoint routeEnd = polyline.points[polyline.pointCount - 1];
-//        
-//        CLLocationCoordinate2D routeEndcoord = MKCoordinateForMapPoint(routeEnd);
-//        
-//        CLCircularRegion *routeEndRegion = [[CLCircularRegion alloc] initWithCenter:routeEndcoord
-//                                                                             radius:radius
-//                                                                         identifier:name];
-//        if (routeEndRegion) {
-//            [mutableArray addObject:routeEndRegion];
-//        }
-//    }
-//    
-//    
-//    CLCircularRegion *destinationRegion = [[CLCircularRegion alloc] initWithCenter:destinationCoord
-//                                                                           radius:radius
-//                                                                       identifier:_routeManager.destinationAnnotation.title];
-//    if (destinationRegion) {
-//        [mutableArray addObject:destinationRegion];
-//    }
-//    
-//    return mutableArray;
 }
 
 - (void)checkRegion:(CLLocation *)userLocation  {
@@ -248,49 +213,8 @@ static dispatch_once_t predicate;
     }
     else {
         _routeManager.safeZoneOverlay.inside = NO;
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
         [NSObject cancelPreviousPerformRequestsWithTarget:self];
     }
-    
-//    BOOL contains = NO;
-//    
-//    for (CLCircularRegion *region in [_endRegions copy]) {
-//        if ([region containsCoordinate:userLocation.coordinate]) {
-//            contains = YES;
-//        }
-//    }
-//
-//    if (userLocation.horizontalAccuracy > 100) {
-//        if (contains) {
-//            
-//            [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:5.0];
-//        }
-//    }
-//    else {
-//        if (contains) {
-//            
-//            [self stopEntourageArrived];
-//        }
-//    }
-    
-//    contains = NO;
-//    CLCircularRegion *bufferCircle;
-//    
-//    for (CLCircularRegion *region in [_endRegions copy]) {
-//        bufferCircle = [[CLCircularRegion alloc] initWithCenter:region.center
-//                                                         radius:region.radius*2
-//                                                     identifier:[NSString stringWithFormat:@"%@-bufferCircle", region.identifier]];
-//        if ([bufferCircle containsCoordinate:userLocation.coordinate]) {
-//            contains = YES;
-//        }
-//    }
-//    
-//    if (contains) {
-//        [self performSelector:@selector(stopEntourageArrived) withObject:nil afterDelay:30.0];
-//    }
-//    else {
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopEntourageArrived) object:nil];
-//    }
 }
 
 
@@ -329,6 +253,7 @@ static dispatch_once_t predicate;
     [self hideETAButton];
     
     [_routeManager clearRouteAndMapData];
+    [_homeView.statusView setShouldShowRouteInfo:NO];
 }
 
 - (void)stopEntourageCancelled {
@@ -356,6 +281,13 @@ static dispatch_once_t predicate;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self stopEntourage];
+        
+        if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+            [[TSLocationController sharedLocationController] stopLocationUpdates];
+            if ([TSJavelinAPIClient loggedInUser] && [[TSJavelinAPIClient loggedInUser] shouldUpdateAlwaysVisibleLocation]) {
+                [[TSLocationController sharedLocationController] startSignificantChangeUpdates:nil];
+            }
+        }
     }];
 }
 
@@ -1050,9 +982,73 @@ static dispatch_once_t predicate;
     return alertAnnotation;
 }
 
+
+#pragma mark - Speech Delegate
+
 - (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance
 {
     [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 }
+
+
+#pragma mark - Saved MapItems
+
+- (NSMutableArray *)previousMapItems {
+    
+    NSArray *savedArray = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:TSDestinationSearchPastResults]];
+    
+    if (savedArray) {
+        return [[NSMutableArray alloc] initWithArray:savedArray];
+    }
+    
+    return nil;
+}
+
+- (void)archivePreviousMapItems:(NSArray *)mapItems {
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:mapItems] forKey:TSDestinationSearchPastResults];
+}
+
+- (NSMutableArray *)addMapItemToSavedSelections:(MKMapItem *)mapItem {
+    
+    NSMutableArray *previousMapItemSelections = [self previousMapItems];
+    
+    if (!previousMapItemSelections) {
+        previousMapItemSelections = [[NSMutableArray alloc] initWithCapacity:10];
+    }
+    
+    NSMutableArray *itemsToKeep = [NSMutableArray arrayWithCapacity:[previousMapItemSelections count]];
+    for (MKMapItem *item in previousMapItemSelections) {
+        
+        if ([item isEqual:mapItem]) {
+            continue;
+        }
+        else if (item.name && item.placemark.thoroughfare && item.placemark.postalCode) {
+            if ([item.name isEqualToString:mapItem.name] && [item.placemark.thoroughfare isEqualToString:mapItem.placemark.thoroughfare] && [item.placemark.postalCode isEqualToString:mapItem.placemark.postalCode]) {
+                continue;
+            }
+        }
+        else if (item.name && item.placemark.locality && item.placemark.administrativeArea) {
+            if ([item.name isEqualToString:mapItem.name] && [item.placemark.locality isEqualToString:mapItem.placemark.locality] && [item.placemark.administrativeArea isEqualToString:mapItem.placemark.administrativeArea]) {
+                continue;
+            }
+        }
+        
+        [itemsToKeep addObject:item];
+    }
+    
+    [previousMapItemSelections setArray:itemsToKeep];
+    [previousMapItemSelections insertObject:mapItem atIndex:0];
+    
+    if (previousMapItemSelections.count > 20) {
+        [previousMapItemSelections removeObjectsInRange:NSMakeRange(20, previousMapItemSelections.count-20)];
+    }
+    
+    [self archivePreviousMapItems:previousMapItemSelections];
+    
+    return previousMapItemSelections;
+}
+
+
 
 @end

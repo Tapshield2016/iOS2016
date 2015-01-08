@@ -52,6 +52,12 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 
 @property (assign, nonatomic) BOOL showEntourageAnnotationsAndOverlays;
 
+
+
+@property (readonly) NSMutableArray *previousMapItems;
+- (void)archivePreviousMapItems:(NSArray *)mapItems;
+- (NSMutableArray *)addMapItemToSavedSelections:(MKMapItem *)mapItem;
+
 #pragma mark - Entourage Members
 
 - (void)getAllEntourageSessions:(void (^)(NSArray *entourageMembers))completion;
@@ -71,5 +77,6 @@ typedef void(^TSEntourageSessionManagerPostCompletion)(BOOL finished);
 - (void)actionForEntourageNotificationObject:(TSJavelinAPIUserNotification *)notification;
 
 - (void)closeDrawer;
+
 
 @end

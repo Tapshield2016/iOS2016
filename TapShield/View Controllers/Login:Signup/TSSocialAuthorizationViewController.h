@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSBaseViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import <GooglePlus/GooglePlus.h>
-#import "TSFacebookLogin.h"
 #import "TSGooglePlusButton.h"
 #import "TSAnimatedView.h"
 

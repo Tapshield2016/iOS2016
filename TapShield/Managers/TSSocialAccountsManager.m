@@ -12,11 +12,12 @@
 #import <FBShimmeringView.h>
 #import "TSPopUpWindow.h"
 #import "TSJavelinAPIAuthenticationManager.h"
-#import <FacebookSDK/FBSession.h>
 #import <Social/Social.h>
 #import "TSApplication.h"
 #import "TSWebViewController.h"
 #import "TSUserSessionManager.h"
+#import <FBSDKCoreKit/FBSDKAccessToken.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #define ERROR_TITLE_MSG @"Sorry"
 #define ERROR_NO_ACCOUNTS @"No Twitter account could be found. Please add a Twitter account in the Settings app"
@@ -516,101 +517,129 @@ static dispatch_once_t predicate;
 
 - (void)loginFacebook {
     
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    [login logInWithReadPermissions:@[@"public_profile", @"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        if (error) {
+            // Process error
+            [self finishedLoading];
+            
+        } else if (result.isCancelled) {
+            // Handle cancellations
+            [self finishedLoading];
+        } else {
+            // If you ask for multiple permissions at once, you
+            // should check if specific permissions missing
+            if ([result.grantedPermissions containsObject:@"email"]) {
+                // Do work
+                [self facebookLoggedIn];
+            }
+        }
+    }];
     
     
-        // Open session with public_profile (required) and user_birthday read permissions
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
-                                           allowLoginUI:YES
-                                      completionHandler:
-    
-    
+//        // Open session with public_profile (required) and user_birthday read permissions
+//        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+//                                           allowLoginUI:YES
+//                                      completionHandler:
+//    
+//    
 //    [FBSession openActiveSessionWithPermissions:@[@"public_profile", @"email"]
 //                                  loginBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent
 //                                         isRead:YES
 //                                defaultAudience:FBSessionDefaultAudienceNone
 //                              completionHandler:
-     ^(FBSession *session, FBSessionState state, NSError *error) {
-         __block NSString *alertText;
-         __block NSString *alertTitle;
-         if (!error){
-             [self facebookLoggedIn];
-             
-         } else {
-             // There was an error, handle it
-             [self finishedLoading];
-             if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
-                 // Error requires people using an app to make an action outside of the app to recover
-                 // The SDK will provide an error message that we have to show the user
-                 alertTitle = @"Something went wrong";
-                 alertText = [FBErrorUtility userMessageForError:error];
-                 
-             } else {
-                 // If the user cancelled login
-                 if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-                     alertTitle = @"Facebook login cancelled";
-                     alertText = @"Please try again, or select another method";
-                     
-                 } else {
-                     // For simplicity, in this sample, for all other errors we show a generic message
-                     // You can read more about how to handle other errors in our Handling errors guide
-                     // https://developers.facebook.com/docs/ios/errors/
-                     NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"]
-                                                        objectForKey:@"body"]
-                                                       objectForKey:@"error"];
-                     alertTitle = @"Something went wrong";
-                     alertText = [NSString stringWithFormat:@"Please retry.\nIf the problem persists contact us and mention this error code: %@",
-                                  [errorInformation objectForKey:@"message"]];
-                 }
-             }
-             
-             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle
-                                                                                      message:alertText
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-             
-             [alertController addAction:[UIAlertAction actionWithTitle:@"OK!" style:UIAlertActionStyleCancel handler:nil]];
-             
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [_currentViewController presentViewController:alertController animated:YES completion:nil];
-             });
-         }
-     }];
+//     ^(FBSession *session, FBSessionState state, NSError *error) {
+//         __block NSString *alertText;
+//         __block NSString *alertTitle;
+//         if (!error){
+//             [self facebookLoggedIn];
+//             
+//         } else {
+//             // There was an error, handle it
+//             [self finishedLoading];
+//             if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
+//                 // Error requires people using an app to make an action outside of the app to recover
+//                 // The SDK will provide an error message that we have to show the user
+//                 alertTitle = @"Something went wrong";
+//                 alertText = [FBErrorUtility userMessageForError:error];
+//                 
+//             } else {
+//                 // If the user cancelled login
+//                 if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
+//                     alertTitle = @"Facebook login cancelled";
+//                     alertText = @"Please try again, or select another method";
+//                     
+//                 } else {
+//                     // For simplicity, in this sample, for all other errors we show a generic message
+//                     // You can read more about how to handle other errors in our Handling errors guide
+//                     // https://developers.facebook.com/docs/ios/errors/
+//                     NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"]
+//                                                        objectForKey:@"body"]
+//                                                       objectForKey:@"error"];
+//                     alertTitle = @"Something went wrong";
+//                     alertText = [NSString stringWithFormat:@"Please retry.\nIf the problem persists contact us and mention this error code: %@",
+//                                  [errorInformation objectForKey:@"message"]];
+//                 }
+//             }
+//             
+//             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle
+//                                                                                      message:alertText
+//                                                                               preferredStyle:UIAlertControllerStyleAlert];
+//             
+//             [alertController addAction:[UIAlertAction actionWithTitle:@"OK!" style:UIAlertActionStyleCancel handler:nil]];
+//             
+//             dispatch_async(dispatch_get_main_queue(), ^{
+//                 [_currentViewController presentViewController:alertController animated:YES completion:nil];
+//             });
+//         }
+//     }];
 }
 
 - (void)facebookLoggedIn {
     
-    FBSession *session = [FBSession activeSession];
+    NSString *accessToken = [FBSDKAccessToken currentAccessToken].tokenString;
     // If the session was opened successfully
-    if (session.state == FBSessionStateOpen){
+    if (accessToken){
         // Your code here
         
         [self loading:facebook];
-        [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:[[FBSession.activeSession accessTokenData] accessToken] completion:^(BOOL finished) {
+        [[[TSJavelinAPIClient sharedClient] authenticationManager] createFacebookUser:accessToken completion:^(BOOL finished) {
             
             if (!finished) {
                 return ;
             }
             
-            [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-                if (error) {
-                    NSLog(@"error:%@",error);
-                } else {
-                    [[TSJavelinAPIClient loggedInUser] updateUserProfileFromFacebook:user];
-                }
-            }];
+            [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil]
+             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                 if (error) {
+                     NSLog(@"error:%@",error);
+                 } else {
+//                     [[TSJavelinAPIClient loggedInUser] updateUserProfileFromFacebook:user];
+                 }
+             }];
+            
+//            [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+//                if (error) {
+//                    NSLog(@"error:%@",error);
+//                } else {
+//                    [[TSJavelinAPIClient loggedInUser] updateUserProfileFromFacebook:user];
+//                }
+//            }];
         }];
     }
 }
 
 - (void)logoutFacebook {
     
-    if (FBSession.activeSession.state == FBSessionStateOpen
-        || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
-        
-        // Close the session and remove the access token from the cache
-        // The session state handler (in the app delegate) will be called automatically
-        [FBSession.activeSession closeAndClearTokenInformation];
-        
-    }
+    [[[FBSDKLoginManager alloc] init] logOut];
+//    if (FBSession.activeSession.state == FBSessionStateOpen
+//        || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+//        
+//        // Close the session and remove the access token from the cache
+//        // The session state handler (in the app delegate) will be called automatically
+//        [FBSession.activeSession closeAndClearTokenInformation];
+//        
+//    }
 }
 
 

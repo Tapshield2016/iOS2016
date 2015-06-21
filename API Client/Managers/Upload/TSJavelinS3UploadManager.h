@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "S3.h"
+#import "AWSS3.h"
 #import "AWSCore.h"
 
 @interface TSJavelinS3UploadManager : NSObject

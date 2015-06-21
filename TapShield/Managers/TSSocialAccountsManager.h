@@ -10,8 +10,7 @@
 #import "TSJavelinAPIClient.h"
 
 // Facebook
-#import <FacebookSDK/FacebookSDK.h>
-#import "TSFacebookLogin.h"
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 // Twitter-related imports
 #import <Accounts/Accounts.h>

@@ -11,7 +11,7 @@
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIEmail.h"
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKLoginKit/FBSDKLoginManager.h>
 #import "TSJavelinAPIEntourageSession.h"
 
 @class TSJavelinAPIGroup;
@@ -59,7 +59,7 @@
 
 - (NSString *)firstAndLastName;
 
-- (void)updateUserProfileFromFacebook:(NSDictionary<FBGraphUser>*)user;
+- (void)updateUserProfileFromFacebook:(NSDictionary*)user;
 - (void)updateUserProfileFromTwitter:(NSDictionary *)attributes;
 - (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person;
 - (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes;

@@ -15,9 +15,12 @@
 #import "TSStatusView.h"
 #import "TSBottomMapButton.h"
 #import "TSIconBadgeView.h"
-#import "MBXMapKit.h"
 
-@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, ADClusterMapViewDelegate, UIScrollViewDelegate, MBXRasterTileOverlayDelegate, MBXOfflineMapDownloaderDelegate>
+
+extern NSString * const TSMapViewWillChangeRegion;
+extern NSString * const TSMapViewDidChangeRegion;
+
+@interface TSHomeViewController : TSNavigationViewController <MKMapViewDelegate, TSLocationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, TSClusterMapViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) TSMenuViewController *menuViewController;
 @property (weak, nonatomic) IBOutlet TSMapView *mapView;

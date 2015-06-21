@@ -10,7 +10,7 @@
 #import "UIImage+Resize.h"
 #import "TSUtilities.h"
 #import "TSJavelinAPIUtilities.h"
-
+static NSString * const kTSJavelinS3ConfigKey = @"AWSS3East";
 static NSString * const kTSJavelinS3UploadManagerAccessKey = @"AKIAJHIUM7YWZW2T2YIA";
 static NSString * const kTSJavelinS3UploadManagerSecretKey = @"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";
 
@@ -38,12 +38,15 @@ static NSString * const kTSJavelinS3UploadManagerBucketName = @"dev.media.tapshi
     AWSServiceConfiguration *configuration;
     AWSStaticCredentialsProvider *credentialsProvider;
     
-    credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinS3UploadManagerAccessKey
-                                                                       secretKey:kTSJavelinS3UploadManagerSecretKey];
-    configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1
-                                                 credentialsProvider:credentialsProvider];
+    credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:kTSJavelinS3UploadManagerAccessKey secretKey:kTSJavelinS3UploadManagerSecretKey];
+    configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
     
-    AWSS3 *transferManager = [[AWSS3 alloc] initWithConfiguration:configuration];
+    AWSS3 *transferManager = [AWSS3 S3ForKey:kTSJavelinS3ConfigKey];
+    if (!transferManager) {
+        [AWSS3 registerS3WithConfiguration:configuration forKey:kTSJavelinS3ConfigKey];
+        transferManager = [AWSS3 S3ForKey:kTSJavelinS3ConfigKey];
+    }
+    
     AWSS3PutObjectRequest *request = [AWSS3PutObjectRequest new];
     request.bucket = kTSJavelinS3UploadManagerBucketName;
     request.key = key;

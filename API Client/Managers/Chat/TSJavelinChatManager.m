@@ -10,7 +10,7 @@
 #import "TSJavelinAPIClient.h"
 #import "TSJavelinAPIChatMessage.h"
 #import "TSJavelinAPIAlert.h"
-#import <AWSiOSSDKv2/DynamoDB.h>
+#import <AWSDynamoDB/AWSDynamoDB.h>
 
 #define LONG_TIMER 45
 #define QUICK_TIMER 15
@@ -18,6 +18,8 @@
 static NSString * const kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey = @"AKIAJJX2VM346XUKRROA";
 static NSString * const kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey = @"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";
 static NSString * const kTSJavelinAPIChatManagerDynamoDBDevelopmentTableName = @"chat_messages_dev";
+
+static NSString * const kTSJavelinAPIChatManagerDynamoDBKey = @"kTSJavelinAPIChatManagerDynamoDBKey";
 
 static NSString * const kTSJavelinAPIChatManagerDynamoDBDemoTableName = @"chat_messages_demo";
 
@@ -59,24 +61,25 @@ static dispatch_once_t onceToken;
             AWSStaticCredentialsProvider *credentialsProvider;
 #ifdef DEV
             
-            credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
+            credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
                                                                                secretKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey];
-            configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+            configuration = [[AWSServiceConfiguration  alloc] initWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
             _sharedManager.dynamoDBTableName = kTSJavelinAPIChatManagerDynamoDBDevelopmentTableName;
 #elif DEMO
-            credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
+            credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentAccessKey
                                                                                secretKey:kTSJavelinAPIChatManagerDynamoDBDevelopmentSecretKey];
-            configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+            configuration = [[AWSServiceConfiguration  alloc] initWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
             _sharedManager.dynamoDBTableName = kTSJavelinAPIChatManagerDynamoDBDemoTableName;
             
 #elif APP_STORE
-            credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAPIChatManagerDynamoDBProductionAccessKey
+            credentialsProvider = [[AWSStaticCredentialsProvider  alloc] initWithAccessKey:kTSJavelinAPIChatManagerDynamoDBProductionAccessKey
                                                                                secretKey:kTSJavelinAPIChatManagerDynamoDBProductionSecretKey];
-            configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+            configuration = [[AWSServiceConfiguration  alloc] initWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
             _sharedManager.dynamoDBTableName = kTSJavelinAPIChatManagerDynamoDBProductionTableName;
             
 #endif
-            _sharedManager.dynamoDB = [[AWSDynamoDB alloc] initWithConfiguration:configuration];
+            [AWSDynamoDB registerDynamoDBWithConfiguration:configuration forKey:kTSJavelinAPIChatManagerDynamoDBKey];
+            _sharedManager.dynamoDB = [AWSDynamoDB DynamoDBForKey:kTSJavelinAPIChatManagerDynamoDBKey];
         });
     }
     

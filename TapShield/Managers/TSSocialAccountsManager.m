@@ -7,7 +7,6 @@
 //
 #import "TSSocialAccountsManager.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import <FacebookSDK/FBRequestConnection.h>
 #import "TSUtilities.h"
 #import <FBShimmeringView.h>
 #import "TSPopUpWindow.h"

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseAnnotationView.h"
+#import "TSRefreshedAnnotationView.h"
 
-@interface TSSpotCrimeAnnotationView : TSBaseAnnotationView
+@interface TSSpotCrimeAnnotationView : TSRefreshedAnnotationView
 
 - (float)alphaForReportDate;
 

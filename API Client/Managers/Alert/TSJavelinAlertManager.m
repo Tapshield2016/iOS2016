@@ -17,13 +17,15 @@
 #import "TSLocationGeofenceTestView.h"
 #import <AFNetworkReachabilityManager.h>
 #import <MapKit/MapKit.h>
-#import <AWSiOSSDKv2/AWSCore.h>
-#import <AWSiOSSDKv2/AWSService.h>
-#import <AWSiOSSDKv2/AWSSQS.h>
+#import <AWSCore/AWSCore.h>
+#import <AWSCore/AWSService.h>
+#import <AWSSQS/AWSSQS.h>
 
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentAccessKey = @"AKIAJSDRUWW6PPF2FWWA";
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentSecretKey = @"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";
 static NSString * const kTSJavelinAlertManagerSQSDevelopmentAlertQueueName = @"alert_queue_dev";
+
+static NSString * const kTSJavelinAlertManagerSQSKey = @"kTSJavelinAlertManagerSQSKey";
 
 static NSString * const kTSJavelinAlertManagerSQSDemoAlertQueueName = @"alert_queue_demo";
 
@@ -75,33 +77,37 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedManager = [[TSJavelinAlertManager alloc] init];
         });
-        
         _sharedManager.sqs = [AWSSQS defaultSQS];
         
+        NSString *accessKey;
+        NSString *secretKey;
 #ifdef DEV
-        AWSStaticCredentialsProvider *credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAlertManagerSQSDevelopmentAccessKey
-                                                                                                         secretKey:kTSJavelinAlertManagerSQSDevelopmentSecretKey];
-        AWSServiceConfiguration *configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
-        _sharedManager.sqs = [[AWSSQS alloc] initWithConfiguration:configuration];
+        accessKey = kTSJavelinAlertManagerSQSDevelopmentAccessKey;
+        secretKey = kTSJavelinAlertManagerSQSDevelopmentSecretKey;
+        
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSDevelopmentAlertQueueName;
         
 #elif DEMO
         
-        AWSStaticCredentialsProvider *credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAlertManagerSQSDevelopmentAccessKey
-                                                                                                         secretKey:kTSJavelinAlertManagerSQSDevelopmentSecretKey];
-        AWSServiceConfiguration *configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
-        _sharedManager.sqs = [[AWSSQS alloc] initWithConfiguration:configuration];
+        accessKey = kTSJavelinAlertManagerSQSDevelopmentAccessKey
+        secretKey = kTSJavelinAlertManagerSQSDevelopmentSecretKey];
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSDemoAlertQueueName;
         
 #elif APP_STORE
         
-        AWSStaticCredentialsProvider *credentialsProvider = [AWSStaticCredentialsProvider credentialsWithAccessKey:kTSJavelinAlertManagerSQSProductionAccessKey
-                                                                                                         secretKey:kTSJavelinAlertManagerSQSProductionSecretKey];
-        AWSServiceConfiguration *configuration = [AWSServiceConfiguration configurationWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
-        _sharedManager.sqs = [[AWSSQS alloc] initWithConfiguration:configuration];
+        accessKey = kTSJavelinAlertManagerSQSProductionAccessKey
+        secretKey = kTSJavelinAlertManagerSQSProductionSecretKey
+        
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSProductionAlertQueueName;
         
 #endif
+        AWSStaticCredentialsProvider *credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:accessKey
+                                                                                                          secretKey:secretKey];
+        AWSServiceConfiguration *configuration = [[AWSServiceConfiguration  alloc] initWithRegion:AWSRegionUSEast1 credentialsProvider:credentialsProvider];
+        
+        [AWSSQS registerSQSWithConfiguration:configuration forKey:kTSJavelinAlertManagerSQSKey];
+        
+        _sharedManager.sqs = [AWSSQS SQSForKey:kTSJavelinAlertManagerSQSKey];
     }
     
     return _sharedManager;

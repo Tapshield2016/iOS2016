@@ -33,20 +33,7 @@
     
 }
 
-- (void)setAnnotation:(id<MKAnnotation>)annotation {
-    
-    [super setAnnotation:annotation];
-    
-    if ([annotation isKindOfClass:[ADClusterAnnotation class]]) {
-        ((ADClusterAnnotation *)annotation).annotationView = self;
-    }
-    
-    if (annotation) {
-        [self refreshView];
-    }
-}
-
-- (void)refreshView {
+- (void)clusteringAnimation {
     
     id<MKAnnotation> annotation = self.annotation;
     

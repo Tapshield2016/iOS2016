@@ -13,7 +13,7 @@
 #import "TSJavelinAPIAuthenticationManager.h"
 #import "TSJavelinAPIUser.h"
 #import "TSJavelinAPIUtilities.h"
-#import <AWSiOSSDKv2/DynamoDB.h>
+#import <AWSDynamoDB/AWSDynamoDB.h>
 
 @implementation TSJavelinAPIChatMessage
 

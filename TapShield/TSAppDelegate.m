@@ -237,9 +237,9 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #pragma mark - URL Handler 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    if ([[FBSession activeSession] handleOpenURL:url]) {
-        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
-    }
+//    if ([[FBSession activeSession] handleOpenURL:url]) {
+//        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
+//    }
     
     if ([[GPPSignIn sharedInstance] handleURL:url
                             sourceApplication:sourceApplication
@@ -414,11 +414,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 + (void)openSettings
 {
-    BOOL canOpenSettings = (&UIApplicationOpenSettingsURLString != NULL);
-    if (canOpenSettings) {
-        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        [[UIApplication sharedApplication] openURL:url];
-    }
+    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 

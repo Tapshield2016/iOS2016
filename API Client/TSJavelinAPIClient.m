@@ -19,7 +19,7 @@
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIUtilities.h"
 #import "TSJavelinAPISocialCrimeReport.h"
-#import "CLLocation+Utilities.h"
+#import "CLLocation+Params.h"
 
 NSString * const TSJavelinAPIClientDidUpdateAgency = @"TSJavelinAPIClientDidUpdateAgency";
 
@@ -579,7 +579,7 @@ static dispatch_once_t onceToken;
     CLLocation *previouslyPostedLocation = [TSJavelinAPIClient loggedInUser].location;
     if (!previouslyPostedLocation ||
         [[_locationsAwaitingPost lastObject] distanceFromLocation:previouslyPostedLocation] > distanceInterval ||
-        abs([[NSDate date] timeIntervalSinceDate:_lastLocationUpdateTime]) > sendInterval) {
+        fabs([[NSDate date] timeIntervalSinceDate:_lastLocationUpdateTime]) > sendInterval) {
         
         [self sendLocationsAwaitingUpdate:completion];
     }

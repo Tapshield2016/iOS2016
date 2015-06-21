@@ -24,14 +24,13 @@
 #import "TSSpotCrimeAnnotationView.h"
 #import "TSGeofence.h"
 #import "TSViewReportDetailsViewController.h"
-#import "TSClusterAnnotationView.h"
+#import "TSCrimeClusteredAnnotationView.h"
 #import "TSHeatMapOverlay.h"
 #import "ADClusterAnnotation.h"
 #import <KVOController/FBKVOController.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "TSJavelinChatManager.h"
 #import "TSTalkOptionViewController.h"
-#import "MBXMapKit.h"
 #import "TSEntourageMemberAnnotationView.h"
 #import "TSStartAnnotationView.h"
 #import "TSStartAnnotation.h"
@@ -40,13 +39,16 @@
 #import "CLLocation+Utilities.h"
 #import "TSSafeZoneCircleOverlay.h"
 
+
+NSString * const TSMapViewWillChangeRegion = @"TSMapViewWillChangeRegion";
+NSString * const TSMapViewDidChangeRegion = @"TSMapViewDidChangeRegion";
+
 static NSString * const kYankHintOff = @"To activate yank, select button and insert headphones.  When headphones are yanked from the headphone jack, you will have 10 seconds to disarm before an alert is sent";
 static NSString * const kYankHintOn = @"To disable yank, select button, and when notified, you may remove your headphones";
 
 
 @interface TSHomeViewController ()
 
-@property (strong, nonatomic) MBXRasterTileOverlay *rasterOverlay;
 @property (strong, nonatomic) TSTalkOptionViewController *talkOptionsViewController;
 
 @property (nonatomic, strong) TSTopDownTransitioningDelegate *topDownTransitioningDelegate;
@@ -577,11 +579,11 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 #pragma mark - Gesture handlers
 
-- (void)userDidPanMapView:(ADClusterMapView *)mapView {
+- (void)userDidPanMapView:(TSClusterMapView *)mapView {
     
 }
 
-- (void)userWillPanMapView:(ADClusterMapView *)mapView {
+- (void)userWillPanMapView:(TSClusterMapView *)mapView {
     
     [self setIsTrackingUser:NO animateToUser:NO];
     [self showStatusView:NO];
@@ -767,11 +769,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         return [self rendererForRoutePolyline:overlay];
     }
     
-    if ([overlay isKindOfClass:[MBXRasterTileOverlay class]]) {
-        MKTileOverlayRenderer *renderer = [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
-        return renderer;
-    }
-    
     return nil;
 }
 
@@ -952,6 +949,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _mapView.isAnimatingToRegion = YES;
     
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSMapViewWillChangeRegion object:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
@@ -980,6 +979,9 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
                                                                 longitude:[mapView centerCoordinate].longitude];
         [[TSReportAnnotationManager sharedManager] getReportsForMapCenter:centerLocation];
     }
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TSMapViewDidChangeRegion object:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
@@ -1032,7 +1034,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [self flipIntersectingRouteAnnotation];
     }
     
-    if ([view isKindOfClass:[TSClusterAnnotationView class]]){
+    if ([view isKindOfClass:[TSCrimeClusteredAnnotationView class]]){
         
         float delta;
         
@@ -1144,30 +1146,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 #pragma mark - ADClusterMapViewDelegate
 
-- (MKAnnotationView *)mapView:(ADClusterMapView *)mapView viewForClusterAnnotation:(id<MKAnnotation>)annotation {
-    TSClusterAnnotationView * pinView = (TSClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"ADMapCluster"];
+- (MKAnnotationView *)mapView:(TSClusterMapView *)mapView viewForClusterAnnotation:(id<MKAnnotation>)annotation {
+    TSCrimeClusteredAnnotationView * pinView = (TSCrimeClusteredAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"TSCrimeClusteredAnnotationView"];
     if (!pinView) {
-        pinView = [[TSClusterAnnotationView alloc] initWithAnnotation:annotation
-                                               reuseIdentifier:@"ADMapCluster"];
+        pinView = [[TSCrimeClusteredAnnotationView alloc] initWithAnnotation:annotation
+                                               reuseIdentifier:@"TSCrimeClusteredAnnotationView"];
     }
     else {
         pinView.annotation = annotation;
     }
     return pinView;
-}
-
-
-- (void)mapViewDidFinishClustering:(ADClusterMapView *)mapView {
-    NSLog(@"Done");
-}
-
-- (NSUInteger)numberOfClustersInMapView:(ADClusterMapView *)mapView {
-    
-    return 25;
-}
-
-- (double)clusterDiscriminationPowerForMapView:(ADClusterMapView *)mapView {
-    return 1.8;
 }
 
 

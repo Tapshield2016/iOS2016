@@ -209,7 +209,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 	if (components1.weekOfYear != components2.weekOfYear) return NO;
     
 	// Must have a time interval under 1 week. Thanks @aclark
-	return (abs([self timeIntervalSinceDate:aDate]) < D_WEEK);
+	return (fabs([self timeIntervalSinceDate:aDate]) < D_WEEK);
 }
 
 - (BOOL) isThisWeek
@@ -608,7 +608,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 - (NSString *)dateDescriptionSinceNow {
     
     NSDate *now = [NSDate date];
-    int seconds = abs([self timeIntervalSinceNow]);
+    int seconds = fabs([self timeIntervalSinceNow]);
     
     if (seconds < 60) {
         

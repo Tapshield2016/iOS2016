@@ -17,12 +17,12 @@
 #import "TSRouteOption.h"
 #import "TSSpotCrimeAnnotation.h"
 #import "TSUserAnnotationView.h"
-#import "ADClusterMapView.h"
+#import <TSClusterMapView/TSClusterMapView.h>
 #import "TSAccuracyCircleOverlay.h"
 
 #define kMaxLonDeltaCluster 0.1
 
-@interface TSMapView : ADClusterMapView
+@interface TSMapView : TSClusterMapView
 
 @property (nonatomic, strong) CLLocation *previousLocation;
 @property (nonatomic, strong) CLLocation *lastReverseGeocodeLocation;

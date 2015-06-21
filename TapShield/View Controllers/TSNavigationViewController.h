@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) UIImageView *navigationBarHairlineImageView;
 
-@property (assign, nonatomic) BOOL translucentBackground;
 @property (assign, nonatomic) BOOL removeNavigationShadow;
 
 - (void)transitionNavigationBarAnimatedLeft;

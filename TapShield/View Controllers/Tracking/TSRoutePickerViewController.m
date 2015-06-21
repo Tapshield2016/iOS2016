@@ -12,6 +12,7 @@
 #import <KVOController/FBKVOController.h>
 #import "CLLocation+Utilities.h"
 #import "TSDestinationSearchViewController.h"
+#import "TSHomeViewController.h"
 
 #define TUTORIAL_TITLE @"Walking or Driving?"
 #define TUTORIAL_MESSAGE @"Find your destination and adjust the marker. Your entourage will tag along until you reach that point."

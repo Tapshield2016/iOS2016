@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 TapShield, LLC. All rights reserved.
 //
 
-#import "TSBaseAnnotationView.h"
+#import "TSRefreshedAnnotationView.h"
 
-@interface TSClusterAnnotationView : TSBaseAnnotationView
+@interface TSCrimeClusteredAnnotationView : TSRefreshedAnnotationView
+
+@property (strong, nonatomic) UILabel *label;
 
 @end

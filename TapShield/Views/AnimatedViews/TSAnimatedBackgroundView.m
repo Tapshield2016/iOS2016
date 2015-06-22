@@ -10,6 +10,8 @@
 #import "TSColorPalette.h"
 #import "UIImage+Color.h"
 
+#define kAdjustScreenRatio ([UIScreen mainScreen].bounds.size.width/320)
+
 @interface TSAnimatedBackgroundView ()
 
 @property (strong, nonatomic) UIView *bottomView;
@@ -36,7 +38,7 @@
         self.topImageView.frame = self.bounds;
         [self addSubview:self.topImageView];
         
-        CGPoint point8 = CGPointMake(302/3, 172/3);
+        CGPoint point8 = CGPointMake(302/3*kAdjustScreenRatio, 172/3*kAdjustScreenRatio);
         self.circleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
         self.circleImageView.center = point8;
         [self.circleImageView setAlpha:0.0];
@@ -45,12 +47,12 @@
         
         
         self.pinShootingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinOutline"]];
-        self.pinShootingImageView.center = CGPointMake(70, 160);
+        self.pinShootingImageView.center = CGPointMake(70*kAdjustScreenRatio, 160*kAdjustScreenRatio);
         [self addSubview:self.pinShootingImageView];
         
         
         self.pinRobberyImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinOutline2"]];
-        self.pinRobberyImageView.center = CGPointMake(200, 400);
+        self.pinRobberyImageView.center = CGPointMake(200*kAdjustScreenRatio, 400*kAdjustScreenRatio);
         [self addSubview:self.pinRobberyImageView];
         
         [self stopPinAnimation];
@@ -97,14 +99,14 @@
 
 - (void)addRouteAnimation {
     
-    CGPoint point1 = CGPointMake(553/3 + 3, 1704/3 + 5);
-    CGPoint point2 = CGPointMake(391/3, 1524/3);
-    CGPoint point3 = CGPointMake(298/3, 887/3);
-    CGPoint point4 = CGPointMake(903/3, 768/3);
-    CGPoint point5 = CGPointMake(774/3, 0-10);
-    CGPoint point6 = CGPointMake(422/3, -10);
-    CGPoint point7 = CGPointMake(444/3, 149/3);
-    CGPoint point8 = CGPointMake(302/3, 172/3);
+    CGPoint point1 = CGPointMake((553/3 + 3)*kAdjustScreenRatio, (1704/3 + 5)*kAdjustScreenRatio);
+    CGPoint point2 = CGPointMake(391/3*kAdjustScreenRatio, 1524/3*kAdjustScreenRatio);
+    CGPoint point3 = CGPointMake(298/3*kAdjustScreenRatio, 887/3*kAdjustScreenRatio);
+    CGPoint point4 = CGPointMake(903/3*kAdjustScreenRatio, 768/3*kAdjustScreenRatio);
+    CGPoint point5 = CGPointMake(774/3*kAdjustScreenRatio, (0-10)*kAdjustScreenRatio);
+    CGPoint point6 = CGPointMake(422/3*kAdjustScreenRatio, (-10)*kAdjustScreenRatio);
+    CGPoint point7 = CGPointMake(444/3*kAdjustScreenRatio, 149/3*kAdjustScreenRatio);
+    CGPoint point8 = CGPointMake(302/3*kAdjustScreenRatio, 172/3*kAdjustScreenRatio);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:point1];
@@ -122,7 +124,7 @@
     self.pathLayer.path = path.CGPath;
     self.pathLayer.strokeColor = [[[TSColorPalette tapshieldBlue] colorWithAlphaComponent:0.5] CGColor];
     self.pathLayer.fillColor = nil;
-    self.pathLayer.lineWidth = 10.0f;
+    self.pathLayer.lineWidth = 10.0f*kAdjustScreenRatio;
     self.pathLayer.lineJoin = kCALineJoinRound;
     
     [self.bottomView.layer addSublayer:self.pathLayer];

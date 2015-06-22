@@ -52,17 +52,18 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     
     _statusToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
     [_statusToolbar.layer setAffineTransform:CGAffineTransformMakeScale(1, -1)];
-    _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _statusToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
     
     CGRect frame = self.bounds;
     frame.origin.y = frame.size.height*.3 + 1;
     frame.size.height *= .7;
     _label = [[TSBaseLabel alloc] initWithFrame:frame];
+    
+    _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
     _label.text = @"Searching for location";
     _label.font = [UIFont fontWithName:kFontWeightLight size:18];
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor whiteColor];
-    _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     frame = self.bounds;
     frame.origin.y += 1;
@@ -72,7 +73,7 @@ NSString * const kTSStatusViewTimeRemaining = @"Time Remaining";
     _titleLabel.font = [UIFont fontWithName:kFontWeightNormal size:10];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _titleLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
     
     self.autoresizesSubviews = YES;
     self.backgroundColor = [TSColorPalette clearColor];

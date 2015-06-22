@@ -146,6 +146,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [self.dynamicsDrawerViewController setElasticity:0.0f];
     [self.dynamicsDrawerViewController setGravityMagnitude:8.0f];
     [self.dynamicsDrawerViewController setBounceElasticity:0.0f];
+    CGFloat revealWidth = [UIScreen mainScreen].bounds.size.width - 60;
+    [self.dynamicsDrawerViewController setRevealWidth:revealWidth forDirection:MSDynamicsDrawerDirectionHorizontal];
 
     TSMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"TSMenuViewController"];
     menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
@@ -205,8 +207,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         }
     }
     else {
+        [[TSLocationController sharedLocationController] stopLocationUpdates];
         if ([TSJavelinAPIClient loggedInUser] && [[TSJavelinAPIClient loggedInUser] shouldUpdateAlwaysVisibleLocation]) {
-            [[TSLocationController sharedLocationController] stopLocationUpdates];
             [[TSLocationController sharedLocationController] startSignificantChangeUpdates:nil];
         }
     }
@@ -215,11 +217,6 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     [[TSLocationController sharedLocationController] stopMonitoringSignificantLocationChanges];
@@ -227,6 +224,11 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     if ([[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser]) {
         [[TSLocationController sharedLocationController] startStandardLocationUpdates:nil];
     }
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

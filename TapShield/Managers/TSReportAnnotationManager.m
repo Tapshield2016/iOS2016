@@ -292,7 +292,9 @@ static dispatch_once_t predicate;
 - (void)hideHeatMapOverlays {
     
     _shouldAddHeatMap = NO;
-    [_mapView removeOverlays:_heatMarkers];
+    if (_heatMarkers) {
+        [_mapView removeOverlays:_heatMarkers];
+    }
     _heatMarkers = nil;
 }
 

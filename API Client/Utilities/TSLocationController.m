@@ -320,6 +320,7 @@ static dispatch_once_t predicate;
     
     if (isInBackground) {
         [self sendBackgroundLocationToServer:accurateLocations];
+        return;
     }
     else {
         [[TSJavelinAPIClient sharedClient] locationUpdated:accurateLocations completion:nil];

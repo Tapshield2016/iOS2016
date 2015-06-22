@@ -204,9 +204,9 @@ static dispatch_once_t onceToken;
         
         AWSSQSGetQueueUrlRequest *getQueueURLRequest = [[AWSSQSGetQueueUrlRequest alloc] init];
         getQueueURLRequest.queueName = _alertQueueName;
-        BFTask *getQueueUrlTask = [_sqs getQueueUrl:getQueueURLRequest];
+        AWSTask *getQueueUrlTask = [_sqs getQueueUrl:getQueueURLRequest];
         
-        [[getQueueUrlTask continueWithBlock:^id(BFTask *task) {
+        [[getQueueUrlTask continueWithBlock:^id(AWSTask *task) {
             if (task.error) {
                 NSLog(@"Error: %@", task.error);
                 if (completion) {
@@ -224,7 +224,7 @@ static dispatch_once_t onceToken;
             sendMessageRequest.messageBody = alertJson;
             
             return [_sqs sendMessage:sendMessageRequest];
-        }] continueWithBlock:^id(BFTask *task) {
+        }] continueWithBlock:^id(AWSTask *task) {
             
             if (task.error) {
                 NSLog(@"Error: %@", task.error);

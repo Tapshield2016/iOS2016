@@ -23,6 +23,7 @@
         self.accessibilityLabel = @"Map Annotation";
         
         self.image = [UIImage imageNamed:@"pins_cluster_red"];
+        
         self.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
         CGRect frame = CGRectMake(0, 8, self.image.size.width, self.image.size.height/3);
         self.label = [[UILabel alloc] initWithFrame:frame];
@@ -30,7 +31,14 @@
         self.label.textColor = [TSColorPalette alertRed];
         self.label.font = [UIFont systemFontOfSize:10];
         
+        self.centerOffset = CGPointMake(0, -self.frame.size.height/2);
+        
+        
+        self.canShowCallout = YES;
+        
         [self addSubview:self.label];
+        
+        [self clusteringAnimation];
     }
     return self;
 }

@@ -154,7 +154,7 @@ static dispatch_once_t onceToken;
     itemInput.tableName = _dynamoDBTableName;
     itemInput.item = messageDictionary;
     
-    [[_dynamoDB putItem:itemInput] continueWithBlock:^id(BFTask *task) {
+    [[_dynamoDB putItem:itemInput] continueWithBlock:^id(AWSTask *task) {
         if(task.error) {
             NSLog(@"Error sending chat message: %@", task.error);
             
@@ -255,7 +255,7 @@ static dispatch_once_t onceToken;
     queryInput.tableName = _dynamoDBTableName;
     queryInput.keyConditions = [NSMutableDictionary dictionaryWithObject:alertIDCondition forKey:@"alert_id"];
     
-    [[_dynamoDB query:queryInput] continueWithBlock:^id(BFTask *task) {
+    [[_dynamoDB query:queryInput] continueWithBlock:^id(AWSTask *task) {
         
         if (completion) {
             
@@ -302,7 +302,7 @@ static dispatch_once_t onceToken;
     queryInput.keyConditions = [[NSMutableDictionary alloc] initWithObjects:@[alertIDCondition, timestampCondition]
                                                                     forKeys:@[@"alert_id", @"timestamp"]];
     
-    [[_dynamoDB query:queryInput] continueWithBlock:^id(BFTask *task) {
+    [[_dynamoDB query:queryInput] continueWithBlock:^id(AWSTask *task) {
         
         if (completion) {
             

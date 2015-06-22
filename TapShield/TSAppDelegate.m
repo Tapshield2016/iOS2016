@@ -93,10 +93,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
-                                                 name:kReachabilityChangedNotification
+                                                 name:kAWSReachabilityChangedNotification
                                                object:nil];
     
-    _reachability = [Reachability reachabilityWithHostname:remoteHostName];
+    _reachability = [AWSReachability reachabilityWithHostname:remoteHostName];
     [_reachability startNotifier];
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -358,24 +358,24 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
  */
 - (void) reachabilityChanged:(NSNotification *)note
 {
-    Reachability* curReach = [note object];
-    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    AWSReachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass:[AWSReachability class]]);
     [self updateInterfaceWithReachability:curReach];
 }
 
-- (void)updateInterfaceWithReachability:(Reachability *)reachability {
+- (void)updateInterfaceWithReachability:(AWSReachability *)reachability {
 
     if (reachability == _reachability) {
         BOOL reachable;
-        NetworkStatus netStatus = [reachability currentReachabilityStatus];
+        AWSNetworkStatus netStatus = [reachability currentReachabilityStatus];
         
         switch (netStatus) {
-            case NotReachable: {
+            case AWSNetworkStatusNotReachable: {
                 reachable = NO;
                 break;
             }
                 
-            case ReachableViaWWAN: {
+            case AWSNetworkStatusReachableViaWWAN: {
                 if (reachability.connectionRequired) {
                     reachable = NO;
                     break;
@@ -384,7 +384,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                 break;
             }
                 
-            case ReachableViaWiFi: {
+            case AWSNetworkStatusReachableViaWiFi: {
                 if (reachability.connectionRequired) {
                     reachable = NO;
                     break;

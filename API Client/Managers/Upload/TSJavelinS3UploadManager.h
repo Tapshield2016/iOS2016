@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AWSS3.h"
 #import "AWSCore.h"
+#import "BFTask.h"
 
 @interface TSJavelinS3UploadManager : NSObject
 

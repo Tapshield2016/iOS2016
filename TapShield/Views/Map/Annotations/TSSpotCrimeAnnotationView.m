@@ -21,13 +21,20 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.centerOffset = CGPointMake(0, -self.image.size.height / 2);
-        [self setCanShowCallout:YES];
+        
+        [self clusteringAnimation];
+        
+        self.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         detailButton.tintColor = [TSColorPalette tapshieldBlue];
         self.rightCalloutAccessoryView = detailButton;
         self.accessibilityLabel = @"Crime Report";
+        
+        self.centerOffset = CGPointMake(0, -self.frame.size.height/2);
+        
+        
+        self.canShowCallout = YES;
     }
     return self;
     

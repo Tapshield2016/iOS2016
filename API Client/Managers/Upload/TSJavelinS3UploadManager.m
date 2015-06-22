@@ -55,8 +55,8 @@ static NSString * const kTSJavelinS3UploadManagerBucketName = @"dev.media.tapshi
     request.contentType = type;
     request.ACL = AWSS3ObjectCannedACLPublicRead;
     
-    BFTask *transfer = [transferManager putObject:request];
-    [transfer continueWithBlock:^id(BFTask *task) {
+    AWSTask *transfer = [transferManager putObject:request];
+    [transfer continueWithBlock:^id(AWSTask *task) {
         
         if(task.error) {
             NSLog(@"Error: %@",task.error);

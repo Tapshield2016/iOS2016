@@ -93,6 +93,7 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
     // Tap recognizer for selecting routes and other items
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    recognizer.delegate = self;
     [_mapView addGestureRecognizer:recognizer];
 
     _geocoder = [[CLGeocoder alloc] init];
@@ -577,6 +578,16 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
     return YES;
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    // Replace to your view with button
+    if ([TSEntourageSessionManager sharedManager].isEnabled ||
+        ![TSEntourageSessionManager sharedManager].routeManager.routeOptions.count) {
+        return NO;
+    }
+    return YES;
+}
+
+
 #pragma mark - Gesture handlers
 
 - (void)userDidPanMapView:(TSClusterMapView *)mapView {
@@ -592,7 +603,8 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
     
-    if ([TSEntourageSessionManager sharedManager].isEnabled ) {
+    if ([TSEntourageSessionManager sharedManager].isEnabled ||
+        ![TSEntourageSessionManager sharedManager].routeManager.routeOptions.count) {
         return;
     }
     
@@ -612,8 +624,6 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         }
     }
 }
-
-
 
 
 #pragma mark - TSLocationControllerDelegate methods
@@ -1034,19 +1044,19 @@ static NSString * const kYankHintOn = @"To disable yank, select button, and when
         [self flipIntersectingRouteAnnotation];
     }
     
-    if ([view isKindOfClass:[TSCrimeClusteredAnnotationView class]]){
-        
-        float delta;
-        
-        if (span.longitudeDelta > .4) {
-            delta = span.longitudeDelta*.3;
-        }
-        else {
-            delta = span.longitudeDelta*.5;
-        }
-        
-        [self moveMapViewToCoordinate:view.annotation.coordinate spanDelta:delta];
-    }
+//    if ([view isKindOfClass:[TSCrimeClusteredAnnotationView class]]){
+//        
+//        float delta;
+//        
+//        if (span.longitudeDelta > .4) {
+//            delta = span.longitudeDelta*.3;
+//        }
+//        else {
+//            delta = span.longitudeDelta*.5;
+//        }
+//        
+//        [self moveMapViewToCoordinate:view.annotation.coordinate spanDelta:delta];
+//    }
     
     [_mapView bringSubviewToFront:view];
 }

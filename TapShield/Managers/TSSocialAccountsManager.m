@@ -517,6 +517,11 @@ static dispatch_once_t predicate;
 - (void)loginFacebook {
     
     FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [login logOut];
+    }
+    
     [login logInWithReadPermissions:@[@"public_profile", @"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         if (error) {
             // Process error
@@ -609,11 +614,11 @@ static dispatch_once_t predicate;
             }
             
             [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil]
-             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, NSDictionary *user, NSError *error) {
                  if (error) {
                      NSLog(@"error:%@",error);
                  } else {
-//                     [[TSJavelinAPIClient loggedInUser] updateUserProfileFromFacebook:user];
+                     [[TSJavelinAPIClient loggedInUser] updateUserProfileFromFacebook:user];
                  }
              }];
             

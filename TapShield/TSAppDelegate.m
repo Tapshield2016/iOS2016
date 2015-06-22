@@ -28,6 +28,8 @@
 #import "TSEntourageContactsViewController.h"
 #import "TSAnimatedBackgroundView.h"
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 @import CoreTelephony;
 
 static NSString * const TSJavelinAPIDevelopmentBaseURL = @"https://dev.tapshield.com/api/v1/";
@@ -169,7 +171,7 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     
     [self registerForCallHandler];
     
-    
+    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 
     return YES;
 }
@@ -237,14 +239,18 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 #pragma mark - URL Handler 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//    if ([[FBSession activeSession] handleOpenURL:url]) {
-//        [[TSSocialAccountsManager sharedManager] facebookLoggedIn];
-//    }
+    
+    if ([[FBSDKApplicationDelegate sharedInstance] application:application
+                                                   openURL:url
+                                         sourceApplication:sourceApplication
+                                                    annotation:annotation]) {
+        return YES;
+    }
     
     if ([[GPPSignIn sharedInstance] handleURL:url
                             sourceApplication:sourceApplication
                                    annotation:annotation]) {
-        
+        return YES;
     }
     
     return YES;

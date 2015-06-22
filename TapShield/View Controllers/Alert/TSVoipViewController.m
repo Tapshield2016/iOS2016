@@ -147,7 +147,7 @@ static NSString * const kCallRedialing = @"Redialing";
 
 - (void)timerCountUp:(NSTimer *)timer {
     
-    NSTimeInterval seconds = abs([[TSAlertManager sharedManager].callStartTime timeIntervalSinceNow]);
+    NSTimeInterval seconds = fabs([[TSAlertManager sharedManager].callStartTime timeIntervalSinceNow]);
     
     ((TSEmergencyAlertViewController *)_emergencyView).callTimeLabel.text = [TSUtilities formattedStringForTime:seconds];
 }

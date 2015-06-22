@@ -412,34 +412,34 @@
 
 - (void)updateUserProfileFromFacebook:(NSDictionary *)user {
     
-//    if (!_userProfile) {
-//        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
-//    }
-//    
-//    if (user.birthday) {
-//        _userProfile.birthday = [user.birthday stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
-//    }
-//    
-//    if (user.location && !_userProfile.addressDictionary) {
-//        [[TSLocationController sharedLocationController] geocodeAddressString:user.location.name
-//                                                         dictionaryCompletion:^(NSDictionary *addressDictionary) {
-//            
-//                                                             _userProfile.addressDictionary = addressDictionary;
-//                                                             [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
-//                                                         }];
-//    }
-//    
-//    NSString *gender = [user objectForKey:@"gender"];
-//    if (gender) {
-//        
-//        for (int i = 0; i < kGenderLongArray.count; i++) {
-//            if ([[kGenderLongArray[i] lowercaseString] isEqualToString:[gender lowercaseString]]) {
-//                _userProfile.gender = i;
-//            }
-//        }
-//    }
-//    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large&width=400&height=400", user.objectID];
-//    [self profileImageFromURL:imageUrl];
+    if (!_userProfile) {
+        _userProfile = [[TSJavelinAPIUserProfile alloc] init];
+    }
+    
+    if (user[@"birthday"]) {
+        _userProfile.birthday = [user[@"birthday"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    }
+    
+    if (user[@"location"] && !_userProfile.addressDictionary) {
+        [[TSLocationController sharedLocationController] geocodeAddressString:user[@"location"][@"name"]
+                                                         dictionaryCompletion:^(NSDictionary *addressDictionary) {
+            
+                                                             _userProfile.addressDictionary = addressDictionary;
+                                                             [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
+                                                         }];
+    }
+    
+    NSString *gender = [user objectForKey:@"gender"];
+    if (gender) {
+        
+        for (int i = 0; i < kGenderLongArray.count; i++) {
+            if ([[kGenderLongArray[i] lowercaseString] isEqualToString:[gender lowercaseString]]) {
+                _userProfile.gender = i;
+            }
+        }
+    }
+    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large&width=400&height=400", user[@"id"]];
+    [self profileImageFromURL:imageUrl];
 }
 
 - (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person {

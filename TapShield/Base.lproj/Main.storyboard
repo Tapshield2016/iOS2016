@@ -826,7 +826,6 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ggz-Ah-GjA">
                                 <rect key="frame" x="16" y="202" width="288" height="42"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="288" id="Oa9-wN-P3Y"/>
                                     <constraint firstAttribute="height" constant="42" id="PGK-YP-mXS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
@@ -2422,6 +2421,13 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     <outlet property="delegate" destination="qEG-az-7FP" id="h1g-HC-KY6"/>
                                 </connections>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J4r-zu-51U" customClass="TSStatusView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ZZD-v3-oxH"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdg-2v-fWv" customClass="NCCustomView">
                                 <rect key="frame" x="16" y="496" width="60" height="60"/>
                                 <subviews>
@@ -2586,13 +2592,6 @@ http://www.apache.org/licenses/LICENSE-2.0
                                         <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J4r-zu-51U" customClass="TSStatusView">
-                                <rect key="frame" x="0.0" y="64" width="320" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="ZZD-v3-oxH"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -4436,24 +4435,44 @@ http://www.apache.org/licenses/LICENSE-2.0
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cJ-xl-oGK" customClass="TSToolBarView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6cJ-xl-oGK" customClass="TSToolBarView">
                                 <rect key="frame" x="0.0" y="64" width="320" height="40"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Your Destination" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQl-OT-QPc" customClass="TSBaseLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Your Destination" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQl-OT-QPc" customClass="TSBaseLabel">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="2wf-zr-9cy"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hint: move marker to your estimated final location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="gIf-WA-DEI" customClass="TSBaseLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint: move marker to your estimated final location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="gIf-WA-DEI" customClass="TSBaseLabel">
                                         <rect key="frame" x="10" y="17" width="300" height="23"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="23" id="eaR-vr-iEn"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="gIf-WA-DEI" secondAttribute="trailing" constant="10" id="OlG-TI-h0M"/>
+                                    <constraint firstItem="wQl-OT-QPc" firstAttribute="leading" secondItem="6cJ-xl-oGK" secondAttribute="leading" id="WsH-ip-GuA"/>
+                                    <constraint firstAttribute="trailing" secondItem="wQl-OT-QPc" secondAttribute="trailing" id="XVW-Uj-Yxo"/>
+                                    <constraint firstItem="wQl-OT-QPc" firstAttribute="top" secondItem="6cJ-xl-oGK" secondAttribute="top" id="Y6p-9O-zB5"/>
+                                    <constraint firstAttribute="height" constant="40" id="jID-m0-j8P"/>
+                                    <constraint firstAttribute="bottom" secondItem="gIf-WA-DEI" secondAttribute="bottom" id="lme-Xq-hjO"/>
+                                    <constraint firstItem="gIf-WA-DEI" firstAttribute="leading" secondItem="6cJ-xl-oGK" secondAttribute="leading" constant="10" id="sdF-xU-C9m"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="6cJ-xl-oGK" secondAttribute="trailing" id="IGt-0l-e5r"/>
+                            <constraint firstItem="6cJ-xl-oGK" firstAttribute="top" secondItem="zxR-Z0-Wbo" secondAttribute="bottom" id="f0e-M2-CSw"/>
+                            <constraint firstItem="6cJ-xl-oGK" firstAttribute="leading" secondItem="yEk-vZ-EOm" secondAttribute="leading" id="tNw-Tg-coO"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3FT-6n-aB4">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="5fK-05-I2j">
@@ -4494,7 +4513,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fE4-yb-wzw">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fE4-yb-wzw">
                                 <rect key="frame" x="45" y="162" width="230" height="244"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahz-xv-Jfc">
@@ -4564,9 +4583,17 @@ http://www.apache.org/licenses/LICENSE-2.0
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="244" id="Si2-er-2pr"/>
+                                    <constraint firstAttribute="width" constant="230" id="dDT-kX-XPY"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="fE4-yb-wzw" secondAttribute="centerY" id="AEy-Tx-Zya"/>
+                            <constraint firstAttribute="centerX" secondItem="fE4-yb-wzw" secondAttribute="centerX" id="AQN-HN-kHB"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="circleContainerView" destination="v23-bE-CoF" id="kJm-gO-mRV"/>
@@ -6403,10 +6430,7 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbz-ev-BA6">
-                                                    <rect key="frame" x="82" y="8" width="185" height="168"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="185" id="YNY-Tt-gP9"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="82" y="8" width="178" height="168"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -6414,9 +6438,10 @@ http://www.apache.org/licenses/LICENSE-2.0
                                             </subviews>
                                             <color key="backgroundColor" red="0.11593577348066297" green="0.11593577348066297" blue="0.11593577348066297" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="hbz-ev-BA6" firstAttribute="leading" secondItem="Mqj-Om-boC" secondAttribute="leading" constant="82" id="9kW-07-dLw"/>
+                                                <constraint firstAttribute="trailing" secondItem="hbz-ev-BA6" secondAttribute="trailing" constant="60" id="DaF-70-bRG"/>
                                                 <constraint firstItem="hbz-ev-BA6" firstAttribute="bottom" secondItem="Mqj-Om-boC" secondAttribute="bottomMargin" id="S8W-oZ-00S"/>
                                                 <constraint firstItem="hbz-ev-BA6" firstAttribute="top" secondItem="Mqj-Om-boC" secondAttribute="topMargin" id="cUv-hB-b8P"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="hbz-ev-BA6" secondAttribute="trailing" constant="45" id="hli-Lb-Bmw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

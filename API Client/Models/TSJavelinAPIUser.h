@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GooglePlus/GooglePlus.h>
 #import "TSJavelinAPIBaseModel.h"
 #import "TSJavelinAPIUserProfile.h"
 #import "TSJavelinAPIEmail.h"
 #import <FBSDKLoginKit/FBSDKLoginManager.h>
 #import "TSJavelinAPIEntourageSession.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 
 @class TSJavelinAPIGroup;
 @class TSJavelinAPIAgency;
@@ -61,7 +61,7 @@
 
 - (void)updateUserProfileFromFacebook:(NSDictionary*)user;
 - (void)updateUserProfileFromTwitter:(NSDictionary *)attributes;
-- (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person;
+- (void)updateUserProfileFromGoogle:(GIDGoogleUser *)googleUser;
 - (void)updateUserProfileFromLinkedIn:(NSDictionary *)attributes;
 
 - (void)updateEntourageMember:(id)member;

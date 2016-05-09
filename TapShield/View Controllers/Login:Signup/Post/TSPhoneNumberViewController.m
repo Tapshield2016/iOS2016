@@ -9,6 +9,7 @@
 #import "TSPhoneNumberViewController.h"
 #import "TSAddSecondaryViewController.h"
 #import "TSUserSessionManager.h"
+#import "TapShield_Dev-Swift.h"
 
 static NSString * const kResendSMS = @"Re-send Verification SMS";
 static NSString * const kSMSSent = @"We've sent you a verification code to";
@@ -44,7 +45,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
         _phoneNumberTextField.text = [TSJavelinAPIClient loggedInUser].phoneNumber;
         _sendVerificationButton.enabled = YES;
         
-        if ([self removeNonNumericalCharacters:_phoneNumberTextField.text].length == 10) {
+        if ([_phoneNumberTextField.text numeric].length == 10) {
             _phoneNumberTextField.text = [self formatPhoneNumber:_phoneNumberTextField.text];
         }
         
@@ -92,9 +93,9 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     
     [_codeTextField becomeFirstResponder];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    if ([self removeNonNumericalCharacters:pasteboard.string].length == 4) {
+    if ([pasteboard.string numeric].length == 4) {
         // Do something
-        _codeTextField.text = [self removeNonNumericalCharacters:pasteboard.string];
+        _codeTextField.text = [pasteboard.string numeric];
         [_codeTextField resignFirstResponder];
     }
 }
@@ -125,7 +126,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
 
 - (IBAction)sendVerification:(id)sender {
     
-    [self sendVerificationCodeTo:_phoneNumberTextField.text];
+    [self sendVerificationCodeTo:[_phoneNumberTextField.text numeric]];
 }
 
 
@@ -133,9 +134,9 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     
     _sendVerificationButton.enabled = NO;
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPhoneNumberVerificationRequest:phoneNumber completion:^(id responseObject) {
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] sendPhoneNumberVerificationRequest:phoneNumber completion:^(id responseObject, NSError *error) {
         _sendVerificationButton.enabled = YES;
-        if (!responseObject) {
+        if (!error) {
             [[[TSJavelinAPIClient sharedClient] authenticationManager] loggedInUser].phoneNumber = phoneNumber;
             [[TSJavelinAPIAuthenticationManager sharedManager] updateLoggedInUser:nil];
             
@@ -199,27 +200,28 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
             _sendVerificationButton.enabled = YES;
         }
         
-        NSString *alphaNumericTextField = [self removeNonNumericalCharacters:textField.text];
+        NSString *alphaNumericString = [textField.text numeric];
         if ([string isEqualToString:@""]) {
             
-            if ([alphaNumericTextField length] == 4) {
-                textField.text = [self removeNonNumericalCharacters:textField.text];
+            if ([alphaNumericString length] == 4) {
+                textField.text = [textField.text numeric];
             }
-            if ([alphaNumericTextField length] == 7) {
+            if ([alphaNumericString length] == 7) {
                 textField.text = [textField.text substringToIndex:[textField.text length]-1];
             }
             return YES;
         }
         
-        if ([alphaNumericTextField length] == 3) {
+        if ([alphaNumericString length] == 3) {
             textField.text = [NSString stringWithFormat:@"(%@) ",textField.text];
         }
         
-        if ([alphaNumericTextField length] == 6) {
+        if ([alphaNumericString length] == 6) {
             textField.text = [NSString stringWithFormat:@"%@-",textField.text];
         }
-        NSUInteger newTextFieldTextLength = [alphaNumericTextField length] + [string length] - range.length;
+        NSUInteger newTextFieldTextLength = [alphaNumericString length] + [string length] - range.length;
         if (newTextFieldTextLength > 10) {
+            textField.text = [@"+" stringByAppendingString:[[textField.text stringByReplacingCharactersInRange:range withString:string] numeric]];
             return NO;
         }
     }
@@ -232,7 +234,7 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     
     if (_phoneNumberTextField == textField) {
         
-        if ([self removeNonNumericalCharacters:textField.text].length == 10) {
+        if ([textField.text numeric].length == 10) {
             textField.text = [self formatPhoneNumber:textField.text];
         }
     }
@@ -247,16 +249,9 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
 
 #pragma mark - TextField Utilities
 
-- (NSString *)removeNonNumericalCharacters:(NSString *)phoneNumber {
-    
-    NSCharacterSet *charactersToRemove = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-    phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
-    return phoneNumber;
-}
-
 - (NSString *)formatPhoneNumber:(NSString *)rawString {
     
-    NSMutableString *mutableNumber = [NSMutableString stringWithString:[self removeNonNumericalCharacters:rawString]];
+    NSMutableString *mutableNumber = [NSMutableString stringWithString:[rawString numeric]];
     [mutableNumber insertString:@"-" atIndex:6];
     [mutableNumber insertString:@") " atIndex:3];
     [mutableNumber insertString:@"(" atIndex:0];
@@ -310,8 +305,8 @@ static NSString * const kEnterPhoneNumber = @"Please enter your 10-digit number"
     
     [self startCodeVerificationIndicator];
     
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] checkPhoneVerificationCode:_codeTextField.text completion:^(id responseObject) {
-        if (!responseObject) {
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] checkPhoneVerificationCode:_codeTextField.text completion:^(id responseObject, NSError *error) {
+        if (!error) {
             [self stopCodeVerificationIndicator];
             
             [[TSUserSessionManager sharedManager] didJoinFromSelectedAgency];

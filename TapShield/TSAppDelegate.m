@@ -29,6 +29,8 @@
 #import "TSAnimatedBackgroundView.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Google/SignIn.h>
+#import <AWSCore/AWSCore.h>
 
 @import CoreTelephony;
 
@@ -53,6 +55,13 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSEast1
+                                                                                                    identityPoolId:@"us-east-1_oqq0LjTMG"];
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSEast1
+                                                                         credentialsProvider:credentialsProvider];
+    AWSServiceManager.defaultServiceManager.defaultServiceConfiguration = configuration;
+    
     
 #ifdef DEV
     [TSJavelinAPIClient initializeSharedClientWithBaseURL:TSJavelinAPIDevelopmentBaseURL];
@@ -86,6 +95,10 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
 #endif
+    NSError* configureError;
+    [[GGLContext sharedInstance] configureWithError: &configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
     
     [[[TSJavelinAPIClient sharedClient] authenticationManager] getLoggedInUser:^(TSJavelinAPIUser *user) {
        [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
@@ -249,15 +262,31 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
         return YES;
     }
     
-    if ([[GPPSignIn sharedInstance] handleURL:url
-                            sourceApplication:sourceApplication
-                                   annotation:annotation]) {
+    if ([[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation]) {
         return YES;
     }
     
     return YES;
 }
 
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    
+    if ([[FBSDKApplicationDelegate sharedInstance] application:app
+                                                       openURL:url
+                                             sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                                    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]) {
+        return YES;
+    }
+    
+    if ([[GIDSignIn sharedInstance] handleURL:url
+                            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                   annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]) {
+        return YES;
+    }
+    
+    return YES;
+}
 
 #pragma mark - Remote Notifications
 

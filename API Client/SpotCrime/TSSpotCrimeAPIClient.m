@@ -76,12 +76,12 @@ static dispatch_once_t onceToken;
     
     [self GET:[NSString stringWithFormat:@"%@crimes.json", _baseAuthURL]
    parameters:parameters
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([self filterSpotCrimeResponse:responseObject]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error);
           if (completion) {
               completion(nil);
@@ -96,13 +96,13 @@ static dispatch_once_t onceToken;
     
     [self GET:[NSString stringWithFormat:@"%@crimes/%lu.json", _baseAuthURL, (unsigned long)location.cdid]
    parameters:@{@"key": TSSpotCrimeAPIKey}
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           location.eventDescription = [responseObject objectForKey:@"description"];
           if (completion) {
               completion(location);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error);
           if (completion) {
               completion(nil);

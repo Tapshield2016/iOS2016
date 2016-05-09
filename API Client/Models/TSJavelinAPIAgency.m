@@ -334,8 +334,8 @@ NSString * const TSJavelinAPIAgencyDidFinishSmallLogoDownload = @"TSJavelinAPIAg
         
         for (TSJavelinAPIPeriod *period in dispatchCenter.openingHours) {
             
-            NSDate *startDate = [[NSDate nextWeekday:period.day] setTime:period.startTime];
-            NSDate *endDate = [[NSDate nextWeekday:period.day] setTime:period.endTime];
+            NSDate *startDate = [[NSDate nextWeekday:period.day] dateWithTime:period.startTime];
+            NSDate *endDate = [[NSDate nextWeekday:period.day] dateWithTime:period.endTime];
             
             if (startDate.isInFuture) {
                 [mutableArray addObject:startDate];

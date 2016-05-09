@@ -12,7 +12,6 @@
 #import "TSJavelinAPIClient.h"
 #import "TSLocationController.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "GTLPlusPerson.h"
 
 @interface TSJavelinAPIUser ()
 
@@ -442,41 +441,15 @@
     [self profileImageFromURL:imageUrl];
 }
 
-- (void)updateUserProfileFromGoogle:(GTLPlusPerson *)person {
+- (void)updateUserProfileFromGoogle:(GIDGoogleUser *)person {
     
     if (!_userProfile) {
         _userProfile = [[TSJavelinAPIUserProfile alloc] init];
     }
     
-    if (person.birthday) {
-        _userProfile.birthday = [TSJavelinAPIUserProfile unFormattedBirthday:person.birthday];
-    }
-    
-    NSString *gender = person.gender;
-    if (gender) {
-        
-        for (int i = 0; i < kGenderLongArray.count; i++) {
-            if ([[kGenderLongArray[i] lowercaseString] isEqualToString:[gender lowercaseString]]) {
-                _userProfile.gender = i;
-            }
-        }
-    }
-    
-    if (person.image) {
-        NSString *imageUrl = person.image.url;
-        imageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"sz=50" withString:@"sz=400"];
+    if (person.profile.hasImage) {
+        NSString *imageUrl = [person.profile imageURLWithDimension:400].absoluteString;
         [self profileImageFromURL:imageUrl];
-    }
-    
-    if (person.placesLived) {
-        for (GTLPlusPersonPlacesLivedItem *item in person.placesLived) {
-            if (item.primary.boolValue) {
-                [[TSLocationController sharedLocationController] geocodeAddressString:item.value dictionaryCompletion:^(NSDictionary *addressDictionary) {
-                    _userProfile.addressDictionary = addressDictionary;
-                    [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
-                }];
-            }
-        }
     }
 }
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 TapShield, LLC. All rights reserved.
 //
 
-#import "AFHTTPRequestOperationManager.h"
+#import "AFHTTPSessionManager.h"
 #import "TSJavelinAlertManager.h"
 #import "TSJavelinS3UploadManager.h"
 #import "TSJavelinAPIChatMessage.h"
@@ -82,8 +82,8 @@ typedef void (^TSJavelinAPIUserProfileUploadBlock)(BOOL profileDataUploadSucceed
 - (void)updateLoggedInUserAgency:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;
-- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion;
-- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion;
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject, NSError *error))completion;
 
 - (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
 - (void)makeSecondaryEmailPrimary:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;
@@ -112,7 +112,7 @@ extern NSString * const TSJavelinAPIClientDidUpdateAgency;
 extern NSString * const TSJavelinAPIClientDidStartSyncingEntourage;
 extern NSString * const TSJavelinAPIClientDidFinishSyncingEntourage;
 
-@interface TSJavelinAPIClient : AFHTTPRequestOperationManager
+@interface TSJavelinAPIClient : AFHTTPSessionManager
 
 // The authManager should be used to perform any user-relation actions like
 // logging in/out, registration, or setting any user info.

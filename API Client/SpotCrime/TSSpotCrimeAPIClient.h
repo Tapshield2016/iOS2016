@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPRequestOperationManager.h"
+#import "AFHTTPSessionManager.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import <CoreLocation/CoreLocation.h>
 #import "TSSpotCrimeLocation.h"
@@ -43,7 +43,7 @@ typedef enum {
     vehicle,
 } SpotCrimeTypes;
 
-@interface TSSpotCrimeAPIClient : AFHTTPRequestOperationManager
+@interface TSSpotCrimeAPIClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 

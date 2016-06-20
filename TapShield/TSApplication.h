@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define ApplicationOpenGoogleAuthNotification @"ApplicationOpenGoogleAuthNotification"
-
 @interface TSApplication : UIApplication
 
 @end

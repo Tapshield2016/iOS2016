@@ -278,7 +278,8 @@ static NSString * const kEmailImage = @"emailSmall";
     
     [self addShimmeringStartEndViewToView:view];
     
-    TSRoundRectButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    TSRoundRectButton *button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(frame.size.width-60, 0, 60, frame.size.height);
     [button setBackgroundImage:[UIImage imageFromColor:[[UIColor blackColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
     [button setTitle:@"Locate" forState:UIControlStateNormal];
@@ -294,8 +295,8 @@ static NSString * const kEmailImage = @"emailSmall";
     button.imageEdgeInsets = UIEdgeInsetsMake(-28, 17, 0, 0);
     [view addSubview:button];
     
-    
-    TSRoundRectButton *trackButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    //TSRoundRectButton *
+    UIButton *trackButton = [UIButton buttonWithType:UIButtonTypeCustom];
     trackButton.frame = CGRectMake(0, 0, frame.size.width-61, frame.size.height);
     [trackButton setBackgroundImage:[UIImage imageFromColor:[[UIColor blackColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
     [trackButton addTarget:self action:@selector(trackUser) forControlEvents:UIControlEventTouchUpInside];

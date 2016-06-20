@@ -25,9 +25,9 @@
 #define ERROR_OK @"OK"
 
 #ifdef APP_STORE
-static NSString * const kGooglePlusClientId = @"597251186165-6elcq16b3mb3tqvj1ctk33rg17ft5prs.apps.googleusercontent.com";
+static NSString * const kGoogleClientId = @"597251186165-6elcq16b3mb3tqvj1ctk33rg17ft5prs.apps.googleusercontent.com";
 #else
-static NSString * const kGooglePlusClientId = @"597251186165-oijnav4c8e4r2v5i66ggg9kiob9prng7.apps.googleusercontent.com";
+static NSString * const kGoogleClientId = @"622288665026-bp456nkpcfsc2146f2ogodnljrq74pnh.apps.googleusercontent.com";
 #endif
 
 static NSString * const kLinkedInClientId = @"75cqjrach211kt";
@@ -60,11 +60,6 @@ static dispatch_once_t predicate;
     self = [super init];
     
     if (self) {
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(loginGooglePlusWebView:)
-                                                     name:ApplicationOpenGoogleAuthNotification
-                                                   object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(signUpDidFailToLogin:)
@@ -123,21 +118,20 @@ static dispatch_once_t predicate;
 
 - (void)logInWithFacebook {
     
-    [self loading:facebook];
     [self loginFacebook];
 }
 
 - (void)logInWithGooglePlus:(id)currentViewController {
     _currentViewController = currentViewController;
-    [self loading:google];
     [self initGooglePlus];
-    [[GPPSignIn sharedInstance] authenticate];
+    [[GIDSignIn sharedInstance] signIn];
 }
 
 - (BOOL)silentLogInWithGooglePlus {
     
     [self initGooglePlus];
-    return [[GPPSignIn sharedInstance] trySilentAuthentication];
+    [[GIDSignIn sharedInstance] signInSilently];
+    return [[GIDSignIn sharedInstance] hasAuthInKeychain];
 }
 
 - (void)logInWithTwitter:(UIView *)currentView {
@@ -156,8 +150,8 @@ static dispatch_once_t predicate;
 - (void)initLinkedIn:(id)currentViewController {
     
     LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"https://tapshield.com/"
-                                                                                    clientId:@"75cqjrach211kt"
-                                                                                clientSecret:@"wAdZqm3bZJkKgq0l"
+                                                                                    clientId:kLinkedInClientId
+                                                                                clientSecret:kLinkedInSecretKey
                                                                                        state:@"DCEEFWF45453sdffef424"
                                                                                grantedAccess:@[@"r_fullprofile", @"r_emailaddress", @"r_contactinfo"]];
     self.linkedInClient = [LIALinkedInHttpClient clientForApplication:application presentingViewController:currentViewController];
@@ -166,12 +160,12 @@ static dispatch_once_t predicate;
 - (void)initGooglePlus {
     
     // Google+ setup
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;
-    signIn.clientID = kGooglePlusClientId;
-    signIn.scopes = @[ kGTLAuthScopePlusLogin ];
+    GIDSignIn* signIn = [GIDSignIn sharedInstance];
+    signIn.shouldFetchBasicProfile = YES;
+    signIn.clientID = kGoogleClientId;
+    signIn.scopes = @[ @"profile", @"email" ];
     signIn.delegate = self;
+    signIn.uiDelegate = self;
 }
 
 - (void)initTwitter {
@@ -200,7 +194,17 @@ static dispatch_once_t predicate;
 
 - (void)logoutGooglePlus {
     
-    [[GPPSignIn sharedInstance] signOut];
+    [[GIDSignIn sharedInstance] signOut];
+}
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    
+    [_currentViewController presentViewController:viewController animated:YES completion:nil];
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -234,50 +238,38 @@ static dispatch_once_t predicate;
 
 
 - (void)requestMeWithToken:(NSString *)accessToken {
-    [_linkedInClient GET:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~:(date-of-birth,picture-url,phone-numbers,main-address)?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *result) {
-        NSLog(@"current user %@", result);
-        [[TSJavelinAPIClient loggedInUser] updateUserProfileFromLinkedIn:result];
-    }        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    [_linkedInClient GET:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~:(date-of-birth,picture-url,phone-numbers,main-address)?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [[TSJavelinAPIClient loggedInUser] updateUserProfileFromLinkedIn:responseObject];
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         NSLog(@"failed to fetch current user %@", error);
     }];
 }
 
-#pragma mark - Google+ Delegate methods
+#pragma mark - Google Delegate methods
 
-- (void)loginGooglePlusWebView:(NSNotification *)notification {
-    
-    [self finishedLoading];
-    if ([notification.object isKindOfClass:[NSURL class]]) {
-        [TSWebViewController controller:_currentViewController presentWebViewControllerWithURL:notification.object delegate:self];
-    }
-}
 
 - (void)googlePlusLoginCancelled {
     
     [self finishedLoading];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    
-    if ([[[request URL] absoluteString] hasPrefix:[[NSString stringWithFormat:@"%@:/oauth2callback", [[NSBundle mainBundle] bundleIdentifier]] lowercaseString]]) {
-        [GPPURLHandler handleURL:request.URL sourceApplication:@"com.google.chrome.ios" annotation:nil];
-        [_webViewController dismissViewControllerAnimated:YES completion:nil];
-        return NO;
-    }
-    return YES;
-}
 
-- (void)finishedWithAuth: (GTMOAuth2Authentication *)auth error: (NSError *) error {
-    NSLog(@"Received error %@ and auth object %@", error, auth);
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    // Perform any operations on signed in user here.
+    if (error) {
+        return;
+    }
     
     [self loading:google];
-    [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:auth.parameters[@"access_token"] refreshToken:auth.parameters[@"refresh_token"] completion:^(BOOL finished) {
+    [[[TSJavelinAPIClient sharedClient] authenticationManager] createGoogleUser:user.authentication.accessToken refreshToken:user.authentication.refreshToken completion:^(BOOL finished) {
         
         if (finished) {
-            GTLPlusPerson *user = [GPPSignIn sharedInstance].googlePlusUser;
             [[TSJavelinAPIClient loggedInUser] updateUserProfileFromGoogle:user];
         }
     }];
+}
+- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    // Perform any operations when the user disconnects from app here.
 }
 
 
@@ -522,7 +514,8 @@ static dispatch_once_t predicate;
         [login logOut];
     }
     
-    [login logInWithReadPermissions:@[@"public_profile", @"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+    [login logInWithReadPermissions:@[@"public_profile", @"email"] fromViewController:_currentViewController handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        
         if (error) {
             // Process error
             [self finishedLoading];

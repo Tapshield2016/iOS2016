@@ -70,10 +70,10 @@ static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedAuthManager = [[TSJavelinAPIAuthenticationManager alloc] initWithURL:baseAuthURL];
         });
-
+        
         // Prime the archived user
         _sharedAuthManager.loggedInUser = [_sharedAuthManager retrieveArchivedLoggedInUser];
-
+        
 #ifdef DEV
         _sharedAuthManager.masterAccessToken = TSJavelinAPIDevelopmentMasterAccessToken;
 #elif DEMO
@@ -82,7 +82,7 @@ static dispatch_once_t onceToken;
         _sharedAuthManager.masterAccessToken = TSJavelinAPIProductionMasterAccessToken;
 #endif
     }
-
+    
     return _sharedAuthManager;
 }
 
@@ -91,7 +91,7 @@ static dispatch_once_t onceToken;
         [NSException raise:@"Shared Manager Not Initialized"
                     format:@"Before calling [TSJavelinAPIAuthenticationManager sharedManager] you must first initialize the shared client"];
     }
-
+    
     return _sharedAuthManager;
 }
 
@@ -100,9 +100,9 @@ static dispatch_once_t onceToken;
     if (!self) {
         return nil;
     }
-
+    
     _responseData = [[NSMutableData alloc] initWithCapacity:512];
-
+    
     return self;
 }
 
@@ -152,13 +152,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)logoutSocial {
-    [self GET:@"logout/"
-   parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          NSLog(@"ERROR: %@", error.localizedDescription);
-      }];
+    [self GET:@"logout/" parameters:nil success:^(NSURLSessionTask *task, id responseObject) {
+        
+    } failure:^(NSURLSessionTask *operation, NSError *error) {
+        NSLog(@"ERROR: %@", error.localizedDescription);
+    }];
 }
 
 - (void)createFacebookUser:(NSString *)facebookAPIAuthToken completion:(void (^)(BOOL))completion {
@@ -169,7 +167,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-facebook-user/"
     parameters:@{ @"access_token": facebookAPIAuthToken }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -177,8 +175,14 @@ static dispatch_once_t onceToken;
                completion(YES);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.localizedDescription);
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
+           NSLog(@"%@, %@", error.localizedDescription, responseObject);
            
            [self socialLoginFailed];
            
@@ -198,7 +202,7 @@ static dispatch_once_t onceToken;
     parameters:@{ @"oauth_token": twitterOauthToken,
                   @"oauth_token_secret": twitterOauthTokenSecret,
                   @"next": @"api/retrieve-token/" }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -206,7 +210,7 @@ static dispatch_once_t onceToken;
                completion(YES);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            
            [self socialLoginFailed];
@@ -226,7 +230,7 @@ static dispatch_once_t onceToken;
     [self POST:@"api/create-google-user/"
     parameters:@{ @"access_token": googleAccessToken,
                   @"refresh_token": googleRefreshToken }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -234,7 +238,7 @@ static dispatch_once_t onceToken;
                completion(YES);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            [self socialLoginFailed];
            
@@ -252,7 +256,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/create-linkedin-user/"
     parameters:@{ @"access_token": linkedInAccessToken }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [self socialLoggedInUserWithAttributes:responseObject];
            
@@ -260,7 +264,7 @@ static dispatch_once_t onceToken;
                completion(YES);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            [self socialLoginFailed];
            
@@ -276,7 +280,7 @@ static dispatch_once_t onceToken;
 
 
 - (void)registerUser:(TSJavelinAPIUser *)user
-                      completion:(void (^)(id responseObject))completion {
+          completion:(void (^)(id responseObject, NSError *error))completion {
     
     NSDictionary *parameters = [user parametersForRegistration];
     
@@ -289,32 +293,38 @@ static dispatch_once_t onceToken;
     
     // Set default Authorization token for allowing access to register API method
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
-                           forHTTPHeaderField:@"Authorization"];
+                  forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/register/"
     parameters:parameters
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [self storeUserCredentials:user.email password:user.password];
            _emailAddress = user.email;
            _password = user.password;
            
            if (completion) {
-               completion(responseObject);
+               completion(responseObject, nil);
            }
            
            [self.requestSerializer clearAuthorizationHeader];
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidRegisterUserNotification
                                                                object:responseObject];
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       failure:^(NSURLSessionTask *operation, NSError *error) {
            
            NSLog(@"%@", error.localizedDescription);
            
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
            [self.requestSerializer clearAuthorizationHeader];
            [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserNotification
-                                                               object:operation.responseObject];
+                                                               object:responseObject];
            if (completion) {
-               completion(operation.responseObject);
+               completion(responseObject, error);
            }
        }
      ];
@@ -323,18 +333,18 @@ static dispatch_once_t onceToken;
 - (void)logInUser:(NSString *)emailAddress password:(NSString *)password completion:(TSJavelinAPIUserBlock)completion {
     _emailAddress = emailAddress;
     _password = password;
-
+    
     if (!_emailAddress || !_password) {
         if (completion) {
             completion(nil);
         }
         return;
     }
-
+    
     if (completion) {
         _loginCompletionBlock = completion;
     }
-
+    
     [self makeLoginRequest:nil];
 }
 
@@ -373,7 +383,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self GET:_loggedInUser.url
    parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           
           [_loggedInUser updateWithAttributes:responseObject];
           
@@ -387,7 +397,7 @@ static dispatch_once_t onceToken;
               completion(_loggedInUser);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           
           if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -411,41 +421,41 @@ static dispatch_once_t onceToken;
         }
         return;
     }
-
+    
     NSString *userIdentifier;
-
+    
     if (_loggedInUser) {
         userIdentifier = _loggedInUser.email;
     }
     else {
         userIdentifier = _emailAddress;
     }
-
+    
     // Set default Authorization token for allowing access to register API method
     [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"api/verified/"
-    parameters:@{@"email": userIdentifier}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           BOOL isVerified = [[responseObject valueForKey:@"message"] boolValue];
-           _loggedInUser.isEmailVerified = isVerified;
-           [self archiveLoggedInUser];
-           [self.requestSerializer clearAuthorizationHeader];
-           if (completion) {
-               completion(isVerified);
-           }
-           [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidVerifyUserNotification
-                                                               object:responseObject];
-       }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.localizedDescription);
-           [self.requestSerializer clearAuthorizationHeader];
-           if (completion) {
-               completion(NO);
-           }
-           [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToVerifyUserNotification
-                                                               object:error];
-       }
+   parameters:@{@"email": userIdentifier}
+      success:^(NSURLSessionTask *task, id responseObject) {
+          BOOL isVerified = [[responseObject valueForKey:@"message"] boolValue];
+          _loggedInUser.isEmailVerified = isVerified;
+          [self archiveLoggedInUser];
+          [self.requestSerializer clearAuthorizationHeader];
+          if (completion) {
+              completion(isVerified);
+          }
+          [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidVerifyUserNotification
+                                                              object:responseObject];
+      }
+      failure:^(NSURLSessionTask *operation, NSError *error) {
+          NSLog(@"%@", error.localizedDescription);
+          [self.requestSerializer clearAuthorizationHeader];
+          if (completion) {
+              completion(NO);
+          }
+          [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToVerifyUserNotification
+                                                              object:error];
+      }
      ];
 }
 
@@ -454,21 +464,21 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/resend-verification/"
     parameters:@{ @"email": email }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if (completion) {
-                completion(YES);
-            }
-            [[NSNotificationCenter defaultCenter]
-                postNotificationName:kTSJavelinAPIAuthenticationManagerDidResendVerificationEmailNotification
-                              object:responseObject];
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            if (completion) {
-                completion(NO);
-            }
-            [[NSNotificationCenter defaultCenter]
-                postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToResendVerificationEmailNotification
-                              object:error];
-    }];
+       success:^(NSURLSessionTask *task, id responseObject) {
+           if (completion) {
+               completion(YES);
+           }
+           [[NSNotificationCenter defaultCenter]
+            postNotificationName:kTSJavelinAPIAuthenticationManagerDidResendVerificationEmailNotification
+            object:responseObject];
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
+           if (completion) {
+               completion(NO);
+           }
+           [[NSNotificationCenter defaultCenter]
+            postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToResendVerificationEmailNotification
+            object:error];
+       }];
 }
 
 - (void)updateLoggedInUser:(TSJavelinAPIUserBlock)completion {
@@ -477,15 +487,15 @@ static dispatch_once_t onceToken;
     }
     
     NSDictionary *parameters = [_loggedInUser parametersForUpdate];
-
+    
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self PATCH:_loggedInUser.url
      parameters:parameters
-        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success:^(NSURLSessionTask *task, id responseObject) {
             
             
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error.localizedDescription);
             
             if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
@@ -500,7 +510,7 @@ static dispatch_once_t onceToken;
                     completion(nil);
                 }
             }
-    }];
+        }];
 }
 
 - (void)updateLoggedInUserAgency:(TSJavelinAPIUserBlock)completion {
@@ -517,10 +527,10 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self PATCH:_loggedInUser.url
      parameters:@{@"agency": _loggedInUser.agency.url}
-        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success:^(NSURLSessionTask *task, id responseObject) {
             
             
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUser: %@", error.localizedDescription);
             
             if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
@@ -548,9 +558,9 @@ static dispatch_once_t onceToken;
     
     [self PATCH:_loggedInUser.url
      parameters:@{ @"disarm_code": _loggedInUser.disarmCode}
-        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success:^(NSURLSessionTask *task, id responseObject) {
             
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"ERROR!!!!! updateLoggedInUserDisarmCode: %@", error.localizedDescription);
             
             if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
@@ -570,93 +580,110 @@ static dispatch_once_t onceToken;
 
 
 - (void)sendPasswordResetEmail:(NSString *)emailAddress completion:(void(^)(BOOL sent))completion {
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:self.baseURL];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.baseURL];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     
     [manager GET:@"accounts/password/reset/"
-       parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:self.baseURL];
-        manager.responseSerializer = [AFHTTPResponseSerializer new];
-        NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[operation.response allHeaderFields] forURL:[self loginURL]];
-
-        // Django defaults to CSRF protection, so we need to get the token to send back in the request
-        NSHTTPCookie *csrfCookie;
-        for (NSHTTPCookie *cookie in cookies) {
-            if ([cookie.name isEqualToString:@"csrftoken"]) {
-                csrfCookie = cookie;
-            }
-        }
-          
-        [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@accounts/password/reset/", self.baseURL] forHTTPHeaderField:@"Referer"];
-        [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@", csrfCookie.value] forHTTPHeaderField:@"X-CSRFToken"];
-        [manager POST:@"accounts/password/reset/"
-        parameters:@{ @"email": emailAddress }
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-               NSLog(@"Reset sent: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-               
-               if (completion) {
-                   completion(YES);
-               }
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"Error during password reset POST: %@", error.localizedDescription);
+      parameters:nil
+         success:^(NSURLSessionTask *task, id responseObject) {
+             AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.baseURL];
+             manager.responseSerializer = [AFHTTPResponseSerializer new];
+             
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+             if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                 NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:httpResponse.allHeaderFields forURL:[self loginURL]];
+                 // Django defaults to CSRF protection, so we need to get the token to send back in the request
+                 NSHTTPCookie *csrfCookie;
+                 for (NSHTTPCookie *cookie in cookies) {
+                     if ([cookie.name isEqualToString:@"csrftoken"]) {
+                         csrfCookie = cookie;
+                     }
+                 }
+                 [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@", csrfCookie.value] forHTTPHeaderField:@"X-CSRFToken"];
+             }
+             
+             
+             [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@accounts/password/reset/", self.baseURL] forHTTPHeaderField:@"Referer"];
+             
+             [manager POST:@"accounts/password/reset/"
+                parameters:@{ @"email": emailAddress }
+                   success:^(NSURLSessionTask *task, id responseObject) {
+                       NSLog(@"Reset sent: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+                       
+                       if (completion) {
+                           completion(YES);
+                       }
+                   } failure:^(NSURLSessionTask *operation, NSError *error) {
+                       NSLog(@"Error during password reset POST: %@", error.localizedDescription);
+                       
+                       if (completion) {
+                           completion(NO);
+                       }
+                   }];
+             
+         } failure:^(NSURLSessionTask *operation, NSError *error) {
+             NSLog(@"Error during password reset GET: %@", error.localizedDescription);
              
              if (completion) {
                  completion(NO);
              }
          }];
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error during password reset GET: %@", error.localizedDescription);
-        
-        if (completion) {
-            completion(NO);
-        }
-    }];
-
+    
 }
 
 #pragma mark - Phone Verification
 
-- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion {
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject, NSError *error))completion {
     
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:[NSString stringWithFormat:@"%@send_sms_verification_code/", _loggedInUser.url]
     parameters:@{ @"phone_number": phoneNumber }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            NSLog(@"sent PhoneNumberVerificationRequest");
            if (completion) {
-               completion(nil);
+               completion(nil, nil);
            }
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
            if (completion) {
-               completion(operation.responseObject);
+               completion(responseObject, error);
            }
            NSLog(@"PhoneNumberVerificationRequest Failed");
        }];
 }
 
-- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion {
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject, NSError *error))completion {
     
     [self.requestSerializer setValue:[self loggedInUserTokenAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self POST:[NSString stringWithFormat:@"%@check_sms_verification_code/", _loggedInUser.url]
     parameters:@{ @"code": codeFromUser }
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            NSLog(@"Code Verified");
            _loggedInUser.phoneNumberVerified = YES;
            [self archiveLoggedInUser];
            
            if (completion) {
-               completion(nil);
+               completion(nil, nil);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"Code Verification Failed");
            
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
            if (completion) {
-               completion(operation.responseObject);
+               completion(responseObject, error);
            }
        }];
 }
@@ -678,7 +705,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/email/add/"
     parameters:@{ @"email": email}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            
            [_loggedInUser updateWithAttributes:responseObject];
@@ -687,9 +714,15 @@ static dispatch_once_t onceToken;
                completion(YES, nil);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            
-           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
+           NSString *errorMessage = [responseObject objectForKey:@"message"];
            if (!errorMessage) {
                errorMessage = error.localizedDescription;
            }
@@ -716,7 +749,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/email/make_primary/"
     parameters:@{ @"email": email}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            
            [_loggedInUser updateWithAttributes:responseObject];
@@ -725,9 +758,15 @@ static dispatch_once_t onceToken;
                completion(YES, nil);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            
-           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
+           NSString *errorMessage = [responseObject objectForKey:@"message"];
            if (!errorMessage) {
                errorMessage = error.localizedDescription;
            }
@@ -755,7 +794,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/email/make_primary/"
     parameters:@{ @"email": email}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            
            [_loggedInUser updateWithAttributes:responseObject];
@@ -764,9 +803,15 @@ static dispatch_once_t onceToken;
                completion(YES, nil);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            
-           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
+           NSString *errorMessage = [responseObject objectForKey:@"message"];
            if (!errorMessage) {
                errorMessage = error.localizedDescription;
            }
@@ -793,16 +838,22 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/email/send_activation/"
     parameters:@{ @"email": email}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            
            if (completion) {
                completion(YES, nil);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            
-           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
+           NSString *errorMessage = [responseObject objectForKey:@"message"];
            if (!errorMessage) {
                errorMessage = error.localizedDescription;
            }
@@ -829,7 +880,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"api/email/delete/"
     parameters:@{ @"email": email}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [_loggedInUser updateWithAttributes:responseObject];
            
@@ -837,9 +888,15 @@ static dispatch_once_t onceToken;
                completion(YES, nil);
            }
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            
-           NSString *errorMessage = [operation.responseObject objectForKey:@"message"];
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           
+           NSString *errorMessage = [responseObject objectForKey:@"message"];
            if (!errorMessage) {
                errorMessage = error.localizedDescription;
            }
@@ -864,13 +921,13 @@ static dispatch_once_t onceToken;
     
     NSString *username = _loggedInUser.username;
     NSString *password = [self getPasswordForEmailAddress:_loggedInUser.username];
-
+    
     if (username && password) {
         [self.requestSerializer setValue:[self masterAccessTokenAuthorizationHeader]
                       forHTTPHeaderField:@"Authorization"];
         [self POST:[NSString stringWithFormat:@"%@api/retrieve-token/", self.baseURL]
         parameters:@{ @"username": username, @"password": password }
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(NSURLSessionTask *task, id responseObject) {
                [self setAPITokenForLoggedInUser:responseObject[@"token"]];
                if (completion) {
                    completion(responseObject[@"token"]);
@@ -883,7 +940,7 @@ static dispatch_once_t onceToken;
                
                [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidRetrieveAPITokenNotification object:responseObject];
                
-           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           } failure:^(NSURLSessionTask *operation, NSError *error) {
                NSLog(@"%@", error.localizedDescription);
                if ([[TSJavelinAPIClient sharedClient] shouldRetry:error]) {
                    // Delay execution of my block for 10 seconds.
@@ -939,7 +996,7 @@ static dispatch_once_t onceToken;
     [defaults setObject:deviceToken forKey:kTSJavelinAPIAuthenticationManagerAPNSTokenArchiveKey];
     [defaults synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidArchiveNewAPNSTokenNotification object:deviceToken];
-
+    
     if (_loggedInUser) {
         [self setAPNSDeviceTokenForLoggedInUser:deviceToken];
     }
@@ -961,10 +1018,10 @@ static dispatch_once_t onceToken;
                       forHTTPHeaderField:@"Authorization"];
         [self POST:[NSString stringWithFormat:@"%@update_device_token/", loggedInUser.url]
         parameters:@{ @"deviceToken": tokenString, @"deviceType": @"I" }
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(NSURLSessionTask *task, id responseObject) {
                NSLog(@"DEVICE TOKEN UPDATED!");
            }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           failure:^(NSURLSessionTask *operation, NSError *error) {
                NSLog(@"%@", error.localizedDescription);
            }
          ];
@@ -981,7 +1038,7 @@ static dispatch_once_t onceToken;
     if (request == nil) {
         request = [NSMutableURLRequest requestWithURL:[self loginURL]];
     }
-
+    
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if (!connection) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToCreateConnectionToAuthURL
@@ -997,7 +1054,7 @@ static dispatch_once_t onceToken;
     
     NSError *error;
     [SSKeychain setPassword:password forService:kTSJavelinAPIAuthenticationManagerKeyChainServiceName account:emailAddress error:&error];
-
+    
     if (error) {
         NSLog(@"Error storing user credentials: %@", error.localizedDescription);
     }
@@ -1029,7 +1086,7 @@ static dispatch_once_t onceToken;
     if (encodedUserObject) {
         archivedUser = (TSJavelinAPIUser *)[NSKeyedUnarchiver unarchiveObjectWithData:encodedUserObject];
     }
-
+    
     return archivedUser;
 }
 
@@ -1037,7 +1094,7 @@ static dispatch_once_t onceToken;
     if (!_loggedInUser) {
         _loggedInUser = [self retrieveArchivedLoggedInUser];
     }
-
+    
     return _loggedInUser;
 }
 
@@ -1097,18 +1154,18 @@ static dispatch_once_t onceToken;
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     __block TSJavelinAPIAuthenticationResult *result = [TSJavelinAPIAuthenticationResult authenticationResultFromResponse:response];
-
+    
     if (result.statusCode == 200) {
         // We're logged in and good to go
         [self storeUserCredentials:_emailAddress password:_password];
         _emailAddress = nil;
         _password = nil;
-
+        
         [self deleteCookiesForLoginDomain];
     }
     else {
         [connection cancel];
-
+        
         if (result.statusCode == 401) {
             if ([result.responseHeaders objectForKey:@"Auth-Response"]) {
                 NSString *authResponse = [result.responseHeaders objectForKey:@"Auth-Response"];
@@ -1141,11 +1198,11 @@ static dispatch_once_t onceToken;
                 // Not logged in, so let's try logging in...
                 NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[self loginURL]];
                 [request setHTTPMethod:@"POST"];
-
+                
                 NSString *authString = [NSString stringWithFormat:@"username=%@;password=%@;", _emailAddress, _password, nil];
                 [request setHTTPBody:[authString dataUsingEncoding:NSUTF8StringEncoding]];
                 [self makeLoginRequest:request];
-
+                
             }
         }
         else if (result.statusCode == 403) {
@@ -1155,7 +1212,7 @@ static dispatch_once_t onceToken;
                 [_delegate loginFailed:result error:nil];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTSJavelinAPIAuthenticationManagerDidFailToLogin object:result];
-
+            
             if (_loginCompletionBlock) {
                 _loginCompletionBlock(nil);
             }

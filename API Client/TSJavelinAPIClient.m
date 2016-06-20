@@ -31,7 +31,7 @@ NSString * const TSJavelinAPIClientDidFinishSyncingEntourage = @"TSJavelinAPICli
 @property (nonatomic, strong) NSString *baseAuthURL;
 @property (nonatomic, strong) NSTimer *timerForFailedFindActiveAlertURL;
 @property (nonatomic, assign) NSUInteger retryAttempts;
-@property (nonatomic, strong) AFHTTPRequestOperationManager *jsonRequestManager;
+@property (nonatomic, strong) AFHTTPSessionManager *jsonRequestManager;
 
 @property (nonatomic, strong) NSDate *lastLocationUpdateTime;
 @property (nonatomic, strong) NSMutableArray *locationsAwaitingPost;
@@ -69,7 +69,7 @@ static dispatch_once_t onceToken;
         
         _sharedClient.baseAuthURL = baseAuthURL;
         
-        _sharedClient.jsonRequestManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
+        _sharedClient.jsonRequestManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
         _sharedClient.jsonRequestManager.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.jsonRequestManager.responseSerializer = [AFJSONResponseSerializer serializer];
 
@@ -162,13 +162,12 @@ static dispatch_once_t onceToken;
     [self.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenOrMasterAuthorizationHeader]
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"agencies/"
-   parameters:@{@"page_size": @(100),}
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+   parameters:@{@"page_size": @(100),} success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:@"TSJavelinAPIAgency" fromJSON:responseObject withKey:@"results"]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
@@ -187,12 +186,12 @@ static dispatch_once_t onceToken;
    parameters:@{@"latitude": [[NSNumber numberWithDouble:currentLocation.coordinate.latitude] stringValue],
                 @"longitude": [[NSNumber numberWithDouble:currentLocation.coordinate.longitude] stringValue],
                 @"distance_within": [[NSNumber numberWithFloat:radius] stringValue]}
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:@"TSJavelinAPIAgency" fromJSON:responseObject withKey:@"results"]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC);
           dispatch_after(popTime, dispatch_get_main_queue(), ^{
@@ -213,14 +212,14 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self GET:[[self authenticationManager] loggedInUser].agency.url
    parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           TSJavelinAPIAgency *agency = [[TSJavelinAPIAgency alloc] initWithAttributes:responseObject];
           [[self authenticationManager] loggedInUser].agency = agency;
           [[self authenticationManager] archiveLoggedInUser];
           if (completion) {
               completion(agency);
           }
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      } failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
@@ -248,14 +247,14 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self GET:agencyUrl
    parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           [[[self authenticationManager] loggedInUser].agency updateWithAttributes:responseObject];
           [[self authenticationManager] archiveLoggedInUser];
           if (completion) {
               completion([[self authenticationManager] loggedInUser].agency);
           }
           [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidUpdateAgency object:nil];
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      } failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
@@ -280,12 +279,12 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"mass-alerts/"
    parameters:@{ @"agency" : @([[self authenticationManager] loggedInUser].agency.identifier) }
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:@"TSJavelinAPIMassAlert" fromJSON:responseObject withKey:@"results"]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
@@ -360,13 +359,13 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self PATCH:[TSJavelinAlertManager sharedManager].activeAlert.url
      parameters:@{@"call_length": @(time)}
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           
           if (completion) {
               completion(responseObject);
           }
           
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      } failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
@@ -390,7 +389,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:[NSString stringWithFormat:@"%@api/alert/create-alert/", _baseAuthURL]
    parameters:parameters
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           
           TSJavelinAPIAlert *alert;
           
@@ -404,7 +403,7 @@ static dispatch_once_t onceToken;
               completion(alert);
           }
           
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      } failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
@@ -428,7 +427,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self GET:[NSString stringWithFormat:@"%@api/alert/active-alert/", _baseAuthURL]
    parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           
           TSJavelinAPIAlert *foundAlert;
           
@@ -441,7 +440,7 @@ static dispatch_once_t onceToken;
               completion(foundAlert);
           }
           
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      } failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
@@ -470,7 +469,7 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"user-profiles/"
     parameters:profileAttributes
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            if (responseObject) {
                
@@ -480,23 +479,23 @@ static dispatch_once_t onceToken;
                [self uploadUserProfileImageAndPatch:responseProfile.url];
            }
            
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+     } failure:^(NSURLSessionTask *operation, NSError *error) {
          [self GET:@"user-profiles/"
         parameters:@{ @"user": @([[self authenticationManager] loggedInUser].identifier) }
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(NSURLSessionTask *task, id responseObject) {
                
                if ([responseObject[@"results"] count] > 0) {
                    TSJavelinAPIUserProfile *profile = [[TSJavelinAPIUserProfile alloc] initWithAttributes:responseObject[@"results"][0]];
                    [self PATCH:profile.url
                     parameters:profileAttributes
-                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                       success:^(NSURLSessionTask *task, id responseObject) {
                            
                            _profileUploadBlock = completion;
                            TSJavelinAPIUserProfile *responseProfile = [[TSJavelinAPIUserProfile alloc] initWithAttributes:responseObject];
                            [[self authenticationManager] loggedInUser].userProfile.url = responseProfile.url;
                            [self uploadUserProfileImageAndPatch:responseProfile.url];
                            
-                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                       } failure:^(NSURLSessionTask *operation, NSError *error) {
                            if (completion) {
                                completion(NO, NO);
                                NSLog(@"UserProfile failed to Patch");
@@ -509,7 +508,7 @@ static dispatch_once_t onceToken;
                        NSLog(@"No Response Object");
                    }
                }
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         } failure:^(NSURLSessionTask *operation, NSError *error) {
                if (completion) {
                    completion(NO, NO);
                    NSLog(@"failed to Get userProfile");
@@ -533,11 +532,11 @@ static dispatch_once_t onceToken;
                                    if (imageS3URL) {
                                        [self PATCH:userProfileURL
                                         parameters:@{@"profile_image_url": imageS3URL}
-                                           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                           success:^(NSURLSessionTask *task, id responseObject) {
                                                _profileUploadBlock(YES, YES);
                                                NSLog(@"UserProfile uploaded, uploadUIImage Success, userProfile patched");
                                            }
-                                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                           failure:^(NSURLSessionTask *operation, NSError *error) {
                                                _profileUploadBlock(YES, NO);
                                                NSLog(@"UserProfile uploaded, uploadUIImage Success, userProfile patch failed");
                                            }];
@@ -640,13 +639,18 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self.jsonRequestManager POST:[NSString stringWithFormat:@"%@locations/", [TSJavelinAPIClient loggedInUser].url]
     parameters:parameters
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            NSLog(@"Posted locations");
            if (completion) {
                completion(YES);
            }
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"Failed to patch location: %@", error.localizedDescription);
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           NSLog(@"Failed to patch location: %@\n%@", error.localizedDescription, responseObject);
            if (completion) {
                completion(NO);
            }
@@ -727,11 +731,11 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self POST:url
     parameters:nil
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            NSLog(@"DISARMED ALERT: %@", responseObject);
            [[TSJavelinAlertManager sharedManager] resetArchivedAlertBools];
            
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       } failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"FAILED TO DISARM ALERT: %@", error);
            
            if ([self shouldRetry:error]) {
@@ -796,12 +800,12 @@ static dispatch_once_t onceToken;
                   forHTTPHeaderField:@"Authorization"];
     [self GET:[NSString stringWithFormat:@"%@api/twilio-call-token/", _baseAuthURL]
      parameters:@{ @"user": @([[self authenticationManager] loggedInUser].identifier) }
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([(NSDictionary *)responseObject objectForKey:@"token"]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
@@ -836,13 +840,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self POST:[NSString stringWithFormat:@"%@message_entourage/", [[self authenticationManager] loggedInUser].url]
     parameters:@{@"message": message}
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            if (completion) {
                completion(responseObject, nil);
            }
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
@@ -879,13 +883,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self GET:[NSString stringWithFormat:@"%@matched_entourage_users/", [TSJavelinAPIClient loggedInUser].url]
        parameters:params
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          success:^(NSURLSessionTask *task, id responseObject) {
               
               if (completion) {
                   completion([TSJavelinAPIEntourageMember entourageMembersFromUsers:responseObject], nil);
               }
           }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          failure:^(NSURLSessionTask *operation, NSError *error) {
               NSLog(@"Error: %@", operation.response);
               
               if ([self shouldRetry:error]) {
@@ -897,7 +901,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
               }
               else {
                   if (completion) {
-                      completion(operation.responseObject, error);
+                      completion(nil, error);
                   }
               }
           }];
@@ -922,13 +926,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     
     [self GET:session.url
       parameters:params
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         success:^(NSURLSessionTask *task, id responseObject) {
              
              if (completion) {
                  completion([[TSJavelinAPIEntourageSession alloc] initWithAttributes:responseObject], nil);
              }
          }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"Error: %@", operation.response);
              
              if ([self shouldRetry:error]) {
@@ -940,7 +944,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
              }
              else {
                  if (completion) {
-                     completion(operation.responseObject, error);
+                     completion(nil, error);
                  }
              }
          }];
@@ -977,14 +981,14 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
     [self.jsonRequestManager.requestSerializer setValue:[[self authenticationManager] loggedInUserTokenAuthorizationHeader] forHTTPHeaderField:@"Authorization"];
     [self.jsonRequestManager POST:[NSString stringWithFormat:@"%@api/entourage/members/", _baseAuthURL]
        parameters:mutableArray
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          success:^(NSURLSessionTask *task, id responseObject) {
               [[TSJavelinAPIClient loggedInUser] setEntourageMembersForKeys:responseObject];
               if (completion) {
                   completion([TSJavelinAPIClient loggedInUser], nil);
               }
               [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidFinishSyncingEntourage object:nil];
           }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          failure:^(NSURLSessionTask *operation, NSError *error) {
               NSLog(@"Error: %@", operation.response);
               
               if ([self shouldRetry:error]) {
@@ -995,8 +999,14 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   });
               }
               else {
+                  NSDictionary *responseObject;
+                  NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+                  if (errorData) {
+                      responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+                  }
+
                   if (completion) {
-                      completion(operation.responseObject, error);
+                      completion(responseObject, error);
                   }
                   [[NSNotificationCenter defaultCenter] postNotificationName:TSJavelinAPIClientDidFinishSyncingEntourage object:nil];
               }
@@ -1026,7 +1036,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"entourage-members/"
    parameters:parameters
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           
           member.url = [responseObject objectForKey:@"url"];
           
@@ -1034,7 +1044,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
               completion(member, nil);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           
           if ([self shouldRetry:error]) {
@@ -1064,14 +1074,14 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self DELETE:member.url
     parameters:nil
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [[TSJavelinAPIClient loggedInUser].entourageMembers removeObjectForKey:member.url];
            if (completion) {
                completion(member, nil);
            }
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
@@ -1095,13 +1105,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self DELETE:url
       parameters:nil
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         success:^(NSURLSessionTask *task, id responseObject) {
              
              if (completion) {
                  completion(YES);
              }
          }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure:^(NSURLSessionTask *operation, NSError *error) {
              NSLog(@"%@", error.localizedDescription);
              
              if ([self shouldRetry:error]) {
@@ -1150,7 +1160,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self.jsonRequestManager POST:@"entourage-sessions/"
     parameters:parameters
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [TSJavelinAPIClient loggedInUser].entourageSession.url = [responseObject objectForKey:@"url"];
            [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
@@ -1159,7 +1169,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                completion(YES);
            }
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
@@ -1204,14 +1214,14 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self PATCH:session.url
     parameters:parameters
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            
            if (completion) {
                completion(YES);
            }
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
@@ -1246,7 +1256,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                                      forHTTPHeaderField:@"Authorization"];
     [self POST:[NSString stringWithFormat:@"%@cancel/", [TSJavelinAPIClient loggedInUser].entourageSession.url]
                        parameters:nil
-                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                          success:^(NSURLSessionTask *task, id responseObject) {
                               
                               [TSJavelinAPIClient loggedInUser].entourageSession = nil;
                               [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
@@ -1255,7 +1265,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                                   completion(YES);
                               }
                           }
-                          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                          failure:^(NSURLSessionTask *operation, NSError *error) {
                               NSLog(@"%@", error.localizedDescription);
                               
                               if ([self shouldRetry:error]) {
@@ -1292,7 +1302,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self POST:[NSString stringWithFormat:@"%@arrived/", [TSJavelinAPIClient loggedInUser].entourageSession.url]
     parameters:nil
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            [TSJavelinAPIClient loggedInUser].entourageSession = nil;
            [[[TSJavelinAPIClient sharedClient] authenticationManager] archiveLoggedInUser];
@@ -1301,7 +1311,7 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                completion(YES);
            }
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       failure:^(NSURLSessionTask *operation, NSError *error) {
            NSLog(@"%@", error.localizedDescription);
            
            if ([self shouldRetry:error]) {
@@ -1350,12 +1360,12 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                  @"distance_within": @(radius),
                  @"page_size": @(100),
                  @"modified_since": date.iso8601String}
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([TSJavelinAPISocialCrimeReport socialCrimeReportArray:[responseObject objectForKey:@"results"]]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
@@ -1403,14 +1413,19 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self POST:@"social-crime-reports/"
     parameters:paramaters
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       success:^(NSURLSessionTask *task, id responseObject) {
            
            if (completion) {
                completion([[TSJavelinAPISocialCrimeReport alloc] initWithAttributes:responseObject]);
            }
        }
-       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           NSLog(@"%@", error.localizedDescription);
+       failure:^(NSURLSessionTask *operation, NSError *error) {
+           NSDictionary *responseObject;
+           NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+           if (errorData) {
+               responseObject = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
+           }
+           NSLog(@"%@, %@", error.localizedDescription, responseObject);
            if (completion) {
                completion(nil);
            }
@@ -1430,12 +1445,12 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self GET:@"user-notifications/"
    parameters:@{ @"user": @([[self authenticationManager] loggedInUser].identifier) }
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           if (completion) {
               completion([self apiObjectArrayOfClass:NSStringFromClass([TSJavelinAPIUserNotification class]) fromJSON:responseObject withKey:@"results"]);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(nil);
@@ -1452,13 +1467,13 @@ curl https://dev.tapshield.com/api/v1/users/1/message_entourage/ --data "message
                   forHTTPHeaderField:@"Authorization"];
     [self PATCH:notification.url
    parameters:@{@"read": @(1)}
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      success:^(NSURLSessionTask *task, id responseObject) {
           
           if (completion) {
               completion(YES);
           }
       }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      failure:^(NSURLSessionTask *operation, NSError *error) {
           NSLog(@"%@", error.localizedDescription);
           if (completion) {
               completion(NO);

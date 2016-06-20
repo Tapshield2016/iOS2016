@@ -23,8 +23,7 @@
 #import "TWSignedRequest.h"
 
 // Google+
-#import <GoogleOpenSource/GoogleOpenSource.h>
-#import <GooglePlus/GooglePlus.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 // LinkedIn
 #import "LIALinkedInHttpClient.h"

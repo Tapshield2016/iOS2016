@@ -163,7 +163,7 @@
     return UIPageViewControllerSpineLocationNone;
 }
 
-- (NSUInteger)pageViewControllerSupportedInterfaceOrientations:(UIPageViewController *)pageViewController {
+- (UIInterfaceOrientationMask)pageViewControllerSupportedInterfaceOrientations:(UIPageViewController *)pageViewController {
     
     return UIInterfaceOrientationMaskPortrait;
 }

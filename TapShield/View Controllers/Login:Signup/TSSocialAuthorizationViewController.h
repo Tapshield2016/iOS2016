@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TSBaseViewController.h"
-#import <GooglePlus/GooglePlus.h>
-#import "TSGooglePlusButton.h"
 #import "TSAnimatedView.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 
 @class GPPSignInButton;
 

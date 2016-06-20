@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "209DEFAE9365B38952835E0DEE993DFFE3419F9A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ED1AF4EC5E9883FF37FC431FBCA5145F4D4AF59D" : 0,
+    "44D74E4D19243B8D775E80B04252D36C1DFBDE74" : 0,
+    "209DEFAE9365B38952835E0DEE993DFFE3419F9A" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A62BD8B5-49A0-4E5B-B666-B87B7154FB4A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ED1AF4EC5E9883FF37FC431FBCA5145F4D4AF59D" : "tech-app",
+    "44D74E4D19243B8D775E80B04252D36C1DFBDE74" : "RavtiSDK",
+    "209DEFAE9365B38952835E0DEE993DFFE3419F9A" : "iOS"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TapShield",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TapShield.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TapShield\/iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "209DEFAE9365B38952835E0DEE993DFFE3419F9A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Ravti\/RavtiSDK.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "44D74E4D19243B8D775E80B04252D36C1DFBDE74"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Ravti\/tech-app.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ED1AF4EC5E9883FF37FC431FBCA5145F4D4AF59D"
+    }
+  ]
+}

@@ -19,9 +19,7 @@
 #import "TWSignedRequest.h"
 
 // Google+
-#import "TSGooglePlusButton.h"
-#import <GoogleOpenSource/GoogleOpenSource.h>
-#import <GooglePlus/GooglePlus.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 // LinkedIn
 #import "LIALinkedInHttpClient.h"
@@ -29,7 +27,7 @@
 
 @class GPPSignInButton;
 
-@interface TSSocialAccountsManager : NSObject <GPPSignInDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate, UIWebViewDelegate>
+@interface TSSocialAccountsManager : NSObject <GIDSignInDelegate, GIDSignInUIDelegate, TSJavelinAuthenticationManagerDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
 typedef void (^LoggedOutBlock)(BOOL loggedOut);
 

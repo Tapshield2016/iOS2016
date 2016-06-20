@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 TapShield, LLC. All rights reserved.
 //
 
-#import "AFHTTPRequestOperationManager.h"
+#import "AFHTTPSessionManager.h"
 #import "TSJavelinAPIClient.h"
 
 extern NSString * const kTSJavelinAPIAuthenticationManagerLoginFailureInvalidCredentials;
@@ -31,7 +31,7 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserR
 
 @class TSJavelinAPIUser;
 
-@interface TSJavelinAPIAuthenticationManager : AFHTTPRequestOperationManager <TSJavelinAPIAuthenticationManager, UITextFieldDelegate>
+@interface TSJavelinAPIAuthenticationManager : AFHTTPSessionManager <TSJavelinAPIAuthenticationManager, UITextFieldDelegate>
 
 @property (weak) id<TSJavelinAuthenticationManagerDelegate> delegate;
 @property (nonatomic, strong) TSJavelinAPIUser *loggedInUser;
@@ -60,8 +60,8 @@ extern NSString * const kTSJavelinAPIAuthenticationManagerDidFailToRegisterUserR
 - (void)updateLoggedInUserAgency:(TSJavelinAPIUserBlock)completion;
 - (void)updateLoggedInUserDisarmCode:(TSJavelinAPIUserBlock)completion;
 - (void)archiveLoggedInUser;
-- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject))completion;
-- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject))completion;
+- (void)checkPhoneVerificationCode:(NSString *)codeFromUser completion:(void (^)(id responseObject, NSError *error))completion;
+- (void)sendPhoneNumberVerificationRequest:(NSString *)phoneNumber completion:(void (^)(id responseObject, NSError *error))completion;
 
 //secondary email
 - (void)addSecondaryEmail:(NSString *)email completion:(void(^)(BOOL success, NSString *errorMessage))completion;

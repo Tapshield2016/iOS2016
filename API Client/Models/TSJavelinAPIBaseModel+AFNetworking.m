@@ -125,28 +125,28 @@
         __weak __typeof(self)weakSelf = self;
         self.af_imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
         self.af_imageRequestOperation.responseSerializer = self.imageResponseSerializer;
-        [self.af_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.af_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
                 if (success) {
                     success(urlRequest, operation.response, responseObject);
                 }
-
+                
                 if (operation == strongSelf.af_imageRequestOperation){
-                        strongSelf.af_imageRequestOperation = nil;
+                    strongSelf.af_imageRequestOperation = nil;
                 }
             }
-
+            
             [[[strongSelf class] sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
                 if (failure) {
                     failure(urlRequest, operation.response, error);
                 }
-
+                
                 if (operation == strongSelf.af_imageRequestOperation){
-                        strongSelf.af_imageRequestOperation = nil;
+                    strongSelf.af_imageRequestOperation = nil;
                 }
             }
         }];

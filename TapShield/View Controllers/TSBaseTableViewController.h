@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GooglePlus/GooglePlus.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 #import "TSConstants.h"
 #import "TSAppDelegate.h"
 #import "TSJavelinAPIClient.h"

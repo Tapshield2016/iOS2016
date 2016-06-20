@@ -1,0 +1,13 @@
+//
+//  TSRoundToolBarView.h
+//  TapShield
+//
+//  Created by Adam Share on 4/13/14.
+//  Copyright (c) 2014 TapShield, LLC. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface TSRoundToolBarView : UIView
+
+@end

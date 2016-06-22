@@ -9,7 +9,12 @@
 #import "TSPhoneNumberViewController.h"
 #import "TSAddSecondaryViewController.h"
 #import "TSUserSessionManager.h"
+
+#ifdef DEV
 #import "TapShield_Dev-Swift.h"
+#else
+#import "TapShield-Swift.h"
+#endif
 
 static NSString * const kResendSMS = @"Re-send Verification SMS";
 static NSString * const kSMSSent = @"We've sent you a verification code to";

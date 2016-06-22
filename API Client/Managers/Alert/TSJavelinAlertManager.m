@@ -89,14 +89,14 @@ static dispatch_once_t onceToken;
         
 #elif DEMO
         
-        accessKey = kTSJavelinAlertManagerSQSDevelopmentAccessKey
+        accessKey = kTSJavelinAlertManagerSQSDevelopmentAccessKey;
         secretKey = kTSJavelinAlertManagerSQSDevelopmentSecretKey];
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSDemoAlertQueueName;
         
 #elif APP_STORE
         
-        accessKey = kTSJavelinAlertManagerSQSProductionAccessKey
-        secretKey = kTSJavelinAlertManagerSQSProductionSecretKey
+        accessKey = kTSJavelinAlertManagerSQSProductionAccessKey;
+        secretKey = kTSJavelinAlertManagerSQSProductionSecretKey;
         
         _sharedManager.alertQueueName = kTSJavelinAlertManagerSQSProductionAlertQueueName;
         

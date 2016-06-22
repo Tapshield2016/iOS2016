@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "AWSReachability.h"
 #import <AVFoundation/AVFoundation.h>
 
 #ifdef DEV
@@ -30,7 +29,6 @@ extern NSString * const TSAppDelegateDidLoseConnection;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
 @property (strong, nonatomic) UIView *noConnectionIndicator;
 
-@property (strong, nonatomic) AWSReachability *reachability;
 @property (assign, nonatomic) BOOL isConnected;
 
 - (void)drawerCanDragForMenu:(BOOL)enabled;

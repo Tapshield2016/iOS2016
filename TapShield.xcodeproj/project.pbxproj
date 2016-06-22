@@ -1677,6 +1677,7 @@
 		C5FC0A6E18CF726500AB787F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C5FFB4C9195E689C003D6368 /* TSJavelinAPIEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJavelinAPIEmail.h; sourceTree = "<group>"; };
 		C5FFB4CA195E689C003D6368 /* TSJavelinAPIEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJavelinAPIEmail.m; sourceTree = "<group>"; };
+		D028F0711D1AFB7F00AD180D /* MSDynamicsDrawerViewController_Animator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDynamicsDrawerViewController_Animator.h; path = TapShield/MSDynamicsDrawerViewController_Animator.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1829,6 +1830,7 @@
 				C597E4CF1A5F39C8002DF26A /* Views */,
 				C585F2E818DB6E2E009EEF16 /* Font */,
 				C532E8E118BD44F400FC111A /* Main.storyboard */,
+				D028F0711D1AFB7F00AD180D /* MSDynamicsDrawerViewController_Animator.h */,
 				B53BBCFF18980FDA006A27E0 /* TSAppDelegate.h */,
 				B53BBD0018980FDA006A27E0 /* TSAppDelegate.m */,
 				C597E8181A5F3A3B002DF26A /* TSApplication.h */,

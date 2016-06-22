@@ -31,6 +31,9 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Google/SignIn.h>
 #import <AWSCore/AWSCore.h>
+#import <AFNetworking/AFNetworkReachabilityManager.h>
+
+#import "MSDynamicsDrawerViewController_Animator.h"
 
 @import CoreTelephony;
 
@@ -48,6 +51,8 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
 @property (nonatomic, strong) TSPopUpWindow *pushNotificationAlertWindow;
 @property (nonatomic, strong) TSEntourageContactsViewController *entourageContactsViewController;
 @property (strong, nonatomic) CTCallCenter *callCenter;
+
+@property (strong, nonnull) AFNetworkReachabilityManager *reachability;
 
 @end
 
@@ -104,13 +109,16 @@ NSString * const TSAppDelegateDidLoseConnection = @"TSAppDelegateDidLoseConnecti
        [[TSEntourageSessionManager sharedManager] resumePreviousEntourage];
     }];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:kAWSReachabilityChangedNotification
-                                               object:nil];
+    _reachability = [AFNetworkReachabilityManager managerForDomain:remoteHostName];
     
-    _reachability = [AWSReachability reachabilityWithHostname:remoteHostName];
-    [_reachability startNotifier];
+    __weak TSAppDelegate *weakSelf = self;
+    [_reachability setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [weakSelf updateInterfaceWithReachability:status];
+        }];
+    }];
+    
+    [_reachability startMonitoring];
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
     [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound categories:nil]];
@@ -384,45 +392,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 #pragma mark - Reachability
 
-/*!
- * Called by Reachability whenever status changes.
- */
-- (void) reachabilityChanged:(NSNotification *)note
-{
-    AWSReachability* curReach = [note object];
-    NSParameterAssert([curReach isKindOfClass:[AWSReachability class]]);
-    [self updateInterfaceWithReachability:curReach];
-}
+- (void)updateInterfaceWithReachability:(AFNetworkReachabilityStatus)status {
 
-- (void)updateInterfaceWithReachability:(AWSReachability *)reachability {
-
-    if (reachability == _reachability) {
         BOOL reachable;
-        AWSNetworkStatus netStatus = [reachability currentReachabilityStatus];
         
-        switch (netStatus) {
-            case AWSNetworkStatusNotReachable: {
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                reachable = YES;
+                break;
+            
+            default:
                 reachable = NO;
-                break;
-            }
-                
-            case AWSNetworkStatusReachableViaWWAN: {
-                if (reachability.connectionRequired) {
-                    reachable = NO;
-                    break;
-                }
-                reachable = YES;
-                break;
-            }
-                
-            case AWSNetworkStatusReachableViaWiFi: {
-                if (reachability.connectionRequired) {
-                    reachable = NO;
-                    break;
-                }
-                reachable = YES;
-                break;
-            }
         }
         
         _isConnected = reachable;
@@ -444,7 +425,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             [[NSNotificationCenter defaultCenter] postNotificationName:TSAppDelegateDidLoseConnection object:nil];
             NSLog(@"No Connection");
         }
-    }
 }
 
 #pragma mark - Settings App

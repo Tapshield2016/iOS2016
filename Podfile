@@ -17,7 +17,7 @@ def all_pods
     pod 'KVOController'
     pod 'Shimmer'
     pod "AWSiOSSDKv2"
-    pod "AWSCognitoSync"
+    pod "AWSCognito"
    #pod "MBXMapKit"
     pod "TSClusterMapView"
 end

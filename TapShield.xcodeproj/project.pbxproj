@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13A5871ADFCD56D0CC98097C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
-		65C7C5EF3B5BC2F982587009 /* libPods-TapShield Release.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3276720B976AFB62F443CFF1 /* libPods-TapShield Release.a */; };
-		8E3E51CF6DE2CBD773D01258 /* libPods-TapShield Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 604B035FB8AD155E958F1165 /* libPods-TapShield Dev.a */; };
-		90C7AFECD55FF003B1929555 /* libPods-TapShield Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B32199F449E21813BDF2CBB6 /* libPods-TapShield Demo.a */; };
+		3E003A15BAB5C8D8F291BB76 /* libPods-TapShield Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 604B035FB8AD155E958F1165 /* libPods-TapShield Dev.a */; };
+		8110D76DECBA718C71C33610 /* libPods-TapShield Release.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3276720B976AFB62F443CFF1 /* libPods-TapShield Release.a */; };
+		B0C8BA28F288CEEEA6FF158B /* libPods-TapShield Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B32199F449E21813BDF2CBB6 /* libPods-TapShield Demo.a */; };
 		B53BBCF118980FDA006A27E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF018980FDA006A27E0 /* Foundation.framework */; };
 		B53BBCF318980FDA006A27E0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF218980FDA006A27E0 /* CoreGraphics.framework */; };
 		B53BBCF518980FDA006A27E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53BBCF418980FDA006A27E0 /* UIKit.framework */; };
@@ -231,8 +230,6 @@
 		C532E8E518BD44F400FC111A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C532E8E118BD44F400FC111A /* Main.storyboard */; };
 		C5391EAA18C7F44400C23C0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5391EA918C7F44400C23C0A /* AVFoundation.framework */; };
 		C5391EAB18C7F44900C23C0A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5391EA918C7F44400C23C0A /* AVFoundation.framework */; };
-		C53F17341A2186C10041F717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
-		C53F17351A2186C20041F717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 200B9FDD64BF4B79934E3759 /* libPods.a */; };
 		C55443581A0E79610087651B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C55443571A0E79610087651B /* libsqlite3.dylib */; };
 		C55443591A0E79670087651B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C55443571A0E79610087651B /* libsqlite3.dylib */; };
 		C554435A1A0E796F0087651B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C55443571A0E79610087651B /* libsqlite3.dylib */; };
@@ -1697,8 +1694,7 @@
 				B53BBCF318980FDA006A27E0 /* CoreGraphics.framework in Frameworks */,
 				B53BBCF518980FDA006A27E0 /* UIKit.framework in Frameworks */,
 				B53BBCF118980FDA006A27E0 /* Foundation.framework in Frameworks */,
-				13A5871ADFCD56D0CC98097C /* libPods.a in Frameworks */,
-				8E3E51CF6DE2CBD773D01258 /* libPods-TapShield Dev.a in Frameworks */,
+				3E003A15BAB5C8D8F291BB76 /* libPods-TapShield Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1726,7 +1722,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C55443591A0E79670087651B /* libsqlite3.dylib in Frameworks */,
-				C53F17341A2186C10041F717 /* libPods.a in Frameworks */,
 				C5FC0A7018CF726B00AB787F /* Accounts.framework in Frameworks */,
 				C5FC0A6C18CF722600AB787F /* Twitter.framework in Frameworks */,
 				C5FC0A6818CF707400AB787F /* Security.framework in Frameworks */,
@@ -1738,7 +1733,7 @@
 				C57C48ED18BBDB1900DFFBCE /* CoreGraphics.framework in Frameworks */,
 				C57C48EE18BBDB1900DFFBCE /* UIKit.framework in Frameworks */,
 				C57C48EF18BBDB1900DFFBCE /* Foundation.framework in Frameworks */,
-				90C7AFECD55FF003B1929555 /* libPods-TapShield Demo.a in Frameworks */,
+				B0C8BA28F288CEEEA6FF158B /* libPods-TapShield Demo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1747,7 +1742,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C554435A1A0E796F0087651B /* libsqlite3.dylib in Frameworks */,
-				C53F17351A2186C20041F717 /* libPods.a in Frameworks */,
 				C5AFB9D0191D35DE00EC62A5 /* Accounts.framework in Frameworks */,
 				C5AFB9D1191D35DE00EC62A5 /* Twitter.framework in Frameworks */,
 				C5AFB9D2191D35DE00EC62A5 /* Security.framework in Frameworks */,
@@ -1759,7 +1753,7 @@
 				C5AFB9D8191D35DE00EC62A5 /* CoreGraphics.framework in Frameworks */,
 				C5AFB9D9191D35DE00EC62A5 /* UIKit.framework in Frameworks */,
 				C5AFB9DA191D35DE00EC62A5 /* Foundation.framework in Frameworks */,
-				65C7C5EF3B5BC2F982587009 /* libPods-TapShield Release.a in Frameworks */,
+				8110D76DECBA718C71C33610 /* libPods-TapShield Release.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
